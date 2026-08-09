@@ -117,6 +117,15 @@ async function runCycle() {
     }
   } catch (e) { log('Node census error: ' + e.message); }
 
+  // Step 4e: BIP-110 signaling capture (26) — EVERY cycle while the mandatory
+  // window is live (blocks 961632-963647, lock-in <= 963648). One-time natural
+  // experiment; capture stops mattering after lock-in. Expected interval 60 min.
+  try {
+    var bip110 = require('../../tools/agents/26-bip110-signal.js');
+    var bip = await bip110.run();
+    log('BIP-110: height=' + bip.height + ' signaling=' + (bip.signalingSharePct || 0) + '% bit4 (window=' + (bip.window ? bip.window.inWindow : 'n/a') + ')');
+  } catch (e) { log('BIP-110 capture error: ' + e.message); }
+
   // Step 4b: Research content pipeline (14) + topic intelligence (15)
   try {
     var rc = require('../../tools/agents/14-research-content-pipeline.js');

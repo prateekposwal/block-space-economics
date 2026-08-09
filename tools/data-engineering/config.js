@@ -110,11 +110,11 @@ var CONFIG = {
   // equivalents already covered above):
   //   - blockchain.info/q/utxocount  → 404 (API retired). UTXO proxy = blockchair `outputs` + mempool_tx count.
   //   - ordinals.com/api/stats       → 404 (API retired). Inscription coverage = research/inscription pipeline.
-  //   - wickedsmartbitcoin.com/api/bip110 → 404 (host dead). BIP-110 signaling was already ~0.1% (DOA) per AGENTS.md.
+  //   - wickedsmartbitcoin.com/api/bip110 → 404 (host dead). SUPERSEDED 2026-08-10: BIP-110 signaling is now captured LIVE via agent-26 (mempool.space version bits) — the mandatory-signaling window (961632-963647) is a one-time governance natural experiment. The "~0.1% DOA" note predated the window.
   deadSources: [
     { key: 'utxo_count_blockchain_info', url: 'https://blockchain.info/q/utxocount',  status: 404, replacement: 'blockchair.outputs + mempool.mempool_tx_count' },
     { key: 'ordinals_stats',             url: 'https://ordinals.com/api/stats',       status: 404, replacement: 'research/fetch_inscription_stats.py pipeline' },
-    { key: 'bip110_signal',              url: 'https://wickedsmartbitcoin.com/api/bip110', status: 404, replacement: 'documented DOA — BIP-110 ~0.1% miner signaling' },
+    { key: 'bip110_signal',              url: 'https://wickedsmartbitcoin.com/api/bip110', status: 404, replacement: 'LIVE capture via agent-26 (mempool.space version bits) — mandatory-signaling window 961632-963647, lock-in <= 963648' },
   ],
 };
 

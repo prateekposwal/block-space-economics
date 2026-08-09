@@ -12,7 +12,7 @@
 | Mining difficulty | blockchain.info | Daily | `live_data.json` → `difficulty` |
 | 24h tx count | blockchain.info | Daily | `live_data.json` → `tx_count_24h` |
 | Miner revenue (24h) | mempool.space | Daily | `live_data.json` → `miners_revenue_24h` |
-| BIP-110 signaling | blockstream.info (version bits) | Daily | `live_data.json` → `bip110_signaling` |
+| BIP-110 signaling | agent-26 (mempool.space version bits) | Hourly (every DE cycle) during mandatory window 961632-963647 | spool `bip110_signal` — one-time governance natural experiment |
 | Fee history (14-day) | Our rolling storage | Daily | `fee_history.json` → array |
 | Fee forecast | Linear regression on history | Daily | `fee_forecast.json` → forecast array |
 | Alerts | Threshold checks | Daily | `alerts.json` → alerts array |
