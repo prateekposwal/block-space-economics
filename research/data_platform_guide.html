@@ -59,7 +59,7 @@ footer .links a:hover{color:#D4933A}</style>
 <tr><td>Mining difficulty</td><td>blockchain.info</td><td>Daily</td><td><code>live_data.json</code> → <code>difficulty</code></td></tr>
 <tr><td>24h tx count</td><td>blockchain.info</td><td>Daily</td><td><code>live_data.json</code> → <code>tx_count_24h</code></td></tr>
 <tr><td>Miner revenue (24h)</td><td>mempool.space</td><td>Daily</td><td><code>live_data.json</code> → <code>miners_revenue_24h</code></td></tr>
-<tr><td>BIP-110 signaling</td><td>blockstream.info (version bits)</td><td>Daily</td><td><code>live_data.json</code> → <code>bip110_signaling</code></td></tr>
+<tr><td>BIP-110 signaling</td><td>agent-26 (mempool.space version bits)</td><td>Hourly (every DE cycle) during mandatory window 961632-963647</td><td>spool <code>bip110_signal</code> — one-time governance natural experiment</td></tr>
 <tr><td>Fee history (14-day)</td><td>Our rolling storage</td><td>Daily</td><td><code>fee_history.json</code> → array</td></tr>
 <tr><td>Fee forecast</td><td>Linear regression on history</td><td>Daily</td><td><code>fee_forecast.json</code> → forecast array</td></tr>
 <tr><td>Alerts</td><td>Threshold checks</td><td>Daily</td><td><code>alerts.json</code> → alerts array</td></tr>

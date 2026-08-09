@@ -1023,3 +1023,59 @@ Every session in this repo MUST honor these load-bearing rules:
 ### LEFT / TODO (verified)
 - **THE one remaining human step:** Prateek sends the recruit message (`research/reproduce/recruit-message.md`) to one uninvolved person (~15 min), then records the result row in `research/reproduce/external-reproduction.md`. TELOS cannot recruit a real human, and posting requires either arXiv-live (community plan sequencing) or Prateek's explicit approval for his Nostr key.
 - Repo note: snapshot bot's automated `pull --rebase` was mid-flight during this session (stale sequencer state, same symptom as the prior stuck rebase); finalized safely via manual pick-commit + `rebase --quit` + `branch -f main HEAD` — autostashes preserved in `git stash list`, no data lost. The bot's cycle completed as commit `9042873`.
+## Session Handoff — 2026-08-09T23:14:09.889Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 231 · bridge=off · M4 cleanCycles=0/7
+- Forecast: holt-linear-trend · stable · rmse=1.138 (364 pts)
+
+### Decisions Made
+- *(No decisions recorded)*
+
+### Open Issues
+- SPOOL: stale sources: block_interval
+- DE AGENT: last run 11926 min ago
+- DB: error ratio 28% > 20%
+- 2 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (364 pts)
+- M4: 0/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-09T23:18:52.265Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 232 · bridge=off · M4 cleanCycles=1/7
+- Forecast: holt-linear-trend · stable · rmse=1.065 (42 pts)
+
+### Decisions Made
+- M4 gate: cleanCycles=1/7 (no flip — already flipped)
+
+### Open Issues
+- DB: error ratio 28% > 20%
+- 1 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (42 pts)
+- M4: 1/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-09T23:46:52.850Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 233 · bridge=off · M4 cleanCycles=2/7
+- Forecast: holt-linear-trend · stable · rmse=1.138 (364 pts)
+
+### Decisions Made
+- M4 gate: cleanCycles=2/7 (no flip — already flipped)
+
+### Open Issues
+- DB: error ratio 28% > 20%
+- 1 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (364 pts)
+- M4: 2/7 clean cycles · bridgeFlipped=true
