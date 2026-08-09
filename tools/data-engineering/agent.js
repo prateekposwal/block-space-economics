@@ -126,6 +126,17 @@ async function runCycle() {
     log('BIP-110: height=' + bip.height + ' signaling=' + (bip.signalingSharePct || 0) + '% bit4 (window=' + (bip.window ? bip.window.inWindow : 'n/a') + ')');
   } catch (e) { log('BIP-110 capture error: ' + e.message); }
 
+  // Step 4f: Research runner (5 fetcher agents) — daily (~24 cycles); was only in
+  // run-all.js (manual) so research findings went stale. Keeps the paper's
+  // evidence current. Each cycle fetches Core/Lightning/APIs/General/Academic.
+  try {
+    if (STATE.cycleCount % 24 === 0) {
+      var researchRunner = require('../../tools/research/runner.js');
+      await researchRunner.runCycle();
+      log('Research runner: 5 fetcher agents cycled');
+    }
+  } catch (e) { log('Research runner error: ' + e.message); }
+
   // Step 4b: Research content pipeline (14) + topic intelligence (15)
   try {
     var rc = require('../../tools/agents/14-research-content-pipeline.js');

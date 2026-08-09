@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The node-side measurement (SCCR ≈ 0.22) says fees under-price storage; the Bitcoin block space economics research from BSAHI — live fee, mempool, and settlement">
+<meta property="og:title" content="Cost-To-Flood">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/cost-to-flood.html">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1A1612">
+<link rel="canonical" href="https://bitcoinsahi.com/research/cost-to-flood.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Cost-To-Flood","item":"https://bitcoinsahi.com/research/cost-to-flood.html"}]}
+</script>
+<title>Cost-To-Flood — BSAHI Research</title>
+<style>body{background:#1A1612;color:#E8E5E0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;padding:0}
+header{background:#231F19;border-bottom:1px solid #3A3228;padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.brand{color:#F7931A;font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:#9B8B78;border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:#EADCC8;background:#2A251E}
+.nav-item.active{background:#2A251E;color:#EADCC8}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{color:#F7931A;font-size:1.9rem;margin:0 0 8px}
+h2{color:#EADCC8;font-size:1.3rem;margin:28px 0 12px}
+h3{color:#EADCC8;font-size:1.1rem;margin:20px 0 8px}
+p{color:#C9C2B8;line-height:1.8;margin:0 0 14px}
+a{color:#D4933A}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid #3A3228;padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:#231F19;color:#EADCC8}
+blockquote{border-left:3px solid #F7931A;margin:14px 0;padding:4px 16px;color:#9B8B78;background:#1F1B16}
+pre,code{background:#231F19;border-radius:6px;font-family:'SF Mono',Menlo,monospace}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:#C9C2B8;line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid #3A3228;margin:24px 0}
+footer{border-top:1px solid #3A3228;padding:24px;text-align:center;font-size:.85rem;color:#6A5D4E}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:#6A5D4E;text-decoration:none}
+footer .links a:hover{color:#D4933A}</style>
+</head>
+<body>
+<header><div class="header-inner"><a href="/" class="brand">⬡ BSAHI</a><nav class="nav"><a href="/" class="nav-item">Home</a><a href="/live" class="nav-item">Live Fees</a><a href="/learn" class="nav-item">Learn</a><a href="/capacity" class="nav-item">Capacity</a><a href="/fork-tracker" class="nav-item">Fork Tracker</a><span class="nav-item active">Research</span></nav></div></header>
+<div class="container">
+<h1>Cost-To-Flood</h1>
+<h2>Cost to Flood — the attacker-side storage externality (v1)</h2>
+<p><strong>Status:</strong> v1 NOTE (2026-08-10) · <strong>Program:</strong> Bitcoin Resource Accounting</p>
+<p><strong>Companion:</strong> <code>research/working-paper.md</code> (node-side SCCR v2.2.0), <code>research/cost-to-flood-plan.md</code></p>
+<p><strong>Origin:</strong> a reviewer&#x27;s comment — &quot;a nation state could flood your computer with garbage or put so much crap in UTXO that you can&#x27;t run a node.&quot; We priced it.</p>
+<hr>
+<h3>The one-sentence thesis</h3>
+<p>The node-side measurement (SCCR ≈ 0.22) says fees under-price storage; the</p>
+<p><strong>attacker-side measurement</strong> — what it costs to impose that storage — is the</p>
+<p>leverage ratio of the vulnerability, and it has never been measured.</p>
+<h3>The headline numbers (verified 2026-08-10)</h3>
+<table>
+<tr><th>Quantity</th><th>Value</th><th>Meaning</th></tr>
+<tr><td><strong>P_flood</strong> (fill one block)</td><td><strong>$329–1,231</strong></td><td>at fee floor (0.0052 BTC) vs avg (0.0195 BTC)</td></tr>
+<tr><td><strong>P_year</strong> (fill every block)</td><td><strong>$17M–65M/yr</strong></td><td>~52,596 blocks × P_flood</td></tr>
+<tr><td><strong>C_node_imposed</strong> (10-yr node cost)</td><td><strong>~$197M</strong></td><td>one year of full-block flood × N=32K × T=10</td></tr>
+<tr><td><strong>Leverage ratio L</strong></td><td><strong>3.0×</strong></td><td>node cost imposed ÷ attacker cost paid</td></tr>
+<tr><td><strong>L_dust</strong> (storage leg)</td><td><strong>0.9×</strong></td><td>dust&#x27;s per-node storage cost is *less* than its fee</td></tr>
+<tr><td><strong>Boundedness</strong></td><td><strong>~52.6 GB/yr</strong></td><td>max vbytes the block-weight cap allows</td></tr>
+</table>
+<h3>The three results</h3>
+<h4>1. The leverage ratio L = 3.0×</h4>
+<p>Filling every block at the fee floor costs the attacker ~$65M/yr and imposes</p>
+<p>~$197M of 10-year storage cost on the network. The vulnerability is **real and</p>
+<p>moderately leveraged** — the attacker gets ~3× the cost they pay. Not the</p>
+<p>apocalypse, not harmless. A nation-state budget sustains this indefinitely.</p>
+<h4>2. Dust is a WEAK attack on storage (L_dust = 0.9×) — the counterintuitive result</h4>
+<p>The per-node lifetime storage cost of a dust UTXO is slightly *less* than the</p>
+<p>fee that creates it (~$0.246 to mint, ~$0.229 imposed). **Dust&#x27;s real threat is</p>
+<p>the validation/RAM leg, not storage** — the UTXO set is an in-memory index every</p>
+<p>node must hold. This is exactly what the 4-resource model anticipated: the cost</p>
+<p>surfaces differ by leg.</p>
+<h4>3. The attack is bounded but qualitatively harmful</h4>
+<p>Block weight caps chain growth at ~52.6 GB/yr of permanent vbytes, and UTXO</p>
+<p>growth is block-bounded. The attack cannot make Bitcoin un-runnable tomorrow —</p>
+<p>but sustained full-block flooding raises node costs, pushes operation toward</p>
+<p>institutions, and degrades the &quot;anyone can verify without permission&quot; property.</p>
+<p>That is the centralization pressure the paper&#x27;s unpriced-permanence thesis</p>
+<p>predicts.</p>
+<h3>Boundedness (the theorem)</h3>
+<p>max_vbytes/yr = (4,000,000 WU/block ÷ 4) × 52,596 blocks ≈ 52.6 GB/yr</p>
+<p>Block weight is a hard cap; the chain cannot grow faster than this in vbytes.</p>
+<p>UTXO growth is bounded by the number of outputs per block. The attack is</p>
+<p>therefore *quantitatively bounded but qualitatively harmful*: it cannot destroy</p>
+<p>the network, but it can price node operation up.</p>
+<h3>What this means (honest framing)</h3>
+<ul>
+<li><strong>It&#x27;s a vulnerability, not a death certificate.</strong> An unpriced externality is a</li>
+</ul>
+<p>defect in the pricing of a resource — measurable, and fixable.</p>
+<ul>
+<li><strong>The leverage ratio is the number that matters.</strong> If L ≫ 1 the threat is live;</li>
+</ul>
+<p>at L = 3.0 it is real but not existential. The 0.9× dust result shows the</p>
+<p>attack surface is leg-specific.</p>
+<ul>
+<li><strong>The reply to the reviewer said it plainly:</strong> &quot;If you have attack scenarios</li>
+</ul>
+<p>you&#x27;d want priced, I&#x27;d genuinely like to run them.&quot; This note is the first</p>
+<p>batch.</p>
+<h3>DONE vs LEFT</h3>
+<p><strong>DONE:</strong> P_flood/P_year/C_node_imposed/L/L_dust/boundedness computed and verified;</p>
+<p>this v1 note.</p>
+<p><strong>LEFT:</strong> budget scenario table (nation-state budgets → node impact); dust-RAM</p>
+<p>leg measurement; decision: standalone vs fold into working-paper §5.8.</p>
+<hr>
+<p>*Bitcoin Sahi Research — Cost to Flood (attacker-side externality), v1 note</p>
+<p>(2026-08-10). Numbers verified against frozen capture + live mempool.space.*</p>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>
