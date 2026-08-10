@@ -1098,3 +1098,41 @@ Every session in this repo MUST honor these load-bearing rules:
 - Quality: degraded
 - Forecast: holt-linear-trend · stable · regime=normal (364 pts)
 - M4: 0/7 clean cycles · bridgeFlipped=false
+## Session Handoff — 2026-08-10T23:31:02.848Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 65 · bridge=on · M4 cleanCycles=2/7
+- Forecast: holt-linear-trend · stable · rmse=0.981 (95 pts)
+
+### Decisions Made
+- M4 gate: cleanCycles=2/7 (no flip)
+
+### Open Issues
+- SPOOL: stale sources: bip110_signal,block_hash,block_height,block_interval,blockchair,blocks,btc_price,btc_rpc,coinpaprika,derived_metrics,difficulty,fear_greed,fee_history,fees,hashrate,lightning,mempool,mempool_blocks,mempool_recent,mining_pools,raw_block_tip,research_findings
+- DE SERVER: unhealthy
+- DE AGENT: last run 177 min ago
+- 8 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (95 pts)
+- M4: 2/7 clean cycles · bridgeFlipped=false
+
+## Session Handoff — 2026-08-11
+
+### Current State
+- Session mood: deliberate
+
+### Decisions Made
+- Admin dashboard key hardened: `ADMIN_KEY` env required (no default `bsahi-admin`). Without it admin endpoints return 503; wrong key 401. Wired into de-server launchd plist. admin.html has a login prompt (no hardcoded key).
+- beta.html gains a 3-step "How it works" guide (register → get key → unlock) so beta users aren't confused post-registration.
+- Launchd EX_CONFIG root-caused: (1) sccr-tracker plist pointed at nonexistent `/usr/local/bin/python3` → `/usr/bin/python3`; (2) de-server stale log file (provenance xattr) blocked launchd spawn → removed stale log, launchd creates it fresh. de-server auto-starts reliably now.
+
+### Open Issues
+- Serverless beta workflow parsing fix committed but end-to-end re-test with a real issue not yet done (issue #14 "Beta: Prateek" still not recorded — needs a fresh registration test after the awk fix).
+
+### Metrics
+- DI: 1.000 | MD: 0.000 | Cycles: 0
+- Tests: validate.js PASS | launchd: de-server + sccr-tracker healthy | admin live with key
+
