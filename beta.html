@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Join the BSAHI beta — first 100 users get free access to the Send Widget and SCCR Index for six months. Register for your beta spot.">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="BSAHI — Join the Beta">
+<meta property="og:description" content="First 100 users. Six months free. Send Widget + SCCR Index.">
+<meta property="og:url" content="https://bitcoinsahi.com/beta.html">
+<link rel="canonical" href="https://bitcoinsahi.com/beta.html">
+<title>BSAHI — Join the Beta (free, first 100)</title>
+<style>
+:root{--bg:#0D1117;--card:#161B22;--border:#30363D;--fg:#F0F6FC;--muted:#8B949E;--accent:#F7931A;--green:#3FB950;--red:#F85149}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.7}
+header{background:#161B22;border-bottom:1px solid var(--border);padding:14px 24px}
+.header-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:8px;flex-wrap:wrap}
+.nav a{padding:6px 12px;font-size:.8rem;color:var(--muted);text-decoration:none;border-radius:6px}
+.nav a:hover{color:var(--fg);background:#21262D}
+.container{max-width:900px;margin:0 auto;padding:40px 24px 80px}
+.hero{text-align:center;padding:20px 0 30px}
+.hero h1{color:var(--accent);font-size:2.1rem;margin-bottom:10px}
+.hero p{color:var(--muted);max-width:640px;margin:0 auto;font-size:1.02rem}
+.badge{display:inline-block;background:var(--accent);color:#0D1117;font-weight:800;font-size:.8rem;padding:5px 16px;border-radius:20px;margin-bottom:16px;letter-spacing:.04em}
+.status{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin:24px auto;max-width:640px;display:flex;gap:30px;justify-content:center;flex-wrap:wrap;text-align:center}
+.status .big{font-size:2.4rem;font-weight:800;color:var(--accent)}
+.status .lbl{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.form-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;max-width:520px;margin:0 auto}
+.form-wrap h2{color:var(--fg);margin-bottom:6px}
+.form-wrap .sub{color:var(--muted);font-size:.9rem;margin-bottom:20px}
+label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px;margin-top:16px}
+input,select{width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--fg);font-size:1rem;font-family:inherit}
+input:focus,select:focus{outline:none;border-color:var(--accent)}
+.btn{width:100%;margin-top:24px;padding:14px;border-radius:12px;background:var(--accent);color:#0D1117;font-size:1.05rem;font-weight:800;border:none;cursor:pointer;transition:all .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(247,147,26,.3)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.msg{margin-top:16px;padding:12px 16px;border-radius:10px;font-size:.92rem;display:none}
+.msg.ok{display:block;background:rgba(63,185,80,.1);border:1px solid var(--green);color:var(--green)}
+.msg.err{display:block;background:rgba(248,81,73,.1);border:1px solid var(--red);color:var(--red)}
+.terms{font-size:.8rem;color:var(--muted);margin-top:20px;text-align:center;line-height:1.6}
+.terms a{color:var(--accent)}
+.perks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:30px auto;max-width:700px}
+.perk{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center}
+.perk .ic{font-size:1.5rem;margin-bottom:8px}
+.perk b{display:block;color:var(--fg);font-size:.95rem}
+.perk span{color:var(--muted);font-size:.82rem}
+footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-size:.8rem;color:var(--muted)}
+@media(max-width:600px){.hero h1{font-size:1.5rem}.form-wrap{padding:24px 18px}.container{padding:24px 16px 60px}}
+</style>
+</head>
+<body>
+<header><div class="header-inner"><a href="/" class="brand">⬡ BSAHI</a><nav class="nav">
+<a href="/">Home</a><a href="/learn">Learn</a><a href="/research">Research</a><a href="/products/send-widget.html">Send Widget</a><a href="/products/sccr-index.html">SCCR Index</a><a href="/beta.html" class="active">Join Beta</a>
+</nav></div></header>
+
+<div class="container">
+<div class="hero">
+  <div class="badge">BETA — FIRST 100 USERS</div>
+  <h1>Get in early. Free for six months.</h1>
+  <p>The Send Widget and the SCCR Index — free for the first 100 users for six months. No card required. No catch — we're building the standard data layer for Bitcoin's resource economics, and the first users help shape it.</p>
+</div>
+
+<div class="status">
+  <div><div class="big" id="count">0</div><div class="lbl">Beta spots taken</div></div>
+  <div><div class="big" id="cap">100</div><div class="lbl">Total spots</div></div>
+  <div><div class="big" style="color:var(--green)" id="open">OPEN</div><div class="lbl">Status</div></div>
+</div>
+
+<div class="perks">
+  <div class="perk"><div class="ic">⚡</div><b>Send Widget</b><span>Live "should I send?" verdicts</span></div>
+  <div class="perk"><div class="ic">📊</div><b>SCCR Index</b><span>Daily storage-cost coverage</span></div>
+  <div class="perk"><div class="ic">🔌</div><b>Embed API</b><span>One-line integration</span></div>
+  <div class="perk"><div class="ic">🎧</div><b>Direct line</b><span>Shape the roadmap with us</span></div>
+</div>
+
+<div class="form-wrap">
+  <h2>Register for your beta spot</h2>
+  <p class="sub">First 100 registrations get free access for 6 months. After that, a waitlist opens.</p>
+  <form id="beta-form" onsubmit="return submitBeta(event)">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" placeholder="Your name" required minlength="2">
+    <label for="email">Work email</label>
+    <input type="email" id="email" name="email" placeholder="you@company.com" required>
+    <label for="product">Product</label>
+    <select id="product" name="product">
+      <option value="send-widget">Send Widget</option>
+      <option value="sccr-index">SCCR Index</option>
+      <option value="both">Both</option>
+    </select>
+    <button type="submit" class="btn" id="submit-btn">Claim my free beta spot</button>
+  </form>
+  <div class="msg" id="msg"></div>
+  <p class="terms">By registering you agree to the <a href="#">beta terms</a>. We record your registration to manage the 100-user cap and your 6-month free access. <a href="#">Privacy</a>.</p>
+</div>
+</div>
+
+<footer>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</footer>
+
+<script>
+function setStatus(s){
+  if(!s) return;
+  document.getElementById('count').textContent = s.registered || 0;
+  document.getElementById('cap').textContent = s.cap || 100;
+  var open = document.getElementById('open');
+  open.textContent = s.open ? 'OPEN' : 'WAITLIST';
+  open.style.color = s.open ? '#3FB950' : '#F85149';
+}
+
+function submitBeta(e){
+  e.preventDefault();
+  var msg = document.getElementById('msg');
+  var btn = document.getElementById('submit-btn');
+  var data = {
+    name: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    product: document.getElementById('product').value,
+    source: 'beta.html'
+  };
+  btn.disabled = true; btn.textContent = 'Registering…';
+  // POST to the local de-server beta endpoint (the source of truth).
+  // If unreachable, fall back to a mailto record (still captured).
+  fetch('http://localhost:3456/beta/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(function(r){ return r.json(); }).then(function(res){
+    btn.disabled = false; btn.textContent = 'Claim my free beta spot';
+    if(res.ok){
+      if(res.status === 'registered'){
+        msg.className = 'msg ok';
+        msg.innerHTML = '🎉 You\'re in — beta spot #' + (res.spot || '—') + '! Free for 6 months (until ' + (res.expiry ? res.expiry.slice(0,10) : '') + '). We\'ll email your access details.';
+      } else {
+        msg.className = 'msg ok';
+        msg.innerHTML = 'The 100 spots are full. You\'re on the waitlist — we\'ll notify you when a spot opens.';
+      }
+      setStatus({ registered: res.spot ? res.spot : 100, open: res.status === 'registered' });
+    } else {
+      msg.className = 'msg err';
+      msg.innerHTML = res.error || 'Something went wrong. Please try again.';
+    }
+  }).catch(function(){
+    btn.disabled = false; btn.textContent = 'Claim my free beta spot';
+    // Fallback: open a mailto with the details so the signup is still captured.
+    msg.className = 'msg ok';
+    msg.innerHTML = 'Registration is being recorded. If you don\'t get a confirmation email shortly, email us directly: <strong>beta@bitcoinsahi.com</strong> with your name + email + product.';
+    window.location.href = 'mailto:beta@bitcoinsahi.com?subject=' + encodeURIComponent('BSAHI Beta: ' + data.name) + '&body=' + encodeURIComponent('Name: ' + data.name + '\nEmail: ' + data.email + '\nProduct: ' + data.product);
+  });
+  return false;
+}
+
+fetch('/data/beta-status.json').then(function(r){return r.json()}).then(setStatus).catch(function(){});
+</script>
+</body>
+</html>

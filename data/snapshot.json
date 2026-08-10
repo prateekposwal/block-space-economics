@@ -1,35 +1,36 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-10T22:44:07.904614+00:00",
+  "generated_at": "2026-08-10T22:48:45.724Z",
   "freshness_min": 0,
   "fees": {
-    "fastestFee": 2,
-    "halfHourFee": 1,
-    "hourFee": 1,
-    "economyFee": 1,
-    "minimumFee": 1
+    "fastestFee": 1
   },
-  "btc_price": 63884,
-  "block_height": 961928,
-  "mempool_tx": 83034,
+  "btc_price": 64042,
+  "block_height": 961917,
+  "mempool_tx": 81728,
   "forecast": [
     {
       "day_offset": 1,
-      "predicted_fastest_fee": 2.0,
+      "predicted_fastest_fee": 2.3,
       "trend": "stable"
     },
     {
       "day_offset": 2,
-      "predicted_fastest_fee": 2.0,
+      "predicted_fastest_fee": 2.4,
       "trend": "stable"
     },
     {
       "day_offset": 3,
-      "predicted_fastest_fee": 1.9,
+      "predicted_fastest_fee": 2.4,
       "trend": "stable"
     }
   ],
-  "alerts": [],
+  "alerts": [
+    "🛡 SPOOL: stale sources: bip110_signal,block_hash,block_height,block_interval,blockchair,blocks,btc_price,btc_rpc,coinpaprika,derived_metrics,difficulty,fear_greed,fee_history,fees,hashrate,lightning,mempool,mempool_blocks,mempool_recent,mining_pools,raw_block_tip,research_findings",
+    "🛡 DE SERVER: unhealthy",
+    "🛡 DE AGENT: last run 131 min ago",
+    "🛡 DB: error ratio 36% > 20%"
+  ],
   "history": [
     {
       "date": "2026-08-05",
