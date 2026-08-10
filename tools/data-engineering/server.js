@@ -119,6 +119,72 @@ var server = http.createServer(function(req, res) {
       jsonResponse(res, { error: e.message }, 500);
     });
 
+  } else if (route === '/beta/register' && req.method === 'POST') {
+    var bbody = '';
+    req.on('data', function(c) { bbody += c; });
+    req.on('end', function() {
+      try {
+        var bdata = JSON.parse(bbody);
+        var betaMgr = require('../../tools/agents/27-beta-manager.js');
+        var br = betaMgr.register(bdata.email, bdata.name, bdata.product, bdata.source || 'beta.html');
+        jsonResponse(res, br);
+      } catch (e) {
+        jsonResponse(res, { ok: false, error: e.message }, 500);
+      }
+    });
+
+  } else if (route === '/beta/status') {
+    var betaMgr = require('../../tools/agents/27-beta-manager.js');
+    jsonResponse(res, betaMgr.refreshStatus());
+
+  } else if (route === '/beta/verify') {
+    var betaMgr = require('../../tools/agents/27-beta-manager.js');
+    var vk = u.searchParams.get('key');
+    jsonResponse(res, betaMgr.verifyKey(vk));
+
+  } else if (route === '/admin/dashboard' || route === '/admin') {
+    // Admin dashboard aggregate (architect's view). Key-protected.
+    var adminKey = process.env.ADMIN_KEY || 'bsahi-admin';
+    var ak = u.searchParams.get('key');
+    if (ak !== adminKey) { jsonResponse(res, { error: 'unauthorized' }, 401); }
+    else {
+      try {
+        var betaMgr = require('../../tools/agents/27-beta-manager.js');
+        var beta = betaMgr.refreshStatus();
+        var betaUsers = betaMgr.list();
+        var db = require('../db/init.js');
+        var caps = db.query('SELECT count(*) c FROM captures');
+        var findings = db.query("SELECT count(*) c FROM research_findings");
+        var blockStats = db.query('SELECT count(*) c FROM block_stats');
+        var nodeGeo = db.query('SELECT count(*) c FROM node_geo');
+        var health = null;
+        try {
+          var spoolPath = require('path').join(__dirname, '..', '..', 'captured-data', 'de-agent-state.json');
+          health = JSON.parse(require('fs').readFileSync(spoolPath, 'utf8'));
+        } catch (e) {}
+        jsonResponse(res, {
+          generated_at: new Date().toISOString(),
+          beta: { registered: beta.registered, cap: beta.cap, waitlist: beta.waitlist, open: beta.open, free_months: beta.free_months },
+          beta_users: betaUsers,
+          data: { captures: caps[0].c, findings: findings[0].c, block_stats: blockStats[0].c, node_geo: nodeGeo[0].c },
+          roi: (function() {
+            try { return require('../../tools/agents/28-roi-tracker.js').refresh(); }
+            catch (e) { return { error: e.message }; }
+          })(),
+          health: health ? { cycle: health.cycleCount, lastRun: health.lastRun, m4: health.m4 } : null
+        });
+      } catch (e) { jsonResponse(res, { error: e.message }, 500); }
+    }
+
+  } else if (route === '/admin/beta') {
+    var adminKey = process.env.ADMIN_KEY || 'bsahi-admin';
+    var ak2 = u.searchParams.get('key');
+    if (ak2 !== adminKey) { jsonResponse(res, { error: 'unauthorized' }, 401); }
+    else {
+      var betaMgr = require('../../tools/agents/27-beta-manager.js');
+      jsonResponse(res, { users: betaMgr.list() });
+    }
+
   } else if (route === '/research/notes/add' && req.method === 'POST') {
     var body = '';
     req.on('data', function(c) { body += c; });
