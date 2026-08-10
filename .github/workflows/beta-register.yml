@@ -33,10 +33,15 @@ jobs:
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
-          # Extract name, email, product from the issue body
-          NAME=$(echo "$ISSUE_BODY" | grep -iA1 "Your name" | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | tr -d '\r' | cut -c1-80)
-          EMAIL=$(echo "$ISSUE_BODY" | grep -iA1 "Your email" | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | tr -d '\r')
-          PRODUCT=$(echo "$ISSUE_BODY" | grep -iA2 "Which product" | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | tr -d '\r' | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+          # Extract name, email, product — skip blank lines after the heading
+          # (GitHub issue forms insert a blank line between heading and value).
+          NAME=$(echo "$ISSUE_BODY" | awk '/^### Your name/{f=1;next} f && NF{print;exit}')
+          EMAIL=$(echo "$ISSUE_BODY" | awk '/^### Your email/{f=1;next} f && NF{print;exit}')
+          PRODUCT=$(echo "$ISSUE_BODY" | awk '/^### Which product/{f=1;next} f && NF{print;exit}' | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+          # Trim
+          NAME=$(echo "$NAME" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | cut -c1-80)
+          EMAIL=$(echo "$EMAIL" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+          PRODUCT=$(echo "$PRODUCT" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
           # Validate email format
           if ! echo "$EMAIL" | grep -qE '^[^@]+@[^@]+\.[^@]+$'; then
             echo "result=invalid-email" >> "$GITHUB_OUTPUT"

@@ -143,46 +143,53 @@ var server = http.createServer(function(req, res) {
     jsonResponse(res, betaMgr.verifyKey(vk));
 
   } else if (route === '/admin/dashboard' || route === '/admin') {
-    // Admin dashboard aggregate (architect's view). Key-protected.
-    var adminKey = process.env.ADMIN_KEY || 'bsahi-admin';
-    var ak = u.searchParams.get('key');
-    if (ak !== adminKey) { jsonResponse(res, { error: 'unauthorized' }, 401); }
+    // Admin dashboard aggregate (architect's view). Key-protected — no default key;
+    // the ADMIN_KEY env MUST be set or admin endpoints are disabled entirely.
+    var adminKey = process.env.ADMIN_KEY;
+    if (!adminKey) { jsonResponse(res, { error: 'admin disabled — set ADMIN_KEY env' }, 503); }
     else {
-      try {
-        var betaMgr = require('../../tools/agents/27-beta-manager.js');
-        var beta = betaMgr.refreshStatus();
-        var betaUsers = betaMgr.list();
-        var db = require('../db/init.js');
-        var caps = db.query('SELECT count(*) c FROM captures');
-        var findings = db.query("SELECT count(*) c FROM research_findings");
-        var blockStats = db.query('SELECT count(*) c FROM block_stats');
-        var nodeGeo = db.query('SELECT count(*) c FROM node_geo');
-        var health = null;
+      var ak = u.searchParams.get('key');
+      if (ak !== adminKey) { jsonResponse(res, { error: 'unauthorized' }, 401); }
+      else {
         try {
-          var spoolPath = require('path').join(__dirname, '..', '..', 'captured-data', 'de-agent-state.json');
-          health = JSON.parse(require('fs').readFileSync(spoolPath, 'utf8'));
-        } catch (e) {}
-        jsonResponse(res, {
-          generated_at: new Date().toISOString(),
-          beta: { registered: beta.registered, cap: beta.cap, waitlist: beta.waitlist, open: beta.open, free_months: beta.free_months },
-          beta_users: betaUsers,
-          data: { captures: caps[0].c, findings: findings[0].c, block_stats: blockStats[0].c, node_geo: nodeGeo[0].c },
-          roi: (function() {
-            try { return require('../../tools/agents/28-roi-tracker.js').refresh(); }
-            catch (e) { return { error: e.message }; }
-          })(),
-          health: health ? { cycle: health.cycleCount, lastRun: health.lastRun, m4: health.m4 } : null
-        });
-      } catch (e) { jsonResponse(res, { error: e.message }, 500); }
+          var betaMgr = require('../../tools/agents/27-beta-manager.js');
+          var beta = betaMgr.refreshStatus();
+          var betaUsers = betaMgr.list();
+          var db = require('../db/init.js');
+          var caps = db.query('SELECT count(*) c FROM captures');
+          var findings = db.query("SELECT count(*) c FROM research_findings");
+          var blockStats = db.query('SELECT count(*) c FROM block_stats');
+          var nodeGeo = db.query('SELECT count(*) c FROM node_geo');
+          var health = null;
+          try {
+            var spoolPath = require('path').join(__dirname, '..', '..', 'captured-data', 'de-agent-state.json');
+            health = JSON.parse(require('fs').readFileSync(spoolPath, 'utf8'));
+          } catch (e) {}
+          jsonResponse(res, {
+            generated_at: new Date().toISOString(),
+            beta: { registered: beta.registered, cap: beta.cap, waitlist: beta.waitlist, open: beta.open, free_months: beta.free_months },
+            beta_users: betaUsers,
+            data: { captures: caps[0].c, findings: findings[0].c, block_stats: blockStats[0].c, node_geo: nodeGeo[0].c },
+            roi: (function() {
+              try { return require('../../tools/agents/28-roi-tracker.js').refresh(); }
+              catch (e) { return { error: e.message }; }
+            })(),
+            health: health ? { cycle: health.cycleCount, lastRun: health.lastRun, m4: health.m4 } : null
+          });
+        } catch (e) { jsonResponse(res, { error: e.message }, 500); }
+      }
     }
 
   } else if (route === '/admin/beta') {
-    var adminKey = process.env.ADMIN_KEY || 'bsahi-admin';
-    var ak2 = u.searchParams.get('key');
-    if (ak2 !== adminKey) { jsonResponse(res, { error: 'unauthorized' }, 401); }
+    var adminKey = process.env.ADMIN_KEY;
+    if (!adminKey) { jsonResponse(res, { error: 'admin disabled — set ADMIN_KEY env' }, 503); }
     else {
-      var betaMgr = require('../../tools/agents/27-beta-manager.js');
-      jsonResponse(res, { users: betaMgr.list() });
+      var ak2 = u.searchParams.get('key');
+      if (ak2 !== adminKey) { jsonResponse(res, { error: 'unauthorized' }, 401); }
+      else {
+        var betaMgr = require('../../tools/agents/27-beta-manager.js');
+        jsonResponse(res, { users: betaMgr.list() });
+      }
     }
 
   } else if (route === '/research/notes/add' && req.method === 'POST') {
