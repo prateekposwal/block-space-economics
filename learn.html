@@ -43,7 +43,7 @@ a:hover{color:#E8B86D}
 .header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:56px}
 .brand{font-size:1.125rem;font-weight:700;color:#D4933A;display:flex;align-items:center;gap:8px;letter-spacing:-0.01em}
 .brand:hover{color:#E8B86D}
-.nav{display:flex;gap:4px}
+.nav{display:flex;gap:4px;flex-wrap:wrap}
 .nav a{padding:6px 16px;font-size:.875rem;font-weight:500;color:#9B8B78;border-radius:6px;transition:all .2s}
 .nav a:hover{color:#EADCC8;background:#2A251E}
 
@@ -122,9 +122,11 @@ footer .links a:hover{color:#D4933A}
   .hero h1{font-size:1.6rem}
   .scroll-section{padding:60px 0}
   .bsahi-section{padding:24px}
-  .header-inner{padding:0 16px}
+  .header-inner{padding:0 16px;height:auto;flex-wrap:wrap;gap:6px;padding:10px 16px}
   #hero-viz{height:360px}
   .viz-mini{height:300px}
+  .nav{padding:8px 12px}
+  .nav a{padding:6px 10px;font-size:.78rem}
 }
   @media (prefers-reduced-motion: reduce) {
     * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
