@@ -25,7 +25,7 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px;scroll-behavior:smooth}
-body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 ::selection{background:#D4933A;color:#1A1612}
 a{color:#D4933A;text-decoration:none}
 a:hover{color:#E8B86D}
@@ -96,6 +96,7 @@ a:hover{color:#E8B86D}
   .header-inner{height:auto;flex-wrap:wrap;gap:6px;padding:10px 16px}
   .nav{padding:8px 12px}
   .nav a{padding:6px 10px;font-size:.78rem}
+  .stat-card{min-width:45%;flex:1 1 45%}
 }
   @media (prefers-reduced-motion: reduce) {
     * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
