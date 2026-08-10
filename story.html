@@ -88,6 +88,7 @@ footer .links a:hover{color:var(--accent)}
   <canvas id="bip-canvas" width="1000" height="220"></canvas>
   <div class="legend"><span><span class="sw" style="background:#171310"></span>non-signaling block</span><span><span class="sw" style="background:var(--accent)"></span>signaling block</span><span><span class="sw" style="background:var(--red)"></span>window boundary</span><span><span class="sw" style="background:var(--blue)"></span>lock-in height</span></div>
   <div class="callout"><b>The story:</b> a soft fork whose activation doesn't need miners — the enforcement clause is carried by node software. If signaling stays low but lock-in happens anyway, that's the governance boundary made visible: <b>miners can refuse, but they can't stop it.</b> Details: <a href="/research/governance-boundary.html" style="color:var(--accent)">governance-boundary note →</a></div>
+  <div class="callout" style="border-left-color:var(--blue)"><b>The correction:</b> <b>UASF/URSF are coordination mechanisms — not proof that miners control Bitcoin.</b> A flag-day or a user-resisted fork is a way for node operators to coordinate enforcement, not evidence of who holds power. And miner concentration is a <b>real attack surface</b> — but it doesn't automatically equal protocol control. BIP-110 is the live test of exactly this: the 55% threshold and the mandatory window are coordination parameters, and the outcome tells us who actually moves the valid-state transition boundary.</div>
 </div>
 
 <!-- 2. SCCR TREND -->
