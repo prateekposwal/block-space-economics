@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.bsahi.dataset-snapshot</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/node</string>
+        <string>/Users/prateekposwal/Desktop/block-space-economics/tools/dataset-snapshot.js</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/prateekposwal/Desktop/block-space-economics</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>GH_TOKEN</key>
+        <string>__GH_TOKEN__</string>
+    </dict>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>3</integer>
+        <key>Minute</key>
+        <integer>17</integer>
+    </dict>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/Users/prateekposwal/Desktop/block-space-economics/captured-data/dataset-snapshot.out.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/prateekposwal/Desktop/block-space-economics/captured-data/dataset-snapshot.err.log</string>
+</dict>
+</plist>

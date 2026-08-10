@@ -73,3 +73,19 @@ reports/research/2026-*.md
 reports/research/storage-ratio-2026-*.md
 captured-data/monitor-error-history.pre-fix.bak.json
 reports/digest/reddit-2026-*.md
+.env.local
+
+# Secrets (never committed)
+.env.local
+
+# Runtime state (agents own these; canonical store = GitHub Releases dataset snapshot)
+captured-data/*.json
+captured-data/*.log
+captured-data/*.state
+captured-data/spool/
+captured-data/btc-rpc/
+captured-data/staging/
+captured-data/__pycache__/
+tools/alerts.json
+tools/fee_forecast.json
+tools/monte_carlo_output.json
