@@ -231,6 +231,8 @@ def main():
     except Exception:
         manifest = {}
     internal = set(manifest.get('internal', []))
+    # INTERNAL docs: do NOT generate public HTML at all (they hold plans, personal
+    # names, review drafts). They remain .md sources only — never served as pages.
     exclude = EXCLUDE | internal
     files = [f for f in files if os.path.basename(f) not in exclude]
     summaries = []
