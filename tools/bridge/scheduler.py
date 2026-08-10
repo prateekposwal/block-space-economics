@@ -1,89 +1,26 @@
 #!/usr/bin/env python3
 """
-BSAHI — Compliant Publishing Scheduler
-======================================
-Runs the compliant poster across all platforms on a natural cadence.
-Integrates with the go-live system to run periodically.
-
-Cadence (anti-spam, per platform):
-- Reddit:    min 6h apart, max 2/day
-- LinkedIn:  min 12h apart, max 1/day
-- Medium:    min 24h apart, max 1/day
-
-Compliance rules (why this works where link-drops fail):
-- Substantive in-post analysis generated from real captured data
-- No promotional link-drops
-- Platform-native formatting
-- Every post logged for review
+BSAHI — Publishing Scheduler (retired posting path)
+====================================================
+The browser-posting engines (compliant-poster.py, comment-engine.py,
+engage-engine.py) were deleted 2026-08-11 per architect directive. Social-media
+publishing is retired; the Web Idea Scanner (idea-scanner.py) now feeds research
+silently instead. This module is kept as a clean no-op so the orchestrator's
+phase-4 call succeeds, and it surfaces the retired status in logs.
 """
-import subprocess, time, json, os, sys
+import time, os, sys
 
-REPO = '/Users/prateekposwal/Desktop/block-space-economics'
-BIN = os.path.join(REPO, 'tools/bridge/compliant-poster.py')
-
-PLATFORMS = ['reddit', 'linkedin', 'medium']
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def log(msg):
     print(f"[{time.strftime('%H:%M:%S')}] [Scheduler] {msg}", flush=True)
 
-def check_cadence(platform):
-    r = subprocess.run(['node', '-e',
-        f'var c = require("{REPO}/tools/bridge/compliant-content.js"); console.log(JSON.stringify(c.canPost("{platform}")))'],
-        capture_output=True, text=True, timeout=15, cwd=REPO)
-    try:
-        return json.loads(r.stdout)
-    except:
-        return {'ok': False, 'nextPostMs': 86400000, 'postsToday': 0}
-
-def post(platform):
-    log(f"Posting to {platform}...")
-    r = subprocess.run(['python3', BIN, platform], capture_output=True, text=True, timeout=180, cwd=REPO)
-    out = (r.stdout or '').strip() + (('\n' + r.stderr) if r.stderr else '')
-    log(out[-500:])
-    return r.returncode == 0
-
 def run_cycle():
-    log("=== Compliant publishing cycle ===")
-    # Replies + engagement are handled by orchestrator phases 1 & 3 —
-    # scheduler handles publishing only (avoids double-running engines).
-    for platform in PLATFORMS:
-        cadence = check_cadence(platform)
-        if not cadence.get('ok'):
-            next_h = cadence.get('nextPostMs', 0) / 3600000
-            log(f"{platform}: cadence block (next in {next_h:.1f}h, {cadence.get('postsToday',0)} today)")
-            continue
-        # Load-bearing cross-stack dedupe (B5): ledger-gate.js reads
-        # publishing-queue.json — blocks if another stack posted recently.
-        gate = subprocess.run(['node', os.path.join(REPO, 'tools/bridge/ledger-gate.js'), platform],
-                              capture_output=True, text=True, timeout=15, cwd=REPO)
-        if gate.returncode == 1:
-            log(f"{platform}: ledger block ({(gate.stdout or '').strip()})")
-            continue
-        try:
-            post(platform)
-        except Exception as e:
-            log(f"{platform}: error {e}")
-        # Natural pacing between platforms
-        time.sleep(8)
-    log("=== Cycle complete ===")
-
-def run_replies():
-    # Always answer back — replies give direction
-    r = subprocess.run(['python3', os.path.join(REPO, 'tools/bridge/reply-engine.py')],
-                       capture_output=True, text=True, timeout=180, cwd=REPO)
-    log(r.stdout[-300:] if r.stdout else 'reply engine done')
-
-def run_engage():
-    r = subprocess.run(['python3', os.path.join(REPO, 'tools/bridge/engage-engine.py'), '3', '3'],
-                       capture_output=True, text=True, timeout=180, cwd=REPO)
-    log(r.stdout[-300:] if r.stdout else 'engage engine done')
+    log("=== Publishing cycle: social publishing RETIRED (2026-08-11) ===")
+    log("Browser-posting engines deleted. Web Idea Scanner feeds research silently instead.")
+    log("See docs/decisions/2026-08-11-retire-browser-posting.md if created.")
+    log("=== Cycle complete (no social posts) ===")
+    return 0
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1 and sys.argv[1] == '--daemon':
-        # Run forever, checking every 30 min
-        while True:
-            run_cycle()
-            log("Next check in 30 min")
-            time.sleep(1800)
-    else:
-        run_cycle()
+    sys.exit(run_cycle())

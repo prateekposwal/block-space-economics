@@ -129,8 +129,10 @@ function cycle() {
 
   // Phase 1: reply back always (only when inbox has new replies — engine guards itself)
   run('tools/bridge/reply-engine.py', [], function() {
-    // Phase 2: comment (engagement before publishing)
-    run('tools/bridge/comment-engine.py', [String(CFG.targets.commentsPerCycle || 8)], function() {
+    // Phase 2: web idea scan (replaced browser-posting comment-engine — deleted 2026-08-11).
+    // Silently scans the internet for new ideas/signals; the scanner itself persists
+    // findings to the research DB (via idea-bridge.js) + writes the architect digest.
+    run('tools/bridge/idea-scanner.py', [], function() {
       // Phase 4: check if engagement threshold met, then publish
       var phase4 = function() {
         run('tools/bridge/scheduler.py', [], function() {
@@ -141,15 +143,9 @@ function cycle() {
           scheduleNext();
         });
       };
-      // Phase 3: LinkedIn/Medium engagement — DISABLED by policy
-      // (docs/decisions/2026-07-31-engagement.md). engage-engine.py kept archived
-      // for syndication-only reuse. Re-enable: set engage.enabled=true + restart.
-      if (CFG.engage && CFG.engage.enabled) {
-        run('tools/bridge/engage-engine.py', [String(CFG.targets.liPerCycle || 3), String(CFG.targets.mdPerCycle || 3)], phase4);
-      } else {
-        log('ENGAGE: LinkedIn/Medium engagement disabled (policy) — see docs/decisions/2026-07-31-engagement.md');
-        phase4();
-      }
+      // Phase 3: social publishing — browser-posting engines retired (2026-08-11).
+      log('SOCIAL: browser-posting retired — idea-scanner feeds research instead');
+      phase4();
     });
   });
 }
