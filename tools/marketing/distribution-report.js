@@ -36,8 +36,8 @@ function run() {
   lines.push('## By platform');
   Object.keys(byPlatform).sort().forEach(function(p) { lines.push('- ' + p + ': ' + byPlatform[p]); });
   lines.push('');
-  lines.push('## By researcher persona');
-  var personaNames = { satoshi: 'Satoshi Block', hal: 'Hal Finney Jr', lisa: 'Lisa Nakamoto', wei: 'Wei Dai III', nick: 'Nick Szabo Jr' };
+  lines.push('## By researcher agent');
+  var personaNames = { satoshi: 'Fees Analyst', hal: 'Research Engineer', lisa: 'Data Journalist', wei: 'Protocol Researcher', nick: 'Economics Analyst' };
   var personaCount = 0;
   Object.keys(byPersona).sort().forEach(function(p) {
     personaCount += byPersona[p];

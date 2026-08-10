@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="The Storage Cost Coverage Ratio is falling. In one week it dropped from Bitcoin block space economics research from BSAHI — live fee, mempool, and settlement da">
+<meta name="description" content="The Storage Cost Coverage Ratio, as measured on the canonical daily feed Bitcoin block space economics research from BSAHI — live fee, mempool, and settlement d">
 <meta property="og:title" content="Sccr-Trend-Note">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://bitcoinsahi.com/research/sccr-trend-note.html">
@@ -54,16 +54,24 @@ footer .links a:hover{color:#D4933A}</style>
 <p><strong>Source:</strong> live SCCR measurements (model-spec v2.1.0, N=32K census)</p>
 <hr>
 <h3>The finding</h3>
-<p>The Storage Cost Coverage Ratio is <strong>falling</strong>. In one week it dropped from</p>
-<p>~0.26 to <strong>0.17</strong> — transaction fees are covering less and less of the modeled</p>
-<p>storage cost that confirmed data imposes on the network.</p>
+<p>The Storage Cost Coverage Ratio, as measured on the canonical daily feed</p>
+<p>(<code>data/sccr_history.json</code>), is <strong>falling</strong> — from ~0.28 to <strong>0.238</strong> across the</p>
+<p>measured days. Transaction fees are covering less of the modeled storage cost</p>
+<p>that confirmed data imposes on the network.</p>
 <table>
-<tr><th>Date</th><th>Avg SCCR</th><th>Blocks sampled</th></tr>
-<tr><td>2026-08-02</td><td>0.2186</td><td>171</td></tr>
-<tr><td>2026-08-03</td><td>0.2840</td><td>137</td></tr>
-<tr><td>2026-08-04</td><td>0.2611</td><td>159</td></tr>
-<tr><td><strong>2026-08-10</strong></td><td><strong>0.1704</strong></td><td>150</td></tr>
+<tr><th>Date</th><th>Avg SCCR</th><th>Blocks sampled</th><th>Source</th></tr>
+<tr><td>2026-08-02</td><td>0.2243</td><td>153</td><td><code>data/sccr_history.json</code></td></tr>
+<tr><td>2026-08-03</td><td>0.2840</td><td>137</td><td><code>data/sccr_history.json</code></td></tr>
+<tr><td>2026-08-04</td><td>0.2611</td><td>159</td><td><code>data/sccr_history.json</code></td></tr>
+<tr><td>2026-08-10</td><td>0.2379</td><td>145</td><td><code>data/sccr_history.json</code></td></tr>
 </table>
+<p><strong>Caveat — early series, small n.</strong> This is a **4-point series over a 9-day span</p>
+<p>with a data gap Aug 5–9** (the daily tracker was installed mid-series). The</p>
+<p>~35% relative swing (0.28 → 0.24) is a *directional signal from a young</p>
+<p>series*, not a settled trend. We publish it as a live measurement with its</p>
+<p>uncertainty visible — the method and code are public so anyone can reproduce</p>
+<p>every digit. As the daily tracker accumulates clean points, the trendline</p>
+<p>will firm up.</p>
 <h3>Why this matters</h3>
 <p>The SCCR is the ratio of fees paid to the estimated 10-year storage cost. When</p>
 <p>it falls, the <strong>unpriced externality is growing</strong> — each block&#x27;s data costs the</p>

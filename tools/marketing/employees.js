@@ -23,11 +23,11 @@ var RELAYS = [
 ];
 
 var EMPLOYEES = [
-  { id: 'satoshi', name: 'Satoshi Block',  title: 'Block Space Analyst',  avatar: '⚡', topics: ['fee', 'mempool', 'blocks'] },
-  { id: 'hal',     name: 'Hal Finney Jr',  title: 'Research Engineer',    avatar: '🔬', topics: ['research', 'capacity', 'dev'] },
-  { id: 'lisa',    name: 'Lisa Nakamoto',  title: 'Data Journalist',      avatar: '📊', topics: ['lightning', 'exchange', 'node'] },
-  { id: 'wei',     name: 'Wei Dai III',    title: 'Protocol Researcher',  avatar: '🧮', topics: ['fork', 'dev', 'research'] },
-  { id: 'nick',    name: 'Nick Szabo Jr',  title: 'Economics Analyst',    avatar: '📈', topics: ['miner', 'economy', 'capacity'] }
+  { id: 'satoshi', name: 'Fees Analyst',      title: 'Block Space Analyst',  avatar: '⚡', topics: ['fee', 'mempool', 'blocks'] },
+  { id: 'hal',     name: 'Research Engineer', title: 'Research Engineer',    avatar: '🔬', topics: ['research', 'capacity', 'dev'] },
+  { id: 'lisa',    name: 'Data Journalist',   title: 'Data Journalist',      avatar: '📊', topics: ['lightning', 'exchange', 'node'] },
+  { id: 'wei',     name: 'Protocol Researcher', title: 'Protocol Researcher',avatar: '🧮', topics: ['fork', 'dev', 'research'] },
+  { id: 'nick',    name: 'Economics Analyst', title: 'Economics Analyst',    avatar: '📈', topics: ['miner', 'economy', 'capacity'] }
 ];
 
 // ─── Live data from the spool (real captures, no fabrication) ───

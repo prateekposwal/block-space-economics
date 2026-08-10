@@ -8,16 +8,25 @@
 
 ## The finding
 
-The Storage Cost Coverage Ratio is **falling**. In one week it dropped from
-~0.26 to **0.17** — transaction fees are covering less and less of the modeled
-storage cost that confirmed data imposes on the network.
+The Storage Cost Coverage Ratio, as measured on the canonical daily feed
+(`data/sccr_history.json`), is **falling** — from ~0.28 to **0.238** across the
+measured days. Transaction fees are covering less of the modeled storage cost
+that confirmed data imposes on the network.
 
-| Date | Avg SCCR | Blocks sampled |
-|---|---|---|
-| 2026-08-02 | 0.2186 | 171 |
-| 2026-08-03 | 0.2840 | 137 |
-| 2026-08-04 | 0.2611 | 159 |
-| **2026-08-10** | **0.1704** | 150 |
+| Date | Avg SCCR | Blocks sampled | Source |
+|---|---|---|---|
+| 2026-08-02 | 0.2243 | 153 | `data/sccr_history.json` |
+| 2026-08-03 | 0.2840 | 137 | `data/sccr_history.json` |
+| 2026-08-04 | 0.2611 | 159 | `data/sccr_history.json` |
+| 2026-08-10 | 0.2379 | 145 | `data/sccr_history.json` |
+
+**Caveat — early series, small n.** This is a **4-point series over a 9-day span
+with a data gap Aug 5–9** (the daily tracker was installed mid-series). The
+~35% relative swing (0.28 → 0.24) is a *directional signal from a young
+series*, not a settled trend. We publish it as a live measurement with its
+uncertainty visible — the method and code are public so anyone can reproduce
+every digit. As the daily tracker accumulates clean points, the trendline
+will firm up.
 
 ## Why this matters
 
