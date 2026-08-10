@@ -223,7 +223,16 @@ def make_page(name, title, desc, body, breadcrumb):
 
 def main():
     files = sorted(glob.glob(os.path.join(RESEARCH, '*.md')))
-    files = [f for f in files if os.path.basename(f) not in EXCLUDE]
+    manifest = {}
+    try:
+        import json as _json
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'research_manifest.json')) as _mf:
+            manifest = _json.load(_mf)
+    except Exception:
+        manifest = {}
+    internal = set(manifest.get('internal', []))
+    exclude = EXCLUDE | internal
+    files = [f for f in files if os.path.basename(f) not in exclude]
     summaries = []
     for f in files:
         name = os.path.splitext(os.path.basename(f))[0]
@@ -238,11 +247,17 @@ def main():
         summaries.append((name, title, first_para(text)))
         print('wrote', name + '.html')
 
-    # index page
-    items = ''.join(
-        '<li><a href="/research/%s.html">%s</a> — %s</li>' % (n, t, html.escape(truncate_words(d, 20)))
-        for n, t, d in summaries
-    )
+    # index page — manifest-driven, grouped, curated (internal/working docs excluded)
+    def _item_html(it):
+        return '<li><a href="/research/%s.html">%s</a><div class="rd">%s</div></li>' % (
+            it['file'].replace('.md', ''), html.escape(it['title']), html.escape(it['desc']))
+
+    groups_html = ''
+    for grp in manifest.get('groups', []):
+        items = [_item_html(it) for it in grp.get('items', [])]
+        groups_html += '<h2>%s</h2><p class="rg">%s</p><ul class="rlist">%s</ul>' % (
+            html.escape(grp['name']), html.escape(grp.get('description', '')), ''.join(items))
+
     index = '''<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -256,7 +271,15 @@ def main():
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://bitcoinsahi.com/research/">
 <title>BSAHI Research — Bitcoin Resource Accounting</title>
-<style>''' + STYLE + '''</style></head>
+<style>''' + STYLE + '''
+.rlist{list-style:none;padding:0;margin:0 0 32px}
+.rlist li{background:#1F1B16;border:1px solid #3A3228;border-radius:10px;padding:14px 18px;margin:0 0 12px;transition:all .2s}
+.rlist li:hover{border-color:#F7931A;transform:translateX(4px)}
+.rlist a{color:#EADCC8;font-weight:600;text-decoration:none;font-size:1.05rem}
+.rlist a:hover{color:#F7931A}
+.rd{color:#9B8B78;font-size:.9rem;margin-top:4px;line-height:1.6}
+.rg{color:#9B8B78;font-size:.95rem;margin-bottom:16px}
+</style></head>
 <body>
 <header><div class="header-inner"><a href="/" class="brand">⬡ BSAHI</a>''' + NAV + '''</div></header>
 <div class="container">
@@ -268,7 +291,7 @@ much of each cost the fee market internalizes. <strong>SCCR (storage) is Metric
 #1</strong> — the first measured member of the RIR family; the rest are research
 hypotheses. Open research on block space economics — the fee market, mempool
 dynamics, and the permanent cost of data storage.</p>
-<ul>''' + items + '''</ul>
+''' + groups_html + '''
 <p style="margin-top:32px;"><a href="/learn">← Back to Learn</a></p>
 </div>
 <footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
