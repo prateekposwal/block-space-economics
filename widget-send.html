@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="noindex,nofollow">
+<title>BSAHI — Should I Send Now?</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#0D1117;color:#F0F6FC;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:13px;padding:16px}
+  .widget{background:#161B22;border:1px solid #30363D;border-radius:12px;padding:18px}
+  .q{font-size:15px;font-weight:700;color:#E6EDF3;margin-bottom:12px}
+  .verdict{font-size:20px;font-weight:800;margin-bottom:14px}
+  .verdict.green{color:#3FB950}.verdict.yellow{color:#F7931A}.verdict.red{color:#F85149}.verdict.gray{color:#8B949E}
+  .detail{font-size:11px;color:#8B949E;line-height:1.7;margin-bottom:14px}
+  .row{display:flex;gap:8px;flex-wrap:wrap}
+  .stat{background:#0D1117;border:1px solid #30363D;border-radius:8px;padding:8px 12px;text-align:center;flex:1;min-width:70px}
+  .lbl{font-size:9px;color:#8B949E;text-transform:uppercase;letter-spacing:.5px}
+  .val{font-size:16px;font-weight:700;margin-top:2px}
+  .note{font-size:10px;color:#8B949E;text-align:center;margin-top:12px}
+  .note a{color:#F7931A;text-decoration:none}
+  .err{color:#F85149;font-size:12px;text-align:center;margin-top:12px;display:none}
+</style></head>
+<body>
+<div class="widget">
+  <div class="q">Should I send Bitcoin now?</div>
+  <div class="verdict gray" id="verdict">Checking fees…</div>
+  <div class="detail" id="detail">Fetching live mempool conditions…</div>
+  <div class="row">
+    <div class="stat"><div class="lbl">Fastest</div><div class="val" id="f-fast">—</div></div>
+    <div class="stat"><div class="lbl">Hour</div><div class="val" id="f-hour">—</div></div>
+    <div class="stat"><div class="lbl">Economy</div><div class="val" id="f-econ">—</div></div>
+    <div class="stat"><div class="lbl">BTC</div><div class="val" id="btc">—</div></div>
+  </div>
+  <div class="err" id="err">Data temporarily unavailable — retry shortly.</div>
+  <div class="note">Live from a Bitcoin Core node · <a href="https://bitcoinsahi.com" target="_blank">bitcoinsahi.com</a></div>
+</div>
+
+<script>
+function weatherFrom(fees) {
+  // Map fee regime to the weather-level verdict used across BSAHI.
+  var f = fees.fastestFee || 0;
+  if (f <= 2) return { level: 'Sunny', label: 'Sunny' };
+  if (f <= 5) return { level: 'Partly Cloudy', label: 'Partly Cloudy' };
+  if (f <= 15) return { level: 'Building', label: 'Building' };
+  if (f <= 40) return { level: 'Breezy', label: 'Breezy' };
+  if (f <= 100) return { level: 'Rainy', label: 'Rainy' };
+  return { level: 'Storm', label: 'Storm' };
+}
+
+function render(d) {
+  var fees = d.fees || {};
+  var weather = weatherFrom(fees);
+  var el = document.getElementById('verdict');
+  var det = document.getElementById('detail');
+  var btcPrice = d.btc_price || 64827;
+  var fastest = fees.fastestFee || 0;
+  // Cost to send a typical tx (226 vbytes) at fastest fee
+  var sendCostSats = Math.round(fastest * 226);
+  var sendCostUsd = (sendCostSats / 100000000) * btcPrice;
+
+  var levels = {
+    'Sunny': ['✅ Yes — fees are low', 'green', 'Fastest fee ' + fastest + ' sat/vB. A typical transaction costs ~$' + sendCostUsd.toFixed(2) + '.'],
+    'Partly Cloudy': ['✅ Yes — fees are low', 'green', 'Fastest fee ' + fastest + ' sat/vB. A typical transaction costs ~$' + sendCostUsd.toFixed(2) + '.'],
+    'Building': ['⚡ Mempool building — send with economy fee', 'yellow', 'Fees rising (' + fastest + ' sat/vB fastest). Economy rate clears within the hour.'],
+    'Breezy': ['⚡ Network busy — use economy fee', 'yellow', 'Fastest ' + fastest + ' sat/vB. Economy rate recommended to save ~' + Math.max(1, Math.round((fastest - (fees.economyFee||1)) / (fees.economyFee||1) * 100)) + '%.'],
+    'Rainy': ['🟡 Fees elevated — economy rate recommended', 'yellow', 'Fastest ' + fastest + ' sat/vB. Wait if you can, or use the economy tier.'],
+    'Storm': ['🔴 Network congested — wait if possible', 'red', 'Fastest ' + fastest + ' sat/vB. Transaction costs are high; wait for congestion to clear.'],
+    'Extreme': ['🔴 Network congested — wait', 'red', 'Extreme fee pressure (' + fastest + ' sat/vB). Do not send unless urgent.']
+  };
+  var v = levels[weather.level] || levels['Storm'];
+  el.textContent = v[0];
+  el.className = 'verdict ' + v[1];
+  det.textContent = v[2];
+
+  document.getElementById('f-fast').textContent = fastest + ' sat/vB';
+  document.getElementById('f-hour').textContent = (fees.hourFee || '—') + ' sat/vB';
+  document.getElementById('f-econ').textContent = (fees.economyFee || '—') + ' sat/vB';
+  document.getElementById('btc').textContent = '$' + Number(btcPrice).toLocaleString();
+  document.getElementById('err').style.display = 'none';
+}
+
+fetch('https://bitcoinsahi.com/tools/live_data.json?_=' + Date.now())
+  .then(function(r) { if (!r.ok) throw new Error('bad'); return r.json(); })
+  .then(render)
+  .catch(function() {
+    document.getElementById('verdict').textContent = '⏳ Data offline';
+    document.getElementById('verdict').className = 'verdict gray';
+    document.getElementById('err').style.display = 'block';
+  });
+
+// Auto-refresh every 60s
+setInterval(function() {
+  fetch('https://bitcoinsahi.com/tools/live_data.json?_=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(render)
+    .catch(function() {});
+}, 60000);
+</script>
+</body></html>
