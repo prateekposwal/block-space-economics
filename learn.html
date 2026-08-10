@@ -335,8 +335,9 @@ Each new block strengthens every block that came before it. To rewrite history, 
 <p>Every Bitcoin transaction bids for a scarce resource: <strong>space in the next block</strong>. The fee market determines who gets in. But the fee market only prices congestion — not the permanent cost of storing data across every full node long-term.</p>
 <p>Our research (<a href="https://github.com/prateekposwal/block-space-economics/blob/main/research/problem_statement.md">The Bitcoin Block Space Problem</a>) frames this question. In July 2026, we produced the first empirical measurement (corrected to v2.0.0 after an internal audit — see the <a href="/research/verification_appendix.html">reproducibility note</a>):</p>
 <div class="highlight"><strong id="storage-ratio-value">Storage Cost Coverage Ratio: <span id="sccr-live">loading…</span></strong> — Current Bitcoin transaction fees cover <span id="sccr-pct">…</span>% of the estimated 10-year storage cost across the real node census (N=<span id="sccr-n">…</span>). <span id="sccr-below">…</span>% of sampled blocks fall below the 1× threshold.</div>
- <p id="sccr-meta">Live SCCR measured continuously from captured fee data (see <a href="/research/working-paper.html">the working paper (Storage Cost Internalization in Bitcoin's Fee Market)</a> and <a href="/research/reproduce/">the reproduction kit</a>).</p>
- <p id="sccr-freshness" style="font-size:.8rem;color:#6A5D4E;margin-top:4px;">Loading live SCCR…</p>
+  <p id="sccr-meta">Live SCCR measured continuously from captured fee data (see <a href="/research/working-paper.html">the working paper (Storage Cost Internalization in Bitcoin's Fee Market)</a> and <a href="/research/reproduce/">the reproduction kit</a>).</p>
+  <p style="font-size:.9rem;color:#9B8B78;margin-top:8px;">New research: <a href="/research/cost-to-flood.html">Cost to Flood</a> — the attacker-side measurement (leverage ratio 3.0×) · <a href="/research/governance-boundary.html">The Governance Boundary</a> — BIP-110 as a live experiment.</p>
+  <p id="sccr-freshness" style="font-size:.8rem;color:#6A5D4E;margin-top:4px;">Loading live SCCR…</p>
  </div>
 
  <div class="bsahi-section" id="sccr-dashboard">
