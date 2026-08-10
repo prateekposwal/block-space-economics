@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Bitcoin Sahi research archive — every article from day one to today. Data storytelling on Bitcoin block space economics, storage costs, and governance, by Prateek Poswal (Independent Researcher).">
+<meta name="keywords" content="bitcoin block space, storage cost coverage ratio, bitcoin fees, mempool, BIP-110, bitcoin governance, bitcoin storage economics, bitcoin research">
+<meta property="og:title" content="BSAHI — The Research Archive">
+<meta property="og:description" content="Every Bitcoin Sahi article from day one: block space economics, the Storage Cost Coverage Ratio, BIP-110, and the cost of permanence — told as data stories.">
+<meta property="og:url" content="https://bitcoinsahi.com/articles.html">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="author" content="Prateek Poswal">
+<link rel="canonical" href="https://bitcoinsahi.com/articles.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Blog","name":"Bitcoin Sahi Research Archive","description":"Data storytelling on Bitcoin block space economics","publisher":{"@type":"Person","name":"Prateek Poswal"}}
+</script>
+<title>BSAHI — Research Archive | Bitcoin Block Space Economics</title>
+<style>
+:root{--bg:#1A1612;--card:#1F1B16;--border:#3A3228;--fg:#E8E5E0;--muted:#9B8B78;--accent:#F7931A;--gold:#D4933A;--blue:#58A6FF;--green:#3FB950;--red:#F85149}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.75}
+header{background:#231F19;border-bottom:1px solid var(--border);padding:14px 20px;position:sticky;top:0;z-index:50}
+.header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:6px;flex-wrap:wrap}
+.nav a{padding:6px 12px;font-size:.8rem;color:var(--muted);text-decoration:none;border-radius:6px;transition:all .2s}
+.nav a:hover{color:var(--fg);background:#2A251E}
+.nav a.active{background:#2A251E;color:var(--fg)}
+.container{max-width:1100px;margin:0 auto;padding:28px 20px 70px}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--border);margin-bottom:26px}
+.hero h1{color:var(--accent);font-size:1.9rem;margin-bottom:10px}
+.hero p{color:var(--muted);max-width:800px;font-size:1rem}
+.byline{display:flex;align-items:center;gap:12px;margin-top:16px;padding:14px;background:#231F19;border:1px solid var(--border);border-radius:10px;max-width:420px}
+.byline .avatar{width:42px;height:42px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;color:#171310;font-size:1.1rem}
+.byline .name{font-weight:700;color:var(--fg)}
+.byline .role{font-size:.8rem;color:var(--muted)}
+.timeline{position:relative;margin-top:10px}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--border)}
+.article{border:1px solid var(--border);border-radius:12px;background:var(--card);padding:20px 22px;margin:0 0 18px 34px;position:relative;transition:all .2s}
+.article:hover{border-color:var(--accent);transform:translateX(3px)}
+.article::before{content:'';position:absolute;left:-30px;top:24px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg)}
+.article .date{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.article h2{margin:6px 0 8px;font-size:1.15rem;color:var(--fg)}
+.article h2 a{color:var(--fg);text-decoration:none}
+.article h2 a:hover{color:var(--accent)}
+.article .excerpt{color:var(--muted);font-size:.92rem;margin-bottom:10px}
+.article .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.article .tag{background:#2A251E;border:1px solid var(--border);border-radius:16px;padding:3px 10px;font-size:.7rem;color:var(--muted)}
+.tag.measure{color:var(--accent)}.tag.governance{color:var(--blue)}.tag.attack{color:var(--red)}.tag.foundation{color:var(--green)}.tag.history{color:var(--gold)}
+.article .read{color:var(--accent);font-size:.85rem;text-decoration:none;font-weight:600}
+.article .read:hover{text-decoration:underline}
+footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-size:.8rem;color:var(--muted)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
+footer .links a{color:var(--muted);text-decoration:none}
+footer .links a:hover{color:var(--accent)}
+@media(max-width:600px){.hero h1{font-size:1.4rem}.article{margin-left:26px;padding:16px}.article::before{left:-26px}}
+</style>
+</head>
+<body>
+<header><div class="header-inner"><a href="/" class="brand">⬡ BSAHI</a><nav class="nav">
+<a href="/">Home</a><a href="/live">Live Fees</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/story.html">Data Story</a><a href="/articles.html" class="active">Articles</a>
+</nav></div></header>
+
+<div class="container">
+<div class="hero">
+  <h1>The Bitcoin Sahi Research Archive</h1>
+  <p>Every article from day one to today — told as a data story. We measure what Bitcoin's fee market prices, and what it leaves unpriced: the cost of storing data forever.</p>
+  <div class="byline">
+    <div class="avatar">P</div>
+    <div>
+      <div class="name">Prateek Poswal</div>
+      <div class="role">Independent Researcher · Bitcoin Sahi Research · <a href="https://orcid.org/0009-0005-2139-1877" style="color:var(--accent);text-decoration:none;">ORCID 0009-0005-2139-1877</a></div>
+    </div>
+  </div>
+</div>
+
+<div class="timeline">
+
+  <!-- 2026-07-30 -->
+  <div class="article">
+    <div class="date">July 30, 2026 · Day One</div>
+    <h2><a href="/research/working-paper.html">Day One: We Started Measuring What Bitcoin's Fees Don't Cover</a></h2>
+    <div class="excerpt">The founding question: does Bitcoin's fee market pay for the storage it permanently creates? We built a live data platform with a Bitcoin Core node and five research agents to find out.</div>
+    <div class="tags"><span class="tag measure">fees</span><span class="tag foundation">foundation</span></div>
+    <a class="read" href="/research/working-paper.html">Read the measurement →</a>
+  </div>
+
+  <!-- 2026-07-31 -->
+  <div class="article">
+    <div class="date">July 31, 2026</div>
+    <h2><a href="/research/problem_statement.html">The Fee Market Prices the Next Block — Not the Next Decade</a></h2>
+    <div class="excerpt">A one-sentence frame for the whole program: Bitcoin's fee market prices competition for the next block, but not the long-term resource costs of permanently recorded data. Here's the question, stated plainly.</div>
+    <div class="tags"><span class="tag measure">fees</span><span class="tag foundation">thesis</span></div>
+    <a class="read" href="/research/problem_statement.html">Read the framing →</a>
+  </div>
+
+  <!-- 2026-08-01 -->
+  <div class="article">
+    <div class="date">August 1, 2026</div>
+    <h2><a href="/research/verification_appendix.html">We Found a 10× Error in Our Own Number — and Fixed It</a></h2>
+    <div class="excerpt">The story of internal validation: a duplicated time-horizon term inflated storage cost by 10×. We corrected it, regenerated every value, and confirmed the conclusion survived. Honesty is the methodology.</div>
+    <div class="tags"><span class="tag measure">correction</span><span class="tag foundation">integrity</span></div>
+    <a class="read" href="/research/verification_appendix.html">Read the reconciliation →</a>
+  </div>
+
+  <!-- 2026-08-02 -->
+  <div class="article">
+    <div class="date">August 2, 2026</div>
+    <h2><a href="/research/history-of-bitcoin.html">History of Bitcoin: The Fee Market Was Never Designed to Price Storage</a></h2>
+    <div class="excerpt">From cypherpunk origins to Ordinals — a block-space-economics reading of Bitcoin's history, and why the SegWit witness discount became the pricing structure inscriptions use today.</div>
+    <div class="tags"><span class="tag history">history</span><span class="tag measure">segwit</span></div>
+    <a class="read" href="/research/history-of-bitcoin.html">Read the history →</a>
+  </div>
+
+  <!-- 2026-08-03 -->
+  <div class="article">
+    <div class="date">August 3, 2026</div>
+    <h2><a href="/research/whitepaper-patterns.html">The Whitepaper's Hidden Pattern: Engineered Asymmetry</a></h2>
+    <div class="excerpt">We cleared the blackboard and read the whitepaper as a freshly discovered manuscript. The master pattern: every mechanism makes correct action cheap and incorrect action expensive.</div>
+    <div class="tags"><span class="tag history">whitepaper</span><span class="tag foundation">patterns</span></div>
+    <a class="read" href="/research/whitepaper-patterns.html">Read the patterns →</a>
+  </div>
+
+  <!-- 2026-08-04 -->
+  <div class="article">
+    <div class="date">August 4, 2026</div>
+    <h2><a href="/research/cost-to-flood.html">Cost to Flood: What It Actually Costs to Attack Bitcoin's Storage</a></h2>
+    <div class="excerpt">A reviewer asked: "a nation state could flood your computer with garbage." We priced the attack. Filling every block costs ~$65M/yr and imposes ~$197M of storage cost — a 3× leverage ratio. Dust is the surprise: its real threat is RAM, not storage.</div>
+    <div class="tags"><span class="tag attack">attack surface</span><span class="tag measure">externality</span></div>
+    <a class="read" href="/research/cost-to-flood.html">Read the attack pricing →</a>
+  </div>
+
+  <!-- 2026-08-05 -->
+  <div class="article">
+    <div class="date">August 5, 2026</div>
+    <h2><a href="/research/satoshi-primary-source-note.html">What Satoshi Actually Said About Storage, Fees, and Nodes</a></h2>
+    <div class="excerpt">Verified verbatim from the Satoshi Nakamoto Institute: "storage should not be a problem," the node-equilibrium prediction, and the block-size cap as a "circuit breaker." Primary sources, quoted exactly.</div>
+    <div class="tags"><span class="tag history">primary sources</span><span class="tag foundation">satoshi</span></div>
+    <a class="read" href="/research/satoshi-primary-source-note.html">Read the sources →</a>
+  </div>
+
+  <!-- 2026-08-06 -->
+  <div class="article">
+    <div class="date">August 6, 2026</div>
+    <h2><a href="/research/validation-cost.html">The Validation Leg: Cheap Per Block, Cheap Per Node — and That's the Finding</a></h2>
+    <div class="excerpt">Validation is the one cost every node pays that can't be pruned. Our order-of-magnitude survey: ~$0.5–5/yr per node, with a falsifiable claim — under $100/yr, central estimate $1–2. The four-resource model gets its third leg.</div>
+    <div class="tags"><span class="tag measure">4-resource</span><span class="tag foundation">validation</span></div>
+    <a class="read" href="/research/validation-cost.html">Read the survey →</a>
+  </div>
+
+  <!-- 2026-08-07 -->
+  <div class="article">
+    <div class="date">August 7, 2026</div>
+    <h2><a href="/research/bip141_analysis.html">SegWit's 4:1 Discount: The Pricing Structure Inscriptions Walk Through</a></h2>
+    <div class="excerpt">The witness discount made witness data 4× cheaper per byte in block weight — a 2017 malleability fix that became 2023's inscription subsidy. Whether it prices permanence is the research question.</div>
+    <div class="tags"><span class="tag measure">segwit</span><span class="tag history">bip141</span></div>
+    <a class="read" href="/research/bip141_analysis.html">Read the analysis →</a>
+  </div>
+
+  <!-- 2026-08-08 -->
+  <div class="article">
+    <div class="date">August 8, 2026</div>
+    <h2><a href="/research/governance-boundary.html">BIP-110: A Live Experiment in Who Controls Bitcoin</a></h2>
+    <div class="excerpt">Hashrate concentration isn't protocol control. UASF/URSF are coordination mechanisms, not proof of who holds power. BIP-110's mandatory-signaling window is a natural experiment in the governance boundary — and we're recording it hourly.</div>
+    <div class="tags"><span class="tag governance">governance</span><span class="tag measure">bip110</span></div>
+    <a class="read" href="/research/governance-boundary.html">Read the boundary →</a>
+  </div>
+
+  <!-- 2026-08-09 -->
+  <div class="article">
+    <div class="date">August 9, 2026</div>
+    <h2><a href="/research/utxo_cost_note.html">The UTXO Set: 29.9 KB of Permanent State Per Block, Measured Live</a></h2>
+    <div class="excerpt">The UTXO set is the index every node carries. We wired `utxo_size_inc` end-to-end and measured it live: ~29.9 KB of net permanent state per block, 165 backfilled heights. The fourth resource leg is now data, not assumption.</div>
+    <div class="tags"><span class="tag measure">utxo</span><span class="tag foundation">4-resource</span></div>
+    <a class="read" href="/research/utxo_cost_note.html">Read the UTXO leg →</a>
+  </div>
+
+  <!-- 2026-08-10 -->
+  <div class="article">
+    <div class="date">August 10, 2026 · Today</div>
+    <h2><a href="/research/pruning_externality_analysis.html">Pruning Doesn't Escape the Cost — It Just Moves It</a></h2>
+    <div class="excerpt">Pruned nodes still download and verify every block. Storage is avoidable; bandwidth and CPU are not. The pruning note answers the "just prune" objection: the unavoidable burden is real, though small today.</div>
+    <div class="tags"><span class="tag measure">pruning</span><span class="tag foundation">externality</span></div>
+    <a class="read" href="/research/pruning_externality_analysis.html">Read the analysis →</a>
+  </div>
+
+</div>
+
+<p style="margin-top:28px;color:var(--muted);font-size:.9rem;text-align:center;">New measurements every day. <a href="/story.html" style="color:var(--accent)">See the live data story →</a></p>
+</div>
+
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/story.html">Data Story</a><a href="/articles.html">Articles</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>
