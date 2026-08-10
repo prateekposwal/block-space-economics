@@ -7,6 +7,7 @@
 // This source records the ACTUAL signaling behavior during the window.
 var path = require('path');
 var https = require('https');
+var fs = require('fs');
 
 var REPO = path.resolve(__dirname, '..', '..');
 
@@ -70,6 +71,15 @@ async function run() {
     data: out,
     fetchedAt: new Date().toISOString()
   }, { captureTime: ts, day: day, producer: 'bip110-capture', expectedIntervalMinutes: 60 });
+
+  // Public snapshot bridge: write latest to data/bip110.json so the website's
+  // story.html can fetch it (captured-data/ is not served by GitHub Pages).
+  try {
+    var snapDir = path.join(REPO, 'data');
+    if (!fs.existsSync(snapDir)) fs.mkdirSync(snapDir, { recursive: true });
+    fs.writeFileSync(path.join(snapDir, 'bip110.json'), JSON.stringify(out, null, 2));
+    if (require.main === module) console.log('bip110 snapshot -> data/bip110.json');
+  } catch (e) { if (require.main === module) console.log('bip110 snapshot error: ' + e.message); }
 
   if (require.main === module) {
     console.log('bip110: height=' + out.height + ' inWindow=' + inWindow + ' signaling=' + out.signalingSharePct + '% (bit4) ' + (result.ok ? 'enqueued' : 'duplicate'));

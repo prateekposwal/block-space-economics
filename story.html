@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Bitcoin Sahi data story — live visuals of the SCCR trend, BIP-110 governance experiment, cost-to-flood attack surface, and the four-resource model. Bitcoin block space economics, told as data.">
+<meta property="og:title" content="BSAHI — The Data Story">
+<meta property="og:url" content="https://bitcoinsahi.com/story.html">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://bitcoinsahi.com/story.html">
+<title>BSAHI — The Data Story</title>
+<style>
+:root{--bg:#1A1612;--card:#1F1B16;--border:#3A3228;--fg:#E8E5E0;--muted:#9B8B78;--accent:#F7931A;--gold:#D4933A;--blue:#58A6FF;--green:#3FB950;--red:#F85149}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.7}
+header{background:#231F19;border-bottom:1px solid var(--border);padding:14px 20px;position:sticky;top:0;z-index:50}
+.header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:6px;flex-wrap:wrap}
+.nav a{padding:6px 12px;font-size:.8rem;color:var(--muted);text-decoration:none;border-radius:6px;transition:all .2s}
+.nav a:hover{color:var(--fg);background:#2A251E}
+.nav a.active{background:#2A251E;color:var(--fg)}
+.container{max-width:1100px;margin:0 auto;padding:28px 20px 70px}
+.hero{padding:26px 0 30px;border-bottom:1px solid var(--border);margin-bottom:26px}
+.hero h1{color:var(--accent);font-size:1.8rem;margin-bottom:8px}
+.hero p{color:var(--muted);max-width:760px;font-size:.98rem}
+.persona-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.persona-tags span{background:#2A251E;border:1px solid var(--border);border-radius:20px;padding:4px 14px;font-size:.75rem;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:22px}
+.card h2{color:var(--fg);font-size:1.15rem;margin-bottom:6px}
+.card .sub{color:var(--muted);font-size:.86rem;margin-bottom:14px}
+.metric-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.metric{background:#231F19;border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.metric .v{font-size:1.5rem;font-weight:700;color:var(--accent)}
+.metric .l{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
+canvas{width:100%;height:auto;background:#171310;border-radius:10px;display:block}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:.75rem;color:var(--muted)}
+.legend .sw{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:5px;vertical-align:middle}
+.callout{border-left:3px solid var(--accent);background:#2A251E;border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0;color:var(--muted);font-size:.9rem}
+.callout b{color:var(--fg)}
+.story-tag{display:inline-block;background:var(--accent);color:#171310;font-weight:700;font-size:.65rem;padding:2px 10px;border-radius:20px;margin-bottom:8px;letter-spacing:.04em}
+.story-tag.blue{background:var(--blue);color:#0B1220}
+.story-tag.green{background:var(--green);color:#0B1F10}
+.story-tag.red{background:var(--red);color:#1F0B0B}
+footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-size:.8rem;color:var(--muted)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
+footer .links a{color:var(--muted);text-decoration:none}
+footer .links a:hover{color:var(--accent)}
+@media(max-width:600px){
+  .hero h1{font-size:1.4rem}
+  .metric-row{grid-template-columns:repeat(2,1fr)}
+  .card{padding:16px}
+  header{padding:10px 12px}
+}
+</style>
+</head>
+<body>
+<header><div class="header-inner"><a href="/" class="brand">⬡ BSAHI</a><nav class="nav">
+<a href="/">Home</a><a href="/live">Live Fees</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/story.html" class="active">Data Story</a>
+</nav></div></header>
+
+<div class="container">
+<div class="hero">
+  <span class="story-tag">THE DATA STORY</span>
+  <h1>Bitcoin's unpriced costs, told as data</h1>
+  <p>The fee market prices the next block. It does not price what that block permanently costs the network. Here is everything we measure — live, as it happens.</p>
+  <div class="persona-tags">
+    <span>⚡ Satoshi Block — fees & mempool</span>
+    <span>🔬 Hal Finney Jr — the ratio & method</span>
+    <span>📊 Lisa Nakamoto — the experiment</span>
+    <span>🧮 Wei Dai III — governance</span>
+    <span>📈 Nick Szabo Jr — the attack surface</span>
+  </div>
+</div>
+
+<!-- 1. BIP-110: THE LIVE EXPERIMENT -->
+<div class="card">
+  <span class="story-tag red">LIVE EXPERIMENT — CLOSES ~AUG 23</span>
+  <h2>BIP-110: the governance boundary, in real time</h2>
+  <p class="sub">The mandatory-signaling window (blocks 961632–963647) is open. Who signals bit 4? Who doesn't? The lock-in at height 963648 is guaranteed by node software, not miners — watch it happen.</p>
+  <div class="metric-row">
+    <div class="metric"><div class="v" id="bip-height">…</div><div class="l">Current height</div></div>
+    <div class="metric"><div class="v" id="bip-signaling">…</div><div class="l">Signaling (bit 4)</div></div>
+    <div class="metric"><div class="v" id="bip-until">…</div><div class="l">Blocks to lock-in</div></div>
+    <div class="metric"><div class="v" id="bip-status">…</div><div class="l">Window status</div></div>
+  </div>
+  <canvas id="bip-canvas" width="1000" height="220"></canvas>
+  <div class="legend"><span><span class="sw" style="background:#171310"></span>non-signaling block</span><span><span class="sw" style="background:var(--accent)"></span>signaling block</span><span><span class="sw" style="background:var(--red)"></span>window boundary</span><span><span class="sw" style="background:var(--blue)"></span>lock-in height</span></div>
+  <div class="callout"><b>The story:</b> a soft fork whose activation doesn't need miners — the enforcement clause is carried by node software. If signaling stays low but lock-in happens anyway, that's the governance boundary made visible: <b>miners can refuse, but they can't stop it.</b> Details: <a href="/research/governance-boundary.html" style="color:var(--accent)">governance-boundary note →</a></div>
+</div>
+
+<!-- 2. SCCR TREND -->
+<div class="card">
+  <span class="story-tag">THE FLAGSHIP METRIC</span>
+  <h2>The Storage Cost Coverage Ratio, over time</h2>
+  <p class="sub">Transaction fees ÷ modeled 10-year storage cost. Below 1.0 = fees don't cover what the data costs the network. Every measured day is below.</p>
+  <div class="metric-row">
+    <div class="metric"><div class="v" id="sccr-latest">…</div><div class="l">Latest SCCR</div></div>
+    <div class="metric"><div class="v" id="sccr-below">…</div><div class="l">Blocks below 1×</div></div>
+    <div class="metric"><div class="v" id="sccr-n">…</div><div class="l">Node census (N)</div></div>
+  </div>
+  <canvas id="sccr-canvas" width="1000" height="240"></canvas>
+  <div class="legend"><span><span class="sw" style="background:var(--accent)"></span>average SCCR per day</span><span><span class="sw" style="background:var(--red)"></span>the 1.0 line (full coverage)</span></div>
+  <div class="callout"><b>The story:</b> fees cover roughly 18–28% of what permanently-stored data costs full nodes. The unpriced remainder is an attack surface — see the cost-to-flood card. Paper: <a href="/research/working-paper.html" style="color:var(--accent)">working-paper →</a></div>
+</div>
+
+<!-- 3. COST TO FLOOD -->
+<div class="card">
+  <span class="story-tag blue">ATTACKER'S VIEW</span>
+  <h2>Cost to Flood: what a flood actually costs</h2>
+  <p class="sub">The attacker-side measurement: what it costs to impose permanent storage on every node — and how much more it costs the network.</p>
+  <div class="metric-row">
+    <div class="metric"><div class="v">3.0×</div><div class="l">Flood leverage (L)</div></div>
+    <div class="metric"><div class="v">0.9×</div><div class="l">Dust leverage (storage)</div></div>
+    <div class="metric"><div class="v">$65M</div><div class="l">Cost/yr to fill blocks</div></div>
+    <div class="metric"><div class="v">$197M</div><div class="l">10-yr node cost imposed</div></div>
+  </div>
+  <canvas id="leverage-canvas" width="1000" height="200"></canvas>
+  <div class="legend"><span><span class="sw" style="background:var(--blue)"></span>attacker pays</span><span><span class="sw" style="background:var(--accent)"></span>network bears (10-yr)</span><span><span class="sw" style="background:var(--red)"></span>leverage gap</span></div>
+  <div class="callout"><b>The story:</b> a nation-state budget makes flooding cheap, and every byte imposed outlives the fee that placed it. Dust's real threat isn't storage — it's RAM. Details: <a href="/research/cost-to-flood.html" style="color:var(--accent)">cost-to-flood note →</a></div>
+</div>
+
+<!-- 4. FOUR RESOURCE LEGS -->
+<div class="card">
+  <span class="story-tag green">THE FULL MODEL</span>
+  <h2>Four resources, four cost surfaces</h2>
+  <p class="sub">Storage, bandwidth, validation, UTXO — each is a different cost. The heatmap shows where the burden concentrates.</p>
+  <canvas id="legs-canvas" width="1000" height="260"></canvas>
+  <div class="legend"><span>cost per node per year (log scale)</span></div>
+  <div class="callout"><b>The story:</b> storage dominates the modeled burden; bandwidth and validation are analytically bounded and small today; UTXO is now measured live (~29.9 KB/block net growth). Each leg is a different attack surface. <a href="/research/validation-cost.html" style="color:var(--accent)">validation →</a></div>
+</div>
+
+</div>
+
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/story.html">Data Story</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+
+<script>
+// ─── helpers ───
+function fmt(n){return (Math.round(n*1000)/1000).toLocaleString()}
+function dpr(c){var d=window.devicePixelRatio||1;c.width=c.clientWidth*d;c.height=(c.clientHeight||200)*d;var x=c.getContext('2d');x.scale(d,d);return x}
+
+// ─── 1. BIP-110 live capture → canvas ───
+function drawBip(canvasId){
+  fetch('/data/bip110.json').then(function(r){return r.json()}).then(function(d){
+    if(!d||!d.height)return;
+    document.getElementById('bip-height').textContent=d.height.toLocaleString();
+    document.getElementById('bip-signaling').textContent=(d.signalingSharePct||0)+'%';
+    document.getElementById('bip-until').textContent=(d.window.blocksUntilLockIn||0).toLocaleString();
+    document.getElementById('bip-status').textContent=d.window.inWindow?'OPEN':'CLOSED';
+    var c=document.getElementById(canvasId);var x=dpr(c);
+    var W=c.clientWidth||1000,H=200;x.clearRect(0,0,W,H);
+    var start=d.window.start,end=d.window.end,lock=d.window.lockIn,h=d.height;
+    var span=lock-start+300;
+    var px=function(hh){return (hh-start)/span*W};
+    // window fill
+    x.fillStyle='#231F19';x.fillRect(px(start),0,px(end)-px(start),H);
+    // each block marker
+    (d.signaling||[]).forEach(function(b){
+      x.fillStyle=b.bit4?'#F7931A':'#3A3228';
+      x.fillRect(px(b.height)-2,10,4,H-20);
+    });
+    // lock-in line
+    x.strokeStyle='#58A6FF';x.lineWidth=2;x.beginPath();x.moveTo(px(lock),0);x.lineTo(px(lock),H);x.stroke();
+    // current height line
+    x.strokeStyle='#F7931A';x.lineWidth=2;x.beginPath();x.moveTo(px(h),0);x.lineTo(px(h),H);x.stroke();
+    x.fillStyle='#F7931A';x.font='11px sans-serif';x.fillText('current',px(h)+4,H-8);
+    x.fillStyle='#58A6FF';x.font='11px sans-serif';x.fillText('lock-in '+lock.toLocaleString(),Math.min(px(lock)+4,W-90),14);
+  }).catch(function(){});
+}
+// ─── 2. SCCR trend ───
+function drawSccr(canvasId){
+  fetch('/data/sccr_history.json').then(function(r){return r.json()}).then(function(j){
+    var pts=j.payload||[];
+    if(pts.length<1)return;
+    document.getElementById('sccr-latest').textContent=fmt(pts[pts.length-1].avg_sccr);
+    document.getElementById('sccr-below').textContent=(pts[pts.length-1].below_1x_pct||100)+'%';
+    fetch('/data/sccr.json').then(function(r){return r.json()}).then(function(s){document.getElementById('sccr-n').textContent=s.N.toLocaleString()}).catch(function(){});
+    var c=document.getElementById(canvasId);var x=dpr(c);
+    var W=c.clientWidth||1000,H=240;x.clearRect(0,0,W,H);
+    var mx=Math.max.apply(null,pts.map(function(p){return p.avg_sccr}))*1.3,mi=0;
+    var W2=W-50,H2=H-30;
+    var py=function(v){return H-20-(v-mi)/(mx-mi)*H2};
+    // 1.0 line
+    x.strokeStyle='#F85149';x.setLineDash([4,4]);x.beginPath();x.moveTo(30,py(1));x.lineTo(W,py(1));x.stroke();x.setLineDash([]);
+    x.fillStyle='#F85149';x.font='11px sans-serif';x.fillText('1.0 = full coverage',34,py(1)-4);
+    // bars
+    var bw=W2/pts.length*.6;
+    pts.forEach(function(p,i){
+      var bx=30+i*W2/pts.length+W2/pts.length*.2;
+      var bh=H-20-py(p.avg_sccr);
+      var g=x.createLinearGradient(0,py(p.avg_sccr),0,H-20);
+      g.addColorStop(0,'#F7931A');g.addColorStop(1,'#8a5310');
+      x.fillStyle=g;x.fillRect(bx,py(p.avg_sccr),bw,bh);
+      x.fillStyle='#E8E5E0';x.font='10px sans-serif';x.fillText(p.date.slice(5),bx,H-6);
+      x.fillStyle='#F7931A';x.fillText(fmt(p.avg_sccr),bx,py(p.avg_sccr)-4);
+    });
+  }).catch(function(){});
+}
+// ─── 3. leverage bars ───
+function drawLeverage(canvasId){
+  var c=document.getElementById(canvasId);var x=dpr(c);
+  var W=c.clientWidth||1000,H=200;x.clearRect(0,0,W,H);
+  var items=[{l:'Attacker pays (1 yr)',v:65,c:'#58A6FF'},{l:'Network bears (10 yr)',v:197,c:'#F7931A'}];
+  var mx=230;
+  items.forEach(function(it,i){
+    var y=30+i*60;
+    var bw=it.v/mx*(W-60);
+    x.fillStyle=it.c;x.fillRect(60,y,bw,36);
+    x.fillStyle='#E8E5E0';x.font='12px sans-serif';x.fillText(it.l,60,y+24);
+    x.fillStyle=it.c;x.font='bold 13px sans-serif';x.fillText('$'+it.v+'M',60+bw+8,y+24);
+  });
+  // leverage gap note
+  x.fillStyle='#F85149';x.font='bold 15px sans-serif';x.fillText('leverage 3.0×',60,190);
+}
+// ─── 4. resource legs heatmap ───
+function drawLegs(canvasId){
+  var c=document.getElementById(canvasId);var x=dpr(c);
+  var W=c.clientWidth||1000,H=260;x.clearRect(0,0,W,H);
+  var legs=[
+    {n:'Storage (measured)',v:17.6,c:'#F7931A'},
+    {n:'Bandwidth (bound)',v:3.94,c:'#58A6FF'},
+    {n:'Validation (bound)',v:2,c:'#3FB950'},
+    {n:'UTXO (measured)',v:0.23,c:'#58A6FF'}
+  ];
+  var mx=20;
+  legs.forEach(function(leg,i){
+    var y=24+i*50;
+    var bw=Math.log10(leg.v+1)/Math.log10(mx+1)*(W-80);
+    x.fillStyle=leg.c;x.fillRect(80,y,bw,32);
+    x.fillStyle='#E8E5E0';x.font='12px sans-serif';x.fillText(leg.n,80,y+22);
+    x.fillStyle=leg.c;x.font='bold 12px sans-serif';x.fillText('$'+leg.v+'/node/yr',80+bw+8,y+22);
+  });
+}
+// ─── init on load ───
+window.addEventListener('load',function(){
+  drawBip('bip-canvas');
+  drawSccr('sccr-canvas');
+  drawLeverage('leverage-canvas');
+  drawLegs('legs-canvas');
+  // refresh BIP-110 every 5 min (it's live)
+  setInterval(function(){drawBip('bip-canvas')},300000);
+});
+</script>
+</body>
+</html>
