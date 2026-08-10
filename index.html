@@ -106,9 +106,20 @@
       #nav-links a { padding: 8px 14px; font-size: 12px; min-width: 120px; }
     }
 
+    @media (max-width: 480px) {
+      #nav-links { bottom: 6px !important; right: 8px !important; left: 8px !important; flex-direction: row !important; flex-wrap: wrap !important; gap: 6px !important; justify-content: center !important; }
+      #nav-links a { min-width: 0 !important; flex: 1 1 calc(50% - 6px) !important; max-width: none !important; padding: 8px 10px !important; font-size: 12px !important; justify-content: center !important; }
+      .bottom-area { bottom: 120px !important; }
+      .legend-toggle { top: 12px !important; right: 12px !important; bottom: auto !important; }
+      .legend-panel { top: 50px !important; bottom: auto !important; right: 12px !important; }
+    }
+
     @media (max-width: 380px) {
       #dollar-context { top: 48%; font-size: 9px; }
       #narrative-frame { top: 51%; }
+      #nav-links a { font-size: 11px; padding: 7px 8px; }
+      .bottom-area { bottom: 112px; }
+      .legend-toggle { top: 10px; right: 10px; }
     }
   @media (prefers-reduced-motion: reduce) {
     .state-bar, .bottom-area, .legend-panel { animation: none !important; transition: none !important; }
