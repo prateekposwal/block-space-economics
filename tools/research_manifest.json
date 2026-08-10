@@ -2,26 +2,79 @@
   "groups": [
     {
       "name": "The Paper",
-      "description": "The Bitcoin Resource Accounting flagship — the Storage Cost Coverage Ratio measurement and its supporting research.",
+      "description": "The Bitcoin Resource Accounting flagship \u2014 the Storage Cost Coverage Ratio measurement and its supporting research.",
       "items": [
-        { "file": "working-paper.md", "title": "The Working Paper", "desc": "Storage Cost Internalization in Bitcoin's Fee Market — the full SCCR measurement (v2.2.0), reconciliation, and 4-resource model." },
-        { "file": "problem_statement.md", "title": "Problem Statement", "desc": "The one-sentence framing: the fee market prices the next block, not permanence." },
-        { "file": "verification_appendix.md", "title": "Verification Appendix", "desc": "Model reconciliation (the 10x bug), reproducibility note, and the full evidence chain." },
-        { "file": "bip141_analysis.md", "title": "SegWit & Block Composition", "desc": "How the 4:1 witness discount became the pricing structure inscriptions use." },
-        { "file": "pruning_externality_analysis.md", "title": "Pruning Externality", "desc": "What pruned nodes still pay: download + verify is unavoidable, storage is avoidable." },
-        { "file": "utxo_cost_note.md", "title": "UTXO Cost Model", "desc": "The marginal cost of permanent inscription data, byte by byte." },
-        { "file": "history-of-bitcoin.md", "title": "History of Bitcoin", "desc": "A block-space-economics reading of Bitcoin's history, from cypherpunk origins to Ordinals." }
+        {
+          "file": "working-paper.md",
+          "title": "The Working Paper",
+          "desc": "Storage Cost Internalization in Bitcoin's Fee Market \u2014 the full SCCR measurement (v2.2.0), reconciliation, and 4-resource model."
+        },
+        {
+          "file": "problem_statement.md",
+          "title": "Problem Statement",
+          "desc": "The one-sentence framing: the fee market prices the next block, not permanence."
+        },
+        {
+          "file": "verification_appendix.md",
+          "title": "Verification Appendix",
+          "desc": "Model reconciliation (the 10x bug), reproducibility note, and the full evidence chain."
+        },
+        {
+          "file": "bip141_analysis.md",
+          "title": "SegWit & Block Composition",
+          "desc": "How the 4:1 witness discount became the pricing structure inscriptions use."
+        },
+        {
+          "file": "pruning_externality_analysis.md",
+          "title": "Pruning Externality",
+          "desc": "What pruned nodes still pay: download + verify is unavoidable, storage is avoidable."
+        },
+        {
+          "file": "utxo_cost_note.md",
+          "title": "UTXO Cost Model",
+          "desc": "The marginal cost of permanent inscription data, byte by byte."
+        },
+        {
+          "file": "history-of-bitcoin.md",
+          "title": "History of Bitcoin",
+          "desc": "A block-space-economics reading of Bitcoin's history, from cypherpunk origins to Ordinals."
+        }
       ]
     },
     {
       "name": "New Research (2026-08)",
-      "description": "The attacker-side and governance measurements — born from the community review.",
+      "description": "The attacker-side and governance measurements \u2014 born from the community review.",
       "items": [
-        { "file": "cost-to-flood.md", "title": "Cost to Flood", "desc": "The attacker-side storage externality: leverage ratio L = 3.0x, dust L = 0.9x, bounded at 52.6 GB/yr." },
-        { "file": "governance-boundary.md", "title": "The Governance Boundary", "desc": "BIP-110 as a live natural experiment: who can change valid-state transition rules, under what threshold." },
-        { "file": "validation-cost.md", "title": "Validation Cost", "desc": "The CPU leg of the 4-resource model — order-of-magnitude survey and a falsifiable claim." },
-        { "file": "satoshi-primary-source-note.md", "title": "Satoshi Primary Sources", "desc": "What Satoshi actually wrote about storage, fees, and node equilibrium — verified verbatim." },
-        { "file": "whitepaper-patterns.md", "title": "Whitepaper Patterns", "desc": "The cleared-the-blackboard lens: the master pattern, the pattern lattice, verified anchors." }
+        {
+          "file": "cost-to-flood.md",
+          "title": "Cost to Flood",
+          "desc": "The attacker-side storage externality: leverage ratio L = 3.0x, dust L = 0.9x, bounded at 52.6 GB/yr."
+        },
+        {
+          "file": "governance-boundary.md",
+          "title": "The Governance Boundary",
+          "desc": "BIP-110 as a live natural experiment: who can change valid-state transition rules, under what threshold."
+        },
+        {
+          "file": "validation-cost.md",
+          "title": "Validation Cost",
+          "desc": "The CPU leg of the 4-resource model \u2014 order-of-magnitude survey and a falsifiable claim."
+        },
+        {
+          "file": "satoshi-primary-source-note.md",
+          "title": "Satoshi Primary Sources",
+          "desc": "What Satoshi actually wrote about storage, fees, and node equilibrium \u2014 verified verbatim."
+        },
+        {
+          "file": "whitepaper-patterns.md",
+          "title": "Whitepaper Patterns",
+          "desc": "The cleared-the-blackboard lens: the master pattern, the pattern lattice, verified anchors."
+        },
+        {
+          "file": "sccr-trend-note.md",
+          "title": "The Externality Is Growing",
+          "desc": "SCCR trend week of Aug 2026 \u2014 fees cover less as the fee market cools; the unpriced storage cost is growing. The research team now correlates this live."
+        }
       ]
     }
   ],

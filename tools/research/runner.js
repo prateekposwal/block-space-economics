@@ -120,6 +120,18 @@ async function runCycle() {
     }
   }
 
+  // ── Analyst layer: convert raw fetcher data into RESEARCH (trends, signals) ──
+  try {
+    var analyst = require('./analyst.js');
+    var insights = analyst.runAnalysts();
+    var db2 = require('../db/init.js');
+    insights.forEach(function(ins) {
+      results.push({ agent: ins.agent, findings: [ins.finding], timestamp: new Date().toISOString() });
+      db2.insertResearchFinding(ins.agent, ins.finding.slice(0, 120), ins.finding, '', 0.85, 'research-analysis', '', STATE.cycleCount);
+      log('  Research Analyst: ' + ins.finding.slice(0, 70));
+    });
+  } catch (e) { log('Analyst layer error: ' + e.message); }
+
   STATE.lastRun = Date.now();
   STATE.lastResults = results;
   saveState();
