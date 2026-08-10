@@ -113,40 +113,37 @@ function submitBeta(e){
   e.preventDefault();
   var msg = document.getElementById('msg');
   var btn = document.getElementById('submit-btn');
-  var data = {
-    name: document.getElementById('name').value,
-    email: document.getElementById('email').value,
-    product: document.getElementById('product').value,
-    source: 'beta.html'
-  };
-  btn.disabled = true; btn.textContent = 'Registering…';
-  // POST to the local de-server beta endpoint (the source of truth).
-  // If unreachable, fall back to a mailto record (still captured).
+  var name = document.getElementById('name').value.trim();
+  var email = document.getElementById('email').value.trim();
+  var product = document.getElementById('product').value;
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ msg.className='msg err'; msg.textContent='Please enter a valid email.'; return false; }
+  btn.disabled = true; btn.textContent = 'Opening registration…';
+
+  // PRIMARY: serverless registration — open the GitHub issue form (no local server needed).
+  // Public users can self-register; a bot records them into the beta program.
+  var issueUrl = 'https://github.com/prateekposwal/block-space-economics/issues/new?template=beta-registration.yml'
+    + '&title=' + encodeURIComponent('Beta: ' + name)
+    + '&body=' + encodeURIComponent('### Your name\n' + name + '\n\n### Your email\n' + email + '\n\n### Which product?\n' + product);
+  window.open(issueUrl, '_blank');
+
+  // Also try the local de-server as a fast-path (records instantly if reachable).
   fetch('http://localhost:3456/beta/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+    body: JSON.stringify({ name: name, email: email, product: product, source: 'beta.html' })
   }).then(function(r){ return r.json(); }).then(function(res){
     btn.disabled = false; btn.textContent = 'Claim my free beta spot';
-    if(res.ok){
-      if(res.status === 'registered'){
-        msg.className = 'msg ok';
-        msg.innerHTML = '🎉 You\'re in — beta spot #' + (res.spot || '—') + '! Free for 6 months (until ' + (res.expiry ? res.expiry.slice(0,10) : '') + '). We\'ll email your access details.';
-      } else {
-        msg.className = 'msg ok';
-        msg.innerHTML = 'The 100 spots are full. You\'re on the waitlist — we\'ll notify you when a spot opens.';
-      }
-      setStatus({ registered: res.spot ? res.spot : 100, open: res.status === 'registered' });
+    if(res.ok && res.status === 'registered'){
+      msg.className = 'msg ok';
+      msg.innerHTML = '🎉 Registered locally — beta spot #' + (res.spot||'—') + '! Free until ' + (res.expiry ? res.expiry.slice(0,10) : '') + '. Access key issued.';
     } else {
-      msg.className = 'msg err';
-      msg.innerHTML = res.error || 'Something went wrong. Please try again.';
+      msg.className = 'msg ok';
+      msg.innerHTML = '✅ Registration opened. Complete the GitHub form to lock your spot — the bot records it automatically.';
     }
   }).catch(function(){
     btn.disabled = false; btn.textContent = 'Claim my free beta spot';
-    // Fallback: open a mailto with the details so the signup is still captured.
     msg.className = 'msg ok';
-    msg.innerHTML = 'Registration is being recorded. If you don\'t get a confirmation email shortly, email us directly: <strong>beta@bitcoinsahi.com</strong> with your name + email + product.';
-    window.location.href = 'mailto:beta@bitcoinsahi.com?subject=' + encodeURIComponent('BSAHI Beta: ' + data.name) + '&body=' + encodeURIComponent('Name: ' + data.name + '\nEmail: ' + data.email + '\nProduct: ' + data.product);
+    msg.innerHTML = '✅ Registration opened in a new tab. Complete the form — the bot records your beta spot (first 100 get 6 months free). If the form didn\'t open, email <strong>beta@bitcoinsahi.com</strong>.';
   });
   return false;
 }

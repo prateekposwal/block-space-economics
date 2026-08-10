@@ -1,0 +1,44 @@
+name: Beta Registration
+description: Claim your free BSAHI beta spot (first 100 users, 6 months free)
+title: "Beta: [Your name]"
+labels: [beta]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Welcome to the BSAHI beta 🎉
+
+        First **100 users** get free access to the **Send Widget** and **SCCR Index**
+        for **six months**. No card required.
+
+        Fill in your details below — a bot will process your registration and
+        email-free record your beta spot + access key here in this issue.
+
+  - type: input
+    id: name
+    attributes:
+      label: Your name
+      placeholder: "e.g. Ada Lovelace"
+    validations:
+      required: true
+
+  - type: input
+    id: email
+    attributes:
+      label: Your email
+      description: Used to issue your beta access key. Stored in data/beta-users.json.
+      placeholder: "you@company.com"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: product
+    attributes:
+      label: Which product?
+      options:
+        - Send Widget
+        - SCCR Index
+        - Both
+      default: 0
+    validations:
+      required: true

@@ -1,0 +1,73 @@
+name: Beta Registration (serverless)
+
+# The public, serverless registration endpoint. A user opens a "Beta Registration"
+# issue; this workflow processes it, records the user into data/beta-users.json
+# via the same beta-manager logic, commits, and closes + labels the issue.
+# No local server required — GitHub Actions is the endpoint.
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    if: startsWith(github.event.issue.title, 'Beta:') || contains(github.event.issue.labels.*.name, 'beta')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.SNAPSHOT_PAT }}
+          ref: main
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Process beta registration
+        id: process
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+        run: |
+          # Extract name, email, product from the issue body
+          NAME=$(echo "$ISSUE_BODY" | grep -iA1 "Your name" | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | tr -d '\r' | cut -c1-80)
+          EMAIL=$(echo "$ISSUE_BODY" | grep -iA1 "Your email" | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | tr -d '\r')
+          PRODUCT=$(echo "$ISSUE_BODY" | grep -iA2 "Which product" | tail -1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | tr -d '\r' | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
+          # Validate email format
+          if ! echo "$EMAIL" | grep -qE '^[^@]+@[^@]+\.[^@]+$'; then
+            echo "result=invalid-email" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "email=$EMAIL" >> "$GITHUB_OUTPUT"
+          echo "product=$PRODUCT" >> "$GITHUB_OUTPUT"
+          echo "result=valid" >> "$GITHUB_OUTPUT"
+
+      - name: Record user via beta-manager
+        if: steps.process.outputs.result == 'valid'
+        run: |
+          node tools/agents/27-beta-manager.js --register "${{ steps.process.outputs.email }}" "${{ steps.process.outputs.name }}" "${{ steps.process.outputs.product }}" "github-issue" > /tmp/beta-result.json
+          cat /tmp/beta-result.json
+
+      - name: Commit + push the registration
+        if: steps.process.outputs.result == 'valid'
+        run: |
+          git config user.name "bsahi-snapshot-bot"
+          git config user.email "snapshot@bitcoinsahi.com"
+          git add data/beta-users.json data/beta-status.json
+          git diff --cached --quiet || { git commit -m "chore: beta registration (issue #${{ github.event.issue.number }})"; git pull --rebase origin main || true; git push; }
+
+      - name: Close + label the issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.SNAPSHOT_PAT }}
+        run: |
+          if [ "${{ steps.process.outputs.result }}" == "valid" ]; then
+            gh issue close ${{ github.event.issue.number }} --comment "✅ Registered! You're in the BSAHI beta. Check data/beta-users.json for your spot + access key." 
+          else
+            gh issue close ${{ github.event.issue.number }} --comment "❌ Invalid email — please reopen with a valid email address." --reason "not planned"
+          fi
