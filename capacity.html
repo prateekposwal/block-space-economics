@@ -86,7 +86,7 @@ a:hover{color:#E8B86D}
 
 .footer{border-top:1px solid #3A3228;padding:24px;text-align:center;font-size:.85rem;color:#6A5D4E;margin-top:40px}
 
-#settlement-canvas{width:100%;height:480px;border-radius:12px;background:#1A1612;border:1px solid #3A3228;margin-bottom:24px}
+#settlement-canvas{width:100%;height:auto;min-height:200px;border-radius:12px;background:#1A1612;border:1px solid #3A3228;margin-bottom:24px}
 
 @media(max-width:600px){
   .compact-grid{grid-template-columns:repeat(2,1fr)}
@@ -123,7 +123,7 @@ a:hover{color:#E8B86D}
 
 <div class="container">
 
-<canvas id="settlement-canvas" style="display:block;width:100%;max-width:100%;box-sizing:border-box;height:480px;border-radius:12px;background:#1A1612;border:1px solid #3A3228;margin-bottom:24px;"></canvas>
+<canvas id="settlement-canvas" style="display:block;width:100%;max-width:100%;box-sizing:border-box;height:auto;min-height:200px;border-radius:12px;background:#1A1612;border:1px solid #3A3228;margin-bottom:24px;"></canvas>
 
 <div class="stat-row" style="margin-bottom:24px;">
   <div class="stat-card" style="flex:1;background:#231F19;border:1px solid #D4933A;border-radius:12px;padding:16px;text-align:center;">
@@ -344,16 +344,20 @@ var settlementAnimTotal = 0;
 function resizeSet() {
   var r = setCanvas.parentElement.getBoundingClientRect();
   var dpr = window.devicePixelRatio || 1;
-  setW = setCanvas.width = Math.round((r.width || 900) * dpr);
-  setH = setCanvas.height = Math.round(480 * dpr);
-  setCanvas.style.width = (r.width || 900) + 'px';
-  setCanvas.style.height = '480px';
+  var cssW = r.width || 900;
+  // Proportional height: the settlement canvas is wide-format (900x480 = 1.875:1).
+  // On narrow/mobile viewports scale height proportionally so the graph never distorts.
+  var cssH = Math.max(200, Math.round(cssW / 1.875));
+  setW = setCanvas.width = Math.round(cssW * dpr);
+  setH = setCanvas.height = Math.round(cssH * dpr);
+  setCanvas.style.width = cssW + 'px';
+  setCanvas.style.height = cssH + 'px';
   setCtx.scale(dpr, dpr);
 }
 
 function drawSettlement() {
   var w = setW / (window.devicePixelRatio || 1);
-  var h = 480;
+  var h = setH / (window.devicePixelRatio || 1);
   var t = Date.now() / 1000;
   setCtx.fillStyle = '#1A1612';
   setCtx.fillRect(0, 0, w, h);

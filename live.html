@@ -110,7 +110,10 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
 .skeleton-hidden{display:none}
 
 @media(max-width:600px){
-  .fee-grid,.stat-row{flex-direction:column}
+  .fee-grid{flex-direction:column}
+  .stat-row{flex-direction:row;flex-wrap:wrap}
+  .stat-row>*{flex:1 1 calc(50% - 5px);min-width:0}
+  .stat-row>*:last-child:nth-child(odd){flex:1 1 100%}
   .viz-canvas{height:400px}
   .dc{padding:20px}
   .dc .dc-a{font-size:1.5rem}
@@ -131,6 +134,20 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
   .dc .dc-q { font-size: 15px; }
   .dc .dc-a { font-size: 24px; }
   .dc .dc-sub { font-size: 12px; }
+  .brief-card { padding: 8px 12px; margin: 8px 0; }
+  .brief-content { font-size: .72rem; }
+  .viz-canvas { height: 220px !important; }
+  #panel-node .stat-card { padding: 8px 6px; }
+  #panel-node .sc-value { font-size: 1rem; }
+  #panel-node .stat-row { margin: 8px 0; gap: 6px; }
+  #panel-node .dc { padding: 12px 14px; margin-bottom: 8px; }
+  #panel-node .dc-a { font-size: 20px; margin: 2px 0; }
+  #panel-node .dc-q { font-size: 14px; margin-bottom: 2px; }
+  #panel-node .dc-sub { font-size: 11px; }
+  .tab-panel .dc > div:last-child { gap: 4px !important; margin-top: 6px !important; padding-top: 6px !important; }
+  .tab-panel .dc > div:last-child > span { font-size: 10px !important; line-height: 1.2 !important; }
+  #capacity-indicator { max-width: 100%; white-space: normal; }
+  #live-state, #live-state-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 45%; }
   .fee-card { padding: 12px; }
   .fee-card .fc-label{font-size:.65rem}
   .fee-card .fc-value{font-size:1.125rem}

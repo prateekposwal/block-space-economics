@@ -536,12 +536,15 @@ var chainLinks = [];
 function resizeHero() {
   var r = heroCanvas.parentElement.getBoundingClientRect();
   heroW = heroCanvas.width = Math.min(r.width || 800, 900);
-  heroH = heroCanvas.height = 480;
+  // Proportional height (900:480 = 1.875:1) so the block graph never distorts
+  // on narrow/mobile viewports. The CSS media query height is overridden by
+  // this inline set so the canvas matches its internal resolution.
+  heroH = Math.round(heroW / 1.875);
+  heroCanvas.style.width = heroW + 'px';
+  heroCanvas.style.height = heroH + 'px';
   if (window.devicePixelRatio > 1) {
     heroCanvas.width = heroW * 2;
     heroCanvas.height = heroH * 2;
-    heroCanvas.style.width = heroW + 'px';
-    heroCanvas.style.height = heroH + 'px';
     heroCtx.scale(2, 2);
   }
 }
