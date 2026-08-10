@@ -99,20 +99,28 @@ async function runCycle() {
     log('Derived metrics: computed + enqueued');
   } catch (e) { log('Derived metrics error: ' + e.message); }
 
-  // Step 4c: Node geo distribution (11) — every 24 cycles (~daily) to respect geo-lookup rate limits
+  // Step 4c: Node geo distribution (11) — daily (time-based, robust to restarts).
   try {
-    if (STATE.cycleCount % 24 === 0) {
+    var _d = new Date();
+    var _day = _d.toISOString().slice(0, 10);
+    if (STATE.lastNodeGeoDay !== _day) {
       var nodeGeo = require('../../tools/agents/11-node-geo.js');
       await nodeGeo.run();
+      STATE.lastNodeGeoDay = _day;
       log('Node geo: distribution refreshed');
     }
   } catch (e) { log('Node geo error: ' + e.message); }
 
-  // Step 4d: Node census (25) — real getnodeaddresses count; daily
+  // Step 4d: Node census (25) — real getnodeaddresses count; daily.
+  // Time-based gate (not cycle-count): runs once per calendar day, robust to
+  // DE-server restarts that reset cycleCount and previously skipped days.
   try {
-    if (STATE.cycleCount % 24 === 0) {
+    var _now = new Date();
+    var _today = _now.toISOString().slice(0, 10);
+    if (STATE.lastNodeCensusDay !== _today) {
       var nodeCensus = require('../../tools/agents/25-node-census.js');
       var census = await nodeCensus.run();
+      STATE.lastNodeCensusDay = _today;
       log('Node census: ' + (census.totalKnownAddresses || 0) + ' known addresses');
     }
   } catch (e) { log('Node census error: ' + e.message); }
@@ -126,13 +134,14 @@ async function runCycle() {
     log('BIP-110: height=' + bip.height + ' signaling=' + (bip.signalingSharePct || 0) + '% bit4 (window=' + (bip.window ? bip.window.inWindow : 'n/a') + ')');
   } catch (e) { log('BIP-110 capture error: ' + e.message); }
 
-  // Step 4f: Research runner (5 fetcher agents) — daily (~24 cycles); was only in
-  // run-all.js (manual) so research findings went stale. Keeps the paper's
-  // evidence current. Each cycle fetches Core/Lightning/APIs/General/Academic.
+  // Step 4f: Research runner (5 fetcher agents) — daily (time-based, robust).
   try {
-    if (STATE.cycleCount % 24 === 0) {
+    var _r = new Date();
+    var _rd = _r.toISOString().slice(0, 10);
+    if (STATE.lastResearchDay !== _rd) {
       var researchRunner = require('../../tools/research/runner.js');
       await researchRunner.runCycle();
+      STATE.lastResearchDay = _rd;
       log('Research runner: 5 fetcher agents cycled');
     }
   } catch (e) { log('Research runner error: ' + e.message); }
