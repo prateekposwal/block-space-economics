@@ -17,12 +17,13 @@
 <title>Utxo Cost Note — BSAHI Research</title>
 <style>body{background:#1A1612;color:#E8E5E0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;padding:0}
 header{background:#231F19;border-bottom:1px solid #3A3228;padding:16px 24px}
-.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
 .brand{color:#F7931A;font-weight:700;text-decoration:none;font-size:1.1rem}
-.nav{display:flex;gap:14px;align-items:center}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
 .nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:#9B8B78;border-radius:6px;text-decoration:none;transition:all .2s}
 .nav-item:hover{color:#EADCC8;background:#2A251E}
 .nav-item.active{background:#2A251E;color:#EADCC8}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
 .container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
 h1{color:#F7931A;font-size:1.9rem;margin:0 0 8px}
 h2{color:#EADCC8;font-size:1.3rem;margin:28px 0 12px}
