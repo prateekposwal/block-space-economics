@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>try{if(!localStorage.getItem('bsahi_beta_key'))location.replace('/beta-login.html?next='+encodeURIComponent(location.pathname));}catch(e){}</script>
+<meta name="robots" content="noindex,nofollow">
+
 <meta name="description" content="What Satoshi actually wrote about storage, fees, and node equilibrium Bitcoin block space economics research from BSAHI — live fee, mempool, and settlement data">
 <meta property="og:title" content="Satoshi-Primary-Source-Note">
 <meta property="og:type" content="article">
@@ -11,6 +14,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#1A1612">
 <link rel="canonical" href="https://bitcoinsahi.com/research/satoshi-primary-source-note.html">
+<script src="/js/beta-gate.js" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Satoshi-Primary-Source-Note","item":"https://bitcoinsahi.com/research/satoshi-primary-source-note.html"}]}
 </script>
@@ -42,9 +46,10 @@ hr{border:none;border-top:1px solid #3A3228;margin:24px 0}
 footer{border-top:1px solid #3A3228;padding:24px;text-align:center;font-size:.85rem;color:#6A5D4E}
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:#6A5D4E;text-decoration:none}
-footer .links a:hover{color:#D4933A}</style>
+footer .links a:hover{color:#D4933A}
+body.gated .container{display:none}</style>
 </head>
-<body>
+<body class="gated">
 <header><div class="header-inner"><a href="/" class="brand">⬡ BSAHI</a><nav class="nav"><a href="/" class="nav-item">Home</a><a href="/live" class="nav-item">Live Fees</a><a href="/learn" class="nav-item">Learn</a><a href="/capacity" class="nav-item">Capacity</a><a href="/fork-tracker" class="nav-item">Fork Tracker</a><span class="nav-item active">Research</span></nav></div></header>
 <div class="container">
 <h1>Satoshi-Primary-Source-Note</h1>

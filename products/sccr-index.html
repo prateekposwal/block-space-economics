@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>try{if(!localStorage.getItem('bsahi_beta_key'))location.replace('/beta-login.html?next='+encodeURIComponent(location.pathname));}catch(e){}</script>
+<meta name="robots" content="noindex,nofollow">
 <meta name="description" content="BSAHI SCCR Index — the Storage Cost Coverage Ratio as a daily, reproducible index of Bitcoin's block-space storage economics. Like Fear & Greed, but for the cost of permanent data. Free beta.">
 <meta name="keywords" content="bitcoin index, storage cost, SCCR, block space economics, bitcoin data index">
 <meta property="og:title" content="BSAHI — SCCR Index (beta)">
@@ -11,6 +13,7 @@
 <meta property="og:type" content="product">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://bitcoinsahi.com/products/sccr-index.html">
+<script src="/js/beta-gate.js" defer></script>
 <title>BSAHI SCCR Index — Storage Cost Coverage (beta)</title>
 <style>
 :root{--bg:#0D1117;--card:#161B22;--border:#30363D;--fg:#F0F6FC;--muted:#8B949E;--accent:#F7931A;--green:#3FB950;--red:#F85149}
@@ -54,16 +57,19 @@ header{background:#161B22;border-bottom:1px solid var(--border);padding:14px 24p
 .history td{color:var(--fg)}
 .history .caveat{color:var(--muted);font-size:.82rem;margin-top:12px}
 footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-size:.8rem;color:var(--muted)}
+body.gated .container{display:none}
+.badge{display:inline-block;background:var(--green);color:#0D1117;font-weight:800;font-size:.75rem;padding:4px 14px;border-radius:20px;margin-bottom:10px}
 @media(max-width:600px){.hero h1{font-size:1.4rem}.container{padding:24px 16px 60px}.ticker .value{font-size:1.8rem}}
 </style>
 </head>
-<body>
+<body class="gated">
 <header><div class="header-inner"><a href="/" class="brand">⬡ BSAHI</a><nav class="nav">
 <a href="/">Home</a><a href="/learn">Learn</a><a href="/research">Research</a><a href="/products/send-widget.html">Send Widget</a><a href="/products/sccr-index.html" class="active">SCCR Index</a><a href="/beta.html">Join Beta</a>
 </nav></div></header>
 
 <div class="container">
 <div class="hero">
+  <span class="badge">🔒 Beta access — free for 6 months</span>
   <h1>The Storage Cost Coverage Index</h1>
   <p>Bitcoin's fee market prices the next block. It doesn't price what that block costs the network for the next decade. The <strong>SCCR</strong> measures that gap — a daily, reproducible index of Bitcoin's block-space storage economics. Fear &amp; Greed, but for permanence.</p>
   <div class="cta-row">

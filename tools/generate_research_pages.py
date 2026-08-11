@@ -8,6 +8,15 @@ RESEARCH = os.path.join(REPO, 'research')
 OUT = os.path.join(REPO, 'research')
 EXCLUDE = {'architect-notes.md'}
 
+# Gated docs: HTML is generated but requires the beta key (see js/beta-gate.js).
+# The synchronous head snippet redirects unauthenticated users to the beta login
+# before first paint; noindex keeps gated pages out of SEO. make_page() injects
+# these only when gated=True (manifest "gated" list).
+GATE_SNIPPET = "<script>try{if(!localStorage.getItem('bsahi_beta_key'))location.replace('/beta-login.html?next='+encodeURIComponent(location.pathname));}catch(e){}</script>"
+GATE_NOINDEX = '<meta name="robots" content="noindex,nofollow">'
+GATE_SCRIPT = '<script src="/js/beta-gate.js" defer></script>'
+GATE_CSS = '\nbody.gated .container{display:none}'
+
 NAV = '''<nav class="nav"><a href="/" class="nav-item">Home</a><a href="/live" class="nav-item">Live Fees</a><a href="/learn" class="nav-item">Learn</a><a href="/capacity" class="nav-item">Capacity</a><a href="/fork-tracker" class="nav-item">Fork Tracker</a><span class="nav-item active">Research</span></nav>'''
 
 STYLE = '''body{background:#1A1612;color:#E8E5E0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;padding:0}
@@ -189,12 +198,18 @@ def make_desc(title, first_para_text):
     return d[:165]
 
 
-def make_page(name, title, desc, body, breadcrumb):
+def make_page(name, title, desc, body, breadcrumb, gated=False):
+    gate_head = GATE_SNIPPET + '\n' if gated else ''
+    gate_noindex = GATE_NOINDEX + '\n' if gated else ''
+    gate_script = GATE_SCRIPT + '\n' if gated else ''
+    gate_css = GATE_CSS if gated else ''
+    body_class = ' class="gated"' if gated else ''
     return '''<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+''' + gate_head + gate_noindex + '''
 <meta name="description" content="''' + html.escape(desc[:160]) + '''">
 <meta property="og:title" content="''' + title + '''">
 <meta property="og:type" content="article">
@@ -203,13 +218,13 @@ def make_page(name, title, desc, body, breadcrumb):
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#1A1612">
 <link rel="canonical" href="https://bitcoinsahi.com/research/''' + name + '''.html">
-<script type="application/ld+json">
+''' + gate_script + '''<script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"''' + title + '''","item":"https://bitcoinsahi.com/research/''' + name + '''.html"}]}
 </script>
 <title>''' + title + ''' — BSAHI Research</title>
-<style>''' + STYLE + '''</style>
+<style>''' + STYLE + gate_css + '''</style>
 </head>
-<body>
+<body''' + body_class + '''>
 <header><div class="header-inner"><a href="/" class="brand">⬡ BSAHI</a>''' + NAV + '''</div></header>
 <div class="container">
 <h1>''' + title + '''</h1>
@@ -232,6 +247,7 @@ def main():
     except Exception:
         manifest = {}
     internal = set(manifest.get('internal', []))
+    gated = set(manifest.get('gated', []))
     # INTERNAL docs: do NOT generate public HTML at all (they hold plans, personal
     # names, review drafts). They remain .md sources only — never served as pages.
     exclude = EXCLUDE | internal
@@ -244,7 +260,7 @@ def main():
         title = humanize(name)
         desc = make_desc(title, first_para(text))
         body = render_md(text)
-        page = make_page(name, title, desc, body, None)
+        page = make_page(name, title, desc, body, None, gated=(name in gated))
         with open(os.path.join(OUT, name + '.html'), 'w') as fh:
             fh.write(page)
         summaries.append((name, title, first_para(text)))
@@ -252,8 +268,10 @@ def main():
 
     # index page — manifest-driven, grouped, curated (internal/working docs excluded)
     def _item_html(it):
-        return '<li><a href="/research/%s.html">%s</a><div class="rd">%s</div></li>' % (
-            it['file'].replace('.md', ''), html.escape(it['title']), html.escape(it['desc']))
+        nm = it['file'].replace('.md', '')
+        badge = '<span class="badge">🔒 Beta</span>' if nm in gated else ''
+        return '<li><a href="/research/%s.html">%s</a> %s<div class="rd">%s</div></li>' % (
+            nm, html.escape(it['title']), badge, html.escape(it['desc']))
 
     groups_html = ''
     for grp in manifest.get('groups', []):
@@ -282,6 +300,7 @@ def main():
 .rlist a:hover{color:#F7931A}
 .rd{color:#9B8B78;font-size:.9rem;margin-top:4px;line-height:1.6}
 .rg{color:#9B8B78;font-size:.95rem;margin-bottom:16px}
+.rlist .badge{display:inline-block;background:#F7931A;color:#0D1117;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:8px;vertical-align:middle}
 </style></head>
 <body>
 <header><div class="header-inner"><a href="/" class="brand">⬡ BSAHI</a>''' + NAV + '''</div></header>
