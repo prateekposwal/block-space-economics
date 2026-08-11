@@ -146,10 +146,12 @@
     var formWrap = document.querySelector('#beta-form');
     if (!formWrap) return;
     var msg = document.getElementById('msg');
+    var nudge = document.querySelector('.login-nudge');
     var name = (user && user.name) || (email || '').split('@')[0] || 'member';
     var exp = (user && user.expiry) ? String(user.expiry).slice(0, 10) : '';
     formWrap.style.display = 'none';
     if (msg) msg.style.display = 'none';
+    if (nudge) nudge.style.display = 'none';
     var panel = document.createElement('div');
     panel.style.cssText = 'text-align:center;padding:18px 8px;';
     panel.innerHTML =
