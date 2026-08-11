@@ -1155,3 +1155,21 @@ Every session in this repo MUST honor these load-bearing rules:
 - Quality: degraded
 - Forecast: holt-linear-trend · stable · regime=normal (99 pts)
 - M4: 3/7 clean cycles · bridgeFlipped=false
+## Session Handoff — 2026-08-11T00:59:16.862Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 67 · bridge=on · M4 cleanCycles=4/7
+- Forecast: holt-linear-trend · rising · rmse=0.985 (103 pts)
+
+### Decisions Made
+- M4 gate: cleanCycles=4/7 (no flip)
+
+### Open Issues
+- DB: error ratio 36% > 20%
+- 1 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · rising · regime=normal (103 pts)
+- M4: 4/7 clean cycles · bridgeFlipped=false

@@ -1,5 +1,5 @@
-# Research Agent Report — 2026-08-01
-Cycle: 1 | Generated: 2026-08-01 19:13:20 UTC
+# Research Agent Report — 2026-08-11
+Cycle: 1 | Generated: 2026-08-11 00:58:33 UTC
 
 ## Summary
 
@@ -10,6 +10,8 @@ Cycle: 1 | Generated: 2026-08-01 19:13:20 UTC
 | APIs & Data Sources | 5 | ✅ |
 | Blockchain General | 3 | ✅ |
 | Academic Research | 1 | ✅ |
+| Research Analyst | 1 | ✅ |
+| Research Analyst | 1 | ✅ |
 
 ## Bitcoin Core & Protocol
 
@@ -19,27 +21,35 @@ Cycle: 1 | Generated: 2026-08-01 19:13:20 UTC
 
 ## Lightning Network
 
-- LND latest: v0.20.2-beta
+- LND latest: v0.21.2-beta.rc1
 - CLN latest: v26.06.6
-- LN Network: 17186 nodes, 38300 channels, 4303.5 BTC capacity
+- LN Network: 16567 nodes, 34500 channels, 4033.0 BTC capacity
 
 ## APIs & Data Sources
 
 - Data source health: 4/4 endpoints responding
 - Mempool blocks: 8 blocks in queue
 - Last mempool block fee range: N/A sat/vB
-- Difficulty adjustment: 0.8%
-- Blocks until next adjustment: 1023
+- Difficulty adjustment: -1.3%
+- Blocks until next adjustment: 1712
 
 ## Blockchain General
 
 - Trending Bitcoin repos: bitcoinbook/bitcoinbook, UFund-Me/Qbot, solana-labs/solana
-- DeFiLlama Bitcoin data: 1961 data points
-- BTC: $62,543 (24h: -0.71%)
+- DeFiLlama Bitcoin data: 1970 data points
+- BTC: $63,969 (24h: -1.51%)
 
 ## Academic Research
 
 - No new papers found this cycle
+
+## Research Analyst
+
+- SCCR trend: 0.251183 (+0% vs 0.251179) — the unpriced storage externality is SHRINKING as fees rise.
+
+## Research Analyst
+
+- SCCR 0.251183 at N=32K census: fee-market-driven (node count stable at the census lower bound), so the drop reflects fee cooling, not node growth.
 
 ## 🧑‍🔧 Architect's Research Notes
 

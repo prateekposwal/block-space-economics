@@ -8,9 +8,9 @@
 
 ## 1. Access
 
-- Page: `https://bitcoinsahi.com/admin.html`
-- **Requires the admin key** (default `bsahi-admin`, overridable via `ADMIN_KEY` env on the de-server)
-- The dashboard loads from the local de-server (`localhost:3456/admin/dashboard`) — it's an internal tool, not public-facing (noindex)
+- Page: `http://localhost:3456/admin` (local de-server only — NOT on the public site; loopback-bound, never deployed to GitHub Pages)
+- **Requires the admin key** (`ADMIN_KEY` env on the de-server; no default — 503 if unset)
+- The dashboard loads same-origin from the local de-server (`/admin/dashboard`) — it's an internal tool, not public-facing
 - Auto-refreshes every 60 seconds
 
 ## 2. What it shows
@@ -57,7 +57,7 @@ separate numbers.
 
 ## 5. Security
 
-- Admin key is the de-server's `ADMIN_KEY` env or default `bsahi-admin`
+- Admin key is the de-server's `ADMIN_KEY` env (no default — the key is required, not optional)
 - Change it: set `ADMIN_KEY` in the launchd plist environment, restart de-server
 - The dashboard is local-only (the public page shows login but the data fetch
   requires the local server)

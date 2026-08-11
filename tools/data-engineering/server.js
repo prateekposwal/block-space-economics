@@ -142,7 +142,15 @@ var server = http.createServer(function(req, res) {
     var vk = u.searchParams.get('key');
     jsonResponse(res, betaMgr.verifyKey(vk));
 
-  } else if (route === '/admin/dashboard' || route === '/admin') {
+  } else if (route === '/admin') {
+    // Serve the local admin UI (from local-admin.html, NOT on the public site).
+    try {
+      var html = require('fs').readFileSync(path.join(__dirname, '..', '..', 'local-admin.html'), 'utf8');
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(html);
+    } catch (e) { jsonResponse(res, { error: 'local-admin.html missing' }, 500); }
+
+  } else if (route === '/admin/dashboard') {
     // Admin dashboard aggregate (architect's view). Key-protected — no default key;
     // the ADMIN_KEY env MUST be set or admin endpoints are disabled entirely.
     var adminKey = process.env.ADMIN_KEY;
@@ -246,7 +254,9 @@ var server = http.createServer(function(req, res) {
   }
 });
 
-server.listen(PORT, function() {
+// Loopback-only: this is a LOCAL admin/ops server. Binding 127.0.0.1 means the
+// unauthenticated endpoints can't be reached from the LAN — architect-only.
+server.listen(PORT, '127.0.0.1', function() {
   console.log('DE Server running on http://localhost:' + PORT);
   // AUTO_START: launchd KeepAlive restarts must self-heal the agent.
   // Set AUTO_START=1 in the plist env (or default to on for autonomous mode).
