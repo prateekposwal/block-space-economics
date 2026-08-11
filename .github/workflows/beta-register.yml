@@ -53,10 +53,24 @@ jobs:
           echo "result=valid" >> "$GITHUB_OUTPUT"
 
       - name: Record user via beta-manager
+        id: record
         if: steps.process.outputs.result == 'valid'
         run: |
           node tools/agents/27-beta-manager.js --register "${{ steps.process.outputs.email }}" "${{ steps.process.outputs.name }}" "${{ steps.process.outputs.product }}" "github-issue" > /tmp/beta-result.json
           cat /tmp/beta-result.json
+          # Surface spot / expiry / key / status so later steps can build the user-facing comment.
+          STATUS=$(node -e "var r=require('/tmp/beta-result.json');console.log(r.status||'error')")
+          SPOT=$(node -e "var r=require('/tmp/beta-result.json');console.log(r.spot!=null?r.spot:'')")
+          EXPIRY=$(node -e "var r=require('/tmp/beta-result.json');console.log(r.expiry?String(r.expiry).slice(0,10):'')")
+          KEY=$(node -e "var r=require('/tmp/beta-result.json');console.log(r.key||'')")
+          # Duplicates return a spot but no key — re-derive the deterministic key.
+          if [ "$STATUS" == "duplicate" ] && [ -z "$KEY" ] && [ -n "$SPOT" ]; then
+            KEY=$(node -e "var bm=require(process.cwd()+'/tools/agents/27-beta-manager.js');console.log(bm.makeKey('${{ steps.process.outputs.email }}', '$SPOT'))")
+          fi
+          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+          echo "spot=$SPOT" >> "$GITHUB_OUTPUT"
+          echo "expiry=$EXPIRY" >> "$GITHUB_OUTPUT"
+          echo "key=$KEY" >> "$GITHUB_OUTPUT"
 
       - name: Commit + push the registration
         if: steps.process.outputs.result == 'valid'
@@ -72,7 +86,17 @@ jobs:
           GH_TOKEN: ${{ secrets.SNAPSHOT_PAT }}
         run: |
           if [ "${{ steps.process.outputs.result }}" == "valid" ]; then
-            gh issue close ${{ github.event.issue.number }} --comment "✅ Registered! You're in the BSAHI beta. Check data/beta-users.json for your spot + access key." 
+            if [ "${{ steps.record.outputs.status }}" == "duplicate" ]; then
+              gh issue close ${{ github.event.issue.number }} --comment "✅ You're already in the BSAHI beta (spot #${{ steps.record.outputs.spot }}). Lost your key? Here it is again:
+              Beta access key: \`${{ steps.record.outputs.key }}\`
+              Log in at https://bitcoinsahi.com/beta-login.html"
+            else
+              gh issue close ${{ github.event.issue.number }} --comment "✅ You're in the BSAHI beta!
+              Spot: #${{ steps.record.outputs.spot }}
+              Free until: ${{ steps.record.outputs.expiry }}
+              Beta access key: \`${{ steps.record.outputs.key }}\`
+              Log in at https://bitcoinsahi.com/beta-login.html"
+            fi
           else
             gh issue close ${{ github.event.issue.number }} --comment "❌ Invalid email — please reopen with a valid email address." --reason "not planned"
           fi

@@ -41,7 +41,7 @@ footer{border-top:1px solid var(--border);padding:20px;text-align:center;font-si
 
 <div class="container">
   <h1>Beta login</h1>
-  <p class="sub">Enter your beta access key to unlock the full product experience. Your key was emailed when you registered.</p>
+  <p class="sub">Enter your beta access key to unlock the full product experience. Your key was in the confirmation email from GitHub when you registered.</p>
 
   <div class="card">
     <form id="login-form" onsubmit="return doLogin(event)">
@@ -67,6 +67,30 @@ footer{border-top:1px solid var(--border);padding:20px;text-align:center;font-si
 <footer>Bitcoin Sahi — beta access</footer>
 
 <script>
+function verifyKeyStatic(key){
+  // Mirrors tools/agents/27-beta-manager.js verifyKey() — runs client-side
+  // against the public data/beta-users.json (static Pages, no server needed).
+  var decoded, parts;
+  try {
+    decoded = atob(String(key || '').replace(/-/g, '+').replace(/_/g, '/'));
+    parts = decoded.split('|');
+  } catch(e){ return { ok:false, error:'Invalid key format.' }; }
+  if(parts.length !== 3 || parts[2] !== 'bsahi-beta') return { ok:false, error:'Invalid key format.' };
+  var email = parts[0], spot = parts[1];
+  return fetch('/data/beta-users.json').then(function(r){ return r.json(); }).then(function(users){
+    var u = (users.users||[]).find(function(x){ return x.email === email; });
+    if(!u) return { ok:false, error:'No beta user found for this key. Check your email or contact beta@bitcoinsahi.com.' };
+    // Re-derive and compare the deterministic key (email|spot|bsahi-beta).
+    var expect = btoa(email + '|' + (u.spot||spot) + '|bsahi-beta').replace(/=+$/,'');
+    if(String(key).replace(/=+$/,'') !== expect) return { ok:false, error:'Key does not match your registration.' };
+    if(!u.active) return { ok:false, error:'Account not active. Contact beta@bitcoinsahi.com.' };
+    if(u.expiry && new Date(u.expiry) < new Date()) return { ok:false, error:'Beta expired ' + String(u.expiry).slice(0,10) + '. Contact beta@bitcoinsahi.com.' };
+    return { ok:true, user:u };
+  }).catch(function(){
+    return { ok:false, error:'Could not load the beta roster. If you have a beta key, email beta@bitcoinsahi.com for access.' };
+  });
+}
+
 function doLogin(e){
   e.preventDefault();
   var msg = document.getElementById('msg');
@@ -74,7 +98,7 @@ function doLogin(e){
   if(!key){ msg.className='msg err'; msg.textContent='Enter your key.'; return false; }
   var btn = document.getElementById('login-btn');
   btn.disabled = true; btn.textContent = 'Verifying…';
-  fetch('/beta/verify?key=' + encodeURIComponent(key)).then(function(r){return r.json()}).then(function(res){
+  verifyKeyStatic(key).then(function(res){
     btn.disabled = false; btn.textContent = 'Unlock access';
     if(res.ok){
       document.getElementById('msg').className = 'msg';
@@ -88,10 +112,6 @@ function doLogin(e){
       msg.className = 'msg err';
       msg.textContent = res.error || 'Invalid key. Check your email or contact beta@bitcoinsahi.com.';
     }
-  }).catch(function(){
-    btn.disabled = false; btn.textContent = 'Unlock access';
-    msg.className = 'msg err';
-    msg.textContent = 'Verification service unreachable. If you have a beta key, email beta@bitcoinsahi.com for access.';
   });
   return false;
 }
