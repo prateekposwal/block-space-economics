@@ -16,6 +16,7 @@
   var KEY_NAME = 'bsahi_beta_key';
   var ROSTER_URL = '/data/beta-users.json';
   var CHIP_ID = 'bsahi-beta-chip';
+  var PANEL_ID = 'bsahi-beta-account-panel';
 
   function getKey() {
     try { return global.localStorage.getItem(KEY_NAME); } catch (e) { return null; }
@@ -140,20 +141,26 @@
     if (so) so.style.display = loggedIn ? '' : 'none';
   }
 
-  /* On beta.html, a logged-in member should NOT see the registration form —
-   * show their account state instead (they're already in the beta). */
+  /* On beta.html, a logged-in member should see ONLY their account panel —
+   * the ENTIRE visitor funnel is hidden (hero, status, perks, how-it-works,
+   * login nudge, registration form wrap incl. heading/sub/form/terms).
+   * Pattern rule: logged-in view = ONLY the account/identity surface. */
   function accountifyBetaPage(user, email) {
-    var formWrap = document.querySelector('#beta-form');
-    if (!formWrap) return;
-    var msg = document.getElementById('msg');
-    var nudge = document.querySelector('.login-nudge');
+    // beta.html-specific guard: the registration form only exists on this page,
+    // so this never fires (or hides anything) on product/home/nav pages.
+    if (!document.getElementById('beta-form')) return;
+    if (document.getElementById(PANEL_ID)) return; // already mounted
+    var container = document.querySelector('.container') || document.body;
     var name = (user && user.name) || (email || '').split('@')[0] || 'member';
     var exp = (user && user.expiry) ? String(user.expiry).slice(0, 10) : '';
-    formWrap.style.display = 'none';
-    if (msg) msg.style.display = 'none';
-    if (nudge) nudge.style.display = 'none';
-    var panel = document.createElement('div');
-    panel.style.cssText = 'text-align:center;padding:18px 8px;';
+    // Hide every visitor-funnel section — the account panel is the ONLY
+    // surface a logged-in member should see on beta.html.
+    var hideSelectors = ['.hero', '.status', '.perks', '#how-it-works', '.login-nudge', '.form-wrap'];
+    for (var i = 0; i < hideSelectors.length; i++) {
+      var nodes = document.querySelectorAll(hideSelectors[i]);
+      for (var j = 0; j < nodes.length; j++) nodes[j].style.display = 'none';
+    }
+    var panel = el('div', { id: PANEL_ID, style: 'text-align:center;padding:18px 8px;' });
     panel.innerHTML =
       '<div style="font-size:2.2rem;margin-bottom:8px">🎉</div>' +
       '<h2 style="color:var(--fg);margin:0 0 6px">You\'re in the BSAHI beta</h2>' +
@@ -163,7 +170,7 @@
       '<p style="margin:0 0 6px"><a href="/products/send-widget.html" style="color:var(--accent);font-weight:700">Send Widget — live verdict →</a></p>' +
       '<p style="margin:0 0 6px"><a href="/products/sccr-index.html" style="color:var(--accent);font-weight:700">SCCR Index — daily coverage →</a></p>' +
       '<p style="margin:0"><a href="/beta-login.html" style="color:var(--muted);font-size:.85rem">Manage account / Sign out</a></p>';
-    formWrap.parentNode.insertBefore(panel, formWrap);
+    container.appendChild(panel);
   }
 
   function init() {

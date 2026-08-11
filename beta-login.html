@@ -79,6 +79,16 @@ function safeNext(){
   return null;
 }
 
+/* Show the unlock panel for a verified user (shared by doLogin and the
+ * stored-key auto-reveal below). */
+function revealAccess(res){
+  document.getElementById('access').style.display = 'block';
+  document.getElementById('access-name').textContent = res.user.name || 'beta user';
+  document.getElementById('access-expiry').textContent = (res.user.expiry||'').slice(0,10) || '—';
+  document.getElementById('access-plan').textContent = res.user.plan || '—';
+  document.getElementById('key').value = '';
+}
+
 function doLogin(e){
   e.preventDefault();
   var msg = document.getElementById('msg');
@@ -93,11 +103,7 @@ function doLogin(e){
       var next = safeNext();
       if(next){ location.replace(next); return; } // ?next= set → go straight to the gated page
       document.getElementById('msg').className = 'msg';
-      document.getElementById('access').style.display = 'block';
-      document.getElementById('access-name').textContent = res.user.name || 'beta user';
-      document.getElementById('access-expiry').textContent = (res.user.expiry||'').slice(0,10) || '—';
-      document.getElementById('access-plan').textContent = res.user.plan || '—';
-      document.getElementById('key').value = '';
+      revealAccess(res);
     } else {
       msg.className = 'msg err';
       msg.textContent = res.error || 'Invalid key. Check your email or contact beta@bitcoinsahi.com.';
@@ -114,6 +120,22 @@ function signOut(){
 
 // Auto-fill from localStorage if previously verified
 try { var saved = localStorage.getItem('bsahi_beta_key'); if(saved) document.getElementById('key').value = saved; } catch(e){}
+
+// Stored-key member: don't make them re-submit the form — reveal the unlock
+// panel immediately (the intended logged-in view) and hide the login card +
+// intro, so a member never sees the visitor login funnel.
+try {
+  var savedKey = localStorage.getItem('bsahi_beta_key');
+  if (savedKey) {
+    verifyKeyStatic(savedKey).then(function (res) {
+      if (!res.ok) return; // stale/expired/invalid → leave the form for re-login
+      revealAccess(res);
+      var heading = document.querySelector('.container h1'); if (heading) heading.style.display = 'none';
+      var sub = document.querySelector('.sub'); if (sub) sub.style.display = 'none';
+      var card = document.querySelector('.card'); if (card) card.style.display = 'none';
+    });
+  }
+} catch(e){}
 
 // Reason banner when the gate bounced us here (?reason=expired|invalid)
 try {
