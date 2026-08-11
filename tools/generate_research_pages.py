@@ -203,6 +203,7 @@ def make_page(name, title, desc, body, breadcrumb, gated=False):
     gate_noindex = GATE_NOINDEX + '\n' if gated else ''
     gate_script = GATE_SCRIPT + '\n' if gated else ''
     gate_css = GATE_CSS if gated else ''
+    gate_nav = '\n<script src="/js/beta-nav.js" defer></script>' if gated else ''
     body_class = ' class="gated"' if gated else ''
     return '''<!DOCTYPE html>
 <html lang="en">
@@ -222,7 +223,7 @@ def make_page(name, title, desc, body, breadcrumb, gated=False):
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"''' + title + '''","item":"https://bitcoinsahi.com/research/''' + name + '''.html"}]}
 </script>
 <title>''' + title + ''' — BSAHI Research</title>
-<style>''' + STYLE + gate_css + '''</style>
+<style>''' + STYLE + gate_css + '''</style>''' + gate_nav + '''
 </head>
 <body''' + body_class + '''>
 <header><div class="header-inner"><a href="/" class="brand">⬡ BSAHI</a>''' + NAV + '''</div></header>
@@ -282,8 +283,11 @@ def main():
     index = '''<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+''' + GATE_SNIPPET + '''
+''' + GATE_NOINDEX + '''
 <meta name="description" content="The BSAHI open research library on Bitcoin block space economics — Bitcoin Resource Accounting: measuring how much of every long-lived resource cost the fee market internalizes. Live Bitcoin network data, updated continuously.">
 <meta property="og:title" content="BSAHI Research — Bitcoin Resource Accounting">
+''' + GATE_SCRIPT + '''
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"}]}
 </script>
@@ -292,7 +296,7 @@ def main():
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://bitcoinsahi.com/research/">
 <title>BSAHI Research — Bitcoin Resource Accounting</title>
-<style>''' + STYLE + '''
+<style>''' + STYLE + GATE_CSS + '''
 .rlist{list-style:none;padding:0;margin:0 0 32px}
 .rlist li{background:#1F1B16;border:1px solid #3A3228;border-radius:10px;padding:14px 18px;margin:0 0 12px;transition:all .2s}
 .rlist li:hover{border-color:#F7931A;transform:translateX(4px)}
@@ -301,8 +305,9 @@ def main():
 .rd{color:#9B8B78;font-size:.9rem;margin-top:4px;line-height:1.6}
 .rg{color:#9B8B78;font-size:.95rem;margin-bottom:16px}
 .rlist .badge{display:inline-block;background:#F7931A;color:#0D1117;font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:8px;vertical-align:middle}
-</style></head>
-<body>
+</style><script src="/js/beta-nav.js" defer></script>
+</head>
+<body class="gated">
 <header><div class="header-inner"><a href="/" class="brand">⬡ BSAHI</a>''' + NAV + '''</div></header>
 <div class="container">
 <h1>BSAHI Research</h1>
