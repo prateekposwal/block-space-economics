@@ -5,7 +5,8 @@ var PRECACHE = [
   '/', '/live', '/learn', '/capacity', '/fork-tracker', '/research',
   '/tools/data-engine.js', '/tools/viz-core.js', '/tools/viz-fees.js',
   '/tools/viz-send.js', '/tools/viz-lightning.js', '/tools/viz-exchange.js',
-  '/tools/viz-node.js', '/tools/viz-miner.js', '/tools/viz-research.js', '/tools/viz-developer.js'
+  '/tools/viz-node.js', '/tools/viz-miner.js', '/tools/viz-research.js', '/tools/viz-developer.js',
+  '/js/beta-gate.js', '/js/beta-nav.js'
 ];
 
 self.addEventListener('install', function(e) {

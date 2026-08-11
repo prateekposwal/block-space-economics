@@ -6,7 +6,7 @@ var ROOT = path.resolve(__dirname, '..');
 var ALL_HTML = ['index.html', 'live.html', 'learn.html', 'capacity.html', 'fork-tracker.html'];
  var ALL_JS = ['tools/data-engine.js', 'tools/viz-core.js', 'tools/viz-send.js', 'tools/viz-lightning.js',
    'tools/viz-exchange.js', 'tools/viz-node.js', 'tools/viz-miner.js', 'tools/viz-research.js', 'tools/viz-developer.js',
-   'js/beta-gate.js', 'sw.js'];
+   'js/beta-gate.js', 'js/beta-nav.js', 'sw.js'];
 var ALL_ViZ = ['tools/viz-send.js', 'tools/viz-lightning.js', 'tools/viz-exchange.js', 'tools/viz-node.js',
   'tools/viz-miner.js', 'tools/viz-research.js', 'tools/viz-developer.js'];
 
