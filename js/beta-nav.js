@@ -170,11 +170,17 @@
     var key = getKey();
     if (!key) return; // visitor — do nothing
 
+    // A present key IS the membership signal (key = base64(email|spot|bsahi-beta)).
+    // Swap CTAs SYNCHRONOUSLY from the key alone — never gated behind the roster
+    // fetch, so a stale/offline roster can't leave a member staring at "Join".
+    var parsed = decodeKey(key);
+    var onLoginPage = !!document.getElementById('login-signout');
+    if (parsed && !onLoginPage) swapCTAs({ email: parsed.email });
+
     verify(key).then(function (res) {
       var user = res.user;
       // The login page has its own Join/Sign out header toggle + unlock panel —
       // only toggle it there, don't duplicate the chip.
-      var onLoginPage = !!document.getElementById('login-signout');
       toggleLoginHeader(res.state);
       if (onLoginPage) return;
       if (res.state === 'ok') {

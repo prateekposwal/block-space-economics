@@ -1,6 +1,6 @@
 /* BSAHI Service Worker — precaches the static shell ONLY.
    Live data (/data/*, live_data.json) is network-first and never precached. */
-var CACHE = 'bsahi-shell-v1';
+var CACHE = 'bsahi-shell-v2';
 var PRECACHE = [
   '/', '/live', '/learn', '/capacity', '/fork-tracker', '/research',
   '/tools/data-engine.js', '/tools/viz-core.js', '/tools/viz-fees.js',
