@@ -66,6 +66,10 @@
     #narrative-text { font-size:13px;color:rgba(255,255,255,0.6);transition:opacity 1s;font-style:italic; }
 
     #metrics-ticker { position: fixed; bottom: 0; left: 0; width: 100vw; z-index: 15; overflow: hidden; white-space: nowrap; font-size: 11px; color: rgba(255,255,255,0.6); padding: 4px 0; background: #1A1612; border-top: 1px solid rgba(255,255,255,0.05); font-variant-numeric: tabular-nums; letter-spacing: 0.3px; }
+    #nav-links { position: fixed; bottom: 160px; right: 20px; z-index: 30; display: flex; flex-direction: column; gap: 10px; }
+    #nav-links a { display: flex; align-items: center; gap: 10px; padding: 14px 24px; background: #231F19; border: 1px solid #3A3228; border-radius: 12px; color: #EADCC8; font-size: 15px; font-weight: 600; text-decoration: none; transition: all 0.2s; min-width: 180px; }
+    #nav-links a:hover { border-color: #4A4034; }
+    #nav-links a span { color: #D4933A; font-weight: 800; font-size: 18px; }
     .ticker-track { display: inline-block; white-space: nowrap; padding-left: 0; animation: ticker-scroll 45s linear infinite; }
     .ticker-track span { display: inline-block; }
     .ticker-track .sep { margin: 0 10px; color: rgba(255,255,255,0.15); }
@@ -74,12 +78,13 @@
       100% { transform: translateX(-50%); }
     }
 
+    /* Mobile layout — consolidated from three contradictory duplicate blocks.
+       Final intent preserved: nav-links dock above the ticker, CTA floats above
+       them, legend toggle top-right, legend panel BELOW the fixed headline so
+       opening it never covers the H1. No !important crutches. */
     @media (max-width: 600px) {
-      .bottom-area { width: 90%; bottom: 42px; }
+      .bottom-area { width: 90%; }
       .bottom-area .cta { display: block; }
-      .legend-panel { right: 10px; width: 180px; }
-      .legend-toggle { bottom: 90px; right: 10px; }
-      .legend-panel { bottom: 130px; right: 10px; }
       #dollar-context { font-size: 12px; top: 54%; }
       #narrative-frame { top: 58%; }
       #narrative-frame #narrative-text { font-size: 11px; }
@@ -94,32 +99,29 @@
       #dollar-context { top: 50%; font-size: 10px; }
       #narrative-frame { top: 53%; }
       #narrative-text { font-size: 10px; }
-      .bottom-area { bottom: 38px; }
-      .bottom-area .cta { padding: 10px 20px; font-size: 14px; }
-      .bottom-area .hint { font-size: 10px; }
       #genesis-strip { bottom: 32px; }
       #metrics-ticker { font-size: 9px; padding: 3px 0; }
-      .legend-toggle { bottom: 80px; right: 8px; width: 28px; height: 28px; font-size: 12px; }
-      .legend-panel { bottom: 115px; right: 8px; width: 150px; padding: 12px; }
+      /* Legend: toggle top-right; panel opens below the fixed headline
+         (headline sits at top:110px, so 150px clears it). */
+      .legend-toggle { top: 12px; right: 12px; width: 28px; height: 28px; font-size: 12px; }
+      .legend-panel { top: 150px; right: 12px; width: 180px; padding: 12px; }
       .legend-panel .l-item { font-size: 10px; }
-      #nav-links { bottom: 120px; right: 8px; }
-      #nav-links a { padding: 8px 14px; font-size: 12px; min-width: 120px; }
-    }
-
-    @media (max-width: 480px) {
-      #nav-links { bottom: 40px !important; right: 8px !important; left: 8px !important; flex-direction: row !important; flex-wrap: wrap !important; gap: 4px !important; justify-content: center !important; }
-      #nav-links a { min-width: 0 !important; flex: 1 1 calc(33% - 4px) !important; max-width: none !important; padding: 7px 8px !important; font-size: 11px !important; justify-content: center !important; }
-      .bottom-area { bottom: 200px !important; }
-      .legend-toggle { top: 12px !important; right: 12px !important; bottom: auto !important; }
-      .legend-panel { top: 50px !important; bottom: auto !important; right: 12px !important; }
+      /* Nav dock: bottom bar above the ticker, buttons in a wrapped row. */
+      #nav-links { bottom: 40px; right: 8px; left: 8px; flex-direction: row; flex-wrap: wrap; gap: 4px; justify-content: center; }
+      #nav-links a { min-width: 0; flex: 1 1 calc(33% - 4px); max-width: none; padding: 7px 8px; font-size: 11px; justify-content: center; }
+      #nav-links a span { font-size: 14px; }
+      /* CTA floats above the nav dock so nothing overlaps. */
+      .bottom-area { bottom: 200px; }
+      .bottom-area .cta { padding: 10px 20px; font-size: 14px; }
+      .bottom-area .hint { font-size: 10px; }
     }
 
     @media (max-width: 380px) {
       #dollar-context { top: 48%; font-size: 9px; }
       #narrative-frame { top: 51%; }
       #nav-links a { font-size: 11px; padding: 7px 8px; }
-      .bottom-area { bottom: 200px; }
       .legend-toggle { top: 10px; right: 10px; }
+      .legend-panel { top: 148px; right: 10px; }
     }
   @media (prefers-reduced-motion: reduce) {
     .state-bar, .bottom-area, .legend-panel { animation: none !important; transition: none !important; }
@@ -173,10 +175,10 @@
       <div class="hint" style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:8px;">Hover over bars to see block details</div>
     </div>
 
-    <div id="nav-links" style="position:fixed;bottom:160px;right:20px;z-index:30;display:flex;flex-direction:column;gap:10px;">
-      <a href="/fork-tracker" style="display:flex;align-items:center;gap:10px;padding:14px 24px;background:#231F19;border:1px solid #3A3228;border-radius:12px;color:#EADCC8;font-size:15px;font-weight:600;text-decoration:none;transition:all 0.2s;min-width:180px;"><span style="color:#D4933A;font-weight:800;font-size:18px;">⬡</span> Fork Tracker</a>
-      <a href="/story.html" style="display:flex;align-items:center;gap:10px;padding:14px 24px;background:#231F19;border:1px solid #3A3228;border-radius:12px;color:#EADCC8;font-size:15px;font-weight:600;text-decoration:none;transition:all 0.2s;min-width:180px;"><span style="color:#D4933A;font-weight:800;font-size:18px;">◈</span> Data Story</a>
-      <a href="/beta.html" style="display:flex;align-items:center;gap:10px;padding:14px 24px;background:#231F19;border:1px solid #3A3228;border-radius:12px;color:#EADCC8;font-size:15px;font-weight:600;text-decoration:none;transition:all 0.2s;min-width:180px;"><span style="color:#D4933A;font-weight:800;font-size:18px;">✦</span> Beta</a>
+    <div id="nav-links">
+      <a href="/fork-tracker"><span>⬡</span> Fork Tracker</a>
+      <a href="/story.html"><span>◈</span> Data Story</a>
+      <a href="/beta.html"><span>✦</span> Beta</a>
     </div>
     </div>
 

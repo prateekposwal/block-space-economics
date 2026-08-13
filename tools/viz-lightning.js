@@ -72,17 +72,25 @@ var VIZ_Lightning = (function() {
   }
 
   function resize() {
-    var rect = canvas.parentElement ? canvas.parentElement.getBoundingClientRect() : { width: 800, height: 400 };
-    if (rect.width < 100) rect = { width: window.innerWidth, height: 600 };
-    w = canvas.width = rect.width || window.innerWidth;
-    h = canvas.height = Math.max(200, rect.height || 600);
-    canvas.style.width = '100%';
+    // Width from the parent (responsive); height from a fixed design value per
+    // viewport. NEVER derive height from the parent's rect: the parent's height
+    // is driven by this canvas's own style.height, so that approach inflates
+    // the canvas on every resize (runaway growth).
+    var parent = canvas.parentElement;
+    var pw = parent ? parent.clientWidth : 0;
+    if (!pw || pw < 100) pw = window.innerWidth || 800;
+    w = canvas.width = Math.min(pw, 1600);
+    h = canvas.height = isMobile() ? 340 : 480;
+    canvas.style.width = w + 'px';
     canvas.style.height = h + 'px';
   }
 
   function buildNodes() {
     var d = {};
-    if (typeof DATA_ENGINE !== 'undefined') { d = DATA_ENGINE.get().lightning || {}; }
+    if (typeof DATA_ENGINE !== 'undefined') {
+      var _de = DATA_ENGINE.get ? DATA_ENGINE.get() : null;
+      d = (_de && _de.lightning) || {};
+    }
     stats.capacity = d.total_capacity || 0;
     stats.nodes = d.node_count || 0;
     stats.channels = d.channel_count || 0;
@@ -134,7 +142,8 @@ var VIZ_Lightning = (function() {
   function reconcileNodeCount(targetCount) {
     // No-op: we never fabricate nodes. Called by DATA_ENGINE updates to refresh
     // aggregate stats from real data only.
-    var d = typeof DATA_ENGINE !== 'undefined' ? (DATA_ENGINE.get().lightning || {}) : {};
+    var _de2 = (typeof DATA_ENGINE !== 'undefined' && DATA_ENGINE.get) ? DATA_ENGINE.get() : null;
+    var d = (_de2 && _de2.lightning) || {};
     stats.capacity = d.total_capacity || stats.capacity;
     stats.nodes = d.node_count || stats.nodes;
     stats.channels = d.channel_count || stats.channels;
@@ -388,8 +397,19 @@ var VIZ_Lightning = (function() {
     ctx.fillStyle = 'rgba(255,255,255,0.35)';
     ctx.fillText('Real network stats — graph topology not captured', 16, 38);
 
-    // Legend
-    var lx = w - 200, ly = 16, lw = 140;
+    // Honest empty state: no captured network data at all.
+    if (stats.nodes === 0 && nodes.length === 0) {
+      ctx.fillStyle = 'rgba(255,255,255,0.45)';
+      ctx.font = (isMobile() ? '12px' : '14px') + ' -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('No network data captured yet — stats appear when the pipeline captures the next snapshot', w / 2, h / 2);
+    }
+
+    // Legend — desktop: right column; mobile: BELOW the stats label (the
+    // old w-200 placement covered the 300px stats box on narrow screens).
+    var lx = isMobile() ? 14 : w - 200;
+    var ly = isMobile() ? 64 : 16;
+    var lw = isMobile() ? 320 : 140;
 
     ctx.fillStyle = 'rgba(0,0,0,0.75)';
     ctx.fillRect(lx - 8, ly - 6, lw + 16, 80);

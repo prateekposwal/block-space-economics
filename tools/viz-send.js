@@ -95,7 +95,20 @@ var VIZ_Send = (function() {
     displayBtcPrice += (btcPrice - displayBtcPrice) * 0.05;
     ctx.clearRect(0, 0, w, h);
     var n = bars.length;
-    if (n === 0) { if (!REDUCED_MOTION) requestAnimationFrame(tick); return; }
+    if (n === 0) {
+      // Honest empty state: tell the visitor data is coming instead of a
+      // blank canvas. Loop keeps running so the chart appears when the first
+      // capture arrives.
+      ctx.fillStyle = '#1A1612';
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = 'rgba(255,255,255,0.45)';
+      ctx.font = (isMobile() ? '12px' : '14px') + ' -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('Fee data pending — the chart renders when the first capture arrives', w / 2, h / 2);
+      if (!REDUCED_MOTION) requestAnimationFrame(tick);
+      return;
+    }
 
     var cL = PAD.left, cR = w - PAD.right;
     var cT = PAD.top, cB = h - PAD.bottom;

@@ -740,10 +740,17 @@ document.addEventListener('visibilitychange', function() {
   }
 });
 
+function safeInit(name, canvasId) {
+  try {
+    var m = window[name];
+    if (m && typeof m.init === 'function') m.init(canvasId);
+  } catch (e) { console.error(name + ' init failed', e); }
+}
+
 function init() {
-fetchData();
+try { fetchData(); } catch (e) { console.error('fork-tracker fetchData:', e); }
 startTimers();
-try { VIZ_Bip110 && VIZ_Bip110.init('viz-bip110-daily'); } catch (e) { console.error('viz-bip110 init:', e); }
+safeInit('VIZ_Bip110', 'viz-bip110-daily');
 }
 
 if (document.readyState === 'loading') {

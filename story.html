@@ -236,13 +236,14 @@ function drawLegs(canvasId){
   });
 }
 // ─── init on load ───
+function safeDraw(fn) { try { fn(); } catch (e) { console.error('story chart draw failed:', e); } }
 window.addEventListener('load',function(){
-  drawBip('bip-canvas');
-  drawSccr('sccr-canvas');
-  drawLeverage('leverage-canvas');
-  drawLegs('legs-canvas');
+  safeDraw(function(){ drawBip('bip-canvas'); });
+  safeDraw(function(){ drawSccr('sccr-canvas'); });
+  safeDraw(function(){ drawLeverage('leverage-canvas'); });
+  safeDraw(function(){ drawLegs('legs-canvas'); });
   // refresh BIP-110 every 5 min (it's live)
-  setInterval(function(){drawBip('bip-canvas')},300000);
+  setInterval(function(){ safeDraw(function(){ drawBip('bip-canvas'); }); },300000);
 });
 </script>
 </body>

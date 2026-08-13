@@ -136,7 +136,7 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
   .dc .dc-sub { font-size: 12px; }
   .brief-card { padding: 8px 12px; margin: 8px 0; }
   .brief-content { font-size: .72rem; }
-  .viz-canvas { height: 220px !important; }
+  .viz-canvas { height: auto; } /* height is set per-chart by its module for narrow screens */
   #panel-node .stat-card { padding: 8px 6px; }
   #panel-node .sc-value { font-size: 1rem; }
   #panel-node .stat-row { margin: 8px 0; gap: 6px; }
@@ -559,13 +559,17 @@ document.querySelectorAll('.tab-btn').forEach(function(btn) {
     btn.classList.add('active');
     document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
     var id = btn.dataset.tab;
-    if (id === 'send') window.setTimeout(function() { VIZ_Send && VIZ_Send.resize(); }, 50);
-    if (id === 'lightning') window.setTimeout(function() { VIZ_Lightning && VIZ_Lightning.resize(); }, 50);
-    if (id === 'exchange') window.setTimeout(function() { VIZ_Exchange && VIZ_Exchange.resize(); }, 50);
-    if (id === 'node') window.setTimeout(function() { VIZ_Node && VIZ_Node.resize(); }, 50);
-    if (id === 'miner') window.setTimeout(function() { VIZ_Miner && VIZ_Miner.resize(); }, 50);
-    if (id === 'research') window.setTimeout(function() { VIZ_Research && VIZ_Research.resize(); }, 50);
-    if (id === 'developer') window.setTimeout(function() { VIZ_Developer && VIZ_Developer.resize(); }, 50);
+    var resizers = {
+      send: ['VIZ_Send'], lightning: ['VIZ_Lightning'], exchange: ['VIZ_Exchange'],
+      node: ['VIZ_Node'], miner: ['VIZ_Miner'],
+      research: ['VIZ_Research', 'VIZ_BlockInterval', 'VIZ_Hashrate', 'VIZ_FeeHeatmap', 'VIZ_MempoolHist'],
+      developer: ['VIZ_Developer']
+    };
+    (resizers[id] || []).forEach(function(mn) {
+      window.setTimeout(function() {
+        try { var m = window[mn]; if (m && typeof m.resize === 'function') m.resize(); } catch (e) {}
+      }, 50);
+    });
   });
 });
 
@@ -577,9 +581,10 @@ document.querySelectorAll('.tab-panel .dc').forEach(function(dc) {
   dc.appendChild(div);
 });
 
-document.getElementById('csv-download-btn').addEventListener('click', function() {
+var csvBtn = document.getElementById('csv-download-btn');
+if (csvBtn) csvBtn.addEventListener('click', function() {
   var btn = this;
-  var link = VIZ_Research.downloadCSV();
+  var link = window.VIZ_Research && typeof VIZ_Research.downloadCSV === 'function' ? VIZ_Research.downloadCSV() : null;
   if (link) {
     document.body.appendChild(link);
     link.click();
@@ -593,22 +598,30 @@ document.getElementById('csv-download-btn').addEventListener('click', function()
   }
 });
 
-function bootLive() {
-if (typeof DATA_ENGINE !== 'undefined') {
-  DATA_ENGINE.start();
+function safeInit(name, canvasId) {
+  try {
+    var m = window[name];
+    if (m && typeof m.init === 'function') m.init(canvasId);
+  } catch (e) { console.error(name + ' init failed', e); }
 }
-// Initialize the 7 viz modules defensively — one module failure must not halt the rest.
-try { VIZ_Send && VIZ_Send.init('viz-send'); } catch (e) { console.error('viz-send init:', e); }
-try { VIZ_Lightning && VIZ_Lightning.init('viz-lightning'); } catch (e) { console.error('viz-lightning init:', e); }
-try { VIZ_Exchange && VIZ_Exchange.init('viz-exchange'); } catch (e) { console.error('viz-exchange init:', e); }
-try { VIZ_Node && VIZ_Node.init('viz-node'); } catch (e) { console.error('viz-node init:', e); }
-try { VIZ_Miner && VIZ_Miner.init('viz-miner'); } catch (e) { console.error('viz-miner init:', e); }
-try { VIZ_Research && VIZ_Research.init('viz-research'); } catch (e) { console.error('viz-research init:', e); }
-try { VIZ_BlockInterval && VIZ_BlockInterval.init('viz-block-interval'); } catch (e) { console.error('viz-block-interval init:', e); }
-try { VIZ_Hashrate && VIZ_Hashrate.init('viz-hashrate'); } catch (e) { console.error('viz-hashrate init:', e); }
-try { VIZ_FeeHeatmap && VIZ_FeeHeatmap.init('viz-fee-heatmap'); } catch (e) { console.error('viz-fee-heatmap init:', e); }
-try { VIZ_MempoolHist && VIZ_MempoolHist.init('viz-mempool-hist'); } catch (e) { console.error('viz-mempool-hist init:', e); }
-try { VIZ_Developer && VIZ_Developer.init('viz-developer'); } catch (e) { console.error('viz-developer init:', e); }
+
+function bootLive() {
+// Defensive: DATA_ENGINE must never be able to halt the boot sequence.
+try {
+  if (typeof DATA_ENGINE !== 'undefined') DATA_ENGINE.start();
+} catch (e) { console.error('DATA_ENGINE.start failed', e); }
+// Initialize every viz module defensively — one module failure must never halt the rest.
+safeInit('VIZ_Send', 'viz-send');
+safeInit('VIZ_Lightning', 'viz-lightning');
+safeInit('VIZ_Exchange', 'viz-exchange');
+safeInit('VIZ_Node', 'viz-node');
+safeInit('VIZ_Miner', 'viz-miner');
+safeInit('VIZ_Research', 'viz-research');
+safeInit('VIZ_BlockInterval', 'viz-block-interval');
+safeInit('VIZ_Hashrate', 'viz-hashrate');
+safeInit('VIZ_FeeHeatmap', 'viz-fee-heatmap');
+safeInit('VIZ_MempoolHist', 'viz-mempool-hist');
+safeInit('VIZ_Developer', 'viz-developer');
 
 if (typeof DATA_ENGINE !== 'undefined') {
   DATA_ENGINE.onUpdate(function() {

@@ -155,8 +155,8 @@ var VIZ_Hashrate = (function () {
   }
 
   function loop() {
-    if (REDUCED_MOTION) { draw(); return; }
-    draw();
+    try { draw(); } catch (e) { if (window.console) console.error('VIZ_Hashrate draw:', e); }
+    if (REDUCED_MOTION) return;
     raf = requestAnimationFrame(loop);
   }
 

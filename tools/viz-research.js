@@ -1,5 +1,5 @@
 var REDUCED_MOTION = (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-const VIZ_Research = (() => {
+var VIZ_Research = (() => {
   const REGIME_COLORS = {
     very_low: { bg: 'rgba(59,163,93,0.15)', text: '#3BA35D', label: 'Very Low' },
     low: { bg: 'rgba(59,163,93,0.25)', text: '#3BA35D', label: 'Low' },
@@ -45,7 +45,7 @@ const VIZ_Research = (() => {
 
     if (typeof DATA_ENGINE !== 'undefined') {
       var de = DATA_ENGINE;
-      var state = de.get();
+      var state = de.get ? de.get() : null;
       if (state && state.fee_history && state.fee_history.length > 0) {
         data = buildSeries(state.fee_history);
       }

@@ -274,6 +274,9 @@ DATA_ENGINE.onUpdate(function() {
     return '$' + v.toFixed(0);
   };
 
+  // Hero settlement value (element exists in the page intro).
+  var heroEl = document.getElementById('settlement-hero');
+
   // Honest settlement rendering: when BTC price is missing, show "--" (never a
   // plausible $ value derived from a fake price).
   if (btcPrice === null) {
@@ -303,6 +306,9 @@ DATA_ENGINE.onUpdate(function() {
 
   // Adoption estimates — honest: only shown from real tx-type data when captured.
   // (Previously fabricated via Math.random; now "-- pending" until a real capture.)
+  // Declared once (was undeclared -> ReferenceError on every update, breaking
+  // the adoption bar + gauges and flooding the console).
+  var segwitPct = 0, taprootPct = 0, legacyPct = 0;
   $('segwit-pct').textContent = '--';
   $('taproot-pct').textContent = '--';
   $('legacy-pct').textContent = '--';

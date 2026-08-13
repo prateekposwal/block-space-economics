@@ -21,7 +21,7 @@ var VIZ_Miner = (function() {
 
     if (typeof DATA_ENGINE !== 'undefined') {
       var de = DATA_ENGINE;
-      var d = de.get();
+      var d = de.get() || {};
       if (d.fee_history && d.fee_history.length > 0) {
         feeHistory = d.fee_history;
         sparklineData = d.fee_history.slice(-144).map(function(b) { return b.avgFees || 0; });
@@ -83,6 +83,10 @@ var VIZ_Miner = (function() {
     var targetFee = getCurrentFee();
     if (targetFee === null) {
       // Honest empty state: render a pending message instead of a fake number.
+      // IMPORTANT: do NOT return before scheduling the next frame — the loop
+      // must stay alive so it re-checks for data arrival (DATA_ENGINE updates
+      // feeHistory asynchronously; a dead loop would leave the chart stuck on
+      // "pending" forever and a resize would blank it entirely).
       ctx.clearRect(0, 0, w, h);
       ctx.fillStyle = '#1A1612';
       ctx.fillRect(0, 0, w, h);
@@ -90,6 +94,7 @@ var VIZ_Miner = (function() {
       ctx.font = (isMobile() ? '12px' : '14px') + ' -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('Fee data pending — no fabricated values shown', w / 2, h / 2);
+      requestAnimationFrame(loop);
       return;
     }
     displayFee += (targetFee - displayFee) * 0.08;
@@ -269,7 +274,7 @@ var VIZ_Miner = (function() {
       ctx.fillText('🟡 Fee revenue data pending — no real values shown', px0 + 8, py0 + 8);
       return;
     }
-    if (sparklineData.length < 2) return;
+    if (blockFees.length < 2 && sparklineData.length < 2) return;
 
     var trendX = isMob ? 20 : 50;
     var trendY = isMob ? 430 : 400;
@@ -287,8 +292,9 @@ var VIZ_Miner = (function() {
       return { avgFees: f, usd: null, t: i };
     });
     var hasUsd = blockFees.length > 0;
-    var price = hasUsd && typeof series[series.length - 1].usd === 'number' && series[series.length - 1].usd > 0
-      ? series[series.length - 1].usd : (typeof btcPrice === 'number' ? btcPrice : 0);
+    var lastPt = series.length > 0 ? series[series.length - 1] : null;
+    var price = lastPt && hasUsd && typeof lastPt.usd === 'number' && lastPt.usd > 0
+      ? lastPt.usd : (typeof btcPrice === 'number' ? btcPrice : 0);
 
     var maxVal = 0;
     for (var si = 0; si < series.length; si++) {
