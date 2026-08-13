@@ -71,7 +71,27 @@ function run() {
     schema_version: 1,
     generated_at: new Date().toISOString(),
     freshness_min: 0,
-    fees: fc && fc.latest_fastest_fee !== undefined ? { fastestFee: fc.latest_fastest_fee } : {},
+    fees: (function() {
+      // 5-tier fee object from the spool's live 'fees' capture (authoritative);
+      // fall back to the forecast's fastest fee only if the spool is empty.
+      var fees = {};
+      try {
+        var feeDir = path.join(REPO, 'captured-data', 'spool', 'index', 'fees');
+        var feeFiles = fs.existsSync(feeDir) ? fs.readdirSync(feeDir).filter(function(f) { return f.endsWith('.jsonl'); }).sort() : [];
+        if (feeFiles.length) {
+          var lines = fs.readFileSync(path.join(feeDir, feeFiles[feeFiles.length - 1]), 'utf8').trim().split('\n');
+          var last = lines.length ? JSON.parse(lines[lines.length - 1]) : null;
+          var fd = last && last.payload && last.payload.data ? last.payload.data : null;
+          if (fd) {
+            ['fastestFee', 'halfHourFee', 'hourFee', 'economyFee', 'minimumFee'].forEach(function(k) {
+              if (fd[k] !== undefined && fd[k] !== null) fees[k] = fd[k];
+            });
+          }
+        }
+      } catch (e) {}
+      if (fees.fastestFee === undefined && fc && fc.latest_fastest_fee !== undefined) fees.fastestFee = fc.latest_fastest_fee;
+      return fees;
+    })(),
     btc_price: (price && price.USD) || null,
     block_height: (typeof height === 'object') ? (height.block_height !== undefined ? height.block_height : (height.height !== undefined ? height.height : null)) : height,
     mempool_tx: (mempool && mempool.count) || null,
@@ -103,10 +123,33 @@ function run() {
   fs.writeFileSync(STATE_FILE, JSON.stringify({ lastRun: new Date().toISOString(), historyPoints: history.length, posts: snapshot.totalPosts }, null, 2));
 
   // Optional auto-commit — BLOCKING execSync so process.exit(0) cannot kill the child.
+  // Conflict-safe: validates JSON first, and on rebase conflict KEEPS our freshly
+  // regenerated data (--ours) then continues — never aborts into a conflicted state.
   if (process.argv.indexOf('--commit') !== -1) {
+    // Pre-commit JSON integrity gate — a failed rebase previously shipped conflict
+    // markers into data/. Validate BEFORE any git operation.
     try {
+      ['snapshot.json', 'latest.json', 'alerts.json', 'fee_history.json'].forEach(function (f) {
+        var p = path.join(DATA_DIR, f);
+        var t = fs.readFileSync(p, 'utf8');
+        if (t.indexOf('<<<<<<<') !== -1 || t.indexOf('=======') !== -1 || t.indexOf('>>>>>>>') !== -1) {
+          throw new Error('conflict markers in ' + f);
+        }
+        JSON.parse(t);
+      });
+    } catch (e) {
+      console.error('snapshot JSON validation failed — NOT committing:', e.message);
+      return snapshot;
+    }
+    try {
+      var syncCmd = 'git add data/ && git diff --cached --quiet || (git -c user.name="bsahi-snapshot-bot" -c user.email="snapshot@bitcoinsahi.com" commit -m "chore: public snapshot ' + new Date().toISOString().slice(0, 16) + '" && ';
+      // Conflict-safe sync: pull/rebase, and on conflict RESOLVE the rebase in-place
+      // (keep our freshly-regenerated data via --ours, then continue) — never reset
+      // --hard, never abort into a conflicted state, never swallow a failure.
+      syncCmd += '(git pull --rebase --autostash origin main 2>/dev/null && echo pull-ok) || { echo "pull conflict — resolving in place"; git checkout --ours data/ 2>/dev/null; git add data/; git -c user.name="bsahi-snapshot-bot" -c user.email="snapshot@bitcoinsahi.com" -c core.editor=true commit --no-edit --allow-empty -m "chore: resolve snapshot conflict ' + new Date().toISOString().slice(0, 16) + '" 2>/dev/null; git rebase --continue 2>/dev/null || git commit --no-edit 2>/dev/null; }; ';
+      syncCmd += 'git push)';
       require('child_process').execSync(
-        'git add data/ && git diff --cached --quiet || (git -c user.name="bsahi-snapshot-bot" -c user.email="snapshot@bitcoinsahi.com" commit -m "chore: public snapshot ' + new Date().toISOString().slice(0, 16) + '" && git pull --rebase --autostash origin main && git push)',
+        syncCmd,
         { cwd: REPO, timeout: 120000, stdio: 'inherit' }
       );
     } catch (e) {

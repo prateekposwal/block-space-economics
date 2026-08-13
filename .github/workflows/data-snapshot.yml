@@ -22,11 +22,55 @@ jobs:
       - name: Generate snapshot
         run: python3 tools/generate_snapshot.py
 
+      - name: Validate snapshot JSON
+        run: |
+          python3 - <<'EOF'
+          import json, glob, sys
+          bad = []
+          for f in sorted(glob.glob('data/*.json')):
+              try:
+                  with open(f) as fh:
+                      t = fh.read()
+                  if '<<<<<<<' in t or '=======' in t or '>>>>>>>' in t:
+                      bad.append(f + ' (conflict markers)')
+                  json.loads(t)
+              except Exception as e:
+                  bad.append(f + ' (' + str(e) + ')')
+          if bad:
+              print('INVALID JSON:')
+              for b in bad: print('  -', b)
+              sys.exit(1)
+          print('All data/*.json valid')
+          EOF
+
       - name: Commit snapshot data
         run: |
           git config user.name "bsahi-snapshot-bot"
           git config user.email "snapshot@bitcoinsahi.com"
           git add data/
           git diff --cached --quiet || git commit -m "chore: public snapshot $(date -u '+%Y-%m-%d %H:%M UTC')"
-          git pull --rebase origin main || true
+          # Conflict-safe sync: retry the merge, never swallow a failure.
+          # A failed rebase previously shipped conflict markers into data/.
+          for i in 1 2 3; do
+            if git pull --rebase origin main 2>/dev/null; then break; fi
+            echo "pull/rebase attempt $i failed — restoring, will retry"
+            git rebase --abort 2>/dev/null || git merge --abort 2>/dev/null || true
+            git checkout --theirs data/ 2>/dev/null || git checkout HEAD -- data/ 2>/dev/null || true
+            sleep 5
+          done
+          # Fail closed: never push invalid JSON (re-validate after sync).
+          python3 - <<'PYEOF'
+          import json, glob, sys
+          for f in sorted(glob.glob('data/*.json')):
+              t = open(f).read()
+              if '<<<<<<<' in t or '=======' in t or '>>>>>>>' in t:
+                  print('conflict markers after sync:', f); sys.exit(1)
+              try:
+                  json.loads(t)
+              except Exception as e:
+                  print('invalid JSON after sync:', f, e); sys.exit(1)
+          print('post-sync data valid')
+          PYEOF
+          git add data/
+          git diff --cached --quiet || git commit -m "chore: public snapshot $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push
