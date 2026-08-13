@@ -126,6 +126,7 @@
   }
   </style>
 <script src="/js/beta-nav.js" defer></script>
+<script src="/js/data-health.js" defer></script>
 </head>
 <body>
   <canvas id="viz-fees"></canvas>
@@ -356,14 +357,11 @@
     } catch (e) { setHealth('stale'); }
 
     // Shared data-health dot (🟢 live / 🟡 delayed / 🔴 stale / ⚪ unknown).
+    // Rendered by js/data-health.js — this page's snapshot fetch only reports state.
     function setHealth(state) {
-      var el = document.getElementById('data-health');
-      if (!el) return;
-      var map = { live: ['🟢', '#3FB950'], delayed: ['🟡', '#D29922'], stale: ['🔴', '#F85149'], unknown: ['⚪', '#8B949E'] };
-      var m = map[state] || map.unknown;
-      el.textContent = m[0];
-      el.title = state.charAt(0).toUpperCase() + state.slice(1) + ' data';
-      el.style.color = m[1];
+      if (window.BSAHIDataHealth && BSAHIDataHealth.setState) {
+        BSAHIDataHealth.setState(state);
+      }
     }
 
     DATA_ENGINE.onUpdate(refreshUI);

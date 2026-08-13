@@ -30,6 +30,42 @@ function decodeBit4(version) {
   return Boolean(version & (1 << 4));
 }
 
+
+/* buildDaily() — observed bit-4 signaling share per day from the spool
+ * (deduped by height; sampled blocks only, not the full window). Same
+ * aggregation as tools/generate_viz_data.js buildBip110Daily(). */
+function buildDaily() {
+  var byDay = {};
+  var spoolDir = path.join(REPO, 'captured-data', 'spool', 'index', 'bip110_signal');
+  var files = [];
+  try { files = fs.readdirSync(spoolDir).filter(function(f) { return f.endsWith('.jsonl'); }).sort(); } catch (e) { files = []; }
+  files.forEach(function(dayFile) {
+    var lines = [];
+    try { lines = fs.readFileSync(path.join(spoolDir, dayFile), 'utf8').split('\n'); } catch (e) { return; }
+    lines.forEach(function(line) {
+      if (!line.trim()) return;
+      var rec = null;
+      try { rec = JSON.parse(line); } catch (e) { return; }
+      var data = (rec.payload && rec.payload.status === 200) ? rec.payload.data : null;
+      if (!data || !Array.isArray(data.signaling)) return;
+      var day = (rec.captureTime || rec.enqueuedAt || '').slice(0, 10);
+      if (!day) return;
+      if (!byDay[day]) byDay[day] = {};
+      data.signaling.forEach(function(b) {
+        if (!b || typeof b.height !== 'number') return;
+        if (!byDay[day][b.height]) byDay[day][b.height] = !!b.bit4;
+      });
+    });
+  });
+  return Object.keys(byDay).sort().map(function(day) {
+    var heights = Object.keys(byDay[day]);
+    var signaling = 0;
+    heights.forEach(function(hh) { if (byDay[day][hh]) signaling++; });
+    return { day: day, blocks: heights.length, signaling: signaling,
+             pct: heights.length ? Math.round(signaling / heights.length * 1000) / 10 : 0 };
+  });
+}
+
 async function run() {
   var out = { ok: false, height: null, window: null, signaling: [], windowTotal: 0, windowSignaling: 0, observedAt: new Date().toISOString() };
 
@@ -73,10 +109,15 @@ async function run() {
   }, { captureTime: ts, day: day, producer: 'bip110-capture', expectedIntervalMinutes: 60 });
 
   // Public snapshot bridge: write latest to data/bip110.json so the website's
-  // story.html can fetch it (captured-data/ is not served by GitHub Pages).
+  // story.html + fork-tracker can fetch it (captured-data/ is not served by
+  // GitHub Pages). Also attaches the daily observed-signaling aggregation
+  // (spool → out.daily) so the fork-tracker's daily bars work even before the
+  // viz-data mirror generator runs.
   try {
     var snapDir = path.join(REPO, 'data');
     if (!fs.existsSync(snapDir)) fs.mkdirSync(snapDir, { recursive: true });
+    out.daily = buildDaily();
+    out.thresholdPct = 55;
     fs.writeFileSync(path.join(snapDir, 'bip110.json'), JSON.stringify(out, null, 2));
     if (require.main === module) console.log('bip110 snapshot -> data/bip110.json');
   } catch (e) { if (require.main === module) console.log('bip110 snapshot error: ' + e.message); }

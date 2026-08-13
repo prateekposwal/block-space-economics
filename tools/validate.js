@@ -3,10 +3,12 @@ var path = require('path');
 var child_process = require('child_process');
 
 var ROOT = path.resolve(__dirname, '..');
-var ALL_HTML = ['index.html', 'live.html', 'learn.html', 'capacity.html', 'fork-tracker.html'];
+var ALL_HTML = ['index.html', 'live.html', 'learn.html', 'capacity.html', 'fork-tracker.html', 'story.html'];
  var ALL_JS = ['tools/data-engine.js', 'tools/viz-core.js', 'tools/viz-send.js', 'tools/viz-lightning.js',
    'tools/viz-exchange.js', 'tools/viz-node.js', 'tools/viz-miner.js', 'tools/viz-research.js', 'tools/viz-developer.js',
-   'js/beta-gate.js', 'js/beta-nav.js', 'sw.js'];
+   'js/beta-gate.js', 'js/beta-nav.js', 'js/data-health.js', 'sw.js',
+   'tools/viz-bip110.js', 'tools/viz-block-interval.js', 'tools/viz-hashrate.js',
+   'tools/viz-fee-heatmap.js', 'tools/viz-mempool-hist.js', 'tools/generate_viz_data.js'];
 var ALL_ViZ = ['tools/viz-send.js', 'tools/viz-lightning.js', 'tools/viz-exchange.js', 'tools/viz-node.js',
   'tools/viz-miner.js', 'tools/viz-research.js', 'tools/viz-developer.js'];
 
@@ -24,7 +26,7 @@ function warn(condition, msg) {
 // 1. Syntax check: all JS files
 function checkSyntaxJS(filePath) {
   try {
-    var content = fs.readFileSync(filePath, 'utf8');
+    var content = fs.readFileSync(filePath, 'utf8').replace(/^#!.*\n/, '');
     new Function(content);
     return true;
   } catch (e) {
@@ -192,7 +194,9 @@ function checkDataJSON() {
 // Missing data must render as "— + 🟡 data pending", never a plausible default.
 var MASK_FILES = ['index.html', 'live.html', 'fork-tracker.html', 'story.html', 'capacity.html',
   'tools/viz-core.js', 'tools/viz-send.js', 'tools/viz-lightning.js', 'tools/viz-exchange.js',
-  'tools/viz-node.js', 'tools/viz-miner.js', 'tools/viz-research.js', 'tools/viz-developer.js'];
+  'tools/viz-node.js', 'tools/viz-miner.js', 'tools/viz-research.js', 'tools/viz-developer.js',
+  'tools/viz-bip110.js', 'tools/viz-block-interval.js', 'tools/viz-hashrate.js',
+  'tools/viz-fee-heatmap.js', 'tools/viz-mempool-hist.js'];
 
 function checkNumericFallbacks() {
   MASK_FILES.forEach(function(f) {
@@ -244,7 +248,9 @@ function checkHardcodedClaims() {
 }
 
 // C4: no data fabrication (Math.random building "live" datasets) in viz JS.
-var FAB_FILES = ['tools/viz-lightning.js', 'tools/viz-miner.js', 'tools/viz-research.js', 'tools/viz-send.js', 'tools/viz-node.js', 'tools/viz-exchange.js'];
+var FAB_FILES = ['tools/viz-lightning.js', 'tools/viz-miner.js', 'tools/viz-research.js', 'tools/viz-send.js', 'tools/viz-node.js', 'tools/viz-exchange.js',
+  'tools/viz-bip110.js', 'tools/viz-block-interval.js', 'tools/viz-hashrate.js',
+  'tools/viz-fee-heatmap.js', 'tools/viz-mempool-hist.js'];
 
 function checkFabrication() {
   FAB_FILES.forEach(function(f) {

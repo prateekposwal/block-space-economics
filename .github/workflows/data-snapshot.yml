@@ -18,6 +18,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
       - name: Generate snapshot
         run: python3 tools/generate_snapshot.py
@@ -42,6 +45,11 @@ jobs:
               sys.exit(1)
           print('All data/*.json valid')
           EOF
+
+      - name: Site integrity check (validate.js — C1-C4)
+        # Fails closed: a regression in the integrity checks must block the
+        # snapshot commit/push, not ship silently.
+        run: node tools/validate.js
 
       - name: Commit snapshot data
         run: |

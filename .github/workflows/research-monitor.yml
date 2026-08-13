@@ -17,6 +17,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
       - name: Run research monitor
         run: python3 tools/research_monitor.py
@@ -53,6 +56,11 @@ jobs:
           else
             echo "No alerts"
           fi
+
+      # Validate AFTER regeneration: data files written by the monitor must pass
+      # the site integrity checks (C1-C4) before they are committed.
+      - name: Site integrity check (validate.js — C1-C4)
+        run: node tools/validate.js
 
       # COMMIT FIRST — data must reach main even if the issue step fails.
       - name: Commit updated data

@@ -182,10 +182,12 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
   }
 </style>
 <script src="/js/beta-nav.js" defer></script>
+<script src="/js/data-health.js" defer></script>
 </head>
 <body>
 <div class="header">
   <a href="/" style="text-decoration:none;"><span class="brand">⬡ BSAHI</span></a>
+  <span id="data-health" title="Data status" style="font-size:0.9em;color:#8B949E;margin:0 4px 0 2px;">⚪</span>
   <button class="tab-btn active" data-tab="send">Send</button>
   <button class="tab-btn" data-tab="lightning">Lightning</button>
   <button class="tab-btn" data-tab="exchange">Exchange</button>
@@ -225,6 +227,16 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
     <div class="viz-section-title">Fee History — Last 24 Hours</div>
     <div class="viz-section-desc">Each bar represents one Bitcoin block. Green = low fees. Red = congestion.</div>
     <canvas id="viz-send" class="viz-canvas"></canvas>
+  </div>
+  <div class="viz-section">
+    <div class="viz-section-title">Fee Heatmap — 24h × Fee Tier</div>
+    <div class="viz-section-desc">Every block bucketed by average fee rate (avgFees ÷ 4M vbytes) and hour of day. Columns = hour (UTC), rows = fee tier, color = block count. Data: <code>data/fee_history_blocks.json</code>.</div>
+    <canvas id="viz-fee-heatmap" class="viz-canvas"></canvas>
+  </div>
+  <div class="viz-section">
+    <div class="viz-section-title">Mempool Fee-Rate Histogram</div>
+    <div class="viz-section-desc">Vsize waiting in the mempool, bucketed by fee rate. This is a fee histogram — NOT a transaction-age histogram (age data is not captured by the pipeline). Data: <code>data/mempool_fee_histogram.json</code>.</div>
+    <canvas id="viz-mempool-hist" class="viz-canvas"></canvas>
   </div>
   <div class="insight-card">
     <div class="insight-icon">💡</div>
@@ -394,6 +406,16 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
     <div class="viz-section-desc">How the fee histogram shifts over the last 24 hours. Green = cheap, red = expensive.</div>
     <canvas id="viz-fee-trend" style="width:100%;height:150px;border-radius:8px;background:#1A1612;border:1px solid #3A3228;"></canvas>
   </div>
+  <div class="viz-section">
+    <div class="viz-section-title">Rolling Block Interval</div>
+    <div class="viz-section-desc">Average time between blocks per 10-block capture window, with min–max band. Data: <code>data/block_interval.json</code> (spool mirror).</div>
+    <canvas id="viz-block-interval" class="viz-canvas"></canvas>
+  </div>
+  <div class="viz-section">
+    <div class="viz-section-title">Network Hashrate History</div>
+    <div class="viz-section-desc">Captured currentHashrate over time — real captures only, no fabricated values. Data: <code>data/hashrate.json</code> (spool mirror).</div>
+    <canvas id="viz-hashrate" class="viz-canvas"></canvas>
+  </div>
   <div class="insight-card">
     <div class="insight-icon">💡</div>
     <div class="insight-content">
@@ -452,6 +474,10 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
 <script defer src="tools/viz-node.js"></script>
 <script defer src="tools/viz-miner.js"></script>
 <script defer src="tools/viz-research.js"></script>
+<script defer src="tools/viz-block-interval.js"></script>
+<script defer src="tools/viz-hashrate.js"></script>
+<script defer src="tools/viz-fee-heatmap.js"></script>
+<script defer src="tools/viz-mempool-hist.js"></script>
 <script defer src="tools/viz-developer.js"></script>
  <script>
 // BSAHI snapshot tier: enrich the page with forecast/alerts/curated data.
@@ -578,6 +604,10 @@ try { VIZ_Exchange && VIZ_Exchange.init('viz-exchange'); } catch (e) { console.e
 try { VIZ_Node && VIZ_Node.init('viz-node'); } catch (e) { console.error('viz-node init:', e); }
 try { VIZ_Miner && VIZ_Miner.init('viz-miner'); } catch (e) { console.error('viz-miner init:', e); }
 try { VIZ_Research && VIZ_Research.init('viz-research'); } catch (e) { console.error('viz-research init:', e); }
+try { VIZ_BlockInterval && VIZ_BlockInterval.init('viz-block-interval'); } catch (e) { console.error('viz-block-interval init:', e); }
+try { VIZ_Hashrate && VIZ_Hashrate.init('viz-hashrate'); } catch (e) { console.error('viz-hashrate init:', e); }
+try { VIZ_FeeHeatmap && VIZ_FeeHeatmap.init('viz-fee-heatmap'); } catch (e) { console.error('viz-fee-heatmap init:', e); }
+try { VIZ_MempoolHist && VIZ_MempoolHist.init('viz-mempool-hist'); } catch (e) { console.error('viz-mempool-hist init:', e); }
 try { VIZ_Developer && VIZ_Developer.init('viz-developer'); } catch (e) { console.error('viz-developer init:', e); }
 
 if (typeof DATA_ENGINE !== 'undefined') {

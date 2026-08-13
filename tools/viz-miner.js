@@ -3,6 +3,8 @@ var VIZ_Miner = (function() {
   var canvas, ctx, w = 0, h = 0;
   var feeHistory = [];
   var sparklineData = [];
+  var blockFees = [];          // real per-block avgFees+usd from /data/fee_history_blocks.json
+  var blockFeesLoaded = false; // true once the mirror fetch resolves (even to empty)
   var btcPrice = 64000;
   var displayPrice = 64000;
   var displayFee = 5000000;
@@ -44,6 +46,12 @@ var VIZ_Miner = (function() {
       // "data pending" message instead of inventing blocks (integrity rule).
       sparklineData = [];
     }
+
+    // Real fee-revenue series from the public mirror (spool fee_history).
+    fetch('/data/fee_history_blocks.json').then(function(r) { return r.json(); }).then(function(d) {
+      blockFees = (d && Array.isArray(d.blocks)) ? d.blocks : [];
+      blockFeesLoaded = true;
+    }).catch(function() { blockFeesLoaded = true; });
 
     loop();
   }
@@ -250,12 +258,23 @@ var VIZ_Miner = (function() {
 
   function drawSparkline(t) {
     var isMob = isMobile();
+    if (blockFeesLoaded && blockFees.length === 0 && sparklineData.length < 2) {
+      // Honest empty state: mirror resolved empty AND no live engine series.
+      var px0 = isMob ? 20 : 50;
+      var py0 = isMob ? 430 : 400;
+      ctx.fillStyle = 'rgba(255,255,255,0.45)';
+      ctx.font = (isMob ? '11px' : '12px') + ' -apple-system, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'top';
+      ctx.fillText('🟡 Fee revenue data pending — no real values shown', px0 + 8, py0 + 8);
+      return;
+    }
     if (sparklineData.length < 2) return;
 
     var trendX = isMob ? 20 : 50;
-    var trendY = isMob ? 440 : 400;
+    var trendY = isMob ? 430 : 400;
     var trendW = isMob ? w - 40 : w - 100;
-    var trendH = isMob ? 50 : 60;
+    var trendH = isMob ? 90 : 110;
 
     ctx.fillStyle = '#1A1612';
     ctx.strokeStyle = '#3A3228';
@@ -263,18 +282,54 @@ var VIZ_Miner = (function() {
     ctx.fill();
     ctx.stroke();
 
-    var maxVal = Math.max.apply(null, sparklineData);
+    // Series: prefer the real mirror (avgFees + usd per block), else the engine.
+    var series = blockFees.length > 0 ? blockFees : sparklineData.map(function(f, i) {
+      return { avgFees: f, usd: null, t: i };
+    });
+    var hasUsd = blockFees.length > 0;
+    var price = hasUsd && typeof series[series.length - 1].usd === 'number' && series[series.length - 1].usd > 0
+      ? series[series.length - 1].usd : (typeof btcPrice === 'number' ? btcPrice : 0);
+
+    var maxVal = 0;
+    for (var si = 0; si < series.length; si++) {
+      var fv = series[si].avgFees || 0;
+      if (fv > maxVal) maxVal = fv;
+    }
     if (maxVal === 0) maxVal = 1;
 
+    var plotL = trendX + 34;
+    var plotR = trendX + trendW - 6;
+    var plotT = trendY + 16;
+    var plotB = trendY + trendH - 18;
+    var plotW = plotR - plotL;
+    var plotH = plotB - plotT;
+    if (plotW < 40 || plotH < 10) return;
+
+    // Y axis: 3 ticks in BTC (fee sats -> BTC) + USD conversion when price known
+    ctx.fillStyle = '#6A5D4E';
+    ctx.font = '9px -apple-system, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    for (var yt = 0; yt <= 3; yt++) {
+      var yv = maxVal * yt / 3;
+      var yy = plotB - (yv / maxVal) * plotH;
+      ctx.strokeStyle = 'rgba(58,50,40,0.5)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(plotL, yy); ctx.lineTo(plotR, yy); ctx.stroke();
+      var btc = yv / 100000000;
+      ctx.fillText(btc.toFixed(3) + ' BTC', plotL - 4, yy);
+    }
+
+    // Area + line
     ctx.beginPath();
-    for (var i = 0; i < sparklineData.length; i++) {
-      var ix = trendX + (i / (sparklineData.length - 1)) * trendW;
-      var iy = trendY + trendH - (sparklineData[i] / maxVal) * trendH;
+    for (var i = 0; i < series.length; i++) {
+      var ix = plotL + (i / (series.length - 1)) * plotW;
+      var iy = plotB - ((series[i].avgFees || 0) / maxVal) * plotH;
       if (i === 0) ctx.moveTo(ix, iy);
       else ctx.lineTo(ix, iy);
     }
-    ctx.lineTo(trendX + trendW, trendY + trendH);
-    ctx.lineTo(trendX, trendY + trendH);
+    ctx.lineTo(plotL + plotW, plotB);
+    ctx.lineTo(plotL, plotB);
     ctx.closePath();
     ctx.fillStyle = 'rgba(212,147,58,0.08)';
     ctx.fill();
@@ -282,19 +337,50 @@ var VIZ_Miner = (function() {
     ctx.beginPath();
     ctx.strokeStyle = '#D4933A';
     ctx.lineWidth = 2;
-    for (var i = 0; i < sparklineData.length; i++) {
-      var ix = trendX + (i / (sparklineData.length - 1)) * trendW;
-      var iy = trendY + trendH - (sparklineData[i] / maxVal) * trendH;
-      if (i === 0) ctx.moveTo(ix, iy);
-      else ctx.lineTo(ix, iy);
+    for (var j = 0; j < series.length; j++) {
+      var jx = plotL + (j / (series.length - 1)) * plotW;
+      var jy = plotB - ((series[j].avgFees || 0) / maxVal) * plotH;
+      if (j === 0) ctx.moveTo(jx, jy);
+      else ctx.lineTo(jx, jy);
     }
     ctx.stroke();
 
-    ctx.fillStyle = '#6A5D4E';
-    ctx.font = '9px -apple-system, sans-serif';
+    // Min/max value labels
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#9B8B78';
+    ctx.fillText((maxVal / 100000000).toFixed(4) + ' BTC max', plotL, plotT - 3);
+    if (price > 0) {
+      ctx.fillText('≈ $' + fmtUSD(maxVal / 100000000 * price), plotL + 74, plotT - 3);
+    }
+
+    // X time labels — real timestamps from the mirror, else block indices
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    var labels = [];
+    for (var li = 0; li < series.length; li++) {
+      var ts = series[li].t;
+      labels.push(typeof ts === 'number' ? ts : null);
+    }
+    [0, Math.floor(series.length / 2), series.length - 1].forEach(function (idx) {
+      var lab = '—';
+      var ts = labels[idx];
+      // Real unix timestamps only (seconds or ms); block indices render as —.
+      if (typeof ts === 'number' && ts > 1000000000) {
+        var ms = ts > 100000000000 ? ts : ts * 1000;
+        var d = new Date(ms);
+        if (!isNaN(d.getTime())) {
+          lab = String(d.getUTCHours()).padStart(2, '0') + ':' + String(d.getUTCMinutes()).padStart(2, '0');
+        }
+      }
+      ctx.fillText(lab, plotL + (idx / (series.length - 1)) * plotW, plotB + 4);
+    });
+
+    // Title
     ctx.textAlign = 'left';
     ctx.textBaseline = 'top';
-    ctx.fillText('Fee Revenue Trend (24h)', trendX + 8, trendY + 4);
+    ctx.fillStyle = '#6A5D4E';
+    ctx.font = '9px -apple-system, sans-serif';
+    ctx.fillText('Fee Revenue Trend — real per-block avg fees, last 144 blocks' + (hasUsd ? ' (USD at capture price)' : ''), trendX + 8, trendY + 2);
   }
 
   function drawFeeShare(feeTotal) {

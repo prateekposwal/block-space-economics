@@ -168,6 +168,7 @@ td.fee{font-variant-numeric:tabular-nums;font-weight:500}
   }
 </style>
 <script src="/js/beta-nav.js" defer></script>
+<script src="/js/data-health.js" defer></script>
 </head>
 <body>
 
@@ -180,6 +181,7 @@ td.fee{font-variant-numeric:tabular-nums;font-weight:500}
  <a href="/capacity" class="nav-item">Capacity</a>
  <span class="nav-item active">Fork Tracker</span>
  </nav>
+ <span id="data-health" title="Data status" data-health-extra="/data/bip110.json:observedAt" style="font-size:0.9em;color:#8B949E;margin-left:10px;">⚪</span>
  </div>
  </header>
 
@@ -274,6 +276,12 @@ td.fee{font-variant-numeric:tabular-nums;font-weight:500}
 <span id="tlEndLabel">End of period</span>
 </div>
 </div>
+</section>
+
+<section class="viz-section" id="dailySignalingSection">
+<div class="viz-section-title" style="font-size:1.1rem;font-weight:700;color:#EADCC8;margin:28px 0 6px;">Daily Signaling — Bit 4 Share</div>
+<div class="viz-section-desc" style="font-size:.9rem;color:#6A5D4E;margin-bottom:12px;line-height:1.6;">Observed share of sampled blocks signaling bit 4, per day, with the 55% lock-in threshold. Bars use only captured blocks (no fabricated values). Data: <code>data/bip110_daily.json</code>.</div>
+<canvas id="viz-bip110-daily" style="display:block;width:100%;max-width:1100px;border-radius:12px;background:#1A1612;border:1px solid #3A3228;"></canvas>
 </section>
 
 <section class="table-section" id="tableSection">
@@ -413,6 +421,7 @@ td.fee{font-variant-numeric:tabular-nums;font-weight:500}
 
 </main>
 
+<script src="/tools/viz-bip110.js" defer></script>
 <script>
 (function() {
 const MEMPOOL_API = 'https://mempool.space/api';
@@ -734,6 +743,7 @@ document.addEventListener('visibilitychange', function() {
 function init() {
 fetchData();
 startTimers();
+try { VIZ_Bip110 && VIZ_Bip110.init('viz-bip110-daily'); } catch (e) { console.error('viz-bip110 init:', e); }
 }
 
 if (document.readyState === 'loading') {
