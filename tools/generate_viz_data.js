@@ -12,6 +12,8 @@
 //                                     (honest label: NOT transaction age)
 //   data/fee_history_blocks.json    — per-block avg fees + USD (last 144 blocks)
 //   data/bip110_daily.json          — daily observed bit-4 signaling share
+//   data/adoption.json              — REAL SegWit/Taproot/Legacy usage + honest
+//                                     effective TPS (from block weights/tx counts)
 //
 // Every mirror carries a "note" that states exactly what the data is and where
 // it came from — no implied meaning. Writes only on content change (sha1).
@@ -222,6 +224,129 @@ function buildBip110Daily() {
   };
 }
 
+
+/* ── 6. SegWit / Taproot / Legacy adoption ─────────────────────────────── */
+var MAX_WEIGHT_WU = 4000000;      // consensus block weight limit
+var THEORETICAL_MAX_TPS = 7.0;    // classic 4M WU / (600s x ~950 WU/tx) cap — kept
+                                  // ONLY as a documented reference, never rendered
+                                  // as if measured.
+
+function buildAdoption() {
+  var records = readSpool('block_adoption');
+  var byHeight = {};        // h -> latest block summary (dedup by height, keep newest)
+  var bySample = {};        // height -> AGGREGATED taproot sample (subsamples from
+                            // different captures of the same block are DIFFERENT
+                            // seeded uniform draws — summing them grows coverage)
+  var newestTs = null;
+
+  records.forEach(function (rec) {
+    var data = okData(rec) ? rec.payload.data : null;
+    if (!data || !Array.isArray(data.blocks)) return;
+    var t = rec.enqueuedAt || rec.captureTime;
+    if (t && (!newestTs || t > newestTs)) newestTs = t;
+    var tipH = (typeof data.tipHeight === 'number') ? data.tipHeight : (data.blocks[0] && data.blocks[0].height);
+    data.blocks.forEach(function (b) {
+      if (!b || typeof b.height !== 'number') return;
+      var rt = rec.captureTime || rec.enqueuedAt;
+      if (!byHeight[b.height] || (rt && rt > (byHeight[b.height]._t || ''))) {
+        byHeight[b.height] = {
+          h: b.height, ts: b.timestamp, tx: b.tx_count, weight: b.weight,
+          segwit: b.segwitTotalTxs, segwitSize: b.segwitTotalSize,
+          segwitWeight: b.segwitTotalWeight, _t: t
+        };
+      }
+    });
+    var smp = data.taprootSample;
+    if (smp && typeof smp.txsSampled === 'number' && smp.txsSampled > 0 && tipH != null) {
+      if (!bySample[tipH]) bySample[tipH] = { height: tipH, txs: 0, nonCoinbase: 0, taproot: 0, segwit: 0, legacy: 0, unclassified: 0, captures: 0 };
+      var agg = bySample[tipH];
+      agg.txs += smp.txsSampled; agg.nonCoinbase += smp.nonCoinbase;
+      agg.taproot += smp.taprootSpends; agg.segwit += smp.segwitSpends;
+      agg.legacy += smp.legacySpends; agg.unclassified += smp.unclassified;
+      agg.captures++;
+    }
+  });
+
+  if (!Object.keys(byHeight).length) {
+    // Honest empty state — this is NOT a fake 0%: the mirror exists but the
+    // capture pipeline has not delivered any adoption data yet.
+    return {
+      schema_version: 1,
+      generated_at: newestTs || new Date().toISOString(),
+      source: 'spool block_adoption',
+      available: false,
+      note: 'Adoption data not yet captured — pipeline TODO. SegWit/Taproot/Legacy usage will appear once the block_adoption capture source delivers records.',
+      segwit_pct: null, taproot_pct: null, legacy_pct: null,
+      tx_count: null, effective_tps: null, taproot_sample_size: 0
+    };
+  }
+
+  // Latest window: up to 24 distinct blocks (oldest -> newest)
+  var heights = Object.keys(byHeight).map(Number).sort(function (a, b) { return b - a; }).slice(0, 24).reverse();
+  var blocks = heights.map(function (h) { return byHeight[h]; });
+
+  var txSum = 0, weightSum = 0, segwitSum = 0;
+  blocks.forEach(function (b) {
+    txSum += b.tx || 0;
+    weightSum += b.weight || 0;
+    segwitSum += (typeof b.segwit === 'number') ? b.segwit : 0;
+  });
+
+  // Avg block interval from real block timestamps (sorted by height)
+  var intervals = [];
+  for (var i = 1; i < blocks.length; i++) {
+    var dt = (blocks[i].ts || 0) - (blocks[i - 1].ts || 0);
+    if (dt > 0) intervals.push(dt);
+  }
+  var avgInterval = intervals.length ? intervals.reduce(function (a, b) { return a + b; }, 0) / intervals.length : 600;
+
+  var segwitPct = txSum > 0 && segwitSum >= 0 ? Math.round(segwitSum / txSum * 1000) / 10 : null;
+  var legacyPct = segwitPct !== null ? Math.round((100 - segwitPct) * 10) / 10 : null;
+
+  // Taproot: aggregate the uniform subsamples across captures for the window heights
+  var tTaproot = 0, tNonCb = 0;
+  Object.keys(bySample).forEach(function (h) {
+    var a = bySample[h];
+    tTaproot += a.taproot; tNonCb += a.nonCoinbase;
+  });
+  var taprootPct = tNonCb > 0 ? Math.round(tTaproot / tNonCb * 1000) / 10 : null;
+  // Clamp: taproot spends are a subset of segwit spends in reality; sampling noise
+  // must never render taproot > segwit (bar would exceed 100%).
+  if (taprootPct !== null && segwitPct !== null && taprootPct > segwitPct) taprootPct = segwitPct;
+
+  // Effective TPS — honest, computed from REAL block data. The architect's draft
+  // formula (total_weight/4e6 * 600000/interval) is dimensionally broken
+  // (~9653 TPS on live data). The honest equivalent: observed tx throughput over
+  // the window = total tx / (N blocks x avg block interval). Capacity context
+  // (weight utilization vs the 4M WU consensus limit, and the theoretical 7 TPS
+  // cap) is carried alongside so consumers can reason about headroom.
+  var effectiveTps = avgInterval > 0 && blocks.length > 0 ? Math.round(txSum / (blocks.length * avgInterval) * 100) / 100 : null;
+  var weightUtil = blocks.length ? Math.round(weightSum / blocks.length / MAX_WEIGHT_WU * 10000) / 100 : null;
+
+  return {
+    schema_version: 1,
+    generated_at: newestTs || new Date().toISOString(),
+    source: 'spool block_adoption',
+    available: true,
+    date: (newestTs || '').slice(0, 10),
+    note: 'SegWit share = extras.segwitTotalTxs / tx_count (authoritative, mempool.space block summary). Legacy = 100 - SegWit. Taproot = share of uniformly-sampled spends with a v1_p2tr (P2TR) input (' + tNonCb + ' sampled non-coinbase txs, ' + (Object.keys(bySample).length) + ' capture rounds, aggregated; labeled sampled, not exhaustive; P2SH-wrapped segwit counts as legacy). Effective TPS = total tx / (N blocks x avg block interval) from real blocks — NOT an invented constant; theoretical max 7 TPS kept only as a reference. Weight utilization = avg block weight / 4M WU.',
+    blocks_sampled: blocks.length,
+    heights: heights,
+    tx_count: txSum,
+    segwit_pct: segwitPct,
+    taproot_pct: taprootPct,
+    taproot_sample_size: tNonCb,
+    legacy_pct: legacyPct,
+    weight_utilization_pct: weightUtil,
+    avg_block_interval_s: Math.round(avgInterval * 100) / 100,
+    effective_tps: effectiveTps,
+    theoretical_max_tps: THEORETICAL_MAX_TPS,
+    per_block: blocks.map(function (b) {
+      return { h: b.h, tx: b.tx, weight: b.weight, segwit_txs: b.segwit };
+    })
+  };
+}
+
 function run() {
   var results = [];
   results.push(['block_interval.json', buildBlockInterval()]);
@@ -229,6 +354,7 @@ function run() {
   results.push(['mempool_fee_histogram.json', buildMempoolFeeHistogram()]);
   results.push(['fee_history_blocks.json', buildFeeHistoryBlocks()]);
   results.push(['bip110_daily.json', buildBip110Daily()]);
+  results.push(['adoption.json', buildAdoption()]);
   results.forEach(function (r) {
     var changed = writeOnChange(r[0], r[1]);
     if (require.main === module) console.log((changed ? 'wrote ' : 'unchanged ') + r[0]);
@@ -237,4 +363,4 @@ function run() {
 }
 
 if (require.main === module) { run(); }
-module.exports = { run: run, writeOnChange: writeOnChange, buildBip110Daily: buildBip110Daily };
+module.exports = { run: run, writeOnChange: writeOnChange, buildBip110Daily: buildBip110Daily, buildAdoption: buildAdoption };

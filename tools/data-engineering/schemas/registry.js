@@ -1,7 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 
-var SOURCES = ['fees', 'btc_price', 'mempool', 'mempool_blocks', 'fee_history', 'lightning', 'blocks', 'block_height', 'block_hash', 'raw_block_tip', 'coinpaprika', 'fear_greed', 'blockchair', 'mining_pools', 'difficulty', 'hashrate', 'mempool_recent'];
+var SOURCES = ['fees', 'btc_price', 'mempool', 'mempool_blocks', 'fee_history', 'lightning', 'blocks', 'block_height', 'block_hash', 'raw_block_tip', 'coinpaprika', 'fear_greed', 'blockchair', 'mining_pools', 'difficulty', 'hashrate', 'mempool_recent', 'block_adoption'];
 
 function loadModule(name) {
   var mod = require('./' + name + '.js');

@@ -70,6 +70,20 @@ function defaultFetch(ep, cfg) {
   if (ep.chain && ep.chain.length > 1) {
     return chainFetch(ep, cfg);
   }
+  if (typeof ep.collect === 'function') {
+    // Multi-request collector endpoint (block_adoption): a function that
+    // composes several sequential fetches (with polite delays) into one
+    // capture record. Kept out of the chain path because the walk is not a
+    // linear :hash substitution — it walks previousblockhash and samples
+    // per-tx script types.
+    try {
+      var c = ep.collect(fetchUrl, ep.timeoutMs || cfg.timeoutMs);
+      if (c && typeof c.then === 'function') return c;
+      return Promise.resolve({ status: 0, error: 'collect did not return a promise', fetchedAt: new Date().toISOString() });
+    } catch (e) {
+      return Promise.resolve({ status: 0, error: 'collect threw: ' + e.message, fetchedAt: new Date().toISOString() });
+    }
+  }
   return fetchUrl(ep.url, cfg.timeoutMs).then(function(res) {
     if (res.status !== 0 && res.status < 400) return res;
     // Primary failed — try fallbacks (single point of failure protection for the

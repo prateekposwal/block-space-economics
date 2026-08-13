@@ -8,7 +8,9 @@ var ALL_HTML = ['index.html', 'live.html', 'learn.html', 'capacity.html', 'fork-
    'tools/viz-exchange.js', 'tools/viz-node.js', 'tools/viz-miner.js', 'tools/viz-research.js', 'tools/viz-developer.js',
    'js/beta-gate.js', 'js/beta-nav.js', 'js/data-health.js', 'sw.js',
    'tools/viz-bip110.js', 'tools/viz-block-interval.js', 'tools/viz-hashrate.js',
-   'tools/viz-fee-heatmap.js', 'tools/viz-mempool-hist.js', 'tools/generate_viz_data.js'];
+   'tools/viz-fee-heatmap.js', 'tools/viz-mempool-hist.js', 'tools/generate_viz_data.js',
+   'tools/data-engineering/capture-agent.js', 'tools/data-engineering/config.js',
+   'tools/data-engineering/block-adoption-collect.js', 'tools/data-engineering/schemas/block_adoption.js'];
 var ALL_ViZ = ['tools/viz-send.js', 'tools/viz-lightning.js', 'tools/viz-exchange.js', 'tools/viz-node.js',
   'tools/viz-miner.js', 'tools/viz-research.js', 'tools/viz-developer.js'];
 

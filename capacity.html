@@ -114,7 +114,7 @@ a:hover{color:#E8B86D}
 <a href="/learn">Learn</a>
 <a href="/capacity" class="active">Capacity</a>
 <a href="/fork-tracker">Fork</a><a href="/story.html">Data Story</a><a href="/articles.html">Articles</a><a href="/beta.html">Beta</a><a href="/research">Research</a>
-<span id="data-health" title="Data status" style="font-size:0.9em;color:#8B949E;margin-left:10px;">⚪</span>
+<span id="data-health" title="Data status" data-health-extra="/data/adoption.json:generated_at" style="font-size:0.9em;color:#8B949E;margin-left:10px;">⚪</span>
 </div>
 </div>
 </div>
@@ -218,6 +218,67 @@ var MAX_TPS = 7;
 
 function $(id) { return document.getElementById(id); }
 
+// Adoption — REAL SegWit/Taproot/Legacy usage from the data/adoption.json
+// mirror (generated from the block_adoption spool capture; hourly). The old
+// Math.random() fabrication was removed 2026-08-13; this renders measured
+// values only. No mirror / no data -> honest pending state, never fake 0%.
+var ADOPTION_MIRROR = null;
+
+function renderAdoption(a) {
+  var segwitPct = 0, has = false, effTps = null;
+  if (a && a.available === true && typeof a.segwit_pct === 'number') {
+    segwitPct = a.segwit_pct;
+    effTps = (typeof a.effective_tps === 'number') ? a.effective_tps : null;
+    has = true;
+  }
+  var elS = $('segwit-pct'), elT = $('taproot-pct'), elL = $('legacy-pct'), elE = $('eff-capacity');
+  if (!has) {
+    if (elS) elS.textContent = '--';
+    if (elT) elT.textContent = '--';
+    if (elL) elL.textContent = '--';
+    if (elE) { elE.textContent = '--'; elE.setAttribute('title', 'Effective capacity pending — real weight data not captured yet'); }
+    $('adoption-bar').innerHTML = '<div class="adoption-seg legacy" style="width:100%">Adoption data not yet captured — pipeline TODO</div>';
+    return { has: false, segwitPct: 0 };
+  }
+  var taprootPct = (typeof a.taproot_pct === 'number') ? a.taproot_pct : 0;
+  var legacyPct = (typeof a.legacy_pct === 'number') ? a.legacy_pct : Math.round((100 - segwitPct) * 10) / 10;
+  // Bar: Legacy | SegWit (non-Taproot) | Taproot — Taproot spends are SegWit v1,
+  // so Taproot renders INSIDE the SegWit segment; the three widths sum to 100%.
+  var sw = Math.round(segwitPct), tp = Math.min(Math.round(taprootPct), sw), lg = Math.round(legacyPct);
+  var segNonTr = Math.max(0, sw - tp);
+  var barHtml = '';
+  if (lg > 0) barHtml += '<div class="adoption-seg legacy" style="width:' + lg + '%">Legacy ' + lg + '%</div>';
+  if (segNonTr > 0) barHtml += '<div class="adoption-seg segwit" style="width:' + segNonTr + '%">SegWit ' + sw + '%</div>';
+  if (tp > 0) barHtml += '<div class="adoption-seg taproot" style="width:' + tp + '%">Taproot ' + tp + '%</div>';
+  $('adoption-bar').innerHTML = barHtml;
+  if (elS) elS.textContent = segwitPct.toFixed(1) + '%';
+  if (elT) {
+    elT.textContent = taprootPct.toFixed(1) + '% (sampled)';
+    elT.setAttribute('title', a.note || 'Taproot share from a bounded uniform sample of spends');
+  }
+  if (elL) elL.textContent = legacyPct.toFixed(1) + '%';
+  if (elE) {
+    elE.textContent = effTps !== null ? effTps.toFixed(1) + ' TPS' : '--';
+    elE.setAttribute('title', 'Effective TPS observed from ' + (a.blocks_sampled || 0) + ' real blocks: total tx / (N x avg block interval). Theoretical max ' + (a.theoretical_max_tps || 7) + ' TPS at 4M WU.');
+  }
+  return { has: has, segwitPct: segwitPct };
+}
+
+function fetchAdoption() {
+  fetch('data/adoption.json').then(function (r) {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  }).then(function (a) {
+    ADOPTION_MIRROR = a;
+    renderAdoption(a);
+  }).catch(function () {
+    ADOPTION_MIRROR = null;
+    renderAdoption(null);
+  });
+}
+fetchAdoption();
+setInterval(fetchAdoption, 10 * 60 * 1000); // mirror regenerated hourly by the snapshot agent
+
 DATA_ENGINE.start();
 DATA_ENGINE.onUpdate(function() {
   var d = DATA_ENGINE.get();
@@ -241,15 +302,23 @@ DATA_ENGINE.onUpdate(function() {
   // Avg tx size from latest block
   var avgTxSize = (lastBlock && lastBlock.tx_count > 0) ? Math.round(lastBlock.size / lastBlock.tx_count) : '--';
 
-  // Settlement capacity
+  // Settlement capacity — real data only. (2026-08-14 honesty fix: the old code
+  // added a fabricated 2500 txs/block constant per fee-history entry, which
+  // inflated TX/Day and avg-tx-value. Daily tx count now comes from the real
+  // captured block tx_counts.)
   var totalFeesBlock = 0;
-  var totalTxs = 0;
-  for (var si = 0; si < fh.length; si++) { totalFeesBlock += fh[si].avgFees || 0; totalTxs += 2500; }
+  for (var si = 0; si < fh.length; si++) { totalFeesBlock += fh[si].avgFees || 0; }
   var avgFeePerBlock = fh.length > 0 ? totalFeesBlock / fh.length : 0;
   var blocksPerDay = 144;
   var dailyBtcMined = 3.125 * blocksPerDay;
   var dailyFeesBtc = (avgFeePerBlock * blocksPerDay) / 100000000;
   var dailySettlement = (dailyBtcMined + dailyFeesBtc) * btcPrice;
+  var blockTxs = 0, blockN = 0;
+  for (var bi = 0; bi < blocks.length; bi++) {
+    if (blocks[bi] && blocks[bi].tx_count > 0) { blockTxs += blocks[bi].tx_count; blockN++; }
+  }
+  var avgTxsPerBlock = blockN > 0 ? blockTxs / blockN : 0;
+  var totalTxs = Math.round(avgTxsPerBlock * blocksPerDay);
   var avgTxValue = dailySettlement / (totalTxs || 1);
 
   fmtCurrency = function(v) {
@@ -304,49 +373,37 @@ DATA_ENGINE.onUpdate(function() {
   $('m-weight-pct').textContent = weightPct !== '--' ? weightPct + '%' : '--';
   $('m-avg-tx').textContent = avgTxSize !== '--' ? avgTxSize + ' vB' : '--';
 
-  // Adoption estimates — honest: only shown from real tx-type data when captured.
-  // (Previously fabricated via Math.random; now "-- pending" until a real capture.)
-  // Declared once (was undeclared -> ReferenceError on every update, breaking
-  // the adoption bar + gauges and flooding the console).
-  var segwitPct = 0, taprootPct = 0, legacyPct = 0;
-  $('segwit-pct').textContent = '--';
-  $('taproot-pct').textContent = '--';
-  $('legacy-pct').textContent = '--';
-
-  // Adoption bar
-  var barHtml = '<div class="adoption-seg segwit" style="width:' + segwitPct + '%">SegWit ' + segwitPct + '%</div>' +
-    '<div class="adoption-seg taproot" style="width:' + taprootPct + '%">Taproot ' + taprootPct + '%</div>' +
-    '<div class="adoption-seg legacy" style="width:' + legacyPct + '%">Legacy ' + legacyPct + '%</div>';
-  $('adoption-bar').innerHTML = barHtml;
-
-  // Effective capacity
-  $('eff-capacity').textContent = segwitPct > 80 ? (MAX_TPS * 1.3).toFixed(1) + ' TPS' : MAX_TPS + ' TPS';
+  // Adoption — REAL SegWit/Taproot/Legacy usage from the data/adoption.json
+  // mirror (rendered by renderAdoption(); missing mirror -> honest pending).
+  var adoptionState = renderAdoption(ADOPTION_MIRROR);
 
   // Lightning stats
   $('ln-nodes-cap').textContent = (ln.node_count || 0).toLocaleString();
   $('ln-channels-cap').textContent = (ln.channel_count || 0).toLocaleString();
   $('ln-capacity-cap').textContent = ((ln.total_capacity || 0) / 100000000).toFixed(0) + ' BTC';
 
-  // Gauges
+  // Gauges — SegWit gauge feeds the REAL adoption mirror; null -> '--', never 0%.
   var gauges = [
     { id: 'gauge-inflow', label: 'Inflow Rate', value: Math.min(100, Math.round(inflowRate / 200 * 100)), max: 100, unit: 'tx/min', color: '#58A6FF' },
-    { id: 'gauge-weight', label: 'Block Weight', value: weightPct !== '--' ? Math.round(parseFloat(weightPct)) : 0, max: 100, unit: '%', color: '#D4933A' },
-    { id: 'gauge-segwit', label: 'SegWit Adoption', value: segwitPct, max: 100, unit: '%', color: '#3BA35D' },
+    { id: 'gauge-weight', label: 'Block Weight', value: weightPct !== '--' ? Math.round(parseFloat(weightPct)) : null, max: 100, unit: '%', color: '#D4933A' },
+    { id: 'gauge-segwit', label: 'SegWit Adoption', value: adoptionState.has ? Math.round(adoptionState.segwitPct) : null, max: 100, unit: '%', color: '#3BA35D' },
     { id: 'gauge-mempool', label: 'Mempool Pressure', value: Math.min(100, Math.round(mpCount / 50000 * 100)), max: 100, unit: '%', color: mpCount > 30000 ? '#C0392B' : mpCount > 10000 ? '#D4762A' : '#3BA35D' },
   ];
 
   var gridHtml = '';
   gauges.forEach(function(g) {
+    var showVal = (g.value === null || g.value === undefined) ? '--' : g.value + g.unit;
+    var fillW = (g.value === null || g.value === undefined) ? 0 : Math.min(100, g.value);
     gridHtml += '<div class="gauge-card">' +
       '<div class="gauge-label">' + g.label + '</div>' +
-      '<div class="gauge-value" style="color:' + g.color + '">' + g.value + g.unit + '</div>' +
-      '<div class="gauge-bar"><div class="gauge-fill" style="width:' + Math.min(100, g.value) + '%;background:' + g.color + '"></div></div>' +
+      '<div class="gauge-value" style="color:' + g.color + '">' + showVal + '</div>' +
+      '<div class="gauge-bar"><div class="gauge-fill" style="width:' + fillW + '%;background:' + g.color + '"></div></div>' +
       '</div>';
   });
   $('gauge-grid').innerHTML = gridHtml;
 
-  // Draw weight trend
-  drawWeightChart(fh);
+  // Draw weight trend (real block weights; no more fee-derived estimates)
+  drawWeightChart(fh, blocks);
 });
 
 // Animated hero visualization
@@ -428,11 +485,14 @@ function drawSettlement() {
   setCtx.fill();
   setCtx.shadowBlur = 0;
 
-  // Dollar amount in pool
+  // Dollar amount in pool — REAL price only (2026-08-14 honesty fix: the old
+  // code fell back to a hardcoded $64,000 and added a fabricated 0.05 BTC fee
+  // constant). Now: 3.125 BTC block subsidy x live price; '--' when price is
+  // missing. Never a plausible number from an invented input.
   var d = typeof DATA_ENGINE !== 'undefined' ? DATA_ENGINE.get() : null;
-  var price = d && d.btc_price ? d.btc_price : 64000;
-  var blockValue = (3.125 * price + 5000000 / 100000000 * price);
-  var valueText = '$' + (blockValue >= 1000000 ? (blockValue / 1000000).toFixed(1) + 'M' : Math.round(blockValue / 1000).toFixed(0) + 'K');
+  var price = d && d.btc_price ? d.btc_price : null;
+  var blockValue = price ? 3.125 * price : null;
+  var valueText = blockValue === null ? '--' : '$' + (blockValue >= 1000000 ? (blockValue / 1000000).toFixed(1) + 'M' : Math.round(blockValue / 1000).toFixed(0) + 'K');
   setCtx.fillStyle = '#D4933A';
   setCtx.font = 'bold 16px -apple-system,sans-serif';
   setCtx.textAlign = 'center';
@@ -440,7 +500,7 @@ function drawSettlement() {
   setCtx.fillText(valueText, poolX, poolY - 6);
   setCtx.font = '10px -apple-system,sans-serif';
   setCtx.fillStyle = 'rgba(107,93,78,0.6)';
-  setCtx.fillText('per block', poolX, poolY + 14);
+  setCtx.fillText(price ? 'block subsidy' : 'price pending', poolX, poolY + 14);
 
   // Flowing particles: blocks moving from left to pool
   for (var i = 0; i < 5; i++) {
@@ -471,11 +531,15 @@ function drawSettlement() {
   setCtx.font = '11px -apple-system,sans-serif';
   setCtx.fillStyle = 'rgba(107,93,78,0.5)';
   setCtx.textAlign = 'center';
-  setCtx.fillText('27,800 nodes · 40+ countries · $' + (price).toLocaleString() + ' BTC', w / 2, h - 20);
+  var lnD = (d && d.lightning) ? d.lightning : {};
+  var nodeTxt = (typeof lnD.node_count === 'number') ? lnD.node_count.toLocaleString() + ' nodes' : 'nodes --';
+  var countryTxt = (typeof lnD.countries === 'number') ? lnD.countries + '+ countries' : 'countries --';
+  var priceTxt = price ? '$' + price.toLocaleString() + ' BTC' : 'price --';
+  setCtx.fillText(nodeTxt + ' · ' + countryTxt + ' · ' + priceTxt, w / 2, h - 20);
 
   // Per-second counter at bottom
   var d = typeof DATA_ENGINE !== 'undefined' ? DATA_ENGINE.get() : null;
-  var fees = d && d.fees ? d.fees : { fastestFee: 3 };
+  var fees = d && d.fees ? d.fees : { fastestFee: null };
   setCtx.font = 'bold 13px -apple-system,sans-serif';
   setCtx.fillStyle = 'rgba(234,220,200,0.5)';
   setCtx.textAlign = 'center';
@@ -501,7 +565,7 @@ function roundRect(ctx, x, y, w, h, r) {
 // Weight trend chart
 var weightCanvas, weightCtx, weightW, weightH;
 
-function drawWeightChart(fh) {
+function drawWeightChart(fh, blks) {
   weightCanvas = $('weight-chart');
   if (!weightCanvas) return;
   weightCtx = weightCanvas.getContext('2d');
@@ -516,7 +580,16 @@ function drawWeightChart(fh) {
   weightCtx.fillStyle = '#1A1612';
   weightCtx.fillRect(0, 0, weightW, weightH);
 
-  if (!fh || fh.length < 2) {
+  // REAL block weights (2026-08-14 honesty fix: the chart previously drew
+  // avgFees/10 as a fabricated 'estimated weight' — now it plots the actual
+  // captured block weights, oldest -> newest).
+  var series = [];
+  if (blks && blks.length >= 2) {
+    for (var ri = blks.length - 1; ri >= 0; ri--) {
+      if (blks[ri] && blks[ri].weight > 0) series.push(blks[ri].weight);
+    }
+  }
+  if (series.length < 2) {
     weightCtx.fillStyle = '#6A5D4E';
     weightCtx.font = '14px -apple-system,sans-serif';
     weightCtx.textAlign = 'center';
@@ -530,10 +603,9 @@ function drawWeightChart(fh) {
 
   var maxWeight = MAX_BLOCK_WEIGHT;
   var minWeight = 0;
-  // Get actual max from data
-  for (var i = 0; i < fh.length; i++) {
-    var estWeight = (fh[i].avgFees || 0) / 10;
-    if (estWeight > maxWeight * 0.3 && estWeight < maxWeight * 1.1) maxWeight = Math.max(maxWeight, estWeight);
+  // Get actual max from the real weights (never below the 4M WU consensus cap)
+  for (var i = 0; i < series.length; i++) {
+    if (series[i] > maxWeight * 0.3 && series[i] < maxWeight * 1.1) maxWeight = Math.max(maxWeight, series[i]);
   }
 
   // Grid lines
@@ -553,10 +625,9 @@ function drawWeightChart(fh) {
 
   // Area
   weightCtx.beginPath();
-  for (var i = 0; i < fh.length; i++) {
-    var estWeight = (fh[i].avgFees || 0) / 10;
-    var x = pad.left + (i / (fh.length - 1)) * plotW;
-    var y = pad.top + plotH - Math.min(1, estWeight / maxWeight) * plotH;
+  for (var i = 0; i < series.length; i++) {
+    var x = pad.left + (i / (series.length - 1)) * plotW;
+    var y = pad.top + plotH - Math.min(1, series[i] / maxWeight) * plotH;
     if (i === 0) weightCtx.moveTo(x, y);
     else weightCtx.lineTo(x, y);
   }
@@ -570,10 +641,9 @@ function drawWeightChart(fh) {
   weightCtx.beginPath();
   weightCtx.strokeStyle = '#D4933A';
   weightCtx.lineWidth = 2;
-  for (var i = 0; i < fh.length; i++) {
-    var estWeight = (fh[i].avgFees || 0) / 10;
-    var x = pad.left + (i / (fh.length - 1)) * plotW;
-    var y = pad.top + plotH - Math.min(1, estWeight / maxWeight) * plotH;
+  for (var i = 0; i < series.length; i++) {
+    var x = pad.left + (i / (series.length - 1)) * plotW;
+    var y = pad.top + plotH - Math.min(1, series[i] / maxWeight) * plotH;
     if (i === 0) weightCtx.moveTo(x, y);
     else weightCtx.lineTo(x, y);
   }
@@ -598,12 +668,12 @@ function drawWeightChart(fh) {
   weightCtx.fillStyle = '#EADCC8';
   weightCtx.font = 'bold 12px -apple-system,sans-serif';
   weightCtx.textAlign = 'left';
-  weightCtx.fillText('Block Weight (estimated from fees)', pad.left, 16);
+  weightCtx.fillText('Block Weight (last ' + series.length + ' blocks, real)', pad.left, 16);
   weightCtx.font = '9px -apple-system,sans-serif';
   weightCtx.fillStyle = '#6A5D4E';
   weightCtx.textAlign = 'center';
-  weightCtx.fillText('← 24h ago', pad.left, pad.top + plotH + 18);
-  weightCtx.fillText('now →', pad.left + plotW, pad.top + plotH + 18);
+  weightCtx.fillText('← oldest', pad.left, pad.top + plotH + 18);
+  weightCtx.fillText('newest →', pad.left + plotW, pad.top + plotH + 18);
 }
 
 window.addEventListener('load', function() {

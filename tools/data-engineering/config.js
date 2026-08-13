@@ -1,3 +1,5 @@
+var collectBlockAdoption = require('./block-adoption-collect.js').collectBlockAdoption;
+
 var CONFIG = {
   agent: {
     name: 'Data Engineer v1',
@@ -86,6 +88,15 @@ var CONFIG = {
     // ── Priority 2: block headers / raw block data ───────────────────────────────────
     // blocks = last 10 block headers incl. id (hash), height, tx_count, size, weight, difficulty, pool.
     { key: 'blocks',          url: 'https://mempool.space/api/blocks?limit=10',            method: 'GET', category: 'blocks',   priority: 2, maxLatency: 8000,  timeoutMs: 30000 },
+    // block_adoption = REAL SegWit/Taproot/Legacy usage. mempool.space's
+    // per-block summary carries extras.segwitTotalTxs/size/weight (authoritative
+    // SegWit share = segwitTotalTxs / tx_count) and /api/block/:hash/txs pages
+    // expose vin[].prevout.scriptpubkey_type for a bounded Taproot spend sample.
+    // `url` (tip hash) is the cheap health-check probe; `collect` does the real
+    // multi-request capture (walk 6 blocks + 2 tx pages each, ~19 sequential
+    // requests, polite 150ms spacing). Added 2026-08-14 — adoption gap closure.
+    { key: 'block_adoption',  url: 'https://blockstream.info/api/blocks/tip/hash',   method: 'GET', category: 'blocks',   priority: 2, maxLatency: 30000, timeoutMs: 30000, retries: 0,
+      collect: function (fetchUrl, timeoutMs) { return collectBlockAdoption(fetchUrl, timeoutMs); } },
     { key: 'block_height',    url: 'https://blockstream.info/api/blocks/tip/height',       method: 'GET', category: 'blocks',   priority: 2, maxLatency: 15000, timeoutMs: 30000 }, // blockstream CDN intermittently throttles — headroom 2026-08-02
     { key: 'block_hash',      url: 'https://blockstream.info/api/blocks/tip/hash',         method: 'GET', category: 'blocks',   priority: 2, maxLatency: 15000, timeoutMs: 30000 }, // NEW 2026-08-02: tip header hash; CDN throttles intermittently
     // raw_block_tip = FULL raw block of the tip (all headers + txs), chained: blockstream tip hash → blockstream raw.

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-13T23:11:48.002Z",
+  "source": "spool block_adoption",
+  "available": true,
+  "date": "2026-08-13",
+  "note": "SegWit share = extras.segwitTotalTxs / tx_count (authoritative, mempool.space block summary). Legacy = 100 - SegWit. Taproot = share of uniformly-sampled spends with a v1_p2tr (P2TR) input (180 sampled non-coinbase txs, 1 capture rounds, aggregated; labeled sampled, not exhaustive; P2SH-wrapped segwit counts as legacy). Effective TPS = total tx / (N blocks x avg block interval) from real blocks — NOT an invented constant; theoretical max 7 TPS kept only as a reference. Weight utilization = avg block weight / 4M WU.",
+  "blocks_sampled": 5,
+  "heights": [
+    962341,
+    962342,
+    962343,
+    962344,
+    962345
+  ],
+  "tx_count": 23846,
+  "segwit_pct": 90.8,
+  "taproot_pct": 1.7,
+  "taproot_sample_size": 180,
+  "legacy_pct": 9.2,
+  "weight_utilization_pct": 99.86,
+  "avg_block_interval_s": 712.25,
+  "effective_tps": 6.7,
+  "theoretical_max_tps": 7,
+  "per_block": [
+    {
+      "h": 962341,
+      "tx": 3771,
+      "weight": 3993640,
+      "segwit_txs": 3373
+    },
+    {
+      "h": 962342,
+      "tx": 6175,
+      "weight": 3997894,
+      "segwit_txs": 4839
+    },
+    {
+      "h": 962343,
+      "tx": 6108,
+      "weight": 3994033,
+      "segwit_txs": 6045
+    },
+    {
+      "h": 962344,
+      "tx": 4282,
+      "weight": 3993116,
+      "segwit_txs": 4051
+    },
+    {
+      "h": 962345,
+      "tx": 3510,
+      "weight": 3993962,
+      "segwit_txs": 3345
+    }
+  ]
+}
