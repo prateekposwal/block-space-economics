@@ -42,6 +42,16 @@ CREATE TABLE IF NOT EXISTS block_stats (
   captured_at TEXT DEFAULT (datetime('now'))
 );
 
+-- ⚠️ DORMANT — DO NOT BUILD ON (marked 2026-08-14).
+-- This table has schema but 0 rows and NO writer. It was designed for
+-- per-tx classification (segwit/legacy/inscription) fed by a local
+-- Bitcoin Core (btc-rpc) spool source that never synced (blocks:0 /
+-- pruneHeight:0). The tx-type question is now answered by the
+-- block_adoption capture source (tools/data-engineering/block-adoption-collect.js)
+-- with 1/100th the infra: authoritative SegWit share from block summaries +
+-- a bounded uniform Taproot spend sample classified by
+-- vin[].prevout.scriptpubkey_type. Do NOT repoint new work here; extend
+-- block_adoption instead. Kept (not deleted) for history.
 CREATE TABLE IF NOT EXISTS transactions (
   txid TEXT PRIMARY KEY,
   block_height INTEGER,

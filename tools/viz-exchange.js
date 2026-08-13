@@ -1,10 +1,14 @@
 var REDUCED_MOTION = (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 var VIZ_Exchange = (function() {
   var canvas, ctx, w = 0, h = 0;
-  var economyFee = 3;
-  var displayEconomyFee = 3;
-  var btcPrice = 60000;
-  var displayBtcPrice = 60000;
+  // Data inputs seed at 0 — real engine values replace them on first update.
+  // (2026-08-14 honesty fix: seeds were fabricated 3 sat/vB / $60,000 and the
+  // chart rendered plausible dollar savings from invented inputs. Now missing
+  // data renders '—' via dataReady below.)
+  var economyFee = 0;
+  var displayEconomyFee = 0;
+  var btcPrice = 0;
+  var displayBtcPrice = 0;
   var batchDiscount = 0.60;
   var isDragging = false;
   var tooltipData = null;
@@ -59,6 +63,9 @@ var VIZ_Exchange = (function() {
 
     var t = Date.now() / 1000;
     var mob = isMobile();
+    // Honest gate: dollar figures only render when REAL fee + price arrived.
+    var dataReady = displayBtcPrice > 0 && displayEconomyFee > 0;
+    function usd(v) { return dataReady ? '$' + v.toFixed(0) : '—'; }
 
     var individualCost = 150 * displayEconomyFee * displayBtcPrice / 100000000;
     var batchedCost = (80 + 1000 * 18) * displayEconomyFee * displayBtcPrice / 100000000;
@@ -102,7 +109,7 @@ var VIZ_Exchange = (function() {
       ctx.font = mob ? '7px -apple-system, sans-serif' : '9px -apple-system, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'bottom';
-      ctx.fillText('$' + cost.toFixed(0), startX, startY - 4);
+      ctx.fillText(usd(cost), startX, startY - 4);
     }
 
     var poolRadius = (mob ? 35 : 50) + Math.sin(t * 1.5) * 3;
@@ -124,7 +131,7 @@ var VIZ_Exchange = (function() {
     ctx.font = mob ? 'bold 16px -apple-system, sans-serif' : 'bold 22px -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('$' + savings.toFixed(0), centerX, poolY - (mob ? 4 : 6));
+    ctx.fillText(usd(savings), centerX, poolY - (mob ? 4 : 6));
     ctx.font = mob ? '8px -apple-system, sans-serif' : '10px -apple-system, sans-serif';
     ctx.fillStyle = 'rgba(59,163,93,0.7)';
     ctx.fillText('saved', centerX, poolY + (mob ? 12 : 16));
@@ -133,10 +140,10 @@ var VIZ_Exchange = (function() {
     ctx.textBaseline = 'middle';
     ctx.fillStyle = 'rgba(248,81,73,0.6)';
     ctx.textAlign = 'right';
-    ctx.fillText('Individual: $' + (individualCost * 1000).toFixed(0), centerX - poolRadius - (mob ? 10 : 20), poolY);
+    ctx.fillText('Individual: ' + usd(individualCost * 1000), centerX - poolRadius - (mob ? 10 : 20), poolY);
     ctx.fillStyle = 'rgba(59,163,93,0.6)';
     ctx.textAlign = 'left';
-    ctx.fillText('Batched: $' + batchedCost.toFixed(0), centerX + poolRadius + (mob ? 10 : 20), poolY);
+    ctx.fillText('Batched: ' + usd(batchedCost), centerX + poolRadius + (mob ? 10 : 20), poolY);
 
     var barY = poolY + poolRadius + (mob ? 20 : 30);
     var barX = mob ? 30 : 60;
@@ -158,7 +165,7 @@ var VIZ_Exchange = (function() {
     ctx.font = mob ? 'bold 8px -apple-system, sans-serif' : 'bold 10px -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText(efficiency.toFixed(0) + '% savings via batching', barX + barW / 2, barY + barH / 2);
+    ctx.fillText(dataReady ? efficiency.toFixed(0) + '% savings via batching' : '— data pending —', barX + barW / 2, barY + barH / 2);
 
     var statsY = barY + barH + (mob ? 12 : 20);
     var statsData = [
@@ -237,7 +244,7 @@ var VIZ_Exchange = (function() {
       ctx.fillText('Discount: ' + Math.round(batchDiscount * 100) + '%', tooltipData.tx, tooltipData.ty - 5);
       ctx.fillStyle = '#3BA35D';
       ctx.font = '9px -apple-system, sans-serif';
-      ctx.fillText('Savings: $' + (savings * batchDiscount / 0.6).toFixed(0), tooltipData.tx, tooltipData.ty + 10);
+      ctx.fillText('Savings: ' + usd(savings * batchDiscount / 0.6), tooltipData.tx, tooltipData.ty + 10);
     }
 
     if (!mob) {

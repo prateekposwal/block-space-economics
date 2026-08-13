@@ -194,11 +194,38 @@ function checkDataJSON() {
 
 // C2: no hardcoded numeric fallbacks in inline scripts or viz JS (|| 3, || 840000).
 // Missing data must render as "— + 🟡 data pending", never a plausible default.
-var MASK_FILES = ['index.html', 'live.html', 'fork-tracker.html', 'story.html', 'capacity.html',
+var MASK_FILES = ['index.html', 'live.html', 'fork-tracker.html', 'story.html', 'capacity.html', 'learn.html',
+  'js/beta-gate.js', 'js/beta-nav.js', 'js/data-health.js', 'sw.js',
   'tools/viz-core.js', 'tools/viz-send.js', 'tools/viz-lightning.js', 'tools/viz-exchange.js',
   'tools/viz-node.js', 'tools/viz-miner.js', 'tools/viz-research.js', 'tools/viz-developer.js',
   'tools/viz-bip110.js', 'tools/viz-block-interval.js', 'tools/viz-hashrate.js',
   'tools/viz-fee-heatmap.js', 'tools/viz-mempool-hist.js'];
+
+// C2 whitelist — layout / render / device constants that LOOK like numeric
+// fallbacks but are NOT data masks. A line that matches any of these markers
+// is skipped by every C2 sub-check (the ternary checks target DATA conditions
+// like `price ? ... : 64000`, not responsive layout like `isMobile() ? 180 : 210`).
+var C2_LAYOUT_LINE = /isMobile\s*\(|isMob\b|mob\b|mobile\b|stacked\b|w\s*<\s*\d|width\s*<\s*\d|h\s*<\s*\d|height\s*<\s*\d|devicePixelRatio|innerWidth|innerHeight|clientWidth|clientHeight|rect\.|Math\.min|Math\.max|canvas\.width|canvas\.height|blockFlashActive|flashActive/;
+
+// C2c object-literal fallback keys: data field names that must NEVER carry a
+// hardcoded numeric literal (fastestFee: 3, avgFeeRate: 10, ...). Keyed (not
+// generic {k: n}) so layout objects like PAD = { top: 60, right: 150 } don't
+// false-positive — every fabrication observed uses a data key.
+var C2_DATA_KEY_RE = /(fastestFee|economyFee|halfHourFee|hourFee|minimumFee|avgFeeRate|avgFees|feeRate|btcPrice|priceUsd|totalTxs|txCount|tx_count|segwitTotalTxs|taprootSpends|segwitSpends|legacySpends|p2trPct|nodeCount|channelCount)\s*:\s*(\d{1,6})(?![\d.])/;
+
+// C2e data-seed assignment: `btcPrice = 64000` / `displayFee = 5000000` —
+// data inputs must seed at 0 (real engine values replace them on first
+// update). Keyed so legit non-data assignments (layout vars, flags) never
+// false-positive. 0/1 seeds are div/scale guards, not fabrications.
+var C2_SEED_RE = /\b(btcPrice|displayPrice|displayFee|economyFee|displayEconomyFee|priceUsd|feeRate|avgFeeRate|totalTxs|txCount|fastestFee|halfHourFee|hourFee|minimumFee|taprootPct|segwitPct|legacyPct|nodeCount|channelCount)\b\s*=\s*(\d{1,9})(?![\d.])/;
+
+// C2f invented unit-conversion constant on a data field: `avgFees / 2500000`
+// or `avgFeeRate * 2500000`. 100000000 (real sats-per-BTC) is whitelisted —
+// that is the genuine unit conversion, not a fabrication.
+var C2_MAGIC_UNIT_RE = /(avgFees|avg_fees|fee|feeRate|avgFeeRate)\s*[\/*]\s*(?![\d.]*100000000)(\d{6,})(?![\d.])/;
+
+function isC2LayoutLine(line) { return C2_LAYOUT_LINE.test(line); }
+function isC2AllowedVal(v) { return v === '0' || v === '1'; } // div/scale guards, never plausible data
 
 function checkNumericFallbacks() {
   MASK_FILES.forEach(function(f) {
@@ -207,27 +234,80 @@ function checkNumericFallbacks() {
     var t = fs.readFileSync(p, 'utf8');
     var lines = t.split('\n');
     lines.forEach(function(line, i) {
+      var loc = f + ':' + (i + 1);
+      var layout = isC2LayoutLine(line);
+      var inCatch = /catch\s*\(/.test(line);
+
+      // ── C2a: || <num> (original check, unchanged) ─────────────────────
       var m = line.match(/\|\|\s*(\d{1,9})(?![\d.])/);
-      if (!m) return;
-      var val = m[1];
-      if (val === '0') return;
-      if (val === '1' && /devicePixelRatio/.test(line)) return; // render scale, not a data mask
-      if (/innerWidth|innerHeight|window\.width|window\.height|rect\.height/.test(line)) return; // canvas-size fallbacks, not data masks
-      if (val === '1' && /Math\.sqrt|dist|dx|dy|dxc|dyc|distc|n\s*\|\||total\s*\|\||\(total\s*\|\|/.test(line)) return; // geometry/div guard, not a data mask
-      if (val === '1' && /totalTxs\s*\|\|/.test(line)) return; // div-by-zero guard, not data
-      if (val === '1' && /maxF|% 12|\|\s*12|maxF\s*\*/.test(line)) return; // axis-scale/clock guard, not data
-      if (val === '12' && /% 12/.test(line)) return; // 12-hour clock, not data
-      if (val === '50' && /interval/.test(line)) return; // animation frame interval, not data
-      if (val === '350' && /baseH|maxHeight/.test(line)) return; // canvas height default, not data
-      if (val === '800' && /w\s*\|\|\s*800|\(w\s*\|\|/.test(line)) return; // canvas width default, not data
-      if (val === '400' && /h\s*\|\|\s*400|\(h\s*\|\|/.test(line)) return; // canvas height default, not data
-      if (val === '600' && /rect\.height\s*\|\|\s*600/.test(line)) return; // canvas height default, not data
-      if (val === '600' && /r\.width\s*\|\|\s*600|\.width\s*=\s*r\.width\s*\|\|\s*600/.test(line)) return; // canvas width default, not data
-      if (val === '1000' && /clientWidth\s*\|\|/.test(line)) return; // canvas width default, not data
-      if (val === '900' && /r\.width\s*\|\|/.test(line)) return; // canvas width default, not data
-      if (val === '800' && /r\.width\s*\|\|/.test(line)) return; // canvas width default, not data
-      if (/catch\s*\(/.test(line)) return;
-      errors.push(f + ':' + (i + 1) + ' hardcoded fallback || ' + val + ' — missing data must show "— + 🟡 pending", not a plausible number');
+      if (m) {
+        var val = m[1];
+        if (val === '0') return;
+        if (val === '1' && /devicePixelRatio/.test(line)) return; // render scale, not a data mask
+        if (/innerWidth|innerHeight|window\.width|window\.height|rect\.height/.test(line)) return; // canvas-size fallbacks, not data masks
+        if (val === '1' && /Math\.sqrt|dist|dx|dy|dxc|dyc|distc|n\s*\|\||total\s*\|\||\(total\s*\|\|/.test(line)) return; // geometry/div guard, not a data mask
+        if (val === '1' && /totalTxs\s*\|\|/.test(line)) return; // div-by-zero guard, not data
+        if (val === '1' && /maxF|% 12|\|\s*12|maxF\s*\*/.test(line)) return; // axis-scale/clock guard, not data
+        if (val === '12' && /% 12/.test(line)) return; // 12-hour clock, not data
+        if (val === '50' && /interval/.test(line)) return; // animation frame interval, not data
+        if (val === '350' && /baseH|maxHeight/.test(line)) return; // canvas height default, not data
+        if (val === '800' && /w\s*\|\|\s*800|\(w\s*\|\|/.test(line)) return; // canvas width default, not data
+        if (val === '400' && /h\s*\|\|\s*400|\(h\s*\|\|/.test(line)) return; // canvas height default, not data
+        if (val === '600' && /rect\.height\s*\|\|\s*600/.test(line)) return; // canvas height default, not data
+        if (val === '600' && /r\.width\s*\|\|\s*600|\.width\s*=\s*r\.width\s*\|\|\s*600/.test(line)) return; // canvas width default, not data
+        if (val === '1000' && /clientWidth\s*\|\|/.test(line)) return; // canvas width default, not data
+        if (val === '900' && /r\.width\s*\|\|/.test(line)) return; // canvas width default, not data
+        if (val === '800' && /r\.width\s*\|\|/.test(line)) return; // canvas width default, not data
+        if (inCatch) return;
+        errors.push(loc + ' hardcoded fallback || ' + val + ' — missing data must show "— + 🟡 pending", not a plausible number');
+      }
+
+      // ── C2b: ternary numeric arm — cond ? <expr> : <num> or cond ? <num> : <expr>.
+      //    Catches `price ? ... : 64000` (fabrication class that slipped past C2a).
+      //    Whitelisted: : 0 / : 1 and any line carrying a layout marker (isMobile(),
+      //    mob, w < 480, stacked, devicePixelRatio, canvas geometry...).
+      var tm = line.match(/\?[^:;{}]*?:\s*(\d{1,6})(?![\d.])/);   // false arm = bare number
+      var tm2 = line.match(/\?\s*(\d{1,6})\s*:/);                  // true arm = bare number
+      (tm ? [tm] : []).concat(tm2 ? [tm2] : []).forEach(function(mm) {
+        var v = mm[1];
+        if (isC2AllowedVal(v)) return;
+        if (layout || inCatch) return;
+        errors.push(loc + ' hardcoded ternary default : ' + v + ' — missing data must show "— + 🟡 pending", not a plausible number');
+      });
+
+      // ── C2c: object-literal data fallback — { fastestFee: 3 } / avgFeeRate: 10
+      var om = line.match(C2_DATA_KEY_RE);
+      if (om) {
+        var v2 = om[2];
+        if (isC2AllowedVal(v2)) return;
+        if (layout || inCatch) return;
+        errors.push(loc + ' hardcoded object-literal default ' + om[1] + ': ' + v2 + ' — data fields must come from the pipeline, not literals');
+      }
+
+      // ── C2d: fabricated accumulation — totalTxs += 2500 (invented constant growth)
+      var am = line.match(/\+=\s*(\d{3,})(?![\d.])/);
+      if (am) {
+        if (layout || inCatch) return;
+        errors.push(loc + ' fabricated accumulation += ' + am[1] + ' — invented constants must not inflate real measurements');
+      }
+
+      // ── C2e: data-seed assignment — btcPrice = 64000 (plausible default that
+      //    becomes a displayed value before real data arrives)
+      var sm = line.match(C2_SEED_RE);
+      if (sm) {
+        var v3 = sm[2];
+        if (isC2AllowedVal(v3)) return;
+        if (layout || inCatch) return;
+        errors.push(loc + ' hardcoded data seed ' + sm[1] + ' = ' + v3 + ' — data inputs must seed at 0 and render "—" until real data arrives');
+      }
+
+      // ── C2f: invented unit-conversion constant — avgFees / 2500000
+      var um = line.match(C2_MAGIC_UNIT_RE);
+      if (um) {
+        if (layout || inCatch) return;
+        if (/^\s*(\/\/|\/\*|\*)/.test(line)) return; // documentation comments quoting a past pattern are not fabrications
+        errors.push(loc + ' invented unit constant ' + um[1] + ' ' + (line.indexOf('*') !== -1 ? '*' : '/') + ' ' + um[2] + ' — scale with the REAL conversion (1e8 sats/BTC) or render "—"');
+      }
     });
   });
 }

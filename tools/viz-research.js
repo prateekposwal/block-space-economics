@@ -11,9 +11,13 @@ var VIZ_Research = (() => {
   let canvas, ctx, w = 0, h = 0;
   let data = [];
   let rafId = null;
-  let btcPrice = 64000;
+  // btcPrice seeds at 0 (2026-08-14 honesty fix: was a fabricated 64000; it is
+  // only ever overwritten by real engine data and is not rendered pre-data).
+  let btcPrice = 0;
   let stacked = false;
-  let feeSpread = { fastest: 3, hour: 1.5, economy: 1 };
+  // feeSpread = REAL fee-ratio multipliers computed from live fees in onUpdate.
+  // Seeds as null — a missing capture must render '--', never a fake 3x/1.5x.
+  let feeSpread = null;
   let animTime = 0;
 
   function isMobile() { return w < 480; }
@@ -92,14 +96,18 @@ var VIZ_Research = (() => {
 
   function buildSeries(raw) {
     if (!raw || !Array.isArray(raw) || raw.length === 0) return [];
-    var fs = feeSpread || { fastest: 3, hour: 1.5, economy: 1 };
+    // economy base = REAL sat/vB average fee rate from the capture
+    // (mempool.space /mining/blocks/fees/24h always carries avgFeeRate). The
+    // old `avgFees / 2500000` scaled a block-total to an invented feerate —
+    // removed 2026-08-14. No avgFeeRate -> null (renders '--', never a fake).
+    var fs = feeSpread;
     return raw.map(function(e) {
-      var economy = (e.avgFees || e.avgFee || 0) / 2500000;
+      var economy = (typeof e.avgFeeRate === 'number' && e.avgFeeRate > 0) ? e.avgFeeRate : null;
       return {
         t: e.timestamp,
         economy: economy,
-        hour: economy * fs.hour,
-        fastest: economy * fs.fastest,
+        hour: (fs && economy != null && typeof fs.hour === 'number') ? economy * fs.hour : null,
+        fastest: (fs && economy != null && typeof fs.fastest === 'number') ? economy * fs.fastest : null,
       };
     });
   }
@@ -216,24 +224,25 @@ var VIZ_Research = (() => {
   }
 
   function drawStatCards(px, py, pw) {
-    var currentFee = data.length > 0 ? data[data.length - 1].economy : 0;
-    var peakFee = 0;
-    var sumFee = 0;
+    var cur = data.length > 0 ? data[data.length - 1].economy : null;
+    var peakFee = null;
+    var sumFee = 0, nFee = 0;
     for (var i = 0; i < data.length; i++) {
-      var f = data[i].fastest || 0;
-      if (f > peakFee) peakFee = f;
-      sumFee += data[i].economy || 0;
+      var f = data[i].fastest;
+      if (f != null && f > 0 && (peakFee == null || f > peakFee)) peakFee = f;
+      if (data[i].economy != null) { sumFee += data[i].economy; nFee++; }
     }
-    var avgFee = data.length > 0 ? sumFee / data.length : 0;
+    var avgFee = nFee > 0 ? sumFee / nFee : null;
+    var currentFee = cur != null ? cur : null;
 
     var cardW = Math.min(200, (pw - 80) / 3);
     var cardGap = (pw - 80 - cardW * 3) / 2;
     if (cardGap < 4) { cardW = (pw - 80) / 3; cardGap = 0; }
 
     var cardData = [
-      { label: 'Current (Economy)', value: currentFee.toFixed(1) + ' sat/vB', color: '#3BA35D' },
-      { label: '24h Peak (Fastest)', value: peakFee.toFixed(0) + ' sat/vB', color: '#C0392B' },
-      { label: '24h Average', value: avgFee.toFixed(1) + ' sat/vB', color: '#58A6FF' },
+      { label: 'Current (Economy)', value: currentFee != null ? currentFee.toFixed(1) + ' sat/vB' : '--', color: '#3BA35D' },
+      { label: '24h Peak (Fastest)', value: peakFee != null ? peakFee.toFixed(0) + ' sat/vB' : '--', color: '#C0392B' },
+      { label: '24h Average', value: avgFee != null ? avgFee.toFixed(1) + ' sat/vB' : '--', color: '#58A6FF' },
     ];
 
     for (var i = 0; i < 3; i++) {
@@ -293,7 +302,7 @@ var VIZ_Research = (() => {
     for (var i = 0; i < data.length; i++) {
       var d = data[i];
       var ts = new Date(d.t).toISOString();
-      csv += ts + ',' + d.economy.toFixed(2) + ',' + d.hour.toFixed(2) + ',' + d.fastest.toFixed(2) + '\n';
+      csv += ts + ',' + (d.economy != null ? d.economy.toFixed(2) : '--') + ',' + (d.hour != null ? d.hour.toFixed(2) : '--') + ',' + (d.fastest != null ? d.fastest.toFixed(2) : '--') + '\n';
     }
     var blob = new Blob([csv], { type: 'text/csv' });
     var url = URL.createObjectURL(blob);

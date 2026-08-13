@@ -90,11 +90,13 @@ var CONFIG = {
     { key: 'blocks',          url: 'https://mempool.space/api/blocks?limit=10',            method: 'GET', category: 'blocks',   priority: 2, maxLatency: 8000,  timeoutMs: 30000 },
     // block_adoption = REAL SegWit/Taproot/Legacy usage. mempool.space's
     // per-block summary carries extras.segwitTotalTxs/size/weight (authoritative
-    // SegWit share = segwitTotalTxs / tx_count) and /api/block/:hash/txs pages
-    // expose vin[].prevout.scriptpubkey_type for a bounded Taproot spend sample.
-    // `url` (tip hash) is the cheap health-check probe; `collect` does the real
-    // multi-request capture (walk 6 blocks + 2 tx pages each, ~19 sequential
-    // requests, polite 150ms spacing). Added 2026-08-14 — adoption gap closure.
+    // SegWit share = segwitTotalTxs / tx_count) and /api/block/:hash/txids + per-tx
+    // lookups expose vin[].prevout.scriptpubkey_type for a bounded Taproot spend
+    // sample. `url` (tip hash) is the cheap health-check probe; `collect` does the
+    // real multi-request capture (walk 10 blocks via previousblockhash, 25-tx
+    // uniform seeded subsample per block, ≈271 sequential requests, 80–100ms
+    // spacing — trivial at the hourly cadence). Added 2026-08-14 — adoption gap
+    // closure; sample 12→25 + walk 5→10 on 2026-08-14 to firm the Taproot estimate.
     { key: 'block_adoption',  url: 'https://blockstream.info/api/blocks/tip/hash',   method: 'GET', category: 'blocks',   priority: 2, maxLatency: 30000, timeoutMs: 30000, retries: 0,
       collect: function (fetchUrl, timeoutMs) { return collectBlockAdoption(fetchUrl, timeoutMs); } },
     { key: 'block_height',    url: 'https://blockstream.info/api/blocks/tip/height',       method: 'GET', category: 'blocks',   priority: 2, maxLatency: 15000, timeoutMs: 30000 }, // blockstream CDN intermittently throttles — headroom 2026-08-02

@@ -123,7 +123,9 @@ var VIZ_Lightning = (function() {
             alias: b.label + ' node (real data)',
             channels: b.value > 0 ? Math.max(1, Math.round(b.value / (n || 1) / 10)) : 0,
             capacity: stats.capacity / (total || 1),
-            avgFeeRate: 10,
+            // avgFeeRate intentionally NOT set: real per-node fee rates are not
+            // captured, and a hardcoded constant would be fabricated data. The
+            // field is never read by any render path (grep avgFeeRate).
             x: Math.random() * (w || 800),
             y: Math.random() * (h || 400),
             vx: (Math.random() - 0.5) * 0.3,

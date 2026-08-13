@@ -1,8 +1,16 @@
 name: Capture Data
 
-# DEPRECATED (M3): superseded by tools/data-engineering/capture-agent.js + spool.
-# Local launchd DE agent is the only capture path. Do not re-enable — the old
-# fire-and-forget capture bypassed the spool and dual-wrote into git.
+# DORMANT / DEPRECATED (M3) — DOCUMENTED NO-OP, do not re-enable.
+#
+# This workflow is superseded by the LOCAL capture path:
+#   tools/data-engineering/capture-agent.js + spool (launchd com.bsahi.de-server,
+#   hourly, writes to captured-data/spool/). The old fire-and-forget capture
+#   bypassed the spool and dual-wrote into git, so it was disabled.
+#
+# It now runs ONLY validate.js (C1-C4) when manually dispatched — the site
+# integrity gate must run in EVERY workflow that touches the site (architect
+# requirement), even a deprecated no-op, so a regression in the integrity
+# checks still fails CI. It does NOT capture any data.
 on:
   workflow_dispatch:
 
@@ -12,3 +20,12 @@ jobs:
     steps:
       - name: Deprecated
         run: echo "capture-data.yml DEPRECATED (M3) — superseded by tools/data-engineering/capture-agent.js + spool. Do not re-enable."
+
+      # Site integrity gate: validate.js (C1-C4) runs here too so a regression
+      # fails even this deprecated workflow. Fails closed (exit 1 on error).
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Site integrity check (validate.js — C1-C4)
+        run: node tools/validate.js

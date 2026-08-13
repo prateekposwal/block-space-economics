@@ -1,3 +1,13 @@
+// ⚠️ DORMANT — DO NOT BUILD ON (marked 2026-08-14).
+// This agent talks to a LOCAL Bitcoin Core RPC (getblockchaininfo / getblockstats /
+// per-block fee percentiles / utxo_size_inc). The Core node in this environment
+// has never synced (getblockchaininfo reports blocks:0 / pruneHeight:0), so the
+// btc_rpc spool source has produced no usable records and the `transactions`
+// SQLite table it was meant to feed has 0 rows. The tx-type question
+// (segwit/legacy/taproot) is answered by the block_adoption capture source
+// (tools/data-engineering/block-adoption-collect.js) with 1/100th the infra.
+// Do NOT repoint new work here. Kept (not deleted) so old reports keep their
+// provenance.
 var http = require('http');
 var fs = require('fs');
 var path = require('path');

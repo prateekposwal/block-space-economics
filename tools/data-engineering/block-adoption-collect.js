@@ -2,13 +2,13 @@
 // BSAHI — block_adoption collector (SegWit / Taproot / Legacy usage)
 // Real per-block adoption data from mempool.space, no fabrication:
 //   1. tip hash (blockstream.info, fast single-host hop)
-//   2. walk the last 5 blocks via previousblockhash, fetching each block's
+//   2. walk the last 10 blocks via previousblockhash, fetching each block's
 //      summary (extras.segwitTotalTxs / segwitTotalSize / segwitTotalWeight —
 //      authoritative SegWit share = segwitTotalTxs / tx_count)
 //   3. per block: /api/block/:hash/txids (ALL txids in one call) → pick a
-//      deterministic UNIFORM subsample (12 txs, seeded per capture so each
-//      cycle samples a different slice) → /api/tx/:txid each, classify spends
-//      by vin[].prevout.scriptpubkey_type:
+//      deterministic UNIFORM subsample (25 txs, seeded per capture so each
+//      cycle samples a different rotating slice) → /api/tx/:txid each, classify
+//      spends by vin[].prevout.scriptpubkey_type:
 //        v1_p2tr                      -> taproot spend
 //        v0_p2wpkh / v0_p2wsh         -> segwit spend
 //        anything else                -> legacy spend
@@ -16,8 +16,15 @@
 //   (mempool.space /api/block/:hash/txs ignores start_index — always the first
 //   25 txs — so uniform coverage requires the txids + per-tx fetch path.)
 //
-// Request budget per cycle: ~71 sequential requests (~65 to mempool.space),
-// 100ms polite spacing — trivial against the hourly cadence.
+// Request budget per cycle: 1 (tip) + 10 (summary) + 10 (txids) + 250 (per-tx)
+// ≈ 271 sequential requests (~268 to mempool.space), 80–100ms polite spacing —
+// trivial against the hourly cadence.
+//
+// Rate-limit (HTTP 429) handling: every hop treats any non-200 as a soft
+// failure and aborts/degrades gracefully — the walk stops at the first
+// non-200 block summary, the per-tx sampler silently skips non-200 txids,
+// and the whole capture returns {status:0, error} (never throws), so a 429
+// just yields a failed capture record that the agent backoffs (retries: 0).
 var HEX64 = /^[0-9a-f]{64}$/i;
 
 function delay(ms) {
@@ -56,8 +63,8 @@ function classifyVin(vin) {
   return { kind: 'legacy', seen: seen };
 }
 
-var MAX_BLOCKS = 5;          // tip + 4 previous
-var SAMPLE_PER_BLOCK = 12;   // uniformly-sampled txs per block (60 txs / capture)
+var MAX_BLOCKS = 10;          // tip + 9 previous (20 block API calls/capture — trivial at hourly cadence)
+var SAMPLE_PER_BLOCK = 25;   // uniformly-sampled txs per block (250 txs / capture)
 
 /* collectBlockAdoption(fetchUrl, timeoutMs) -> Promise<capture>
  * fetchUrl is the capture-agent's https GET helper resolving

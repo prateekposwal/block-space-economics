@@ -5,10 +5,15 @@ var VIZ_Miner = (function() {
   var sparklineData = [];
   var blockFees = [];          // real per-block avgFees+usd from /data/fee_history_blocks.json
   var blockFeesLoaded = false; // true once the mirror fetch resolves (even to empty)
-  var btcPrice = 64000;
-  var displayPrice = 64000;
-  var displayFee = 5000000;
+  // Data inputs seed at 0 — real engine values replace them on first update.
+  // (2026-08-14 honesty fix: seeds were fabricated $64,000 / 5,000,000 sats and
+  // the reward cards rendered plausible USD from invented inputs. USD now
+  // renders '—' until a real price arrives — see drawStatsCards.)
+  var btcPrice = 0;
+  var displayPrice = 0;
+  var displayFee = 0;
   var blockIndex = 0;
+  var tipHeight = 0; // real tip height for block-stack labels; 0 = unknown -> no labels
 
   function isMobile() { return w < 480; }
 
@@ -27,6 +32,7 @@ var VIZ_Miner = (function() {
         sparklineData = d.fee_history.slice(-144).map(function(b) { return b.avgFees || 0; });
       }
       if (d.btc_price) btcPrice = d.btc_price;
+      if (d.block_height) tipHeight = d.block_height;
 
       de.onUpdate(function() {
         var d = de.get();
@@ -38,6 +44,7 @@ var VIZ_Miner = (function() {
           }
         }
         if (d.btc_price) btcPrice = d.btc_price;
+        if (d.block_height) tipHeight = d.block_height;
       });
     }
 
@@ -163,7 +170,8 @@ var VIZ_Miner = (function() {
         ctx.font = '8px -apple-system, sans-serif';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
-        ctx.fillText('#' + (960000 + i), bx + blockW + 6, by + blockH / 2);
+        // Real heights only — no fake '#' labels when the tip is unknown (2026-08-14).
+        if (tipHeight > 0) ctx.fillText('#' + (tipHeight - (maxBlocks - 1 - i)), bx + blockW + 6, by + blockH / 2);
       }
     }
     ctx.globalAlpha = 1;
@@ -204,10 +212,12 @@ var VIZ_Miner = (function() {
     var feeBtc = feeTotal / 100000000;
     var totalBtc = subsidyBtc + feeBtc;
 
+    // USD only when a REAL price is in hand — never a plausible fake.
+    var usdTxt = function(v) { return displayPrice > 0 ? '$' + Math.round(v * displayPrice).toLocaleString() : '—'; };
     var statsData = [
-      { value: subsidyBtc.toFixed(3) + ' BTC', sub: 'Subsidy', usd: '$' + Math.round(subsidyBtc * displayPrice).toLocaleString(), color: '#D4933A' },
-      { value: feeBtc.toFixed(4) + ' BTC', sub: 'Fees', usd: '$' + Math.round(feeBtc * displayPrice).toLocaleString(), color: '#3BA35D' },
-      { value: totalBtc.toFixed(3) + ' BTC', sub: 'Total Reward', usd: '$' + Math.round(totalBtc * displayPrice).toLocaleString(), color: '#58A6FF' },
+      { value: subsidyBtc.toFixed(3) + ' BTC', sub: 'Subsidy', usd: usdTxt(subsidyBtc), color: '#D4933A' },
+      { value: feeBtc.toFixed(4) + ' BTC', sub: 'Fees', usd: usdTxt(feeBtc), color: '#3BA35D' },
+      { value: totalBtc.toFixed(3) + ' BTC', sub: 'Total Reward', usd: usdTxt(totalBtc), color: '#58A6FF' },
     ];
 
     if (isMob) {
@@ -294,7 +304,7 @@ var VIZ_Miner = (function() {
     var hasUsd = blockFees.length > 0;
     var lastPt = series.length > 0 ? series[series.length - 1] : null;
     var price = lastPt && hasUsd && typeof lastPt.usd === 'number' && lastPt.usd > 0
-      ? lastPt.usd : (typeof btcPrice === 'number' ? btcPrice : 0);
+      ? lastPt.usd : (typeof btcPrice === 'number' && btcPrice > 0 ? btcPrice : 0); // 0 = no price yet — USD axis hides
 
     var maxVal = 0;
     for (var si = 0; si < series.length; si++) {

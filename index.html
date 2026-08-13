@@ -237,8 +237,10 @@
         var barW = Math.max(1, (w - startX) / n);
         for (var i = 0; i < n; i++) {
           var entry = data[data.length - 1 - i];
-          if (!entry || typeof entry.avgFees !== 'number' || entry.avgFees <= 0) continue; // omit missing, never fake a bar
-          var feeRate = Math.min(500, entry.avgFees / 2500000);
+          // REAL sat/vB feerate from the capture (2026-08-14: was avgFees/2500000,
+          // an invented divisor); omit missing, never fake a bar.
+          if (!entry || typeof entry.avgFeeRate !== 'number' || entry.avgFeeRate <= 0) continue;
+          var feeRate = Math.min(500, entry.avgFeeRate);
           var pc = feeColor(feeRate);
           ctx.fillStyle = 'rgb(' + pc.r + ',' + pc.g + ',' + pc.b + ')';
           ctx.fillRect(startX + Math.round(i * barW), 0, Math.max(1, Math.round(barW)), h);

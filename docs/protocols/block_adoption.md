@@ -9,21 +9,37 @@ Real per-block adoption data for the capacity page's SegWit/Taproot adoption
 section. Replaces the removed `Math.random()` fabrication and the `-- pending`
 placeholder with measured values.
 
+## Capture volume (2026-08-14 hardening)
+
+- Walk depth: **10 blocks** via `previousblockhash` (was 5).
+- Per-block sample: **25 uniformly-sampled txs** (was 12), seeded rotating
+  offset so each hourly capture covers different txids.
+- Per capture: **250 sampled txs** (was 60) + 20 block-summary/txids calls ≈
+  **271 sequential requests/hour** (~268 to mempool.space) — trivial against
+  the hourly cadence. HTTP 429 / any non-200 aborts or skips gracefully
+  (never throws); the agent records the failure and backoffs (retries: 0).
+
 ## Data source
 
 - **SegWit / Legacy**: `GET https://mempool.space/api/v1/block/:hash` →
   `extras.segwitTotalTxs`, `segwitTotalSize`, `segwitTotalWeight`, plus
   `tx_count`, `weight`, `size`. SegWit share = `segwitTotalTxs / tx_count`
   (authoritative count, includes Taproot — Taproot spends are SegWit v1).
-- **Taproot**: `GET https://mempool.space/api/block/:hash/txs` (25 txs/page,
-  paginated) → each tx summary's `vin[].prevout.scriptpubkey_type`:
+- **Taproot**: `GET https://mempool.space/api/block/:hash/txids` (ALL txids in
+  one call — the `/txs` pagination path ignores `start_index`, so it cannot
+  give uniform coverage) → pick a deterministic **uniform subsample** of 25
+  txids via a per-capture seeded PRNG (rotating slice — each hourly capture
+  samples a different draw) → `GET https://mempool.space/api/tx/:txid` per
+  sampled tx, classify `vin[].prevout.scriptpubkey_type`:
   - `v1_p2tr` → taproot spend
   - `v0_p2wpkh` / `v0_p2wsh` → segwit spend
   - anything else → legacy spend
-  Bounded sample: 2 evenly-spaced pages per block × the tip + 5 previous
-  blocks (≈300 txs per capture). Labeled **sampled** in every consumer.
-  Known limitation: P2SH-wrapped segwit outputs report `p2sh` and count as
-  legacy here (native segwit is exact).
+  Bounded sample: 25 uniformly-sampled txs per block × the tip + 9 previous
+  blocks (250 txs per capture, 2026-08-14: was 12 × 5 = 60). Aggregate
+  subsamples across captures of the same block in `buildAdoption()` — each
+  draw is different, so summed coverage grows over time. Labeled **sampled**
+  in every consumer. Known limitation: P2SH-wrapped segwit outputs report
+  `p2sh` and count as legacy here (native segwit is exact).
 
 ## Capture shape (`payload.data`)
 

@@ -724,16 +724,22 @@ DATA_ENGINE.onUpdate(function() {
   document.getElementById('mp-size').textContent = ((mp.vsize || 0) / 1000000).toFixed(1);
   document.getElementById('mp-tps').textContent = mp.count > 0 ? Math.round((mp.count || 0) / 600) : '--';
 
-  // Block stats
+  // Block stats — REAL data only (2026-08-14 honesty fix: bl-txs was
+  // Math.round(2500 + Math.random()*2000) invented, total-blocks had a
+  // hardcoded 960000 fallback — both now render measured values or '--').
   var fh = d.fee_history || [];
   var lastBlock = fh.length > 0 ? fh[fh.length - 1] : null;
   if (lastBlock) {
     document.getElementById('bl-fees').textContent = ((lastBlock.avgFees || 0) / 100000000).toFixed(4);
-    document.getElementById('bl-txs').textContent = Math.round(2500 + Math.random() * 2000).toLocaleString();
+    var bl = d.blocks || [];
+    var tipBlk = bl.length > 0 ? bl[0] : null; // mempool.space /api/blocks returns newest first
+    var tipTx = tipBlk && typeof tipBlk.tx_count === 'number' && tipBlk.tx_count > 0 ? tipBlk.tx_count : null;
+    document.getElementById('bl-txs').textContent = tipTx != null ? tipTx.toLocaleString() : '--';
   }
 
-  // Total blocks
-  document.getElementById('total-blocks').textContent = (d.block_height || 960000).toLocaleString();
+  // Total blocks — real tip height, '--' when the capture is missing
+  document.getElementById('total-blocks').textContent =
+    (typeof d.block_height === 'number' && d.block_height > 0) ? d.block_height.toLocaleString() : '--';
 });
 </script>
 <script>

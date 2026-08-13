@@ -116,7 +116,7 @@ var VIZ_Send = (function() {
 
     var maxF = 1;
     for (var i = 0; i < n; i++) {
-      var fr = (bars[i].avgFees || bars[i].avg_fees || (bars[i].avgFeeRate ? bars[i].avgFeeRate * 2500000 : 0)) / 2500000;
+      var fr = (typeof bars[i].avgFeeRate === 'number') ? bars[i].avgFeeRate : 0; // REAL sat/vB
       if (fr > maxF) maxF = fr;
     }
     maxF = Math.ceil(maxF * 1.15) || 1;
@@ -193,7 +193,7 @@ var VIZ_Send = (function() {
     var bw = cW / n;
     var waveT = Date.now() / 1000;
     for (var i = 0; i < n; i++) {
-      var fr = (bars[i].avgFees || bars[i].avg_fees || (bars[i].avgFeeRate ? bars[i].avgFeeRate * 2500000 : 0)) / 2500000;
+      var fr = (typeof bars[i].avgFeeRate === 'number') ? bars[i].avgFeeRate : 0; // REAL sat/vB
       var wave = Math.sin(waveT * 0.6 + i * 0.08) * 0.04 + 0.96;
       var bh = (fr / maxF) * cH * wave;
       var x = cL + i * bw;
@@ -246,10 +246,10 @@ var VIZ_Send = (function() {
 
     if (hoverIdx >= 0 && hoverIdx < n) {
       var e = bars[hoverIdx];
-      var fr = (e.avgFees || e.avg_fees || (e.avgFeeRate ? e.avgFeeRate * 2500000 : 0)) / 2500000;
+      var fr = (typeof e.avgFeeRate === 'number') ? e.avgFeeRate : null; // REAL sat/vB, '--' when absent
       var ts = e.timestamp != null ? e.timestamp : e.date ? new Date(e.date).getTime() / 1000 : 0;
       var d = new Date(ts * 1000);
-      var feeUSD = (fr * btcPrice) / 100000000;
+      var feeUSD = (fr != null && btcPrice > 0) ? (fr * btcPrice) / 100000000 : null;
       var tw = isMobile() ? 180 : 210, th = 86;
       var tx = mouseX + 16, ty = mouseY - 12;
       if (tx + tw > w - 8) tx = mouseX - tw - 16;
@@ -274,10 +274,10 @@ var VIZ_Send = (function() {
       );
       ctx.fillStyle = '#F0F0F0';
       ctx.font = (isMobile() ? 'bold 15px' : 'bold 18px') + ' -apple-system, Helvetica, sans-serif';
-      ctx.fillText(fr.toFixed(1) + ' sat/vB', tx + 12, ty + 28);
+      ctx.fillText(fr != null ? fr.toFixed(1) + ' sat/vB' : '--', tx + 12, ty + 28);
       ctx.fillStyle = 'rgba(255,255,255,0.55)';
       ctx.font = (isMobile() ? '10px' : '12px') + ' -apple-system, Helvetica, sans-serif';
-      ctx.fillText('$' + feeUSD.toFixed(2) + ' USD/vB', tx + 12, ty + 54);
+      ctx.fillText(feeUSD != null ? '$' + feeUSD.toFixed(2) + ' USD/vB' : 'USD --', tx + 12, ty + 54);
     }
 
     } catch (e) {}

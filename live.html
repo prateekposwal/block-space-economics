@@ -865,8 +865,10 @@ if (typeof DATA_ENGINE !== 'undefined') {
   document.getElementById('miner-daily').textContent = dailyRev > 1000000 ? '$' + (dailyRev / 1000000).toFixed(1) + 'M' : '$' + Math.round(dailyRev / 1000).toFixed(0) + 'K';
 
   // --- Research Stat Cards ---
+  // REAL sat/vB feerates (2026-08-14: was avgFees/2500000, an invented divisor;
+  // the stat cards label the unit, so the capture's actual feerate is used).
   var feeArr = [];
-  for (var ri = 0; ri < fh.length; ri++) { var rv = (fh[ri].avgFees || 0) / 2500000; if (rv > 0) feeArr.push(rv); }
+  for (var ri = 0; ri < fh.length; ri++) { var rv = fh[ri].avgFeeRate; if (typeof rv === 'number' && rv > 0) feeArr.push(rv); }
     var fSum = 0, fMin = Infinity, fMax = -Infinity, fAvg = 0, variance = 0, stdDev = 0, volPct = 0;
     for (var ri = 0; ri < feeArr.length; ri++) { fSum += feeArr[ri]; if (feeArr[ri] < fMin) fMin = feeArr[ri]; if (feeArr[ri] > fMax) fMax = feeArr[ri]; }
     if (feeArr.length > 0) fAvg = fSum / feeArr.length;
@@ -876,12 +878,16 @@ if (typeof DATA_ENGINE !== 'undefined') {
     volPct = fAvg > 0 ? Math.round(stdDev / fAvg * 100) : 0;
   }
   document.getElementById('res-volatility').textContent = volPct > 0 ? volPct + '%' : '--';
-  document.getElementById('res-avgfee').textContent = fAvg > 0 ? fAvg.toFixed(1) + ' sat' : '--';
+  document.getElementById('res-avgfee').textContent = fAvg > 0 ? fAvg.toFixed(1) + ' sat/vB' : '--';
   document.getElementById('res-range').textContent = (fMin < Infinity ? fMin.toFixed(0) : '--') + ' - ' + (fMax > 0 ? fMax.toFixed(0) : '--');
   var resDailyRev = (3.125 * 144 + feeAvg * 144 / 100000000) * btcPrice;
   document.getElementById('res-daily-rev').textContent = resDailyRev > 1000000 ? '$' + (resDailyRev / 1000000).toFixed(1) + 'M' : '$' + Math.round(resDailyRev / 1000).toFixed(0) + 'K';
   document.getElementById('res-settlement').textContent = resDailyRev > 1000000 ? '$' + ((resDailyRev * 200) / 1000000000).toFixed(1) + 'B' : '--';
-  document.getElementById('res-txs-day').textContent = fh.length > 0 ? (Math.round(fh.length * 3000)).toLocaleString() : '--';
+  // Daily tx count from REAL last-10-block average (2026-08-14: was fh.length*3000,
+  // an invented 3000 txs/block constant). Extrapolation is labeled, not invented.
+  var blkArr = d.blocks || [];
+  var blkTxAvg = blkArr.length > 0 ? blkArr.reduce(function(s, b) { return s + (b.tx_count || 0); }, 0) / blkArr.length : 0;
+  document.getElementById('res-txs-day').textContent = blkTxAvg > 0 ? (Math.round(blkTxAvg * 144)).toLocaleString() : '--';
 
   // --- Market Brief Panels ---
   var briefF = (typeof f2 === 'number') ? f2 : null;
