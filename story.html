@@ -105,6 +105,7 @@ footer .links a:hover{color:var(--accent)}
   </div>
   <canvas id="sccr-canvas" width="1000" height="240"></canvas>
   <div class="legend"><span><span class="sw" style="background:var(--accent)"></span>average SCCR per day</span><span><span class="sw" style="background:var(--red)"></span>the 1.0 line (full coverage)</span></div>
+  <div class="provenance" id="sccr-provenance" style="font-size:.78rem;color:var(--muted);margin-top:8px;line-height:1.5">Measurement provenance loading…</div>
   <div class="callout"><b>The story:</b> fees cover roughly 18–28% of what permanently-stored data costs full nodes. The unpriced remainder is an attack surface — see the cost-to-flood card. Paper: <a href="/research/working-paper.html" style="color:var(--accent)">working-paper →</a></div>
 </div>
 
@@ -178,7 +179,11 @@ function drawSccr(canvasId){
     if(pts.length<1)return;
     document.getElementById('sccr-latest').textContent=fmt(pts[pts.length-1].avg_sccr);
     document.getElementById('sccr-below').textContent=(typeof pts[pts.length-1].below_1x_pct === 'number' ? pts[pts.length-1].below_1x_pct : '--')+'%';
-    fetch('/data/sccr.json').then(function(r){return r.json()}).then(function(s){document.getElementById('sccr-n').textContent=s.N.toLocaleString()}).catch(function(){});
+    fetch('/data/sccr.json').then(function(r){return r.json()}).then(function(s){
+      document.getElementById('sccr-n').textContent=s.N.toLocaleString();
+      var pn=document.getElementById('sccr-provenance');
+      if(pn){ pn.textContent = 'Provenance: ' + (s.notes || 'see /sccr/latest') + ' · measured ' + s.generated_at.slice(0,10) + ' · spec v' + s.spec_version; }
+    }).catch(function(){ var pn=document.getElementById('sccr-provenance'); if(pn) pn.textContent='Provenance unavailable.'; });
     var c=document.getElementById(canvasId);var x=dpr(c);
     var W=c.clientWidth||1000,H=240;x.clearRect(0,0,W,H);
     var mx=Math.max.apply(null,pts.map(function(p){return p.avg_sccr}))*1.3,mi=0;

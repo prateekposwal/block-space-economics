@@ -712,6 +712,16 @@ updateStatusBar();
 
 $('dataWarning').style.display = 'none';
 
+// Provenance: render the bip110 observedAt + window context under the chart.
+try {
+  const bp = await (await fetch('/data/bip110.json')).json();
+  const desc = document.querySelector('.viz-section-desc');
+  if (desc && bp && bp.observedAt) {
+    const win = bp.window ? ' · window ' + bp.window.start + '–' + bp.window.end + ' (lock-in ≤' + bp.window.lockIn + ')' : '';
+    desc.textContent = 'Observed share of sampled blocks signaling bit 4, per day, with the 55% lock-in threshold. Bars use only captured blocks (no fabricated values). Data: data/bip110_daily.json · observed ' + bp.observedAt.slice(0,16).replace('T',' ') + ' UTC' + win;
+  }
+} catch(e) { /* provenance line is best-effort */ }
+
 } catch(e) {
 state.error = e.message || 'Unknown error';
 showError('Failed to fetch data: ' + state.error + '. Will retry.');
