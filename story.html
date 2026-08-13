@@ -176,7 +176,7 @@ function drawSccr(canvasId){
     var pts=j.payload||[];
     if(pts.length<1)return;
     document.getElementById('sccr-latest').textContent=fmt(pts[pts.length-1].avg_sccr);
-    document.getElementById('sccr-below').textContent=(pts[pts.length-1].below_1x_pct||100)+'%';
+    document.getElementById('sccr-below').textContent=(typeof pts[pts.length-1].below_1x_pct === 'number' ? pts[pts.length-1].below_1x_pct : '--')+'%';
     fetch('/data/sccr.json').then(function(r){return r.json()}).then(function(s){document.getElementById('sccr-n').textContent=s.N.toLocaleString()}).catch(function(){});
     var c=document.getElementById(canvasId);var x=dpr(c);
     var W=c.clientWidth||1000,H=240;x.clearRect(0,0,W,H);

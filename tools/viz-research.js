@@ -56,21 +56,16 @@ const VIZ_Research = (() => {
           data = buildSeries(state.fee_history);
         }
         if (state && state.btc_price) btcPrice = state.btc_price;
-        if (state && state.fees && state.fees.fastestFee) {
-          var eco = state.fees.economyFee || 1;
+        if (state && state.fees && typeof state.fees.fastestFee === 'number' && typeof state.fees.economyFee === 'number' && state.fees.economyFee > 0) {
+          var eco = state.fees.economyFee;
           feeSpread = { fastest: state.fees.fastestFee / eco, hour: (state.fees.hourFee || eco) / eco, economy: 1 };
         }
       });
     }
 
-    if (data.length === 0) {
-      var now = Date.now();
-      for (var i = 96; i >= 0; i--) {
-        var t = now - i * 15 * 60 * 1000;
-        var base = 15 + Math.sin(i * 0.4) * 8 + Math.random() * 5;
-        data.push({ t: t, economy: base, hour: base * 1.5, fastest: base * 3 });
-      }
-    }
+    // Honest empty state: no fabricated fee series. The chart renders a
+    // "data pending" message instead of inventing points (integrity rule).
+    // (draw() already guards on data.length < 2.)
 
     loop();
   }

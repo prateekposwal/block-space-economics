@@ -119,7 +119,7 @@ a:hover{color:#E8B86D}
 
 <section class="hero">
 <h1>Bitcoin's <span>Settlement Engine</span></h1>
-<p>Bitcoin moves <strong id="settlement-hero">$68K</strong> <span style="font-size:.8rem;color:#6A5D4E;">per second</span> — not by processing millions of micro-transactions, but by settling high-value transfers. Every block is a batch settlement. This is the story of Bitcoin's economic throughput.</p>
+<p>Bitcoin moves <strong id="settlement-hero">--</strong> <span style="font-size:.8rem;color:#6A5D4E;">per second</span> — not by processing millions of micro-transactions, but by settling high-value transfers. Every block is a batch settlement. This is the story of Bitcoin's economic throughput.</p>
 </section>
 
 <div class="container">
@@ -229,7 +229,7 @@ DATA_ENGINE.onUpdate(function() {
   // Inflow rate from mempool size / 600s (avg block time) × 60 = tx/min
   var mpCount = mempool.count || 0;
   var inflowRate = mpCount > 0 ? Math.round(mpCount / 600 * 60) : 0;
-  var btcPrice = d.btc_price || 64000;
+  var btcPrice = (typeof d.btc_price === 'number') ? d.btc_price : null;
 
   // Block weight from latest block
   var lastBlock = blocks.length > 0 ? blocks[0] : null;
@@ -257,7 +257,7 @@ DATA_ENGINE.onUpdate(function() {
     return '$' + v.toFixed(0);
   };
 
-  var totalTxCount = totalTxs || 427000;
+  var totalTxCount = totalTxs || 0;
   var settlementPerSec = dailySettlement / 86400;
   var settlementPerBlock = dailySettlement / 144;
   var fmt = function(v) {
@@ -272,31 +272,38 @@ DATA_ENGINE.onUpdate(function() {
     return '$' + v.toFixed(0);
   };
 
-  $('settlement-volume').textContent = fmt(dailySettlement);
-  var heroEl = document.getElementById('settlement-hero');
-  if (heroEl) heroEl.textContent = fmtSmall(settlementPerSec) + '/sec';
-  $('settlement-per-sec').textContent = fmtSmall(settlementPerSec);
-  $('settlement-per-block').textContent = fmtSmall(settlementPerBlock);
-  $('avg-tx-value').textContent = fmtSmall(avgTxValue);
+  // Honest settlement rendering: when BTC price is missing, show "--" (never a
+  // plausible $ value derived from a fake price).
+  if (btcPrice === null) {
+    ['settlement-volume', 'settlement-hero', 'settlement-per-sec', 'settlement-per-block', 'avg-tx-value', 'settlement-miner'].forEach(function(id) {
+      var elS = document.getElementById(id);
+      if (elS) elS.textContent = '--';
+    });
+    if (heroEl) heroEl.textContent = '--/sec';
+  } else {
+    $('settlement-volume').textContent = fmt(dailySettlement);
+    if (heroEl) heroEl.textContent = fmtSmall(settlementPerSec) + '/sec';
+    $('settlement-per-sec').textContent = fmtSmall(settlementPerSec);
+    $('settlement-per-block').textContent = fmtSmall(settlementPerBlock);
+    $('avg-tx-value').textContent = fmtSmall(avgTxValue);
+    $('settlement-miner').textContent = fmt(dailySettlement);
+  }
   $('settlement-txs').textContent = (totalTxCount || 0).toLocaleString();
-  $('settlement-miner').textContent = fmt(dailySettlement);
   $('ln-capacity-val').textContent = ((ln.total_capacity || 0) / 100000000).toFixed(0) + ' BTC';
-  // Node count from getnodeaddresses
-  $('settlement-nodes').textContent = '27,800';
-  $('settlement-countries').textContent = '40+';
+  // Node count from getnodeaddresses census
+  $('settlement-nodes').textContent = (typeof ln.node_count === 'number') ? ln.node_count.toLocaleString() : '--';
+  $('settlement-countries').textContent = (typeof ln.countries === 'number') ? ln.countries + '+' : '--';
 
   // Update compact grid
   $('m-inflow').textContent = inflowRate + ' tx/min';
   $('m-weight-pct').textContent = weightPct !== '--' ? weightPct + '%' : '--';
   $('m-avg-tx').textContent = avgTxSize !== '--' ? avgTxSize + ' vB' : '--';
 
-  // Adoption estimates (from fee_history block data patterns)
-  var segwitPct = 82 + Math.floor(Math.random() * 6);
-  var taprootPct = 12 + Math.floor(Math.random() * 4);
-  var legacyPct = 100 - segwitPct - taprootPct;
-  $('segwit-pct').textContent = segwitPct + '%';
-  $('taproot-pct').textContent = taprootPct + '%';
-  $('legacy-pct').textContent = legacyPct + '%';
+  // Adoption estimates — honest: only shown from real tx-type data when captured.
+  // (Previously fabricated via Math.random; now "-- pending" until a real capture.)
+  $('segwit-pct').textContent = '--';
+  $('taproot-pct').textContent = '--';
+  $('legacy-pct').textContent = '--';
 
   // Adoption bar
   var barHtml = '<div class="adoption-seg segwit" style="width:' + segwitPct + '%">SegWit ' + segwitPct + '%</div>' +

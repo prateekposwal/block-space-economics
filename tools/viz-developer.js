@@ -196,6 +196,9 @@ var VIZ_Developer = (function() {
 
     var uptimeEl = document.getElementById('dev-uptime');
     if (uptimeEl) uptimeEl.textContent = checked ? uptime + '%' : '--';
+
+    var srcCountEl = document.getElementById('dev-source-count');
+    if (srcCountEl) srcCountEl.textContent = (checked ? total : '--') + '+';
   }
 
   function checkAll() {

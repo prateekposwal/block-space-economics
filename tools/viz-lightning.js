@@ -84,81 +84,66 @@ var VIZ_Lightning = (function() {
     var d = {};
     if (typeof DATA_ENGINE !== 'undefined') { d = DATA_ENGINE.get().lightning || {}; }
     stats.capacity = d.total_capacity || 0;
-    stats.nodes = d.node_count || 42;
+    stats.nodes = d.node_count || 0;
     stats.channels = d.channel_count || 0;
 
-    var count = Math.min(50, Math.max(30, stats.nodes || 40));
-    if (stats.nodes > 50) count = 50;
-
+    // HONEST RENDER: we do NOT have per-node/per-channel graph topology captured,
+    // so we never fabricate nodes. The canvas shows real aggregate stats + a clear
+    // "network graph not captured" state (integrity rule: no fabricated "live" data).
     nodes = [];
     links = [];
-
-    for (var i = 0; i < count; i++) {
-      nodes.push({
-        id: i,
-        label: 'Node-' + (1000 + i),
-        pubkey: (function(n) { var h = ''; for (var j = 0; j < 66; j++) h += '0123456789abcdef'[Math.floor(Math.random() * 16)]; return h; })(),
-        alias: ['Satoshi', 'Lightning', 'TorGuard', 'ACINQ', 'Blockstream', 'Bitrefill', 'Fold', 'WalletOfSatoshi', 'Breez', 'River', 'Kraken', 'OKCoin', 'Bitfinex', 'OpenNode', 'ZEBEDEE', 'Strike', 'CoinCorner', 'PeachBitcoin', 'Wavemakr', 'LightningNetwork.com', 'NodeConductor', 'Mempool', 'BTC-Pay', 'Blixt', 'Phoenix', 'Eclair', 'LNDhub', 'RideTheLightning', 'Voltage', 'LightningLabs'][i % 30],
-        channels: Math.floor(Math.random() * 200) + 1,
-        capacity: Math.floor(Math.random() * 50 + 1) * 1000000,
-        avgFeeRate: Math.random() * 50 + 1,
-        x: Math.random() * (w || 800),
-        y: Math.random() * (h || 400),
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3
-      });
-    }
-
-    for (var i = 0; i < nodes.length; i++) {
-      var neighborCount = Math.floor(Math.random() * 6) + 1;
-      for (var j = 0; j < neighborCount; j++) {
-        var target = Math.floor(Math.random() * nodes.length);
-        if (target === i) continue;
-        var dup = false;
-        for (var k = 0; k < links.length; k++) {
-          if ((links[k].source === i && links[k].target === target) || (links[k].source === target && links[k].target === i)) {
-            dup = true;
-            break;
-          }
-        }
-        if (!dup) {
-          links.push({
-            source: i,
-            target: target,
-            capacity: Math.floor(Math.random() * 10 + 1) * 100000,
-            feeRate: Math.random() * 50 + 1,
-            baseFee: Math.floor(Math.random() * 1000) + 1
+    // Pull a small real-sample representation only from captured fields we actually
+    // hold (tor/clearnet/unannounced split) so the visual is grounded, not random.
+    var split = d.breakdown || {};
+    var buckets = [
+      { label: 'Tor', value: d.tor_nodes || 0, color: '#3FB950' },
+      { label: 'Clearnet', value: d.clearnet_nodes || 0, color: '#D29922' },
+      { label: 'Unannounced', value: d.unannounced_nodes || 0, color: '#8B949E' }
+    ];
+    var haveSplit = buckets.some(function(b) { return b.value > 0; });
+    var total = buckets.reduce(function(a, b) { return a + (b.value || 0); }, 0) || stats.nodes;
+    if (haveSplit && total > 0) {
+      // One representative dot per 100 real nodes, sized by real bucket share.
+      var scale = Math.min(60, Math.max(8, Math.round(total / 250)));
+      buckets.forEach(function(b) {
+        var n = Math.max(0, Math.round((b.value / total) * scale));
+        for (var i = 0; i < n; i++) {
+          nodes.push({
+            id: nodes.length,
+            label: b.label,
+            pubkey: '',
+            alias: b.label + ' node (real data)',
+            channels: b.value > 0 ? Math.max(1, Math.round(b.value / (n || 1) / 10)) : 0,
+            capacity: stats.capacity / (total || 1),
+            avgFeeRate: 10,
+            x: Math.random() * (w || 800),
+            y: Math.random() * (h || 400),
+            vx: (Math.random() - 0.5) * 0.3,
+            vy: (Math.random() - 0.5) * 0.3,
+            bucketColor: b.color
           });
         }
-      }
+      });
     }
+    stats.nodes = total || stats.nodes;
+    stats.split = buckets;
+    stats.fabricated = false;
+    return stats;
   }
 
   function reconcileNodeCount(targetCount) {
-    var count = Math.min(50, Math.max(30, targetCount));
-    if (count > nodes.length) {
-      for (var i = nodes.length; i < count; i++) {
-        nodes.push({
-          id: i,
-          label: 'Node-' + (1000 + i),
-          pubkey: (function(n) { var h = ''; for (var j = 0; j < 66; j++) h += '0123456789abcdef'[Math.floor(Math.random() * 16)]; return h; })(),
-          alias: ['Satoshi', 'Lightning', 'TorGuard', 'ACINQ', 'Blockstream', 'Bitrefill', 'Fold', 'WalletOfSatoshi', 'Breez', 'River', 'Kraken', 'OKCoin', 'Bitfinex', 'OpenNode', 'ZEBEDEE', 'Strike', 'CoinCorner', 'PeachBitcoin', 'Wavemakr', 'LightningNetwork.com', 'NodeConductor', 'Mempool', 'BTC-Pay', 'Blixt', 'Phoenix', 'Eclair', 'LNDhub', 'RideTheLightning', 'Voltage', 'LightningLabs'][i % 30],
-          channels: Math.floor(Math.random() * 200) + 1,
-          capacity: Math.floor(Math.random() * 50 + 1) * 1000000,
-          avgFeeRate: Math.random() * 50 + 1,
-          x: Math.random() * w,
-          y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3
-        });
-      }
-    } else if (count < nodes.length) {
-      nodes.length = count;
-      for (var i = links.length - 1; i >= 0; i--) {
-        if (links[i].source >= count || links[i].target >= count) {
-          links.splice(i, 1);
-        }
-      }
+    // No-op: we never fabricate nodes. Called by DATA_ENGINE updates to refresh
+    // aggregate stats from real data only.
+    var d = typeof DATA_ENGINE !== 'undefined' ? (DATA_ENGINE.get().lightning || {}) : {};
+    stats.capacity = d.total_capacity || stats.capacity;
+    stats.nodes = d.node_count || stats.nodes;
+    stats.channels = d.channel_count || stats.channels;
+    if (d.tor_nodes || d.clearnet_nodes || d.unannounced_nodes) {
+      stats.split = [
+        { label: 'Tor', value: d.tor_nodes || 0, color: '#3FB950' },
+        { label: 'Clearnet', value: d.clearnet_nodes || 0, color: '#D29922' },
+        { label: 'Unannounced', value: d.unannounced_nodes || 0, color: '#8B949E' }
+      ];
     }
   }
 
@@ -301,10 +286,19 @@ var VIZ_Lightning = (function() {
     hoverNode = null;
     var maxSize = isMobile() ? 14 : 20, minSize = isMobile() ? 3 : 4;
 
+    // Honest node color: bucket share (Tor/Clearnet/Unannounced) from real data.
+    function nodeColor(n) {
+      if (n.bucketColor) return n.bucketColor;
+      var c = { r: 139, g: 148, b: 158 };
+      return c;
+    }
+
     for (var i = 0; i < nodes.length; i++) {
       var n = nodes[i];
       var size = minSize + (n.channels / maxChan) * (maxSize - minSize);
-      var cf = feeColor(n.avgFeeRate);
+      var cf = { r: 139, g: 148, b: 158 };
+      var bc = nodeColor(n);
+      cf.r = bc.r; cf.g = bc.g; cf.b = bc.b;
       var baseOpacity = 0.7;
 
       // Check hover
@@ -376,10 +370,8 @@ var VIZ_Lightning = (function() {
       var capBtc = (n.capacity / 100000000).toFixed(4);
       tooltipEl.innerHTML =
         '<b>' + n.alias + '</b><br>' +
-        '<span style="color:#8b8680;font-size:11px">' + n.pubkey.substring(0, 16) + '...</span><br>' +
-        '<span style="color:#ffd8a8">Channels: ' + n.channels + '</span><br>' +
-        '<span style="color:#ffd8a8">Capacity: ' + capBtc + ' BTC</span><br>' +
-        '<span style="color:#ffd8a8">Fee rate: ' + n.avgFeeRate.toFixed(1) + ' ppm</span>';
+        '<span style="color:#8b8680;font-size:11px">Network graph topology not captured — node represents a real aggregate share</span><br>' +
+        '<span style="color:#ffd8a8">Share bucket: ' + n.label + '</span>';
     } else {
       tooltipEl.style.display = 'none';
     }
@@ -389,10 +381,12 @@ var VIZ_Lightning = (function() {
     ctx.textBaseline = 'top';
     ctx.font = (isMobile() ? '10px' : '12px') + ' -apple-system, sans-serif';
     ctx.fillStyle = 'rgba(0,0,0,0.75)';
-    ctx.fillRect(14, 14, isMobile() ? 260 : 350, 20);
+    ctx.fillRect(14, 14, isMobile() ? 300 : 430, 42);
     ctx.fillStyle = 'rgba(255,255,255,0.7)';
     var capBtc = (stats.capacity / 100000000).toFixed(1);
     ctx.fillText('Capacity: ' + capBtc + ' BTC | Nodes: ' + stats.nodes + ' | Channels: ' + stats.channels, 16, 16);
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    ctx.fillText('Real network stats — graph topology not captured', 16, 38);
 
     // Legend
     var lx = w - 200, ly = 16, lw = 140;
@@ -407,31 +401,29 @@ var VIZ_Lightning = (function() {
     ctx.textBaseline = 'top';
     ctx.font = '10px -apple-system, sans-serif';
     ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.fillText('Node color = fee rate', lx, ly);
+    ctx.fillText('Node color = real split', lx, ly);
 
-    // Green
+    // Tor
     ctx.fillStyle = 'rgb(63,185,80)';
     ctx.fillRect(lx, ly + 14, 10, 10);
     ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.fillText('Cheap (<5 ppm)', lx + 14, ly + 14);
+    ctx.fillText('Tor (' + (stats.split ? stats.split[0].value : '—') + ')', lx + 14, ly + 14);
 
-    // Yellow
+    // Clearnet
     ctx.fillStyle = 'rgb(210,170,80)';
     ctx.fillRect(lx, ly + 28, 10, 10);
-    ctx.fillStyle = 'rgba(255,255,255,0.35)';
     ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.fillText('Moderate (5-25)', lx + 14, ly + 28);
+    ctx.fillText('Clearnet (' + (stats.split ? stats.split[1].value : '—') + ')', lx + 14, ly + 28);
 
-    // Red
-    ctx.fillStyle = 'rgb(248,81,73)';
+    // Unannounced
+    ctx.fillStyle = 'rgb(139,148,158)';
     ctx.fillRect(lx, ly + 42, 10, 10);
-    ctx.fillStyle = 'rgba(255,255,255,0.35)';
     ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.fillText('Expensive (>25)', lx + 14, ly + 42);
+    ctx.fillText('Unannounced (' + (stats.split ? stats.split[2].value : '—') + ')', lx + 14, ly + 42);
 
     // Node size hint
     ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx.fillText('○ size = channel count', lx, ly + 60);
+    ctx.fillText('○ size = share in bucket', lx, ly + 60);
 
     // Vignette
     var vig = ctx.createRadialGradient(w/2, h/2, h*0.15, w/2, h/2, h*0.85);

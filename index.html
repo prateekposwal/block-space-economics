@@ -132,7 +132,7 @@
 
   <!-- Visible H1 (only content per architect) -->
   <div style="position:fixed;top:110px;left:50%;transform:translateX(-50%);z-index:25;text-align:center;pointer-events:none;max-width:640px;width:calc(100% - 40px);">
-    <h1 style="font-size:clamp(20px,3.5vw,34px);color:#EADCC8;margin:0;letter-spacing:0.5px;">Bitcoin block space, <span style="color:#F7931A;">live</span>.</h1>
+    <h1 style="font-size:clamp(20px,3.5vw,34px);color:#EADCC8;margin:0;letter-spacing:0.5px;">Bitcoin block space, <span style="color:#F7931A;">live</span>. <span id="data-health" title="Data status" style="font-size:0.6em;color:#8B949E;">⚪</span></h1>
   </div>
 
   <!-- SEO content layer (crawler-readable, invisible to visitors) -->
@@ -146,15 +146,15 @@
       <li>Mempool: <span id="vs-mempool">--</span> txs</li>
       <li>Block height: <span id="vs-height">--</span></li>
     </ul>
-    <p id="vs-note">Updated live from the Bitcoin network.</p>
+    <p id="vs-note">Waiting for the latest snapshot…</p>
     <h2>Latest research</h2>
     <p><strong>Bitcoin Resource Accounting</strong> — open research on the long-lived resources Bitcoin consumes (replicated storage, UTXO state, validation, relay, bandwidth) and how much of each cost the fee market internalizes. Storage (SCCR) is Metric #1, measured and reproducible.</p>
     <a href="/learn">Read the research →</a>
   </div>
 
   <div class="state-bar" id="state-bar">
-    <div class="state-label" id="state-label" style="color:#3FB950;">Network calm</div>
-    <div class="state-desc" id="state-desc">Fees are low. Good time to send.</div>
+    <div class="state-label" id="state-label" style="color:#D29922;">Data pending</div>
+    <div class="state-desc" id="state-desc">Waiting for live fee data…</div>
   </div>
 
   <button class="legend-toggle" id="legend-toggle" aria-label="Toggle legend" aria-expanded="false" onclick="document.getElementById('legend-panel').classList.toggle('visible'); this.setAttribute('aria-expanded', document.getElementById('legend-panel').classList.contains('visible'));">?</button>
@@ -220,7 +220,7 @@
       var ctx = c.getContext('2d');
       var data = DATA_ENGINE.get().fee_history || [];
       var fees = DATA_ENGINE.get().fees || {};
-      var fc = feeColor(fees.fastestFee || 3);
+      var fc = (typeof fees.fastestFee === 'number') ? feeColor(fees.fastestFee) : { r: 139, g: 148, b: 158 };
       var grad = ctx.createLinearGradient(0, 0, w, 0);
       grad.addColorStop(0, '#1A1612');
       grad.addColorStop(0.6, 'rgba(' + fc.r + ',' + fc.g + ',' + fc.b + ',0.25)');
@@ -234,7 +234,8 @@
         var barW = Math.max(1, (w - startX) / n);
         for (var i = 0; i < n; i++) {
           var entry = data[data.length - 1 - i];
-          var feeRate = Math.min(500, Math.max(0.1, (entry.avgFees || 0) / 2500000));
+          if (!entry || typeof entry.avgFees !== 'number' || entry.avgFees <= 0) continue; // omit missing, never fake a bar
+          var feeRate = Math.min(500, entry.avgFees / 2500000);
           var pc = feeColor(feeRate);
           ctx.fillStyle = 'rgb(' + pc.r + ',' + pc.g + ',' + pc.b + ')';
           ctx.fillRect(startX + Math.round(i * barW), 0, Math.max(1, Math.round(barW)), h);
@@ -245,7 +246,12 @@
     function updateDollarContext() {
       var fees = DATA_ENGINE.get().fees || {};
       var price = DATA_ENGINE.get().btc_price || 0;
-      var economy = fees.economyFee || fees.hourFee || 1;
+      var economy = (typeof fees.economyFee === 'number') ? fees.economyFee : (typeof fees.hourFee === 'number' ? fees.hourFee : null);
+      if (economy === null || !price) {
+        document.getElementById('ctx-economy').textContent = '--';
+        document.getElementById('ctx-dollar').textContent = '--';
+        return;
+      }
       var txCost = economy * 140 * price / 100000000;
       document.getElementById('ctx-economy').textContent = economy.toFixed(0);
       document.getElementById('ctx-dollar').textContent = txCost.toFixed(2);
@@ -262,16 +268,10 @@
 
     function buildTicker() {
       var d = DATA_ENGINE.get();
-      var blocks = d.block_height || 840000;
-      var mp = d.mempool.count || 0;
-      var price = d.btc_price || 0;
-      var items = [
-        fmtNum(blocks) + ' blocks',
-        fmtNum(mp) + ' txs in mempool',
-        '84M UTXOs',
-        '425 EH/s',
-        price ? '$' + Math.round(price).toLocaleString() + ' BTC' : '-- BTC'
-      ];
+      var blocks = (typeof d.block_height === 'number') ? fmtNum(d.block_height) + ' blocks' : '-- blocks';
+      var mp = (d.mempool && typeof d.mempool.count === 'number') ? fmtNum(d.mempool.count) + ' txs in mempool' : '-- txs in mempool';
+      var price = d.btc_price ? '$' + Math.round(d.btc_price).toLocaleString() + ' BTC' : '-- BTC';
+      var items = [blocks, mp, price];
       return items.join(' \u25B8 ');
     }
 
@@ -292,8 +292,14 @@
 
     function refreshUI() {
       var f = DATA_ENGINE.get().fees || {};
-      var fastest = f.fastestFee || 3;
-      if (fastest < 5) {
+      var fastest = f.fastestFee;
+      if (typeof fastest !== 'number') {
+        // Missing data must NEVER read as "all clear" — show pending state.
+        stateLabel.textContent = '\uD83D\uDFE1 Data pending';
+        stateLabel.style.color = '#D29922';
+        stateDesc.textContent = 'Waiting for live fee data\u2026';
+        ctaEl.classList.remove('low-fees');
+      } else if (fastest < 5) {
         stateLabel.textContent = '\uD83D\uDFE2 Network calm';
         stateLabel.style.color = '#3FB950';
         stateDesc.textContent = 'Fees are low. Good time to send.';
@@ -318,29 +324,47 @@
     function updateVisibleStats(d) {
       d = d || {};
       var fees = d.fees || {};
-      function set(id, v) { var el = document.getElementById(id); if (el && v) el.textContent = v; }
-      set('vs-fastest', fees.fastestFee ? fees.fastestFee + ' sat/vB' : null);
-      set('vs-economy', fees.economyFee ? fees.economyFee + ' sat/vB' : null);
-      set('vs-mempool', (d.mempool && d.mempool.count) ? d.mempool.count.toLocaleString() + ' txs' : null);
-      set('vs-height', d.block_height ? '#' + d.block_height.toLocaleString() : null);
+      function set(id, v) { var el = document.getElementById(id); if (el) el.textContent = (v === null || v === undefined) ? '--' : v; }
+      set('vs-fastest', typeof fees.fastestFee === 'number' ? fees.fastestFee + ' sat/vB' : null);
+      set('vs-economy', typeof fees.economyFee === 'number' ? fees.economyFee + ' sat/vB' : null);
+      set('vs-mempool', (d.mempool && typeof d.mempool.count === 'number') ? d.mempool.count.toLocaleString() + ' txs' : null);
+      set('vs-height', typeof d.block_height === 'number' ? '#' + d.block_height.toLocaleString() : null);
     }
     try {
       fetch('/data/snapshot.json').then(function(r) { return r.json(); }).then(function(s) {
-        if (!s || !s.generated_at) return;
+        if (!s || !s.generated_at) { setHealth('stale'); return; }
         var ageMin = (Date.now() - new Date(s.generated_at).getTime()) / 60000;
         var n = document.getElementById('vs-note');
         if (!n) return;
         if (ageMin > 120) {
           n.textContent = '⚠ Data stale — last snapshot ' + Math.round(ageMin / 60) + 'h ago (pipeline check needed)';
           n.style.color = '#E0653A';
+          setHealth('stale');
           return;
         }
         updateVisibleStats({ fees: s.fees || {}, mempool: { count: s.mempool_tx }, block_height: s.block_height });
         var ago = ageMin < 90 ? Math.round(ageMin) + ' min ago' : Math.round(ageMin / 60) + 'h ago';
         n.textContent = 'Snapshot from ' + s.generated_at.slice(0, 16) + ' · ' + ago + ' · live data refreshes every 60s';
         n.style.color = '';
-      }).catch(function() {});
-    } catch (e) {}
+        setHealth(ageMin > 15 ? 'delayed' : 'live');
+      }).catch(function() {
+        // Never leave a stale green state — a failed snapshot fetch is a real signal.
+        setHealth('stale');
+        var n = document.getElementById('vs-note');
+        if (n) { n.textContent = '⚠ Data unavailable — could not load snapshot (pipeline check needed)'; n.style.color = '#F85149'; }
+      });
+    } catch (e) { setHealth('stale'); }
+
+    // Shared data-health dot (🟢 live / 🟡 delayed / 🔴 stale / ⚪ unknown).
+    function setHealth(state) {
+      var el = document.getElementById('data-health');
+      if (!el) return;
+      var map = { live: ['🟢', '#3FB950'], delayed: ['🟡', '#D29922'], stale: ['🔴', '#F85149'], unknown: ['⚪', '#8B949E'] };
+      var m = map[state] || map.unknown;
+      el.textContent = m[0];
+      el.title = state.charAt(0).toUpperCase() + state.slice(1) + ' data';
+      el.style.color = m[1];
+    }
 
     DATA_ENGINE.onUpdate(refreshUI);
 

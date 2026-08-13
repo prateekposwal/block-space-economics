@@ -252,8 +252,8 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
     <div class="stat-card" style="border-top:3px solid #D4933A;"><div class="sc-label">Capacity</div><div class="sc-value" id="ln-capacity">--</div><div class="fc-sub">Total BTC locked</div></div>
   </div>
   <div class="viz-section">
-    <div class="viz-section-title">Lightning Network Graph</div>
-    <div class="viz-section-desc">Interactive force-directed graph of the Lightning Network. Node size = channel count. Color = fee rate.</div>
+    <div class="viz-section-title">Lightning Network</div>
+    <div class="viz-section-desc">Real network stats (capacity, nodes, channels) from captured data. Node color = node type split (Tor / Clearnet / Unannounced). Graph topology is not captured — nodes represent real aggregate shares.</div>
     <canvas id="viz-lightning" class="viz-canvas"></canvas>
   </div>
   <div class="insight-card">
@@ -299,7 +299,7 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
 <div class="tab-panel" id="panel-node">
   <div class="dc">
     <h2 class="dc-q">Your node at a glance</h2>
-    <div class="dc-a orange" id="node-cost">$924</div>
+    <div class="dc-a orange" id="node-cost">--</div>
     <div class="dc-sub">Estimated annual cost to run a full node</div>
   </div>
   <div class="brief-card" id="brief-node">
@@ -320,7 +320,7 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
     <div class="insight-icon">💡</div>
     <div class="insight-content">
       <div class="insight-title">What this means for you</div>
-      <div class="insight-text" id="node-insight">Your estimated annual node cost is $924. Hardware is the biggest expense. Consider cloud hosting to reduce upfront costs.</div>
+      <div class="insight-text" id="node-insight">Node cost estimate shown once price data arrives.</div>
     </div>
   </div>
 </div>
@@ -407,8 +407,8 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
 <div class="tab-panel" id="panel-developer">
   <div class="dc">
     <h2 class="dc-q">Bitcoin Network Data</h2>
-    <div class="dc-a green" id="dev-verdict">All systems operational</div>
-    <div class="dc-sub">13+ data sources · 4 featured below · Updated every 60s · <span id="dev-uptime">99.9%</span> uptime · <a href="mailto:prateek@block-space-economics.com" style="color:#D4933A;text-decoration:none;font-weight:500;">Need more? →</a></div>
+    <div class="dc-a green" id="dev-verdict">Checking systems…</div>
+    <div class="dc-sub"><span id="dev-source-count">--</span> data sources · 4 featured below · Updated every 60s · <span id="dev-uptime">--</span> uptime · <a href="mailto:prateek@block-space-economics.com" style="color:#D4933A;text-decoration:none;font-weight:500;">Need more? →</a></div>
   </div>
   <div class="viz-section">
     <div class="viz-section-title" style="display:flex;align-items:center;justify-content:space-between;">
@@ -623,7 +623,7 @@ if (typeof DATA_ENGINE !== 'undefined') {
   document.querySelectorAll('#live-state-sub').forEach(function(el) {
     if (!fees.fastestFee && !fees.economyFee) el.textContent = 'Showing cached data if available';
     else if (f2 >= 50) el.textContent = 'Fastest ' + f2 + ' sat/vB · Mempool ' + mpCount.toLocaleString() + ' · ' + inflowRate + ' tx/min arriving';
-    else el.textContent = 'Fastest ' + f2 + ' sat/vB · Economy ' + (fees.economyFee || 1) + ' sat/vB · ' + inflowRate + ' tx/min · ' + mpCount.toLocaleString() + ' pending';
+    else el.textContent = 'Fastest ' + f2 + ' sat/vB · Economy ' + (typeof fees.economyFee === 'number' ? fees.economyFee : '--') + ' sat/vB · ' + inflowRate + ' tx/min · ' + mpCount.toLocaleString() + ' pending';
   });
   document.querySelectorAll('#capacity-indicator').forEach(function(el) {
     var blocks = d.blocks || [];
@@ -644,8 +644,18 @@ if (typeof DATA_ENGINE !== 'undefined') {
 
 
 
-  var e = fees.economyFee || 1;
-  var f = fees.fastestFee || 3;
+  var e = (typeof fees.economyFee === 'number') ? fees.economyFee : null;
+  var f = (typeof fees.fastestFee === 'number') ? fees.fastestFee : null;
+  var btcPrice = (typeof d.btc_price === 'number') ? d.btc_price : null;
+
+  // Honest numeric outputs: when fee/price data is missing, show "--", never a
+  // plausible default (missing data must not read as a real cost/value).
+  if (e === null || f === null || btcPrice === null) {
+    ['ln-cost', 'ex-saving', 'miner-reward', 'ex-save-usd'].forEach(function(id) {
+      var elN = document.getElementById(id);
+      if (elN) elN.textContent = '--';
+    });
+  }
   // Verdicts based on weather condition (fees + mempool + weight combined)
   var weatherLevel = weather.label;
   var sendV = document.getElementById('send-verdict');
@@ -661,7 +671,7 @@ if (typeof DATA_ENGINE !== 'undefined') {
   else if (weatherLevel === 'Breezy') { lnV.textContent = '🟡 Moderate — economy fee channels OK'; lnV.className = 'dc-a yellow'; }
   else if (weatherLevel === 'Rainy' || weatherLevel === 'Storm' || weatherLevel === 'Extreme') { lnV.textContent = '🟡 Wait for lower fees to open'; lnV.className = 'dc-a yellow'; }
   else { lnV.textContent = '⏳ Data offline'; lnV.className = 'dc-a'; lnV.style.color = '#6A5D4E'; }
-  document.getElementById('ln-cost').textContent = 'Channel open cost: ~$' + ((e * 1000 * (d.btc_price || 64000)) / 100000000).toFixed(2) + ' USD';
+  document.getElementById('ln-cost').textContent = (e !== null && btcPrice !== null) ? 'Channel open cost: ~$' + ((e * 1000 * btcPrice) / 100000000).toFixed(2) + ' USD' : 'Channel open cost: --';
 
   if (d.lightning) {
     document.getElementById('ln-nodes').textContent = (d.lightning.node_count || 0).toLocaleString();
@@ -674,17 +684,22 @@ if (typeof DATA_ENGINE !== 'undefined') {
   else if (weatherLevel === 'Breezy') { exV.textContent = '⚡ Good time to batch — moderate fees'; exV.className = 'dc-a yellow'; }
   else if (weatherLevel === 'Rainy' || weatherLevel === 'Storm' || weatherLevel === 'Extreme') { exV.textContent = '🟡 Wait — fees are elevated for batching'; exV.className = 'dc-a yellow'; }
   else { exV.textContent = '⏳ Data offline'; exV.className = 'dc-a'; exV.style.color = '#6A5D4E'; }
-  var batchSave = ((e * 140 * 1000 - e * 100000) * (d.btc_price || 64000)) / 100000000;
-  document.getElementById('ex-saving').textContent = 'Batch of 1K withdrawals saves ~$' + batchSave.toFixed(0);
+  if (e !== null && btcPrice !== null) {
+    var batchSave = ((e * 140 * 1000 - e * 100000) * btcPrice) / 100000000;
+    document.getElementById('ex-saving').textContent = 'Batch of 1K withdrawals saves ~$' + batchSave.toFixed(0);
+  }
 
-  var btcPrice = d.btc_price || 64000;
-  document.getElementById('miner-reward').textContent = '~$' + Math.round(3.125 * btcPrice + 0.5 * btcPrice).toLocaleString() + '/block';
+  if (btcPrice !== null) {
+    document.getElementById('miner-reward').textContent = '~$' + Math.round(3.125 * btcPrice + 0.5 * btcPrice).toLocaleString() + '/block';
+  }
 
-  var fastestUsd = (f * 140 * btcPrice) / 100000000;
-  var hourUsd = ((fees.hourFee || 1) * 140 * btcPrice) / 100000000;
-  var economyUsd = (e * 140 * btcPrice) / 100000000;
+  var fastestUsd = (f !== null && btcPrice !== null) ? (f * 140 * btcPrice) / 100000000 : null;
+  var hourUsd = (typeof fees.hourFee === 'number' && btcPrice !== null) ? (fees.hourFee * 140 * btcPrice) / 100000000 : null;
+  var economyUsd = (e !== null && btcPrice !== null) ? (e * 140 * btcPrice) / 100000000 : null;
   document.getElementById('dollar-cost').textContent =
-    'Fastest: $' + fastestUsd.toFixed(2) + ' │ Hour: $' + hourUsd.toFixed(2) + ' │ Economy: $' + economyUsd.toFixed(2);
+    (fastestUsd !== null && hourUsd !== null && economyUsd !== null)
+      ? 'Fastest: $' + fastestUsd.toFixed(2) + ' │ Hour: $' + hourUsd.toFixed(2) + ' │ Economy: $' + economyUsd.toFixed(2)
+      : 'Fastest: -- │ Hour: -- │ Economy: --';
 
   // Fee distribution trend viz
   if (!window._feeTrendAnim) {
@@ -826,39 +841,52 @@ if (typeof DATA_ENGINE !== 'undefined') {
   document.getElementById('res-txs-day').textContent = fh.length > 0 ? (Math.round(fh.length * 3000)).toLocaleString() : '--';
 
   // --- Market Brief Panels ---
-  var briefF = f2 || 3;
-  var briefEco = e || 2;
+  var briefF = (typeof f2 === 'number') ? f2 : null;
+  var briefEco = (typeof e === 'number') ? e : null;
   var briefTrend = getFeeTrend(d.fee_history || []);
   var briefTrendWord = briefTrend === 'up' ? 'rising' : briefTrend === 'down' ? 'dropping' : 'stable';
-  var briefPrice = btcPrice || 64000;
-  var briefMempool = d.mempool ? (d.mempool.count || 0) : 0;
+  var briefPrice = (typeof btcPrice === 'number') ? btcPrice : null;
+  var briefMempool = (d.mempool && typeof d.mempool.count === 'number') ? d.mempool.count : 0;
   var briefVol = fAvg > 0 ? Math.round(stdDev / fAvg * 100) : '--';
 
   // Send brief
   var briefSend = document.getElementById('brief-send-text');
   if (briefSend) {
-    var feeTag = briefF < 5 ? '<span class="tag tag-green">LOW</span>' : briefF < 15 ? '<span class="tag tag-yellow">MODERATE</span>' : '<span class="tag tag-red">HIGH</span>';
-    briefSend.innerHTML = 'Network fees: ' + feeTag + ' <strong>' + briefF + ' sat/vB</strong> fastest · Trending <strong>' + briefTrendWord + '</strong> · Mempool: <strong>' + briefMempool.toLocaleString() + '</strong> txs waiting';
+    if (briefF === null) {
+      briefSend.innerHTML = 'Fee data pending — <strong>--</strong> fastest · Mempool: <strong>' + briefMempool.toLocaleString() + '</strong> txs waiting';
+    } else {
+      var feeTag = briefF < 5 ? '<span class="tag tag-green">LOW</span>' : briefF < 15 ? '<span class="tag tag-yellow">MODERATE</span>' : '<span class="tag tag-red">HIGH</span>';
+      briefSend.innerHTML = 'Network fees: ' + feeTag + ' <strong>' + briefF + ' sat/vB</strong> fastest · Trending <strong>' + briefTrendWord + '</strong> · Mempool: <strong>' + briefMempool.toLocaleString() + '</strong> txs waiting';
+    }
   }
 
   // Lightning brief
   var briefLn = document.getElementById('brief-lightning-text');
   if (briefLn) {
-    var lnChanCost = (briefEco * 1000 * briefPrice) / 100000000;
-    briefLn.innerHTML = '<span class="tag tag-green">LOW FEES</span> Channel opens ~<strong>$' + lnChanCost.toFixed(2) + '</strong> · LND <strong>v0.20.2</strong> supports async payments · Network: <strong>17K+</strong> nodes, <strong>4,400+</strong> BTC capacity';
+    var lnCap = (d.lightning && typeof d.lightning.total_capacity === 'number') ? (d.lightning.total_capacity / 100000000).toFixed(0) : '--';
+    var lnNodes = (d.lightning && typeof d.lightning.node_count === 'number') ? d.lightning.node_count.toLocaleString() : '--';
+    briefLn.innerHTML = (briefEco !== null && briefPrice !== null)
+      ? '<span class="tag tag-green">LOW FEES</span> Channel opens ~<strong>$' + ((briefEco * 1000 * briefPrice) / 100000000).toFixed(2) + '</strong> · Network: <strong>' + lnNodes + '</strong> nodes, <strong>' + lnCap + '</strong> BTC capacity'
+      : 'Fee data pending · Network: <strong>' + lnNodes + '</strong> nodes, <strong>' + lnCap + '</strong> BTC capacity';
   }
 
   // Exchange brief
   var briefEx = document.getElementById('brief-exchange-text');
   if (briefEx) {
-    var briefSavings = ((briefEco * 140 * 1000 - briefEco * 100000) * briefPrice) / 100000000;
-    briefEx.innerHTML = 'Batch <strong>1,000</strong> withdrawals saves ~<strong>$' + briefSavings.toFixed(0) + '</strong> at current fees · Efficiency: <strong>' + (briefSavings > 0 ? Math.round(briefSavings / (briefEco * 140 * 1000 * briefPrice / 100000000) * 100) : 0) + '%</strong> · Trending <strong>' + briefTrendWord + '</strong>';
+    if (briefEco !== null && briefPrice !== null) {
+      var briefSavings = ((briefEco * 140 * 1000 - briefEco * 100000) * briefPrice) / 100000000;
+      briefEx.innerHTML = 'Batch <strong>1,000</strong> withdrawals saves ~<strong>$' + briefSavings.toFixed(0) + '</strong> at current fees · Efficiency: <strong>' + (briefSavings > 0 ? Math.round(briefSavings / (briefEco * 140 * 1000 * briefPrice / 100000000) * 100) : 0) + '%</strong> · Trending <strong>' + briefTrendWord + '</strong>';
+    } else {
+      briefEx.innerHTML = 'Fee data pending — batch savings unavailable';
+    }
   }
 
   // Node brief
   var briefNode = document.getElementById('brief-node-text');
   if (briefNode) {
-    briefNode.innerHTML = 'Node cost: <strong>$' + (Math.round(Math.min(2000, Math.max(200, briefPrice * 0.025)) / 3 + 600 + Math.round((150 * 24 * 365 / 1000) * 0.12) + 50)) + '/yr</strong> · BTC price: <strong>$' + briefPrice.toLocaleString() + '</strong> · Difficulty adjustment: <strong>-5.2%</strong> estimated';
+    briefNode.innerHTML = (briefPrice !== null)
+      ? 'BTC price: <strong>$' + briefPrice.toLocaleString() + '</strong> · Node cost model: <strong>$' + (Math.round(Math.min(2000, Math.max(200, briefPrice * 0.025)) / 3 + 600 + Math.round((150 * 24 * 365 / 1000) * 0.12) + 50)) + '/yr</strong> (model estimate)'
+      : 'Price data pending — node cost model unavailable';
   }
 
   // Miner brief

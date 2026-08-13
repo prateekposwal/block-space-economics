@@ -40,14 +40,9 @@ var VIZ_Miner = (function() {
     }
 
     if (feeHistory.length === 0) {
-      var now = Date.now();
-      for (var i = 143; i >= 0; i--) {
-        feeHistory.push({
-          timestamp: now - i * 600000,
-          avgFees: (5 + Math.sin(i * 0.3) * 3 + Math.random() * 4) * 1000000
-        });
-      }
-      sparklineData = feeHistory.slice(-144).map(function(b) { return b.avgFees || 0; });
+      // Honest empty state: NO fabricated fee data. The miner view shows a
+      // "data pending" message instead of inventing blocks (integrity rule).
+      sparklineData = [];
     }
 
     loop();
@@ -70,14 +65,25 @@ var VIZ_Miner = (function() {
   }
 
   function getCurrentFee() {
-    if (feeHistory.length === 0) return 5000000;
+    if (feeHistory.length === 0) return null; // honest: no data, no fabricated fee
     var entry = feeHistory[blockIndex % feeHistory.length];
-    return entry.avgFees || 5000000;
+    return (entry && typeof entry.avgFees === 'number') ? entry.avgFees : null;
   }
 
   function loop() { try {
     var t = Date.now() / 1000;
     var targetFee = getCurrentFee();
+    if (targetFee === null) {
+      // Honest empty state: render a pending message instead of a fake number.
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = '#1A1612';
+      ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = 'rgba(255,255,255,0.45)';
+      ctx.font = (isMobile() ? '12px' : '14px') + ' -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Fee data pending — no fabricated values shown', w / 2, h / 2);
+      return;
+    }
     displayFee += (targetFee - displayFee) * 0.08;
     displayPrice += (btcPrice - displayPrice) * 0.05;
     var feeTotal = displayFee;
