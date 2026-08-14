@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-14T20:28:29.887Z",
+  "generated_at": "2026-08-14T21:06:12.224Z",
   "status": "DEGRADED",
   "issues": [
     "SPOOL: stale sources: btc_rpc",
@@ -8,7 +8,7 @@
   "checks": {
     "spool": {
       "accountingOk": true,
-      "pending": 22,
+      "pending": 0,
       "dead": 0,
       "stale": 1
     },
@@ -18,15 +18,15 @@
       "agent": "running"
     },
     "de_agent": {
-      "lastRunAgeMin": 62
+      "lastRunAgeMin": 37
     },
     "orchestrator": {
-      "heartbeatAgeMin": 20,
+      "heartbeatAgeMin": 28,
       "phase": "cycle-complete"
     },
     "db": {
       "errorRatioPct": 36,
-      "total": 12588
+      "total": 12610
     }
   }
 }
