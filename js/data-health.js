@@ -172,6 +172,12 @@
   function setState(state) {
     lastState = STATES[state] ? state : 'unknown';
     render();
+    // Notify pages that embed their own status UI (e.g. the homepage state-bar)
+    // so BOTH indicators always derive from the SAME snapshot state — identical,
+    // never a green dot next to a yellow verdict.
+    if (global.__onDataHealth && typeof global.__onDataHealth === 'function') {
+      try { global.__onDataHealth(lastState); } catch (e) {}
+    }
   }
 
   function init() {

@@ -130,7 +130,7 @@
 <script src="/js/beta-nav.js" defer></script>
 <script src="/js/data-health.js" defer></script>
 </head>
-<body>
+<body data-version="v4-status-sync">
   <canvas id="viz-fees"></canvas>
 
   <!-- Visible H1 (only content per architect) -->
@@ -295,51 +295,49 @@
     var stateLabel = document.getElementById('state-label');
     var stateDesc = document.getElementById('state-desc');
     var ctaEl = document.querySelector('.bottom-area .cta');
+    var dotEl = document.getElementById('data-health');
 
-    // Snapshot fee fallback — the state-bar derives its verdict from ONE source
-    // of truth: the pipeline snapshot (same as the health dot). The client-side
-    // DATA_ENGINE live feed is an enrichment, never the sole authority, so a
-    // blocked live feed can't contradict a fresh snapshot ("Data pending" next
-    // to a green dot). Falls back to the snapshot's fees when the live feed is
-    // unavailable.
+    // ONE source of truth for status. Both the health dot and the state-bar
+    // derive from the SAME snapshot state so they are always identical —
+    // never a green dot next to a yellow state-bar (or vice versa).
+    // level ∈ live|delayed|stale|unknown|pending
     var snapshotFees = null;
-    function renderVerdict(fastest, liveFeed) {
-      if (typeof fastest !== 'number') {
-        stateLabel.textContent = '\uD83D\uDFE1 Data pending';
-        stateLabel.style.color = '#D29922';
-        stateDesc.textContent = 'Waiting for live fee data\u2026';
+    var liveFeedOk = false;
+
+    function applyStatus(level, fastest) {
+      var emoji, color, verdict, desc;
+      if (level === 'live' || level === 'delayed') {
+        if (typeof fastest === 'number' && fastest < 5) { emoji = '\uD83D\uDFE2'; color = '#3FB950'; verdict = 'Network calm'; desc = 'Fees are low. Good time to send.'; ctaEl.classList.add('low-fees'); }
+        else if (typeof fastest === 'number' && fastest < 20) { emoji = '\uD83D\uDFE1'; color = '#D29922'; verdict = 'Moderate congestion'; desc = 'Fees are elevated. Economy rate recommended.'; ctaEl.classList.remove('low-fees'); }
+        else if (typeof fastest === 'number') { emoji = '\uD83D\uDD34'; color = '#F85149'; verdict = 'Network congested'; desc = 'Fees are high. Consider waiting.'; ctaEl.classList.remove('low-fees'); }
+        else { emoji = '\uD83D\uDFE1'; color = '#D29922'; verdict = 'Data pending'; desc = 'Waiting for live fee data\u2026'; ctaEl.classList.remove('low-fees'); }
+        if (level === 'delayed' && emoji === '\uD83D\uDFE2') { emoji = '\uD83D\uDFE1'; color = '#D29922'; }
+      } else if (level === 'stale') {
+        emoji = '\uD83D\uDD34'; color = '#F85149'; verdict = 'Data stale'; desc = 'Snapshot is stale — pipeline check needed.';
         ctaEl.classList.remove('low-fees');
-        return;
-      }
-      if (fastest < 5) {
-        stateLabel.textContent = '\uD83D\uDFE2 Network calm';
-        stateLabel.style.color = '#3FB950';
-        stateDesc.textContent = liveFeed ? 'Fees are low. Good time to send.' : 'Fees are low (snapshot data — live feed paused). Good time to send.';
-        ctaEl.classList.add('low-fees');
-      } else if (fastest < 20) {
-        stateLabel.textContent = '\uD83D\uDFE1 Moderate congestion';
-        stateLabel.style.color = '#D29922';
-        stateDesc.textContent = liveFeed ? 'Fees are elevated. Economy rate recommended.' : 'Fees are elevated (snapshot data — live feed paused).';
+      } else if (level === 'pending') {
+        emoji = '\uD83D\uDFE1'; color = '#D29922'; verdict = 'Data pending'; desc = 'Waiting for live fee data\u2026';
         ctaEl.classList.remove('low-fees');
       } else {
-        stateLabel.textContent = '\uD83D\uDD34 Network congested';
-        stateLabel.style.color = '#F85149';
-        stateDesc.textContent = liveFeed ? 'Fees are high. Consider waiting.' : 'Fees are high (snapshot data — live feed paused). Consider waiting.';
+        emoji = '\u26AA'; color = '#8B949E'; verdict = 'Data unavailable'; desc = 'Status unknown.';
         ctaEl.classList.remove('low-fees');
       }
+      // Both indicators — identical, always.
+      if (dotEl) { dotEl.textContent = emoji; dotEl.style.color = color; dotEl.title = verdict + ' — ' + desc; }
+      if (stateLabel) { stateLabel.textContent = emoji + ' ' + verdict; stateLabel.style.color = color; }
+      if (stateDesc) stateDesc.textContent = desc;
     }
 
     function refreshUI() {
       var f = DATA_ENGINE.get().fees || {};
       var fastest = f.fastestFee;
+      if (typeof fastest === 'number') liveFeedOk = true;
       if (typeof fastest !== 'number') {
         // Live feed empty — fall back to the snapshot (same source as the dot).
-        // Never show "Data pending" when we hold fresh data.
         fastest = (snapshotFees && typeof snapshotFees.fastestFee === 'number') ? snapshotFees.fastestFee : null;
-        renderVerdict(fastest, false);
-      } else {
-        renderVerdict(fastest, true);
       }
+      var level = (typeof fastest === 'number') ? (liveFeedOk ? 'live' : 'delayed') : (snapshotFees ? 'delayed' : 'pending');
+      applyStatus(level, typeof fastest === 'number' ? fastest : null);
       drawGenesisStrip();
       updateDollarContext();
       updateTicker();
@@ -389,6 +387,16 @@
         BSAHIDataHealth.setState(state);
       }
     }
+
+    // Sync the state-bar to the SAME snapshot state the dot uses — both
+    // indicators derive from one source, so they are always identical.
+    window.__onDataHealth = function (dotState) {
+      var level = dotState === 'unknown' ? 'unknown' : dotState;
+      var f = DATA_ENGINE.get().fees || {};
+      var fastest = (typeof f.fastestFee === 'number') ? f.fastestFee : (snapshotFees && typeof snapshotFees.fastestFee === 'number' ? snapshotFees.fastestFee : null);
+      if (level === 'live') level = (typeof fastest === 'number') ? 'live' : 'delayed';
+      applyStatus(level, typeof fastest === 'number' ? fastest : null);
+    };
 
     DATA_ENGINE.onUpdate(refreshUI);
 
