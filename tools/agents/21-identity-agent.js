@@ -45,7 +45,8 @@ function run() {
   // 3. Old pubkey residue across publicly served files
   var targets = [
     path.join(REPO, 'reports', 'marketing', 'distribution-report.md'),
-    path.join(REPO, 'reports', 'marketing', 'post-report.md'),
+    // post-report.md moved to archive/ 2026-08-14 (U4: persona framing retired).
+    path.join(REPO, 'reports', 'marketing', 'archive', 'post-report.md'),
     path.join(REPO, '.well-known', 'nostr.json'),
     path.join(REPO, 'docs', '.well-known', 'nostr.json')
   ];

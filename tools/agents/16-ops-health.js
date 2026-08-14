@@ -11,6 +11,11 @@ var REPO = path.resolve(__dirname, '..', '..');
 var OUT_FILE = path.join(REPO, 'captured-data', 'ops-health.json');
 var LOG_FILE = path.join(REPO, 'captured-data', 'ops-health.log');
 var CHECK_INTERVAL_MS = 15 * 60 * 1000;
+// DB error ratio is gated on a ROLLING window (default 24h) — a lifetime
+// cumulative ratio can never recover after a historical outage, so it is the
+// wrong signal for CURRENT ops health. Lifetime ratio still reported below.
+// Override with env DB_ERROR_WINDOW_HOURS.
+var DB_ERROR_WINDOW_HOURS = parseInt(process.env.DB_ERROR_WINDOW_HOURS, 10) || 24;
 
 function log(msg) {
   var line = '[' + new Date().toISOString() + '] ' + msg;
@@ -60,9 +65,18 @@ function check() {
     (function() {
       try {
         var db = require('../db/init.js');
+        // Rolling-window signal (current health) + lifetime for transparency.
+        var winTotal = db.query("SELECT COUNT(*) AS c FROM captures WHERE captured_at >= datetime('now', '-" + DB_ERROR_WINDOW_HOURS + " hours')");
+        var winErrs = db.query("SELECT COUNT(*) AS c FROM captures WHERE status = 0 AND captured_at >= datetime('now', '-" + DB_ERROR_WINDOW_HOURS + " hours')");
         var total = db.query("SELECT COUNT(*) AS c FROM captures");
         var errs = db.query("SELECT COUNT(*) AS c FROM captures WHERE status = 0");
-        return Promise.resolve({ total: total && total[0] ? total[0].c : 0, errs: errs && errs[0] ? errs[0].c : 0 });
+        return Promise.resolve({
+          total: total && total[0] ? total[0].c : 0,
+          errs: errs && errs[0] ? errs[0].c : 0,
+          windowTotal: winTotal && winTotal[0] ? winTotal[0].c : 0,
+          windowErrs: winErrs && winErrs[0] ? winErrs[0].c : 0,
+          windowHours: DB_ERROR_WINDOW_HOURS
+        });
       } catch (e) { return Promise.resolve(null); }
     })()
   ]).then(function(results) {
@@ -88,9 +102,10 @@ function check() {
     checks.orchestrator = { heartbeatAgeMin: hbAge, phase: hb ? hb.phase : null };
     if (hbAge !== null && hbAge > 60) issues.push('ORCHESTRATOR: heartbeat ' + hbAge + ' min ago');
 
+    var winRatio = dbStats && dbStats.windowTotal > 0 ? Math.round(dbStats.windowErrs / dbStats.windowTotal * 100) : 0;
     var errRatio = dbStats && dbStats.total > 0 ? Math.round(dbStats.errs / dbStats.total * 100) : 0;
-    checks.db = dbStats ? { errorRatioPct: errRatio, total: dbStats.total } : { error: 'db query failed' };
-    if (errRatio > 20) issues.push('DB: error ratio ' + errRatio + '% > 20%');
+    checks.db = dbStats ? { errorRatioPct: winRatio, windowHours: dbStats.windowHours, windowTotal: dbStats.windowTotal, windowErrs: dbStats.windowErrs, lifetimeErrorRatioPct: errRatio, total: dbStats.total, errs: dbStats.errs } : { error: 'db query failed' };
+    if (winRatio > 20) issues.push('DB: error ratio ' + winRatio + '% (last ' + DB_ERROR_WINDOW_HOURS + 'h) > 20%');
 
     var out = {
       generated_at: new Date().toISOString(),
@@ -111,7 +126,13 @@ function check() {
         });
       } catch (e) { log('alert send error: ' + e.message); }
     } else {
+      // Stale-alert lifecycle fix (2026-08-14): a healthy run must CLEAR the
+      // alerts file, otherwise a resolved issue stays in the public
+      // data/alerts.json + snapshot alerts array indefinitely.
       log('HEALTHY');
+      try {
+        fs.writeFileSync(path.join(REPO, 'tools', 'alerts.json'), JSON.stringify({ alerts: [], timestamp: new Date().toISOString(), source: 'ops-health' }, null, 2));
+      } catch (e) { log('alert clear error: ' + e.message); }
     }
     return out;
   });

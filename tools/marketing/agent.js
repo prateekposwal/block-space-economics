@@ -48,7 +48,35 @@ function getNodeDistribution() {
   return sqlQuery("SELECT country, COUNT(*) as c FROM node_geo GROUP BY country ORDER BY c DESC LIMIT 5");
 }
 
+// LIVE node census (N): the node_census capture source (agent-25) writes the
+// authoritative getnodeaddresses count. Falls back to a neutral phrase so
+// marketing copy never ships a hardcoded stale figure (U4 fix, 2026-08-14).
+function getLiveNodeCount() {
+  try {
+    var d = sqlQuery("SELECT json_extract(json_data, '$.totalKnownAddresses') as n FROM captures WHERE source='node_census' AND json_data NOT LIKE '%capture failed%' ORDER BY captured_at DESC LIMIT 1");
+    if (d.length > 0 && d[0].n) return Number(d[0].n);
+  } catch (e) {}
+  return null;
+}
+
+function nodeCountPhrase() {
+  var n = getLiveNodeCount();
+  if (n) return n.toLocaleString() + ' reachable nodes (live census)';
+  return 'the live node census (see /capacity)';
+}
+
 function getStorageRatio() {
+  // Canonical source = the LIVE SCCR writer output (data/sccr.json, maintained
+  // by tools/research/sccr_live.py). The storage-ratio-*.md report is a
+  // historical snapshot and MUST NOT be used for fresh marketing copy — that
+  // was the root of the stale 0.0149/27,800 claims (U4 fix, 2026-08-14).
+  try {
+    var livePath = path.resolve(__dirname, '..', '..', 'data', 'sccr.json');
+    if (fs.existsSync(livePath)) {
+      var live = JSON.parse(fs.readFileSync(livePath, 'utf8'));
+      if (live && live.avg_sccr != null) return String(live.avg_sccr);
+    }
+  } catch (e) {}
   try {
     var dir = path.resolve(__dirname, '..', '..', 'reports', 'research');
     var files = fs.readdirSync(dir).filter(function(f) { return f.startsWith('storage-ratio-'); }).sort();
@@ -121,7 +149,7 @@ function generateMediumArticle(topic) {
   else if (topic === 'storage') {
     title = 'The Storage Cost Coverage Ratio: Do Bitcoin Fees Cover Node Costs?';
     body = '## A Simple Question\n\n';
-    body += 'Bitcoin transaction fees are paid once. But the data those transactions create is stored by **60,000+ nodes** for **years or decades**.\n\n';
+    body += 'Bitcoin transaction fees are paid once. But the data those transactions create is stored by **' + nodeCountPhrase() + '** for **years or decades**.\n\n';
     body += 'Does the fee cover the cost?\n\n';
     body += '## What We Measured\n\n';
     body += 'We defined the **Storage Cost Coverage Ratio** as:\n\n';
@@ -142,7 +170,7 @@ function generateMediumArticle(topic) {
   }
 
   else if (topic === 'network') {
-    title = 'Bitcoin\'s Network: 27,800 Nodes Across ' + nodes.length + ' Countries';
+    title = 'Bitcoin\'s Network: ' + nodeCountPhrase() + ' Across ' + nodes.length + ' Countries';
     body = '## The Physical Bitcoin\n\n';
     body += 'Bitcoin isn\'t just code. It\'s **' + blocks.toLocaleString() + ' blocks**, **' + ln.nodes + ' Lightning nodes**, and **' + backfill + ' data points** we\'ve collected from our own node.\n\n';
     body += '## Current Network State\n\n';
@@ -176,7 +204,7 @@ function generateTweetThread(topic) {
   if (topic === 'fee' || topic === 'all') {
     tweets.push('1/ Bitcoin\'s fastest fee is **' + f.fastest + ' sat/vB** right now. But here\'s what most people miss about how fees actually work.\n\nA short thread on the economics of block space.');
     tweets.push('2/ Fees are an auction for **scarce block space**. Every ~10 minutes, miners select the highest-paying transactions. If you want in faster, you bid higher.\n\nBut there\'s a less discussed side: **storage permanence.**');
-    tweets.push('3/ Every transaction is stored by ~27,800 reachable nodes forever. The fee is paid once. The storage cost persists for years.\n\nWe built a metric called the **Storage Cost Coverage Ratio** to measure this gap.');
+    tweets.push('3/ Every transaction is stored by ' + nodeCountPhrase() + ' forever. The fee is paid once. The storage cost persists for years.\n\nWe built a metric called the **Storage Cost Coverage Ratio** to measure this gap.');
     tweets.push('4/ Current ratio: **' + ratio + '**\n\nMeaning: fees cover only **' + (parseFloat(ratio) * 100).toFixed(1) + '%** of the estimated 10-year storage cost.\n\nThis is an open research question — not a conclusion. We\'re publishing the data and methodology.\n\n' + CONFIG.url + '/learn');
   }
 
@@ -202,7 +230,7 @@ function generateLinkedInPost(topic) {
   if (topic === 'fee') {
     post = 'Bitcoin\'s fee market is the most sophisticated congestion pricing mechanism in the digital asset world. It allocates ~7 MB of block space per day among thousands of competing transactions.\n\n';
     post += 'But it only prices **congestion** — not **permanence**.\n\n';
-    post += 'Every transaction is stored by ~27,800 nodes forever. The fee is paid once. The storage persists for years.\n\n';
+    post += 'Every transaction is stored by ' + nodeCountPhrase() + ' forever. The fee is paid once. The storage persists for years.\n\n';
     post += 'Our Storage Cost Coverage Ratio measures this gap.\n\n';
     post += 'Current ratio: ' + ratio + ' — meaning fees cover ' + (parseFloat(ratio) * 100).toFixed(1) + '% of 10-year storage cost.\n\n';
     post += 'Open research question. Reproducible methodology. Published at ' + CONFIG.url + '/learn';

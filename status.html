@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BSAHI — System Status</title>
+<meta name="description" content="Live operational status of the Bitcoin Sahi block-space research platform: capture pipeline, site health, and public data freshness.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬡</text></svg>">
+<style>
+  :root {
+    --bg: #0D1117;
+    --panel: #161B22;
+    --border: #30363D;
+    --text: #E6EDF3;
+    --muted: #8B949E;
+    --accent: #F7931A;
+    --ok: #3FB950;
+    --warn: #D29922;
+    --down: #F85149;
+    --unknown: #8B949E;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; line-height: 1.55; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 32px 20px 80px; }
+  header { display: flex; align-items: baseline; gap: 14px; padding-bottom: 20px; border-bottom: 1px solid var(--border); margin-bottom: 24px; flex-wrap: wrap; }
+  .brand { font-size: 1.25rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+  .brand:hover { text-decoration: underline; }
+  .tag { font-size: .8rem; color: var(--muted); }
+  h1 { font-size: 1.6rem; font-weight: 700; margin: 8px 0 4px; }
+  .sub { color: var(--muted); font-size: .9rem; margin-bottom: 24px; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+  .overall { display: flex; align-items: center; gap: 16px; }
+  .status-dot { font-size: 2.2rem; line-height: 1; }
+  .status-label { font-size: 1.35rem; font-weight: 700; }
+  .status-detail { color: var(--muted); font-size: .85rem; margin-top: 4px; }
+  h2 { font-size: 1rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 22px 0 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+  th { text-align: left; color: var(--muted); font-weight: 600; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  td { padding: 9px 10px; border-bottom: 1px solid rgba(48,54,61,.55); vertical-align: top; }
+  .ok { color: var(--ok); }
+  .warn { color: var(--warn); }
+  .down { color: var(--down); }
+  .unknown { color: var(--unknown); }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .8rem; }
+  .row-bad { background: rgba(248,81,73,.05); }
+  .footer { margin-top: 28px; color: var(--muted); font-size: .78rem; text-align: center; }
+  .footer a { color: var(--accent); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+  .notice { font-size: .82rem; color: var(--muted); padding: 10px 12px; border-left: 3px solid var(--warn); background: rgba(210,153,34,.06); border-radius: 0 6px 6px 0; margin: 12px 0; }
+  @media (max-width: 560px) { .wrap { padding: 20px 12px 60px; } th:nth-child(3), td:nth-child(3) { display: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="/">⬡ BSAHI</a>
+    <span class="tag">Block Space Research — System Status</span>
+  </header>
+
+  <h1>System Status</h1>
+  <p class="sub">Live operational status of the capture pipeline, public site, and data freshness. Health files are written hourly by the ops-health and site-health agents and mirrored to <span class="mono">/data/</span> by the snapshot agent.</p>
+
+  <div class="card overall" id="overall-card">
+    <div class="status-dot" id="overall-dot">⚪</div>
+    <div>
+      <div class="status-label" id="overall-label">Loading…</div>
+      <div class="status-detail" id="overall-detail">Fetching health data…</div>
+    </div>
+  </div>
+
+  <div id="notice-area"></div>
+
+  <h2>Pipeline — Ops Health</h2>
+  <div class="card" id="ops-health-card">
+    <div id="ops-health-body" style="color:var(--muted);">Loading /data/ops-health.json…</div>
+  </div>
+
+  <h2>Site — Route Checks</h2>
+  <div class="card" id="site-health-card">
+    <div id="site-health-body" style="color:var(--muted);">Loading /data/site-health.json…</div>
+  </div>
+
+  <h2>Public Snapshot</h2>
+  <div class="card" id="snapshot-card">
+    <div id="snapshot-body" style="color:var(--muted);">Loading /data/snapshot.json…</div>
+  </div>
+
+  <div class="footer">
+    Generated <span id="page-generated">just now</span> · Honest status: any missing file shows ⚪ — nothing is fabricated.<br>
+    <a href="/">← back to bitcoinsahi.com</a> · <a href="/data/ops-health.json">ops-health.json</a> · <a href="/data/site-health.json">site-health.json</a> · <a href="/data/snapshot.json">snapshot.json</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+
+  function fmtAge(ts) {
+    if (!ts) return 'never';
+    var t = new Date(ts).getTime();
+    if (isNaN(t)) return 'unknown';
+    var min = Math.max(0, Math.floor((Date.now() - t) / 60000));
+    if (min < 1) return 'just now';
+    if (min < 60) return min + 'm ago';
+    var h = Math.floor(min / 60);
+    if (h < 24) return h + 'h ' + (min % 60) + 'm ago';
+    return Math.floor(h / 24) + 'd ago';
+  }
+
+  function fmtTs(ts) {
+    if (!ts) return '—';
+    var d = new Date(ts);
+    if (isNaN(d.getTime())) return String(ts);
+    return d.toUTCString().replace('GMT', 'UTC');
+  }
+
+  var overall = { state: 'loading', label: 'Loading…', detail: 'Fetching health data…' };
+  var fileStates = { ops: { status: 'missing' }, site: { status: 'missing' }, snap: { status: 'missing' } };
+
+  function renderOverall() {
+    $('overall-dot').textContent = overall.dot || '⚪';
+    $('overall-label').textContent = overall.label;
+    $('overall-detail').textContent = overall.detail;
+  }
+
+  function computeOverall() {
+    var ops = fileStates.ops, site = fileStates.site, snap = fileStates.snap;
+    var have = [];
+    if (ops.status !== 'missing') have.push('ops-health');
+    if (site.status !== 'missing') have.push('site-health');
+    if (snap.status !== 'missing') have.push('snapshot');
+
+    var opsBad = ops.issues && ops.issues.length > 0;
+    var siteFail = site.failures && site.failures.length > 0;
+    var snapAge = snap.generated_at ? new Date(snap.generated_at).getTime() : null;
+    var snapStale = snapAge !== null && (Date.now() - snapAge) > 2 * 3600 * 1000;
+
+    if (have.length === 0) {
+      overall = { dot: '⚪', label: 'NO HEALTH DATA', detail: 'None of /data/ops-health.json, /data/site-health.json, /data/snapshot.json could be loaded. The site may be mid-deploy or the snapshot agent has not run yet.' };
+    } else if (siteFail) {
+      overall = { dot: '🔴', label: 'DOWN — SITE FAILURES', detail: site.failures.length + ' route failure(s) detected by the site-health agent (' + fmtTs(site.generated_at) + ').' };
+    } else if (opsBad) {
+      overall = { dot: '🟡', label: 'DEGRADED', detail: 'Ops health reports ' + ops.issues.length + ' issue(s): ' + ops.issues.join('; ') + ' (' + fmtTs(ops.generated_at) + ').' };
+    } else if (snapStale) {
+      overall = { dot: '🟡', label: 'DEGRADED — STALE SNAPSHOT', detail: 'Public snapshot is ' + fmtAge(snap.generated_at) + ' (threshold 2h). Check the snapshot agent.' };
+    } else if (ops.status === 'HEALTHY' && site.status === 'HEALTHY') {
+      overall = { dot: '🟢', label: 'OPERATIONAL', detail: 'Ops health HEALTHY (' + fmtTs(ops.generated_at) + ') · site-health HEALTHY (' + fmtTs(site.generated_at) + ') · snapshot ' + fmtAge(snap.generated_at) + '.' };
+    } else {
+      overall = { dot: '⚪', label: 'INCOMPLETE DATA', detail: 'Loaded: ' + have.join(', ') + ' — but status fields are missing. Health files may be from an older schema.' };
+    }
+    renderOverall();
+  }
+
+  function renderOps(data) {
+    var b = $('ops-health-body');
+    if (!data) { b.innerHTML = '<span class="unknown">⚪ /data/ops-health.json missing — the ops-health agent (16) has not written it yet, or it is not served.</span>'; return; }
+    fileStates.ops = data;
+    var html = '<table><tr><th>Component</th><th>Status</th><th>Detail</th><th>Checked</th></tr>';
+
+    html += '<tr><td>Overall</td><td class="' + (data.status === 'HEALTHY' ? 'ok' : (data.status === 'DEGRADED' ? 'warn' : 'down')) + '">' + (data.status || '—') + '</td><td>' + (data.issues && data.issues.length ? data.issues.join('; ') : 'no issues') + '</td><td class="mono">' + fmtTs(data.generated_at) + '</td></tr>';
+
+    var c = data.checks || {};
+    if (c.spool) html += '<tr><td>Spool</td><td class="' + (c.spool.accountingOk ? 'ok' : 'down') + '">' + (c.spool.accountingOk ? 'OK' : 'BAD') + '</td><td>pending ' + (c.spool.pending || 0) + ' · dead ' + (c.spool.dead || 0) + ' · stale ' + (c.spool.stale || 0) + '</td><td>—</td></tr>';
+    if (c.de_server) html += '<tr><td>DE Server</td><td class="' + (c.de_server.ok ? 'ok' : 'down') + '">' + (c.de_server.ok ? 'OK' : 'DOWN') + '</td><td>agent ' + (c.de_server.agent || '—') + '</td><td>—</td></tr>';
+    if (c.de_agent) html += '<tr><td>DE Agent</td><td class="' + (c.de_agent.lastRunAgeMin != null && c.de_agent.lastRunAgeMin <= 90 ? 'ok' : 'warn') + '">' + (c.de_agent.lastRunAgeMin != null && c.de_agent.lastRunAgeMin <= 90 ? 'OK' : 'STALE') + '</td><td>last run ' + (c.de_agent.lastRunAgeMin != null ? c.de_agent.lastRunAgeMin + 'm ago' : 'unknown') + '</td><td>—</td></tr>';
+    if (c.orchestrator) html += '<tr><td>Orchestrator</td><td class="' + (c.orchestrator.heartbeatAgeMin != null && c.orchestrator.heartbeatAgeMin <= 60 ? 'ok' : 'warn') + '">' + (c.orchestrator.heartbeatAgeMin != null && c.orchestrator.heartbeatAgeMin <= 60 ? 'OK' : 'STALE') + '</td><td>heartbeat ' + (c.orchestrator.heartbeatAgeMin != null ? c.orchestrator.heartbeatAgeMin + 'm ago' : 'unknown') + ' · phase ' + (c.orchestrator.phase || '—') + '</td><td>—</td></tr>';
+    if (c.db) {
+      var dbBad = c.db.errorRatioPct > 20;
+      html += '<tr><td>DB captures</td><td class="' + (dbBad ? 'warn' : 'ok') + '">' + (dbBad ? 'HIGH ERROR RATIO' : 'OK') + '</td><td>error ratio ' + (c.db.errorRatioPct != null ? c.db.errorRatioPct + '%' : '—') + ' (window ' + (c.db.windowHours || '?') + 'h) · lifetime ' + (c.db.lifetimeErrorRatioPct != null ? c.db.lifetimeErrorRatioPct + '%' : '—') + ' · ' + (c.db.windowTotal || 0) + ' captures in window</td><td>—</td></tr>';
+    }
+    html += '</table>';
+    b.innerHTML = html;
+    computeOverall();
+  }
+
+  function renderSite(data) {
+    var b = $('site-health-body');
+    if (!data) { b.innerHTML = '<span class="unknown">⚪ /data/site-health.json missing — the site-health agent (20) has not written it yet, or it is not served.</span>'; return; }
+    fileStates.site = data;
+    var checks = data.checks || [];
+    var html = '<table><tr><th>Route</th><th>Status</th><th>TTFB</th><th>Bytes</th></tr>';
+    checks.forEach(function (r) {
+      var cls = r.ok ? 'ok' : (r.status === 0 ? 'unknown' : 'down');
+      var label = r.ok ? 'OK ' + r.status : (r.status === 0 ? 'NO RESPONSE' : 'HTTP ' + r.status);
+      html += '<tr' + (r.ok ? '' : ' class="row-bad"') + '><td class="mono">' + (r.route || '—') + '</td><td class="' + cls + '">' + label + '</td><td>' + (r.ttfbMs != null ? r.ttfbMs + 'ms' : '—') + '</td><td>' + (r.bytes || 0) + '</td></tr>';
+    });
+    html += '<tr><td colspan="4" style="color:var(--muted);border-bottom:none;">Checked against ' + (data.host || 'bitcoinsahi.com') + ' · ' + fmtTs(data.generated_at) + ' (' + fmtAge(data.generated_at) + ')</td></tr>';
+    html += '</table>';
+    b.innerHTML = html;
+    computeOverall();
+  }
+
+  function renderSnap(data) {
+    var b = $('snapshot-body');
+    if (!data) { b.innerHTML = '<span class="unknown">⚪ /data/snapshot.json missing — the snapshot agent has not generated it yet.</span>'; return; }
+    fileStates.snap = data;
+    var age = fmtAge(data.generated_at);
+    var stale = data.generated_at && (Date.now() - new Date(data.generated_at).getTime()) > 2 * 3600 * 1000;
+    var alerts = (data.alerts && data.alerts.length) ? data.alerts.length : 0;
+    var html = '<table><tr><th>Field</th><th>Value</th></tr>';
+    html += '<tr><td>generated_at</td><td class="mono">' + fmtTs(data.generated_at) + ' <span class="' + (stale ? 'warn' : 'ok') + '">(' + age + (stale ? ' — STALE' : '') + ')</span></td></tr>';
+    html += '<tr><td>Alerts</td><td class="' + (alerts ? 'warn' : 'ok') + '">' + alerts + (alerts ? ' active alert(s) — see ops-health' : ' (none)') + '</td></tr>';
+    html += '<tr><td>Fastest fee</td><td>' + (data.fees && data.fees.fastestFee != null ? data.fees.fastestFee + ' sat/vB' : '—') + '</td></tr>';
+    html += '<tr><td>BTC price</td><td>' + (data.btc_price != null ? '$' + Number(data.btc_price).toLocaleString() : '—') + '</td></tr>';
+    html += '<tr><td>Block height</td><td>' + (data.block_height != null ? Number(data.block_height).toLocaleString() : '—') + '</td></tr>';
+    html += '<tr><td>Mempool txs</td><td>' + (data.mempool_tx != null ? Number(data.mempool_tx).toLocaleString() : '—') + '</td></tr>';
+    html += '</table>';
+    b.innerHTML = html;
+    computeOverall();
+  }
+
+  function fetchJson(url, cb) {
+    fetch(url).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(cb).catch(function (e) {
+      cb(null);
+    });
+  }
+
+  $('page-generated').textContent = new Date().toUTCString().replace('GMT', 'UTC');
+
+  fetchJson('/data/ops-health.json', renderOps);
+  fetchJson('/data/site-health.json', renderSite);
+  fetchJson('/data/snapshot.json', renderSnap);
+
+  // Re-render once everything has had a chance to resolve (files load in any order).
+  setTimeout(computeOverall, 4000);
+})();
+</script>
+</body>
+</html>

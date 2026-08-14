@@ -187,14 +187,20 @@ async function run() {
   var filePath = path.join(outDir, ts + '.json');
   fs.writeFileSync(filePath, JSON.stringify(results, null, 2));
 
-  try {
-    var spoolMod = require('../data-engineering/spool.js');
-    spoolMod.init().then(function(spool) {
-      var localTs = ts.slice(0, 19).replace(/:/g, '-');
-      var cycleTs = localTs.slice(0, 10) + '_' + localTs.slice(11);
-      return spool.enqueue('btc_rpc', { status: results.ok ? 200 : 0, data: results, error: results.error }, { captureTime: cycleTs, day: dateDir, producer: 'agent-06', expectedIntervalMinutes: 60 });
-    }).catch(function(e) { console.error('[rpc] spool enqueue error:', e.message); });
-  } catch (e) { console.error('[rpc] spool unavailable:', e.message); }
+  // DORMANT agent (2026-08-14): the local Core node never syncs, so run()
+  // enqueuing status:0 rows every cycle was polluting the captures table with
+  // guaranteed ECONNREFUSED failures (the ops-health DB error-ratio source).
+  // Only enqueue REAL captures — offline state stays in the result file above.
+  if (results.ok) {
+    try {
+      var spoolMod = require('../data-engineering/spool.js');
+      spoolMod.init().then(function(spool) {
+        var localTs = ts.slice(0, 19).replace(/:/g, '-');
+        var cycleTs = localTs.slice(0, 10) + '_' + localTs.slice(11);
+        return spool.enqueue('btc_rpc', { status: 200, data: results }, { captureTime: cycleTs, day: dateDir, producer: 'agent-06', expectedIntervalMinutes: 60 });
+      }).catch(function(e) { console.error('[rpc] spool enqueue error:', e.message); });
+    } catch (e) { console.error('[rpc] spool unavailable:', e.message); }
+  }
 
   return results;
 }

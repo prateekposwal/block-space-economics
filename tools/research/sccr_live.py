@@ -4,8 +4,8 @@ BSAHI — SCCR Live Writer (dashboard + static API).
 
 Computes the latest SCCR from the live capture and writes three files:
   data/sccr.json            latest SCCR snapshot (dashboard source)
-  data/sccr_latest.json     /sccr/latest static endpoint payload
-  data/sccr_history.json    /sccr/history static endpoint payload (appends)
+  data/sccr_latest.json     /data/sccr_latest.json static endpoint payload
+  data/sccr_history.json    /data/sccr_history.json static endpoint payload (appends)
 
 The static site (GitHub Pages) cannot serve a dynamic backend API; these
 files ARE the API until the deferred backend decision (R5-gated). The
@@ -118,7 +118,7 @@ def main():
         'T': cfg['T'],
         'C': cfg['C'],
         'heights': [heights[0], heights[-1]] if heights else [],
-        'notes': 'SCCR = fee_USD / L_net; N=32K primary-source lower-bound census (>=32,000 known addresses via Bitcoin Core getnodeaddresses); T=10yr assumption. Static JSON endpoint: /sccr/latest',
+        'notes': 'SCCR = fee_USD / L_net; N=32K primary-source lower-bound census (>=32,000 known addresses via Bitcoin Core getnodeaddresses); T=10yr assumption. Static JSON endpoint: /data/sccr_latest.json',
     }
 
     # history: append-or-replace today's entry
@@ -132,9 +132,9 @@ def main():
     with open(os.path.join(DATA_DIR, 'sccr.json'), 'w') as f:
         json.dump(latest, f, indent=2)
     with open(os.path.join(DATA_DIR, 'sccr_latest.json'), 'w') as f:
-        json.dump({'endpoint': '/sccr/latest', 'payload': latest}, f, indent=2)
+        json.dump({'endpoint': '/data/sccr_latest.json', 'payload': latest}, f, indent=2)
     with open(os.path.join(DATA_DIR, 'sccr_history.json'), 'w') as f:
-        json.dump({'endpoint': '/sccr/history', 'count': len(history), 'payload': history}, f, indent=2)
+        json.dump({'endpoint': '/data/sccr_history.json', 'count': len(history), 'payload': history}, f, indent=2)
 
     print('SCCR live: %.4f (%d blocks, %d below 1x) -> data/sccr*.json' % (avg, len(ratios), below))
     print('  history points: %d' % len(history))

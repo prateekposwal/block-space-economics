@@ -19,6 +19,9 @@ var ROUTES = [
   { route: '/fork-tracker', expected: 200 },
   { route: '/feed.xml', expected: 200 },
   { route: '/data/snapshot.json', expected: 200 },
+  { route: '/status.html', expected: 200 },
+  { route: '/data/ops-health.json', expected: 200 },
+  { route: '/data/site-health.json', expected: 200 },
   { route: '/api/v1/', expected: 200 },
   { route: '/robots.txt', expected: 200 },
   { route: '/sitemap.xml', expected: 200 }
@@ -63,6 +66,12 @@ function check() {
       } catch (e) { log('alert error: ' + e.message); }
     } else {
       log('HEALTHY (' + results.length + ' routes)');
+      // Stale-alert lifecycle fix (2026-08-14): mirror ops-health — a healthy
+      // run clears tools/alerts.json so resolved issues stop being served.
+      try {
+        var alertsPath = path.join(REPO, 'tools', 'alerts.json');
+        fs.writeFileSync(alertsPath, JSON.stringify({ alerts: [], timestamp: new Date().toISOString(), source: 'site-health' }, null, 2));
+      } catch (e) { log('alert clear error: ' + e.message); }
     }
     return out;
   });

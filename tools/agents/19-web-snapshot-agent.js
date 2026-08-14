@@ -107,6 +107,16 @@ function run() {
   writeOnChange('alerts.json', alerts);
   if (history.length) writeOnChange('fee_history.json', history);
 
+  // Public health mirrors (U3, 2026-08-14): ops-health.json + site-health.json
+  // are written hourly by agents 16/20 into captured-data/ but were never served
+  // publicly. Mirror them into data/ so the static GitHub Pages site can serve
+  // /data/ops-health.json + /data/site-health.json (and /status.html can read
+  // them). Same writeOnChange pattern as the rest of this agent.
+  var opsHealth = loadJson(path.join(REPO, 'captured-data', 'ops-health.json'), null);
+  if (opsHealth) writeOnChange('ops-health.json', opsHealth);
+  var siteHealth = loadJson(path.join(REPO, 'captured-data', 'site-health.json'), null);
+  if (siteHealth) writeOnChange('site-health.json', siteHealth);
+
   // Live SCCR dashboard + static API files (/sccr/latest, /sccr/history).
   // Runs the python live writer; its outputs are read below so they ship with
   // this snapshot commit even if the writer writes before we copy.
