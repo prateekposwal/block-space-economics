@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-14T02:16:28.929Z",
+  "generated_at": "2026-08-14T02:42:51.400Z",
   "freshness_min": 0,
   "fees": {
     "fastestFee": 1,
@@ -16,20 +16,22 @@
     {
       "day_offset": 1,
       "predicted_fastest_fee": 1.1,
-      "trend": "falling"
+      "trend": "stable"
     },
     {
       "day_offset": 2,
       "predicted_fastest_fee": 1,
-      "trend": "falling"
+      "trend": "stable"
     },
     {
       "day_offset": 3,
       "predicted_fastest_fee": 1,
-      "trend": "falling"
+      "trend": "stable"
     }
   ],
-  "alerts": [],
+  "alerts": [
+    "🛡 DB: error ratio 36% > 20%"
+  ],
   "history": [
     {
       "date": "2026-08-08",
