@@ -1,0 +1,34 @@
+{
+  "generated_at": "2026-08-14T02:15:24.500Z",
+  "status": "HEALTHY",
+  "issues": [],
+  "checks": {
+    "spool": {
+      "accountingOk": true,
+      "pending": 35,
+      "dead": 0,
+      "stale": 0
+    },
+    "de_server": {
+      "ok": true,
+      "status": 200,
+      "agent": "running"
+    },
+    "de_agent": {
+      "lastRunAgeMin": 31
+    },
+    "orchestrator": {
+      "heartbeatAgeMin": 28,
+      "phase": "cycle-complete"
+    },
+    "db": {
+      "errorRatioPct": 3,
+      "windowHours": 24,
+      "windowTotal": 269,
+      "windowErrs": 9,
+      "lifetimeErrorRatioPct": 36,
+      "total": 12159,
+      "errs": 4392
+    }
+  }
+}

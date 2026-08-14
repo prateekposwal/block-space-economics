@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-14T01:43:06.803Z",
+  "generated_at": "2026-08-14T02:16:16.062Z",
   "source": "spool block_adoption",
   "available": true,
   "date": "2026-08-14",
-  "note": "SegWit share = extras.segwitTotalTxs / tx_count (authoritative, mempool.space block summary). Legacy = 100 - SegWit. Taproot = share of uniformly-sampled spends with a v1_p2tr (P2TR) input (1680 sampled non-coinbase txs, 5 capture rounds, aggregated; labeled sampled, not exhaustive; P2SH-wrapped segwit counts as legacy). Effective TPS = total tx / (N blocks x avg block interval) from real blocks — NOT an invented constant; theoretical max 7 TPS kept only as a reference. Weight utilization = avg block weight / 4M WU.",
-  "blocks_sampled": 19,
+  "note": "SegWit share = extras.segwitTotalTxs / tx_count (authoritative, mempool.space block summary). Legacy = 100 - SegWit. Taproot = share of uniformly-sampled spends with a v1_p2tr (P2TR) input (2180 sampled non-coinbase txs, 6 capture rounds, aggregated; labeled sampled, not exhaustive; P2SH-wrapped segwit counts as legacy). Effective TPS = total tx / (N blocks x avg block interval) from real blocks — NOT an invented constant; theoretical max 7 TPS kept only as a reference. Weight utilization = avg block weight / 4M WU.",
+  "blocks_sampled": 23,
   "heights": [
     962338,
     962339,
@@ -25,16 +25,20 @@
     962353,
     962354,
     962355,
-    962356
+    962356,
+    962357,
+    962358,
+    962359,
+    962360
   ],
-  "tx_count": 88610,
-  "segwit_pct": 90.7,
+  "tx_count": 108029,
+  "segwit_pct": 90.5,
   "taproot_pct": 5.1,
-  "taproot_sample_size": 1680,
-  "legacy_pct": 9.3,
+  "taproot_sample_size": 2180,
+  "legacy_pct": 9.5,
   "weight_utilization_pct": 99.85,
-  "avg_block_interval_s": 742.5,
-  "effective_tps": 6.28,
+  "avg_block_interval_s": 732.32,
+  "effective_tps": 6.41,
   "theoretical_max_tps": 7,
   "per_block": [
     {
@@ -150,6 +154,30 @@
       "tx": 5562,
       "weight": 3993708,
       "segwit_txs": 5204
+    },
+    {
+      "h": 962357,
+      "tx": 3693,
+      "weight": 3993972,
+      "segwit_txs": 3541
+    },
+    {
+      "h": 962358,
+      "tx": 4673,
+      "weight": 3993657,
+      "segwit_txs": 3955
+    },
+    {
+      "h": 962359,
+      "tx": 5339,
+      "weight": 3993103,
+      "segwit_txs": 4891
+    },
+    {
+      "h": 962360,
+      "tx": 5714,
+      "weight": 3993932,
+      "segwit_txs": 4996
     }
   ]
 }
