@@ -1,190 +1,106 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-14T04:29:40.209Z",
-  "source": "spool block_adoption",
+  "generated_at": "2026-08-14T07:56:30.777Z",
+  "source": "GitHub Actions (public API: blockstream.info tip + mempool.space /api/v1/block/:hash, /api/block/:hash/txids, /api/tx/:txid)",
   "available": true,
   "date": "2026-08-14",
-  "note": "SegWit share = extras.segwitTotalTxs / tx_count (authoritative, mempool.space block summary). Legacy = 100 - SegWit. Taproot = share of uniformly-sampled spends with a v1_p2tr (P2TR) input (3680 sampled non-coinbase txs, 8 capture rounds, aggregated; labeled sampled, not exhaustive; P2SH-wrapped segwit counts as legacy). Effective TPS = total tx / (N blocks x avg block interval) from real blocks — NOT an invented constant; theoretical max 7 TPS kept only as a reference. Weight utilization = avg block weight / 4M WU.",
-  "blocks_sampled": 24,
+  "note": "SegWit share = extras.segwitTotalTxs / tx_count (authoritative, mempool.space block summary). Legacy = 100 - SegWit. Taproot = share of uniformly-sampled spends with a v1_p2tr (P2TR) input (250 sampled non-coinbase txs, 1 GH capture rounds, aggregated across runs; labeled sampled, not exhaustive; P2SH-wrapped segwit counts as legacy). Effective TPS = total tx / (N blocks x avg block interval) from real blocks — NOT an invented constant; theoretical max 7 TPS kept only as a reference. Weight utilization = avg block weight / 4M WU. Produced by GitHub Actions — survives the local Mac being off.",
+  "blocks_sampled": 10,
   "heights": [
-    962349,
-    962350,
-    962351,
-    962352,
-    962353,
-    962354,
-    962355,
-    962356,
-    962357,
-    962358,
-    962359,
-    962360,
-    962361,
-    962362,
-    962363,
-    962364,
-    962365,
-    962366,
-    962367,
-    962368,
-    962369,
-    962370,
-    962371,
-    962372
+    962384,
+    962385,
+    962386,
+    962387,
+    962388,
+    962389,
+    962390,
+    962391,
+    962392,
+    962393
   ],
-  "tx_count": 117216,
-  "segwit_pct": 89.5,
-  "taproot_pct": 5.2,
-  "taproot_sample_size": 3680,
-  "legacy_pct": 10.5,
-  "weight_utilization_pct": 99.87,
-  "avg_block_interval_s": 752.32,
-  "effective_tps": 6.49,
+  "tx_count": 49660,
+  "segwit_pct": 87.3,
+  "taproot_pct": 3.6,
+  "taproot_sample_size": 250,
+  "legacy_pct": 12.7,
+  "weight_utilization_pct": 90.43,
+  "avg_block_interval_s": 452.14,
+  "effective_tps": 10.98,
   "theoretical_max_tps": 7,
   "per_block": [
     {
-      "h": 962349,
-      "tx": 4651,
-      "weight": 3994097,
-      "segwit_txs": 4523
+      "h": 962384,
+      "tx": 4430,
+      "weight": 3993260,
+      "segwit_txs": 4110
     },
     {
-      "h": 962350,
-      "tx": 4740,
-      "weight": 3997894,
-      "segwit_txs": 3884
+      "h": 962385,
+      "tx": 6640,
+      "weight": 3997769,
+      "segwit_txs": 5751
     },
     {
-      "h": 962351,
-      "tx": 3964,
-      "weight": 3993058,
-      "segwit_txs": 3823
+      "h": 962386,
+      "tx": 4165,
+      "weight": 3994093,
+      "segwit_txs": 3198
     },
     {
-      "h": 962352,
-      "tx": 4552,
-      "weight": 3993077,
-      "segwit_txs": 4346
+      "h": 962387,
+      "tx": 5867,
+      "weight": 3992836,
+      "segwit_txs": 4668
     },
     {
-      "h": 962353,
-      "tx": 4548,
-      "weight": 3995053,
-      "segwit_txs": 3774
+      "h": 962388,
+      "tx": 6209,
+      "weight": 3997773,
+      "segwit_txs": 5216
     },
     {
-      "h": 962354,
-      "tx": 3985,
-      "weight": 3997750,
-      "segwit_txs": 3167
+      "h": 962389,
+      "tx": 5934,
+      "weight": 3997943,
+      "segwit_txs": 5320
     },
     {
-      "h": 962355,
-      "tx": 4081,
-      "weight": 3992937,
-      "segwit_txs": 3857
+      "h": 962390,
+      "tx": 5052,
+      "weight": 3993072,
+      "segwit_txs": 4877
     },
     {
-      "h": 962356,
-      "tx": 5562,
-      "weight": 3993708,
-      "segwit_txs": 5204
+      "h": 962391,
+      "tx": 4536,
+      "weight": 3992920,
+      "segwit_txs": 4073
     },
     {
-      "h": 962357,
-      "tx": 3693,
-      "weight": 3993972,
-      "segwit_txs": 3541
+      "h": 962392,
+      "tx": 278,
+      "weight": 216169,
+      "segwit_txs": 263
     },
     {
-      "h": 962358,
-      "tx": 4673,
-      "weight": 3993657,
-      "segwit_txs": 3955
-    },
-    {
-      "h": 962359,
-      "tx": 5339,
-      "weight": 3993103,
-      "segwit_txs": 4891
-    },
-    {
-      "h": 962360,
-      "tx": 5714,
-      "weight": 3993932,
-      "segwit_txs": 4996
-    },
-    {
-      "h": 962361,
-      "tx": 5854,
-      "weight": 3995104,
-      "segwit_txs": 5587
-    },
-    {
-      "h": 962362,
-      "tx": 6157,
-      "weight": 3993676,
-      "segwit_txs": 5110
-    },
-    {
-      "h": 962363,
-      "tx": 3593,
-      "weight": 3993879,
-      "segwit_txs": 3416
-    },
-    {
-      "h": 962364,
-      "tx": 3877,
-      "weight": 3993902,
-      "segwit_txs": 3622
-    },
-    {
-      "h": 962365,
-      "tx": 3870,
-      "weight": 3997831,
-      "segwit_txs": 3202
-    },
-    {
-      "h": 962366,
-      "tx": 4763,
-      "weight": 3997941,
-      "segwit_txs": 4237
-    },
-    {
-      "h": 962367,
-      "tx": 6278,
-      "weight": 3993034,
-      "segwit_txs": 6185
-    },
-    {
-      "h": 962368,
-      "tx": 5092,
-      "weight": 3992692,
-      "segwit_txs": 4712
-    },
-    {
-      "h": 962369,
-      "tx": 4858,
-      "weight": 3993156,
-      "segwit_txs": 4328
-    },
-    {
-      "h": 962370,
-      "tx": 5173,
-      "weight": 3997941,
-      "segwit_txs": 4113
-    },
-    {
-      "h": 962371,
-      "tx": 6126,
-      "weight": 3997952,
-      "segwit_txs": 5239
-    },
-    {
-      "h": 962372,
-      "tx": 6073,
-      "weight": 3997574,
-      "segwit_txs": 5213
+      "h": 962393,
+      "tx": 6549,
+      "weight": 3997609,
+      "segwit_txs": 5864
     }
-  ]
+  ],
+  "_state": {
+    "bySample": {
+      "962393": {
+        "height": 962393,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 9,
+        "segwit": 205,
+        "legacy": 36,
+        "unclassified": 0,
+        "captures": 1
+      }
+    }
+  }
 }
