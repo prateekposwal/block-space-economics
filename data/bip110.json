@@ -1,15 +1,27 @@
 {
   "ok": true,
-  "height": 962360,
+  "height": 962362,
   "window": {
     "start": 961632,
     "end": 963647,
     "lockIn": 963648,
     "inWindow": true,
     "passedLockIn": false,
-    "blocksUntilLockIn": 1288
+    "blocksUntilLockIn": 1286
   },
   "signaling": [
+    {
+      "height": 962362,
+      "version": 536870912,
+      "versionHex": "0x20000000",
+      "bit4": false
+    },
+    {
+      "height": 962361,
+      "version": 580165632,
+      "versionHex": "0x2294a000",
+      "bit4": false
+    },
     {
       "height": 962360,
       "version": 1047920640,
@@ -57,23 +69,11 @@
       "version": 537395200,
       "versionHex": "0x20080000",
       "bit4": false
-    },
-    {
-      "height": 962352,
-      "version": 662904832,
-      "versionHex": "0x27832000",
-      "bit4": false
-    },
-    {
-      "height": 962351,
-      "version": 537133056,
-      "versionHex": "0x20040000",
-      "bit4": false
     }
   ],
   "windowTotal": 10,
   "windowSignaling": 0,
-  "observedAt": "2026-08-14T02:16:16.848Z",
+  "observedAt": "2026-08-14T02:51:23.538Z",
   "signalingSharePct": 0,
   "daily": [
     {
@@ -102,10 +102,11 @@
     },
     {
       "day": "2026-08-14",
-      "blocks": 41,
+      "blocks": 43,
       "signaling": 0,
       "pct": 0
     }
   ],
-  "thresholdPct": 55
+  "thresholdPct": 55,
+  "source": "GitHub Actions (public API mempool.space /api/blocks?limit=10)"
 }
