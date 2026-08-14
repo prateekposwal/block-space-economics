@@ -19,7 +19,6 @@ var ROUTES = [
   { route: '/fork-tracker', expected: 200 },
   { route: '/feed.xml', expected: 200 },
   { route: '/data/snapshot.json', expected: 200 },
-  { route: '/status.html', expected: 200 },
   { route: '/data/ops-health.json', expected: 200 },
   { route: '/data/site-health.json', expected: 200 },
   { route: '/api/v1/', expected: 200 },
