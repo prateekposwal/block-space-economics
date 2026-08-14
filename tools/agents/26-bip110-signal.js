@@ -108,19 +108,16 @@ async function run() {
     fetchedAt: new Date().toISOString()
   }, { captureTime: ts, day: day, producer: 'bip110-capture', expectedIntervalMinutes: 60 });
 
-  // Public snapshot bridge: write latest to data/bip110.json so the website's
-  // story.html + fork-tracker can fetch it (captured-data/ is not served by
-  // GitHub Pages). Also attaches the daily observed-signaling aggregation
-  // (spool → out.daily) so the fork-tracker's daily bars work even before the
-  // viz-data mirror generator runs.
+  // Public snapshot bridge REMOVED (2026-08-14 — Mac-independence Phase 1):
+  // data/bip110.json is now written by GitHub Actions (.github/workflows/
+  // research-data.yml → tools/generate_research_data.js, public mempool.space
+  // API) so the research tier stays fresh even when this Mac is off. The spool
+  // enqueue above keeps the local capture running. The daily aggregation is
+  // still attached to the spool record (out.daily) for spool integrity.
   try {
-    var snapDir = path.join(REPO, 'data');
-    if (!fs.existsSync(snapDir)) fs.mkdirSync(snapDir, { recursive: true });
     out.daily = buildDaily();
     out.thresholdPct = 55;
-    fs.writeFileSync(path.join(snapDir, 'bip110.json'), JSON.stringify(out, null, 2));
-    if (require.main === module) console.log('bip110 snapshot -> data/bip110.json');
-  } catch (e) { if (require.main === module) console.log('bip110 snapshot error: ' + e.message); }
+  } catch (e) { if (require.main === module) console.log('bip110 daily attach error: ' + e.message); }
 
   if (require.main === module) {
     console.log('bip110: height=' + out.height + ' inWindow=' + inWindow + ' signaling=' + out.signalingSharePct + '% (bit4) ' + (result.ok ? 'enqueued' : 'duplicate'));

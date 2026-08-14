@@ -132,13 +132,13 @@ function run() {
 
   fs.writeFileSync(STATE_FILE, JSON.stringify({ lastRun: new Date().toISOString(), historyPoints: history.length, posts: snapshot.totalPosts }, null, 2));
 
-  // Viz-data mirrors (spool → public data/*.json) — same writeOnChange pattern.
-  // Pure data writes; a failure here must never break the snapshot commit path.
-  try {
-    require(path.join(__dirname, '..', 'generate_viz_data.js')).run();
-  } catch (e) {
-    console.error('viz data mirror error (non-fatal):', (e && e.message) || e);
-  }
+  // Viz-data mirrors REMOVED (2026-08-14 — Mac-independence Phase 1): the six
+  // research mirrors (block_interval, hashrate, mempool_fee_histogram,
+  // fee_history_blocks, bip110_daily, adoption) are now owned by the GitHub
+  // Actions research producer (.github/workflows/research-data.yml →
+  // tools/generate_research_data.js, public APIs) so the research tier stays
+  // fresh even when this Mac is off. Local spool capture keeps running; this
+  // agent no longer mirrors those files (single-writer, no conflicts).
 
   // Optional auto-commit — BLOCKING execSync so process.exit(0) cannot kill the child.
   // Conflict-safe: validates JSON first, and on rebase conflict KEEPS our freshly
