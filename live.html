@@ -489,6 +489,15 @@ try {
     if (ageMin > 120) return; // stale — skip
     var el = document.getElementById('data-freshness');
     if (el) el.textContent = 'BSAHI snapshot ' + Math.round(ageMin) + 'm ago · forecast ' + (s.fee_trend || 'stable');
+    // Snapshot-fee fallback: surface real fee tiers when the client-side live
+    // feed is down but the pipeline snapshot is fresh (keeps the readouts honest
+    // instead of "--" next to a green health dot).
+    if (s.fees && (typeof s.fees.fastestFee === 'number') && !window.__liveFeedOk) {
+      var snapFees = s.fees;
+      var ffEl = document.getElementById('fee-fastest'); if (ffEl && typeof snapFees.fastestFee === 'number') ffEl.textContent = snapFees.fastestFee + ' sat/vB';
+      var hhEl = document.getElementById('fee-hour'); if (hhEl && typeof snapFees.hourFee === 'number') hhEl.textContent = snapFees.hourFee + ' sat/vB';
+      var eeEl = document.getElementById('fee-economy'); if (eeEl && typeof snapFees.economyFee === 'number') eeEl.textContent = snapFees.economyFee + ' sat/vB';
+    }
     if (s.forecast && s.forecast.length) {
       var f = s.forecast[0];
       var b = document.getElementById('forecast-badge');
@@ -628,6 +637,7 @@ if (typeof DATA_ENGINE !== 'undefined') {
   var d = DATA_ENGINE.get();
   if (!d || !d.fees) return;
   var fees = d.fees;
+  if (typeof fees.fastestFee === 'number') window.__liveFeedOk = true; // live feed healthy → snapshot fallback not needed
 
   var f2 = fees.fastestFee || 0;
   var mpCount = d.mempool ? (d.mempool.count || 0) : 0;

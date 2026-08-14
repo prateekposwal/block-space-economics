@@ -296,30 +296,49 @@
     var stateDesc = document.getElementById('state-desc');
     var ctaEl = document.querySelector('.bottom-area .cta');
 
-    function refreshUI() {
-      var f = DATA_ENGINE.get().fees || {};
-      var fastest = f.fastestFee;
+    // Snapshot fee fallback — the state-bar derives its verdict from ONE source
+    // of truth: the pipeline snapshot (same as the health dot). The client-side
+    // DATA_ENGINE live feed is an enrichment, never the sole authority, so a
+    // blocked live feed can't contradict a fresh snapshot ("Data pending" next
+    // to a green dot). Falls back to the snapshot's fees when the live feed is
+    // unavailable.
+    var snapshotFees = null;
+    function renderVerdict(fastest, liveFeed) {
       if (typeof fastest !== 'number') {
-        // Missing data must NEVER read as "all clear" — show pending state.
         stateLabel.textContent = '\uD83D\uDFE1 Data pending';
         stateLabel.style.color = '#D29922';
         stateDesc.textContent = 'Waiting for live fee data\u2026';
         ctaEl.classList.remove('low-fees');
-      } else if (fastest < 5) {
+        return;
+      }
+      if (fastest < 5) {
         stateLabel.textContent = '\uD83D\uDFE2 Network calm';
         stateLabel.style.color = '#3FB950';
-        stateDesc.textContent = 'Fees are low. Good time to send.';
+        stateDesc.textContent = liveFeed ? 'Fees are low. Good time to send.' : 'Fees are low (snapshot data — live feed paused). Good time to send.';
         ctaEl.classList.add('low-fees');
       } else if (fastest < 20) {
         stateLabel.textContent = '\uD83D\uDFE1 Moderate congestion';
         stateLabel.style.color = '#D29922';
-        stateDesc.textContent = 'Fees are elevated. Economy rate recommended.';
+        stateDesc.textContent = liveFeed ? 'Fees are elevated. Economy rate recommended.' : 'Fees are elevated (snapshot data — live feed paused).';
         ctaEl.classList.remove('low-fees');
       } else {
         stateLabel.textContent = '\uD83D\uDD34 Network congested';
         stateLabel.style.color = '#F85149';
-        stateDesc.textContent = 'Fees are high. Consider waiting.';
+        stateDesc.textContent = liveFeed ? 'Fees are high. Consider waiting.' : 'Fees are high (snapshot data — live feed paused). Consider waiting.';
         ctaEl.classList.remove('low-fees');
+      }
+    }
+
+    function refreshUI() {
+      var f = DATA_ENGINE.get().fees || {};
+      var fastest = f.fastestFee;
+      if (typeof fastest !== 'number') {
+        // Live feed empty — fall back to the snapshot (same source as the dot).
+        // Never show "Data pending" when we hold fresh data.
+        fastest = (snapshotFees && typeof snapshotFees.fastestFee === 'number') ? snapshotFees.fastestFee : null;
+        renderVerdict(fastest, false);
+      } else {
+        renderVerdict(fastest, true);
       }
       drawGenesisStrip();
       updateDollarContext();
@@ -349,6 +368,8 @@
           return;
         }
         updateVisibleStats({ fees: s.fees || {}, mempool: { count: s.mempool_tx }, block_height: s.block_height });
+        snapshotFees = s.fees || null; // state-bar fallback source (same as the dot)
+        refreshUI(); // re-derive the verdict now that snapshot fees are available
         var ago = ageMin < 90 ? Math.round(ageMin) + ' min ago' : Math.round(ageMin / 60) + 'h ago';
         n.textContent = 'Snapshot from ' + s.generated_at.slice(0, 16) + ' · ' + ago + ' · live data refreshes every 60s';
         n.style.color = '';
