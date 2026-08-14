@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// BSAHI — GitHub Actions Research Data Producer (Mac-Independence Phase 1)
+// BSAHI — GitHub Actions Research Data Producer (Mac-Independence Phase 1 + 2)
 // Regenerates the research-tier public mirrors from PUBLIC APIs ONLY (no spool,
 // no local DB, no Core RPC) so the research tier survives the local Mac being
 // off. Runs on a GH runner every 30 min via .github/workflows/research-data.yml.
@@ -12,6 +12,15 @@
 //   data/mempool_fee_histogram.json— latest mempool fee-RATE histogram
 //   data/fee_history_blocks.json   — per-block avg fees + USD (last 144 blocks)
 //   data/adoption.json             — SegWit/Taproot/Legacy usage + honest TPS
+//   data/sccr*.json + the frozen   — SCCR (Phase 2; run via `--only sccr`):
+//     capture                       refreshes research/reproduce/input/
+//                                   fee_history_capture.json from the public 24h
+//                                   fee endpoint, then runs
+//                                   tools/research/sccr_live.py --frozen
+//                                   (360-min staleness gate = daily cadence)
+//
+// `--only <name>[,name...]` runs a subset of targets (the workflow's SCCR step
+// uses `--only sccr`); the default no-arg invocation is the Phase-1 target set.
 //
 // Staleness gate (two-writer solution): the GH writer is the CANONICAL writer
 // for these files (the local agent no longer writes them). Before fetching,
@@ -26,6 +35,7 @@
 var path = require('path');
 var https = require('https');
 var fs = require('fs');
+var { exec } = require('child_process');
 
 var REPO = path.resolve(__dirname, '..');
 var DATA_DIR = path.join(REPO, 'data');
@@ -37,9 +47,13 @@ var THEORETICAL_MAX_TPS = 7.0; // documented reference only — never rendered a
 function loadJson(p, fb) { try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch (e) { return fb; } }
 function sha1(s) { return require('crypto').createHash('sha1').update(s).digest('hex'); }
 
-function writeOnChange(name, data) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
-  var p = path.join(DATA_DIR, name);
+function writeOnChange(name, data, dir) {
+  // dir is optional — defaults to DATA_DIR. Phase 2 uses it to write the SCCR
+  // frozen capture + provenance meta into research/reproduce/input/ (same
+  // sha1-compare, no-churn behavior as the data/ mirrors).
+  var d = dir || DATA_DIR;
+  fs.mkdirSync(d, { recursive: true });
+  var p = path.join(d, name);
   var blob = JSON.stringify(data, null, 2) + '\n';
   var changed = true;
   if (fs.existsSync(p)) {
@@ -411,6 +425,85 @@ function buildAdoption() {
   });
 }
 
+/* ── 7. SCCR (Storage Cost Coverage Ratio) — Mac-Independence Phase 2 ────── */
+// SCCR was the last Mac-bound research metric (sccr_live.py read the LOCAL
+// SQLite DB). GH now owns it. The public 24h fee endpoint returns per-block
+// {avgHeight, timestamp, avgFees, USD} — the EXACT schema of the frozen
+// reproducibility capture — so this builder:
+//   (1) refreshes research/reproduce/input/fee_history_capture.json (the frozen
+//       capture; bare-array schema preserved — a wrapper object would break the
+//       Array.isArray guards in the C/JS/Python reproduce consumers, so refresh
+//       provenance goes to a sibling .meta file instead),
+//   (2) runs tools/research/sccr_live.py --frozen (the canonical writer) to
+//       produce data/sccr.json + sccr_latest.json + sccr_history.json in the
+//       same shapes live mode writes.
+// Runs via `--only sccr` (workflow step, 360-min staleness gate = daily).
+function runPython(script, args) {
+  return new Promise(function (resolve, reject) {
+    var cmd = 'python3 ' + [script].concat(args).map(function (a) { return "'" + a + "'"; }).join(' ');
+    exec(cmd, { cwd: REPO, timeout: 60000 }, function (err, so, se) {
+      if (err) reject(new Error(((se || '').trim() || (so || '').trim() || err.message).slice(0, 300)));
+      else resolve(so);
+    });
+  });
+}
+
+async function buildSccr() {
+  var FROZEN_DIR = path.join(REPO, 'research', 'reproduce', 'input');
+  var rows = await getJson('https://mempool.space/api/v1/mining/blocks/fees/24h', 45000);
+  if (!Array.isArray(rows) || rows.length < 100) throw new Error('sccr: need >=100 blocks from 24h series, got ' + (Array.isArray(rows) ? rows.length : typeof rows));
+  var byHeight = {};
+  rows.forEach(function (b) {
+    if (!b || typeof b.avgHeight !== 'number' || typeof b.timestamp !== 'number') return;
+    byHeight[b.avgHeight] = {
+      avgHeight: b.avgHeight,
+      timestamp: b.timestamp,           // unix seconds — the endpoint provides it per block
+      avgFees: typeof b.avgFees === 'number' ? b.avgFees : null,
+      USD: typeof b.USD === 'number' ? b.USD : null
+    };
+  });
+  // Degenerate rows (avgFees <= 0 — e.g. a zero-fee block) are dropped so the
+  // frozen file matches what compute() actually uses (`if not fee_sats: continue`
+  // in sccr_live.py / reproduce.py). The original freeze had no such rows; keeping
+  // them would make the C reproduction implementation (which counts every avgFees
+  // it finds, including 0 → ratio 0) disagree with JS/Python.
+  var blocks = Object.keys(byHeight).map(function (k) { return byHeight[k]; })
+    .filter(function (b) { return b.avgFees > 0; })                 // degenerate rows (avgFees<=0) dropped
+    .sort(function (a, b) { return a.avgHeight - b.avgHeight; });   // ascending, deduped by height
+  if (blocks.length < 100) throw new Error('sccr: only ' + blocks.length + ' usable blocks in 24h series');
+
+  var now = new Date().toISOString();
+  var firstH = blocks[0].avgHeight, lastH = blocks[blocks.length - 1].avgHeight;
+  var frozenChanged = writeOnChange('fee_history_capture.json', blocks, FROZEN_DIR);
+  var metaChanged = writeOnChange('fee_history_capture.meta.json', {
+    schema: 'bsahi.fee-history-capture-meta/1',
+    file: 'research/reproduce/input/fee_history_capture.json',
+    generated_at: now,
+    source: 'GitHub Actions (public API mempool.space /api/v1/mining/blocks/fees/24h) via tools/generate_research_data.js buildSccr',
+    count: blocks.length,
+    first_height: firstH,
+    last_height: lastH,
+    note: 'The capture file itself stays a bare array of {avgHeight, timestamp, avgFees, USD} so the C/JS/Python reproduce consumers keep parsing it unchanged; this meta file carries the refresh provenance the bare-array schema cannot.'
+  }, FROZEN_DIR);
+
+  // Canonical writer — frozen mode computes from the refreshed capture and
+  // writes data/sccr.json + data/sccr_latest.json + data/sccr_history.json
+  // (identical output shape/notes to live mode — same code path, same notes
+  // string; only the capture source differs).
+  await runPython(path.join(REPO, 'tools', 'research', 'sccr_live.py'), ['--frozen']);
+
+  var files = ['sccr.json', 'sccr_latest.json', 'sccr_history.json'].map(function (f) {
+    return { name: f, data: loadJson(path.join(DATA_DIR, f), null) };
+  });
+  if (!files[0].data) throw new Error('sccr_live.py --frozen produced no data/sccr.json');
+  return {
+    files: files,
+    detail: 'frozen ' + blocks.length + ' blocks h' + firstH + '→h' + lastH +
+            ' (capture ' + (frozenChanged ? 'wrote' : 'unchanged') + ', meta ' + (metaChanged ? 'wrote' : 'unchanged') +
+            ') → sccr_live.py --frozen → avg_sccr=' + files[0].data.avg_sccr
+  };
+}
+
 /* ── staleness gate + run ────────────────────────────────────────────────── */
 // Thresholds: bip110* is a live event (30 min); hashrate / block_interval /
 // mempool_hist / fee_history_blocks 60 min; adoption 120 min.
@@ -423,13 +516,32 @@ var TARGETS = [
   { name: 'adoption.json', tsField: 'generated_at', thresholdMin: 120, builder: buildAdoption }
 ];
 
+// SCCR (Phase 2) — kept OUT of the default run on purpose: the workflow runs it
+// as its own explicit step (`--only sccr`) after the research-data step, so its
+// freshness/commit cadence is visible and a Phase-1 target failure cannot mask
+// it (and vice versa). SCCR is a DAILY metric: 360-min gate (refresh at most
+// every 6h) instead of the 30-min schedule the workflow ticks on.
+var SCCR_TARGET = { name: 'sccr.json', tsField: 'generated_at', thresholdMin: 360, builder: buildSccr, pairs: ['sccr_latest.json', 'sccr_history.json'] };
+var ALL_TARGETS = TARGETS.concat([SCCR_TARGET]);
+
 function pad(s, n) { s = String(s); while (s.length < n) s += ' '; return s; }
 
 async function run() {
   var results = [];
   var stats = { wrote: 0, unchanged: 0, skipped: 0, failed: 0 };
-  for (var i = 0; i < TARGETS.length; i++) {
-    var t = TARGETS[i];
+  // --only <name>[,name...]: subset filter (matches target file names or their
+  // stem, e.g. `--only sccr` or `--only sccr.json`). Absent → the Phase-1
+  // target set (TARGETS); SCCR is opt-in via --only by design.
+  var only = [];
+  var av = process.argv.slice(2);
+  for (var a = 0; a < av.length; a++) {
+    if (av[a] === '--only' && av[a + 1]) only = av[a + 1].split(',').map(function (x) { return x.trim(); }).filter(Boolean);
+  }
+  var targets = only.length
+    ? ALL_TARGETS.filter(function (t) { return only.indexOf(t.name) !== -1 || only.indexOf(t.name.replace(/\.json$/, '')) !== -1; })
+    : TARGETS;
+  for (var i = 0; i < targets.length; i++) {
+    var t = targets[i];
     var p = path.join(DATA_DIR, t.name);
     var age = freshAgeMin(p, t.tsField);
     if (age < t.thresholdMin) {
@@ -473,4 +585,4 @@ if (require.main === module) {
   run().then(function() { process.exit(0); }).catch(function(e) { console.error('research-data fatal:', e); process.exit(1); });
 }
 
-module.exports = { run: run, writeOnChange: writeOnChange, mergeDaily: mergeDaily, decodeBit4: decodeBit4, fetchUrl: fetchUrl };
+module.exports = { run: run, writeOnChange: writeOnChange, mergeDaily: mergeDaily, decodeBit4: decodeBit4, fetchUrl: fetchUrl, buildSccr: buildSccr, TARGETS: TARGETS, SCCR_TARGET: SCCR_TARGET };

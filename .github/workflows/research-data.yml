@@ -1,15 +1,18 @@
 name: Research Data (Mac-Independence Mirror)
 
-# Phase 1 of the Mac-independence plan (2026-08-14): the research-tier mirrors
-# bip110.json, bip110_daily.json, hashrate.json, block_interval.json,
-# mempool_fee_histogram.json, fee_history_blocks.json, adoption.json are now
-# regenerated HERE from PUBLIC APIs (mempool.space / blockstream.info) so the
-# research tier survives the local Mac being off. The local agent no longer
-# writes these files (single canonical writer = this workflow).
+# Phase 1 + 2 of the Mac-independence plan (2026-08-14): the research-tier
+# mirrors bip110.json, bip110_daily.json, hashrate.json, block_interval.json,
+# mempool_fee_histogram.json, fee_history_blocks.json, adoption.json (Phase 1)
+# AND SCCR (Phase 2: data/sccr.json + sccr_latest.json + sccr_history.json +
+# the frozen reproducibility capture research/reproduce/input/
+# fee_history_capture.json) are regenerated HERE from PUBLIC APIs
+# (mempool.space / blockstream.info) so the research tier survives the local
+# Mac being off. The local agent + daily sccr-tracker no longer write sccr
+# files (single canonical writer = this workflow).
 #
 # Staleness gate: tools/generate_research_data.js skips any file whose committed
 # freshness timestamp is inside its threshold (bip110*: 30 min, others: 60 min,
-# adoption: 120 min), so this workflow only commits when data is stale/changed.
+# adoption: 120 min, sccr: 360 min - SCCR is a daily metric).
 #
 # Separate workflow on purpose: a research-data failure must not block the core
 # data-snapshot workflow (and vice versa).
@@ -37,10 +40,23 @@ jobs:
         with:
           node-version: '20'
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
       - name: Generate research data (public APIs only)
         # Fails gracefully: a dead source leaves the last good committed file
         # in place and only logs; the next run's staleness gate retries.
         run: node tools/generate_research_data.js
+
+      - name: Generate SCCR (frozen capture, 360-min daily gate)
+        # Phase 2: refreshes research/reproduce/input/fee_history_capture.json
+        # from the public 24h fee endpoint, then runs sccr_live.py --frozen to
+        # write data/sccr.json + sccr_latest.json + sccr_history.json. The
+        # 360-min staleness gate inside the script = daily cadence; python3 is
+        # provided by setup-python above. Fails gracefully (committed files
+        # preserved; next run's gate retries).
+        run: node tools/generate_research_data.js --only sccr
 
       - name: Site integrity check (validate.js — C1-C4)
         # Fails closed: a regression in the integrity checks must block the
@@ -53,7 +69,10 @@ jobs:
           git config user.email "research@bitcoinsahi.com"
           git add data/bip110.json data/bip110_daily.json data/hashrate.json \
                   data/block_interval.json data/mempool_fee_histogram.json \
-                  data/fee_history_blocks.json data/adoption.json
+                  data/fee_history_blocks.json data/adoption.json \
+                  data/sccr.json data/sccr_latest.json data/sccr_history.json \
+                  research/reproduce/input/fee_history_capture.json \
+                  research/reproduce/input/fee_history_capture.meta.json
           git diff --cached --quiet || git commit -m "chore: research data $(date -u '+%Y-%m-%d %H:%M UTC')"
           # Conflict-safe sync: retry the merge, never swallow a failure.
           # A failed rebase previously shipped conflict markers into data/.
@@ -67,7 +86,7 @@ jobs:
           # Fail closed: never push invalid JSON (re-validate after sync).
           python3 - <<'PYEOF'
           import json, glob, sys
-          for f in sorted(glob.glob('data/*.json')):
+          for f in sorted(glob.glob('data/*.json')) + sorted(glob.glob('research/reproduce/input/*.json')):
               t = open(f).read()
               if '<<<<<<<' in t or '=======' in t or '>>>>>>>' in t:
                   print('conflict markers after sync:', f); sys.exit(1)
@@ -79,6 +98,9 @@ jobs:
           PYEOF
           git add data/bip110.json data/bip110_daily.json data/hashrate.json \
                   data/block_interval.json data/mempool_fee_histogram.json \
-                  data/fee_history_blocks.json data/adoption.json
+                  data/fee_history_blocks.json data/adoption.json \
+                  data/sccr.json data/sccr_latest.json data/sccr_history.json \
+                  research/reproduce/input/fee_history_capture.json \
+                  research/reproduce/input/fee_history_capture.meta.json
           git diff --cached --quiet || git commit -m "chore: research data $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push

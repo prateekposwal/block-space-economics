@@ -26,28 +26,38 @@ model constant**.
 ## Input data file
 
 `research/reproduce/input/fee_history_capture.json` — the frozen `fee_history`
-capture that the JS implementation read from the DB at freeze time (2026-08-02).
-Each element:
+capture that the JS implementation read from the DB at freeze time (originally
+2026-08-02). Since 2026-08-14 it is **auto-refreshed by GitHub Actions**
+(`.github/workflows/research-data.yml` → `tools/generate_research_data.js
+--only sccr`, Mac-independence Phase 2) from the same public endpoint the live
+pipeline reads — `mempool.space/api/v1/mining/blocks/fees/24h` — so it stays
+current even when the local Mac is off. Refresh provenance (count, height
+range, source, generated_at) lives in the sibling
+`research/reproduce/input/fee_history_capture.meta.json` (the capture file
+itself must stay a bare array — a wrapper object would break the C/JS/Python
+consumers below). Each element:
 
     { "avgHeight": 960562, "timestamp": 1785588823, "avgFees": 3494636, "USD": 63016 }
 
 - `avgFees` — total block fees (sats) at that height
 - `USD` — BTC price (USD) at capture time
 
-The file holds 171 elements with **contiguous, ascending heights
-(960562 → 960732, no gaps)**. A quick sanity check:
+The element count varies with the rolling 24-hour window (the first freeze held
+171 elements, contiguous heights 960562 → 960732; later windows hold fewer).
+A quick sanity check (shape + parse, content-agnostic):
 
-    python3 -c "import json;d=json.load(open('research/reproduce/input/fee_history_capture.json'));print(len(d),[e['avgHeight'] for e in d]==list(range(960562,960733)))"
-    # 171 True
+    python3 -c "import json;d=json.load(open('research/reproduce/input/fee_history_capture.json'));print(len(d),all(set(e)=={'avgHeight','timestamp','avgFees','USD'} for e in d))"
 
 ## Data-freshness nuance (why the frozen input exists)
 
 The canonical JS implementation reads the **live** `fee_history` capture from the
 DB, which is a rolling 24-hour window — its block count changes as old blocks
 roll off and new ones arrive (observed: 171 blocks at freeze → 169 blocks later
-the same day; avg 0.2186 → 0.2151). The frozen input file is the exact capture
-used for the paper's reference outputs, so cross-language reproduction compares
-like-for-like. The JS supports an input override for this purpose:
+the same day; avg 0.2186 → 0.2151). The frozen input file was the exact capture
+used for the paper's reference outputs at freeze time (that version remains in
+git history), so cross-language reproduction compares like-for-like — and it is
+now kept current by the GitHub Actions refresh described above. The JS supports
+an input override for this purpose:
 
     SCCR_INPUT_FILE=research/reproduce/input/fee_history_capture.json \
       node tools/research/storage-ratio.js

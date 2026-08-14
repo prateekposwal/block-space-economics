@@ -5,7 +5,6 @@
 // optionally auto-commits via plain git. Runs 30-min via launchd.
 var path = require('path');
 var fs = require('fs');
-var { exec } = require('child_process');
 
 var REPO = path.resolve(__dirname, '..', '..');
 var DATA_DIR = path.join(REPO, 'data');
@@ -117,28 +116,18 @@ function run() {
   var siteHealth = loadJson(path.join(REPO, 'captured-data', 'site-health.json'), null);
   if (siteHealth) writeOnChange('site-health.json', siteHealth);
 
-  // Live SCCR dashboard + static API files (/sccr/latest, /sccr/history).
-  // Runs the python live writer; its outputs are read below so they ship with
-  // this snapshot commit even if the writer writes before we copy.
-  try {
-    exec('python3 tools/research/sccr_live.py', { cwd: REPO, timeout: 30000 }, function (err, so, se) {
-      if (err) { console.error('sccr_live failed:', (se || '').slice(0, 200)); return; }
-      ['sccr.json', 'sccr_latest.json', 'sccr_history.json'].forEach(function (f) {
-        var d = loadJson(path.join(DATA_DIR, f), null);
-        if (d) writeOnChange(f, d);
-      });
-    });
-  } catch (e) { console.error('sccr_live exec error:', e.message); }
-
   fs.writeFileSync(STATE_FILE, JSON.stringify({ lastRun: new Date().toISOString(), historyPoints: history.length, posts: snapshot.totalPosts }, null, 2));
 
-  // Viz-data mirrors REMOVED (2026-08-14 — Mac-independence Phase 1): the six
-  // research mirrors (block_interval, hashrate, mempool_fee_histogram,
-  // fee_history_blocks, bip110_daily, adoption) are now owned by the GitHub
-  // Actions research producer (.github/workflows/research-data.yml →
-  // tools/generate_research_data.js, public APIs) so the research tier stays
-  // fresh even when this Mac is off. Local spool capture keeps running; this
-  // agent no longer mirrors those files (single-writer, no conflicts).
+  // Viz-data mirrors REMOVED (2026-08-14 — Mac-independence Phase 1 + 2): the
+  // six research mirrors (block_interval, hashrate, mempool_fee_histogram,
+  // fee_history_blocks, bip110_daily, adoption) AND the SCCR files
+  // (sccr.json/sccr_latest.json/sccr_history.json — formerly written by this
+  // agent running sccr_live.py against the local DB) are now owned by the
+  // GitHub Actions research producer (.github/workflows/research-data.yml →
+  // tools/generate_research_data.js, public APIs → sccr_live.py --frozen) so
+  // the research tier stays fresh even when this Mac is off. Local spool
+  // capture keeps running; this agent no longer mirrors those files
+  // (single-writer, no conflicts).
 
   // Optional auto-commit — BLOCKING execSync so process.exit(0) cannot kill the child.
   // Conflict-safe: validates JSON first, and on rebase conflict KEEPS our freshly
