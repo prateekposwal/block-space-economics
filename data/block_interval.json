@@ -1,10 +1,16 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-14T04:46:52.684Z",
-  "source": "GitHub Actions (public API mempool.space /api/blocks?limit=5)",
+  "generated_at": "2026-08-14T04:29:41.070Z",
+  "source": "spool block_interval",
   "unit": "seconds",
-  "note": "Rolling 10-block interval window per capture: avg / min / max. Captured by GitHub Actions (public API) every ~60 min.",
+  "note": "Rolling 10-block interval window per capture: avg / min / max. Captured every ~30 min by the local capture agent.",
   "points": [
+    {
+      "t": "2026-08-02T11:51:03.525Z",
+      "avg": 358.78,
+      "min": 51,
+      "max": 813
+    },
     {
       "t": "2026-08-02T12:50:58.558Z",
       "avg": 574.67,
@@ -558,27 +564,21 @@
       "max": 1240
     },
     {
-      "t": "2026-08-14T02:43:20.817Z",
-      "avg": 645.33,
+      "t": "2026-08-14T03:16:29.212Z",
+      "avg": 795.56,
       "min": 18,
-      "max": 1240
+      "max": 2569
     },
     {
-      "t": "2026-08-14T02:45:17.027Z",
-      "avg": 645.33,
+      "t": "2026-08-14T03:29:23.154Z",
+      "avg": 795.56,
       "min": 18,
-      "max": 1240
+      "max": 2569
     },
     {
-      "t": "2026-08-14T02:51:23.883Z",
-      "avg": 645.33,
-      "min": 18,
-      "max": 1240
-    },
-    {
-      "t": "2026-08-14T04:46:52.684Z",
-      "avg": 576.38,
-      "min": 118,
+      "t": "2026-08-14T04:29:40.935Z",
+      "avg": 512.33,
+      "min": 0,
       "max": 1512
     }
   ]
