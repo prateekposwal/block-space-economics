@@ -6,8 +6,12 @@ var VIZ_Fees = (function() {
   var canvas, ctx, w = 0, h = 0;
   var bars = [];
   var particles = [];
-  var displayFee = 3;
-  var targetFee = 3;
+  var BLOCK_VBYTES = 4000000; // consensus vbytes per block — REAL sat/vB conversion
+  // Seeds at 0 (2026-08-14 honesty fix: was a fabricated 3 sat/vB) — rendered
+  // neutral until a REAL fee arrives, never a plausible default.
+  var displayFee = 0;
+  var targetFee = 0;
+  var hasRealFee = false;
   var scrollOffset = 0;
   var bottomMargin = 90;
 
@@ -21,11 +25,19 @@ var VIZ_Fees = (function() {
     DATA_ENGINE.onUpdate(function() {
       var data = DATA_ENGINE.get().fee_history || [];
       var fees = DATA_ENGINE.get().fees || {};
-      targetFee = fees.fastestFee || 3;
-      
+      if (typeof fees.fastestFee === 'number' && fees.fastestFee > 0) {
+        targetFee = fees.fastestFee;
+        hasRealFee = true;
+      }
+
       for (var i = 0; i < Math.min(data.length, 144); i++) {
         var entry = data[data.length - 1 - i];
-        var feeRate = Math.min(500, Math.max(0.1, entry.avgFees / 2500000));
+        // REAL sat/vB: normalized feeRate when present, else avgFees ÷ 4M vbytes.
+        var feeRate = (typeof entry.feeRate === 'number' && entry.feeRate > 0) ? entry.feeRate
+          : (typeof entry.avgFeeRate === 'number' && entry.avgFeeRate > 0) ? entry.avgFeeRate
+          : (typeof entry.avgFees === 'number' && entry.avgFees > 0) ? entry.avgFees / BLOCK_VBYTES : 0;
+        if (feeRate > 0) hasRealFee = true;
+        feeRate = Math.min(500, Math.max(0.1, feeRate));
         if (!bars[i]) bars[i] = { fee: 1, h: 0, age: 0 };
         bars[i].targetFee = feeRate;
         bars[i].age = bars[i].age || 0;
@@ -39,8 +51,8 @@ var VIZ_Fees = (function() {
       var maxBarArea = h - bottomMargin;
       var speedMultiplier = 1 + (displayFee / 50) * 1.5;
       for (var i = 0; i < count; i++) {
-        var fee = Math.random() * 30 + 1;
-        var p = Math.min(1, fee / 50);
+        // Color derives from the REAL current fee — never a fabricated rate.
+        var p = Math.min(1, displayFee / 50);
         particles.push({
           x: Math.random() * (w || 800),
           y: maxBarArea + (Math.random() * 40),
@@ -138,9 +150,9 @@ var VIZ_Fees = (function() {
     }
     ctx.globalAlpha = 1;
 
-    // Fee counter — big, centered, smooth
-    var feeText = displayFee.toFixed(0);
-    var feeColor = displayFee > 20 ? '#F85149' : displayFee > 10 ? '#D29922' : '#3FB950';
+    // Fee counter — big, centered, smooth; neutral while data is pending
+    var feeText = hasRealFee ? displayFee.toFixed(0) : '--';
+    var feeColor = !hasRealFee ? 'rgba(155,139,120,0.9)' : displayFee > 20 ? '#F85149' : displayFee > 10 ? '#D29922' : '#3FB950';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
@@ -161,7 +173,8 @@ var VIZ_Fees = (function() {
 
     var f = displayFee;
     var narrative = '';
-    if (f < 3) narrative = 'Lowest fees — best time to send';
+    if (!hasRealFee) narrative = 'Fee data pending — renders when the first capture arrives';
+    else if (f < 3) narrative = 'Lowest fees — best time to send';
     else if (f < 5) narrative = 'Fees are low — good to send';
     else if (f < 10) narrative = 'Moderate fees — economy rate OK';
     else if (f < 20) narrative = 'Fees elevated — consider waiting';

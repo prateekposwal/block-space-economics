@@ -157,6 +157,23 @@ var VIZ_FeeHeatmap = (function () {
     ctx.fillStyle = MUTED;
     ctx.fillText('0 → ' + maxCount, lx + 2, padT - 18);
     ctx.fillText('· ' + totalBlocks + ' blocks mapped', w - padR, padT - 18);
+
+    // Current-hour column — the "now" moment, pulsed with real-data presence
+    var nowHour = new Date().getUTCHours();
+    if (nowHour >= 0 && nowHour < 24) {
+      var colX = padL + nowHour * cellW;
+      var hasNow = grid[nowHour].some(function (c) { return c > 0; });
+      var pulse = REDUCED_MOTION ? 0.35 : 0.16 + (Math.sin(Date.now() / 1000 * 2.2) * 0.5 + 0.5) * 0.22;
+      if (hasNow) {
+        ctx.fillStyle = 'rgba(247,147,26,' + pulse + ')';
+        ctx.fillRect(colX + 0.5, padT + 0.5, cellW - 1, plotH - 1);
+      }
+      ctx.fillStyle = hasNow ? 'rgba(247,147,26,0.9)' : 'rgba(255,255,255,0.4)';
+      ctx.font = 'bold 9px -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      ctx.fillText('now', colX + cellW / 2, padT - 12);
+    }
   }
 
   function drawPending(msg) {

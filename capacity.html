@@ -545,7 +545,7 @@ function drawSettlement() {
   setCtx.textAlign = 'center';
   setCtx.fillText('⚡ ' + (fees.fastestFee || '--') + ' sat/vB fastest · ~' + ((d && d.mempool ? Math.round((d.mempool.count||0) / 600 * 60 * 60) : 0)).toLocaleString() + ' tx/hour', w / 2, h - 44);
 
-  settleRaf = requestAnimationFrame(drawSettlement);
+  if (!REDUCED_MOTION) settleRaf = requestAnimationFrame(drawSettlement);
 }
 
 function roundRect(ctx, x, y, w, h, r) {
@@ -570,13 +570,16 @@ function drawWeightChart(fh, blks) {
   if (!weightCanvas) return;
   weightCtx = weightCanvas.getContext('2d');
   var r = weightCanvas.parentElement.getBoundingClientRect();
-  weightW = weightCanvas.width = Math.round((r.width || 800) * 2);
-  weightH = weightCanvas.height = 500;
-  weightCanvas.style.width = (r.width || 800) + 'px';
-  weightCanvas.style.height = '250px';
-  weightCtx.scale(2, 2);
+  var dprW = Math.min(window.devicePixelRatio || 1, 3);
+  var cssW = (r.width || 800);
+  var cssH = 250;
+  weightW = weightCanvas.width = Math.round(cssW * dprW);
+  weightH = weightCanvas.height = Math.round(cssH * dprW);
+  weightCanvas.style.width = cssW + 'px';
+  weightCanvas.style.height = cssH + 'px';
+  weightCtx.setTransform(dprW, 0, 0, dprW, 0, 0);
 
-  var w = weightW / 2, h = weightH / 2;
+  var w = cssW, h = cssH;
   weightCtx.fillStyle = '#1A1612';
   weightCtx.fillRect(0, 0, weightW, weightH);
 
@@ -720,14 +723,16 @@ window.addEventListener('resize', resizeSet);
         if (feeFlashActive === 0) setTimeout(function() { el.style.boxShadow = ''; el.style.transition = ''; }, 150);
       });
     }
-    flashRaf = requestAnimationFrame(flashLoop);
+    if (!REDUCED_MOTION) flashRaf = requestAnimationFrame(flashLoop);
 var settleRaf = null;
 var flashRaf = null;
+var REDUCED_MOTION = (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 document.addEventListener('visibilitychange', function() {
   if (document.hidden) {
     if (settleRaf) cancelAnimationFrame(settleRaf);
     if (flashRaf) cancelAnimationFrame(flashRaf);
   } else {
+    if (REDUCED_MOTION) { drawSettlement(); return; } // one static frame
     settleRaf = requestAnimationFrame(drawSettlement);
     requestAnimationFrame(flashLoop);
   }

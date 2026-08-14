@@ -208,15 +208,35 @@ var DATA_ENGINE = (function () {
         DATA.mempool_blocks = Array.isArray(raw) ? raw : [];
         break;
       case 'fee_history':
-        DATA.fee_history = Array.isArray(raw) ? raw : [];
+        // Keep the raw entries but expose the REAL sat/vB conversion: the API
+        // returns avgFees (sats per block) and every block is 4M vbytes, so
+        // feeRate = avgFees / 4000000 is the genuine unit conversion — not a
+        // fabricated number (same constant the fee heatmap uses).
+        DATA.fee_history = (Array.isArray(raw) ? raw : []).map(function (b) {
+          var out = b || {};
+          if (typeof out.feeRate !== 'number' && typeof out.avgFees === 'number' && out.avgFees > 0) {
+            out = Object.assign({}, out, { feeRate: out.avgFees / 4000000 });
+          }
+          return out;
+        });
         break;
       case 'lightning':
         var s = raw.latest || raw;
+        // Real split fields the API returns (tor/clearnet/unannounced) — the
+        // Lightning canvas renders its honest node-share visual from these.
         DATA.lightning = {
           channel_count: s.channel_count || s.channelCount || 0,
           node_count: s.node_count || s.nodeCount || 0,
           total_capacity: s.total_capacity || s.totalCapacity || 0,
-          avg_fee_rate: s.avg_fee_rate || s.avgFeeRate || 0
+          avg_fee_rate: s.avg_fee_rate || s.avgFeeRate || 0,
+          avg_capacity: s.avg_capacity || s.avgCapacity || 0,
+          med_capacity: s.med_capacity || s.medCapacity || 0,
+          med_fee_rate: s.med_fee_rate || s.medFeeRate || 0,
+          tor_nodes: s.tor_nodes || 0,
+          clearnet_nodes: s.clearnet_nodes || 0,
+          unannounced_nodes: s.unannounced_nodes || 0,
+          clearnet_tor_nodes: s.clearnet_tor_nodes || 0,
+          added: s.added || null
         };
         break;
       case 'blocks':

@@ -127,13 +127,26 @@ var VIZ_Hashrate = (function () {
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // Last value label
+    // Live point on the latest real capture (pulsing)
     var last = points[points.length - 1];
+    var lpX = px(points.length - 1);
+    var lpY = py(last.eh);
+    var lpR = 3 + (REDUCED_MOTION ? 0 : Math.sin(Date.now() / 1000 * 2.2) * 1.6);
+    ctx.beginPath();
+    ctx.arc(lpX, lpY, lpR + 6, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(247,147,26,0.15)';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(lpX, lpY, lpR, 0, Math.PI * 2);
+    ctx.fillStyle = ACCENT;
+    ctx.fill();
+
+    // Last value label
     ctx.fillStyle = ACCENT;
     ctx.font = 'bold 11px -apple-system, sans-serif';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'bottom';
-    ctx.fillText(last.eh.toFixed(1) + ' EH/s', px(points.length - 1) + 6, py(last.eh) - 2);
+    ctx.fillText(last.eh.toFixed(1) + ' EH/s', lpX + 6, lpY - 2);
 
     // X time labels
     ctx.fillStyle = MUTED;

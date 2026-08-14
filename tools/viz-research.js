@@ -144,10 +144,13 @@ var VIZ_Research = (() => {
   }
 
   function getRegimes() {
+    // Missing economy fee must NOT read as "Very Low" (0 sat/vB). Points with
+    // null economy are skipped entirely — the timeline renders only real values.
     if (data.length === 0) return [];
     var regimes = [];
     for (var i = 0; i < data.length; i++) {
-      var fee = data[i].economy || 0;
+      if (data[i].economy == null) continue;
+      var fee = data[i].economy;
       var regime = fee < 3 ? 'very_low' : fee < 5 ? 'low' : fee < 10 ? 'moderate' : fee < 20 ? 'high' : 'very_high';
       regimes.push(regime);
     }
@@ -166,7 +169,15 @@ var VIZ_Research = (() => {
     if (pw < 60 || ph < 40 || data.length < 2) return;
 
     var merged = getRegimes();
-    if (merged.length === 0) return;
+    // Honest empty state: every captured point is missing a real fee rate.
+    if (merged.length === 0) {
+      ctx.fillStyle = 'rgba(255,255,255,0.45)';
+      ctx.font = (isMobile() ? '12px' : '13px') + ' -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🟡 Fee-rate data pending — the regime timeline renders from real captures only', w / 2, py + ph / 2);
+      return;
+    }
 
     ctx.fillStyle = '#231F19';
     ctx.strokeStyle = '#3A3228';
@@ -209,18 +220,52 @@ var VIZ_Research = (() => {
       ctx.fillText(timeLabels[i], bandLeft + (i / (timeLabels.length - 1)) * bandW, bandY + bandH + 8);
     }
 
-    ctx.beginPath();
-    ctx.strokeStyle = 'rgba(234,220,200,0.5)';
-    ctx.lineWidth = 2;
+    // Value axis (right): real sat/vB ticks up to the plotted max
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.font = '9px -apple-system, sans-serif';
     var maxFee = 50;
+    [0, 10, 20, 30, 40, 50].forEach(function(v) {
+      var yy = bandY + bandH - Math.min(1, v / maxFee) * bandH * 0.85;
+      ctx.fillStyle = v === 20 ? 'rgba(212,118,42,0.8)' : 'rgba(255,255,255,0.35)';
+      ctx.fillText(v + ' s/vB', bandRight + 6, yy);
+    });
+
+    // REAL fee line (null economy points skipped — never drawn as 0)
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(234,220,200,0.6)';
+    ctx.lineWidth = 2;
+    var started = false;
     for (var i = 0; i < data.length; i++) {
-      var fee = data[i].economy || 0;
+      if (data[i].economy == null) continue;
+      var fee = data[i].economy;
       var lx = bandLeft + (i / totalData) * bandW;
       var ly = bandY + bandH - Math.min(1, fee / maxFee) * bandH * 0.85;
-      if (i === 0) ctx.moveTo(lx, ly);
+      if (!started) { ctx.moveTo(lx, ly); started = true; }
       else ctx.lineTo(lx, ly);
     }
     ctx.stroke();
+
+    // NOW callout — current (latest) real fee with pulsing marker
+    var curFee = data[data.length - 1].economy;
+    if (typeof curFee === 'number' && curFee >= 0) {
+      var nx = bandLeft + ((data.length - 1) / totalData) * bandW;
+      var ny = bandY + bandH - Math.min(1, curFee / maxFee) * bandH * 0.85;
+      var nPulse = 3 + (REDUCED_MOTION ? 0 : Math.sin(animTime * 2.5) * 1.6);
+      ctx.beginPath();
+      ctx.arc(nx, ny, nPulse + 5, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(212,118,42,0.15)';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(nx, ny, nPulse, 0, Math.PI * 2);
+      ctx.fillStyle = '#D4762A';
+      ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,0.75)';
+      ctx.font = 'bold 10px -apple-system, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'bottom';
+      ctx.fillText('now ' + curFee.toFixed(1) + ' s/vB', nx + 8, ny - 4);
+    }
   }
 
   function drawStatCards(px, py, pw) {

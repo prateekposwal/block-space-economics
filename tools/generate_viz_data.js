@@ -170,7 +170,10 @@ function buildFeeHistoryBlocks() {
         h: b.avgHeight,
         t: b.timestamp,
         avgFees: typeof b.avgFees === 'number' ? b.avgFees : null,
-        usd: typeof b.USD === 'number' ? b.USD : null
+        usd: typeof b.USD === 'number' ? b.USD : null,
+        // REAL sat/vB: avgFees (sats/block) / 4M vbytes per block — the genuine
+        // unit conversion, same constant the client fee heatmap uses.
+        feeRate: (typeof b.avgFees === 'number' && b.avgFees > 0) ? Math.round(b.avgFees / 4000000 * 1000) / 1000 : null
       };
     });
   });
@@ -347,6 +350,45 @@ function buildAdoption() {
   };
 }
 
+/* ── 7. Lightning network history (nodes/channels/capacity) ─────────────── */
+var BLOCK_VBYTES = 4000000; // consensus vbytes per block — used for REAL fee-rate conversion
+
+function buildLightningHistory() {
+  var records = readSpool('lightning');
+  var byId = {};
+  records.forEach(function (rec) {
+    var data = okData(rec) ? rec.payload.data : null;
+    var latest = data && (data.latest || data);
+    if (!latest || typeof latest.node_count !== 'number') return;
+    var lid = latest.id != null ? latest.id : (latest.added || rec.enqueuedAt);
+    // First successful capture of each dataset id wins (dedup across rounds).
+    if (!byId[lid]) {
+      byId[lid] = {
+        date: latest.added || (rec.enqueuedAt || '').slice(0, 10),
+        capturedAt: rec.enqueuedAt || rec.captureTime || null,
+        nodes: latest.node_count,
+        channels: latest.channel_count,
+        capacity_btc: Math.round((latest.total_capacity || 0) / 1e8 * 100) / 100,
+        tor_nodes: latest.tor_nodes || 0,
+        clearnet_nodes: latest.clearnet_nodes || 0,
+        unannounced_nodes: latest.unannounced_nodes || 0
+      };
+    }
+  });
+  var points = Object.keys(byId).map(function (k) { return byId[k]; })
+    .sort(function (a, b) { return (a.date < b.date ? -1 : 1); })
+    .slice(-120);
+  return {
+    schema_version: 1,
+    generated_at: latestTs(records),
+    source: 'spool lightning (statistics/latest per dataset id)',
+    unit: 'nodes / channels / capacity BTC',
+    note: 'Daily Lightning Network statistics from mempool.space captures, deduped by dataset id. One point per distinct added-date dataset.',
+    points: points,
+    latest: points.length ? points[points.length - 1] : null
+  };
+}
+
 function run() {
   var results = [];
   results.push(['block_interval.json', buildBlockInterval()]);
@@ -355,6 +397,7 @@ function run() {
   results.push(['fee_history_blocks.json', buildFeeHistoryBlocks()]);
   results.push(['bip110_daily.json', buildBip110Daily()]);
   results.push(['adoption.json', buildAdoption()]);
+  results.push(['lightning_history.json', buildLightningHistory()]);
   results.forEach(function (r) {
     var changed = writeOnChange(r[0], r[1]);
     if (require.main === module) console.log((changed ? 'wrote ' : 'unchanged ') + r[0]);
@@ -363,4 +406,4 @@ function run() {
 }
 
 if (require.main === module) { run(); }
-module.exports = { run: run, writeOnChange: writeOnChange, buildBip110Daily: buildBip110Daily, buildAdoption: buildAdoption };
+module.exports = { run: run, writeOnChange: writeOnChange, buildBip110Daily: buildBip110Daily, buildAdoption: buildAdoption, buildLightningHistory: buildLightningHistory };

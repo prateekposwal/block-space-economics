@@ -151,6 +151,25 @@ var VIZ_BlockInterval = (function () {
       ctx.fillText(timeLabel(points[li].t), px(li), yBase + 6);
     });
 
+    // Live point on the latest real capture
+    var lp = points[points.length - 1];
+    var lpX = px(points.length - 1);
+    var lpY = py(lp.avg);
+    var lpR = 3 + (REDUCED_MOTION ? 0 : Math.sin(Date.now() / 1000 * 2.2) * 1.6);
+    ctx.beginPath();
+    ctx.arc(lpX, lpY, lpR + 6, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(247,147,26,0.15)';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(lpX, lpY, lpR, 0, Math.PI * 2);
+    ctx.fillStyle = ACCENT;
+    ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.font = '9px -apple-system, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText(Math.round(lp.avg) + 's avg', lpX + 6, lpY - 2);
+
     // Legend
     ctx.fillStyle = TEXT;
     ctx.font = '10px -apple-system, sans-serif';

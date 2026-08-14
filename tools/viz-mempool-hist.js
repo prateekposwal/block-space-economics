@@ -126,6 +126,20 @@ var VIZ_MempoolHist = (function () {
     for (var bi = 1; bi < bins.length; bi++) { if (bins[bi].vsize > bins[peakIdx].vsize) peakIdx = bi; }
     var midRate = bins[Math.floor(bins.length / 2)].rate;
     ctx.fillText('peak ' + fmtVsize(maxVsize) + ' vbytes at ' + (bins[peakIdx].rate < midRate ? 'low' : 'high') + ' fee rates', w - padR, padT - 18);
+
+    // "Current moment" sweep — a real-data-driven scan line across the fee axis
+    if (!REDUCED_MOTION) {
+      var tt = (Date.now() / 1000) % 6 / 6; // 6s loop
+      var sx = padL + tt * plotW;
+      var sweepGrad = ctx.createLinearGradient(sx - 26, 0, sx + 26, 0);
+      sweepGrad.addColorStop(0, 'rgba(247,147,26,0)');
+      sweepGrad.addColorStop(0.5, 'rgba(247,147,26,0.28)');
+      sweepGrad.addColorStop(1, 'rgba(247,147,26,0)');
+      ctx.fillStyle = sweepGrad;
+      ctx.fillRect(sx - 26, padT, 52, plotH);
+      ctx.fillStyle = 'rgba(247,147,26,0.65)';
+      ctx.fillRect(sx - 0.5, padT, 1, plotH);
+    }
   }
 
   function drawPending(msg) {

@@ -3,6 +3,8 @@ var VIZ_Node = (function() {
   var canvas, ctx, w = 0, h = 0;
   var animFrame = null;
 
+  // Model inputs (user-adjustable — always labeled "model", never presented as
+  // measured network data).
   var values = {
     hardware: 500,
     bandwidth: 50,
@@ -20,9 +22,14 @@ var VIZ_Node = (function() {
   var animDuration = 300;
   var prevCosts = { hardware: 0, bandwidth: 0, electricity: 0, storage: 0, total: 0 };
 
-  function isMobile() {
-    return w < 480;
-  }
+  // REAL data (seed 0 — rendered '--' until real values arrive)
+  var btcPrice = 0;
+  var displayPrice = 0;
+  var blockHeight = 0;
+  var lastBlockTxs = 0;
+  var census = null;      // data/node_census.json (real local-node census)
+
+  function isMobile() { return w < 480; }
 
   function init(canvasId) {
     canvas = document.getElementById(canvasId);
@@ -30,18 +37,31 @@ var VIZ_Node = (function() {
     ctx = canvas.getContext('2d');
 
     if (typeof DATA_ENGINE !== 'undefined') {
-      var initPrice = DATA_ENGINE.get().btc_price;
+      var de = DATA_ENGINE;
+      var initPrice = de.get().btc_price;
       if (initPrice && initPrice > 0) {
         values.hardware = Math.round(Math.min(2000, Math.max(200, initPrice * 0.025)));
       }
-      DATA_ENGINE.onUpdate(function(state) {
+      var d0 = de.get();
+      if (d0.btc_price) btcPrice = d0.btc_price;
+      if (d0.block_height) blockHeight = d0.block_height;
+      if (d0.blocks && d0.blocks.length > 0) lastBlockTxs = d0.blocks[0].tx_count || 0;
+      de.onUpdate(function(state) {
         var newPrice = state.btc_price;
         if (newPrice && newPrice > 0) {
+          btcPrice = newPrice;
           values.hardware = Math.round(Math.min(2000, Math.max(200, newPrice * 0.025)));
           draw();
         }
+        if (state.block_height) blockHeight = state.block_height;
+        if (state.blocks && state.blocks.length > 0) lastBlockTxs = state.blocks[0].tx_count || 0;
       });
     }
+
+    // Real node census (local Bitcoin Core addrman lower bound)
+    fetch('/data/node_census.json').then(function(r) { return r.json(); }).then(function(d) {
+      if (d && typeof d.totalKnownAddresses === 'number') census = d;
+    }).catch(function() {});
 
     createControls();
     resize();
@@ -104,6 +124,12 @@ var VIZ_Node = (function() {
       row.appendChild(valSpan);
       container.appendChild(row);
     });
+
+    // Model provenance line — the sliders are assumptions, not measurements.
+    var note = document.createElement('div');
+    note.style.cssText = 'margin-top:8px;font-size:11px;color:#6A5D4E;';
+    note.textContent = 'model — adjust the assumptions above; the stack animates to the new split';
+    container.appendChild(note);
 
     canvas.parentNode.insertBefore(container, canvas.nextSibling);
   }
@@ -168,10 +194,10 @@ var VIZ_Node = (function() {
     if (!ctx) return;
     animT += 0.025;
     updateAnimation();
+    displayPrice += (btcPrice - displayPrice) * 0.05;
 
     var c = currentCosts;
     var mobile = isMobile();
-    var pulse = Math.sin(animT * 1.5) * 0.04 + 0.96;
 
     ctx.clearRect(0, 0, w, h);
     ctx.fillStyle = '#1A1612';
@@ -179,62 +205,111 @@ var VIZ_Node = (function() {
 
     ctx.textAlign = 'left';
     ctx.textBaseline = 'top';
-    ctx.font = '18px -apple-system, sans-serif';
     ctx.fillStyle = '#EADCC8';
-    ctx.fillText('⬡ Your Node\'s Impact', 30, 14);
-
-    ctx.font = '12px -apple-system, sans-serif';
+    ctx.font = (mobile ? '15px' : '18px') + ' -apple-system, sans-serif';
+    ctx.fillText('⬡ Your Node\'s Impact', 24, 14);
     ctx.fillStyle = '#6A5D4E';
-    ctx.fillText('What running a full Bitcoin node accomplishes', 30, 40);
+    ctx.font = (mobile ? '10px' : '12px') + ' -apple-system, sans-serif';
+    ctx.fillText('Real network metrics · cost stack below is a labeled model', 24, 38);
 
-    var cardW = mobile ? w - 80 : Math.min(200, (w - 80) / 3);
-    var cardGap = mobile ? 16 : (w - 80 - cardW * 3) / 2;
-    var cardsStartY = 90;
-
-    var cardData = [
-      { value: '$924', label: 'Annual Cost', sub: 'hardware + bandwidth + power' },
-      { value: '4,426', label: 'Tx/Block', sub: 'avg transactions verified' },
-      { value: '960K', label: 'Blocks', sub: 'processed since genesis' }
+    // ── Real metric chips (REAL values, '--' until they arrive) ──
+    var chips = [
+      { label: 'BTC Price', value: displayPrice > 0 ? '$' + Math.round(displayPrice).toLocaleString() : '--', color: displayPrice > 0 ? '#D4933A' : '#6A5D4E' },
+      { label: 'Chain Height', value: blockHeight > 0 ? blockHeight.toLocaleString() : '--', color: blockHeight > 0 ? '#58A6FF' : '#6A5D4E' },
+      { label: 'Last Block Txs', value: lastBlockTxs > 0 ? lastBlockTxs.toLocaleString() : '--', color: lastBlockTxs > 0 ? '#3FB950' : '#6A5D4E' }
     ];
-
-    for (var i = 0; i < 3; i++) {
-      var cx = mobile ? 40 : 40 + i * (cardW + cardGap);
-      var cy = mobile ? cardsStartY + i * 90 : cardsStartY;
-      var glow = Math.sin(animT * 1.2 + i * 2.1) * 3 + 4;
-
+    var chipW = mobile ? (w - 48) / 3 : 150;
+    var chipGap = mobile ? 6 : (w - 48 - chipW * 3) / 2;
+    for (var ci = 0; ci < 3; ci++) {
+      var ccx = 24 + ci * (chipW + chipGap);
       ctx.fillStyle = '#231F19';
       ctx.strokeStyle = '#3A3228';
       ctx.lineWidth = 1;
-      if (i === 2) { ctx.shadowColor = 'rgba(212,147,58,0.08)'; ctx.shadowBlur = glow; }
-      roundRect(ctx, cx, cy, cardW, 80, 10);
+      roundRect(ctx, ccx, 62, chipW, mobile ? 46 : 56, 8);
       ctx.fill();
       ctx.stroke();
-      ctx.shadowBlur = 0;
-
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.font = 'bold 28px -apple-system, sans-serif';
-      ctx.fillStyle = '#EADCC8';
-      ctx.fillText(cardData[i].value, cx + cardW / 2, cy + 30);
-
-      ctx.font = '11px -apple-system, sans-serif';
+      ctx.fillStyle = chips[ci].color;
+      ctx.font = (mobile ? 'bold 12px' : 'bold 15px') + ' -apple-system, sans-serif';
+      ctx.fillText(chips[ci].value, ccx + chipW / 2, mobile ? 76 : 82);
       ctx.fillStyle = '#6A5D4E';
-      ctx.fillText(cardData[i].label, cx + cardW / 2, cy + 58);
-
-      ctx.font = '9px -apple-system, sans-serif';
-      ctx.fillStyle = '#6A5D4E';
-      ctx.fillText(cardData[i].sub, cx + cardW / 2, cy + 72);
+      ctx.font = (mobile ? '7px' : '9px') + ' -apple-system, sans-serif';
+      ctx.fillText(chips[ci].label, ccx + chipW / 2, mobile ? 96 : 106);
     }
 
-    var barY = mobile ? cardsStartY + 3 * 90 + 16 : 200;
-    var barH = 36;
-    var barPad = 40;
+    // ── Node census radial (REAL local-node census) + propagation waves ──
+    var censusCX = mobile ? w / 2 : w * 0.30;
+    var censusCY = mobile ? 210 : 210;
+    var censusR = mobile ? 62 : 74;
+
+    // Propagation waves — count = real liveConnections, decorative motion
+    if (census && typeof census.liveConnections === 'number') {
+      var conns = census.liveConnections;
+      for (var wi = 0; wi < 3; wi++) {
+        var phase = ((animT * 0.5 + wi / 3) % 1);
+        var rr = censusR + phase * 46;
+        ctx.beginPath();
+        ctx.arc(censusCX, censusCY, rr, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(247,147,26,' + (0.28 * (1 - phase)) + ')';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+    }
+
+    var pulse = REDUCED_MOTION ? 1 : Math.sin(animT * 1.6) * 0.03 + 1;
+    ctx.fillStyle = '#231F19';
+    ctx.strokeStyle = '#3A3228';
+    roundRect(ctx, censusCX - censusR - 14, censusCY - censusR - 14, censusR * 2 + 28, censusR * 2 + 40, 12);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(censusCX, censusCY, censusR * pulse, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(247,147,26,0.10)';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(censusCX, censusCY, censusR * 0.72, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(247,147,26,0.08)';
+    ctx.fill();
+
+    var censusVal = census ? census.totalKnownAddresses : 0;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = censusVal > 0 ? '#D4933A' : '#6A5D4E';
+    ctx.font = (mobile ? 'bold 16px' : 'bold 20px') + ' -apple-system, sans-serif';
+    ctx.fillText(censusVal > 0 ? censusVal.toLocaleString() : '--', censusCX, censusCY - 6);
+    ctx.fillStyle = '#6A5D4E';
+    ctx.font = (mobile ? '8px' : '10px') + ' -apple-system, sans-serif';
+    ctx.fillText('known addresses', censusCX, censusCY + 16);
+    ctx.fillStyle = 'rgba(255,255,255,0.30)';
+    ctx.font = (mobile ? '7px' : '9px') + ' -apple-system, sans-serif';
+    ctx.fillText(census ? (census.lower_bound ? 'lower bound · local node' : 'local node') : 'data/node_census.json', censusCX, censusCY + 30);
+
+    // Real live-connections line
+    if (census && typeof census.liveConnections === 'number') {
+      ctx.fillStyle = 'rgba(255,255,255,0.45)';
+      ctx.font = (mobile ? '8px' : '10px') + ' -apple-system, sans-serif';
+      ctx.fillText('node: ' + census.liveConnections + ' live connections (' + (census.outbound || 0) + ' out)', censusCX, censusCY + censusR + 20);
+    }
+
+    // ── Model cost stack (animated on slider move) ──
+    var barY = mobile ? 330 : 330;
+    var barH = 40;
+    var barPad = mobile ? 24 : 48;
     var barW = w - barPad * 2;
+    if (barW < 40) barW = 40;
+
+    ctx.fillStyle = '#EADCC8';
+    ctx.font = (mobile ? '12px' : '14px') + ' -apple-system, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
+    ctx.fillText('Annual cost breakdown — model estimate', barPad, barY - 24);
 
     var segs = [
       { key: 'hardware', label: 'Hardware', color: '#D4933A', cost: c.hardware },
       { key: 'bandwidth', label: 'Bandwidth', color: '#58A6FF', cost: c.bandwidth },
-      { key: 'electricity', label: 'Electricity', color: '#3BA35D', cost: c.electricity },
+      { key: 'electricity', label: 'Electricity', color: '#3FB950', cost: c.electricity },
       { key: 'storage', label: 'Storage', color: '#BC8CFF', cost: c.storage }
     ];
 
@@ -248,7 +323,7 @@ var VIZ_Node = (function() {
       ctx.fillStyle = seg.color;
       ctx.fillRect(x, barY, segW, barH);
 
-      if (segW > 80) {
+      if (segW > 84) {
         ctx.fillStyle = '#1A1612';
         ctx.font = 'bold 11px -apple-system, sans-serif';
         ctx.textAlign = 'center';
@@ -264,22 +339,31 @@ var VIZ_Node = (function() {
       x += segW;
     });
 
-    var textY = mobile ? barY + barH + 36 : 280;
+    // Total callout
+    ctx.fillStyle = '#EADCC8';
+    ctx.font = (mobile ? 'bold 13px' : 'bold 15px') + ' -apple-system, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('≈ $' + Math.round(c.total) + '/yr total', barPad + barW, barY + barH + 16);
+
+    // ── Model footer (honest labeling) ──
+    var footY = mobile ? 420 : 440;
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    ctx.font = (mobile ? '9px' : '11px') + ' -apple-system, sans-serif';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'top';
-    ctx.font = (mobile ? '11px' : '13px') + ' -apple-system, sans-serif';
-    ctx.fillStyle = '#9B8B78';
-    var lines = [
-      'Your node has verified 960,142 blocks and relayed',
-      '1.4 billion transactions. Running a full node',
-      'strengthens the network\'s security and decentralization.'
-    ];
-    for (var li = 0; li < lines.length; li++) {
-      ctx.fillText(lines[li], 40, textY + li * 20);
-    }
+    var modelNote = 'model — hardware depreciates over ' + DEPRECIATION_YEARS + ' yrs · hardware defaults scale with the real BTC price · storage fixed $' + STORAGE_FIXED + '/yr';
+    ctx.fillText(modelNote, barPad, footY);
+
+    // Vignette
+    var grad = ctx.createRadialGradient(w / 2, h / 2, h * 0.1, w / 2, h / 2, h * 0.7);
+    grad.addColorStop(0, 'rgba(0,0,0,0)');
+    grad.addColorStop(1, 'rgba(0,0,0,0.22)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
   }
 
-  function loop() { try { draw(); } catch (e) {}
+  function loop() { try { draw(); } catch (e) { if (window.console) console.error('VIZ_Node draw:', e); }
     if (!REDUCED_MOTION) requestAnimationFrame(loop);
   }
 
@@ -292,7 +376,7 @@ var VIZ_Node = (function() {
   }
 
   function resize() {
-    var r = VIZ.responsiveSize(canvas, 600);
+    var r = VIZ.responsiveSize(canvas, 620);
     w = r.w;
     h = r.h;
     ctx = r.ctx;

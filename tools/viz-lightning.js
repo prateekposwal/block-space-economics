@@ -1,14 +1,20 @@
 var REDUCED_MOTION = (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-// Lightning Network interactive node graph
+// Lightning Network — honest aggregate visualization.
+// Real data only: node/channel/capacity stats + the real Tor/Clearnet/Unannounced
+// split from mempool.space captures, plus a real "nodes over time" line from the
+// spool mirror (data/lightning_history.json). Graph topology is NOT captured, so
+// no fake node graph is drawn — the radial ring is sized by real bucket shares.
 var VIZ_Lightning = (function() {
-  var canvas, ctx, w = 800, h = 400;
-  var nodes = [];
-  var links = [];
-  var stats = { capacity: 0, nodes: 0, channels: 0 };
-  var mouseX = -1, mouseY = -1, hoverNode = null;
-  var tooltipEl = null;
+  var canvas, ctx, w = 800, h = 480;
+  var stats = { capacity: 0, nodes: 0, channels: 0, split: [] };
+  var history = [];        // [{date, nodes, channels, capacity_btc, ...}] from mirror
+  var historyLoaded = false;
   var animId = null;
   var frameCount = 0;
+
+  var BUCKET_COLORS = { tor: '#3FB950', clearnet: '#D29922', unannounced: '#8B949E' };
+  var BG = '#1A1612', PANEL = '#231F19', BORDER = '#3A3228', ACCENT = '#F7931A';
+  var TEXT = 'rgba(255,255,255,0.7)', MUTED = '#6A5D4E';
 
   function isMobile() { return w < 480; }
 
@@ -18,444 +24,340 @@ var VIZ_Lightning = (function() {
     ctx = canvas.getContext('2d');
     resize();
 
-    tooltipEl = document.createElement('div');
-    tooltipEl.style.cssText = 'position:fixed;pointer-events:none;background:rgba(0,0,0,0.88);color:#e8e3dc;padding:8px 12px;border-radius:6px;font:12px/1.4 -apple-system,sans-serif;border:1px solid rgba(255,255,255,0.08);z-index:9999;display:none;max-width:260px;';
-    document.body.appendChild(tooltipEl);
-
-    canvas.addEventListener('mousemove', function(e) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-    canvas.addEventListener('mouseleave', function() {
-      mouseX = -1;
-      mouseY = -1;
-      hoverNode = null;
-      tooltipEl.style.display = 'none';
-    });
-
-    canvas.addEventListener('touchstart', function(e) {
-      e.preventDefault();
-      var t = e.touches[0];
-      mouseX = t.clientX;
-      mouseY = t.clientY;
-    }, { passive: false });
-    canvas.addEventListener('touchmove', function(e) {
-      e.preventDefault();
-      var t = e.touches[0];
-      mouseX = t.clientX;
-      mouseY = t.clientY;
-    }, { passive: false });
-    canvas.addEventListener('touchend', function() {
-      setTimeout(function() {
-        mouseX = -1;
-        mouseY = -1;
-        hoverNode = null;
-        tooltipEl.style.display = 'none';
-      }, 2000);
-    });
-
-    window.addEventListener('resize', resize);
-
-    buildNodes();
-
+    // Real aggregate stats from the engine (tor/clearnet/unannounced now flow
+    // through DATA_ENGINE normalize — the old buildNodes() saw only zeros and
+    // rendered a blank canvas).
     if (typeof DATA_ENGINE !== 'undefined') {
-      DATA_ENGINE.onUpdate(function() {
-        var d = DATA_ENGINE.get().lightning || {};
-        stats.capacity = d.total_capacity || 0;
-        stats.nodes = d.node_count || 0;
-        stats.channels = d.channel_count || 0;
-        if (stats.nodes > 0) reconcileNodeCount(stats.nodes);
-      });
+      var de = DATA_ENGINE;
+      readEngine(de.get());
+      de.onUpdate(function() { readEngine(de.get()); });
     }
 
+    // Real nodes-over-time series from the committed spool mirror.
+    fetch('/data/lightning_history.json').then(function(r) { return r.json(); }).then(function(d) {
+      history = (d && Array.isArray(d.points)) ? d.points.filter(function(p) {
+        return p && typeof p.nodes === 'number' && typeof p.date === 'string';
+      }) : [];
+      historyLoaded = true;
+    }).catch(function() { historyLoaded = true; });
+
+    window.addEventListener('resize', resize);
     loop();
+  }
+
+  function readEngine(d) {
+    var ln = (d && d.lightning) || {};
+    stats.capacity = ln.total_capacity || 0;
+    stats.nodes = ln.node_count || 0;
+    stats.channels = ln.channel_count || 0;
+    var tor = ln.tor_nodes || 0, cl = ln.clearnet_nodes || 0, un = ln.unannounced_nodes || 0;
+    var total = tor + cl + un;
+    // Fall back to the node count when the split fields are missing (honest:
+    // never invent a split — the ring renders only from captured shares).
+    if (total > 0) {
+      stats.split = [
+        { label: 'Tor', key: 'tor', value: tor, color: BUCKET_COLORS.tor },
+        { label: 'Clearnet', key: 'clearnet', value: cl, color: BUCKET_COLORS.clearnet },
+        { label: 'Unannounced', key: 'unannounced', value: un, color: BUCKET_COLORS.unannounced }
+      ];
+    } else {
+      stats.split = [];
+    }
+    if (stats.nodes === 0 && (d && d.lightning)) {
+      // Engine reports zero nodes — still no captured data to render.
+      stats.nodes = 0;
+    }
   }
 
   function resize() {
     // Width from the parent (responsive); height from a fixed design value per
-    // viewport. NEVER derive height from the parent's rect: the parent's height
-    // is driven by this canvas's own style.height, so that approach inflates
-    // the canvas on every resize (runaway growth).
+    // viewport. NEVER derive height from the parent's rect (runaway growth).
     var parent = canvas.parentElement;
     var pw = parent ? parent.clientWidth : 0;
     if (!pw || pw < 100) pw = window.innerWidth || 800;
-    w = canvas.width = Math.min(pw, 1600);
-    h = canvas.height = isMobile() ? 340 : 480;
+    var dpr = Math.min(window.devicePixelRatio || 1, 3);
+    w = Math.min(pw, 1600);
+    h = isMobile() ? 520 : 480;
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
     canvas.style.width = w + 'px';
     canvas.style.height = h + 'px';
+    ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  function buildNodes() {
-    var d = {};
-    if (typeof DATA_ENGINE !== 'undefined') {
-      var _de = DATA_ENGINE.get ? DATA_ENGINE.get() : null;
-      d = (_de && _de.lightning) || {};
-    }
-    stats.capacity = d.total_capacity || 0;
-    stats.nodes = d.node_count || 0;
-    stats.channels = d.channel_count || 0;
-
-    // HONEST RENDER: we do NOT have per-node/per-channel graph topology captured,
-    // so we never fabricate nodes. The canvas shows real aggregate stats + a clear
-    // "network graph not captured" state (integrity rule: no fabricated "live" data).
-    nodes = [];
-    links = [];
-    // Pull a small real-sample representation only from captured fields we actually
-    // hold (tor/clearnet/unannounced split) so the visual is grounded, not random.
-    var split = d.breakdown || {};
-    var buckets = [
-      { label: 'Tor', value: d.tor_nodes || 0, color: '#3FB950' },
-      { label: 'Clearnet', value: d.clearnet_nodes || 0, color: '#D29922' },
-      { label: 'Unannounced', value: d.unannounced_nodes || 0, color: '#8B949E' }
-    ];
-    var haveSplit = buckets.some(function(b) { return b.value > 0; });
-    var total = buckets.reduce(function(a, b) { return a + (b.value || 0); }, 0) || stats.nodes;
-    if (haveSplit && total > 0) {
-      // One representative dot per 100 real nodes, sized by real bucket share.
-      var scale = Math.min(60, Math.max(8, Math.round(total / 250)));
-      buckets.forEach(function(b) {
-        var n = Math.max(0, Math.round((b.value / total) * scale));
-        for (var i = 0; i < n; i++) {
-          nodes.push({
-            id: nodes.length,
-            label: b.label,
-            pubkey: '',
-            alias: b.label + ' node (real data)',
-            channels: b.value > 0 ? Math.max(1, Math.round(b.value / (n || 1) / 10)) : 0,
-            capacity: stats.capacity / (total || 1),
-            // avgFeeRate intentionally NOT set: real per-node fee rates are not
-            // captured, and a hardcoded constant would be fabricated data. The
-            // field is never read by any render path (grep avgFeeRate).
-            x: Math.random() * (w || 800),
-            y: Math.random() * (h || 400),
-            vx: (Math.random() - 0.5) * 0.3,
-            vy: (Math.random() - 0.5) * 0.3,
-            bucketColor: b.color
-          });
-        }
-      });
-    }
-    stats.nodes = total || stats.nodes;
-    stats.split = buckets;
-    stats.fabricated = false;
-    return stats;
-  }
-
-  function reconcileNodeCount(targetCount) {
-    // No-op: we never fabricate nodes. Called by DATA_ENGINE updates to refresh
-    // aggregate stats from real data only.
-    var _de2 = (typeof DATA_ENGINE !== 'undefined' && DATA_ENGINE.get) ? DATA_ENGINE.get() : null;
-    var d = (_de2 && _de2.lightning) || {};
-    stats.capacity = d.total_capacity || stats.capacity;
-    stats.nodes = d.node_count || stats.nodes;
-    stats.channels = d.channel_count || stats.channels;
-    if (d.tor_nodes || d.clearnet_nodes || d.unannounced_nodes) {
-      stats.split = [
-        { label: 'Tor', value: d.tor_nodes || 0, color: '#3FB950' },
-        { label: 'Clearnet', value: d.clearnet_nodes || 0, color: '#D29922' },
-        { label: 'Unannounced', value: d.unannounced_nodes || 0, color: '#8B949E' }
-      ];
-    }
-  }
-
-  function feeColor(fee) {
-    var p = Math.min(1, fee / 50);
-    if (p < 0.5) {
-      var t = p / 0.5;
-      return { r: Math.round(63 + (210 - 63) * t), g: Math.round(185 + (170 - 185) * t), b: Math.round(80 + (80 - 80) * t) };
-    } else {
-      var t = (p - 0.5) / 0.5;
-      return { r: Math.round(210 + (248 - 210) * t), g: Math.round(170 + (81 - 170) * t), b: Math.round(80 + (73 - 80) * t) };
-    }
+  function timeLabel(dateStr) {
+    var d = new Date(dateStr);
+    if (isNaN(d.getTime())) return '';
+    return String(d.getUTCMonth() + 1).padStart(2, '0') + '/' + String(d.getUTCDate()).padStart(2, '0');
   }
 
   function loop() { try {
     var t = Date.now() / 1000;
-    var repulsion = isMobile() ? 20000 : 40000;
-    var attraction = 0.001;
-    var damping = 0.98;
-    var maxSpeed = 1.5;
-    var skipPhysics = isMobile() && (frameCount % 2 === 0);
+    var mob = isMobile();
 
-    for (var i = 0; i < nodes.length; i++) {
-      var a = nodes[i];
-      var fx = 0, fy = 0;
-
-      // Repulsion between all pairs
-      if (!skipPhysics) {
-        for (var j = 0; j < nodes.length; j++) {
-          if (i === j) continue;
-          var b = nodes[j];
-          var dx = a.x - b.x;
-          var dy = a.y - b.y;
-          var dist = Math.sqrt(dx * dx + dy * dy) + 1;
-          fx += (dx / dist) * repulsion / (dist * dist);
-          fy += (dy / dist) * repulsion / (dist * dist);
-        }
-      }
-
-      // Attraction along links
-      for (var k = 0; k < links.length; k++) {
-        if (links[k].source === i) {
-          var target = nodes[links[k].target];
-          if (!target) continue;
-          dx = target.x - a.x;
-          dy = target.y - a.y;
-          dist = Math.sqrt(dx * dx + dy * dy) || 1;
-          fx += dx * attraction;
-          fy += dy * attraction;
-        } else if (links[k].target === i) {
-          target = nodes[links[k].source];
-          if (!target) continue;
-          dx = target.x - a.x;
-          dy = target.y - a.y;
-          dist = Math.sqrt(dx * dx + dy * dy) || 1;
-          fx += dx * attraction;
-          fy += dy * attraction;
-        }
-      }
-
-      // Orbital drift — slow rotation around center
-      var cx = w / 2, cy = h / 2;
-      var dxc = a.x - cx, dyc = a.y - cy;
-      var distc = Math.sqrt(dxc * dxc + dyc * dyc) || 1;
-      var orbitStrength = 0.02;
-      fx += -dyc / distc * orbitStrength * distc * 0.01;
-      fy += dxc / distc * orbitStrength * distc * 0.01;
-
-      // Weak centering force
-      fx += (cx - a.x) * 0.0005;
-      fy += (cy - a.y) * 0.0005;
-
-      a.vx = (a.vx + fx) * damping;
-      a.vy = (a.vy + fy) * damping;
-
-      var speed = Math.sqrt(a.vx * a.vx + a.vy * a.vy);
-      if (speed > maxSpeed) {
-        a.vx = (a.vx / speed) * maxSpeed;
-        a.vy = (a.vy / speed) * maxSpeed;
-      }
-
-      a.x += a.vx;
-      a.y += a.vy;
-
-      // Contain within bounds
-      var margin = 60;
-      if (a.x < margin) a.x = margin;
-      if (a.x > w - margin) a.x = w - margin;
-      if (a.y < margin) a.y = margin;
-      if (a.y > h - margin) a.y = h - margin;
-    }
-
-    // Draw
-    ctx.fillStyle = '#1A1612';
+    ctx.fillStyle = BG;
     ctx.fillRect(0, 0, w, h);
 
-    // Subtle radial gradient
-    var grad = ctx.createRadialGradient(w/2, h/2, 0, w/2, h/2, Math.max(w, h) * 0.6);
-    grad.addColorStop(0, 'rgba(255,200,150,0.04)');
-    grad.addColorStop(0.5, 'rgba(255,180,100,0.02)');
+    // Radial glow backdrop
+    var cx = mob ? w / 2 : w * 0.28;
+    var cy = mob ? h * 0.30 : h * 0.50;
+    var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, mob ? w * 0.55 : h * 0.65);
+    grad.addColorStop(0, 'rgba(247,147,26,0.05)');
     grad.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, w, h);
 
-    // Draw links
-    var maxChan = 1;
-    for (var i = 0; i < nodes.length; i++) {
-      if (nodes[i].channels > maxChan) maxChan = nodes[i].channels;
-    }
+    // Title
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
+    ctx.fillStyle = '#EADCC8';
+    ctx.font = (mob ? '15px' : '18px') + ' -apple-system, "SF Pro Display", sans-serif';
+    ctx.fillText('Lightning Network — Real Aggregate Stats', 20, 16);
+    ctx.fillStyle = MUTED;
+    ctx.font = (mob ? '10px' : '11px') + ' -apple-system, sans-serif';
+    ctx.fillText('Topology is not captured — the ring below is sized by the real Tor / Clearnet / Unannounced node split', 20, 40);
 
-    for (var i = 0; i < links.length; i++) {
-      var src = nodes[links[i].source];
-      var tgt = nodes[links[i].target];
-      if (!src || !tgt) continue;
-
-      var cf = feeColor(links[i].feeRate);
-      var density = Math.min(1, links[i].capacity / 5000000);
-      var opacity = 0.08 + density * 0.35;
-
-      ctx.beginPath();
-      ctx.moveTo(src.x, src.y);
-      ctx.lineTo(tgt.x, tgt.y);
-      ctx.strokeStyle = 'rgba(' + cf.r + ',' + cf.g + ',' + cf.b + ',' + opacity + ')';
-      ctx.lineWidth = 1 + density * 2;
-      ctx.stroke();
-
-      // Animated pulse along channel
-      var pulsePhase = (t + i * 0.7) % 2;
-      if (pulsePhase < 1) {
-        var ppx = src.x + (tgt.x - src.x) * pulsePhase;
-        var ppy = src.y + (tgt.y - src.y) * pulsePhase;
-        ctx.beginPath();
-        ctx.arc(ppx, ppy, 2 + density * 1.5, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(' + cf.r + ',' + cf.g + ',' + cf.b + ',' + (0.3 + density * 0.4) + ')';
-        ctx.fill();
-      }
-    }
-
-    // Draw nodes
-    hoverNode = null;
-    var maxSize = isMobile() ? 14 : 20, minSize = isMobile() ? 3 : 4;
-
-    // Honest node color: bucket share (Tor/Clearnet/Unannounced) from real data.
-    function nodeColor(n) {
-      if (n.bucketColor) return n.bucketColor;
-      var c = { r: 139, g: 148, b: 158 };
-      return c;
-    }
-
-    for (var i = 0; i < nodes.length; i++) {
-      var n = nodes[i];
-      var size = minSize + (n.channels / maxChan) * (maxSize - minSize);
-      var cf = { r: 139, g: 148, b: 158 };
-      var bc = nodeColor(n);
-      cf.r = bc.r; cf.g = bc.g; cf.b = bc.b;
-      var baseOpacity = 0.7;
-
-      // Check hover
-      if (mouseX >= 0 && mouseY >= 0) {
-        var rect = canvas.getBoundingClientRect();
-        var scaleX = w / rect.width;
-        var scaleY = h / rect.height;
-        var cx = (mouseX - rect.left) * scaleX;
-        var cy = (mouseY - rect.top) * scaleY;
-        var d = Math.sqrt((n.x - cx) * (n.x - cx) + (n.y - cy) * (n.y - cy));
-        if (d < size + 6) {
-          hoverNode = n;
-          baseOpacity = 1;
-        }
-      }
-
-      // Glow
-      var glowSize = size * (1 + Math.sin(t * 1.5 + i) * 0.15);
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, glowSize * 1.8, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(' + cf.r + ',' + cf.g + ',' + cf.b + ',' + (0.06 + Math.sin(t * 2 + i * 0.5) * 0.03 + 0.03) + ')';
-      ctx.fill();
-
-      // Main circle
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, glowSize, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(' + cf.r + ',' + cf.g + ',' + cf.b + ',' + baseOpacity + ')';
-      ctx.fill();
-
-      // Border
-      ctx.strokeStyle = 'rgba(255,255,255,0.1' + (hoverNode === n ? '5' : '') + ')';
-      ctx.lineWidth = hoverNode === n ? 1.5 : 0.5;
-      ctx.stroke();
-    }
-
-    // Hovered node highlight ring
-    if (hoverNode) {
-      var n = hoverNode;
-      var size = minSize + (n.channels / maxChan) * (maxSize - minSize);
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, size + 5, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+    // ── Stat chips (real values, context-colored) ──
+    var chips = [
+      { label: 'Nodes', value: stats.nodes > 0 ? stats.nodes.toLocaleString() : '--', color: stats.nodes > 0 ? '#3FB950' : MUTED },
+      { label: 'Channels', value: stats.channels > 0 ? stats.channels.toLocaleString() : '--', color: stats.channels > 0 ? '#58A6FF' : MUTED },
+      { label: 'Capacity', value: stats.capacity > 0 ? (stats.capacity / 100000000).toFixed(1) + ' BTC' : '--', color: stats.capacity > 0 ? ACCENT : MUTED }
+    ];
+    var chipX = mob ? 20 : w - 380;
+    var chipY = mob ? 64 : 16;
+    var chipW = mob ? (w - 46) / 3 : 118;
+    var chipH = mob ? 44 : 64;
+    for (var ci = 0; ci < 3; ci++) {
+      var ccx = chipX + ci * (chipW + 5);
+      ctx.fillStyle = PANEL;
+      ctx.strokeStyle = BORDER;
       ctx.lineWidth = 1;
+      VIZ.roundRect(ctx, ccx, chipY, chipW, chipH, 8);
+      ctx.fill();
+      ctx.stroke();
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = chips[ci].color;
+      ctx.font = (mob ? 'bold 12px' : 'bold 16px') + ' -apple-system, sans-serif';
+      ctx.fillText(chips[ci].value, ccx + chipW / 2, chipY + (mob ? 13 : 20));
+      ctx.fillStyle = MUTED;
+      ctx.font = (mob ? '7px' : '9px') + ' -apple-system, sans-serif';
+      ctx.fillText(chips[ci].label, ccx + chipW / 2, chipY + (mob ? 31 : 44));
+    }
+
+    var ringCX = mob ? w / 2 : w * 0.28;
+    var ringCY = mob ? h * 0.48 : h * 0.52;
+    var ringR = mob ? Math.min(w * 0.32, 92) : 96;
+    var lineL = mob ? 20 : w * 0.50 + 30;
+    var lineR = w - (mob ? 20 : 24);
+    var lineT = mob ? h * 0.58 : 96;
+    var lineB = mob ? h - 40 : h - 64;
+
+    // ── Radial split ring (REAL node shares) ──
+    var hasData = stats.split.length > 0;
+    if (hasData) {
+      var totalSplit = 0;
+      stats.split.forEach(function(b) { totalSplit += b.value; });
+      var startAng = -Math.PI / 2;
+      var sweep = Math.PI * 2;
+      var rOut = ringR;
+      var rIn = ringR * 0.62;
+      var rot = REDUCED_MOTION ? 0 : Math.sin(t * 0.15) * 0.05; // gentle oscillation
+
+      // Under-ring (empty track)
+      ctx.beginPath();
+      ctx.arc(ringCX, ringCY, (rOut + rIn) / 2, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(58,50,40,0.6)';
+      ctx.lineWidth = rOut - rIn;
       ctx.stroke();
 
-      // Draw connections to hovered node
-      for (var i = 0; i < links.length; i++) {
-        if (links[i].source === n.id || links[i].target === n.id) {
-          var other = links[i].source === n.id ? nodes[links[i].target] : nodes[links[i].source];
-          if (!other) continue;
-          ctx.beginPath();
-          ctx.moveTo(n.x, n.y);
-          ctx.lineTo(other.x, other.y);
-          ctx.strokeStyle = 'rgba(255,255,255,0.15)';
-          ctx.lineWidth = 1;
-          ctx.stroke();
+      // Arcs sized by REAL bucket share
+      var ang = startAng;
+      stats.split.forEach(function(b, bi) {
+        var frac = b.value / totalSplit;
+        var a0 = ang + rot, a1 = ang + frac * sweep + rot;
+        ctx.beginPath();
+        ctx.arc(ringCX, ringCY, (rOut + rIn) / 2, a0, a1);
+        ctx.strokeStyle = b.color;
+        ctx.lineWidth = rOut - rIn;
+        ctx.globalAlpha = 0.92;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
 
-          ctx.beginPath();
-          ctx.arc(other.x, other.y, 3, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(255,255,255,0.2)';
-          ctx.fill();
+        // Arc label at the mid-angle (skip tiny slivers on mobile)
+        var mid = (a0 + a1) / 2;
+        var lr = (rOut + rIn) / 2;
+        var lx = ringCX + Math.cos(mid) * (lr + 14);
+        var ly = ringCY + Math.sin(mid) * (lr + 14);
+        var pct = Math.round(frac * 1000) / 10;
+        if (pct >= 4 || !mob) {
+          ctx.fillStyle = b.color;
+          ctx.font = (mob ? '9px' : '11px') + ' -apple-system, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(b.label + ' ' + pct + '%', lx, ly);
         }
+        ang = a1;
+      });
+
+      // Center total
+      ctx.fillStyle = '#EADCC8';
+      ctx.font = (mob ? 'bold 20px' : 'bold 30px') + ' -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(stats.nodes.toLocaleString(), ringCX, ringCY - 8);
+      ctx.fillStyle = MUTED;
+      ctx.font = (mob ? '9px' : '11px') + ' -apple-system, sans-serif';
+      ctx.fillText('total nodes', ringCX, ringCY + 18);
+
+      // Flowing particles around the ring — count per arc ∝ real bucket share
+      if (!REDUCED_MOTION) {
+        var perArc = [6, 4, 3];
+        stats.split.forEach(function(b, bi) {
+          var frac = b.value / totalSplit;
+          var a0 = startAng + (stats.split.slice(0, bi).reduce(function(s2, x) { return s2 + x.value; }, 0) / totalSplit) * sweep;
+          var a1 = a0 + frac * sweep;
+          var count = Math.max(1, Math.round(perArc[bi % perArc.length] * (frac / (1 / 3))));
+          for (var pi = 0; pi < count; pi++) {
+            var phase = ((t * 0.12 + (bi * 7 + pi * 13) * 0.11) % 1);
+            var angP = a0 + phase * (a1 - a0);
+            var rr = (rOut + rIn) / 2 + Math.sin(phase * Math.PI) * 10;
+            ctx.beginPath();
+            ctx.arc(ringCX + Math.cos(angP) * rr, ringCY + Math.sin(angP) * rr, 2 + Math.sin(phase * Math.PI) * 1.5, 0, Math.PI * 2);
+            ctx.fillStyle = b.color;
+            ctx.globalAlpha = 0.25 + phase * 0.55;
+            ctx.fill();
+            ctx.globalAlpha = 1;
+          }
+        });
+      }
+    } else {
+      // Honest empty state (no captured network data at all)
+      ctx.fillStyle = 'rgba(255,255,255,0.45)';
+      ctx.font = (mob ? '12px' : '14px') + ' -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('No network data captured yet — stats appear when the pipeline captures the next snapshot', ringCX, ringCY);
+    }
+
+    // ── Nodes over time (REAL spool history) ──
+    var titleY = mob ? h * 0.54 : 60;
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'top';
+    ctx.fillStyle = '#EADCC8';
+    ctx.font = (mob ? '12px' : '13px') + ' -apple-system, sans-serif';
+    ctx.fillText('Nodes over time', lineL, titleY);
+    ctx.fillStyle = MUTED;
+    ctx.font = '9px -apple-system, sans-serif';
+    ctx.fillText('data/lightning_history.json · real captures', lineL, titleY + (mob ? 16 : 20));
+
+    var plotT = titleY + (mob ? 30 : 34);
+    var plotH = lineB - plotT;
+    var plotW = lineR - lineL;
+
+    if (historyLoaded && history.length < 2) {
+      ctx.fillStyle = TEXT;
+      ctx.font = (mob ? '11px' : '12px') + ' -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🟡 Nodes-over-time history pending — no spool captures yet', lineL + plotW / 2, plotT + plotH / 2);
+    } else if (history.length >= 2 && plotW > 60 && plotH > 24) {
+      var minN = Infinity, maxN = 0;
+      history.forEach(function(p) { if (p.nodes < minN) minN = p.nodes; if (p.nodes > maxN) maxN = p.nodes; });
+      if (!isFinite(minN)) minN = 0;
+      if (maxN === minN) { maxN = minN + 1; }
+      var span = maxN - minN;
+      if (span < maxN * 0.1) { minN = Math.max(0, minN - span * 0.5); maxN = maxN + span * 0.5; span = maxN - minN; }
+
+      // Grid
+      ctx.strokeStyle = 'rgba(58,50,40,0.6)';
+      ctx.lineWidth = 1;
+      var steps = mob ? 3 : 4;
+      for (var s = 0; s <= steps; s++) {
+        var v = minN + span * s / steps;
+        var y = plotT + plotH - ((v - minN) / span) * plotH;
+        ctx.beginPath(); ctx.moveTo(lineL, y); ctx.lineTo(lineR, y); ctx.stroke();
+        ctx.fillStyle = MUTED;
+        ctx.font = '9px -apple-system, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(Math.round(v).toLocaleString(), lineL - 5, y);
       }
 
-      // Update tooltip
-      tooltipEl.style.display = 'block';
-      tooltipEl.style.left = Math.min(mouseX + 16, window.innerWidth - (isMobile() ? 200 : 270)) + 'px';
-      tooltipEl.style.top = Math.min(mouseY + 16, window.innerHeight - (isMobile() ? 130 : 160)) + 'px';
-      var capBtc = (n.capacity / 100000000).toFixed(4);
-      tooltipEl.innerHTML =
-        '<b>' + n.alias + '</b><br>' +
-        '<span style="color:#8b8680;font-size:11px">Network graph topology not captured — node represents a real aggregate share</span><br>' +
-        '<span style="color:#ffd8a8">Share bucket: ' + n.label + '</span>';
-    } else {
-      tooltipEl.style.display = 'none';
-    }
+      // Area + line
+      ctx.beginPath();
+      for (var i = 0; i < history.length; i++) {
+        var ix = lineL + (i / (history.length - 1)) * plotW;
+        var iy = plotT + plotH - ((history[i].nodes - minN) / span) * plotH;
+        if (i === 0) ctx.moveTo(ix, iy); else ctx.lineTo(ix, iy);
+      }
+      ctx.lineTo(lineR, plotT + plotH);
+      ctx.lineTo(lineL, plotT + plotH);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(63,185,80,0.10)';
+      ctx.fill();
 
-    // Stats label — total capacity, node count, channel count
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'top';
-    ctx.font = (isMobile() ? '10px' : '12px') + ' -apple-system, sans-serif';
-    ctx.fillStyle = 'rgba(0,0,0,0.75)';
-    ctx.fillRect(14, 14, isMobile() ? 300 : 430, 42);
-    ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    var capBtc = (stats.capacity / 100000000).toFixed(1);
-    ctx.fillText('Capacity: ' + capBtc + ' BTC | Nodes: ' + stats.nodes + ' | Channels: ' + stats.channels, 16, 16);
-    ctx.fillStyle = 'rgba(255,255,255,0.35)';
-    ctx.fillText('Real network stats — graph topology not captured', 16, 38);
+      ctx.beginPath();
+      ctx.strokeStyle = '#3FB950';
+      ctx.lineWidth = 2;
+      for (var j = 0; j < history.length; j++) {
+        var jx = lineL + (j / (history.length - 1)) * plotW;
+        var jy = plotT + plotH - ((history[j].nodes - minN) / span) * plotH;
+        if (j === 0) ctx.moveTo(jx, jy); else ctx.lineTo(jx, jy);
+      }
+      ctx.stroke();
 
-    // Honest empty state: no captured network data at all.
-    if (stats.nodes === 0 && nodes.length === 0) {
-      ctx.fillStyle = 'rgba(255,255,255,0.45)';
-      ctx.font = (isMobile() ? '12px' : '14px') + ' -apple-system, sans-serif';
+      // Live point on the latest real capture
+      var lastN = history[history.length - 1].nodes;
+      var lx = lineR;
+      var ly = plotT + plotH - ((lastN - minN) / span) * plotH;
+      var pulseR = 4 + (REDUCED_MOTION ? 0 : Math.sin(t * 2.2) * 2);
+      ctx.beginPath();
+      ctx.arc(lx, ly, pulseR + 6, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(63,185,80,0.15)';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(lx, ly, pulseR, 0, Math.PI * 2);
+      ctx.fillStyle = '#3FB950';
+      ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,0.7)';
+      ctx.font = (mob ? '9px' : '10px') + ' -apple-system, sans-serif';
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'bottom';
+      ctx.fillText(lastN.toLocaleString() + ' nodes', lx - 6, ly - 4);
+
+      // X labels (a few dates)
       ctx.textAlign = 'center';
-      ctx.fillText('No network data captured yet — stats appear when the pipeline captures the next snapshot', w / 2, h / 2);
+      ctx.textBaseline = 'top';
+      ctx.fillStyle = MUTED;
+      var labelIdx = [0, Math.floor(history.length / 2), history.length - 1];
+      labelIdx.forEach(function(li) {
+        ctx.fillText(timeLabel(history[li].date), lineL + (li / (history.length - 1)) * plotW, plotT + plotH + 4);
+      });
+    } else if (!historyLoaded) {
+      ctx.fillStyle = TEXT;
+      ctx.font = (mob ? '11px' : '12px') + ' -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('Loading nodes-over-time…', lineL + plotW / 2, plotT + plotH / 2);
     }
 
-    // Legend — desktop: right column; mobile: BELOW the stats label (the
-    // old w-200 placement covered the 300px stats box on narrow screens).
-    var lx = isMobile() ? 14 : w - 200;
-    var ly = isMobile() ? 64 : 16;
-    var lw = isMobile() ? 320 : 140;
-
-    ctx.fillStyle = 'rgba(0,0,0,0.75)';
-    ctx.fillRect(lx - 8, ly - 6, lw + 16, 80);
-    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(lx - 8, ly - 6, lw + 16, 80);
-
+    // Honest provenance footer
+    ctx.fillStyle = 'rgba(255,255,255,0.28)';
+    ctx.font = '9px -apple-system, sans-serif';
     ctx.textAlign = 'left';
-    ctx.textBaseline = 'top';
-    ctx.font = '10px -apple-system, sans-serif';
-    ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.fillText('Node color = real split', lx, ly);
-
-    // Tor
-    ctx.fillStyle = 'rgb(63,185,80)';
-    ctx.fillRect(lx, ly + 14, 10, 10);
-    ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.fillText('Tor (' + (stats.split ? stats.split[0].value : '—') + ')', lx + 14, ly + 14);
-
-    // Clearnet
-    ctx.fillStyle = 'rgb(210,170,80)';
-    ctx.fillRect(lx, ly + 28, 10, 10);
-    ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.fillText('Clearnet (' + (stats.split ? stats.split[1].value : '—') + ')', lx + 14, ly + 28);
-
-    // Unannounced
-    ctx.fillStyle = 'rgb(139,148,158)';
-    ctx.fillRect(lx, ly + 42, 10, 10);
-    ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.fillText('Unannounced (' + (stats.split ? stats.split[2].value : '—') + ')', lx + 14, ly + 42);
-
-    // Node size hint
-    ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx.fillText('○ size = share in bucket', lx, ly + 60);
+    ctx.textBaseline = 'bottom';
+    ctx.fillText('Real aggregate network stats — graph topology not captured', 20, h - 6);
 
     // Vignette
-    var vig = ctx.createRadialGradient(w/2, h/2, h*0.15, w/2, h/2, h*0.85);
+    var vig = ctx.createRadialGradient(w / 2, h / 2, h * 0.15, w / 2, h / 2, h * 0.85);
     vig.addColorStop(0, 'rgba(0,0,0,0)');
-    vig.addColorStop(1, 'rgba(0,0,0,0.35)');
+    vig.addColorStop(1, 'rgba(0,0,0,0.3)');
     ctx.fillStyle = vig;
     ctx.fillRect(0, 0, w, h);
 
     frameCount++;
-    } catch (e) {}
+    } catch (e) { if (window.console) console.error('VIZ_Lightning draw:', e); }
     animId = REDUCED_MOTION ? 0 : requestAnimationFrame(loop);
   }
 

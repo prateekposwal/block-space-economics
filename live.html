@@ -182,7 +182,6 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
   }
 </style>
 <script src="/js/beta-nav.js" defer></script>
-<script src="/js/data-health.js" defer></script>
 </head>
 <body>
 <div class="header">
@@ -194,7 +193,6 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
   <button class="tab-btn" data-tab="miner">Miner</button>
   <button class="tab-btn" data-tab="research">Research</button>
   <button class="tab-btn" data-tab="developer">Dev</button>
-  <span id="data-health" title="Data status — live snapshot health" style="font-size:0.9em;color:#8B949E;margin:0 4px 0 auto;white-space:nowrap;">⚪</span>
   <a href="/learn" style="padding:10px 20px;border-radius:10px;font-size:15px;font-weight:500;color:#888;background:transparent;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;text-decoration:none;">Learn</a>
   <a href="/capacity" style="padding:10px 20px;border-radius:10px;font-size:15px;font-weight:500;color:#888;background:transparent;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;text-decoration:none;">Capacity</a>
   <a href="/fork-tracker" style="padding:10px 20px;border-radius:10px;font-size:15px;font-weight:500;color:#888;background:transparent;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;text-decoration:none;margin-left:auto;">Fork</a>
@@ -350,7 +348,7 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
   </div>
   <div class="stat-row">
     <div class="stat-card" style="border-top:3px solid #D4933A;"><div class="sc-label">Subsidy</div><div class="sc-value" id="miner-subsidy">3.125</div><div class="fc-sub">BTC per block</div></div>
-    <div class="stat-card" style="border-top:3px solid #3BA35D;"><div class="sc-label">Fees</div><div class="sc-value" id="miner-fees">--</div><div class="fc-sub">BTC per block (avg)</div></div>
+    <div class="stat-card" style="border-top:3px solid #D4933A;"><div class="sc-label">Fees</div><div class="sc-value" id="miner-fees" style="color:#D4933A;">--</div><div class="fc-sub">BTC per block (avg)</div></div>
     <div class="stat-card" style="border-top:3px solid #58A6FF;"><div class="sc-label">Total</div><div class="sc-value" id="miner-total">--</div><div class="fc-sub">BTC per block</div></div>
     <div class="stat-card" style="border-top:3px solid #D4933A;"><div class="sc-label">Daily Rev</div><div class="sc-value" id="miner-daily" style="color:#D4933A;">--</div><div class="fc-sub">USD per day</div></div>
   </div>
@@ -377,6 +375,7 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
 <div class="tab-panel" id="panel-research">
   <div class="dc">
     <h2 class="dc-q">Latest data</h2>
+    <div class="dc-a" id="res-verdict" style="font-size:1.4rem;">Checking...</div>
     <div class="dc-sub" style="margin-bottom:12px;">Fee history, model outputs, and datasets</div>
     <button id="csv-download-btn" style="display:block;width:100%;padding:10px;background:#2A2622;border:1px solid transparent;border-radius:8px;color:#F7931A;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit;margin-bottom:8px;text-align:center;">⬇ Download Fee History CSV</button>
     <div id="data-freshness" style="font-size:10px;color:rgba(255,255,255,0.25);text-align:center;margin-top:4px;">Data refreshes every 60s from mempool.space</div>
@@ -709,41 +708,67 @@ if (typeof DATA_ENGINE !== 'undefined') {
       if (elN) elN.textContent = '--';
     });
   }
-  // Verdicts based on weather condition (fees + mempool + weight combined)
+  // ── Per-tab verdicts: color reflects the REAL data value (missing data is
+  //    '--' + neutral, never a fake green/yellow/red) ──
   var weatherLevel = weather.label;
+  var hasLiveFee = (typeof fees.fastestFee === 'number' && fees.fastestFee > 0);
+
+  // SEND — fee verdict colored by actual fastest fee: green <5 / yellow <20 / red >=20
   var sendV = document.getElementById('send-verdict');
-  if (weatherLevel === 'Sunny' || weatherLevel === 'Partly Cloudy') { sendV.textContent = '✅ Yes, fees are low'; sendV.className = 'dc-a green'; }
-  else if (weatherLevel === 'Building') { sendV.textContent = '⚡ Mempool building — send with economy fee'; sendV.className = 'dc-a yellow'; }
-  else if (weatherLevel === 'Breezy') { sendV.textContent = '⚡ Network busy — use economy fee'; sendV.className = 'dc-a yellow'; }
-  else if (weatherLevel === 'Rainy') { sendV.textContent = '🟡 Fees elevated — economy rate recommended'; sendV.className = 'dc-a yellow'; }
-  else if (weatherLevel === 'Storm' || weatherLevel === 'Extreme') { sendV.textContent = '🔴 Network congested — wait if possible'; sendV.className = 'dc-a red'; }
-  else { sendV.textContent = '⏳ Data offline'; sendV.className = 'dc-a'; sendV.style.color = '#6A5D4E'; }
-
-  var lnV = document.getElementById('ln-verdict');
-  if (weatherLevel === 'Sunny' || weatherLevel === 'Partly Cloudy' || weatherLevel === 'Building') { lnV.textContent = '✅ Good time to open'; lnV.className = 'dc-a green'; }
-  else if (weatherLevel === 'Breezy') { lnV.textContent = '🟡 Moderate — economy fee channels OK'; lnV.className = 'dc-a yellow'; }
-  else if (weatherLevel === 'Rainy' || weatherLevel === 'Storm' || weatherLevel === 'Extreme') { lnV.textContent = '🟡 Wait for lower fees to open'; lnV.className = 'dc-a yellow'; }
-  else { lnV.textContent = '⏳ Data offline'; lnV.className = 'dc-a'; lnV.style.color = '#6A5D4E'; }
-  document.getElementById('ln-cost').textContent = (e !== null && btcPrice !== null) ? 'Channel open cost: ~$' + ((e * 1000 * btcPrice) / 100000000).toFixed(2) + ' USD' : 'Channel open cost: --';
-
-  if (d.lightning) {
-    document.getElementById('ln-nodes').textContent = (d.lightning.node_count || 0).toLocaleString();
-    document.getElementById('ln-channels').textContent = (d.lightning.channel_count || 0).toLocaleString();
-    document.getElementById('ln-capacity').textContent = ((d.lightning.total_capacity || 0) / 100000000).toFixed(1) + ' BTC';
+  if (!hasLiveFee && !economyFee) { sendV.textContent = '⏳ Fee data pending'; sendV.className = 'dc-a'; sendV.style.color = '#6A5D4E'; }
+  else if (f2 < 5) { sendV.textContent = '✅ Yes, fees are low'; sendV.className = 'dc-a green'; }
+  else if (f2 < 20) { sendV.textContent = '🟡 Fees moderate — economy rate recommended'; sendV.className = 'dc-a yellow'; }
+  else { sendV.textContent = '🔴 Fees high — wait if possible'; sendV.className = 'dc-a red'; }
+  // Primary metric (fastest fee card) gets the same honest level color
+  var ffCard = document.getElementById('fee-fastest');
+  if (ffCard && hasLiveFee) {
+    ffCard.style.color = f2 < 5 ? '#3BA35D' : f2 < 20 ? '#D4762A' : '#C0392B';
   }
 
+  // LIGHTNING — network up = green when real stats are in hand, neutral otherwise
+  var lnV = document.getElementById('ln-verdict');
+  var lnLive = d.lightning && (d.lightning.node_count || 0) > 0;
+  if (lnLive) {
+    lnV.textContent = '✅ Network is up — channels ready'; lnV.className = 'dc-a green';
+    document.getElementById('ln-nodes').style.color = '#3BA35D';
+  } else {
+    lnV.textContent = '⏳ Lightning data pending'; lnV.className = 'dc-a'; lnV.style.color = '#6A5D4E';
+  }
+  document.getElementById('ln-cost').textContent = (e !== null && btcPrice !== null) ? 'Channel open cost: ~$' + ((e * 1000 * btcPrice) / 100000000).toFixed(2) + ' USD' : 'Channel open cost: --';
+  if (d.lightning) {
+    var lnNodeCount = d.lightning.node_count || 0;
+    var lnChannelCount = d.lightning.channel_count || 0;
+    var lnCapBtc = (d.lightning.total_capacity || 0) / 100000000;
+    document.getElementById('ln-nodes').textContent = lnNodeCount.toLocaleString();
+    document.getElementById('ln-channels').textContent = lnChannelCount.toLocaleString();
+    document.getElementById('ln-capacity').textContent = lnCapBtc.toFixed(1) + ' BTC';
+    document.getElementById('ln-channels').style.color = lnChannelCount > 0 ? '#58A6FF' : '';
+    document.getElementById('ln-capacity').style.color = lnCapBtc > 0 ? '#D4933A' : '';
+  }
+
+  // EXCHANGE — batch savings: accent when REAL savings are positive
   var exV = document.getElementById('ex-verdict');
-  if (weatherLevel === 'Sunny' || weatherLevel === 'Partly Cloudy' || weatherLevel === 'Building') { exV.textContent = '✅ Batch now — fees are low'; exV.className = 'dc-a green'; }
-  else if (weatherLevel === 'Breezy') { exV.textContent = '⚡ Good time to batch — moderate fees'; exV.className = 'dc-a yellow'; }
-  else if (weatherLevel === 'Rainy' || weatherLevel === 'Storm' || weatherLevel === 'Extreme') { exV.textContent = '🟡 Wait — fees are elevated for batching'; exV.className = 'dc-a yellow'; }
-  else { exV.textContent = '⏳ Data offline'; exV.className = 'dc-a'; exV.style.color = '#6A5D4E'; }
-  if (e !== null && btcPrice !== null) {
-    var batchSave = ((e * 140 * 1000 - e * 100000) * btcPrice) / 100000000;
+  var batchSave = (e !== null && btcPrice !== null) ? ((e * 140 * 1000 - e * 100000) * btcPrice) / 100000000 : null;
+  if (batchSave !== null && batchSave > 0) {
+    exV.textContent = '✅ Batch now — saves ~$' + batchSave.toFixed(0) + '/1K withdrawals'; exV.className = 'dc-a green';
+    document.getElementById('ex-savings').style.color = '#3BA35D';
+  } else if (batchSave !== null) {
+    exV.textContent = '🟡 Batching shows no savings at current fees'; exV.className = 'dc-a yellow';
+    document.getElementById('ex-savings').style.color = '#D4762A';
+  } else {
+    exV.textContent = '⏳ Fee/price data pending'; exV.className = 'dc-a'; exV.style.color = '#6A5D4E';
+  }
+  if (batchSave !== null) {
     document.getElementById('ex-saving').textContent = 'Batch of 1K withdrawals saves ~$' + batchSave.toFixed(0);
   }
 
-  if (btcPrice !== null) {
-    document.getElementById('miner-reward').textContent = '~$' + Math.round(3.125 * btcPrice + 0.5 * btcPrice).toLocaleString() + '/block';
+  // MINER — reward green only when a REAL price is in hand
+  var minerRewardEl = document.getElementById('miner-reward');
+  if (btcPrice !== null && btcPrice > 0) {
+    minerRewardEl.textContent = '~$' + Math.round(3.125 * btcPrice + 0.5 * btcPrice).toLocaleString() + '/block';
+    minerRewardEl.className = 'dc-a green';
+  } else {
+    minerRewardEl.textContent = '--'; minerRewardEl.className = 'dc-a'; minerRewardEl.style.color = '#6A5D4E';
   }
 
   var fastestUsd = (f !== null && btcPrice !== null) ? (f * 140 * btcPrice) / 100000000 : null;
@@ -855,7 +880,8 @@ if (typeof DATA_ENGINE !== 'undefined') {
   // --- Exchange Stat Cards ---
   document.getElementById('ex-fee').textContent = e + ' sat';
   document.getElementById('ex-batch').textContent = '1000';
-  document.getElementById('ex-savings').textContent = '$' + batchSave.toFixed(0);
+  var exSavEl = document.getElementById('ex-savings');
+  if (exSavEl) exSavEl.textContent = (typeof batchSave === 'number') ? '$' + batchSave.toFixed(0) : '--';
 
   // --- Node Stat Cards ---
   var nodeCosts = (typeof VIZ_Node !== 'undefined' && VIZ_Node.getCosts) ? VIZ_Node.getCosts() : null;
@@ -890,6 +916,25 @@ if (typeof DATA_ENGINE !== 'undefined') {
   document.getElementById('res-volatility').textContent = volPct > 0 ? volPct + '%' : '--';
   document.getElementById('res-avgfee').textContent = fAvg > 0 ? fAvg.toFixed(1) + ' sat/vB' : '--';
   document.getElementById('res-range').textContent = (fMin < Infinity ? fMin.toFixed(0) : '--') + ' - ' + (fMax > 0 ? fMax.toFixed(0) : '--');
+  // RESEARCH — regime/trend verdict colored by the REAL 24h fee direction
+  var resTrend = getFeeTrend(fh);
+  var resV = document.getElementById('res-verdict');
+  if (resV) {
+    if (fh.length < 10) {
+      resV.textContent = '⏳ Fee history pending'; resV.className = 'dc-a'; resV.style.color = '#6A5D4E';
+    } else if (resTrend === 'up') {
+      resV.textContent = '↑ Fees rising over 24h'; resV.className = 'dc-a red';
+    } else if (resTrend === 'down') {
+      resV.textContent = '↓ Fees falling over 24h'; resV.className = 'dc-a green';
+    } else {
+      resV.textContent = '→ Fees stable over 24h'; resV.className = 'dc-a yellow';
+    }
+  }
+  // Volatility value colored by level (low/moderate/high) — real std-dev %
+  var resVolEl = document.getElementById('res-volatility');
+  if (resVolEl && volPct > 0) {
+    resVolEl.style.color = volPct < 15 ? '#3BA35D' : volPct < 40 ? '#D4762A' : '#C0392B';
+  }
   var resDailyRev = (3.125 * 144 + feeAvg * 144 / 100000000) * btcPrice;
   document.getElementById('res-daily-rev').textContent = resDailyRev > 1000000 ? '$' + (resDailyRev / 1000000).toFixed(1) + 'M' : '$' + Math.round(resDailyRev / 1000).toFixed(0) + 'K';
   document.getElementById('res-settlement').textContent = resDailyRev > 1000000 ? '$' + ((resDailyRev * 200) / 1000000000).toFixed(1) + 'B' : '--';

@@ -11,6 +11,8 @@ var VIZ_Bip110 = (function () {
   var loaded = false;
   var failed = false;
   var raf = 0;
+  var growStart = 0;       // first-draw grow animation (real-data height ease)
+  var grown = false;
 
   var MIRROR_URL = '/data/bip110_daily.json';
   var FALLBACK_URL = '/data/bip110.json';
@@ -44,6 +46,7 @@ var VIZ_Bip110 = (function () {
         return { label: (p.day || '').slice(5), pct: p.pct, blocks: p.blocks, signaling: p.signaling };
       });
       loaded = true;
+      if (!grown) { growStart = performance.now(); grown = true; }
       draw();
     }).catch(function () {
       // Fallback: bip110.json carries the same daily aggregation from the agent.
@@ -54,6 +57,7 @@ var VIZ_Bip110 = (function () {
           return { label: (p.day || '').slice(5), pct: p.pct, blocks: p.blocks, signaling: p.signaling };
         });
         loaded = true;
+        if (!grown) { growStart = performance.now(); grown = true; }
         draw();
       }).catch(function () {
         loaded = true; failed = true; draw();
@@ -120,17 +124,19 @@ var VIZ_Bip110 = (function () {
     ctx.textAlign = 'left';
     ctx.fillText('55% lock-in threshold', padL + 4, yT - 4);
 
-    // Bars
+    // Bars — real pct heights, eased in once on first draw (real-data motion)
     var n = days.length;
     var slot = plotW / n;
     var barW = Math.max(4, Math.min(38, slot * 0.6));
+    var growT = REDUCED_MOTION ? 1 : Math.min(1, (performance.now() - growStart) / 700);
+    var ease = growT < 0.5 ? 2 * growT * growT : -1 + (4 - 2 * growT) * growT;
     days.forEach(function (d, i) {
       var cx = padL + slot * i + slot / 2;
-      var barH = (d.pct / maxY) * plotH;
+      var barH = (d.pct / maxY) * plotH * ease;
       ctx.fillStyle = d.pct >= THRESHOLD ? '#3BA35D' : ACCENT;
       ctx.fillRect(cx - barW / 2, yBase - barH, barW, barH);
-      // value on top of bar
-      if (d.pct > 0) {
+      // value on top of bar (only once the bar is mostly grown)
+      if (d.pct > 0 && ease > 0.85) {
         ctx.fillStyle = TEXT;
         ctx.font = '10px -apple-system, sans-serif';
         ctx.textAlign = 'center';
@@ -142,6 +148,18 @@ var VIZ_Bip110 = (function () {
       ctx.textBaseline = 'top';
       ctx.fillText(d.label, cx, yBase + 6);
     });
+
+    // Current-value callout — the most recent real day
+    var last = days[days.length - 1];
+    if (last) {
+      var lcx = padL + slot * (n - 1) + slot / 2;
+      ctx.fillStyle = last.pct >= THRESHOLD ? '#3BA35D' : ACCENT;
+      ctx.font = 'bold 10px -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      var callTxt = 'latest ' + last.pct + '%' + (last.blocks ? ' · ' + last.blocks + ' blocks' : '');
+      ctx.fillText(callTxt, lcx, padT - 10);
+    }
   }
 
   function drawPending(msg) {

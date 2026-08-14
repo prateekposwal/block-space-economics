@@ -142,18 +142,35 @@ footer .links a:hover{color:var(--accent)}
 <script>
 // ─── helpers ───
 function fmt(n){return (Math.round(n*1000)/1000).toLocaleString()}
-function dpr(c){var d=window.devicePixelRatio||1;c.width=c.clientWidth*d;c.height=(c.clientHeight||200)*d;var x=c.getContext('2d');x.scale(d,d);return x}
+var REDUCED = (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+// Size a canvas to its container: width = container width, height = width/ratio,
+// buffer scaled by devicePixelRatio, ctx transformed to CSS pixels. No distortion.
+function sizeCanvas(c, ratio) {
+  var d = window.devicePixelRatio || 1;
+  // Canvas's own CSS width (width:100% → the card's CONTENT box, padding excluded)
+  var W = c.clientWidth || (c.parentElement ? c.parentElement.clientWidth : 0) || 1000;
+  if (!W || W < 60) W = 1000;
+  var H = Math.round(W / ratio);
+  c.width = Math.round(W * d);
+  c.height = Math.round(H * d);
+  c.style.width = W + 'px';
+  c.style.height = H + 'px';
+  var x = c.getContext('2d');
+  x.setTransform(d, 0, 0, d, 0, 0);
+  x.clearRect(0, 0, W, H);
+  return { x: x, W: W, H: H };
+}
 
 // ─── 1. BIP-110 live capture → canvas ───
 function drawBip(canvasId){
   fetch('/data/bip110.json').then(function(r){return r.json()}).then(function(d){
     if(!d||!d.height)return;
     document.getElementById('bip-height').textContent=d.height.toLocaleString();
-    document.getElementById('bip-signaling').textContent=(d.signalingSharePct||0)+'%';
+    document.getElementById('bip-signaling').textContent=(typeof d.signalingSharePct === 'number' ? d.signalingSharePct : '--')+'%';
     document.getElementById('bip-until').textContent=(d.window.blocksUntilLockIn||0).toLocaleString();
     document.getElementById('bip-status').textContent=d.window.inWindow?'OPEN':'CLOSED';
-    var c=document.getElementById(canvasId);var x=dpr(c);
-    var W=c.clientWidth||1000,H=200;x.clearRect(0,0,W,H);
+    var s = sizeCanvas(document.getElementById(canvasId), 1000/220);
+    var x=s.x,W=s.W,H=s.H;
     var start=d.window.start,end=d.window.end,lock=d.window.lockIn,h=d.height;
     var span=lock-start+300;
     var px=function(hh){return (hh-start)/span*W};
@@ -164,12 +181,22 @@ function drawBip(canvasId){
       x.fillStyle=b.bit4?'#F7931A':'#3A3228';
       x.fillRect(px(b.height)-2,10,4,H-20);
     });
-    // lock-in line
+    // lock-in line + label
     x.strokeStyle='#58A6FF';x.lineWidth=2;x.beginPath();x.moveTo(px(lock),0);x.lineTo(px(lock),H);x.stroke();
-    // current height line
+    // current height line + callout (REAL current value)
+    var pulse = 3 + (REDUCED ? 0 : Math.sin(Date.now()/1000*2.2)*1.5);
     x.strokeStyle='#F7931A';x.lineWidth=2;x.beginPath();x.moveTo(px(h),0);x.lineTo(px(h),H);x.stroke();
-    x.fillStyle='#F7931A';x.font='11px sans-serif';x.fillText('current',px(h)+4,H-8);
-    x.fillStyle='#58A6FF';x.font='11px sans-serif';x.fillText('lock-in '+lock.toLocaleString(),Math.min(px(lock)+4,W-90),14);
+    x.beginPath();x.arc(px(h),H/2,pulse+5,0,Math.PI*2);x.fillStyle='rgba(247,147,26,0.15)';x.fill();
+    x.beginPath();x.arc(px(h),H/2,pulse,0,Math.PI*2);x.fillStyle='#F7931A';x.fill();
+    x.fillStyle='#F7931A';x.font='11px sans-serif';x.textAlign='left';x.textBaseline='bottom';
+    x.fillText('current #' + h.toLocaleString() + ' · signaling ' + (typeof d.signalingSharePct === 'number' ? d.signalingSharePct : '--') + '%', Math.min(px(h)+6, W-210), H-10);
+    x.fillStyle='#58A6FF';x.font='11px sans-serif';x.textAlign='left';x.textBaseline='top';
+    x.fillText('lock-in #' + lock.toLocaleString(), Math.min(px(lock)+4,W-110), 14);
+    // height axis labels
+    x.fillStyle='rgba(155,139,120,0.8)';x.font='10px sans-serif';x.textAlign='left';x.textBaseline='top';
+    x.fillText('#' + start.toLocaleString(), 2, H-16);
+    x.textAlign='right';
+    x.fillText('#' + (start+span).toLocaleString(), W-2, H-16);
   }).catch(function(){});
 }
 // ─── 2. SCCR trend ───
@@ -188,31 +215,52 @@ function drawSccr(canvasId){
         pn.textContent = 'Provenance: ' + (s.notes || 'see /sccr/latest') + ' · ' + censusTxt + ' · measured ' + s.generated_at.slice(0,10) + ' · spec v' + s.spec_version;
       }
     }).catch(function(){ var pn=document.getElementById('sccr-provenance'); if(pn) pn.textContent='Provenance unavailable.'; });
-    var c=document.getElementById(canvasId);var x=dpr(c);
-    var W=c.clientWidth||1000,H=240;x.clearRect(0,0,W,H);
+    var s2 = sizeCanvas(document.getElementById(canvasId), 1000/240);
+    var x=s2.x,W=s2.W,H=s2.H;
     var mx=Math.max.apply(null,pts.map(function(p){return p.avg_sccr}))*1.3,mi=0;
-    var W2=W-50,H2=H-30;
-    var py=function(v){return H-20-(v-mi)/(mx-mi)*H2};
-    // 1.0 line
-    x.strokeStyle='#F85149';x.setLineDash([4,4]);x.beginPath();x.moveTo(30,py(1));x.lineTo(W,py(1));x.stroke();x.setLineDash([]);
-    x.fillStyle='#F85149';x.font='11px sans-serif';x.fillText('1.0 = full coverage',34,py(1)-4);
+    var padL=46,padR=10,padT=30,padB=26;
+    var W2=W-padL-padR,H2=H-padT-padB;
+    var py=function(v){return padT+H2-(v-mi)/(mx-mi)*H2};
+    // Y axis ticks (value axis)
+    [0, 0.25, 0.5, 0.75, 1].forEach(function(v){
+      if (v > mx) return;
+      var yy=py(v);
+      x.strokeStyle='rgba(58,50,40,0.5)';x.lineWidth=1;
+      x.beginPath();x.moveTo(padL,yy);x.lineTo(W-padR,yy);x.stroke();
+      x.fillStyle='rgba(155,139,120,0.85)';x.font='10px sans-serif';x.textAlign='right';x.textBaseline='middle';
+      x.fillText(v.toFixed(2),padL-5,yy);
+    });
+    // 1.0 line (full coverage threshold)
+    x.strokeStyle='#F85149';x.setLineDash([4,4]);x.beginPath();x.moveTo(padL,py(1));x.lineTo(W-padR,py(1));x.stroke();x.setLineDash([]);
+    x.fillStyle='#F85149';x.font='11px sans-serif';x.fillText('1.0 = full coverage',padL+4,py(1)-14);
     // bars
     var bw=W2/pts.length*.6;
     pts.forEach(function(p,i){
-      var bx=30+i*W2/pts.length+W2/pts.length*.2;
-      var bh=H-20-py(p.avg_sccr);
-      var g=x.createLinearGradient(0,py(p.avg_sccr),0,H-20);
+      var bx=padL+i*W2/pts.length+W2/pts.length*.2;
+      var bh=padT+H2-py(p.avg_sccr);
+      var g=x.createLinearGradient(0,py(p.avg_sccr),0,padT+H2);
       g.addColorStop(0,'#F7931A');g.addColorStop(1,'#8a5310');
       x.fillStyle=g;x.fillRect(bx,py(p.avg_sccr),bw,bh);
-      x.fillStyle='#E8E5E0';x.font='10px sans-serif';x.fillText(p.date.slice(5),bx,H-6);
-      x.fillStyle='#F7931A';x.fillText(fmt(p.avg_sccr),bx,py(p.avg_sccr)-4);
+      x.fillStyle='#E8E5E0';x.font='10px sans-serif';x.textAlign='center';x.textBaseline='top';
+      x.fillText(p.date.slice(5),bx,padT+H2+6);
+      x.fillStyle='#F7931A';x.font='10px sans-serif';x.textBaseline='bottom';
+      x.fillText(fmt(p.avg_sccr),bx,py(p.avg_sccr)-3);
     });
+    // current-value callout (latest real day, pulsing)
+    var lastP=pts[pts.length-1];
+    var lx=padL+(pts.length-1)*W2/pts.length+W2/pts.length*.2+bw/2;
+    var ly=py(lastP.avg_sccr);
+    var pr=4+(REDUCED?0:Math.sin(Date.now()/1000*2.2)*2);
+    x.beginPath();x.arc(lx,ly,pr+6,0,Math.PI*2);x.fillStyle='rgba(247,147,26,0.18)';x.fill();
+    x.beginPath();x.arc(lx,ly,pr,0,Math.PI*2);x.fillStyle='#F7931A';x.fill();
+    x.fillStyle='rgba(255,255,255,0.85)';x.font='bold 10px sans-serif';x.textAlign='left';x.textBaseline='bottom';
+    x.fillText('latest ' + fmt(lastP.avg_sccr), Math.min(lx+7,W-80), ly-5);
   }).catch(function(){});
 }
-// ─── 3. leverage bars ───
+// ─── 3. leverage bars (MODEL SNAPSHOT — not live data) ───
 function drawLeverage(canvasId){
-  var c=document.getElementById(canvasId);var x=dpr(c);
-  var W=c.clientWidth||1000,H=200;x.clearRect(0,0,W,H);
+  var s = sizeCanvas(document.getElementById(canvasId), 1000/200);
+  var x=s.x,W=s.W,H=s.H;
   var items=[{l:'Attacker pays (1 yr)',v:65,c:'#58A6FF'},{l:'Network bears (10 yr)',v:197,c:'#F7931A'}];
   var mx=230;
   items.forEach(function(it,i){
@@ -222,13 +270,14 @@ function drawLeverage(canvasId){
     x.fillStyle='#E8E5E0';x.font='12px sans-serif';x.fillText(it.l,60,y+24);
     x.fillStyle=it.c;x.font='bold 13px sans-serif';x.fillText('$'+it.v+'M',60+bw+8,y+24);
   });
-  // leverage gap note
   x.fillStyle='#F85149';x.font='bold 15px sans-serif';x.fillText('leverage 3.0×',60,190);
+  x.fillStyle='rgba(155,139,120,0.7)';x.font='10px sans-serif';x.textAlign='right';x.textBaseline='bottom';
+  x.fillText('model snapshot — research assumptions, not live data', W-6, H-4);
 }
-// ─── 4. resource legs heatmap ───
+// ─── 4. resource legs heatmap (MODEL SNAPSHOT — not live data) ───
 function drawLegs(canvasId){
-  var c=document.getElementById(canvasId);var x=dpr(c);
-  var W=c.clientWidth||1000,H=260;x.clearRect(0,0,W,H);
+  var s = sizeCanvas(document.getElementById(canvasId), 1000/260);
+  var x=s.x,W=s.W,H=s.H;
   var legs=[
     {n:'Storage (measured)',v:17.6,c:'#F7931A'},
     {n:'Bandwidth (bound)',v:3.94,c:'#58A6FF'},
@@ -243,6 +292,8 @@ function drawLegs(canvasId){
     x.fillStyle='#E8E5E0';x.font='12px sans-serif';x.fillText(leg.n,80,y+22);
     x.fillStyle=leg.c;x.font='bold 12px sans-serif';x.fillText('$'+leg.v+'/node/yr',80+bw+8,y+22);
   });
+  x.fillStyle='rgba(155,139,120,0.7)';x.font='10px sans-serif';x.textAlign='right';x.textBaseline='bottom';
+  x.fillText('model snapshot — research assumptions, not live data', W-6, H-4);
 }
 // ─── init on load ───
 function safeDraw(fn) { try { fn(); } catch (e) { console.error('story chart draw failed:', e); } }
@@ -253,6 +304,12 @@ window.addEventListener('load',function(){
   safeDraw(function(){ drawLegs('legs-canvas'); });
   // refresh BIP-110 every 5 min (it's live)
   setInterval(function(){ safeDraw(function(){ drawBip('bip-canvas'); }); },300000);
+});
+window.addEventListener('resize',function(){
+  safeDraw(function(){ drawBip('bip-canvas'); });
+  safeDraw(function(){ drawSccr('sccr-canvas'); });
+  safeDraw(function(){ drawLeverage('leverage-canvas'); });
+  safeDraw(function(){ drawLegs('legs-canvas'); });
 });
 </script>
 </body>

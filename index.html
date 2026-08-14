@@ -210,6 +210,7 @@
       };
     }
 
+    var BLOCK_VBYTES = 4000000; // consensus vbytes per block — REAL sat/vB conversion
     function drawGenesisStrip() {
       var c = document.getElementById('genesis-canvas');
       if (!c) return;
@@ -223,7 +224,7 @@
       var ctx = c.getContext('2d');
       var data = DATA_ENGINE.get().fee_history || [];
       var fees = DATA_ENGINE.get().fees || {};
-      var fc = (typeof fees.fastestFee === 'number') ? feeColor(fees.fastestFee) : { r: 139, g: 148, b: 158 };
+      var fc = (typeof fees.fastestFee === 'number' && fees.fastestFee > 0) ? feeColor(fees.fastestFee) : { r: 139, g: 148, b: 158 };
       var grad = ctx.createLinearGradient(0, 0, w, 0);
       grad.addColorStop(0, '#1A1612');
       grad.addColorStop(0.6, 'rgba(' + fc.r + ',' + fc.g + ',' + fc.b + ',0.25)');
@@ -237,10 +238,14 @@
         var barW = Math.max(1, (w - startX) / n);
         for (var i = 0; i < n; i++) {
           var entry = data[data.length - 1 - i];
-          // REAL sat/vB feerate from the capture (2026-08-14: was avgFees/2500000,
-          // an invented divisor); omit missing, never fake a bar.
-          if (!entry || typeof entry.avgFeeRate !== 'number' || entry.avgFeeRate <= 0) continue;
-          var feeRate = Math.min(500, entry.avgFeeRate);
+          if (!entry) continue;
+          // REAL sat/vB: normalized feeRate, else avgFees ÷ 4M vbytes (the
+          // genuine unit conversion — the API never returns avgFeeRate).
+          var feeRate = (typeof entry.feeRate === 'number' && entry.feeRate > 0) ? entry.feeRate
+            : (typeof entry.avgFeeRate === 'number' && entry.avgFeeRate > 0) ? entry.avgFeeRate
+            : (typeof entry.avgFees === 'number' && entry.avgFees > 0) ? entry.avgFees / BLOCK_VBYTES : 0;
+          if (feeRate <= 0) continue; // omit missing, never fake a bar
+          feeRate = Math.min(500, feeRate);
           var pc = feeColor(feeRate);
           ctx.fillStyle = 'rgb(' + pc.r + ',' + pc.g + ',' + pc.b + ')';
           ctx.fillRect(startX + Math.round(i * barW), 0, Math.max(1, Math.round(barW)), h);

@@ -3,14 +3,27 @@ var VIZ_Send = (function() {
   var canvas, ctx, w, h;
   var PAD = { top: 60, right: 150, bottom: 50, left: 70 };
   var bars = [];
+  var mirrorBars = [];       // fallback series from /data/fee_history_blocks.json
+  var mirrorLoaded = false;  // true once the mirror fetch resolves (even to empty)
   var economyFee = 0;
   var displayEconomyFee = 0;
   var displayBtcPrice = 0;
   var btcPrice = 0;
   var hoverIdx = -1;
   var mouseX = 0, mouseY = 0;
+  var BLOCK_VBYTES = 4000000; // consensus vbytes per block — REAL sat/vB conversion
 
   function isMobile() { return w < 480; }
+
+  // REAL sat/vB for a block entry: prefer the normalized feeRate, else compute
+  // from avgFees (sats/block ÷ 4M vbytes). Never a fabricated default.
+  function feeRateOf(b) {
+    if (!b) return 0;
+    if (typeof b.feeRate === 'number' && b.feeRate > 0) return b.feeRate;
+    if (typeof b.avgFeeRate === 'number' && b.avgFeeRate > 0) return b.avgFeeRate;
+    if (typeof b.avgFees === 'number' && b.avgFees > 0) return b.avgFees / BLOCK_VBYTES;
+    return 0;
+  }
 
   function init(canvasId) {
     canvas = document.getElementById(canvasId);
@@ -33,6 +46,13 @@ var VIZ_Send = (function() {
       displayEconomyFee = economyFee;
       displayBtcPrice = btcPrice;
     }
+    // Mirror fallback: the committed spool mirror renders the 24h fee bars even
+    // when the live mempool.space API is unreachable (keeps the chart honest
+    // instead of pending-forever). Engine data still wins when it arrives.
+    fetch('/data/fee_history_blocks.json').then(function(r) { return r.json(); }).then(function(d) {
+      mirrorBars = (d && Array.isArray(d.blocks)) ? d.blocks : [];
+      mirrorLoaded = true;
+    }).catch(function() { mirrorLoaded = true; });
     tick();
   }
 
@@ -95,6 +115,11 @@ var VIZ_Send = (function() {
     displayBtcPrice += (btcPrice - displayBtcPrice) * 0.05;
     ctx.clearRect(0, 0, w, h);
     var n = bars.length;
+    // Engine data is the source of truth; the mirror is the offline fallback.
+    if (n === 0 && mirrorLoaded && mirrorBars.length > 0) {
+      bars = mirrorBars.slice(-144);
+      n = bars.length;
+    }
     if (n === 0) {
       // Honest empty state: tell the visitor data is coming instead of a
       // blank canvas. Loop keeps running so the chart appears when the first
@@ -116,7 +141,7 @@ var VIZ_Send = (function() {
 
     var maxF = 1;
     for (var i = 0; i < n; i++) {
-      var fr = (typeof bars[i].avgFeeRate === 'number') ? bars[i].avgFeeRate : 0; // REAL sat/vB
+      var fr = feeRateOf(bars[i]); // REAL sat/vB
       if (fr > maxF) maxF = fr;
     }
     maxF = Math.ceil(maxF * 1.15) || 1;
@@ -192,9 +217,11 @@ var VIZ_Send = (function() {
 
     var bw = cW / n;
     var waveT = Date.now() / 1000;
+    var pulseAmp = REDUCED_MOTION ? 0 : 0.02;
     for (var i = 0; i < n; i++) {
-      var fr = (typeof bars[i].avgFeeRate === 'number') ? bars[i].avgFeeRate : 0; // REAL sat/vB
-      var wave = Math.sin(waveT * 0.6 + i * 0.08) * 0.04 + 0.96;
+      var fr = feeRateOf(bars[i]); // REAL sat/vB
+      // Subtle breathing wave over the real heights (amplitude 0 when reduced-motion).
+      var wave = Math.sin(waveT * 0.6 + i * 0.08) * pulseAmp + (1 - pulseAmp);
       var bh = (fr / maxF) * cH * wave;
       var x = cL + i * bw;
       var y = cB - bh;
@@ -224,6 +251,17 @@ var VIZ_Send = (function() {
       ctx.globalAlpha = hi ? 1 : 0.8;
       ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
       ctx.fillRect(Math.round(x) + 0.5, Math.round(y), Math.max(1, Math.round(bw) - 1), Math.round(bh));
+
+      // Real-data motion: the LATEST block (the "now" bar) gets a distinct
+      // shade + a slow pulse — the most recent capture is the current moment.
+      if (i === n - 1 && fr > 0) {
+        var pulse = Math.sin(waveT * 2.4) * 0.5 + 0.5; // 0..1
+        ctx.fillStyle = 'rgba(255,255,255,' + (REDUCED_MOTION ? 0.18 : 0.1 + pulse * 0.16) + ')';
+        ctx.fillRect(Math.round(x) + 0.5, Math.round(cT + 2), Math.max(1, Math.round(bw) - 1), cH - cT - 4);
+        ctx.strokeStyle = 'rgba(247,147,26,' + (REDUCED_MOTION ? 0.5 : 0.35 + pulse * 0.5) + ')';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(Math.round(x) + 0.5, Math.round(cT + 2), Math.max(1, Math.round(bw) - 1), cH - cT - 4);
+      }
       ctx.globalAlpha = 1;
     }
 
@@ -243,13 +281,21 @@ var VIZ_Send = (function() {
       ctx.font = (isMobile() ? '9px' : '11px') + ' -apple-system, Helvetica, sans-serif';
       ctx.fillText(items[i].label, lx + 16, yy + 5);
     }
+    if (n > 0) {
+      ctx.fillStyle = 'rgba(247,147,26,0.8)';
+      ctx.font = (isMobile() ? '8px' : '10px') + ' -apple-system, Helvetica, sans-serif';
+      ctx.fillText('▌ now', lx, ly + 70);
+      ctx.fillStyle = 'rgba(255,255,255,0.35)';
+      ctx.font = (isMobile() ? '8px' : '9px') + ' -apple-system, Helvetica, sans-serif';
+      ctx.fillText('(latest block)', lx, ly + 86);
+    }
 
     if (hoverIdx >= 0 && hoverIdx < n) {
       var e = bars[hoverIdx];
-      var fr = (typeof e.avgFeeRate === 'number') ? e.avgFeeRate : null; // REAL sat/vB, '--' when absent
-      var ts = e.timestamp != null ? e.timestamp : e.date ? new Date(e.date).getTime() / 1000 : 0;
+      var fr = feeRateOf(e); // REAL sat/vB, 0 → '--'
+      var ts = e.timestamp != null ? e.timestamp : e.t ? e.t : e.date ? new Date(e.date).getTime() / 1000 : 0;
       var d = new Date(ts * 1000);
-      var feeUSD = (fr != null && btcPrice > 0) ? (fr * btcPrice) / 100000000 : null;
+      var feeUSD = (fr > 0 && btcPrice > 0) ? (fr * btcPrice) / 100000000 : null;
       var tw = isMobile() ? 180 : 210, th = 86;
       var tx = mouseX + 16, ty = mouseY - 12;
       if (tx + tw > w - 8) tx = mouseX - tw - 16;
@@ -274,13 +320,13 @@ var VIZ_Send = (function() {
       );
       ctx.fillStyle = '#F0F0F0';
       ctx.font = (isMobile() ? 'bold 15px' : 'bold 18px') + ' -apple-system, Helvetica, sans-serif';
-      ctx.fillText(fr != null ? fr.toFixed(1) + ' sat/vB' : '--', tx + 12, ty + 28);
+      ctx.fillText(fr > 0 ? fr.toFixed(1) + ' sat/vB' : '--', tx + 12, ty + 28);
       ctx.fillStyle = 'rgba(255,255,255,0.55)';
       ctx.font = (isMobile() ? '10px' : '12px') + ' -apple-system, Helvetica, sans-serif';
       ctx.fillText(feeUSD != null ? '$' + feeUSD.toFixed(2) + ' USD/vB' : 'USD --', tx + 12, ty + 54);
     }
 
-    } catch (e) {}
+    } catch (e) { if (window.console) console.error('VIZ_Send draw:', e); }
     if (!REDUCED_MOTION) requestAnimationFrame(tick);
   }
 

@@ -5,6 +5,8 @@ var VIZ_Miner = (function() {
   var sparklineData = [];
   var blockFees = [];          // real per-block avgFees+usd from /data/fee_history_blocks.json
   var blockFeesLoaded = false; // true once the mirror fetch resolves (even to empty)
+  var lastBlockCount = 0;      // previous mirror length — detects REAL block arrivals
+  var arrivalFlash = 0;        // 0..1 decay — a real new block just arrived
   // Data inputs seed at 0 — real engine values replace them on first update.
   // (2026-08-14 honesty fix: seeds were fabricated $64,000 / 5,000,000 sats and
   // the reward cards rendered plausible USD from invented inputs. USD now
@@ -56,7 +58,11 @@ var VIZ_Miner = (function() {
 
     // Real fee-revenue series from the public mirror (spool fee_history).
     fetch('/data/fee_history_blocks.json').then(function(r) { return r.json(); }).then(function(d) {
-      blockFees = (d && Array.isArray(d.blocks)) ? d.blocks : [];
+      var fresh = (d && Array.isArray(d.blocks)) ? d.blocks : [];
+      // REAL block arrival: the mirror grew → a new block arrived.
+      if (lastBlockCount > 0 && fresh.length > lastBlockCount) arrivalFlash = 1;
+      lastBlockCount = fresh.length;
+      blockFees = fresh;
       blockFeesLoaded = true;
     }).catch(function() { blockFeesLoaded = true; });
 
@@ -114,11 +120,13 @@ var VIZ_Miner = (function() {
     ctx.fillStyle = '#1A1612';
     ctx.fillRect(0, 0, w, h);
 
+    if (arrivalFlash > 0) arrivalFlash = Math.max(0, arrivalFlash - 0.02);
     drawTitle();
     drawBlockStack(t, feeTotal);
     drawStatsCards(feeTotal, t);
     drawSparkline(t);
     drawFeeShare(feeTotal);
+    drawFeeShareRing(feeTotal, t);
 
     var grad = ctx.createRadialGradient(w / 2, h / 2, h * 0.1, w / 2, h / 2, h * 0.7);
     grad.addColorStop(0, 'rgba(0,0,0,0)');
@@ -179,8 +187,10 @@ var VIZ_Miner = (function() {
     var newestY = stackBottomY - (maxBlocks - 1) * (blockH + blockGap);
     var pulse = Math.sin(t * 2) * 0.05 + 1;
     var pulseW = blockW * pulse;
-    ctx.shadowColor = 'rgba(212,147,58,0.4)';
-    ctx.shadowBlur = 15 + Math.sin(t * 2) * 5;
+    // REAL block-arrival flash: the mirror grew → highlight the fresh top block
+    var flashBoost = arrivalFlash > 0 ? arrivalFlash * 1.4 : 0;
+    ctx.shadowColor = 'rgba(212,147,58,' + (0.4 + flashBoost) + ')';
+    ctx.shadowBlur = 15 + Math.sin(t * 2) * 5 + flashBoost * 30;
     ctx.fillStyle = '#D4933A';
     VIZ.roundRect(ctx, stackCenterX - pulseW / 2, newestY - 2, pulseW, blockH + 4, 4);
     ctx.fill();
@@ -190,6 +200,13 @@ var VIZ_Miner = (function() {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('NEWEST', stackCenterX, newestY + blockH / 2);
+    if (arrivalFlash > 0.4) {
+      ctx.fillStyle = 'rgba(63,185,80,' + ((arrivalFlash - 0.4) / 0.6) + ')';
+      ctx.font = 'bold 9px -apple-system, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('▲ NEW BLOCK', stackCenterX + blockW / 2 + 8, newestY + blockH / 2);
+    }
 
     ctx.strokeStyle = 'rgba(58,50,40,0.3)';
     ctx.lineWidth = 1;
@@ -391,6 +408,19 @@ var VIZ_Miner = (function() {
       ctx.fillText(lab, plotL + (idx / (series.length - 1)) * plotW, plotB + 4);
     });
 
+    // Live point on the latest real capture
+    var lpx = plotL + plotW;
+    var lpy = plotB - ((series[series.length - 1].avgFees || 0) / maxVal) * plotH;
+    var lr = 3 + (REDUCED_MOTION ? 0 : Math.sin(t * 2.4) * 1.5);
+    ctx.beginPath();
+    ctx.arc(lpx, lpy, lr + 5, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(212,147,58,0.18)';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(lpx, lpy, lr, 0, Math.PI * 2);
+    ctx.fillStyle = '#D4933A';
+    ctx.fill();
+
     // Title
     ctx.textAlign = 'left';
     ctx.textBaseline = 'top';
@@ -427,6 +457,59 @@ var VIZ_Miner = (function() {
     ctx.fillStyle = '#3BA35D';
     VIZ.roundRect(ctx, barStart, y + 12, Math.max(4, barW), 12, 6);
     ctx.fill();
+  }
+
+  function drawFeeShareRing(feeTotal, t) {
+    var isMob = isMobile();
+    var subsidyBtc = 3.125;
+    var feeBtc = feeTotal / 100000000;
+    var totalBtc = subsidyBtc + feeBtc;
+    var feePct = totalBtc > 0 ? (feeBtc / totalBtc * 100) : 0;
+
+    var rx = isMob ? w - 64 : w * 0.72;
+    var ry = isMob ? 150 : 150;
+    var rOut = isMob ? 44 : 52;
+    var rIn = rOut * 0.66;
+    var cx = rx, cy = ry;
+
+    // Track
+    ctx.beginPath();
+    ctx.arc(cx, cy, (rOut + rIn) / 2, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(58,50,40,0.7)';
+    ctx.lineWidth = rOut - rIn;
+    ctx.stroke();
+
+    // Fee share arc — REAL fee revenue as % of total reward
+    var startA = -Math.PI / 2;
+    var sweepA = Math.max(0.02, (feePct / 100) * Math.PI * 2);
+    var reveal = REDUCED_MOTION ? 1 : Math.min(1, (t % 6) / 2); // arc re-sweeps every 6s
+    ctx.beginPath();
+    ctx.arc(cx, cy, (rOut + rIn) / 2, startA, startA + sweepA * reveal);
+    ctx.strokeStyle = '#3FB950';
+    ctx.lineWidth = rOut - rIn;
+    ctx.shadowColor = 'rgba(63,185,80,0.35)';
+    ctx.shadowBlur = 8;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // Subsidy arc (remainder) — accent
+    ctx.beginPath();
+    ctx.arc(cx, cy, (rOut + rIn) / 2, startA + sweepA, startA + Math.PI * 2);
+    ctx.strokeStyle = '#D4933A';
+    ctx.lineWidth = rOut - rIn;
+    ctx.globalAlpha = 0.85;
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+
+    // Center label
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#EADCC8';
+    ctx.font = (isMob ? 'bold 12px' : 'bold 15px') + ' -apple-system, sans-serif';
+    ctx.fillText(feePct.toFixed(1) + '%', cx, cy - 4);
+    ctx.fillStyle = '#6A5D4E';
+    ctx.font = (isMob ? '7px' : '9px') + ' -apple-system, sans-serif';
+    ctx.fillText('fee share', cx, cy + 13);
   }
 
   function fmtUSD(val) {

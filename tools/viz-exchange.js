@@ -127,7 +127,7 @@ var VIZ_Exchange = (function() {
     ctx.fill();
     ctx.shadowBlur = 0;
 
-    ctx.fillStyle = '#3BA35D';
+    ctx.fillStyle = !dataReady ? '#6A5D4E' : (savings > 0 ? '#3BA35D' : '#D4762A');
     ctx.font = mob ? 'bold 16px -apple-system, sans-serif' : 'bold 22px -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
