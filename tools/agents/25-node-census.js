@@ -5,11 +5,46 @@
 // This is PRIMARY-SOURCE data: the census band (10K-100K) was an assumption; this
 // records what a real node actually observes.
 var path = require('path');
+var fs = require('fs');
 var child_process = require('child_process');
 
 var REPO = path.resolve(__dirname, '..', '..');
 var RPC_ARGS = '-rpcuser=bsahi -rpcpassword=bsahi';
 var BITCOIN_CLI = process.env.HOME + '/.local/bin/bitcoin-cli';
+
+// Committed census mirror (data/node_census.json): the census is the ONLY
+// data source GH never needs — the Mac is the sole census writer. On a
+// SUCCESSFUL run this mirror is refreshed with provenance (captured_at) so
+// the site can render "census as of <date>" and sccr_live.py reads the freshest
+// committed date. On failure the last good mirror is LEFT IN PLACE (never
+// clobbered) — the honest residual is that the date ages while Core is off.
+function writeCensusMirror(out) {
+  if (!out.ok || !out.totalKnownAddresses) return; // failed/zero census -> keep last good
+  var dataDir = path.join(REPO, 'data');
+  fs.mkdirSync(dataDir, { recursive: true });
+  var p = path.join(dataDir, 'node_census.json');
+  var blob = JSON.stringify({
+    schema: 'bsahi.node-census/1',
+    ok: true,
+    totalKnownAddresses: out.totalKnownAddresses,
+    liveConnections: out.liveConnections,
+    inbound: out.inbound,
+    outbound: out.outbound,
+    sample: out.sample,
+    networkVersion: out.networkVersion,
+    connections: out.connections,
+    captured_at: out.observedAt,
+    source: 'Bitcoin Core getnodeaddresses (local node, RPC max 32000; addrman saturation lower bound)',
+    lower_bound: true,
+    note: 'PRIMARY-SOURCE lower-bound census: the node knows AT LEAST N addresses (addrman caps at 32,000). Written by the LOCAL Mac node-census agent (tools/agents/25-node-census.js, run by the DE server). GitHub Actions never needs the census — it reads the committed dated constant.'
+  }, null, 2) + '\n';
+  var changed = true;
+  if (fs.existsSync(p)) {
+    try { changed = require('crypto').createHash('sha1').update(fs.readFileSync(p, 'utf8')).digest('hex') !== require('crypto').createHash('sha1').update(blob).digest('hex'); } catch (e) {}
+  }
+  if (changed) fs.writeFileSync(p, blob);
+  return changed;
+}
 
 function rpc(method, params) {
   try {
@@ -51,6 +86,11 @@ async function run() {
   var now = new Date();
   var ts = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0') + '_' + String(now.getHours()).padStart(2, '0') + '-' + String(now.getMinutes()).padStart(2, '0') + '-' + String(now.getSeconds()).padStart(2, '0');
   var day = ts.slice(0, 10);
+  // Committed mirror first (success-only; keeps last good on failure).
+  if (out.ok && out.totalKnownAddresses > 0) {
+    try { writeCensusMirror(out); } catch (e) { console.error('node-census mirror write failed: ' + e.message); }
+  }
+
   var spool = await spoolMod.init();
   var result = await spool.enqueue('node_census', {
     status: out.ok ? 200 : 0,

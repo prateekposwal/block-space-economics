@@ -182,7 +182,11 @@ function drawSccr(canvasId){
     fetch('/data/sccr.json').then(function(r){return r.json()}).then(function(s){
       document.getElementById('sccr-n').textContent=s.N.toLocaleString();
       var pn=document.getElementById('sccr-provenance');
-      if(pn){ pn.textContent = 'Provenance: ' + (s.notes || 'see /sccr/latest') + ' · measured ' + s.generated_at.slice(0,10) + ' · spec v' + s.spec_version; }
+      if(pn){
+        var censusTxt = 'census as of ' + (s.census_date || (s.census_captured_at || '').slice(0,10) || 'unknown');
+        if (s.census_stale) censusTxt += ' — STALE (last measured ' + (s.census_date || '?') + '; N is a lower-bound constant)';
+        pn.textContent = 'Provenance: ' + (s.notes || 'see /sccr/latest') + ' · ' + censusTxt + ' · measured ' + s.generated_at.slice(0,10) + ' · spec v' + s.spec_version;
+      }
     }).catch(function(){ var pn=document.getElementById('sccr-provenance'); if(pn) pn.textContent='Provenance unavailable.'; });
     var c=document.getElementById(canvasId);var x=dpr(c);
     var W=c.clientWidth||1000,H=240;x.clearRect(0,0,W,H);

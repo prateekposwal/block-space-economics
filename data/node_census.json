@@ -1,0 +1,19 @@
+{
+  "schema": "bsahi.node-census/1",
+  "ok": true,
+  "totalKnownAddresses": 32000,
+  "liveConnections": 8,
+  "inbound": 0,
+  "outbound": 8,
+  "sample": [
+    "217.138.219.222",
+    "155.4.133.165",
+    "212.100.60.46"
+  ],
+  "networkVersion": 270100,
+  "connections": 8,
+  "captured_at": "2026-08-02T19:05:03.982Z",
+  "source": "Bitcoin Core getnodeaddresses (local node, RPC max 32000; addrman saturation lower bound)",
+  "lower_bound": true,
+  "note": "PRIMARY-SOURCE lower-bound census: the node knows AT LEAST N addresses (addrman caps at 32,000). Written by the LOCAL Mac node-census agent (tools/agents/25-node-census.js, run by the DE server). GitHub Actions never needs the census — it reads the committed dated constant."
+}

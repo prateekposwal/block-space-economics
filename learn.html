@@ -354,7 +354,7 @@ Each new block strengthens every block that came before it. To rewrite history, 
      <div style="background:#231F19;border:1px solid #3A3228;border-radius:8px;padding:14px;"><div style="font-size:.75rem;color:#9B8B78;">Node count (N)</div><div id="sccr-card-n" style="font-size:1.1rem;font-weight:700;color:#EADCC8;">—</div></div>
      <div style="background:#231F19;border:1px solid #3A3228;border-radius:8px;padding:14px;"><div style="font-size:.75rem;color:#9B8B78;">Capture date</div><div id="sccr-card-date" style="font-size:1.1rem;font-weight:600;color:#EADCC8;">—</div></div>
    </div>
-   <p style="font-size:.8rem;color:#6A5D4E;margin-top:10px;">Model: SCCR = fee_USD / L_net · N=<span id="sccr-note-n">32K</span> primary-source lower-bound census (≥32,000 known addresses via Bitcoin Core getnodeaddresses) · T=<span id="sccr-note-t">10</span> yr assumption · model-spec v<span id="sccr-note-spec">2.0.1</span>. The ratio moves with the fee market — this is a live, dated measurement, not a static figure.</p>
+   <p style="font-size:.8rem;color:#6A5D4E;margin-top:10px;">Model: SCCR = fee_USD / L_net · N=<span id="sccr-note-n">32K</span> primary-source lower-bound census as of <span id="sccr-note-census">2026-08-02</span> (≥32,000 known addresses via Bitcoin Core getnodeaddresses) · T=<span id="sccr-note-t">10</span> yr assumption · model-spec v<span id="sccr-note-spec">2.1.0</span>. The ratio moves with the fee market — this is a live, dated measurement, not a static figure.</p>
  </div>
 
  <script>
@@ -378,8 +378,9 @@ Each new block strengthens every block that came before it. To rewrite history, 
      set('sccr-card-n', d.N != null ? fmtN(d.N) : '—');
      set('sccr-card-date', d.date || '—');
      set('sccr-note-n', d.N != null ? fmtK(d.N) : '32K');
+     set('sccr-note-census', d.census_date || (d.census_captured_at || '').slice(0, 10) || 'unknown date');
      set('sccr-note-t', d.T != null ? d.T : '10');
-     set('sccr-note-spec', d.spec_version || '2.0.1');
+     set('sccr-note-spec', d.spec_version || '2.1.0');
      set('agent-sccr-live', d.avg_sccr != null ? d.avg_sccr.toFixed(4) : '—');
      set('agent-sccr-pct', d.avg_sccr != null ? (d.avg_sccr * 100).toFixed(1) : '…');
      set('agent-sccr-n', d.N != null ? fmtN(d.N) : '…');
@@ -880,6 +881,7 @@ function loopMining() {
 
 // Propagation viz
 var propCtx, propW, propH;
+var propTitle = 'Block Propagation — Node Census (primary-source lower-bound)';
 function initPropViz() {
   var c = document.getElementById('viz-propagation');
   if (!c) return;
@@ -887,6 +889,12 @@ function initPropViz() {
   propW = c.width = Math.min(r.width || 800, 1000);
   propH = c.height = 400;
   propCtx = c.getContext('2d');
+  // Census-backed title: N comes from the committed dated census constant
+  // (data/sccr.json renders N; data/node_census.json carries the captured_at).
+  // No hardcoded node count — the number is measured, never invented.
+  fetch('/data/sccr.json').then(function (r) { return r.json(); }).then(function (d) {
+    if (d && d.N != null) propTitle = 'Block Propagation — ' + Number(d.N).toLocaleString('en-US') + ' known addresses (lower-bound census)';
+  }).catch(function () {});
   loopProp();
 }
 function loopProp() {
@@ -897,7 +905,7 @@ function loopProp() {
   propCtx.fillStyle = 'rgba(234,220,200,0.6)';
   propCtx.font = 'bold 13px -apple-system,sans-serif';
   propCtx.textAlign = 'left';
-  propCtx.fillText('Block Propagation — 60,000+ Nodes Worldwide', 40, 24);
+  propCtx.fillText(propTitle, 40, 24);
   // Expanding ripple
   var cx = propW * 0.4, cy = propH * 0.5;
   var maxR = Math.min(propW, propH) * 0.4;
