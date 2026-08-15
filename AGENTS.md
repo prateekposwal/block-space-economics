@@ -1173,3 +1173,456 @@ Every session in this repo MUST honor these load-bearing rules:
 - Quality: degraded
 - Forecast: holt-linear-trend · rising · regime=normal (103 pts)
 - M4: 4/7 clean cycles · bridgeFlipped=false
+## Session Handoff — 2026-08-14T03:17:32.264Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 114 · bridge=on · M4 cleanCycles=4/7
+- Forecast: holt-linear-trend · rising · rmse=0.979 (105 pts)
+
+### Decisions Made
+- M4 gate: cleanCycles=4/7 (no flip)
+
+### Open Issues
+- DB: error ratio 36% > 20%
+- 1 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · rising · regime=normal (105 pts)
+- M4: 4/7 clean cycles · bridgeFlipped=false
+## Session Handoff — 2026-08-14T04:29:59.738Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 116 · bridge=on · M4 cleanCycles=6/7
+- Forecast: holt-linear-trend · stable · rmse=0.997 (102 pts)
+
+### Decisions Made
+- M4 gate: cleanCycles=6/7 (no flip)
+
+### Open Issues
+- SPOOL: stale sources: btc_rpc
+- DB: error ratio 36% > 20%
+- 1 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (102 pts)
+- M4: 6/7 clean cycles · bridgeFlipped=false
+## Session Handoff — 2026-08-14T04:30:22.428Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 116 · bridge=off · M4 cleanCycles=7/7
+- Forecast: holt-linear-trend · stable · rmse=0.997 (102 pts)
+
+### Decisions Made
+- **M4 COMPLETE**: bridge disabled at 2026-08-14T04:30:22.421Z after 7 clean cycles
+
+### Open Issues
+- SPOOL: stale sources: btc_rpc
+- DB: error ratio 36% > 20%
+- 1 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (102 pts)
+- M4: 7/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T05:29:59.915Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 117 · bridge=off · M4 cleanCycles=7/7
+- Forecast: holt-linear-trend · stable · rmse=1.001 (104 pts)
+
+### Decisions Made
+- M4 gate: cleanCycles=7/7 (no flip — already flipped)
+
+### Open Issues
+- SPOOL: stale sources: btc_rpc
+- DB: error ratio 36% > 20%
+- 1 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (104 pts)
+- M4: 7/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T07:28:50.204Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 118 · bridge=off · M4 cleanCycles=8/7
+- Forecast: holt-linear-trend · stable · rmse=1.018 (105 pts)
+
+### Decisions Made
+- M4 gate: cleanCycles=8/7 (no flip — already flipped)
+
+### Open Issues
+- SPOOL: stale sources: btc_rpc
+- DB: error ratio 36% > 20%
+- 2 endpoints unhealthy
+- 2 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (105 pts)
+- M4: 8/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T09:22:56.403Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 120 · bridge=off · M4 cleanCycles=9/7
+- Forecast: holt-linear-trend · stable · rmse=1.014 (106 pts)
+
+### Decisions Made
+- M4 gate: cleanCycles=9/7 (no flip — already flipped)
+
+### Open Issues
+- SPOOL: stale sources: btc_rpc
+- DB: error ratio 36% > 20%
+- 3 endpoints unhealthy
+- 3 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (106 pts)
+- M4: 9/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T09:39:16.808Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 120 · bridge=off · M4 cleanCycles=10/7
+- Forecast: holt-linear-trend · stable · rmse=1.019 (107 pts)
+
+### Decisions Made
+- M4 gate: cleanCycles=10/7 (no flip — already flipped)
+
+### Open Issues
+- SPOOL: stale sources: btc_rpc
+- DB: error ratio 36% > 20%
+- 2 endpoints unhealthy
+- 2 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (107 pts)
+- M4: 10/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T09:57:08.022Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 121 · bridge=off · M4 cleanCycles=0/7
+- Forecast: holt-linear-trend · stable · rmse=1.019 (107 pts)
+
+### Decisions Made
+- *(No decisions recorded)*
+
+### Open Issues
+- SPOOL: stale sources: bip110_signal,block_interval,btc_rpc
+- DB: error ratio 36% > 20%
+- 18 endpoints unhealthy
+- Data quality score below 60 (46)
+- 4 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (107 pts)
+- M4: 0/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T11:26:13.938Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 122 · bridge=off · M4 cleanCycles=0/7
+- Forecast: holt-linear-trend · stable · rmse=1.019 (107 pts)
+
+### Decisions Made
+- *(No decisions recorded)*
+
+### Open Issues
+- SPOOL: stale sources: bip110_signal,block_interval,btc_rpc
+- DB: error ratio 36% > 20%
+- 18 endpoints unhealthy
+- Data quality score below 60 (46)
+- 4 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (107 pts)
+- M4: 0/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T14:10:20.178Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 124 · bridge=off · M4 cleanCycles=0/7
+- Forecast: holt-linear-trend · stable · rmse=1.019 (107 pts)
+
+### Decisions Made
+- *(No decisions recorded)*
+
+### Open Issues
+- SPOOL: stale sources: bip110_signal,block_interval,btc_rpc
+- DB: error ratio 36% > 20%
+- 18 endpoints unhealthy
+- Data quality score below 60 (44)
+- 7 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (107 pts)
+- M4: 0/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T14:10:29.189Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 124 · bridge=off · M4 cleanCycles=0/7
+- Forecast: holt-linear-trend · stable · rmse=1.019 (108 pts)
+
+### Decisions Made
+- *(No decisions recorded)*
+
+### Open Issues
+- SPOOL: stale sources: bip110_signal,block_interval,btc_rpc
+- DB: error ratio 36% > 20%
+- 3 endpoints unhealthy
+- 4 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (108 pts)
+- M4: 0/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T15:13:17.007Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 125 · bridge=off · M4 cleanCycles=0/7
+- Forecast: holt-linear-trend · stable · rmse=1.019 (108 pts)
+
+### Decisions Made
+- *(No decisions recorded)*
+
+### Open Issues
+- SPOOL: stale sources: bip110_signal,block_interval,btc_rpc
+- DB: error ratio 36% > 20%
+- 18 endpoints unhealthy
+- Data quality score below 60 (46)
+- 4 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (108 pts)
+- M4: 0/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T16:14:40.542Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 126 · bridge=off · M4 cleanCycles=0/7
+- Forecast: holt-linear-trend · stable · rmse=1.019 (108 pts)
+
+### Decisions Made
+- *(No decisions recorded)*
+
+### Open Issues
+- SPOOL: stale sources: bip110_signal,block_interval,btc_rpc
+- DB: error ratio 36% > 20%
+- 18 endpoints unhealthy
+- Data quality score below 60 (46)
+- 4 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (108 pts)
+- M4: 0/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T17:15:38.393Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 127 · bridge=off · M4 cleanCycles=0/7
+- Forecast: holt-linear-trend · stable · rmse=1.019 (108 pts)
+
+### Decisions Made
+- *(No decisions recorded)*
+
+### Open Issues
+- SPOOL: stale sources: bip110_signal,block_interval,btc_rpc
+- DB: error ratio 36% > 20%
+- 18 endpoints unhealthy
+- Data quality score below 60 (46)
+- 4 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (108 pts)
+- M4: 0/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T18:17:46.124Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 128 · bridge=off · M4 cleanCycles=0/7
+- Forecast: holt-linear-trend · stable · rmse=1.019 (108 pts)
+
+### Decisions Made
+- *(No decisions recorded)*
+
+### Open Issues
+- SPOOL: stale sources: bip110_signal,block_interval,btc_rpc
+- DB: error ratio 36% > 20%
+- 4 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (108 pts)
+- M4: 0/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T19:26:25.001Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 129 · bridge=off · M4 cleanCycles=0/7
+- Forecast: holt-linear-trend · stable · rmse=1.017 (109 pts)
+
+### Decisions Made
+- *(No decisions recorded)*
+
+### Open Issues
+- SPOOL: stale sources: btc_rpc
+- DB: error ratio 36% > 20%
+- 1 endpoints unhealthy
+- 2 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (109 pts)
+- M4: 0/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T20:28:42.584Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 130 · bridge=off · M4 cleanCycles=0/7
+- Forecast: holt-linear-trend · stable · rmse=1.079 (106 pts)
+
+### Decisions Made
+- *(No decisions recorded)*
+
+### Open Issues
+- SPOOL: stale sources: btc_rpc
+- DB: error ratio 36% > 20%
+- 2 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=spike (106 pts)
+- M4: 0/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T21:18:51.538Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 131 · bridge=off · M4 cleanCycles=0/7
+- Forecast: holt-linear-trend · stable · rmse=1.075 (107 pts)
+
+### Decisions Made
+- *(No decisions recorded)*
+
+### Open Issues
+- SPOOL: stale sources: btc_rpc
+- DB: error ratio 36% > 20%
+- 2 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (107 pts)
+- M4: 0/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T22:17:55.715Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 132 · bridge=off · M4 cleanCycles=0/7
+- Forecast: holt-linear-trend · rising · rmse=1.098 (108 pts)
+
+### Decisions Made
+- *(No decisions recorded)*
+
+### Open Issues
+- SPOOL: stale sources: btc_rpc
+- DB: error ratio 36% > 20%
+- 2 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · rising · regime=spike (108 pts)
+- M4: 0/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-14T23:17:42.006Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 133 · bridge=off · M4 cleanCycles=1/7
+- Forecast: holt-linear-trend · stable · rmse=1.116 (109 pts)
+
+### Decisions Made
+- M4 gate: cleanCycles=1/7 (no flip — already flipped)
+
+### Open Issues
+- SPOOL: stale sources: btc_rpc
+- DB: error ratio 36% > 20%
+- 2 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (109 pts)
+- M4: 1/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-15T00:21:39.356Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 134 · bridge=off · M4 cleanCycles=2/7
+- Forecast: holt-linear-trend · stable · rmse=1.122 (110 pts)
+
+### Decisions Made
+- M4 gate: cleanCycles=2/7 (no flip — already flipped)
+
+### Open Issues
+- SPOOL: stale sources: btc_rpc
+- DB: error ratio 36% > 20%
+- 11 endpoints unhealthy
+- 2 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (110 pts)
+- M4: 2/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-15T01:01:54.797Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 135 · bridge=off · M4 cleanCycles=0/7
+- Forecast: holt-linear-trend · stable · rmse=1.117 (111 pts)
+
+### Decisions Made
+- *(No decisions recorded)*
+
+### Open Issues
+- SPOOL: stale sources: btc_rpc
+- DB: error ratio 36% > 20%
+- 1 sources stale (>120min old)
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (111 pts)
+- M4: 0/7 clean cycles · bridgeFlipped=true
+## Session Handoff — 2026-08-15T01:05:55.969Z
+
+### Current State
+- Session mood: neutral
+- Active work: cycle 136 · bridge=off · M4 cleanCycles=1/7
+- Forecast: holt-linear-trend · stable · rmse=1.117 (112 pts)
+
+### Decisions Made
+- M4 gate: cleanCycles=1/7 (no flip — already flipped)
+
+### Open Issues
+- CAPTURE: failure ratio 33% (last 24h) > 20%
+- 1 endpoints unhealthy
+
+### Metrics
+- Quality: degraded
+- Forecast: holt-linear-trend · stable · regime=normal (112 pts)
+- M4: 1/7 clean cycles · bridgeFlipped=true
