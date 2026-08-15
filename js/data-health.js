@@ -78,6 +78,15 @@
     el.style.marginLeft = '8px';
     el.style.cursor = 'default';
     el.style.flexShrink = '0';
+    // Nav alignment (2026-08-15): the dot mounts into flex containers
+    // (.nav / .header-inner / .header) on every page. A bare text emoji rides
+    // the text baseline and looks misaligned next to padded nav links. One
+    // canonical rule here fixes all pages at once: center it in its flex row
+    // and collapse the emoji line-height so it aligns with the nav items.
+    el.style.alignSelf = 'center';
+    el.style.lineHeight = '1';
+    el.style.display = 'inline-flex';
+    el.style.alignItems = 'center';
     el.setAttribute('data-health-state', lastState);
 
     // Per-dataset probes declared on the element or the page body.

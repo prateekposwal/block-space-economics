@@ -903,8 +903,20 @@ if (typeof DATA_ENGINE !== 'undefined') {
   // --- Research Stat Cards ---
   // REAL sat/vB feerates (2026-08-14: was avgFees/2500000, an invented divisor;
   // the stat cards label the unit, so the capture's actual feerate is used).
+  // 2026-08-15: data-engine.js exposes fee_history entries with `feeRate`
+  // (= avgFees / BLOCK_WEIGHT_VBYTES, the real sat/vB for a full block — the
+  // same named constant the fee heatmap uses). Read THAT field, not
+  // `avgFeeRate` (never set) — an empty array here was why the fee story
+  // rendered 0 samples / Infinity even when 148 real samples existed.
+  var BLOCK_WEIGHT_VBYTES = 4000000;   // 4M vbytes per block (fee rate = sats / vbytes)
   var feeArr = [];
-  for (var ri = 0; ri < fh.length; ri++) { var rv = fh[ri].avgFeeRate; if (typeof rv === 'number' && rv > 0) feeArr.push(rv); }
+  for (var ri = 0; ri < fh.length; ri++) {
+    var h = fh[ri];
+    var rv = (typeof h.feeRate === 'number') ? h.feeRate :
+             (typeof h.avgFeeRate === 'number') ? h.avgFeeRate :
+             (typeof h.avgFees === 'number' && h.avgFees > 0) ? h.avgFees / BLOCK_WEIGHT_VBYTES : null;
+    if (typeof rv === 'number' && rv > 0) feeArr.push(rv);
+  }
     var fSum = 0, fMin = Infinity, fMax = -Infinity, fAvg = 0, variance = 0, stdDev = 0, volPct = 0;
     for (var ri = 0; ri < feeArr.length; ri++) { fSum += feeArr[ri]; if (feeArr[ri] < fMin) fMin = feeArr[ri]; if (feeArr[ri] > fMax) fMax = feeArr[ri]; }
     if (feeArr.length > 0) fAvg = fSum / feeArr.length;
@@ -1001,10 +1013,15 @@ if (typeof DATA_ENGINE !== 'undefined') {
     briefMiner.innerHTML = 'Reward: ~<strong>$' + Math.round(briefTotalReward).toLocaleString() + '/block</strong> · Fees: <strong>' + briefFeePct + '%</strong> of total · Difficulty trending <strong>-5.2%</strong> · Next halving: <strong>2028</strong>';
   }
 
-  // Research brief
+  // Research brief — HONEST empty state (2026-08-15): when feeArr has no real
+  // samples, render "data pending", never NaN artifacts (Infinity/?/0.0 sat).
   var briefResearch = document.getElementById('brief-research-text');
   if (briefResearch) {
-    briefResearch.innerHTML = '24h volatility: <strong>' + briefVol + '%</strong> · Avg economy fee: <strong>' + fAvg.toFixed(1) + ' sat</strong> · Range: <strong>' + (fMin > 0 ? fMin.toFixed(0) : '?') + ' - ' + (fMax > 0 ? fMax.toFixed(0) : '?') + '</strong> sat/vB · Trend: <strong>' + briefTrendWord + '</strong> · <span class="tag tag-blue">' + (feeArr.length || 0) + ' samples</span>';
+    if (feeArr.length === 0) {
+      briefResearch.innerHTML = '24h fee story: <strong>data pending</strong> — waiting for real fee-history samples · <span class="tag tag-blue">0 samples</span>';
+    } else {
+      briefResearch.innerHTML = '24h volatility: <strong>' + briefVol + '%</strong> · Avg economy fee: <strong>' + fAvg.toFixed(1) + ' sat</strong> · Range: <strong>' + (fMin > 0 ? fMin.toFixed(0) : '?') + ' - ' + (fMax > 0 ? fMax.toFixed(0) : '?') + '</strong> sat/vB · Trend: <strong>' + briefTrendWord + '</strong> · <span class="tag tag-blue">' + feeArr.length + ' samples</span>';
+    }
   }
 
   // Developer brief
