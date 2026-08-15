@@ -1,15 +1,16 @@
 {
-  "generated_at": "2026-08-15T01:03:37.213Z",
+  "generated_at": "2026-08-15T01:27:05.075Z",
   "status": "DEGRADED",
   "issues": [
-    "CAPTURE: failure ratio 33% (last 24h) > 20%"
+    "SPOOL: stale sources: btc_rpc",
+    "DB: error ratio 36% > 20%"
   ],
   "checks": {
     "spool": {
       "accountingOk": true,
       "pending": 0,
       "dead": 0,
-      "stale": 0
+      "stale": 1
     },
     "de_server": {
       "ok": true,
@@ -17,17 +18,15 @@
       "agent": "running"
     },
     "de_agent": {
-      "lastRunAgeMin": 2
+      "lastRunAgeMin": 20
     },
     "orchestrator": {
-      "heartbeatAgeMin": 17,
+      "heartbeatAgeMin": 10,
       "phase": "cycle-complete"
     },
-    "capture": {
-      "failureRatioPct": 33,
-      "windowHours": 24,
-      "windowTotal": 432,
-      "windowFailed": 141
+    "db": {
+      "errorRatioPct": 36,
+      "total": 12746
     }
   }
 }
