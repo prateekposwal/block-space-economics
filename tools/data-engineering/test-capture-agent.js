@@ -135,6 +135,34 @@ test('T4 schema violation → no enqueue, dead-letter, cursor degraded, mirror w
   });
 });
 
+test('T5 failed fetch → NOT enqueued (data-table hygiene), cursor degraded, mirror written', function() {
+  var mirror = path.join(TMP, 'm5-' + Date.now());
+  var spoolDir = path.join(TMP, 'm5spool-' + Date.now());
+  fs.mkdirSync(mirror, { recursive: true });
+  return spoolMod.init({ dir: spoolDir, fsync: false }).then(function(spool) {
+    var fetch = function(ep) {
+      if (ep.key === 'fees') return Promise.resolve({ status: 0, error: 'timeout', fetchedAt: new Date().toISOString() });
+      return Promise.resolve(validDiff());
+    };
+    var agent = capMod.createCaptureAgent({ spool: spool, endpoints: ENDPOINTS, fetch: fetch, config: { baseIntervalMinutes: 60, timeoutMs: 15000 }, mirrorDir: mirror });
+    return agent.runCycle().then(function(r) {
+      assert.strictEqual(r.errored, 1, 'fees errored');
+      assert.strictEqual(r.captured, 1, 'difficulty captured');
+      return spool.stats();
+    }).then(function(st) {
+      assert.strictEqual(st.totals.enqueued, 1, 'ONLY the real capture enqueued — failure is telemetry, not data');
+      assert.strictEqual(st.totals.pending, 1, 'the one real capture sits pending for the consumer');
+      return spool.cursor('fees');
+    }).then(function(cur) {
+      assert.ok(cur, 'fees cursor exists');
+      assert.strictEqual(cur.status, 'degraded', 'cursor records the failure');
+      assert.ok(cur.lastError && cur.lastError.indexOf('timeout') !== -1, 'cursor lastError carries detail');
+      var mirrorFiles = fs.readdirSync(mirror).filter(function(f) { return f.endsWith('.json') && f.indexOf('.tmp-') !== 0; });
+      assert.ok(mirrorFiles.length > 0, 'mirror file written on failure (failure is recorded in the ledger, not the data table)');
+    });
+  });
+});
+
 test('T6 dual-write produces no duplicates', function() {
   var mirror = path.join(TMP, 'm6-' + Date.now());
   var spoolDir = path.join(TMP, 'm6spool-' + Date.now());

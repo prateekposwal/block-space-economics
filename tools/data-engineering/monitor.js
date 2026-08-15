@@ -163,6 +163,10 @@ function getFreshnessReport(dataDir) {
         var src = f.replace('.json', '');
         try {
           var cur = JSON.parse(fs.readFileSync(path.join(curDir, f), 'utf8'));
+          // Retired source (agent-06 btc_rpc, 2026-08-14): a deliberately dormant
+          // source's cursor never advances — its staleness is by design, not a
+          // defect. Skip it so it doesn't drain the quality score / alert.
+          if (cur.retired === true) return;
           var lastSeenMs = new Date(cur.lastSeen).getTime();
           var ageMinutes = Math.round((now - lastSeenMs) / 60000);
           // 2026-08-02: honor per-source cadence. Sources like node_census legitimately

@@ -270,12 +270,16 @@ function createCaptureAgent(opts) {
         .then(function() { return { status: 'violated', source: source }; });
     }
     if (capture.status === 0 || capture.error !== undefined) {
+      // Kintsugi capture-failure pattern (matches agent-06 btc_rpc precedent,
+      // 2026-08-14): a FAILED fetch is telemetry, not data. It must NOT be
+      // enqueued into the spool — that path writes status=0 rows into the
+      // `captures` data table, which ops-health then misread as a "DB error
+      // ratio" (a 24h rolling outage inflates it even after recovery). The
+      // failure is durably recorded in the mirror file (writeMirror above) and
+      // the spool cursor (lastError / missedCycles / status degraded).
       task.consecutiveFails++;
       task.recoveryCountdown = 0;
-      return spool.enqueue(source, wr.payload, { captureTime: cycleTs, day: cycleTs.slice(0, 10), producer: 'capture-agent' })
-        .then(function() {
-          return spool.updateCursor(source, cycleTs, new Error(capture.error || 'fetch failed'), { advance: false, missedCycles: task.missedCycles + 1, expectedIntervalMinutes: task.expectedIntervalMinutes });
-        })
+      return spool.updateCursor(source, cycleTs, new Error(capture.error || 'fetch failed'), { advance: false, missedCycles: task.missedCycles + 1, expectedIntervalMinutes: task.expectedIntervalMinutes })
         .then(function() { return { status: 'errored', source: source }; });
     }
     var wasDegraded = task.consecutiveFails > 0;

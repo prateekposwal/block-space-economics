@@ -53,6 +53,43 @@ function httpGet(url, timeout) {
   });
 }
 
+// Honest capture-health signal (2026-08-15): computed from the per-cycle mirror
+// files (captured-data/<cycle>.json) that record each endpoint's real fetch
+// status — NOT from the `captures` data table. Failed fetches are telemetry and
+// no longer land there as status=0 rows (capture-agent + spool-consumer skip
+// them), so reading status=0 from captures would (a) relabel a rolling-upstream
+// outage as a "DB error" and (b) go permanently blind once the table is clean.
+// The mirror files are the ledger of truth for what actually happened per fetch.
+function captureFailureRatio(windowHours) {
+  var dir = path.join(REPO, 'captured-data');
+  var cutoffMs = Date.now() - (windowHours || 24) * 3600000;
+  var total = 0, failed = 0;
+  try {
+    var files = fs.readdirSync(dir);
+    for (var i = 0; i < files.length; i++) {
+      var f = files[i];
+      if (!/^\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.json$/.test(f)) continue;
+      try {
+        var cycle = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
+        var ts = cycle.captureTime ? new Date(cycle.captureTime).getTime() : null;
+        if (!ts || isNaN(ts)) {
+          // filename: 2026-08-15_05-48-25.json (local time) → ISO fallback
+          var m = /^(\d{4}-\d{2}-\d{2})_(\d{2})-(\d{2})-(\d{2})\.json$/.exec(f);
+          if (m) ts = new Date(m[1] + 'T' + m[2] + ':' + m[3] + ':' + m[4]).getTime();
+        }
+        if (!ts || isNaN(ts) || ts < cutoffMs) continue;
+        var eps = cycle.endpoints || {};
+        Object.keys(eps).forEach(function(k) {
+          var e = eps[k];
+          total++;
+          if (e && (e.status === 0 || e.error)) failed++;
+        });
+      } catch (e) {}
+    }
+  } catch (e) {}
+  return { total: total, failed: failed, windowHours: windowHours || 24 };
+}
+
 function check() {
   var issues = [];
   var checks = {};
@@ -61,28 +98,12 @@ function check() {
     require('../data-engineering/spool.js').init().then(function(s) { return s.stats(); }).catch(function(e) { return null; }),
     // de server (http on localhost)
     httpGet('http://localhost:3456/health', 5000),
-    // db error ratio
-    (function() {
-      try {
-        var db = require('../db/init.js');
-        // Rolling-window signal (current health) + lifetime for transparency.
-        var winTotal = db.query("SELECT COUNT(*) AS c FROM captures WHERE captured_at >= datetime('now', '-" + DB_ERROR_WINDOW_HOURS + " hours')");
-        var winErrs = db.query("SELECT COUNT(*) AS c FROM captures WHERE status = 0 AND captured_at >= datetime('now', '-" + DB_ERROR_WINDOW_HOURS + " hours')");
-        var total = db.query("SELECT COUNT(*) AS c FROM captures");
-        var errs = db.query("SELECT COUNT(*) AS c FROM captures WHERE status = 0");
-        return Promise.resolve({
-          total: total && total[0] ? total[0].c : 0,
-          errs: errs && errs[0] ? errs[0].c : 0,
-          windowTotal: winTotal && winTotal[0] ? winTotal[0].c : 0,
-          windowErrs: winErrs && winErrs[0] ? winErrs[0].c : 0,
-          windowHours: DB_ERROR_WINDOW_HOURS
-        });
-      } catch (e) { return Promise.resolve(null); }
-    })()
+    // capture failure ratio (from mirror cycle files — the honest ledger)
+    Promise.resolve(captureFailureRatio(DB_ERROR_WINDOW_HOURS))
   ]).then(function(results) {
     var spoolStats = results[0];
     var server = results[1];
-    var dbStats = results[2];
+    var captureHealth = results[2];
 
     checks.spool = spoolStats ? { accountingOk: spoolStats.accountingOk, pending: spoolStats.totals.pending, dead: spoolStats.totals.dead, stale: spoolStats.staleSources.length } : { error: 'spool init failed' };
     if (!spoolStats || !spoolStats.accountingOk || spoolStats.totals.dead > 0) issues.push('SPOOL: accounting/dead issue');
@@ -102,10 +123,9 @@ function check() {
     checks.orchestrator = { heartbeatAgeMin: hbAge, phase: hb ? hb.phase : null };
     if (hbAge !== null && hbAge > 60) issues.push('ORCHESTRATOR: heartbeat ' + hbAge + ' min ago');
 
-    var winRatio = dbStats && dbStats.windowTotal > 0 ? Math.round(dbStats.windowErrs / dbStats.windowTotal * 100) : 0;
-    var errRatio = dbStats && dbStats.total > 0 ? Math.round(dbStats.errs / dbStats.total * 100) : 0;
-    checks.db = dbStats ? { errorRatioPct: winRatio, windowHours: dbStats.windowHours, windowTotal: dbStats.windowTotal, windowErrs: dbStats.windowErrs, lifetimeErrorRatioPct: errRatio, total: dbStats.total, errs: dbStats.errs } : { error: 'db query failed' };
-    if (winRatio > 20) issues.push('DB: error ratio ' + winRatio + '% (last ' + DB_ERROR_WINDOW_HOURS + 'h) > 20%');
+    var winRatio = captureHealth && captureHealth.total > 0 ? Math.round(captureHealth.failed / captureHealth.total * 100) : 0;
+    checks.capture = captureHealth ? { failureRatioPct: winRatio, windowHours: captureHealth.windowHours, windowTotal: captureHealth.total, windowFailed: captureHealth.failed } : { error: 'mirror scan failed' };
+    if (winRatio > 20) issues.push('CAPTURE: failure ratio ' + winRatio + '% (last ' + DB_ERROR_WINDOW_HOURS + 'h) > 20%');
 
     var out = {
       generated_at: new Date().toISOString(),

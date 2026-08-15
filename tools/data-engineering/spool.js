@@ -412,6 +412,10 @@ Spool.prototype.stats = function() {
       var curPath = path.join(self.cursorsDir, f);
       try {
         var cur = JSON.parse(fs.readFileSync(curPath, 'utf8'));
+        // Retired source (agent-06 btc_rpc, 2026-08-14): a deliberately dormant
+        // source's cursor never advances, so staleness would fire forever. A
+        // retired cursor is expected to be stale by design — skip it.
+        if (cur.retired === true) return;
         var lastSeen = new Date(cur.lastSeen).getTime();
         var ageMin = (now - lastSeen) / 60000;
         // S3b: per-source real-time window — a source is stale only after 2x of its

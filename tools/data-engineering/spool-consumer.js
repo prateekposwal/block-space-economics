@@ -5,6 +5,8 @@ var db = require('../db/init.js');
 var path = require('path');
 var fs = require('fs');
 
+var FAILURES_LOG = process.env.BSAHI_FAILURES_LOG || path.join(__dirname, '..', '..', 'captured-data', 'spool', 'capture-failures.log');
+
 function num(v) {
   if (typeof v === 'string' && v.trim() !== '' && isFinite(Number(v))) return Number(v);
   return v;
@@ -24,6 +26,19 @@ function handler(payload, ctx) {
   if (data && typeof data === 'object' && data.ok === false) data = { error: data.error || 'capture failed' };
   if (data && typeof data === 'object' && !Array.isArray(data)) {
     Object.keys(data).forEach(function(k) { if (typeof data[k] === 'string') data[k] = num(data[k]); });
+  }
+  // Kintsugi capture-failure pattern (matches capture-agent, 2026-08-15): a
+  // FAILED capture is telemetry, not data. It must not be inserted into the
+  // `captures` data table as a status=0 row (that pollution made ops-health
+  // read a rolling-outage ratio as a fake "DB error ratio"). Log it to the
+  // failure ledger instead; the spool cursor + mirror file already hold the
+  // failure detail. Ack normally so the spool never retries telemetry.
+  if (c.status === 0 || c.error !== undefined) {
+    var rec = { at: new Date().toISOString(), source: ctx.source, id: ctx.id, captureTime: ctx.captureTime, status: c.status || 0, error: c.error || 'status 0' };
+    try {
+      fs.appendFileSync(FAILURES_LOG, JSON.stringify(rec) + '\n');
+    } catch (e) {}
+    return Promise.resolve();
   }
   var json = JSON.stringify(data !== undefined && data !== null ? data : { error: c.error || 'no data' });
   var capturedAt = c.fetchedAt || tsToIso(ctx.captureTime);
@@ -76,4 +91,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { drainAll: drainAll, handler: handler };
+module.exports = { drainAll: drainAll, handler: handler, FAILURES_LOG: FAILURES_LOG };
