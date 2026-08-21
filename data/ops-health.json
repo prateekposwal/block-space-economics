@@ -1,7 +1,8 @@
 {
-  "generated_at": "2026-08-21T12:55:07.980Z",
+  "generated_at": "2026-08-21T14:30:39.001Z",
   "status": "DEGRADED",
   "issues": [
+    "ORCHESTRATOR: heartbeat 65 min ago",
     "CAPTURE: failure ratio 48% (last 24h) > 20%"
   ],
   "checks": {
@@ -17,10 +18,10 @@
       "agent": "running"
     },
     "de_agent": {
-      "lastRunAgeMin": 48
+      "lastRunAgeMin": 84
     },
     "orchestrator": {
-      "heartbeatAgeMin": 1,
+      "heartbeatAgeMin": 65,
       "phase": "cycle-complete"
     },
     "capture": {
