@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           token: ${{ secrets.SNAPSHOT_PAT }}   # PAT bypasses branch protection (GITHUB_TOKEN cannot)
           ref: main
