@@ -7,6 +7,13 @@ Paper 1 and future Papers 2–3. Evidence status is labeled per the roadmap §4
 discipline separation.)*
 
 **Status:** DRAFT OUTLINE — adopted as the Paper-4 plan (2026-08-03), sharpened
+**Freshness note (2026-08-21):** the SCCR numbers shown in Figure 1 and §6 are the
+**dated Aug 02–15 banded baseline** (~0.22–0.29, ~99–100% below 1×). The **live
+series has since moved to a new regime — 0.4433 / 96.24% below 1× on 2026-08-21**
+(`/data/sccr_history.json`, 14-point record). The paper, when written, must carry
+the live reading with its capture date, never a frozen band: see
+`reports/research/regime-event-2026-08-21.md` (served:
+https://bitcoinsahi.com/research/regime-event-2026-08-21.html).
 to the advisor's emphasis 2026-08-03. The program's foundational paper is a
 **mostly-theory paper with minimal equations** — the framework-defining paper,
 the one that could **"become the citation everyone references"** (advisor). It is
@@ -84,7 +91,8 @@ the thesis paragraph, before §1.
                    ▼                                   ▼
       ┌─────────────────────────┐     ┌────────────────┬────────────────┐
       │       BLOCK SPACE       │     │    STORAGE (SCCR) — MEASURED    │
-      │congestion · the one good│     │ ~0.22-0.29 · ~99-100% below 1×  │
+      │congestion · the one good│     │ live 08-21: 0.44 · 96% < 1×    │
+      │                         │     │ dated band: 0.22-0.29        │
       │  the fee market prices  │     │ ──────────────────────────────  │
       │    (~10-min horizon)    │     │      UTXO (UCIR) — FUTURE       │
       │                         │     │   VALIDATION (VCIR) — FUTURE    │
@@ -188,8 +196,9 @@ the thesis paragraph, before §1.
 
 - **What this section contains:** Paper 1's SCCR as the *worked example* of the
   framework — deliberately placed after the theory, and summarized, NOT the
-  headline of the paper. Definition, census (≥32K, primary source), banded
-  result (~22–29% coverage, ~99–100% of blocks below 1× at ≥32K nodes),
+  headline of the paper. Definition, census (≥32K, primary source), the
+  dated Aug 02–15 banded result (~22–29% coverage, ~99–100% below 1×) AND the
+  live series (0.4433 / 96.24% below 1× on 2026-08-21 — see regime-event note),
   knife-edge thresholds (N ≈ 7.1K / P* ≈ $283K), the v2.0.0 10× correction as
   an example of the framework self-correcting, and the reproduction kit (3
   implementations + frozen capture).

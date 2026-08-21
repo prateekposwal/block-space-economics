@@ -85,9 +85,12 @@ the frame while the banded number evidences it.
    (recommended, awaiting final go).**
 3. **Abstract.** Rewrite to arXiv constraints (~1 paragraph, ≤ ~1500 chars):
    state the question, the SCCR definition, the primary-source census (≥32K), the
-   banded result (~22–29%, ~99–100% below 1×), and the reproducibility claim.
+   dated banded result (~22–29%, ~99–100% below 1×, Aug 02–15 baseline) AND the
+   live series (0.4433 / 96.24% below 1× on 2026-08-21 — see
+   `reports/research/regime-event-2026-08-21.md`), and the reproducibility claim.
    The current abstract (working-paper §1) is close; trim to venue style.
-   Banded claims only — never the strong form (100% below 1×).
+   Capture-dated claims only — never a frozen band without its date, never the
+   strong form (100% below 1×).
 4. **Source format.** ✅ **DECIDED (Prateek, 2026-08-02): submit LaTeX, not
    PDF-only.** Full LaTeX source exists at `research/working-paper.tex`
    (compilable skeleton — abstract verbatim, all sections, tables, references;
@@ -101,10 +104,15 @@ the frame while the banded number evidences it.
    dimensionless, (iii) no bare "0.29" without a date+capture qualifier, (iv) the
    canonical live value is read from model-spec v2.0.1, never hardcoded
    (working-paper §5.3 discipline).
-6. **Claims-within-evidence check.** Confirm every headline is the *banded*
-   statement (~22–29%, ~99–100% below 1×, "lower bound ≥32K", "T=10 assumption"),
-   not the strong form (100% below 1×). The strong form does not survive the real
-   census (working-paper §5.4) — do not resurrect it in the arXiv abstract.
+6. **Claims-within-evidence check.** Confirm every headline is a *dated*,
+   capture-labeled statement ("lower bound ≥32K", "T=10 assumption") with the
+   banded baseline (~22–29%, ~99–100% below 1×, Aug 02–15) clearly marked as
+   dated, AND the live series (0.4433 / 96.24% below 1×, 2026-08-21) stated with
+   its capture date (re-read `/data/sccr_history.json` immediately before
+   submission — the ratio moves with the fee market; cross-link the regime-event
+   page `reports/research/regime-event-2026-08-21.md`). Never the strong form
+   (100% below 1×) — it does not survive the real census (working-paper §5.4) —
+   and never a frozen band without its date.
 7. **Upload** → arXiv moderation (usually 1–3 business days) → preprint URL.
 8. **Register the DOI/preprint URL** in the repo (TODO-bitcoin-oracle.md R5
    publication item + site surfaces).
@@ -154,9 +162,9 @@ measured. Also the basis for the Optech 2–4 sentence summary (§3 step 1).
 
 - [x] **Author list** — ✅ DECIDED (Prateek 2026-08-02): Prateek Poswal, Independent Researcher (Bitcoin Sahi Research program line); arXiv = real identity. ORCID created 2026-08-04 (`0009-0005-2139-1877`). *(LEFT: arXiv account, D3)*
 - [x] **License** — ✅ RECOMMENDED (Prateek 2026-08-02): MIT code + CC BY 4.0 paper. *(LICENSE file still untouched — awaiting Prateek's final go)*
-- [ ] **Abstract rewritten** to venue constraints, banded claims only
+- [ ] **Abstract rewritten** to venue constraints, capture-dated claims (banded baseline dated + live series with date) only
 - [ ] **Units consistency pass** (every quantity tagged; no undated headline numbers)
-- [ ] **Claims-within-evidence pass** (banded ~22–29% / ~99–100%; ≥32K lower bound; T=10 assumption stated)
+- [ ] **Claims-within-evidence pass** (dated banded ~22–29% / ~99–100%; live series 0.4433 / 96.24% with 2026-08-21 date; ≥32K lower bound; T=10 assumption stated)
 - [ ] **Companion note final** (`archival-vs-pruned-note.md` — Prateek's simultaneous-publication decision recorded; note content review pending)
 - [x] **Source format** — ✅ DECIDED (Prateek 2026-08-02): **LaTeX, not PDF-only**; LaTeX source EXISTS (`research/working-paper.tex`); needs a compile pass on a machine with pdflatex (toolchain absent locally)
 - [ ] **External reproduction** — 🚨 **CRITICAL PATH** (Prateek 2026-08-02: *the only thing worth delaying submission for*); protocol + log in `research/reproduce/`; do NOT submit until an uninvolved reproducer has run it (or delay waived)
@@ -165,8 +173,8 @@ measured. Also the basis for the Optech 2–4 sentence summary (§3 step 1).
 - [ ] **Dead-claims audit**: no reference to v1/v2 oracle framing (refuted); no BIP-110 claim beyond documented DOA status
 - [ ] **Falsifiability section present** — working-paper §7.1 ("What would falsify
       this framework?", added 2026-08-03 post-advisor review); every submission
-      surface (abstract, paper, companion note) states the banded claim and never
-      the strong form
+      surface (abstract, paper, companion note) states a dated claim (banded
+      baseline marked dated + live series with capture date) and never the strong form
 - [ ] **Evidence/hypothesis separation** — SCCR labeled ESTABLISHED METRIC; all
       other RIRs labeled RESEARCH HYPOTHESES wherever named (abstract, companion
       §2 Q3 table, roadmap references); no surface implies UCIR/VCIR/RCIR/BCIR/DCIR are results

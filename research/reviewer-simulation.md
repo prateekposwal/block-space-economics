@@ -2,6 +2,15 @@
 
 **For:** working-paper v2.1.0 (SCCR storage paper) · model-spec v2.0.1
 **Date:** 2026-08-02
+**Freshness note (2026-08-21):** this review memo is a **dated historical record**
+written against the Aug 02–15 banded baseline (~0.22–0.29, ~99–100% below 1×).
+The live series has since moved to a new regime — **SCCR 0.4433, 96.24% below 1×
+on 2026-08-21** (`/data/sccr_history.json`, 14-point record). The reviewer
+objections stand as written (they target the paper's *framing*, which is
+date-agnostic), but any pre-submission re-run must re-check every number against
+the live series and the regime-event page
+(`reports/research/regime-event-2026-08-21.md` / served
+https://bitcoinsahi.com/research/regime-event-2026-08-21.html).
 **Method:** four adversarial memos written from four reviewer identities, each
 with the 3–5 sharpest objections and whether the paper currently answers them
 (specific sections cited). Ends with a consolidated "does the paper survive?"

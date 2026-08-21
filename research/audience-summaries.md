@@ -4,11 +4,16 @@
 v2.0.1 · `research/roadmap.md` (adopted 2026-08-02)
 **Status:** READY-TO-USE (2026-08-03) — four polished abstracts/explainers for
 the submission and site, one per audience, written for the peer-review package.
-**Numbers used (verified against the repo):** banded headline **SCCR ≈ 0.22–0.29**
-(dimensionless, dated captures at the ≥32K lower-bound census; **range across the
-true-N band: ~0.07–0.71**); **frozen-capture reproduction 0.2186** (171 blocks,
-min 0.0584 / max 0.8320, 171/171 below 1×, reproduced by JS/Python/C); **live
-rolling value 0.2151** (169 blocks, rolling 24h window, 2026-08-02 session). SCCR is the **first member of the RIR family**
+**Numbers used (verified against the repo):** **LIVE series (2026-08-21) — SCCR
+0.4433, 96.24% of blocks below 1×** (133 blocks, `/data/sccr_history.json`,
+14-point record 08-02 → 08-21; see
+`reports/research/regime-event-2026-08-21.md` / served
+https://bitcoinsahi.com/research/regime-event-2026-08-21.html). **Dated banded
+baseline (Aug 02–15):** SCCR ≈ 0.22–0.29 (dimensionless, dated captures at the
+≥32K lower-bound census; **range across the true-N band: ~0.07–0.71**);
+**frozen-capture reproduction 0.2186** (171 blocks, min 0.0584 / max 0.8320,
+171/171 below 1×, reproduced by JS/Python/C); **08-02 rolling value 0.2151**
+(169 blocks, rolling 24h window, 2026-08-02 session). SCCR is the **first member of the RIR family**
 (Resource Internalization Ratios); every other member (UCIR, VCIR, RCIR, BCIR,
 DCIR) is a research hypothesis, not a measured result. All surfaces must state
 the banded claim — never the strong form ("100% below 1×" does not survive the
@@ -32,7 +37,7 @@ network.
 
 **The number.** Fees cover roughly **22–29%** of the modeled 10-year replicated
 storage cost of an average block (frozen-capture reproduction: **0.2186**;
-latest live rolling value: **0.2151**). The ratio moves with the fee market and
+latest live rolling value: **0.4433 (2026-08-21)**; dated 08-02 rolling: **0.2151**). The ratio moves with the fee market and
 the node count — it is a distribution over time and parameters, not a constant.
 
 **Why you can check it.** The measurement is reproducible: one frozen capture,
@@ -65,8 +70,9 @@ finding survived), reconcile two cost models that disagreed by 16.4×
 joint Monte Carlo (99.9% of draws below 1× under the current N band; 99.8%
 under the old band).
 
-**The numbers.** Banded estimate: **SCCR ≈ 0.22–0.29** (dimensionless) at the
-≥32K census; frozen-capture reproduction **0.2186**; live rolling **0.2151**;
+**The numbers.** **Live (2026-08-21): SCCR 0.4433, 96.24% below 1×** (see regime-event
+note); dated banded estimate: **SCCR ≈ 0.22–0.29** (dimensionless) at the
+≥32K census; frozen-capture reproduction **0.2186**; 08-02 rolling **0.2151**;
 ~98.7–100% of sampled blocks below 1× at N=32K (the strong "100%" form does not
 survive the lower-bound census on the dated capture — stated honestly). 1× is a descriptive
 calibration point, not a normative target; voluntary participation weakens the
@@ -95,7 +101,7 @@ addresses via Bitcoin Core `getnodeaddresses` — the RPC cap, not a complete
 enumeration). Today
 fees cover roughly **22–29%** of modeled 10-year storage cost at N=32K
 (**~7–71% across the true-N band**) (latest live
-rolling value: **0.2151**; frozen-capture reproduction: **0.2186**).
+reading 2026-08-21: **0.4433**; frozen-capture reproduction: **0.2186**).
 
 **Why it matters for capital allocation.** The ratio is linear in BTC price: at
 today's fee levels, SCCR crosses 1× — fees fully covering modeled storage cost —
@@ -125,7 +131,7 @@ node's disk, bandwidth, and electricity, year after year.
 
 **The number.** We measured the gap: transaction fees currently cover roughly
 **one-fifth to one-third (22–29%)** of the modeled 10-year storage cost of an
-average block. The latest live measurement: **about 21.5% (0.2151)**; the
+average block. The latest live measurement (2026-08-21): **about 44.3% (0.4433)**; the dated
 frozen-capture reproduction anyone can run: **0.2186**. Most blocks' fees fall
 below their estimated storage cost; a few high-fee blocks exceed it.
 

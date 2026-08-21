@@ -1,55 +1,35 @@
-# Research Agent Report — 2026-08-11
-Cycle: 1 | Generated: 2026-08-11 00:58:33 UTC
+# Research Agent Report — 2026-08-21
+Cycle: 7 | Generated: 2026-08-21 01:14:57 UTC
 
 ## Summary
 
 | Agent | Findings | Status |
 |-------|----------|--------|
-| Bitcoin Core & Protocol | 3 | ✅ |
-| Lightning Network | 3 | ✅ |
-| APIs & Data Sources | 5 | ✅ |
-| Blockchain General | 3 | ✅ |
+| Bitcoin Core & Protocol | 1 | ✅ |
+| Lightning Network | 1 | ✅ |
+| APIs & Data Sources | 1 | ✅ |
+| Blockchain General | 1 | ✅ |
 | Academic Research | 1 | ✅ |
-| Research Analyst | 1 | ✅ |
-| Research Analyst | 1 | ✅ |
 
 ## Bitcoin Core & Protocol
 
-- Recent releases: 29.4, 31.1, 30.3, 31.0, 28.4
-- Active BIP discussions in repo
-- Bitcoin Optech newsletters available
+- No new findings this cycle
 
 ## Lightning Network
 
-- LND latest: v0.21.2-beta.rc1
-- CLN latest: v26.06.6
-- LN Network: 16567 nodes, 34500 channels, 4033.0 BTC capacity
+- No new findings this cycle
 
 ## APIs & Data Sources
 
-- Data source health: 4/4 endpoints responding
-- Mempool blocks: 8 blocks in queue
-- Last mempool block fee range: N/A sat/vB
-- Difficulty adjustment: -1.3%
-- Blocks until next adjustment: 1712
+- Data source health: 0/4 endpoints responding
 
 ## Blockchain General
 
-- Trending Bitcoin repos: bitcoinbook/bitcoinbook, UFund-Me/Qbot, solana-labs/solana
-- DeFiLlama Bitcoin data: 1970 data points
-- BTC: $63,969 (24h: -1.51%)
+- No new findings this cycle
 
 ## Academic Research
 
 - No new papers found this cycle
-
-## Research Analyst
-
-- SCCR trend: 0.251183 (+0% vs 0.251179) — the unpriced storage externality is SHRINKING as fees rise.
-
-## Research Analyst
-
-- SCCR 0.251183 at N=32K census: fee-market-driven (node count stable at the census lower bound), so the drop reflects fee cooling, not node growth.
 
 ## 🧑‍🔧 Architect's Research Notes
 
@@ -63,7 +43,8 @@ The following insights were provided by the architect and applied to this cycle:
 
 ### General Directions
 - - Core thesis: Bitcoin's fee market prices short-term block inclusion competition. It does NOT price lifetime storage costs across all full nodes. Storage Cost Coverage Ratio = TransactionFee / EstimatedLifetimeStorageCost. This is our novel research contribution — a reproducible model to measure the gap between one-time fees and cumulative network storage burden.
-- - STORAGE RATIO REPORT v2.0.0: 158 blocks sampled, avg coverage ratio 0.1719 (17.2%) (corrected in model-spec.json v2.0.0). 100% of sampled blocks have fees below 1x storage cost. Current fees cover ~17% of the estimated 10-year storage cost across 60K nodes. This is the empirical evidence for the unpriced externality thesis.
+- - **SCCR LIVE SERIES (current, 2026-08-21):** avg storage cost coverage ratio **0.4433** (133 blocks, live `/data/sccr_history.json`, 14-point record 08-02 → 08-21), with **96.24%** of sampled blocks below 1× full storage cost (128/133). Coverage has risen ~2.8× from its 5-day low (0.1574 on 08-16) — the fee market is now pricing a larger share of the storage externality than a week ago. This replaces the dated v2.0.0-era figure (0.1719 / ~17% at N=60K), which reflected the Aug 02–15 banded baseline (~0.22–0.29). Live source: `/data/sccr_history.json` (verified byte-identical to `origin/main`).
+- - See the regime-event page for the full dated series + methodology: [regime-event-2026-08-21.md](regime-event-2026-08-21.md) (served: https://bitcoinsahi.com/research/regime-event-2026-08-21.html).
 
 ---
 *Bitcoin Sahi Research Agent System*

@@ -107,8 +107,11 @@ body.gated .container{display:none}</style>
 <p><strong>2023 Ordinals:</strong> inscriptions exploited the 4:1 discount to put data on-chain at a</p>
 <p>subsidized marginal price (working-paper §5.2). The externality becomes measurable in</p>
 <p>the fee market.</p>
-<p><strong>Measured result:</strong> SCCR ≈ 0.22–0.29 at N=32K; ~98.7–100% of blocks below 1×</p>
-<p>(working-paper §5).</p>
+<p><strong>Measured result (live, 2026-08-21):</strong> SCCR <strong>0.4433</strong>,
+<strong>96.24%</strong> of blocks below 1× (133 blocks, <code>/data/sccr_history.json</code>,
+14-point record 08-02 → 08-21). Dated banded baseline (Aug 02–15): SCCR ≈ 0.22–0.29 at
+N=32K; ~98.7–100% of blocks below 1× (working-paper §5). The ratio is fee-market-driven
+and time-varying — see the <a href="/research/regime-event-2026-08-21.html">regime event page</a>.</p>
 <p>The chain supports the paper&#x27;s framing: the fee market was never designed to price</p>
 <p>storage, so finding that it does not is a measurement of the design&#x27;s actual behavior,</p>
 <p>not a claim of market failure. This is the honest, source-supported version of the</p>
@@ -122,7 +125,7 @@ body.gated .container{display:none}</style>
 <tr><td>&quot;I anticipate there will never be more than 100K nodes, probably less&quot; (post 188, 2010)</td><td>N &lt; 100K, probably less</td><td>Primary-source lower-bound census N ≥ 32,000 known addresses (addrman cap); independent estimates 10K–100K</td><td>✅ <strong>CONSISTENT</strong> — the paper&#x27;s N-band (10K–100K) brackets his ceiling; his claim is not falsified by the census, and his upper bound sits at the top of our uncertainty band</td></tr>
 <tr><td>&quot;It will reach an equilibrium where it&#x27;s not worth it for more nodes to join in&quot; (post 188)</td><td>Node count self-limits via cost/benefit; N stabilizes</td><td>Roadmap Q1: the only endogenous negative feedback in the model is the N-margin loop; the model cannot yet close the loop</td><td>🟡 <strong>OPEN / NOT YET TESTED</strong> — this is roadmap Q1 (equilibrium force); a measured N-response function would test it directly (roadmap §8 Q1)</td></tr>
 <tr><td>&quot;The more burden it is to run a node, the fewer nodes there will be&quot; (post 287)</td><td>∂N/∂burden &lt; 0</td><td>C = $925/yr bundled node cost; SCCR ∝ 1/N</td><td>🟡 <strong>TESTABLE</strong> — burden↔N elasticity is a roadmap Phase IV dynamic question</td></tr>
-<tr><td>&quot;storage should not be a problem&quot; (whitepaper §7, 2008)</td><td>Storage is negligible for node operation</td><td>SCCR ≈ 0.22–0.29; per-node lifetime storage liability ~$0.18/block; $925/yr node cost</td><td>⚠️ <strong>SCOPE-CAUTION</strong> — his claim covers headers in RAM (SPV), NOT full-chain disk storage; against the full-chain storage this paper measures, the burden is real but small per node ($925/yr bundled, storage component ~$167/yr). The claim is not directly falsified because it was about a different object</td></tr>
+<tr><td>&quot;storage should not be a problem&quot; (whitepaper §7, 2008)</td><td>Storage is negligible for node operation</td><td>Live SCCR 0.4433 (2026-08-21; 96.24% below 1×); dated band 0.22–0.29; per-node lifetime storage liability ~$0.18/block; $925/yr node cost</td><td>⚠️ <strong>SCOPE-CAUTION</strong> — his claim covers headers in RAM (SPV), NOT full-chain disk storage; against the full-chain storage this paper measures, the burden is real but small per node ($925/yr bundled, storage component ~$167/yr). The claim is not directly falsified because it was about a different object</td></tr>
 <tr><td>&quot;nodes will have an incentive to receive and include all the transactions they can&quot; (email #13, 2008)</td><td>Fee incentive is sufficient to induce inclusion</td><td>Fee market clears blocks at ~2 sat/vB (live baseline); inclusion incentive works — the mechanism functions</td><td>✅ <strong>CONSISTENT</strong> — the fee market does clear inclusion; it is the *storage* leg that is unpriced, which is exactly the paper&#x27;s claim</td></tr>
 <tr><td>&quot;The threshold can easily be changed... keep it lower as a circuit breaker... limit the amount of wasted disk space&quot; (post 441, 2010)</td><td>Storage protection via quantity control, not price</td><td>The 1MB cap persisted into the Ordinals era; SegWit&#x27;s 4:1 discount changed effective capacity</td><td>✅ <strong>CONSISTENT</strong> — quantity control, not price, was the design&#x27;s storage-protection mechanism</td></tr>
 </table>
