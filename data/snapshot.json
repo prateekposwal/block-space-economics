@@ -1,35 +1,38 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-21T20:31:24.974595+00:00",
+  "generated_at": "2026-08-21T21:20:10.131Z",
   "freshness_min": 0,
   "fees": {
-    "fastestFee": 3,
-    "halfHourFee": 3,
+    "fastestFee": 5,
+    "halfHourFee": 5,
     "hourFee": 3,
-    "economyFee": 2,
-    "minimumFee": 1
+    "economyFee": 1,
+    "minimumFee": 0
   },
-  "btc_price": 77496,
+  "btc_price": 77462,
   "block_height": 963485,
-  "mempool_tx": 90019,
+  "mempool_tx": 86236,
   "forecast": [
     {
       "day_offset": 1,
-      "predicted_fastest_fee": 1.9,
-      "trend": "falling"
+      "predicted_fastest_fee": 2.8,
+      "trend": "stable"
     },
     {
       "day_offset": 2,
-      "predicted_fastest_fee": 1.8,
-      "trend": "falling"
+      "predicted_fastest_fee": 2.8,
+      "trend": "stable"
     },
     {
       "day_offset": 3,
-      "predicted_fastest_fee": 1.7,
-      "trend": "falling"
+      "predicted_fastest_fee": 2.7,
+      "trend": "stable"
     }
   ],
-  "alerts": [],
+  "alerts": [
+    "🛡 SPOOL: stale sources: bip110_signal,block_interval",
+    "🛡 CAPTURE: failure ratio 54% (last 24h) > 20%"
+  ],
   "history": [
     {
       "date": "2026-08-16",
@@ -234,6 +237,10 @@
     {
       "date": "2026-08-22",
       "fastestFee": 2
+    },
+    {
+      "date": "2026-08-22",
+      "fastestFee": 5
     }
   ],
   "totalPosts": 0
