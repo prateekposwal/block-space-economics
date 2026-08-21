@@ -83,19 +83,10 @@ jobs:
             git checkout --theirs data/ 2>/dev/null || git checkout HEAD -- data/ 2>/dev/null || true
             sleep 5
           done
-          # Fail closed: never push invalid JSON (re-validate after sync).
-          python3 - <<'PYEOF'
-          import json, glob, sys
-          for f in sorted(glob.glob('data/*.json')) + sorted(glob.glob('research/reproduce/input/*.json')):
-              t = open(f).read()
-              if '<<<<<<<' in t or '=======' in t or '>>>>>>>' in t:
-                  print('conflict markers after sync:', f); sys.exit(1)
-              try:
-                  json.loads(t)
-              except Exception as e:
-                  print('invalid JSON after sync:', f, e); sys.exit(1)
-          print('post-sync data valid')
-          PYEOF
+          # Fail closed: never push invalid JSON (re-validate after sync) —
+          # single canonical gate (json.parse + conflict markers), shared by
+          # every data-committing path.
+          python3 tools/validate_data_json.py
           git add data/bip110.json data/bip110_daily.json data/hashrate.json \
                   data/block_interval.json data/mempool_fee_histogram.json \
                   data/fee_history_blocks.json data/adoption.json \

@@ -135,17 +135,14 @@ function run() {
   if (process.argv.indexOf('--commit') !== -1) {
     // Pre-commit JSON integrity gate — a failed rebase previously shipped conflict
     // markers into data/. Validate BEFORE any git operation.
+    // Single canonical data-integrity gate (json.parse + conflict markers) —
+    // the SAME script the GitHub Actions workflows call. Pattern-first fix: the
+    // old ad-hoc check validated only 4 files and MISSED sccr*.json, letting a
+    // stash-pop conflict ship markers into data/. One gate, reused everywhere.
     try {
-      ['snapshot.json', 'latest.json', 'alerts.json', 'fee_history.json'].forEach(function (f) {
-        var p = path.join(DATA_DIR, f);
-        var t = fs.readFileSync(p, 'utf8');
-        if (t.indexOf('<<<<<<<') !== -1 || t.indexOf('=======') !== -1 || t.indexOf('>>>>>>>') !== -1) {
-          throw new Error('conflict markers in ' + f);
-        }
-        JSON.parse(t);
-      });
+      require('child_process').execFileSync('python3', [path.join(REPO, 'tools', 'validate_data_json.py')], { cwd: REPO, stdio: 'inherit' });
     } catch (e) {
-      console.error('snapshot JSON validation failed — NOT committing:', e.message);
+      console.error('snapshot data validation failed — NOT committing:', (e.message || ''));
       return snapshot;
     }
     try {

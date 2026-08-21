@@ -106,7 +106,7 @@ footer .links a:hover{color:var(--accent)}
   <canvas id="sccr-canvas" width="1000" height="240"></canvas>
   <div class="legend"><span><span class="sw" style="background:var(--accent)"></span>average SCCR per day</span><span><span class="sw" style="background:var(--red)"></span>the 1.0 line (full coverage)</span></div>
   <div class="provenance" id="sccr-provenance" style="font-size:.78rem;color:var(--muted);margin-top:8px;line-height:1.5">Measurement provenance loading…</div>
-  <div class="callout"><b>The story:</b> fees cover roughly 18–28% of what permanently-stored data costs full nodes. The unpriced remainder is an attack surface — see the cost-to-flood card. Paper: <a href="/research/working-paper.html" style="color:var(--accent)">working-paper →</a></div>
+  <div class="callout"><b>The story (live, dated):</b> fees now cover <b id="sccr-coverage-story">…</b> of what permanently-stored data costs full nodes — and that coverage is a moving target. Read the latest reading at <a href="/research/regime-event-2026-08-21.html" style="color:var(--accent)">regime event →</a> and the model at <a href="/research/working-paper.html" style="color:var(--accent)">working-paper →</a><br><span id="sccr-freshness" style="font-size:.72rem;color:var(--muted)">freshness label loading…</span></div>
 </div>
 
 <!-- 3. COST TO FLOOD -->
@@ -205,6 +205,8 @@ function drawSccr(canvasId){
     var pts=j.payload||[];
     if(pts.length<1)return;
     document.getElementById('sccr-latest').textContent=fmt(pts[pts.length-1].avg_sccr);
+    var cs=document.getElementById('sccr-coverage-story');
+    if(cs){ var cv=pts[pts.length-1].avg_sccr; cs.textContent=(cv*100).toFixed(1)+'% of modeled 10-year storage cost (SCCR ' + cv.toFixed(4) + ')'; }
     document.getElementById('sccr-below').textContent=(typeof pts[pts.length-1].below_1x_pct === 'number' ? pts[pts.length-1].below_1x_pct : '--')+'%';
     fetch('/data/sccr.json').then(function(r){return r.json()}).then(function(s){
       document.getElementById('sccr-n').textContent=s.N.toLocaleString();
@@ -213,6 +215,8 @@ function drawSccr(canvasId){
         var censusTxt = 'census as of ' + (s.census_date || (s.census_captured_at || '').slice(0,10) || 'unknown');
         if (s.census_stale) censusTxt += ' — STALE (last measured ' + (s.census_date || '?') + '; N is a lower-bound constant)';
         pn.textContent = 'Provenance: ' + (s.notes || 'see /sccr/latest') + ' · ' + censusTxt + ' · measured ' + s.generated_at.slice(0,10) + ' · spec v' + s.spec_version;
+      var fr=document.getElementById('sccr-freshness');
+      if (fr && s.generated_at) { fr.textContent = 'Data as of ' + s.generated_at.slice(0,16).replace('T',' ') + ' UTC · refreshes on the daily SCCR cadence'; }
       }
     }).catch(function(){ var pn=document.getElementById('sccr-provenance'); if(pn) pn.textContent='Provenance unavailable.'; });
     var s2 = sizeCanvas(document.getElementById(canvasId), 1000/240);

@@ -86,6 +86,17 @@ def cmd_commit_branch(branch_name, commit_msg):
             print(f"❌ Failed to create branch: {result.stderr}")
             return
     
+    # Data-integrity gate (single canonical script — json.parse + conflict
+    # markers). Reject the commit before staging anything if any data file is
+    # malformed; this path previously had NO gate and could push broken data.
+    gate = subprocess.run(
+        ['python3', 'tools/validate_data_json.py'],
+        capture_output=True, text=True)
+    if gate.returncode != 0:
+        print('❌ Data integrity gate REJECTED the commit (nothing staged):')
+        print(gate.stderr)
+        return
+
     # Stage all
     subprocess.run(['git', 'add', '-A'])
     
