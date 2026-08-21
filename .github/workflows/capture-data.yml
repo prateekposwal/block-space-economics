@@ -24,7 +24,7 @@ jobs:
       # Site integrity gate: validate.js (C1-C4) runs here too so a regression
       # fails even this deprecated workflow. Fails closed (exit 1 on error).
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: '20'
       - name: Site integrity check (validate.js — C1-C4)
