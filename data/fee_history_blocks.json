@@ -1,22 +1,10 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-21T06:36:36.258Z",
+  "generated_at": "2026-08-21T07:36:48.709Z",
   "source": "GitHub Actions (public API mempool.space /api/v1/mining/blocks/fees/24h)",
   "unit": "avgFees in sats per block, usd in $ per BTC",
   "note": "Per-block average fees (sats) and BTC price at capture, last 144 blocks (~24h). Deduped by block height. Fetched live from mempool.space by GitHub Actions.",
   "blocks": [
-    {
-      "h": 963268,
-      "t": 1787209952,
-      "avgFees": 4936696,
-      "usd": 69810
-    },
-    {
-      "h": 963269,
-      "t": 1787210990,
-      "avgFees": 3669794,
-      "usd": 69810
-    },
     {
       "h": 963270,
       "t": 1787212656,
@@ -813,6 +801,18 @@
       "h": 963402,
       "t": 1787293967,
       "avgFees": 5381752,
+      "usd": 75427
+    },
+    {
+      "h": 963403,
+      "t": 1787294547,
+      "avgFees": 3894920,
+      "usd": 75427
+    },
+    {
+      "h": 963404,
+      "t": 1787295222,
+      "avgFees": 2601683,
       "usd": 75427
     }
   ]

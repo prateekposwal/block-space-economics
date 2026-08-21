@@ -1,160 +1,312 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-21T06:36:36.157Z",
+  "generated_at": "2026-08-21T07:36:48.654Z",
   "source": "GitHub Actions (public API mempool.space /api/mempool)",
-  "capturedAt": "2026-08-21T06:36:36.157Z",
+  "capturedAt": "2026-08-21T07:36:48.654Z",
   "unit": "fee rate sat/vB → vsize",
   "note": "Fee-RATE histogram of the mempool (vsize per fee-rate bucket). This is NOT a transaction-age histogram — age data is not captured by the pipeline. Fetched live by GitHub Actions.",
-  "count": 80828,
-  "vsize": 43372826,
+  "count": 86474,
+  "vsize": 45943156,
   "histogram": [
     {
-      "rate": 7.68889,
-      "vsize": 50029
+      "rate": 12.70058,
+      "vsize": 50237
     },
     {
-      "rate": 5.08354,
-      "vsize": 52748
+      "rate": 9.5449,
+      "vsize": 93564
     },
     {
-      "rate": 4.0367,
-      "vsize": 53037
+      "rate": 7.6484,
+      "vsize": 50043
     },
     {
-      "rate": 3.61667,
-      "vsize": 50155
+      "rate": 7.00045,
+      "vsize": 50259
     },
     {
-      "rate": 3.31323,
-      "vsize": 67748
+      "rate": 6.42202,
+      "vsize": 50018
     },
     {
-      "rate": 3.01818,
-      "vsize": 50274
+      "rate": 6.03468,
+      "vsize": 50153
     },
     {
-      "rate": 2.49409,
+      "rate": 5.86239,
+      "vsize": 50057
+    },
+    {
+      "rate": 5.2987,
+      "vsize": 50067
+    },
+    {
+      "rate": 5.03727,
+      "vsize": 53631
+    },
+    {
+      "rate": 5.02022,
+      "vsize": 66638
+    },
+    {
+      "rate": 5.00115,
+      "vsize": 50061
+    },
+    {
+      "rate": 4.82664,
+      "vsize": 54233
+    },
+    {
+      "rate": 4.51818,
       "vsize": 50086
     },
     {
-      "rate": 2.3,
-      "vsize": 52205
+      "rate": 4.32467,
+      "vsize": 51834
     },
     {
-      "rate": 2.175,
-      "vsize": 55023
+      "rate": 4.2934,
+      "vsize": 50689
     },
     {
-      "rate": 2.08836,
-      "vsize": 50712
+      "rate": 4.1487,
+      "vsize": 50430
     },
     {
-      "rate": 2.03571,
-      "vsize": 51941
+      "rate": 4.04,
+      "vsize": 50366
     },
     {
-      "rate": 2.01429,
-      "vsize": 50724
+      "rate": 4.02817,
+      "vsize": 50367
     },
     {
-      "rate": 2.00928,
-      "vsize": 65611
+      "rate": 4.00841,
+      "vsize": 50992
     },
     {
-      "rate": 2.00728,
-      "vsize": 67612
+      "rate": 3.90714,
+      "vsize": 50331
     },
     {
-      "rate": 2,
-      "vsize": 55455
+      "rate": 3.62857,
+      "vsize": 51466
     },
     {
-      "rate": 1.49791,
-      "vsize": 50978
+      "rate": 3.44286,
+      "vsize": 50963
     },
     {
-      "rate": 1.20792,
-      "vsize": 50072
+      "rate": 3.33571,
+      "vsize": 50317
     },
     {
-      "rate": 1.19912,
-      "vsize": 62370
+      "rate": 3.10734,
+      "vsize": 50093
     },
     {
-      "rate": 1.10119,
-      "vsize": 51621
+      "rate": 3.02679,
+      "vsize": 55648
     },
     {
-      "rate": 1.04317,
-      "vsize": 50134
+      "rate": 3.02128,
+      "vsize": 53452
     },
     {
-      "rate": 1.01309,
-      "vsize": 53498
+      "rate": 3.01667,
+      "vsize": 52045
     },
     {
-      "rate": 1.00662,
-      "vsize": 64917
+      "rate": 3.01395,
+      "vsize": 51749
     },
     {
-      "rate": 1.00429,
-      "vsize": 50504
+      "rate": 3.00918,
+      "vsize": 53029
     },
     {
-      "rate": 1.00242,
-      "vsize": 52259
+      "rate": 3.00566,
+      "vsize": 68610
+    },
+    {
+      "rate": 2.62353,
+      "vsize": 50109
+    },
+    {
+      "rate": 2.40385,
+      "vsize": 50508
+    },
+    {
+      "rate": 2.2695,
+      "vsize": 50123
+    },
+    {
+      "rate": 2.21076,
+      "vsize": 53780
+    },
+    {
+      "rate": 2.09205,
+      "vsize": 50052
+    },
+    {
+      "rate": 2.02168,
+      "vsize": 50057
+    },
+    {
+      "rate": 2.00857,
+      "vsize": 66920
+    },
+    {
+      "rate": 2.00363,
+      "vsize": 51273
+    },
+    {
+      "rate": 1.9,
+      "vsize": 50279
+    },
+    {
+      "rate": 1.57611,
+      "vsize": 57160
+    },
+    {
+      "rate": 1.20687,
+      "vsize": 60435
+    },
+    {
+      "rate": 1.19628,
+      "vsize": 54340
+    },
+    {
+      "rate": 1.12901,
+      "vsize": 51769
+    },
+    {
+      "rate": 1.09818,
+      "vsize": 50261
+    },
+    {
+      "rate": 1.03634,
+      "vsize": 50280
+    },
+    {
+      "rate": 1.01418,
+      "vsize": 50008
+    },
+    {
+      "rate": 1.01017,
+      "vsize": 50818
+    },
+    {
+      "rate": 1.00917,
+      "vsize": 52960
+    },
+    {
+      "rate": 1.00699,
+      "vsize": 50308
+    },
+    {
+      "rate": 1.00629,
+      "vsize": 50001
+    },
+    {
+      "rate": 1.00474,
+      "vsize": 59205
+    },
+    {
+      "rate": 1.00376,
+      "vsize": 50264
+    },
+    {
+      "rate": 1.00323,
+      "vsize": 50772
+    },
+    {
+      "rate": 1.00163,
+      "vsize": 50338
+    },
+    {
+      "rate": 1.00004,
+      "vsize": 61430
     },
     {
       "rate": 1,
-      "vsize": 108107
+      "vsize": 130168
     },
     {
-      "rate": 0.5036,
-      "vsize": 52123
+      "rate": 0.59949,
+      "vsize": 50011
+    },
+    {
+      "rate": 0.51799,
+      "vsize": 84605
+    },
+    {
+      "rate": 0.51187,
+      "vsize": 68312
     },
     {
       "rate": 0.43165,
-      "vsize": 50737
+      "vsize": 58834
     },
     {
       "rate": 0.41727,
-      "vsize": 498337
+      "vsize": 499520
+    },
+    {
+      "rate": 0.4124,
+      "vsize": 117467
+    },
+    {
+      "rate": 0.41238,
+      "vsize": 53172
     },
     {
       "rate": 0.41236,
-      "vsize": 64301
+      "vsize": 177250
+    },
+    {
+      "rate": 0.41233,
+      "vsize": 124082
+    },
+    {
+      "rate": 0.41231,
+      "vsize": 177270
+    },
+    {
+      "rate": 0.41229,
+      "vsize": 70912
     },
     {
       "rate": 0.41224,
-      "vsize": 53187
+      "vsize": 70919
     },
     {
       "rate": 0.4058,
-      "vsize": 75573
+      "vsize": 80516
     },
     {
       "rate": 0.40288,
-      "vsize": 78763
+      "vsize": 75566
     },
     {
       "rate": 0.39568,
-      "vsize": 306144
+      "vsize": 303338
     },
     {
-      "rate": 0.39286,
-      "vsize": 50226
+      "rate": 0.3937,
+      "vsize": 50135
     },
     {
       "rate": 0.38849,
-      "vsize": 117220
+      "vsize": 66962
     },
     {
       "rate": 0.38129,
-      "vsize": 323925
+      "vsize": 324077
     },
     {
       "rate": 0.37579,
-      "vsize": 96221
+      "vsize": 96364
     },
     {
       "rate": 0.37577,
@@ -266,7 +418,7 @@
     },
     {
       "rate": 0.30216,
-      "vsize": 160258
+      "vsize": 309331
     },
     {
       "rate": 0.30056,
@@ -326,7 +478,7 @@
     },
     {
       "rate": 0.2505,
-      "vsize": 81660
+      "vsize": 81938
     },
     {
       "rate": 0.2505,
@@ -786,7 +938,7 @@
     },
     {
       "rate": 0.10638,
-      "vsize": 85525
+      "vsize": 79603
     },
     {
       "rate": 0.105,
@@ -802,15 +954,15 @@
     },
     {
       "rate": 0.104,
-      "vsize": 3279970
+      "vsize": 3280190
     },
     {
-      "rate": 0.10251,
-      "vsize": 50114
+      "rate": 0.10249,
+      "vsize": 50194
     },
     {
       "rate": 0.10219,
-      "vsize": 167116
+      "vsize": 166394
     },
     {
       "rate": 0.10145,
@@ -826,19 +978,19 @@
     },
     {
       "rate": 0.10088,
-      "vsize": 88717
+      "vsize": 88826
     },
     {
       "rate": 0.1007,
-      "vsize": 52005
+      "vsize": 53843
     },
     {
       "rate": 0.10023,
-      "vsize": 52414
+      "vsize": 50003
     },
     {
       "rate": 0.10022,
-      "vsize": 56346
+      "vsize": 53722
     },
     {
       "rate": 0.10019,
@@ -966,7 +1118,7 @@
     },
     {
       "rate": 0,
-      "vsize": 3302
+      "vsize": 3932
     }
   ]
 }
