@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.event.issue.title, 'Beta:') || contains(github.event.issue.labels.*.name, 'beta')
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           token: ${{ secrets.SNAPSHOT_PAT }}
           ref: main
