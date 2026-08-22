@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-08-22T18:37:26.607Z",
+  "generated_at": "2026-08-22T19:10:22.504Z",
   "host": "bitcoinsahi.com",
-  "status": "DEGRADED",
+  "status": "HEALTHY",
   "checks": [
     {
       "route": "/",
       "expected": 200,
-      "status": 503,
-      "ttfbMs": 460,
-      "bytes": 54887,
-      "ok": false
+      "status": 200,
+      "ttfbMs": 369,
+      "bytes": 29208,
+      "ok": true
     },
     {
       "route": "/live",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 497,
+      "ttfbMs": 431,
       "bytes": 70633,
       "ok": true
     },
@@ -23,7 +23,7 @@
       "route": "/capacity",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 416,
+      "ttfbMs": 361,
       "bytes": 37851,
       "ok": true
     },
@@ -31,7 +31,7 @@
       "route": "/learn",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 451,
+      "ttfbMs": 396,
       "bytes": 59795,
       "ok": true
     },
@@ -39,7 +39,7 @@
       "route": "/fork-tracker",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 444,
+      "ttfbMs": 360,
       "bytes": 36826,
       "ok": true
     },
@@ -47,7 +47,7 @@
       "route": "/feed.xml",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 382,
+      "ttfbMs": 378,
       "bytes": 509,
       "ok": true
     },
@@ -55,7 +55,7 @@
       "route": "/data/snapshot.json",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 374,
+      "ttfbMs": 357,
       "bytes": 4878,
       "ok": true
     },
@@ -63,7 +63,7 @@
       "route": "/data/ops-health.json",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 389,
+      "ttfbMs": 361,
       "bytes": 668,
       "ok": true
     },
@@ -71,7 +71,7 @@
       "route": "/data/site-health.json",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 376,
+      "ttfbMs": 334,
       "bytes": 1906,
       "ok": true
     },
@@ -79,7 +79,7 @@
       "route": "/api/v1/",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 384,
+      "ttfbMs": 361,
       "bytes": 3863,
       "ok": true
     },
@@ -87,7 +87,7 @@
       "route": "/robots.txt",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 380,
+      "ttfbMs": 359,
       "bytes": 68,
       "ok": true
     },
@@ -95,19 +95,10 @@
       "route": "/sitemap.xml",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 373,
+      "ttfbMs": 358,
       "bytes": 2518,
       "ok": true
     }
   ],
-  "failures": [
-    {
-      "route": "/",
-      "expected": 200,
-      "status": 503,
-      "ttfbMs": 460,
-      "bytes": 54887,
-      "ok": false
-    }
-  ]
+  "failures": []
 }
