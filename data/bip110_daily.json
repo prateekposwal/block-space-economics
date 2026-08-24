@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-23T23:43:18.988Z",
+  "generated_at": "2026-08-24T00:52:32.597Z",
   "source": "GitHub Actions (public API mempool.space /api/blocks?limit=10)",
   "thresholdPct": 55,
   "note": "Observed bit-4 signaling share per day from live block samples (deduped by height; heights are permanent, so the daily union is exact across runs). BIP-110 lock-in requires 55% within a 2016-block period. Produced by GitHub Actions — survives the local Mac being off.",
@@ -86,6 +86,12 @@
     {
       "day": "2026-08-23",
       "blocks": 133,
+      "signaling": 0,
+      "pct": 0
+    },
+    {
+      "day": "2026-08-24",
+      "blocks": 7,
       "signaling": 0,
       "pct": 0
     }
