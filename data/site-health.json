@@ -1,104 +1,225 @@
 {
-  "generated_at": "2026-08-25T22:44:56.586Z",
+  "generated_at": "2026-08-25T23:16:07.339Z",
   "host": "bitcoinsahi.com",
-  "status": "HEALTHY",
+  "status": "DEGRADED",
   "checks": [
     {
       "route": "/",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 1350,
-      "bytes": 29208,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 10021,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/live",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 1731,
-      "bytes": 70633,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 10007,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/capacity",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 1731,
-      "bytes": 37851,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 10013,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/learn",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 2653,
-      "bytes": 59795,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 10012,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/fork-tracker",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 2148,
-      "bytes": 36826,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 10011,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/feed.xml",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 1112,
-      "bytes": 509,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 10010,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/data/snapshot.json",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 1523,
-      "bytes": 4878,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 10009,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/data/ops-health.json",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 2337,
-      "bytes": 668,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 10009,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/data/site-health.json",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 1314,
-      "bytes": 1906,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 10008,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/api/v1/",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 3563,
-      "bytes": 3863,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 10005,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/robots.txt",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 1515,
-      "bytes": 68,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 10004,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/sitemap.xml",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 1100,
-      "bytes": 2518,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 10004,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     }
   ],
-  "failures": []
+  "failures": [
+    {
+      "route": "/",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 10021,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/live",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 10007,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/capacity",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 10013,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/learn",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 10012,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/fork-tracker",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 10011,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/feed.xml",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 10010,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/data/snapshot.json",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 10009,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/data/ops-health.json",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 10009,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/data/site-health.json",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 10008,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/api/v1/",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 10005,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/robots.txt",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 10004,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/sitemap.xml",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 10004,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    }
+  ]
 }
