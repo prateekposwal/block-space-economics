@@ -1,225 +1,104 @@
 {
-  "generated_at": "2026-08-25T12:39:09.627Z",
+  "generated_at": "2026-08-25T18:24:32.296Z",
   "host": "bitcoinsahi.com",
-  "status": "DEGRADED",
+  "status": "HEALTHY",
   "checks": [
     {
       "route": "/",
       "expected": 200,
-      "status": 0,
-      "ttfbMs": 22,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
+      "status": 200,
+      "ttfbMs": 703,
+      "bytes": 29208,
+      "ok": true
     },
     {
       "route": "/live",
       "expected": 200,
-      "status": 0,
-      "ttfbMs": 13,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
+      "status": 200,
+      "ttfbMs": 716,
+      "bytes": 70633,
+      "ok": true
     },
     {
       "route": "/capacity",
       "expected": 200,
-      "status": 0,
-      "ttfbMs": 12,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
+      "status": 200,
+      "ttfbMs": 668,
+      "bytes": 37851,
+      "ok": true
     },
     {
       "route": "/learn",
       "expected": 200,
-      "status": 0,
-      "ttfbMs": 10,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
+      "status": 200,
+      "ttfbMs": 706,
+      "bytes": 59795,
+      "ok": true
     },
     {
       "route": "/fork-tracker",
       "expected": 200,
-      "status": 0,
-      "ttfbMs": 10,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
+      "status": 200,
+      "ttfbMs": 674,
+      "bytes": 36826,
+      "ok": true
     },
     {
       "route": "/feed.xml",
       "expected": 200,
-      "status": 0,
-      "ttfbMs": 9,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
+      "status": 200,
+      "ttfbMs": 663,
+      "bytes": 509,
+      "ok": true
     },
     {
       "route": "/data/snapshot.json",
       "expected": 200,
-      "status": 0,
-      "ttfbMs": 8,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
+      "status": 200,
+      "ttfbMs": 671,
+      "bytes": 4878,
+      "ok": true
     },
     {
       "route": "/data/ops-health.json",
       "expected": 200,
-      "status": 0,
-      "ttfbMs": 8,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
+      "status": 200,
+      "ttfbMs": 661,
+      "bytes": 668,
+      "ok": true
     },
     {
       "route": "/data/site-health.json",
       "expected": 200,
-      "status": 0,
-      "ttfbMs": 7,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
+      "status": 200,
+      "ttfbMs": 661,
+      "bytes": 1906,
+      "ok": true
     },
     {
       "route": "/api/v1/",
       "expected": 200,
-      "status": 0,
-      "ttfbMs": 6,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
+      "status": 200,
+      "ttfbMs": 669,
+      "bytes": 3863,
+      "ok": true
     },
     {
       "route": "/robots.txt",
       "expected": 200,
-      "status": 0,
-      "ttfbMs": 5,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
+      "status": 200,
+      "ttfbMs": 657,
+      "bytes": 68,
+      "ok": true
     },
     {
       "route": "/sitemap.xml",
       "expected": 200,
-      "status": 0,
-      "ttfbMs": 4,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
+      "status": 200,
+      "ttfbMs": 650,
+      "bytes": 2518,
+      "ok": true
     }
   ],
-  "failures": [
-    {
-      "route": "/",
-      "expected": 200,
-      "status": 0,
-      "ttfbMs": 22,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
-    },
-    {
-      "route": "/live",
-      "expected": 200,
-      "status": 0,
-      "ttfbMs": 13,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
-    },
-    {
-      "route": "/capacity",
-      "expected": 200,
-      "status": 0,
-      "ttfbMs": 12,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
-    },
-    {
-      "route": "/learn",
-      "expected": 200,
-      "status": 0,
-      "ttfbMs": 10,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
-    },
-    {
-      "route": "/fork-tracker",
-      "expected": 200,
-      "status": 0,
-      "ttfbMs": 10,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
-    },
-    {
-      "route": "/feed.xml",
-      "expected": 200,
-      "status": 0,
-      "ttfbMs": 9,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
-    },
-    {
-      "route": "/data/snapshot.json",
-      "expected": 200,
-      "status": 0,
-      "ttfbMs": 8,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
-    },
-    {
-      "route": "/data/ops-health.json",
-      "expected": 200,
-      "status": 0,
-      "ttfbMs": 8,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
-    },
-    {
-      "route": "/data/site-health.json",
-      "expected": 200,
-      "status": 0,
-      "ttfbMs": 7,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
-    },
-    {
-      "route": "/api/v1/",
-      "expected": 200,
-      "status": 0,
-      "ttfbMs": 6,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
-    },
-    {
-      "route": "/robots.txt",
-      "expected": 200,
-      "status": 0,
-      "ttfbMs": 5,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
-    },
-    {
-      "route": "/sitemap.xml",
-      "expected": 200,
-      "status": 0,
-      "ttfbMs": 4,
-      "bytes": 0,
-      "ok": false,
-      "error": "getaddrinfo ENOTFOUND bitcoinsahi.com"
-    }
-  ]
+  "failures": []
 }
