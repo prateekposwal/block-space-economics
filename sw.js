@@ -1,6 +1,6 @@
 /* BSAHI Service Worker — precaches the static shell ONLY.
    Live data (/data/*, live_data.json) is network-first and never precached. */
-var CACHE = 'bsahi-shell-v4';
+var CACHE = 'bsahi-shell-v5';
 var PRECACHE = [
   '/', '/live', '/learn', '/capacity', '/fork-tracker', '/research',
   '/story.html', '/articles.html', '/beta.html',
@@ -9,7 +9,7 @@ var PRECACHE = [
   '/tools/viz-node.js', '/tools/viz-miner.js', '/tools/viz-research.js',
   '/tools/viz-developer.js', '/tools/viz-bip110.js', '/tools/viz-block-interval.js',
   '/tools/viz-hashrate.js', '/tools/viz-fee-heatmap.js', '/tools/viz-mempool-hist.js',
-  '/js/beta-gate.js', '/js/beta-nav.js', '/js/data-health.js'
+  '/js/beta-gate.js', '/js/beta-nav.js', '/js/data-health.js', '/js/data-health-config.js'
 ];
 
 self.addEventListener('install', function(e) {

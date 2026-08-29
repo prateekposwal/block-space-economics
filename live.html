@@ -182,6 +182,7 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
   }
 </style>
 <script src="/js/beta-nav.js" defer></script>
+<script src="/js/data-health-config.js"></script>
 </head>
 <body>
 <div class="header">
@@ -486,7 +487,10 @@ try {
     var ts = (s && (s.payload_ts || s.generated_at)) || null;
     if (!ts) return;
     var ageMin = (Date.now() - new Date(ts).getTime()) / 60000;
-    if (ageMin > 120) return; // stale — skip
+    // Canonical STALE_MIN from js/data-health-config.js (fallback = same number)
+    var cfgSm = 120;
+    if (window.BSAHI_HEALTH_CONFIG && window.BSAHI_HEALTH_CONFIG.STALE_MIN) cfgSm = window.BSAHI_HEALTH_CONFIG.STALE_MIN;
+    if (ageMin > cfgSm) return; // stale — skip
     var el = document.getElementById('data-freshness');
     if (el) el.textContent = 'BSAHI snapshot ' + Math.round(ageMin) + 'm ago · forecast ' + (s.fee_trend || 'stable');
     // Snapshot-fee fallback: surface real fee tiers when the client-side live

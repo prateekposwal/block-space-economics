@@ -1,5 +1,6 @@
 /* BSAHI data-health — shared public data-freshness badge.
- * One dot for every data page: 🟢 live (<15 min) / 🟡 delayed (15–120 min) /
+ * One dot for every data page: 🟢 live (≤35 min — inside the designed 30-min
+ * refresh cadence + margin) / 🟡 delayed (35–120 min — a cycle was missed) /
  * 🔴 stale (>120 min or snapshot unreachable) / ⚪ unknown (no timestamp).
  *
  * FRESHNESS SEMANTICS (2026-08-30, gap #3): the snapshot's payload age
@@ -24,8 +25,17 @@
 
   var SNAPSHOT_URL = '/data/snapshot.json';
   var REFRESH_MS = 120000;             // re-check every 2 min
-  var LIVE_MIN = 15;                   // <15 min → 🟢
+  // Canonical thresholds — ONE source: js/data-health-config.js (loaded
+  // before this file on every page). Fallbacks below are the SAME canonical
+  // values so a missing config can never split the dot from the page gates.
+  var CADENCE_MIN = 30;                // designed snapshot refresh cadence
+  var LIVE_MIN = 35;                   // one cadence + margin → 🟢
   var STALE_MIN = 120;                 // >120 min → 🔴
+  if (global.BSAHI_HEALTH_CONFIG) {
+    if (global.BSAHI_HEALTH_CONFIG.CADENCE_MIN) CADENCE_MIN = global.BSAHI_HEALTH_CONFIG.CADENCE_MIN;
+    if (global.BSAHI_HEALTH_CONFIG.LIVE_MIN) LIVE_MIN = global.BSAHI_HEALTH_CONFIG.LIVE_MIN;
+    if (global.BSAHI_HEALTH_CONFIG.STALE_MIN) STALE_MIN = global.BSAHI_HEALTH_CONFIG.STALE_MIN;
+  }
 
   var STATES = {
     live:    { dot: '🟢', color: '#3FB950', label: 'Live' },
@@ -164,6 +174,9 @@
         setState(st);
         var label = (s && s.payload_ts) ? 'payload' : 'snapshot';
         parts.push(label + ': ' + fmtAge(ageMin(iso)));
+        // Name the envelope honestly: cadence + LIVE/DELAYED thresholds, so
+        // the tooltip says what the dot means, not just what it is.
+        parts.push('refresh cadence ' + CADENCE_MIN + ' min · live ≤' + LIVE_MIN + ' min · delayed ' + LIVE_MIN + '–' + STALE_MIN + ' min');
         // Surface envelope-vs-payload divergence when both exist: a payload
         // stamp 3 min old next to an envelope 4 h old (or vice versa) must
         // read honestly in the tooltip.

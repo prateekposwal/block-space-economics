@@ -127,6 +127,7 @@
     .state-bar, .bottom-area, .legend-panel { animation: none !important; transition: none !important; }
   }
   </style>
+<script src="/js/data-health-config.js"></script>
 <script src="/js/beta-nav.js" defer></script>
 <script src="/js/data-health.js" defer></script>
 </head>
@@ -361,12 +362,19 @@
       fetch('/data/snapshot.json').then(function(r) { return r.json(); }).then(function(s) {
         // Honest freshness: payload_ts (oldest datum) drives staleness, not
         // the envelope — a fresh generated_at over frozen data must not read live.
+        // Thresholds are the canonical constants from js/data-health-config.js
+        // (fallbacks are the same canonical numbers).
+        var cfgLm = 35, cfgSm = 120;
+        if (window.BSAHI_HEALTH_CONFIG) {
+          if (window.BSAHI_HEALTH_CONFIG.LIVE_MIN) cfgLm = window.BSAHI_HEALTH_CONFIG.LIVE_MIN;
+          if (window.BSAHI_HEALTH_CONFIG.STALE_MIN) cfgSm = window.BSAHI_HEALTH_CONFIG.STALE_MIN;
+        }
         var ts = (s && (s.payload_ts || s.generated_at)) || null;
         if (!ts) { setHealth('stale'); return; }
         var ageMin = (Date.now() - new Date(ts).getTime()) / 60000;
         var n = document.getElementById('vs-note');
         if (!n) return;
-        if (ageMin > 120) {
+        if (ageMin > cfgSm) {
           n.textContent = '⚠ Data stale — last snapshot ' + Math.round(ageMin / 60) + 'h ago (pipeline check needed)';
           n.style.color = '#E0653A';
           setHealth('stale');
@@ -378,7 +386,7 @@
         var ago = ageMin < 90 ? Math.round(ageMin) + ' min ago' : Math.round(ageMin / 60) + 'h ago';
         n.textContent = 'Snapshot from ' + ts.slice(0, 16) + ' · ' + ago + ' · live data refreshes every 60s';
         n.style.color = '';
-        setHealth(ageMin > 15 ? 'delayed' : 'live');
+        setHealth(ageMin > cfgLm ? 'delayed' : 'live');
       }).catch(function() {
         // Never leave a stale green state — a failed snapshot fetch is a real signal.
         setHealth('stale');
