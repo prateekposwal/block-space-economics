@@ -13,8 +13,9 @@ Internal validation found a duplicated time-horizon term in `tools/research/stor
 ## Action taken
 - Published Nostr events from the v1.0.0 period were NOT retroactively edited (immutability +
   honest provenance). This file is the correction record.
-- Any NEW published content must use the v2.0.0 figure (see `tools/bridge/story-content.js`,
-  `tools/bridge/comment-engine.py`, `tools/bridge/reply-engine.py` — all updated).
+- Any NEW published content must use the v2.0.0 figure (see `tools/bridge/story-content.js`
+  and the publishing path — update applied at the time; the comment/reply engine
+  files listed in the original record were removed from the repo on 2026-08-11 and 2026-08-29).
 - `learn.html`, `embed.html`, and agent-15 metrics serve the corrected value.
 
 ## Backstop

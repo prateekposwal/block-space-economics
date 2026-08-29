@@ -334,7 +334,7 @@ function generateReport() {
 }
 
 async function runFullCycle() {
-  log('=== Full publishing cycle (Nostr + Browser) ===');
+  log('=== Full publishing cycle (Nostr) ===');
   var results = [];
 
   // Step 1: Nostr (headless, no UI)
@@ -344,16 +344,6 @@ async function runFullCycle() {
   } catch(e) {
     log('Nostr error: ' + e.message);
     results.push({ engine: 'nostr', error: e.message });
-  }
-
-  // Step 2: Browser (Twitter + Reddit via Chrome session)
-  try {
-    var browserPublisher = require('./browser-publisher.js');
-    var browser = await browserPublisher.runCycle();
-    results.push({ engine: 'browser', posts: browser ? browser.length : 0, details: browser || [] });
-  } catch(e) {
-    log('Browser error: ' + e.message);
-    results.push({ engine: 'browser', error: e.message });
   }
 
   generateRSSFeed();
@@ -372,9 +362,6 @@ if (require.main === module) {
       console.log('RSS generated');
     } else if (args[0] === '--nostr') {
       await runCycle();
-    } else if (args[0] === '--browser' || args[0] === '-b') {
-      var bp = require('./browser-publisher.js');
-      await bp.runCycle();
     } else {
       await runFullCycle();
     }

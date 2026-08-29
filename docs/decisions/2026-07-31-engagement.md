@@ -30,6 +30,6 @@
 - `captured-data/engagement.log`
 - Orchestrator Phase 3 (config-gated, fails closed)
 
-## Unaffected
-- Reddit comment engine (`comment-engine.py`) — still live, Phase 2
-- Reddit reply engine (`reply-engine.py`) — still live, Phase 1
+## Unaffected (historical — engines since removed)
+- Reddit comment engine — retired 2026-08-11 (engine removed from repo)
+- Reddit reply engine — retired 2026-08-29 (engine removed from repo)

@@ -127,26 +127,24 @@ function cycle() {
   log('=== Engagement cycle ===');
   feedbackRefresh();
 
-  // Phase 1: reply back always (only when inbox has new replies — engine guards itself)
-  run('tools/bridge/reply-engine.py', [], function() {
-    // Phase 2: web idea scan (replaced browser-posting comment-engine — deleted 2026-08-11).
-    // Silently scans the internet for new ideas/signals; the scanner itself persists
-    // findings to the research DB (via idea-bridge.js) + writes the architect digest.
-    run('tools/bridge/idea-scanner.py', [], function() {
-      // Phase 4: check if engagement threshold met, then publish
-      var phase4 = function() {
-        run('tools/bridge/scheduler.py', [], function() {
-          log('=== Cycle complete ===');
-          cycleActive = false;
-          if (watchdog) { clearTimeout(watchdog); watchdog = null; }
-          heartbeat('cycle-complete');
-          scheduleNext();
-        });
-      };
-      // Phase 3: social publishing — browser-posting engines retired (2026-08-11).
-      log('SOCIAL: browser-posting retired — idea-scanner feeds research instead');
-      phase4();
-    });
+  // Phase 1: Reddit reply automation — retired (2026-08-29); engine removed.
+  // Phase 2: web idea scan (replaced browser-posting comment-engine — deleted 2026-08-11).
+  // Silently scans the internet for new ideas/signals; the scanner itself persists
+  // findings to the research DB (via idea-bridge.js) + writes the architect digest.
+  run('tools/bridge/idea-scanner.py', [], function() {
+    // Phase 4: check if engagement threshold met, then publish
+    var phase4 = function() {
+      run('tools/bridge/scheduler.py', [], function() {
+        log('=== Cycle complete ===');
+        cycleActive = false;
+        if (watchdog) { clearTimeout(watchdog); watchdog = null; }
+        heartbeat('cycle-complete');
+        scheduleNext();
+      });
+    };
+    // Phase 3: social publishing — browser-posting engines retired (2026-08-11).
+    log('SOCIAL: browser-posting retired — idea-scanner feeds research instead');
+    phase4();
   });
 }
 

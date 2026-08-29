@@ -262,10 +262,11 @@ async function runCycle() {
     } catch (e) { log('Report error: ' + e.message); }
   }
 
-  // Step 7: Run Nostr publisher (every cycle = hourly)
+  // Step 7: Run Nostr publisher (every cycle = hourly) — Browser engine
+  // (Chrome browser post engine) removed 2026-08-29; Nostr-only path retained.
   try {
     var pubStart = Date.now();
-    var pubResult = await publisher.runFullCycle();
+    var pubResult = await publisher.runCycle();
     var pubElapsed = Math.round((Date.now() - pubStart) / 1000);
     log('Publisher: ' + pubResult.length + ' posts in ' + pubElapsed + 's');
     publisher.generateRSSFeed();
