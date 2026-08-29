@@ -19,8 +19,9 @@ jobs:
     if: startsWith(github.event.issue.title, 'Beta:') || contains(github.event.issue.labels.*.name, 'beta')
     steps:
       - uses: actions/checkout@v4
+        # No PAT (2026-08-30): SNAPSHOT_PAT expired/revoked; GITHUB_TOKEN
+        # (workflow `permissions: contents: write`) is sufficient.
         with:
-          token: ${{ secrets.SNAPSHOT_PAT }}
           ref: main
           fetch-depth: 0
 
@@ -83,7 +84,7 @@ jobs:
       - name: Close + label the issue
         if: always()
         env:
-          GH_TOKEN: ${{ secrets.SNAPSHOT_PAT }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           if [ "${{ steps.process.outputs.result }}" == "valid" ]; then
             if [ "${{ steps.record.outputs.status }}" == "duplicate" ]; then

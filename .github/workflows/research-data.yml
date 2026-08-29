@@ -31,8 +31,12 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        # No PAT (2026-08-30): SNAPSHOT_PAT expired/revoked and broke checkout
+        # (fatal: could not read Username). GITHUB_TOKEN + the workflow-level
+        # `permissions: contents: write` is sufficient — main has NO branch
+        # protection (verified: protected:false, rulesets empty), so the old
+        # "PAT bypasses branch protection" rationale no longer applies.
         with:
-          token: ${{ secrets.SNAPSHOT_PAT }}   # PAT bypasses branch protection (GITHUB_TOKEN cannot)
           ref: main
           fetch-depth: 0
 
