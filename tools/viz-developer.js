@@ -126,7 +126,7 @@ var VIZ_Developer = (function() {
     cta.innerHTML =
       '<div style="font-size:14px;font-weight:600;color:rgba(255,255,255,0.7);margin-bottom:6px;">Need more block data?</div>' +
       '<div style="font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:12px;line-height:1.5;">We maintain 11+ data sources privately. Historical feeds, custom integrations, API access available for research and enterprise.</div>' +
-      '<a href="mailto:prateek@block-space-economics.com" style="display:inline-block;padding:10px 24px;background:#F7931A;color:#1A1612;font-size:14px;font-weight:700;border-radius:100px;text-decoration:none;">Contact about block data →</a>';
+      '<a href="mailto:prateek@bitcoinsahi.com" style="display:inline-block;padding:10px 24px;background:#F7931A;color:#1A1612;font-size:14px;font-weight:700;border-radius:100px;text-decoration:none;">Contact about block data →</a>';
     container.appendChild(cta);
 
     // DE-agent live status is localhost-only (private DE server). Gate it so the

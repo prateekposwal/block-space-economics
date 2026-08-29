@@ -3,7 +3,7 @@ var CONFIG = {
   product: 'Bitcoin Sahi',
   url: 'https://bitcoinsahi.com',
   tagline: 'Block space research & decision platform',
-  email: 'prateek@block-space-economics.com',
+  email: 'prateek@bitcoinsahi.com',
   github: 'github.com/prateekposwal/block-space-economics',
   
   platforms: {
