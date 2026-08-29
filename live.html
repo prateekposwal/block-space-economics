@@ -483,8 +483,9 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
 // Graceful degradation — if snapshot missing/stale, mempool.space path is unaffected.
 try {
   fetch('/data/snapshot.json').then(function(r) { return r.json(); }).then(function(s) {
-    if (!s || !s.generated_at) return;
-    var ageMin = (Date.now() - new Date(s.generated_at).getTime()) / 60000;
+    var ts = (s && (s.payload_ts || s.generated_at)) || null;
+    if (!ts) return;
+    var ageMin = (Date.now() - new Date(ts).getTime()) / 60000;
     if (ageMin > 120) return; // stale — skip
     var el = document.getElementById('data-freshness');
     if (el) el.textContent = 'BSAHI snapshot ' + Math.round(ageMin) + 'm ago · forecast ' + (s.fee_trend || 'stable');

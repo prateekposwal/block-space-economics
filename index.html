@@ -359,8 +359,11 @@
     }
     try {
       fetch('/data/snapshot.json').then(function(r) { return r.json(); }).then(function(s) {
-        if (!s || !s.generated_at) { setHealth('stale'); return; }
-        var ageMin = (Date.now() - new Date(s.generated_at).getTime()) / 60000;
+        // Honest freshness: payload_ts (oldest datum) drives staleness, not
+        // the envelope — a fresh generated_at over frozen data must not read live.
+        var ts = (s && (s.payload_ts || s.generated_at)) || null;
+        if (!ts) { setHealth('stale'); return; }
+        var ageMin = (Date.now() - new Date(ts).getTime()) / 60000;
         var n = document.getElementById('vs-note');
         if (!n) return;
         if (ageMin > 120) {
@@ -373,7 +376,7 @@
         snapshotFees = s.fees || null; // state-bar fallback source (same as the dot)
         refreshUI(); // re-derive the verdict now that snapshot fees are available
         var ago = ageMin < 90 ? Math.round(ageMin) + ' min ago' : Math.round(ageMin / 60) + 'h ago';
-        n.textContent = 'Snapshot from ' + s.generated_at.slice(0, 16) + ' · ' + ago + ' · live data refreshes every 60s';
+        n.textContent = 'Snapshot from ' + ts.slice(0, 16) + ' · ' + ago + ' · live data refreshes every 60s';
         n.style.color = '';
         setHealth(ageMin > 15 ? 'delayed' : 'live');
       }).catch(function() {

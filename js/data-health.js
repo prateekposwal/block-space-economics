@@ -1,6 +1,12 @@
 /* BSAHI data-health — shared public data-freshness badge.
  * One dot for every data page: 🟢 live (<15 min) / 🟡 delayed (15–120 min) /
- * 🔴 stale (>120 min or snapshot unreachable) / ⚪ unknown (no generated_at).
+ * 🔴 stale (>120 min or snapshot unreachable) / ⚪ unknown (no timestamp).
+ *
+ * FRESHNESS SEMANTICS (2026-08-30, gap #3): the snapshot's payload age
+ * (payload_ts — oldest per-field datum) drives the dot, NOT the envelope
+ * (generated_at). A fresh envelope over a frozen payload is a lie the dot
+ * used to tell; a payload stamp can be absent (legacy snapshots), in which
+ * case the envelope age is the signal.
  *
  * Mounts into an element with id="data-health" if present, else into the first
  * [data-health-target] element, else creates one in the page header. The target
@@ -145,15 +151,34 @@
       if (!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
     }).then(function(s) {
-      var iso = (s && s.generated_at) || null;
+      // Honest age source: payload_ts (oldest per-field datum) when present,
+      // else the envelope (legacy snapshots without payload stamps). The dot
+      // must never green-light a fresh envelope sitting on frozen data.
+      var iso = (s && (s.payload_ts || s.generated_at)) || null;
       var st = stateFor(iso);
       var parts = [];
       if (st === 'unknown') {
         setState('unknown');
-        parts.push('Snapshot: unknown age (no generated_at)');
+        parts.push('Snapshot: unknown age (no timestamp)');
       } else {
         setState(st);
-        parts.push('Snapshot: ' + fmtAge(ageMin(iso)));
+        var label = (s && s.payload_ts) ? 'payload' : 'snapshot';
+        parts.push(label + ': ' + fmtAge(ageMin(iso)));
+        // Surface envelope-vs-payload divergence when both exist: a payload
+        // stamp 3 min old next to an envelope 4 h old (or vice versa) must
+        // read honestly in the tooltip.
+        if (s && s.payload_ts && s.generated_at) {
+          var envAge = ageMin(s.generated_at);
+          if (envAge !== null) parts.push('envelope ' + fmtAge(envAge));
+        }
+        // Per-field honesty: surface any field older than the live threshold
+        // so a single frozen source cannot hide behind the aggregate age.
+        if (s && s.payload_ts) {
+          ['fees_ts', 'price_ts', 'height_ts', 'mempool_ts'].forEach(function(k) {
+            var fm = ageMin(s[k]);
+            if (fm !== null && fm > LIVE_MIN) parts.push('⚠ ' + k.replace('_ts', '') + ' ' + fmtAge(fm) + ' old');
+          });
+        }
       }
       if (extras.length) {
         // Re-probe per-dataset freshness in parallel (dot color stays snapshot-driven).
