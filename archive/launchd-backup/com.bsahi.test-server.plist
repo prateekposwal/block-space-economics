@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.bsahi.test-server</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/node</string>
+        <string>/Users/prateekposwal/Desktop/block-space-economics/tools/data-engineering/server.js</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/prateekposwal/Desktop/block-space-economics</string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/tmp/test-server.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/test-server.log</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PYTHONPATH</key>
+        <string>/Users/prateekposwal/Desktop/block-space-economics</string>
+        <key>PORT</key>
+        <string>3456</string>
+        <key>ADMIN_KEY</key>
+        <string>bsahi-secret-xyz</string>
+        <key>AUTO_START</key>
+        <string>1</string>
+    </dict>
+</dict>
+</plist>
