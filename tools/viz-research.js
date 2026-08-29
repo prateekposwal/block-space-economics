@@ -15,6 +15,9 @@ var VIZ_Research = (() => {
   // only ever overwritten by real engine data and is not rendered pre-data).
   let btcPrice = 0;
   let stacked = false;
+  // consensus vbytes per block — REAL sat/vB conversion (same named constant
+  // viz-fees.js uses; validate.js C2 flags inline literals like /4000000).
+  var BLOCK_VBYTES = 4000000;
   // feeSpread = REAL fee-ratio multipliers computed from live fees in onUpdate.
   // Seeds as null — a missing capture must render '--', never a fake 3x/1.5x.
   let feeSpread = null;
@@ -56,14 +59,16 @@ var VIZ_Research = (() => {
       if (state && state.btc_price) btcPrice = state.btc_price;
 
       de.onUpdate(function(state) {
-        if (state && state.fee_history) {
-          data = buildSeries(state.fee_history);
-        }
-        if (state && state.btc_price) btcPrice = state.btc_price;
+        // Compute feeSpread FIRST so the very first paint carries real
+        // hour/fastest tiers (not just economy) — 2026-08-30.
         if (state && state.fees && typeof state.fees.fastestFee === 'number' && typeof state.fees.economyFee === 'number' && state.fees.economyFee > 0) {
           var eco = state.fees.economyFee;
           feeSpread = { fastest: state.fees.fastestFee / eco, hour: (state.fees.hourFee || eco) / eco, economy: 1 };
         }
+        if (state && state.fee_history) {
+          data = buildSeries(state.fee_history);
+        }
+        if (state && state.btc_price) btcPrice = state.btc_price;
       });
     }
 
@@ -96,13 +101,19 @@ var VIZ_Research = (() => {
 
   function buildSeries(raw) {
     if (!raw || !Array.isArray(raw) || raw.length === 0) return [];
-    // economy base = REAL sat/vB average fee rate from the capture
-    // (mempool.space /mining/blocks/fees/24h always carries avgFeeRate). The
-    // old `avgFees / 2500000` scaled a block-total to an invented feerate —
-    // removed 2026-08-14. No avgFeeRate -> null (renders '--', never a fake).
+    // economy base = REAL sat/vB average fee rate from the capture.
+    // 2026-08-30: mempool.space /mining/blocks/fees/24h returns avgFees (sats
+    // per block) WITHOUT avgFeeRate — data-engine.js already normalizes each
+    // entry to feeRate = avgFees / BLOCK_VBYTES (4M vbytes/block = real sat/vB).
+    // Fall back feeRate -> avgFeeRate -> avgFees/4M, the same canonical order
+    // live.html:915, viz-fees.js:36 and index.html:244 use. Missing data ->
+    // null (renders '--', never a fake). The old `avgFees / 2500000` scaled a
+    // block-total to an invented feerate — removed 2026-08-14.
     var fs = feeSpread;
     return raw.map(function(e) {
-      var economy = (typeof e.avgFeeRate === 'number' && e.avgFeeRate > 0) ? e.avgFeeRate : null;
+      var economy = (typeof e.feeRate === 'number' && e.feeRate > 0) ? e.feeRate
+        : (typeof e.avgFeeRate === 'number' && e.avgFeeRate > 0) ? e.avgFeeRate
+        : (typeof e.avgFees === 'number' && e.avgFees > 0) ? e.avgFees / BLOCK_VBYTES : null;
       return {
         t: e.timestamp,
         economy: economy,
@@ -346,7 +357,8 @@ var VIZ_Research = (() => {
     var csv = 'Timestamp,Economy (sat/vB),1 Hour (sat/vB),Fastest (sat/vB)\n';
     for (var i = 0; i < data.length; i++) {
       var d = data[i];
-      var ts = new Date(d.t).toISOString();
+      // API timestamps are epoch seconds; tolerate ms too — 2026-08-30
+      var ts = new Date(d.t < 1e12 ? d.t * 1000 : d.t).toISOString();
       csv += ts + ',' + (d.economy != null ? d.economy.toFixed(2) : '--') + ',' + (d.hour != null ? d.hour.toFixed(2) : '--') + ',' + (d.fastest != null ? d.fastest.toFixed(2) : '--') + '\n';
     }
     var blob = new Blob([csv], { type: 'text/csv' });

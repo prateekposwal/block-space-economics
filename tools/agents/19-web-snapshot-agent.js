@@ -146,15 +146,30 @@ function run() {
       return snapshot;
     }
     try {
-      var syncCmd = 'git add data/ && git diff --cached --quiet || (git -c user.name="bsahi-snapshot-bot" -c user.email="snapshot@bitcoinsahi.com" commit -m "chore: public snapshot ' + new Date().toISOString().slice(0, 16) + '" && ';
+      // SSH keepalives for github.com — this 8GB box's slow loose-store
+      // enumeration used to idle-timeout mid-fetch/mid-push (early EOF,
+      // index-pack fail). The env var is EXPORTED so every git subcommand in
+      // this shell line (add/commit/pull/push) inherits it; a plain prefix
+      // would apply to the first command only.
+      var syncCmd = "export GIT_SSH_COMMAND='ssh -o ServerAliveInterval=15 -o ServerAliveCountMax=4'; ";
+      // Stage + commit data/ only when something actually changed (existing behavior).
+      syncCmd += 'git add data/ && git diff --cached --quiet || (git -c user.name="bsahi-snapshot-bot" -c user.email="snapshot@bitcoinsahi.com" commit -m "chore: public snapshot ' + new Date().toISOString().slice(0, 16) + '"); ';
       // Conflict-safe sync: pull/rebase, and on conflict RESOLVE the rebase in-place
       // (keep our freshly-regenerated data via --ours, then continue) — never reset
       // --hard, never abort into a conflicted state, never swallow a failure.
+      // Runs EVERY cycle (not only when data/ changed) so a drifted origin is
+      // fast-forwarded/replayed before the retry push — keeps the push
+      // non-force and fast-forward-only.
       syncCmd += '(git pull --rebase --autostash origin main 2>/dev/null && echo pull-ok) || { echo "pull conflict — resolving in place"; git checkout --ours data/ 2>/dev/null; git add data/; git -c user.name="bsahi-snapshot-bot" -c user.email="snapshot@bitcoinsahi.com" -c core.editor=true commit --no-edit --allow-empty -m "chore: resolve snapshot conflict ' + new Date().toISOString().slice(0, 16) + '" 2>/dev/null; git rebase --continue 2>/dev/null || git commit --no-edit 2>/dev/null; }; ';
-      syncCmd += 'git push)';
+      // Explicit refspec push (never force). Runs EVERY cycle so a previously
+      // failed push is RETRIED even when data/ is unchanged. A push failure is
+      // non-fatal: logged, local commits kept, next cycle retries them — the
+      // || echo keeps execSync from throwing (exit 0), so the agent never
+      // reports "snapshot commit failed" for a purely-transient push error.
+      syncCmd += 'git push origin main || echo "push failed — will retry next cycle (local commits kept)"';
       require('child_process').execSync(
         syncCmd,
-        { cwd: REPO, timeout: 120000, stdio: 'inherit' }
+        { cwd: REPO, timeout: 300000, stdio: 'inherit' }
       );
     } catch (e) {
       console.error('snapshot commit failed:', e.message);
