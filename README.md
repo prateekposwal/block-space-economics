@@ -206,7 +206,8 @@ Install: `cp com.bsahi.*.plist ~/Library/LaunchAgents/ && launchctl load ~/Libra
 ### GitHub Actions
 
 - `data-snapshot.yml` — every 30 min; regenerates `data/` from committed rich
-  history. Requires `secrets.SNAPSHOT_PAT` (bypasses branch protection).
+  history. Uses the workflow `GITHUB_TOKEN` (contents: write); main has no branch
+  protection/rulesets, so no PAT is needed (SNAPSHOT_PAT dropped 2026-08-30).
 - `capture-data.yml`, `lighthouse.yml`, `research-monitor.yml`
 
 ## Key data contract
@@ -224,7 +225,7 @@ See `docs/known-issues.md`.
 ## Reproducibility (engineering)
 
 - Env secrets live in `.env` / `credentials*` (git-ignored): BTC RPC creds,
-  Nostr keys, `SNAPSHOT_PAT`.
+  Nostr keys.
 - Dead external sources are documented in `tools/data-engineering/config.js`
   (`deadSources`) — never re-add them.
 - Full runbook: see AGENTS.md session handoffs (DONE/LEFT discipline).
