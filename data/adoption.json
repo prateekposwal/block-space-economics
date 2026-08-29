@@ -1,92 +1,92 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-22T14:45:30.165Z",
+  "generated_at": "2026-08-27T18:01:00.310Z",
   "source": "GitHub Actions (public API: blockstream.info tip + mempool.space /api/v1/block/:hash, /api/block/:hash/txids, /api/tx/:txid)",
   "available": true,
-  "date": "2026-08-22",
-  "note": "SegWit share = extras.segwitTotalTxs / tx_count (authoritative, mempool.space block summary). Legacy = 100 - SegWit. Taproot = share of uniformly-sampled spends with a v1_p2tr (P2TR) input (20700 sampled non-coinbase txs, 83 GH capture rounds, aggregated across runs; labeled sampled, not exhaustive; P2SH-wrapped segwit counts as legacy). Effective TPS = total tx / (N blocks x avg block interval) from real blocks — NOT an invented constant; theoretical max 7 TPS kept only as a reference. Weight utilization = avg block weight / 4M WU. Produced by GitHub Actions — survives the local Mac being off.",
+  "date": "2026-08-27",
+  "note": "SegWit share = extras.segwitTotalTxs / tx_count (authoritative, mempool.space block summary). Legacy = 100 - SegWit. Taproot = share of uniformly-sampled spends with a v1_p2tr (P2TR) input (31908 sampled non-coinbase txs, 128 GH capture rounds, aggregated across runs; labeled sampled, not exhaustive; P2SH-wrapped segwit counts as legacy). Effective TPS = total tx / (N blocks x avg block interval) from real blocks — NOT an invented constant; theoretical max 7 TPS kept only as a reference. Weight utilization = avg block weight / 4M WU. Produced by GitHub Actions — survives the local Mac being off.",
   "blocks_sampled": 10,
   "heights": [
-    963590,
-    963591,
-    963592,
-    963593,
-    963594,
-    963595,
-    963596,
-    963597,
-    963598,
-    963599
+    964321,
+    964322,
+    964323,
+    964324,
+    964325,
+    964326,
+    964327,
+    964328,
+    964329,
+    964330
   ],
-  "tx_count": 52146,
-  "segwit_pct": 89.7,
-  "taproot_pct": 5.6,
-  "taproot_sample_size": 20700,
-  "legacy_pct": 10.3,
-  "weight_utilization_pct": 99.86,
-  "avg_block_interval_s": 657,
-  "effective_tps": 7.94,
+  "tx_count": 41820,
+  "segwit_pct": 90.1,
+  "taproot_pct": 5.7,
+  "taproot_sample_size": 31908,
+  "legacy_pct": 9.9,
+  "weight_utilization_pct": 99.85,
+  "avg_block_interval_s": 667.88,
+  "effective_tps": 6.26,
   "theoretical_max_tps": 7,
   "per_block": [
     {
-      "h": 963590,
-      "tx": 6832,
-      "weight": 3993994,
-      "segwit_txs": 6818
+      "h": 964321,
+      "tx": 4333,
+      "weight": 3992836,
+      "segwit_txs": 3693
     },
     {
-      "h": 963591,
-      "tx": 4226,
-      "weight": 3993969,
-      "segwit_txs": 3987
+      "h": 964322,
+      "tx": 4322,
+      "weight": 3994103,
+      "segwit_txs": 4279
     },
     {
-      "h": 963592,
-      "tx": 4216,
-      "weight": 3993409,
-      "segwit_txs": 3888
+      "h": 964323,
+      "tx": 3759,
+      "weight": 3993966,
+      "segwit_txs": 3622
     },
     {
-      "h": 963593,
-      "tx": 4425,
-      "weight": 3994047,
-      "segwit_txs": 4290
+      "h": 964324,
+      "tx": 5258,
+      "weight": 3992763,
+      "segwit_txs": 4199
     },
     {
-      "h": 963594,
-      "tx": 7401,
-      "weight": 3992774,
-      "segwit_txs": 5859
-    },
-    {
-      "h": 963595,
-      "tx": 5986,
-      "weight": 3997812,
-      "segwit_txs": 5319
-    },
-    {
-      "h": 963596,
-      "tx": 6384,
-      "weight": 3993589,
-      "segwit_txs": 5347
-    },
-    {
-      "h": 963597,
-      "tx": 4385,
-      "weight": 3993661,
-      "segwit_txs": 4164
-    },
-    {
-      "h": 963598,
-      "tx": 4111,
-      "weight": 3993884,
-      "segwit_txs": 3597
-    },
-    {
-      "h": 963599,
-      "tx": 4180,
-      "weight": 3997942,
+      "h": 964325,
+      "tx": 4188,
+      "weight": 3993892,
       "segwit_txs": 3512
+    },
+    {
+      "h": 964326,
+      "tx": 4771,
+      "weight": 3994083,
+      "segwit_txs": 4130
+    },
+    {
+      "h": 964327,
+      "tx": 3219,
+      "weight": 3993845,
+      "segwit_txs": 3046
+    },
+    {
+      "h": 964328,
+      "tx": 4544,
+      "weight": 3997925,
+      "segwit_txs": 4194
+    },
+    {
+      "h": 964329,
+      "tx": 4196,
+      "weight": 3993947,
+      "segwit_txs": 4025
+    },
+    {
+      "h": 964330,
+      "tx": 3230,
+      "weight": 3993946,
+      "segwit_txs": 2994
     }
   ],
   "_state": {
@@ -918,6 +918,456 @@
         "taproot": 3,
         "segwit": 215,
         "legacy": 32,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963607": {
+        "height": 963607,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 17,
+        "segwit": 205,
+        "legacy": 28,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963622": {
+        "height": 963622,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 6,
+        "segwit": 221,
+        "legacy": 23,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963634": {
+        "height": 963634,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 7,
+        "segwit": 210,
+        "legacy": 33,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963646": {
+        "height": 963646,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 15,
+        "segwit": 202,
+        "legacy": 33,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963660": {
+        "height": 963660,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 10,
+        "segwit": 222,
+        "legacy": 18,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963681": {
+        "height": 963681,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 6,
+        "segwit": 224,
+        "legacy": 20,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963694": {
+        "height": 963694,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 12,
+        "segwit": 211,
+        "legacy": 27,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963704": {
+        "height": 963704,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 14,
+        "segwit": 207,
+        "legacy": 29,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963718": {
+        "height": 963718,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 8,
+        "segwit": 213,
+        "legacy": 29,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963729": {
+        "height": 963729,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 14,
+        "segwit": 198,
+        "legacy": 38,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963745": {
+        "height": 963745,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 9,
+        "segwit": 206,
+        "legacy": 35,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963757": {
+        "height": 963757,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 17,
+        "segwit": 193,
+        "legacy": 40,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963764": {
+        "height": 963764,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 11,
+        "segwit": 225,
+        "legacy": 14,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963780": {
+        "height": 963780,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 7,
+        "segwit": 215,
+        "legacy": 28,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963795": {
+        "height": 963795,
+        "txs": 233,
+        "nonCoinbase": 233,
+        "taproot": 11,
+        "segwit": 204,
+        "legacy": 18,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963810": {
+        "height": 963810,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 10,
+        "segwit": 216,
+        "legacy": 24,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963823": {
+        "height": 963823,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 15,
+        "segwit": 202,
+        "legacy": 33,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963841": {
+        "height": 963841,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 20,
+        "segwit": 186,
+        "legacy": 44,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963853": {
+        "height": 963853,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 10,
+        "segwit": 208,
+        "legacy": 32,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963868": {
+        "height": 963868,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 22,
+        "segwit": 184,
+        "legacy": 44,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963879": {
+        "height": 963879,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 17,
+        "segwit": 199,
+        "legacy": 34,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963896": {
+        "height": 963896,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 18,
+        "segwit": 186,
+        "legacy": 46,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963906": {
+        "height": 963906,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 9,
+        "segwit": 198,
+        "legacy": 43,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963923": {
+        "height": 963923,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 12,
+        "segwit": 210,
+        "legacy": 28,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963938": {
+        "height": 963938,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 12,
+        "segwit": 212,
+        "legacy": 26,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963950": {
+        "height": 963950,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 23,
+        "segwit": 191,
+        "legacy": 36,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963971": {
+        "height": 963971,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 15,
+        "segwit": 196,
+        "legacy": 39,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "963984": {
+        "height": 963984,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 16,
+        "segwit": 213,
+        "legacy": 21,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964002": {
+        "height": 964002,
+        "txs": 225,
+        "nonCoinbase": 225,
+        "taproot": 13,
+        "segwit": 178,
+        "legacy": 34,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964013": {
+        "height": 964013,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 19,
+        "segwit": 198,
+        "legacy": 33,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964031": {
+        "height": 964031,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 14,
+        "segwit": 207,
+        "legacy": 29,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964044": {
+        "height": 964044,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 17,
+        "segwit": 207,
+        "legacy": 26,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964054": {
+        "height": 964054,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 14,
+        "segwit": 193,
+        "legacy": 43,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964065": {
+        "height": 964065,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 21,
+        "segwit": 193,
+        "legacy": 36,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964081": {
+        "height": 964081,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 29,
+        "segwit": 171,
+        "legacy": 50,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964092": {
+        "height": 964092,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 21,
+        "segwit": 178,
+        "legacy": 51,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964104": {
+        "height": 964104,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 10,
+        "segwit": 191,
+        "legacy": 49,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964120": {
+        "height": 964120,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 14,
+        "segwit": 201,
+        "legacy": 35,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964130": {
+        "height": 964130,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 10,
+        "segwit": 192,
+        "legacy": 48,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964152": {
+        "height": 964152,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 33,
+        "segwit": 174,
+        "legacy": 43,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964179": {
+        "height": 964179,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 17,
+        "segwit": 206,
+        "legacy": 27,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964192": {
+        "height": 964192,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 16,
+        "segwit": 203,
+        "legacy": 31,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964218": {
+        "height": 964218,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 11,
+        "segwit": 199,
+        "legacy": 40,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964257": {
+        "height": 964257,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 11,
+        "segwit": 208,
+        "legacy": 31,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "964330": {
+        "height": 964330,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 18,
+        "segwit": 198,
+        "legacy": 34,
         "unclassified": 0,
         "captures": 1
       }
