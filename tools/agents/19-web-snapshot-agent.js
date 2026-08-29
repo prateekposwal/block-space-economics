@@ -13,6 +13,75 @@ var STATE_FILE = path.join(REPO, 'captured-data', 'web-snapshot-state.json');
 function loadJson(p, fb) { try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch (e) { return fb; } }
 function sha1(s) { return require('crypto').createHash('sha1').update(s).digest('hex'); }
 
+
+// Live API fetch — public endpoints only (same sources as generate_snapshot.py
+// on the GH-runner tier). Replaces the dead local data-engine mirror
+// (captured-data/*.json, frozen since 2026-08-22 when the DE server died):
+// the snapshot payload must stay live even while the local mirror is down.
+// Node 18+ global fetch; every source fails independently (a dead endpoint
+// degrades that one field, never the whole snapshot).
+function liveGet(apiPath) {
+  var url = 'https://mempool.space' + apiPath;
+  return global.fetch(url, { signal: AbortSignal.timeout(15000) }).then(function(r) {
+    if (!r.ok) throw new Error('HTTP ' + r.status + ' from ' + url);
+    return r.json();
+  });
+}
+function liveGetText(apiPath) {
+  var url = 'https://blockstream.info' + apiPath;
+  return global.fetch(url, { signal: AbortSignal.timeout(15000) }).then(function(r) {
+    if (!r.ok) throw new Error('HTTP ' + r.status + ' from ' + url);
+    return r.text();
+  });
+}
+
+// fetchLivePayload() → { fees, price, height, mempool } with a per-field fetch
+// timestamp (ISO). Every field resolves independently: a failure leaves that
+// field null so the caller falls back to the local mirror/spool.
+function fetchLivePayload() {
+  var tsNow = function() { return new Date().toISOString(); };
+  var out = { fees: null, fees_ts: null, price: null, price_ts: null, height: null, height_ts: null, mempool: null, mempool_ts: null };
+  var chain = Promise.resolve();
+  // fees (5-tier) — mempool.space /api/v1/fees/recommended
+  chain = chain.then(function() {
+    return liveGet('/api/v1/fees/recommended').then(function(d) {
+      var fees = {};
+      ['fastestFee', 'halfHourFee', 'hourFee', 'economyFee', 'minimumFee'].forEach(function(k) {
+        if (d[k] !== undefined && d[k] !== null) fees[k] = d[k];
+      });
+      out.fees = fees;
+      out.fees_ts = tsNow();
+    }).catch(function(e) { console.error('live fees fetch failed:', (e && e.message) || e); });
+  });
+  // price — mempool.space /api/v1/prices (USD)
+  chain = chain.then(function() {
+    return liveGet('/api/v1/prices').then(function(d) {
+      out.price = d;
+      out.price_ts = tsNow();
+    }).catch(function(e) { console.error('live price fetch failed:', (e && e.message) || e); });
+  });
+  // height — blockstream first, mempool.space fallback (same order as generate_snapshot.py)
+  chain = chain.then(function() {
+    return liveGetText('/api/blocks/tip/height').then(function(t) {
+      out.height = parseInt(t, 10);
+      out.height_ts = tsNow();
+    }).catch(function() {
+      return liveGet('/api/blocks/tip/height').then(function(d) {
+        out.height = parseInt(d, 10);
+        out.height_ts = tsNow();
+      }).catch(function(e) { console.error('live height fetch failed:', (e && e.message) || e); });
+    });
+  });
+  // mempool count — mempool.space /api/mempool
+  chain = chain.then(function() {
+    return liveGet('/api/mempool').then(function(d) {
+      out.mempool = d;
+      out.mempool_ts = tsNow();
+    }).catch(function(e) { console.error('live mempool fetch failed:', (e && e.message) || e); });
+  });
+  return chain.then(function() { return out; });
+}
+
 function writeOnChange(name, data) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
   var p = path.join(DATA_DIR, name);
@@ -25,7 +94,9 @@ function writeOnChange(name, data) {
   return changed;
 }
 
-function run() {
+function run() { return runAsync.apply(this, arguments); }
+
+async function runAsync() {
   // Forecast (spool-backed)
   var fc = loadJson(path.join(REPO, 'tools', 'fee_forecast.json'), null);
   // Alerts
@@ -50,9 +121,12 @@ function run() {
   // Posts count
   var postLog = loadJson(path.join(REPO, 'captured-data', 'post-log.json'), { posts: [] });
 
-  // Live price / height / mempool from the latest data-engine mirror (the local
-  // capture agent has them; previously hardcoded null meant the public snapshot
-  // served empty price/height on the rich path).
+  let live; // assigned under the async wrapper below
+  // Live-first payload (public APIs). The local data-engine mirror
+  // (captured-data/latest.json + latest capture file) is the FALLBACK — kept
+  // so the snapshot still degrades to last-known values rather than nulls if
+  // every public API is unreachable, but it is NEVER the primary source (that
+  // is what froze the payload when the DE server died on 2026-08-22).
   var latestMirror = loadJson(path.join(REPO, 'captured-data', 'latest.json'), null);
   var mirror = {};
   try {
@@ -60,39 +134,82 @@ function run() {
     var files = fs.existsSync(capDir) ? fs.readdirSync(capDir).filter(function(f) { return /^\d{4}-\d{2}-\d{2}_/.test(f) && f.endsWith('.json'); }).sort() : [];
     if (files.length) mirror = loadJson(path.join(capDir, files[files.length - 1]), {});
   } catch (e) {}
+  var mirrorCaptureTs = mirror.captureTime || null;   // honest fallback timestamp
   var ep = mirror.endpoints || {};
   function epData(key) { return (ep[key] && ep[key].data) || null; }
-  var price = epData('btc_price');
-  var height = epData('block_height');
-  var mempool = epData('mempool');
+
+  // Resolve live payload (await inside runAsync). If a live field is null,
+  // fall back to the mirror (last capture) with its captureTime as the honest
+  // per-field timestamp — a stale fallback must record its real age, not "now".
+  live = null;
+  try { live = await fetchLivePayload(); } catch (e) { console.error('live payload fetch failed:', (e && e.message) || e); }
+  var price = null, height = null, mempool = null, fees = null;
+  var fees_ts = null, price_ts = null, height_ts = null, mempool_ts = null;
+  if (live) {
+    price = live.price || null;
+    height = live.height !== null && live.height !== undefined ? live.height : null;
+    mempool = live.mempool || null;
+    fees = live.fees || null;
+    fees_ts = live.fees_ts || null;
+    price_ts = live.price_ts || null;
+    height_ts = live.height_ts || null;
+    mempool_ts = live.mempool_ts || null;
+  }
+  // Fallbacks (per-field, honest ts): mirror/spool data with the capture time.
+  if (price === null || price === undefined) {
+    var mp = epData('btc_price');
+    if (mp) { price = mp; price_ts = mirrorCaptureTs; }
+  }
+  if (height === null || height === undefined) {
+    var mh = epData('block_height');
+    if (mh) { height = (typeof mh === 'object') ? (mh.block_height !== undefined ? mh.block_height : (mh.height !== undefined ? mh.height : null)) : mh; height_ts = mirrorCaptureTs; }
+  }
+  if (mempool === null || mempool === undefined) {
+    var mm = epData('mempool');
+    if (mm) { mempool = mm; mempool_ts = mirrorCaptureTs; }
+  }
+  if (fees === null || fees === undefined) {
+    // spool-last fees fallback (authoritative when live API is down)
+    fees = {};
+    try {
+      var feeDir = path.join(REPO, 'captured-data', 'spool', 'index', 'fees');
+      var feeFiles = fs.existsSync(feeDir) ? fs.readdirSync(feeDir).filter(function(f) { return f.endsWith('.jsonl'); }).sort() : [];
+      if (feeFiles.length) {
+        var lines = fs.readFileSync(path.join(feeDir, feeFiles[feeFiles.length - 1]), 'utf8').trim().split('\n');
+        var last = lines.length ? JSON.parse(lines[lines.length - 1]) : null;
+        var fd = last && last.payload && last.payload.data ? last.payload.data : null;
+        if (fd) {
+          ['fastestFee', 'halfHourFee', 'hourFee', 'economyFee', 'minimumFee'].forEach(function(k) {
+            if (fd[k] !== undefined && fd[k] !== null) fees[k] = fd[k];
+          });
+          // enqueuedAt is ISO (parseable); captureTime is BSAHI dashed format
+          // ("2026-08-22_00-02-20") — prefer the ISO field for honest age math.
+          fees_ts = last.enqueuedAt || (last.captureTime ? last.captureTime.replace('_', 'T').replace(/-(\d{2})-(\d{2})$/, ':$1:$2') : null) || mirrorCaptureTs;
+        }
+      }
+    } catch (e) {}
+    if (fees.fastestFee === undefined && fc && fc.latest_fastest_fee !== undefined) fees.fastestFee = fc.latest_fastest_fee;
+  }
+  // Aggregate honest payload timestamp: the OLDEST per-field datum bounds the
+  // payload (a single frozen field must not green-light the whole snapshot).
+  var fieldTs = [fees_ts, price_ts, height_ts, mempool_ts].filter(function(x) { return x && !isNaN(new Date(x).getTime()); });
+  var payload_ts = fieldTs.length ? fieldTs.sort()[0] : null;
 
   var snapshot = {
     schema_version: 1,
     generated_at: new Date().toISOString(),
     freshness_min: 0,
-    fees: (function() {
-      // 5-tier fee object from the spool's live 'fees' capture (authoritative);
-      // fall back to the forecast's fastest fee only if the spool is empty.
-      var fees = {};
-      try {
-        var feeDir = path.join(REPO, 'captured-data', 'spool', 'index', 'fees');
-        var feeFiles = fs.existsSync(feeDir) ? fs.readdirSync(feeDir).filter(function(f) { return f.endsWith('.jsonl'); }).sort() : [];
-        if (feeFiles.length) {
-          var lines = fs.readFileSync(path.join(feeDir, feeFiles[feeFiles.length - 1]), 'utf8').trim().split('\n');
-          var last = lines.length ? JSON.parse(lines[lines.length - 1]) : null;
-          var fd = last && last.payload && last.payload.data ? last.payload.data : null;
-          if (fd) {
-            ['fastestFee', 'halfHourFee', 'hourFee', 'economyFee', 'minimumFee'].forEach(function(k) {
-              if (fd[k] !== undefined && fd[k] !== null) fees[k] = fd[k];
-            });
-          }
-        }
-      } catch (e) {}
-      if (fees.fastestFee === undefined && fc && fc.latest_fastest_fee !== undefined) fees.fastestFee = fc.latest_fastest_fee;
-      return fees;
-    })(),
+    // Honest payload stamps (gap #3): payload_ts = oldest per-field datum time;
+    // per-field *_ts record each source's effective capture time. Consumers
+    // (js/data-health.js) judge freshness by payload_ts, not the envelope.
+    payload_ts: payload_ts,
+    fees_ts: fees_ts,
+    price_ts: price_ts,
+    height_ts: height_ts,
+    mempool_ts: mempool_ts,
+    fees: fees,
     btc_price: (price && price.USD) || null,
-    block_height: (typeof height === 'object') ? (height.block_height !== undefined ? height.block_height : (height.height !== undefined ? height.height : null)) : height,
+    block_height: height,
     mempool_tx: (mempool && mempool.count) || null,
     forecast: fc ? fc.forecast : [],
     alerts: (alerts && alerts.alerts) || [],
@@ -179,5 +296,5 @@ function run() {
   return snapshot;
 }
 
-if (require.main === module) { run(); process.exit(0); }
+if (require.main === module) { run().then(function() { process.exit(0); }).catch(function(e) { console.error('web-snapshot run failed:', e); process.exit(1); }); }
 module.exports = { run: run, writeOnChange: writeOnChange };

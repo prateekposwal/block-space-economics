@@ -54,28 +54,35 @@ def build_snapshot():
     btc = 0
     height = 0
     mempool_tx = 0
+    now_iso = datetime.now(timezone.utc).isoformat()
+    fees_ts = price_ts = height_ts = mempool_ts = None
     try:
         d = json.loads(fetch('https://mempool.space/api/v1/fees/recommended'))
         for k in ['fastestFee', 'halfHourFee', 'hourFee', 'economyFee', 'minimumFee']:
             if k in d:
                 fees[k] = d[k]
+        fees_ts = now_iso
     except Exception as e:
         print('fees fetch failed:', e)
     try:
         p = json.loads(fetch('https://mempool.space/api/v1/prices'))
         btc = p.get('USD', 0)
+        price_ts = now_iso
     except Exception as e:
         print('price fetch failed:', e)
     try:
         height = int(fetch('https://blockstream.info/api/blocks/tip/height'))
+        height_ts = now_iso
     except Exception:
         try:
             height = int(fetch('https://mempool.space/api/blocks/tip/height'))
+            height_ts = now_iso
         except Exception as e:
             print('height fetch failed:', e)
     try:
         m = json.loads(fetch('https://mempool.space/api/mempool'))
         mempool_tx = m.get('count', 0)
+        mempool_ts = now_iso
     except Exception as e:
         print('mempool fetch failed:', e)
 
@@ -94,10 +101,18 @@ def build_snapshot():
     except Exception as e:
         print('forecast failed:', e)
 
+    field_ts = [ts for ts in (fees_ts, price_ts, height_ts, mempool_ts) if ts]
+    payload_ts = min(field_ts) if field_ts else None
+
     snapshot = {
         "schema_version": 1,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "freshness_min": 0,
+        "payload_ts": payload_ts,
+        "fees_ts": fees_ts,
+        "price_ts": price_ts,
+        "height_ts": height_ts,
+        "mempool_ts": mempool_ts,
         "fees": fees,
         "btc_price": btc,
         "block_height": height,
