@@ -2,25 +2,25 @@
   "endpoint": "/data/sccr_latest.json",
   "payload": {
     "date": "2026-09-03",
-    "generated_at": "2026-09-03T13:43:59.751459+00:00",
+    "generated_at": "2026-09-03T20:00:48.996228+00:00",
     "spec_version": "2.1.0",
-    "blocks": 144,
-    "avg_sccr": 0.282807,
+    "blocks": 146,
+    "avg_sccr": 0.299357,
     "min": 0.008711,
-    "max": 1.891176,
-    "below_1x": 143,
-    "below_1x_pct": 99.31,
+    "max": 1.124808,
+    "below_1x": 145,
+    "below_1x_pct": 99.32,
     "l_net_usd": 5627.804396,
     "N": 32000,
     "T": 10,
     "C": 925,
     "heights": [
-      965176,
-      965319
+      965217,
+      965362
     ],
     "census_captured_at": "2026-08-02T19:05:03.982Z",
     "census_date": "2026-08-02",
     "census_stale": true,
-    "notes": "SCCR = fee_USD / L_net; N=32K primary-source lower-bound census as of 2026-08-02 via Bitcoin Core getnodeaddresses; census stale \u2014 last measured 2026-08-02; N is a lower-bound constant (Mac census offline \u2014 GH reads the committed dated constant); T=10yr assumption. Static JSON endpoint: /data/sccr_latest.json"
+    "notes": "SCCR = fee_USD / L_net; N=32K primary-source lower-bound census as of 2026-08-02 via Bitcoin Core getnodeaddresses; census stale — last measured 2026-08-02; N is a lower-bound constant (Mac census offline — GH reads the committed dated constant); T=10yr assumption. Static JSON endpoint: /data/sccr_latest.json"
   }
 }
