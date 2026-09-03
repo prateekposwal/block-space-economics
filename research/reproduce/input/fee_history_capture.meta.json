@@ -1,10 +1,10 @@
 {
   "schema": "bsahi.fee-history-capture-meta/1",
   "file": "research/reproduce/input/fee_history_capture.json",
-  "generated_at": "2026-09-02T19:36:31.977Z",
+  "generated_at": "2026-09-03T04:51:40.969Z",
   "source": "GitHub Actions (public API mempool.space /api/v1/mining/blocks/fees/24h) via tools/generate_research_data.js buildSccr",
-  "count": 139,
-  "first_height": 965075,
-  "last_height": 965214,
+  "count": 138,
+  "first_height": 965120,
+  "last_height": 965258,
   "note": "The capture file itself stays a bare array of {avgHeight, timestamp, avgFees, USD} so the C/JS/Python reproduce consumers keep parsing it unchanged; this meta file carries the refresh provenance the bare-array schema cannot."
 }
