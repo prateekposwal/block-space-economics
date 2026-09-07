@@ -1,1009 +1,883 @@
 {
-  "timestamp": "2026-09-06T15:07:10.460897+00:00",
+  "timestamp": "2026-09-07T17:29:03.503072+00:00",
   "fees": {
-    "fastestFee": 1,
-    "halfHourFee": 1,
-    "hourFee": 1,
-    "economyFee": 1,
+    "fastestFee": 5,
+    "halfHourFee": 4,
+    "hourFee": 3,
+    "economyFee": 2,
     "minimumFee": 1
   },
-  "btc_price": 79564.28,
+  "btc_price": 79089.96,
   "mempool": {
-    "unconfirmed_tx": 83044,
-    "vsize": 41318353,
-    "total_fee_sats": 7057368
+    "unconfirmed_tx": 92739,
+    "vsize": 44318475,
+    "total_fee_sats": 15982948
   },
-  "block_height": 965791,
+  "block_height": 965952,
   "bip110_signaling": {
     "source": "blockstream.info (version bit 4, last 10 blocks)",
     "signaling_count": 0,
     "total_checked": 10,
     "signaling_percent": 0.0,
-    "block_height": 965791
+    "block_height": 965952
   },
   "utxo_set": null,
   "alerts": [],
   "miners_revenue_24h": [
     {
-      "avgHeight": 965628,
-      "timestamp": 1788621090,
-      "avgFees": 2530391,
-      "USD": 79747
+      "avgHeight": 965812,
+      "timestamp": 1788715806,
+      "avgFees": 1994423,
+      "USD": 79688
     },
     {
-      "avgHeight": 965629,
-      "timestamp": 1788621566,
-      "avgFees": 1821995,
-      "USD": 79747
+      "avgHeight": 965813,
+      "timestamp": 1788715817,
+      "avgFees": 925524,
+      "USD": 79688
     },
     {
-      "avgHeight": 965630,
-      "timestamp": 1788622797,
-      "avgFees": 3233175,
-      "USD": 79747
+      "avgHeight": 965814,
+      "timestamp": 1788715871,
+      "avgFees": 458854,
+      "USD": 79688
     },
     {
-      "avgHeight": 965631,
-      "timestamp": 1788623767,
-      "avgFees": 2609724,
-      "USD": 79747
+      "avgHeight": 965815,
+      "timestamp": 1788718085,
+      "avgFees": 4505758,
+      "USD": 79755
     },
     {
-      "avgHeight": 965632,
-      "timestamp": 1788624347,
-      "avgFees": 2760769,
-      "USD": 79814
+      "avgHeight": 965816,
+      "timestamp": 1788718489,
+      "avgFees": 2245751,
+      "USD": 79755
     },
     {
-      "avgHeight": 965633,
-      "timestamp": 1788625098,
-      "avgFees": 2434813,
-      "USD": 79814
+      "avgHeight": 965817,
+      "timestamp": 1788719155,
+      "avgFees": 2032316,
+      "USD": 79755
     },
     {
-      "avgHeight": 965634,
-      "timestamp": 1788626345,
-      "avgFees": 3263961,
-      "USD": 79814
+      "avgHeight": 965818,
+      "timestamp": 1788719410,
+      "avgFees": 1156007,
+      "USD": 79755
     },
     {
-      "avgHeight": 965635,
-      "timestamp": 1788626482,
-      "avgFees": 1706405,
-      "USD": 79814
+      "avgHeight": 965819,
+      "timestamp": 1788721230,
+      "avgFees": 3610020,
+      "USD": 79951
     },
     {
-      "avgHeight": 965636,
-      "timestamp": 1788627102,
-      "avgFees": 2018668,
-      "USD": 79814
+      "avgHeight": 965820,
+      "timestamp": 1788722015,
+      "avgFees": 1925684,
+      "USD": 79951
     },
     {
-      "avgHeight": 965637,
-      "timestamp": 1788628596,
-      "avgFees": 3668524,
-      "USD": 80051
+      "avgHeight": 965821,
+      "timestamp": 1788722839,
+      "avgFees": 3279433,
+      "USD": 79951
     },
     {
-      "avgHeight": 965638,
-      "timestamp": 1788628833,
-      "avgFees": 1846454,
-      "USD": 80051
+      "avgHeight": 965822,
+      "timestamp": 1788723107,
+      "avgFees": 1346533,
+      "USD": 79951
     },
     {
-      "avgHeight": 965639,
-      "timestamp": 1788629252,
-      "avgFees": 1796572,
-      "USD": 80051
+      "avgHeight": 965823,
+      "timestamp": 1788723455,
+      "avgFees": 1769273,
+      "USD": 79951
     },
     {
-      "avgHeight": 965640,
-      "timestamp": 1788629376,
-      "avgFees": 1047923,
-      "USD": 80051
+      "avgHeight": 965824,
+      "timestamp": 1788723660,
+      "avgFees": 955166,
+      "USD": 79951
     },
     {
-      "avgHeight": 965641,
-      "timestamp": 1788629411,
-      "avgFees": 595350,
-      "USD": 80051
+      "avgHeight": 965825,
+      "timestamp": 1788723842,
+      "avgFees": 806289,
+      "USD": 79951
     },
     {
-      "avgHeight": 965642,
-      "timestamp": 1788629518,
-      "avgFees": 746227,
-      "USD": 80051
+      "avgHeight": 965826,
+      "timestamp": 1788724063,
+      "avgFees": 796872,
+      "USD": 79951
     },
     {
-      "avgHeight": 965643,
-      "timestamp": 1788629608,
-      "avgFees": 606627,
-      "USD": 80051
+      "avgHeight": 965827,
+      "timestamp": 1788724067,
+      "avgFees": 348388,
+      "USD": 79951
     },
     {
-      "avgHeight": 965644,
-      "timestamp": 1788629708,
-      "avgFees": 592589,
-      "USD": 80051
+      "avgHeight": 965828,
+      "timestamp": 1788724870,
+      "avgFees": 2025318,
+      "USD": 79840
     },
     {
-      "avgHeight": 965645,
-      "timestamp": 1788630275,
-      "avgFees": 1922344,
-      "USD": 80051
+      "avgHeight": 965829,
+      "timestamp": 1788727094,
+      "avgFees": 3990181,
+      "USD": 79840
     },
     {
-      "avgHeight": 965646,
-      "timestamp": 1788631036,
-      "avgFees": 2269110,
-      "USD": 80051
+      "avgHeight": 965830,
+      "timestamp": 1788728296,
+      "avgFees": 3292035,
+      "USD": 79840
     },
     {
-      "avgHeight": 965647,
-      "timestamp": 1788631241,
-      "avgFees": 1034506,
-      "USD": 80070
+      "avgHeight": 965831,
+      "timestamp": 1788728323,
+      "avgFees": 1276499,
+      "USD": 79840
     },
     {
-      "avgHeight": 965648,
-      "timestamp": 1788633064,
-      "avgFees": 4064856,
-      "USD": 80070
+      "avgHeight": 965832,
+      "timestamp": 1788728832,
+      "avgFees": 1728893,
+      "USD": 79911
     },
     {
-      "avgHeight": 965650,
-      "timestamp": 1788633185,
-      "avgFees": 624841,
-      "USD": 80070
+      "avgHeight": 965834,
+      "timestamp": 1788730030,
+      "avgFees": 594406,
+      "USD": 79911
     },
     {
-      "avgHeight": 965649,
-      "timestamp": 1788633463,
-      "avgFees": 1480957,
-      "USD": 80070
+      "avgHeight": 965833,
+      "timestamp": 1788730303,
+      "avgFees": 2431054,
+      "USD": 79911
     },
     {
-      "avgHeight": 965651,
-      "timestamp": 1788634382,
-      "avgFees": 3247523,
-      "USD": 80070
+      "avgHeight": 965835,
+      "timestamp": 1788731305,
+      "avgFees": 1886870,
+      "USD": 79911
     },
     {
-      "avgHeight": 965652,
-      "timestamp": 1788635275,
-      "avgFees": 2753641,
-      "USD": 80001
+      "avgHeight": 965836,
+      "timestamp": 1788731443,
+      "avgFees": 1250517,
+      "USD": 79911
     },
     {
-      "avgHeight": 965653,
-      "timestamp": 1788635494,
-      "avgFees": 1382276,
-      "USD": 80001
+      "avgHeight": 965837,
+      "timestamp": 1788731810,
+      "avgFees": 184453,
+      "USD": 79911
     },
     {
-      "avgHeight": 965654,
-      "timestamp": 1788636044,
-      "avgFees": 1244103,
-      "USD": 80001
+      "avgHeight": 965838,
+      "timestamp": 1788732965,
+      "avgFees": 3035364,
+      "USD": 79950
     },
     {
-      "avgHeight": 965655,
-      "timestamp": 1788636570,
-      "avgFees": 1829753,
-      "USD": 80001
+      "avgHeight": 965840,
+      "timestamp": 1788733269,
+      "avgFees": 945758,
+      "USD": 79950
     },
     {
-      "avgHeight": 965656,
-      "timestamp": 1788637105,
-      "avgFees": 1393917,
-      "USD": 80001
+      "avgHeight": 965839,
+      "timestamp": 1788733453,
+      "avgFees": 691325,
+      "USD": 79950
     },
     {
-      "avgHeight": 965657,
-      "timestamp": 1788637479,
-      "avgFees": 1024862,
-      "USD": 80001
+      "avgHeight": 965841,
+      "timestamp": 1788733902,
+      "avgFees": 1340806,
+      "USD": 79950
     },
     {
-      "avgHeight": 965658,
-      "timestamp": 1788637528,
-      "avgFees": 705834,
-      "USD": 80001
+      "avgHeight": 965842,
+      "timestamp": 1788734440,
+      "avgFees": 1249942,
+      "USD": 79950
     },
     {
-      "avgHeight": 965659,
-      "timestamp": 1788637701,
-      "avgFees": 783401,
-      "USD": 80001
+      "avgHeight": 965843,
+      "timestamp": 1788734586,
+      "avgFees": 567012,
+      "USD": 79950
     },
     {
-      "avgHeight": 965660,
-      "timestamp": 1788638816,
-      "avgFees": 2376087,
-      "USD": 79759
+      "avgHeight": 965844,
+      "timestamp": 1788734692,
+      "avgFees": 466946,
+      "USD": 79950
     },
     {
-      "avgHeight": 965661,
-      "timestamp": 1788639257,
-      "avgFees": 1299261,
-      "USD": 79759
+      "avgHeight": 965845,
+      "timestamp": 1788734866,
+      "avgFees": 667105,
+      "USD": 79950
     },
     {
-      "avgHeight": 965662,
-      "timestamp": 1788639486,
-      "avgFees": 769320,
-      "USD": 79759
+      "avgHeight": 965846,
+      "timestamp": 1788734993,
+      "avgFees": 742275,
+      "USD": 79950
     },
     {
-      "avgHeight": 965663,
-      "timestamp": 1788640132,
-      "avgFees": 1422894,
-      "USD": 79759
+      "avgHeight": 965847,
+      "timestamp": 1788736080,
+      "avgFees": 748550,
+      "USD": 80048
     },
     {
-      "avgHeight": 965664,
-      "timestamp": 1788640367,
-      "avgFees": 997074,
-      "USD": 79759
+      "avgHeight": 965848,
+      "timestamp": 1788736123,
+      "avgFees": 1156445,
+      "USD": 80048
     },
     {
-      "avgHeight": 965665,
-      "timestamp": 1788640444,
-      "avgFees": 452547,
-      "USD": 79759
+      "avgHeight": 965849,
+      "timestamp": 1788737249,
+      "avgFees": 1917951,
+      "USD": 80048
     },
     {
-      "avgHeight": 965666,
-      "timestamp": 1788641092,
-      "avgFees": 1536817,
-      "USD": 79759
+      "avgHeight": 965850,
+      "timestamp": 1788737928,
+      "avgFees": 1258282,
+      "USD": 80048
     },
     {
-      "avgHeight": 965667,
-      "timestamp": 1788641511,
-      "avgFees": 1322827,
-      "USD": 79759
+      "avgHeight": 965851,
+      "timestamp": 1788738716,
+      "avgFees": 1330509,
+      "USD": 80048
     },
     {
-      "avgHeight": 965668,
-      "timestamp": 1788642347,
-      "avgFees": 2253741,
-      "USD": 79747
+      "avgHeight": 965852,
+      "timestamp": 1788738963,
+      "avgFees": 784159,
+      "USD": 80048
     },
     {
-      "avgHeight": 965669,
-      "timestamp": 1788642791,
-      "avgFees": 1456781,
-      "USD": 79747
+      "avgHeight": 965853,
+      "timestamp": 1788740636,
+      "avgFees": 4472280,
+      "USD": 80339
     },
     {
-      "avgHeight": 965670,
-      "timestamp": 1788643905,
-      "avgFees": 2484954,
-      "USD": 79747
+      "avgHeight": 965854,
+      "timestamp": 1788741316,
+      "avgFees": 1480378,
+      "USD": 80339
     },
     {
-      "avgHeight": 965671,
-      "timestamp": 1788644770,
-      "avgFees": 2333169,
-      "USD": 79747
+      "avgHeight": 965855,
+      "timestamp": 1788741402,
+      "avgFees": 487816,
+      "USD": 80339
     },
     {
-      "avgHeight": 965672,
-      "timestamp": 1788645125,
-      "avgFees": 3102908,
-      "USD": 79747
+      "avgHeight": 965856,
+      "timestamp": 1788741947,
+      "avgFees": 838068,
+      "USD": 80339
     },
     {
-      "avgHeight": 965673,
-      "timestamp": 1788645291,
-      "avgFees": 1118789,
-      "USD": 79747
+      "avgHeight": 965857,
+      "timestamp": 1788742073,
+      "avgFees": 965853,
+      "USD": 80339
     },
     {
-      "avgHeight": 965675,
-      "timestamp": 1788646392,
-      "avgFees": 810950,
-      "USD": 79929
+      "avgHeight": 965858,
+      "timestamp": 1788742396,
+      "avgFees": 770372,
+      "USD": 80339
     },
     {
-      "avgHeight": 965674,
-      "timestamp": 1788646427,
-      "avgFees": 2107277,
-      "USD": 79929
+      "avgHeight": 965859,
+      "timestamp": 1788742566,
+      "avgFees": 590748,
+      "USD": 80339
     },
     {
-      "avgHeight": 965676,
-      "timestamp": 1788646482,
-      "avgFees": 463992,
-      "USD": 79929
+      "avgHeight": 965860,
+      "timestamp": 1788742901,
+      "avgFees": 814547,
+      "USD": 80122
     },
     {
-      "avgHeight": 965677,
-      "timestamp": 1788647396,
-      "avgFees": 1665992,
-      "USD": 79929
+      "avgHeight": 965861,
+      "timestamp": 1788743145,
+      "avgFees": 620153,
+      "USD": 80122
     },
     {
-      "avgHeight": 965678,
-      "timestamp": 1788647667,
-      "avgFees": 894877,
-      "USD": 79929
+      "avgHeight": 965862,
+      "timestamp": 1788743314,
+      "avgFees": 467000,
+      "USD": 80122
     },
     {
-      "avgHeight": 965679,
-      "timestamp": 1788647798,
-      "avgFees": 683706,
-      "USD": 79929
+      "avgHeight": 965863,
+      "timestamp": 1788743448,
+      "avgFees": 611687,
+      "USD": 80122
     },
     {
-      "avgHeight": 965680,
-      "timestamp": 1788647856,
-      "avgFees": 449479,
-      "USD": 79929
+      "avgHeight": 965864,
+      "timestamp": 1788744795,
+      "avgFees": 1843366,
+      "USD": 80122
     },
     {
-      "avgHeight": 965681,
-      "timestamp": 1788648872,
-      "avgFees": 2147215,
-      "USD": 79929
+      "avgHeight": 965865,
+      "timestamp": 1788745789,
+      "avgFees": 1582572,
+      "USD": 80122
     },
     {
-      "avgHeight": 965682,
-      "timestamp": 1788649359,
-      "avgFees": 1322145,
-      "USD": 79801
+      "avgHeight": 965866,
+      "timestamp": 1788746192,
+      "avgFees": 958082,
+      "USD": 80122
     },
     {
-      "avgHeight": 965683,
-      "timestamp": 1788649521,
-      "avgFees": 666181,
-      "USD": 79801
+      "avgHeight": 965867,
+      "timestamp": 1788746195,
+      "avgFees": 334883,
+      "USD": 80122
     },
     {
-      "avgHeight": 965684,
-      "timestamp": 1788650453,
-      "avgFees": 1976823,
-      "USD": 79801
+      "avgHeight": 965868,
+      "timestamp": 1788746659,
+      "avgFees": 1166711,
+      "USD": 79923
     },
     {
-      "avgHeight": 965685,
-      "timestamp": 1788650680,
-      "avgFees": 619927,
-      "USD": 79801
+      "avgHeight": 965869,
+      "timestamp": 1788747618,
+      "avgFees": 1448829,
+      "USD": 79923
     },
     {
-      "avgHeight": 965686,
-      "timestamp": 1788651948,
-      "avgFees": 2395508,
-      "USD": 79801
+      "avgHeight": 965870,
+      "timestamp": 1788747711,
+      "avgFees": 486351,
+      "USD": 79923
     },
     {
-      "avgHeight": 965687,
-      "timestamp": 1788652123,
-      "avgFees": 984255,
-      "USD": 79801
+      "avgHeight": 965871,
+      "timestamp": 1788748325,
+      "avgFees": 999156,
+      "USD": 79923
     },
     {
-      "avgHeight": 965688,
-      "timestamp": 1788653086,
-      "avgFees": 2405799,
-      "USD": 79846
+      "avgHeight": 965872,
+      "timestamp": 1788748772,
+      "avgFees": 882481,
+      "USD": 79923
     },
     {
-      "avgHeight": 965689,
-      "timestamp": 1788653877,
-      "avgFees": 1523081,
-      "USD": 79846
+      "avgHeight": 965873,
+      "timestamp": 1788749972,
+      "avgFees": 2185576,
+      "USD": 79923
     },
     {
-      "avgHeight": 965690,
-      "timestamp": 1788653932,
-      "avgFees": 484395,
-      "USD": 79846
+      "avgHeight": 965874,
+      "timestamp": 1788750795,
+      "avgFees": 1881279,
+      "USD": 79868
     },
     {
-      "avgHeight": 965691,
-      "timestamp": 1788654346,
-      "avgFees": 962674,
-      "USD": 79846
+      "avgHeight": 965875,
+      "timestamp": 1788751805,
+      "avgFees": 1537584,
+      "USD": 79868
     },
     {
-      "avgHeight": 965692,
-      "timestamp": 1788654481,
-      "avgFees": 518791,
-      "USD": 79846
+      "avgHeight": 965876,
+      "timestamp": 1788752006,
+      "avgFees": 652785,
+      "USD": 79868
     },
     {
-      "avgHeight": 965693,
-      "timestamp": 1788654658,
-      "avgFees": 787061,
-      "USD": 79846
+      "avgHeight": 965877,
+      "timestamp": 1788752891,
+      "avgFees": 1353990,
+      "USD": 79868
     },
     {
-      "avgHeight": 965694,
-      "timestamp": 1788654781,
-      "avgFees": 491329,
-      "USD": 79846
+      "avgHeight": 965878,
+      "timestamp": 1788753039,
+      "avgFees": 501796,
+      "USD": 79868
     },
     {
-      "avgHeight": 965695,
-      "timestamp": 1788655683,
-      "avgFees": 1416194,
-      "USD": 79846
+      "avgHeight": 965879,
+      "timestamp": 1788753419,
+      "avgFees": 988960,
+      "USD": 79868
     },
     {
-      "avgHeight": 965696,
-      "timestamp": 1788656170,
-      "avgFees": 580641,
-      "USD": 79846
+      "avgHeight": 965880,
+      "timestamp": 1788754024,
+      "avgFees": 1171328,
+      "USD": 79598
     },
     {
-      "avgHeight": 965697,
-      "timestamp": 1788656739,
-      "avgFees": 1691106,
-      "USD": 79898
+      "avgHeight": 965881,
+      "timestamp": 1788754113,
+      "avgFees": 511314,
+      "USD": 79598
     },
     {
-      "avgHeight": 965698,
-      "timestamp": 1788657020,
-      "avgFees": 765870,
-      "USD": 79898
+      "avgHeight": 965882,
+      "timestamp": 1788754311,
+      "avgFees": 644817,
+      "USD": 79598
     },
     {
-      "avgHeight": 965699,
-      "timestamp": 1788658042,
-      "avgFees": 1503563,
-      "USD": 79898
+      "avgHeight": 965883,
+      "timestamp": 1788755438,
+      "avgFees": 2032750,
+      "USD": 79598
     },
     {
-      "avgHeight": 965700,
-      "timestamp": 1788658223,
-      "avgFees": 684657,
-      "USD": 79898
+      "avgHeight": 965884,
+      "timestamp": 1788757041,
+      "avgFees": 2228144,
+      "USD": 79598
     },
     {
-      "avgHeight": 965701,
-      "timestamp": 1788658302,
-      "avgFees": 458268,
-      "USD": 79898
+      "avgHeight": 965885,
+      "timestamp": 1788757299,
+      "avgFees": 918942,
+      "USD": 79713
     },
     {
-      "avgHeight": 965702,
-      "timestamp": 1788658383,
-      "avgFees": 432156,
-      "USD": 79898
+      "avgHeight": 965886,
+      "timestamp": 1788758220,
+      "avgFees": 1346490,
+      "USD": 79713
     },
     {
-      "avgHeight": 965703,
-      "timestamp": 1788659369,
-      "avgFees": 1912678,
-      "USD": 79898
+      "avgHeight": 965887,
+      "timestamp": 1788758542,
+      "avgFees": 1278007,
+      "USD": 79713
     },
     {
-      "avgHeight": 965704,
-      "timestamp": 1788659866,
-      "avgFees": 1019597,
-      "USD": 79898
+      "avgHeight": 965888,
+      "timestamp": 1788759541,
+      "avgFees": 1524756,
+      "USD": 79713
     },
     {
-      "avgHeight": 965705,
-      "timestamp": 1788660281,
-      "avgFees": 976627,
-      "USD": 79965
+      "avgHeight": 965889,
+      "timestamp": 1788760195,
+      "avgFees": 1283963,
+      "USD": 79713
     },
     {
-      "avgHeight": 965706,
-      "timestamp": 1788661095,
-      "avgFees": 1758012,
-      "USD": 79965
+      "avgHeight": 965890,
+      "timestamp": 1788760957,
+      "avgFees": 1392315,
+      "USD": 79746
     },
     {
-      "avgHeight": 965707,
-      "timestamp": 1788662363,
-      "avgFees": 1585884,
-      "USD": 79965
+      "avgHeight": 965891,
+      "timestamp": 1788761135,
+      "avgFees": 826730,
+      "USD": 79746
     },
     {
-      "avgHeight": 965708,
-      "timestamp": 1788663000,
-      "avgFees": 1328472,
-      "USD": 79965
+      "avgHeight": 965892,
+      "timestamp": 1788762610,
+      "avgFees": 2153341,
+      "USD": 79746
     },
     {
-      "avgHeight": 965709,
-      "timestamp": 1788663704,
-      "avgFees": 1744810,
-      "USD": 79965
+      "avgHeight": 965893,
+      "timestamp": 1788763122,
+      "avgFees": 1198792,
+      "USD": 79746
     },
     {
-      "avgHeight": 965710,
-      "timestamp": 1788663901,
-      "avgFees": 940573,
-      "USD": 79920
+      "avgHeight": 965894,
+      "timestamp": 1788764654,
+      "avgFees": 2373489,
+      "USD": 79664
     },
     {
-      "avgHeight": 965711,
-      "timestamp": 1788664068,
-      "avgFees": 915675,
-      "USD": 79920
+      "avgHeight": 965895,
+      "timestamp": 1788765351,
+      "avgFees": 1904013,
+      "USD": 79664
     },
     {
-      "avgHeight": 965712,
-      "timestamp": 1788664323,
-      "avgFees": 663384,
-      "USD": 79920
+      "avgHeight": 965896,
+      "timestamp": 1788765441,
+      "avgFees": 586063,
+      "USD": 79664
     },
     {
-      "avgHeight": 965713,
-      "timestamp": 1788665152,
-      "avgFees": 1300701,
-      "USD": 79920
+      "avgHeight": 965897,
+      "timestamp": 1788766345,
+      "avgFees": 1994974,
+      "USD": 79664
     },
     {
-      "avgHeight": 965714,
-      "timestamp": 1788665521,
-      "avgFees": 1005609,
-      "USD": 79920
+      "avgHeight": 965898,
+      "timestamp": 1788767237,
+      "avgFees": 2199008,
+      "USD": 79664
     },
     {
-      "avgHeight": 965715,
-      "timestamp": 1788666967,
-      "avgFees": 1887357,
-      "USD": 79920
+      "avgHeight": 965899,
+      "timestamp": 1788768599,
+      "avgFees": 2598601,
+      "USD": 79406
     },
     {
-      "avgHeight": 965716,
-      "timestamp": 1788667872,
-      "avgFees": 1527476,
-      "USD": 80038
+      "avgHeight": 965900,
+      "timestamp": 1788768709,
+      "avgFees": 947178,
+      "USD": 79406
     },
     {
-      "avgHeight": 965717,
-      "timestamp": 1788668156,
-      "avgFees": 796524,
-      "USD": 80038
+      "avgHeight": 965901,
+      "timestamp": 1788769242,
+      "avgFees": 1400620,
+      "USD": 79406
     },
     {
-      "avgHeight": 965718,
-      "timestamp": 1788668314,
-      "avgFees": 629085,
-      "USD": 80038
+      "avgHeight": 965902,
+      "timestamp": 1788769722,
+      "avgFees": 1298492,
+      "USD": 79406
     },
     {
-      "avgHeight": 965719,
-      "timestamp": 1788670134,
-      "avgFees": 2471886,
-      "USD": 80038
+      "avgHeight": 965903,
+      "timestamp": 1788769761,
+      "avgFees": 391315,
+      "USD": 79406
     },
     {
-      "avgHeight": 965720,
-      "timestamp": 1788670167,
-      "avgFees": 564850,
-      "USD": 80038
+      "avgHeight": 965904,
+      "timestamp": 1788770243,
+      "avgFees": 1410515,
+      "USD": 79406
     },
     {
-      "avgHeight": 965721,
-      "timestamp": 1788671128,
-      "avgFees": 2056920,
-      "USD": 79871
+      "avgHeight": 965905,
+      "timestamp": 1788770674,
+      "avgFees": 1386913,
+      "USD": 79406
     },
     {
-      "avgHeight": 965722,
-      "timestamp": 1788673173,
-      "avgFees": 2432874,
-      "USD": 79871
+      "avgHeight": 965906,
+      "timestamp": 1788771777,
+      "avgFees": 2480819,
+      "USD": 79428
     },
     {
-      "avgHeight": 965723,
-      "timestamp": 1788675197,
-      "avgFees": 3154264,
-      "USD": 79993
+      "avgHeight": 965907,
+      "timestamp": 1788772004,
+      "avgFees": 1117961,
+      "USD": 79428
     },
     {
-      "avgHeight": 965724,
-      "timestamp": 1788679164,
-      "avgFees": 6719143,
-      "USD": 79774
+      "avgHeight": 965908,
+      "timestamp": 1788772310,
+      "avgFees": 1040477,
+      "USD": 79428
     },
     {
-      "avgHeight": 965725,
-      "timestamp": 1788679473,
-      "avgFees": 2921957,
-      "USD": 79774
+      "avgHeight": 965909,
+      "timestamp": 1788772498,
+      "avgFees": 828718,
+      "USD": 79428
     },
     {
-      "avgHeight": 965726,
-      "timestamp": 1788679760,
-      "avgFees": 1901738,
-      "USD": 79774
+      "avgHeight": 965910,
+      "timestamp": 1788772786,
+      "avgFees": 916516,
+      "USD": 79428
     },
     {
-      "avgHeight": 965728,
-      "timestamp": 1788679870,
-      "avgFees": 867492,
-      "USD": 79774
+      "avgHeight": 965911,
+      "timestamp": 1788773883,
+      "avgFees": 2597968,
+      "USD": 79428
     },
     {
-      "avgHeight": 965729,
-      "timestamp": 1788680078,
-      "avgFees": 755895,
-      "USD": 79774
+      "avgHeight": 965912,
+      "timestamp": 1788774086,
+      "avgFees": 1006289,
+      "USD": 79428
     },
     {
-      "avgHeight": 965727,
-      "timestamp": 1788680165,
-      "avgFees": 1155551,
-      "USD": 79774
+      "avgHeight": 965913,
+      "timestamp": 1788775013,
+      "avgFees": 2112502,
+      "USD": 79428
     },
     {
-      "avgHeight": 965730,
-      "timestamp": 1788680378,
-      "avgFees": 735550,
-      "USD": 79774
+      "avgHeight": 965914,
+      "timestamp": 1788775579,
+      "avgFees": 1598201,
+      "USD": 79317
     },
     {
-      "avgHeight": 965731,
-      "timestamp": 1788680391,
-      "avgFees": 352141,
-      "USD": 79774
+      "avgHeight": 965915,
+      "timestamp": 1788776427,
+      "avgFees": 1999944,
+      "USD": 79317
     },
     {
-      "avgHeight": 965732,
-      "timestamp": 1788680950,
-      "avgFees": 1484773,
-      "USD": 79774
+      "avgHeight": 965916,
+      "timestamp": 1788776677,
+      "avgFees": 1208916,
+      "USD": 79317
     },
     {
-      "avgHeight": 965733,
-      "timestamp": 1788682952,
-      "avgFees": 3221519,
-      "USD": 79838
+      "avgHeight": 965917,
+      "timestamp": 1788776709,
+      "avgFees": 551960,
+      "USD": 79317
     },
     {
-      "avgHeight": 965734,
-      "timestamp": 1788683182,
-      "avgFees": 1208519,
-      "USD": 79838
+      "avgHeight": 965918,
+      "timestamp": 1788777963,
+      "avgFees": 2758904,
+      "USD": 79317
     },
     {
-      "avgHeight": 965735,
-      "timestamp": 1788683922,
-      "avgFees": 1464190,
-      "USD": 79838
+      "avgHeight": 965919,
+      "timestamp": 1788778339,
+      "avgFees": 1477257,
+      "USD": 79317
     },
     {
-      "avgHeight": 965736,
-      "timestamp": 1788684098,
-      "avgFees": 609502,
-      "USD": 79838
+      "avgHeight": 965920,
+      "timestamp": 1788780966,
+      "avgFees": 4691492,
+      "USD": 79360
     },
     {
-      "avgHeight": 965737,
-      "timestamp": 1788684338,
-      "avgFees": 707497,
-      "USD": 79838
+      "avgHeight": 965921,
+      "timestamp": 1788781248,
+      "avgFees": 1992488,
+      "USD": 79360
     },
     {
-      "avgHeight": 965738,
-      "timestamp": 1788684640,
-      "avgFees": 834597,
-      "USD": 79838
+      "avgHeight": 965922,
+      "timestamp": 1788781602,
+      "avgFees": 1498206,
+      "USD": 79360
     },
     {
-      "avgHeight": 965739,
-      "timestamp": 1788684661,
-      "avgFees": 383011,
-      "USD": 79838
+      "avgHeight": 965923,
+      "timestamp": 1788781745,
+      "avgFees": 673922,
+      "USD": 79360
     },
     {
-      "avgHeight": 965740,
-      "timestamp": 1788684708,
-      "avgFees": 84805,
-      "USD": 79838
+      "avgHeight": 965924,
+      "timestamp": 1788782061,
+      "avgFees": 1198701,
+      "USD": 79360
     },
     {
-      "avgHeight": 965741,
-      "timestamp": 1788684859,
-      "avgFees": 580054,
-      "USD": 79838
+      "avgHeight": 965925,
+      "timestamp": 1788782637,
+      "avgFees": 1964503,
+      "USD": 79412
     },
     {
-      "avgHeight": 965742,
-      "timestamp": 1788687060,
-      "avgFees": 3198179,
-      "USD": 79858
+      "avgHeight": 965926,
+      "timestamp": 1788783199,
+      "avgFees": 1549367,
+      "USD": 79412
     },
     {
-      "avgHeight": 965743,
-      "timestamp": 1788687190,
-      "avgFees": 1397986,
-      "USD": 79858
+      "avgHeight": 965927,
+      "timestamp": 1788783389,
+      "avgFees": 831805,
+      "USD": 79412
     },
     {
-      "avgHeight": 965744,
-      "timestamp": 1788687227,
-      "avgFees": 494993,
-      "USD": 79858
+      "avgHeight": 965928,
+      "timestamp": 1788783856,
+      "avgFees": 210859,
+      "USD": 79412
     },
     {
-      "avgHeight": 965745,
-      "timestamp": 1788687326,
-      "avgFees": 574137,
-      "USD": 79858
+      "avgHeight": 965929,
+      "timestamp": 1788784145,
+      "avgFees": 1822264,
+      "USD": 79412
     },
     {
-      "avgHeight": 965746,
-      "timestamp": 1788688980,
-      "avgFees": 2744538,
-      "USD": 79890
+      "avgHeight": 965930,
+      "timestamp": 1788785013,
+      "avgFees": 2335752,
+      "USD": 79412
     },
     {
-      "avgHeight": 965747,
-      "timestamp": 1788688984,
-      "avgFees": 0,
-      "USD": 79890
+      "avgHeight": 965931,
+      "timestamp": 1788785290,
+      "avgFees": 1197894,
+      "USD": 79412
     },
     {
-      "avgHeight": 965748,
-      "timestamp": 1788689281,
-      "avgFees": 1203341,
-      "USD": 79890
+      "avgHeight": 965932,
+      "timestamp": 1788785873,
+      "avgFees": 1970114,
+      "USD": 79412
     },
     {
-      "avgHeight": 965749,
-      "timestamp": 1788690200,
-      "avgFees": 1930738,
-      "USD": 79890
+      "avgHeight": 965933,
+      "timestamp": 1788785910,
+      "avgFees": 506854,
+      "USD": 79412
     },
     {
-      "avgHeight": 965750,
-      "timestamp": 1788690802,
-      "avgFees": 1201150,
-      "USD": 79890
+      "avgHeight": 965934,
+      "timestamp": 1788786164,
+      "avgFees": 1071236,
+      "USD": 79610
     },
     {
-      "avgHeight": 965751,
-      "timestamp": 1788691246,
-      "avgFees": 742674,
-      "USD": 79890
+      "avgHeight": 965935,
+      "timestamp": 1788786395,
+      "avgFees": 1499001,
+      "USD": 79610
     },
     {
-      "avgHeight": 965753,
-      "timestamp": 1788692598,
-      "avgFees": 1061658,
-      "USD": 80008
+      "avgHeight": 965936,
+      "timestamp": 1788787283,
+      "avgFees": 2491054,
+      "USD": 79610
     },
     {
-      "avgHeight": 965752,
-      "timestamp": 1788692634,
-      "avgFees": 1805129,
-      "USD": 79890
+      "avgHeight": 965937,
+      "timestamp": 1788787446,
+      "avgFees": 2044596,
+      "USD": 79610
     },
     {
-      "avgHeight": 965754,
-      "timestamp": 1788692978,
-      "avgFees": 998729,
-      "USD": 80008
+      "avgHeight": 965938,
+      "timestamp": 1788788622,
+      "avgFees": 3046117,
+      "USD": 79610
     },
     {
-      "avgHeight": 965755,
-      "timestamp": 1788693412,
-      "avgFees": 1274778,
-      "USD": 80008
+      "avgHeight": 965939,
+      "timestamp": 1788788920,
+      "avgFees": 2549062,
+      "USD": 79610
     },
     {
-      "avgHeight": 965756,
-      "timestamp": 1788693745,
-      "avgFees": 964494,
-      "USD": 80008
+      "avgHeight": 965940,
+      "timestamp": 1788789098,
+      "avgFees": 1041908,
+      "USD": 79610
     },
     {
-      "avgHeight": 965757,
-      "timestamp": 1788693878,
-      "avgFees": 518147,
-      "USD": 80008
+      "avgHeight": 965941,
+      "timestamp": 1788789142,
+      "avgFees": 423936,
+      "USD": 79610
     },
     {
-      "avgHeight": 965758,
-      "timestamp": 1788694286,
-      "avgFees": 1005992,
-      "USD": 80008
+      "avgHeight": 965942,
+      "timestamp": 1788789922,
+      "avgFees": 2383187,
+      "USD": 79369
     },
     {
-      "avgHeight": 965759,
-      "timestamp": 1788694392,
-      "avgFees": 603282,
-      "USD": 80008
+      "avgHeight": 965943,
+      "timestamp": 1788793007,
+      "avgFees": 6357605,
+      "USD": 79369
     },
     {
-      "avgHeight": 965761,
-      "timestamp": 1788694569,
-      "avgFees": 510566,
-      "USD": 80008
+      "avgHeight": 965944,
+      "timestamp": 1788793199,
+      "avgFees": 2866504,
+      "USD": 79184
     },
     {
-      "avgHeight": 965762,
-      "timestamp": 1788694575,
-      "avgFees": 329229,
-      "USD": 80008
+      "avgHeight": 965945,
+      "timestamp": 1788794036,
+      "avgFees": 3510282,
+      "USD": 79184
     },
     {
-      "avgHeight": 965763,
-      "timestamp": 1788694802,
-      "avgFees": 535933,
-      "USD": 80008
+      "avgHeight": 965946,
+      "timestamp": 1788794608,
+      "avgFees": 1221450,
+      "USD": 79184
     },
     {
-      "avgHeight": 965760,
-      "timestamp": 1788694846,
-      "avgFees": 473858,
-      "USD": 80008
+      "avgHeight": 965947,
+      "timestamp": 1788794807,
+      "avgFees": 2814318,
+      "USD": 79184
     },
     {
-      "avgHeight": 965764,
-      "timestamp": 1788695305,
-      "avgFees": 1171646,
-      "USD": 80008
+      "avgHeight": 965948,
+      "timestamp": 1788795106,
+      "avgFees": 1830052,
+      "USD": 79184
     },
     {
-      "avgHeight": 965765,
-      "timestamp": 1788697697,
-      "avgFees": 3398399,
-      "USD": 79933
+      "avgHeight": 965949,
+      "timestamp": 1788795466,
+      "avgFees": 1571855,
+      "USD": 79184
     },
     {
-      "avgHeight": 965766,
-      "timestamp": 1788698042,
-      "avgFees": 1585604,
-      "USD": 79933
+      "avgHeight": 965950,
+      "timestamp": 1788797365,
+      "avgFees": 5027744,
+      "USD": 78805
     },
     {
-      "avgHeight": 965767,
-      "timestamp": 1788698483,
-      "avgFees": 1373106,
-      "USD": 79933
+      "avgHeight": 965951,
+      "timestamp": 1788800078,
+      "avgFees": 6260973,
+      "USD": 78805
     },
     {
-      "avgHeight": 965768,
-      "timestamp": 1788699146,
-      "avgFees": 1175743,
-      "USD": 79933
-    },
-    {
-      "avgHeight": 965769,
-      "timestamp": 1788699315,
-      "avgFees": 948253,
-      "USD": 79933
-    },
-    {
-      "avgHeight": 965770,
-      "timestamp": 1788700592,
-      "avgFees": 2463455,
-      "USD": 79929
-    },
-    {
-      "avgHeight": 965772,
-      "timestamp": 1788701908,
-      "avgFees": 714268,
-      "USD": 79929
-    },
-    {
-      "avgHeight": 965771,
-      "timestamp": 1788701918,
-      "avgFees": 2835923,
-      "USD": 79929
-    },
-    {
-      "avgHeight": 965773,
-      "timestamp": 1788702227,
-      "avgFees": 1123981,
-      "USD": 79929
-    },
-    {
-      "avgHeight": 965774,
-      "timestamp": 1788702475,
-      "avgFees": 880354,
-      "USD": 79929
-    },
-    {
-      "avgHeight": 965775,
-      "timestamp": 1788702612,
-      "avgFees": 608461,
-      "USD": 79929
-    },
-    {
-      "avgHeight": 965776,
-      "timestamp": 1788702653,
-      "avgFees": 465618,
-      "USD": 79929
-    },
-    {
-      "avgHeight": 965777,
-      "timestamp": 1788702752,
-      "avgFees": 504861,
-      "USD": 79929
-    },
-    {
-      "avgHeight": 965778,
-      "timestamp": 1788702787,
-      "avgFees": 444090,
-      "USD": 79929
-    },
-    {
-      "avgHeight": 965779,
-      "timestamp": 1788703123,
-      "avgFees": 706717,
-      "USD": 79929
-    },
-    {
-      "avgHeight": 965780,
-      "timestamp": 1788703317,
-      "avgFees": 1137538,
-      "USD": 79832
-    },
-    {
-      "avgHeight": 965781,
-      "timestamp": 1788704285,
-      "avgFees": 2251731,
-      "USD": 79832
-    },
-    {
-      "avgHeight": 965782,
-      "timestamp": 1788704441,
-      "avgFees": 813990,
-      "USD": 79832
-    },
-    {
-      "avgHeight": 965783,
-      "timestamp": 1788704936,
-      "avgFees": 1471284,
-      "USD": 79832
-    },
-    {
-      "avgHeight": 965784,
-      "timestamp": 1788705094,
-      "avgFees": 733069,
-      "USD": 79832
-    },
-    {
-      "avgHeight": 965785,
-      "timestamp": 1788705461,
-      "avgFees": 1174228,
-      "USD": 79832
-    },
-    {
-      "avgHeight": 965786,
-      "timestamp": 1788706003,
-      "avgFees": 1336554,
-      "USD": 79832
-    },
-    {
-      "avgHeight": 965787,
-      "timestamp": 1788706077,
-      "avgFees": 550944,
-      "USD": 79832
-    },
-    {
-      "avgHeight": 965788,
-      "timestamp": 1788706380,
-      "avgFees": 1248274,
-      "USD": 79832
-    },
-    {
-      "avgHeight": 965789,
-      "timestamp": 1788706560,
-      "avgFees": 786127,
-      "USD": 79832
+      "avgHeight": 965952,
+      "timestamp": 1788800441,
+      "avgFees": 3838175,
+      "USD": 79018
     }
   ],
   "latest_block": {
-    "height": 965791,
-    "hash": "000000000000000000022dfbf00db04092b0372f02f7ac355569239cacf2396d",
-    "timestamp": 1788707388,
-    "tx_count": 7052,
-    "size": 1548546,
-    "weight": 3992883,
+    "height": 965952,
+    "hash": "00000000000000000001d51805db1c3cb3d41e64486366ecb0b33a1d81ee6f3c",
+    "timestamp": 1788800441,
+    "tx_count": 4073,
+    "size": 1735657,
+    "weight": 3993862,
     "fee_range": null
   }
 }
