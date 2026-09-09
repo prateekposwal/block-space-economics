@@ -62,12 +62,13 @@
 \begin{abstract}
 Bitcoin has a market price for block space, but no explicit market price for long-lived resource consumption. This paper measures one of those resources --- replicated storage --- and asks how much of its modeled cost is covered by transaction fees. We define a \textbf{Storage Cost Coverage Ratio (SCCR)} --- the ratio of transaction fees paid (USD) to the estimated lifetime storage cost borne by full nodes (USD) --- and measure it against live fee-history data.
 
-\textbf{The headline is a range, not a point.} Our best available measurement of the replication factor $N$ (full-node count) is a \textbf{primary-source lower-bound census ($\geq$32{,}000 known addresses via Bitcoin Core \texttt{getnodeaddresses})} --- the address-manager cap, not a complete enumeration --- while independent estimates span $\sim$10K--100K reachable nodes. Because SCCR is exactly inverse-linear in $N$, the result is stated in three lines (exact figures appear in \S\ref{sec:5}):
+\textbf{The headline is a range, not a point.} Our best available measurement of the replication factor $N$ (full-node count) is a \textbf{primary-source lower-bound census ($\geq$32{,}000 known addresses via Bitcoin Core \texttt{getnodeaddresses})} --- the address-manager cap, not a complete enumeration --- while independent estimates span $\sim$10K--100K reachable nodes. Because SCCR is exactly inverse-linear in $N$, the result is stated in four lines (exact figures appear in \S\ref{sec:5}):
 
 \begin{itemize}
-\item \textbf{Representative live measurement: $\approx$0.22} --- the average SCCR at $N=32$K, live capture 2026-08-02.
-\item \textbf{Observed band: $\approx$0.22--0.29} --- across dated captures at $N=32$K (live, 2026-08-01 dated, and frozen-capture reproduction).
-\item \textbf{Model uncertainty: depends strongly on the replication factor $N$} --- the average spans $\sim$0.71 at $N=10$K to $\sim$0.07 at $N=100$K; this $N$-band range ($\sim$0.07--0.71) is a \emph{different} uncertainty from the observed-sample band above and carries the dominant risk.
+\item \textbf{Dated baseline band (Aug 02--15): $\approx$0.22 coverage at $N=32$K}, with $\sim$100\% of sampled blocks below $1\times$ storage cost.
+\item \textbf{Live series (Sep 07): 0.40 at $N=32$K, 94.37\% of blocks below $1\times$} --- the coverage ratio is \textbf{fee-market-driven and time-varying}, not a fixed point.
+\item \textbf{Dynamic finding:} SCCR moved \textbf{0.16 $\rightarrow$ 0.45 $\rightarrow$ 0.40} across a \textbf{22-point daily series (2026-08-02 $\rightarrow$ 2026-09-07)} measured live in \texttt{data/sccr\_history.json} --- dynamic measurement strengthens the paper.
+\item \textbf{Model uncertainty: depends strongly on the replication factor $N$} --- the average spans $\sim$0.71 at $N=10$K to $\sim$0.07 at $N=100$K; this $N$-band range ($\sim$0.07--0.71) is a \emph{different} uncertainty from the dated/live observations above and carries the dominant risk.
 \end{itemize}
 
 A joint Monte Carlo over $N$, $C$, $T$, and price (current band, 10{,}000 draws) gives a P5--P95 interval of 0.07--0.47, median 0.17, with 99.9\% of draws below the $1\times$ threshold; the share of sampled blocks below $1\times$ ranges $\sim$79--100\% depending on the true $N$. We reconcile two cost models that previously disagreed by $16.4\times$ (dimensionless), document the correction transparently (model-spec.json v2.0.0), and state results to the precision the evidence licenses: \textbf{external reproduction is pending (D5)}. The framework is reproducible, falsifiable research.

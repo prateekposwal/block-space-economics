@@ -13,6 +13,7 @@ The agents will read these and reference them in their next cycle.
 <!-- Add notes about protocol developments, BIPs, Core releases -->
 
 - BIP-110 directly relates to our thesis — it restricts data at consensus level. Track its impact on storage externalities. If BIP-110 activates, measure whether data-bearing constructions decrease and whether fee-per-byte for remaining transactions changes.
+- **UPDATE (2026-09-08):** BIP-110 did **NOT** activate — the lock-in window passed with `signalingSharePct = 0%` (`data/bip110.json`). No activation; no storage-externality behavior to track from it. Drop it from active-track.
 ## Lightning Network
 
 <!-- Add notes about LN developments, channel trends, routing insights -->
@@ -35,4 +36,4 @@ The agents will read these and reference them in their next cycle.
 <!-- Add overarching research directions, questions to explore -->
 
 - Core thesis: Bitcoin's fee market prices short-term block inclusion competition. It does NOT price lifetime storage costs across all full nodes. Storage Cost Coverage Ratio = TransactionFee / EstimatedLifetimeStorageCost. This is our novel research contribution — a reproducible model to measure the gap between one-time fees and cumulative network storage burden.
-- STORAGE RATIO REPORT v2.0.0: 158 blocks sampled, avg coverage ratio 0.1719 (17.2%) (corrected in model-spec.json v2.0.0). 100% of sampled blocks have fees below 1x storage cost. Current fees cover ~17% of the estimated 10-year storage cost across 60K nodes. This is the empirical evidence for the unpriced externality thesis.
+- **UPDATE (2026-09-08):** SCCR is **fee-market-driven and time-varying**, not a static point. Live daily series (`data/sccr_history.json`, `data/sccr.json`): **22 points, 2026-08-02 → 2026-09-07**; current **0.3999 @ N=32K** (142 blocks, **94.37% below 1×**); range **0.16 (Aug 16) – 0.45 (Aug 21) – 0.40 (Sep 07)**. Regime event: `reports/research/regime-event-2026-08-21.md`. Node census: **32K is the addrman-cap lower-bound census (2026-08-02)**; **60K is an assumption mid-band, not a census**. This is the empirical evidence for the unpriced externality thesis.

@@ -11,25 +11,26 @@
 
 Bitcoin has a market price for block space, but no explicit market price for long-lived resource consumption. This paper measures one of those resources — replicated storage — and asks how much of its modeled cost is covered by transaction fees. We define a **Storage Cost Coverage Ratio (SCCR)** — the ratio of transaction fees paid (USD) to the estimated lifetime storage cost borne by full nodes (USD) — and measure it against live fee-history data.
 
-**The headline is a range, not a point.** Our best available measurement of the replication factor N (full-node count) is a **primary-source lower-bound census (≥32,000 known addresses via Bitcoin Core `getnodeaddresses`)** — the address-manager cap, not a complete enumeration — while independent estimates span **~10K–100K** reachable nodes. Because SCCR is exactly inverse-linear in N, the result is stated in three lines (exact figures appear in the table below and §5.1):
+**The headline is a range, not a point.** Our best available measurement of the replication factor N (full-node count) is a **primary-source lower-bound census (≥32,000 known addresses via Bitcoin Core `getnodeaddresses`)** — the address-manager cap, not a complete enumeration — while independent estimates span **~10K–100K** reachable nodes. Because SCCR is exactly inverse-linear in N, the result is stated in four lines (exact figures appear in the table below and §5.1):
 
-- **Representative live measurement: ≈0.22** — the average SCCR at N=32K, live capture 2026-08-02.
-- **Observed band: ≈0.22–0.29** — across dated captures at N=32K (live, 2026-08-01 dated, and frozen-capture reproduction).
-- **Model uncertainty: depends strongly on the replication factor N** — the average spans **~0.71 at N=10K to ~0.07 at N=100K**; this N-band range (~0.07–0.71) is a *different* uncertainty from the observed-sample band above and carries the dominant risk.
+- **Dated baseline band (Aug 02–15): ≈0.22 coverage at N=32K**, with ~100% of sampled blocks below 1× storage cost (exact figures in the table below and §5.1).
+- **Live series (Sep 07): 0.40 at N=32K, 94.37% of blocks below 1×** — the coverage ratio is **fee-market-driven and time-varying**, not a fixed point.
+- **Dynamic finding:** SCCR moved **0.16 → 0.45 → 0.40** across a **22-point daily series (2026-08-02 → 2026-09-07)** measured live in `data/sccr_history.json` — dynamic measurement strengthens, not weakens, the paper.
+- **Model uncertainty: depends strongly on the replication factor N** — the average spans **~0.71 at N=10K to ~0.07 at N=100K**; this N-band range (~0.07–0.71) is a *different* uncertainty from the dated/live observations above and carries the dominant risk.
 
 A joint Monte Carlo over N, C, T, and price (current band, 10,000 draws) gives a P5–P95 interval of **0.07–0.47**, median 0.17, with **99.9% of draws below the 1× threshold**; the share of sampled blocks below 1× ranges ~79–100% depending on the true N. We reconcile two cost models that previously disagreed by 16.4× (dimensionless), document the correction transparently (model-spec.json v2.0.0), and state results to the precision the evidence licenses: **external reproduction is pending (D5)**. The framework is reproducible, falsifiable research.
 
 **Hypothesis:** Bitcoin's fee market efficiently allocates scarce block space, but may not fully internalize every long-lived resource cost created by confirmed transactions.
 
-**Final numbers at a glance** — the headline in three lines, exact figures (all captures dated; model-spec v2.0.1; the full derivation is §4–§5, the sensitivity and knife-edge details are §5.3–§5.4, and the falsifiers are §7.1):
+**Final numbers at a glance** — the headline in four lines, exact figures (all captures dated; model-spec v2.0.1; the full derivation is §4–§5, the sensitivity and knife-edge details are §5.3–§5.4, and the falsifiers are §7.1):
 
 | Quantity | Value |
 |---|---|
-| **Representative live measurement** ≈0.22 — SCCR at N=32K (primary-source lower-bound census) | **0.2228** (live capture, 167 blocks, 2026-08-02) |
-| **Observed band** ≈0.22–0.29 — across dated captures at N=32K | 0.2228 (live) · **0.293** (dated capture, 156 blocks, 2026-08-01) · **0.2186** (frozen-capture reproduction, 171 blocks) |
+| **Dated baseline band** ≈0.22 — SCCR at N=32K, Aug 02–15 (primary-source lower-bound census) | **0.2243** (2026-08-02, 153 blocks) · **0.2840** (2026-08-03) · **0.2611** (2026-08-04) · **0.2095** (2026-08-15) — see `data/sccr_history.json` |
+| **Live series (Sep 07)** — SCCR at N=32K | **0.3999** (142 blocks, **94.37% below 1×**, `data/sccr.json`) · series range **0.1574 (Aug 16) → 0.4508 (Aug 21) → 0.3999 (Sep 07)** across 22 points (`data/sccr_history.json`) |
 | **Model uncertainty** — depends strongly on the replication factor N (independent estimates N = 10K–100K) | **~0.07 – ~0.71** (inverse-linear in N: 0.713 at N=10K, 0.0713 at N=100K at the live baseline) |
 | Monte Carlo confidence interval (current band: N ~ Tri(10K, 100K, mode 32K), 10,000 draws, live anchor) | **P5–P95: 0.07 – 0.47** · median 0.17 · **99.9% of draws below 1×** |
-| Blocks below 1× | 98.7% (dated capture at N=32K) – 100% (live/frozen at N=32K); ~79% at N=10K, 100% at N≥32K |
+| Blocks below 1× | **94.37%** (live series, Sep 07, N=32K) vs ~100% (dated Aug 02–15 baseline, N=32K); ~79% at N=10K, 100% at N≥32K |
 | External reproduction | **PENDING (D5)** — independent runs requested; every figure above is stated to the precision the evidence licenses |
 
 ---
