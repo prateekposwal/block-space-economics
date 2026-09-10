@@ -1,0 +1,179 @@
+{
+  "generated_at": "2026-09-09T21:32:30Z",
+  "observed_at": "2026-09-09T21:32:30Z",
+  "schema_version": "1.0",
+  "indicators": [
+    {
+      "id": "sccr",
+      "name": "SCCR / Storage Economics",
+      "source": "/data/sccr_latest.json",
+      "source_label": "Bitcoin Core getnodeaddresses (N=32K lower-bound census); SCCR = fee_USD / L_net",
+      "current": {
+        "avg_sccr": 0.371939,
+        "min": 0.036531,
+        "max": 4.161974,
+        "below_1x_pct": 95.62,
+        "l_net_usd": 5627.80,
+        "blocks": 137,
+        "N": 32000,
+        "C": 925
+      },
+      "trend": {
+        "direction": "UP",
+        "pct_change": 33.3,
+        "from": 0.2790,
+        "from_date": "2026-09-08",
+        "to": 0.3719,
+        "to_date": "2026-09-09",
+        "history_range": "0.157 (2026-08-16) to 0.451 (2026-08-21)",
+        "series_points": 29
+      },
+      "confidence": {
+        "level": "HIGH",
+        "reason": "SCCR snapshot is fresh (2026-09-09, 8h old). Primary-source census via Bitcoin Core getnodeaddresses.",
+        "caveat": "Census node count N=32K is stale (last measured 2026-08-02). Mac census offline — GitHub reads committed dated constant. L_net is a fixed 10yr assumption."
+      },
+      "missing": [
+        "Real-time node count (census is a 2026-08-02 snapshot)",
+        "Actual L_net (storage cost) — currently assumed at $5,627.80/yr",
+        "Post-BIP-110 fee impact on storage economics not yet isolated"
+      ]
+    },
+    {
+      "id": "fee_regime",
+      "name": "Fee Regime",
+      "source": "/data/snapshot.json",
+      "source_label": "mempool.space API (live feed) + snapshot pipeline",
+      "current": {
+        "fastestFee": 2,
+        "halfHourFee": 1,
+        "hourFee": 1,
+        "economyFee": 1,
+        "minimumFee": 1,
+        "btc_price_usd": 78303,
+        "mempool_tx": 80700
+      },
+      "trend": {
+        "direction": "FALLING",
+        "model": "holt-linear-trend",
+        "predicted_day1": 2.3,
+        "predicted_day2": 2.2,
+        "predicted_day3": 2.0,
+        "slope": -0.122,
+        "current_regime": "normal",
+        "rmse": 1.596
+      },
+      "confidence": {
+        "level": "HIGH",
+        "reason": "Live mempool.space feed with 60s refresh. Fee forecast trained on 67 data points (Aug 16-22).",
+        "caveat": "Forecast covers only 3 days. Sudden demand spikes (e.g., ordinals inscriptions) can override."
+      },
+      "missing": [
+        "Mempool transaction-age distribution (not captured)",
+        "Fee-rate forecast beyond 3 days",
+        "No long-term fee regime classification (low/med/high defined by thresholds only)"
+      ]
+    },
+    {
+      "id": "bip110",
+      "name": "BIP-110 / Governance Status",
+      "source": "/data/bip110.json",
+      "source_label": "mempool.space /api/blocks?limit=10 (GitHub Actions, public API)",
+      "current": {
+        "lock_in_height": 963648,
+        "lock_in_verified": true,
+        "lock_in_date": "2026-08-23",
+        "current_height": 966270,
+        "blocks_since_lock_in": 2622,
+        "signaling_share_pct": 0,
+        "threshold_pct": 55,
+        "window_total": 10,
+        "window_signaling": 0,
+        "in_window": false,
+        "passed_lock_in": true,
+        "daily_signaling_days": 30,
+        "daily_signaling_nonzero_days": 0,
+        "daily_blocks_sampled": 58
+      },
+      "trend": {
+        "direction": "STABLE — LOCKED",
+        "detail": "Zero miner signaling across all 30 daily samples since lock-in. UASF mechanism: lock-in is height-based (963648), not signaling-dependent.",
+        "enforcement_state": "ACTIVE — BIP-110 rules enforced at height >= 963648",
+        "miner_compliance": "0% voluntary signaling (not required — UASF height trigger)"
+      },
+      "confidence": {
+        "level": "HIGH",
+        "reason": "Verified from primary on-chain source (mempool.space public API). Lock-in at height 963648 confirmed. All 10 recent blocks show bit4=false. Zero signaling for 30 consecutive days.",
+        "caveat": "Signaling is voluntary post-lock-in; enforcement is by node policy, not miner consensus."
+      },
+      "missing": [
+        "Miner revenue impact post-enforcement",
+        "Node-level enforcement rate (% of nodes actually enforcing)",
+        "User/node activation statistics (not tracked)"
+      ]
+    },
+    {
+      "id": "node_census",
+      "name": "Node Census Freshness",
+      "source": "/data/node_census.json",
+      "source_label": "Bitcoin Core getnodeaddresses (local node, RPC max 32000)",
+      "current": {
+        "total_known_addresses": 32000,
+        "live_connections": 8,
+        "inbound": 0,
+        "outbound": 8,
+        "network_version": 270100,
+        "sample_nodes": ["217.138.219.222", "155.4.133.165", "212.100.60.46"],
+        "lower_bound": true,
+        "captured_at": "2026-08-02T19:05:03.982Z"
+      },
+      "trend": {
+        "direction": "STALE — NOT UPDATED",
+        "detail": "Last census capture: 2026-08-02 (38+ days old). No new captures. Mac census agent offline.",
+        "staleness_days": 38,
+        "freshness_status": "STALE"
+      },
+      "confidence": {
+        "level": "LOW",
+        "reason": "Census data is 38+ days stale. The 32K figure is a LOWER BOUND from addrman saturation, not a real-time count.",
+        "caveat": "The Mac census agent is offline. GitHub Actions reads the committed dated constant (32000), not a live count. Live connections (8) reflect only the local node's current connections, not network-wide."
+      },
+      "missing": [
+        "Real-time node count (census is a 38-day-old snapshot)",
+        "Geographic distribution of nodes",
+        "Network version distribution beyond current version 270100",
+        "Node uptime/availability statistics"
+      ]
+    },
+    {
+      "id": "network",
+      "name": "Block Production Rate",
+      "source": "/data/block_interval.json",
+      "source_label": "mempool.space /api/blocks?limit=5 (GitHub Actions, public API)",
+      "current": {
+        "latest_avg_interval_s": 603.56,
+        "latest_min_interval_s": 231,
+        "latest_max_interval_s": 1057,
+        "target_interval_s": 600,
+        "hashrate_ehs": 954.81,
+        "block_height": 966270
+      },
+      "trend": {
+        "direction": "STABLE",
+        "detail": "Latest 10-block window averages 603.56s vs 600s target. Variance is high (231-1057s) but characteristic of Poisson process.",
+        "hashrate_trend": "954.81 EH/s (latest). Range 850-955 EH/s over Aug-Sep 2026.",
+        "block_production": "On target — blocks found at expected ~10min intervals"
+      },
+      "confidence": {
+        "level": "HIGH",
+        "reason": "Live block interval data from mempool.space public API. Hashrate from /api/v1/mining/hashrate/24h. Updated every ~60 min.",
+        "caveat": "Rolling window captures every ~60 min — not real-time continuous."
+      },
+      "missing": [
+        "Real-time block interval (only ~60 min snapshots)",
+        "Next difficulty adjustment prediction",
+        "Orphan rate / chain reorganization data"
+      ]
+    }
+  ]
+}
