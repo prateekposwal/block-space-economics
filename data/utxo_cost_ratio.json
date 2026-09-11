@@ -1,0 +1,1179 @@
+{
+  "schema": "bsahi.utxo-cost-ratio/1",
+  "generated_at": "2026-09-09T21:32:30.595Z",
+  "source": "GitHub Actions (public API mempool.space /api/v1/mining/blocks/fees/24h)",
+  "model_spec_version": "2.1.0",
+  "note": "UTXOCIR = fee_USD_per_block / (cb_insc \u00d7 UTXO_bytes_per_block \u00d7 N). Numerator: avgFees \u00d7 USD_price from fee_history_blocks.json. Denominator: cb_insc=1.92573e-6 $/byte/year (model-spec.json v2.1.0), I_BYTES=400, I_RATE=100K/mo, N=32,000. The task spec referenced '29.9 KB/block marginal growth' which does not appear in utxo_cost_model.py. This script uses verified model-spec.json constants: inscription-only growth = 480MB/year \u2248 9.1 KB/block. Fee data covers 2026 blocks only (not 2017).",
+  "parameters": {
+    "cb_insc_usd_per_byte_year": 1.92573e-06,
+    "I_bytes": 400,
+    "I_rate_monthly": 100000,
+    "utxo_bytes_per_block": 9126.2,
+    "N_nodes": 32000,
+    "C_usd_year": 925,
+    "T_years": 10
+  },
+  "summary": {
+    "n_blocks": 144,
+    "period": "966127\u2013966270",
+    "avg_utxocir": 2.865492,
+    "min_utxocir": 0.365569,
+    "max_utxocir": 41.64899,
+    "blocks_above_1x": 121,
+    "blocks_above_1x_pct": 84.0
+  },
+  "per_block": [
+    {
+      "height": 966127,
+      "timestamp": 1788914745,
+      "avgFees_sats": 2405130,
+      "usd_price": 78449,
+      "fee_usd": 1886.8004,
+      "utxocir": 3.354997
+    },
+    {
+      "height": 966128,
+      "timestamp": 1788915003,
+      "avgFees_sats": 1682746,
+      "usd_price": 78449,
+      "fee_usd": 1320.0974,
+      "utxocir": 2.347319
+    },
+    {
+      "height": 966129,
+      "timestamp": 1788915657,
+      "avgFees_sats": 2123974,
+      "usd_price": 78762,
+      "fee_usd": 1672.8844,
+      "utxocir": 2.974624
+    },
+    {
+      "height": 966130,
+      "timestamp": 1788915662,
+      "avgFees_sats": 554310,
+      "usd_price": 78762,
+      "fee_usd": 436.5856,
+      "utxocir": 0.776311
+    },
+    {
+      "height": 966132,
+      "timestamp": 1788916372,
+      "avgFees_sats": 556179,
+      "usd_price": 78762,
+      "fee_usd": 438.0577,
+      "utxocir": 0.778928
+    },
+    {
+      "height": 966131,
+      "timestamp": 1788916735,
+      "avgFees_sats": 1778853,
+      "usd_price": 78762,
+      "fee_usd": 1401.0602,
+      "utxocir": 2.491282
+    },
+    {
+      "height": 966133,
+      "timestamp": 1788917326,
+      "avgFees_sats": 2156101,
+      "usd_price": 78762,
+      "fee_usd": 1698.1883,
+      "utxocir": 3.019618
+    },
+    {
+      "height": 966134,
+      "timestamp": 1788917796,
+      "avgFees_sats": 1393796,
+      "usd_price": 78762,
+      "fee_usd": 1097.7816,
+      "utxocir": 1.95201
+    },
+    {
+      "height": 966135,
+      "timestamp": 1788919437,
+      "avgFees_sats": 3769049,
+      "usd_price": 78883,
+      "fee_usd": 2973.1389,
+      "utxocir": 5.286659
+    },
+    {
+      "height": 966136,
+      "timestamp": 1788919710,
+      "avgFees_sats": 1219426,
+      "usd_price": 78883,
+      "fee_usd": 961.9198,
+      "utxocir": 1.710429
+    },
+    {
+      "height": 966137,
+      "timestamp": 1788921108,
+      "avgFees_sats": 2784254,
+      "usd_price": 78883,
+      "fee_usd": 2196.3031,
+      "utxocir": 3.905336
+    },
+    {
+      "height": 966138,
+      "timestamp": 1788922141,
+      "avgFees_sats": 2134090,
+      "usd_price": 78883,
+      "fee_usd": 1683.4342,
+      "utxocir": 2.993383
+    },
+    {
+      "height": 966139,
+      "timestamp": 1788922577,
+      "avgFees_sats": 1190405,
+      "usd_price": 78883,
+      "fee_usd": 939.0272,
+      "utxocir": 1.669722
+    },
+    {
+      "height": 966141,
+      "timestamp": 1788924139,
+      "avgFees_sats": 985727,
+      "usd_price": 78728,
+      "fee_usd": 776.0432,
+      "utxocir": 1.379914
+    },
+    {
+      "height": 966140,
+      "timestamp": 1788924176,
+      "avgFees_sats": 3140174,
+      "usd_price": 78728,
+      "fee_usd": 2472.1962,
+      "utxocir": 4.395912
+    },
+    {
+      "height": 966142,
+      "timestamp": 1788925028,
+      "avgFees_sats": 2029623,
+      "usd_price": 78728,
+      "fee_usd": 1597.8816,
+      "utxocir": 2.841258
+    },
+    {
+      "height": 966143,
+      "timestamp": 1788925573,
+      "avgFees_sats": 1421721,
+      "usd_price": 78728,
+      "fee_usd": 1119.2925,
+      "utxocir": 1.990259
+    },
+    {
+      "height": 966144,
+      "timestamp": 1788926015,
+      "avgFees_sats": 1476209,
+      "usd_price": 78728,
+      "fee_usd": 1162.1898,
+      "utxocir": 2.066537
+    },
+    {
+      "height": 966145,
+      "timestamp": 1788926794,
+      "avgFees_sats": 1933260,
+      "usd_price": 78631,
+      "fee_usd": 1520.1417,
+      "utxocir": 2.703026
+    },
+    {
+      "height": 966146,
+      "timestamp": 1788927913,
+      "avgFees_sats": 2295065,
+      "usd_price": 78631,
+      "fee_usd": 1804.6326,
+      "utxocir": 3.20889
+    },
+    {
+      "height": 966147,
+      "timestamp": 1788927984,
+      "avgFees_sats": 718149,
+      "usd_price": 78631,
+      "fee_usd": 564.6877,
+      "utxocir": 1.004094
+    },
+    {
+      "height": 966148,
+      "timestamp": 1788928280,
+      "avgFees_sats": 1127453,
+      "usd_price": 78631,
+      "fee_usd": 886.5276,
+      "utxocir": 1.576371
+    },
+    {
+      "height": 966149,
+      "timestamp": 1788928316,
+      "avgFees_sats": 395450,
+      "usd_price": 78631,
+      "fee_usd": 310.9463,
+      "utxocir": 0.552906
+    },
+    {
+      "height": 966150,
+      "timestamp": 1788928832,
+      "avgFees_sats": 1334619,
+      "usd_price": 78631,
+      "fee_usd": 1049.4243,
+      "utxocir": 1.866024
+    },
+    {
+      "height": 966151,
+      "timestamp": 1788928839,
+      "avgFees_sats": 333115,
+      "usd_price": 78631,
+      "fee_usd": 261.9317,
+      "utxocir": 0.465751
+    },
+    {
+      "height": 966152,
+      "timestamp": 1788928895,
+      "avgFees_sats": 2859342,
+      "usd_price": 78631,
+      "fee_usd": 2248.3292,
+      "utxocir": 3.997846
+    },
+    {
+      "height": 966153,
+      "timestamp": 1788929382,
+      "avgFees_sats": 1019911,
+      "usd_price": 78631,
+      "fee_usd": 801.9662,
+      "utxocir": 1.426009
+    },
+    {
+      "height": 966154,
+      "timestamp": 1788929749,
+      "avgFees_sats": 707865,
+      "usd_price": 78631,
+      "fee_usd": 556.6013,
+      "utxocir": 0.989715
+    },
+    {
+      "height": 966155,
+      "timestamp": 1788929910,
+      "avgFees_sats": 677605,
+      "usd_price": 78631,
+      "fee_usd": 532.8076,
+      "utxocir": 0.947407
+    },
+    {
+      "height": 966156,
+      "timestamp": 1788929989,
+      "avgFees_sats": 476037,
+      "usd_price": 78631,
+      "fee_usd": 374.3127,
+      "utxocir": 0.665581
+    },
+    {
+      "height": 966157,
+      "timestamp": 1788930135,
+      "avgFees_sats": 796547,
+      "usd_price": 79156,
+      "fee_usd": 630.5147,
+      "utxocir": 1.121144
+    },
+    {
+      "height": 966158,
+      "timestamp": 1788930853,
+      "avgFees_sats": 1597456,
+      "usd_price": 79156,
+      "fee_usd": 1264.4823,
+      "utxocir": 2.248427
+    },
+    {
+      "height": 966159,
+      "timestamp": 1788931024,
+      "avgFees_sats": 527393,
+      "usd_price": 79156,
+      "fee_usd": 417.4632,
+      "utxocir": 0.742308
+    },
+    {
+      "height": 966160,
+      "timestamp": 1788931214,
+      "avgFees_sats": 544632,
+      "usd_price": 79156,
+      "fee_usd": 431.1089,
+      "utxocir": 0.766572
+    },
+    {
+      "height": 966161,
+      "timestamp": 1788932159,
+      "avgFees_sats": 1830442,
+      "usd_price": 79156,
+      "fee_usd": 1448.9047,
+      "utxocir": 2.576356
+    },
+    {
+      "height": 966162,
+      "timestamp": 1788932174,
+      "avgFees_sats": 359297,
+      "usd_price": 79156,
+      "fee_usd": 284.4051,
+      "utxocir": 0.505712
+    },
+    {
+      "height": 966163,
+      "timestamp": 1788932604,
+      "avgFees_sats": 1221901,
+      "usd_price": 79156,
+      "fee_usd": 967.208,
+      "utxocir": 1.719832
+    },
+    {
+      "height": 966164,
+      "timestamp": 1788932965,
+      "avgFees_sats": 805687,
+      "usd_price": 79156,
+      "fee_usd": 637.7496,
+      "utxocir": 1.134008
+    },
+    {
+      "height": 966165,
+      "timestamp": 1788933350,
+      "avgFees_sats": 859296,
+      "usd_price": 79156,
+      "fee_usd": 680.1843,
+      "utxocir": 1.209463
+    },
+    {
+      "height": 966166,
+      "timestamp": 1788933970,
+      "avgFees_sats": 1488847,
+      "usd_price": 78926,
+      "fee_usd": 1175.0874,
+      "utxocir": 2.089471
+    },
+    {
+      "height": 966168,
+      "timestamp": 1788934503,
+      "avgFees_sats": 964106,
+      "usd_price": 78926,
+      "fee_usd": 760.9303,
+      "utxocir": 1.353041
+    },
+    {
+      "height": 966167,
+      "timestamp": 1788934547,
+      "avgFees_sats": 649922,
+      "usd_price": 78926,
+      "fee_usd": 512.9574,
+      "utxocir": 0.91211
+    },
+    {
+      "height": 966169,
+      "timestamp": 1788934802,
+      "avgFees_sats": 1095516,
+      "usd_price": 78926,
+      "fee_usd": 864.647,
+      "utxocir": 1.537464
+    },
+    {
+      "height": 966170,
+      "timestamp": 1788935089,
+      "avgFees_sats": 820768,
+      "usd_price": 78926,
+      "fee_usd": 647.7994,
+      "utxocir": 1.151878
+    },
+    {
+      "height": 966171,
+      "timestamp": 1788935377,
+      "avgFees_sats": 260485,
+      "usd_price": 78926,
+      "fee_usd": 205.5904,
+      "utxocir": 0.365569
+    },
+    {
+      "height": 966172,
+      "timestamp": 1788935471,
+      "avgFees_sats": 767364,
+      "usd_price": 78926,
+      "fee_usd": 605.6497,
+      "utxocir": 1.07693
+    },
+    {
+      "height": 966173,
+      "timestamp": 1788936515,
+      "avgFees_sats": 1938459,
+      "usd_price": 78926,
+      "fee_usd": 1529.9482,
+      "utxocir": 2.720463
+    },
+    {
+      "height": 966175,
+      "timestamp": 1788937578,
+      "avgFees_sats": 998044,
+      "usd_price": 79155,
+      "fee_usd": 790.0017,
+      "utxocir": 1.404734
+    },
+    {
+      "height": 966174,
+      "timestamp": 1788937743,
+      "avgFees_sats": 2200573,
+      "usd_price": 79155,
+      "fee_usd": 1741.8636,
+      "utxocir": 3.097278
+    },
+    {
+      "height": 966176,
+      "timestamp": 1788938186,
+      "avgFees_sats": 1743352,
+      "usd_price": 79155,
+      "fee_usd": 1379.9503,
+      "utxocir": 2.453746
+    },
+    {
+      "height": 966177,
+      "timestamp": 1788940898,
+      "avgFees_sats": 5005257,
+      "usd_price": 79262,
+      "fee_usd": 3967.2668,
+      "utxocir": 7.054358
+    },
+    {
+      "height": 966178,
+      "timestamp": 1788941580,
+      "avgFees_sats": 3546267,
+      "usd_price": 79262,
+      "fee_usd": 2810.8421,
+      "utxocir": 4.998073
+    },
+    {
+      "height": 966179,
+      "timestamp": 1788941789,
+      "avgFees_sats": 2295991,
+      "usd_price": 79262,
+      "fee_usd": 1819.8484,
+      "utxocir": 3.235946
+    },
+    {
+      "height": 966180,
+      "timestamp": 1788942606,
+      "avgFees_sats": 2772301,
+      "usd_price": 79262,
+      "fee_usd": 2197.3812,
+      "utxocir": 3.907253
+    },
+    {
+      "height": 966181,
+      "timestamp": 1788942746,
+      "avgFees_sats": 1411795,
+      "usd_price": 79262,
+      "fee_usd": 1119.017,
+      "utxocir": 1.98977
+    },
+    {
+      "height": 966182,
+      "timestamp": 1788943989,
+      "avgFees_sats": 3487256,
+      "usd_price": 79262,
+      "fee_usd": 2764.0689,
+      "utxocir": 4.914903
+    },
+    {
+      "height": 966183,
+      "timestamp": 1788944186,
+      "avgFees_sats": 1260919,
+      "usd_price": 79262,
+      "fee_usd": 999.4296,
+      "utxocir": 1.777126
+    },
+    {
+      "height": 966184,
+      "timestamp": 1788945406,
+      "avgFees_sats": 4890311,
+      "usd_price": 79695,
+      "fee_usd": 3897.3334,
+      "utxocir": 6.930007
+    },
+    {
+      "height": 966185,
+      "timestamp": 1788945537,
+      "avgFees_sats": 1848209,
+      "usd_price": 79695,
+      "fee_usd": 1472.9302,
+      "utxocir": 2.619077
+    },
+    {
+      "height": 966186,
+      "timestamp": 1788946838,
+      "avgFees_sats": 3494609,
+      "usd_price": 79695,
+      "fee_usd": 2785.0286,
+      "utxocir": 4.952173
+    },
+    {
+      "height": 966187,
+      "timestamp": 1788947205,
+      "avgFees_sats": 2104547,
+      "usd_price": 79695,
+      "fee_usd": 1677.2187,
+      "utxocir": 2.982331
+    },
+    {
+      "height": 966188,
+      "timestamp": 1788947532,
+      "avgFees_sats": 1596299,
+      "usd_price": 79695,
+      "fee_usd": 1272.1705,
+      "utxocir": 2.262098
+    },
+    {
+      "height": 966189,
+      "timestamp": 1788948408,
+      "avgFees_sats": 2449500,
+      "usd_price": 78953,
+      "fee_usd": 1933.9537,
+      "utxocir": 3.438842
+    },
+    {
+      "height": 966190,
+      "timestamp": 1788949736,
+      "avgFees_sats": 3494694,
+      "usd_price": 78953,
+      "fee_usd": 2759.1658,
+      "utxocir": 4.906185
+    },
+    {
+      "height": 966191,
+      "timestamp": 1788950599,
+      "avgFees_sats": 2745473,
+      "usd_price": 78953,
+      "fee_usd": 2167.6333,
+      "utxocir": 3.854357
+    },
+    {
+      "height": 966192,
+      "timestamp": 1788952020,
+      "avgFees_sats": 3467573,
+      "usd_price": 78910,
+      "fee_usd": 2736.2619,
+      "utxocir": 4.865458
+    },
+    {
+      "height": 966193,
+      "timestamp": 1788952927,
+      "avgFees_sats": 3151705,
+      "usd_price": 78910,
+      "fee_usd": 2487.0104,
+      "utxocir": 4.422254
+    },
+    {
+      "height": 966194,
+      "timestamp": 1788953219,
+      "avgFees_sats": 1653006,
+      "usd_price": 78910,
+      "fee_usd": 1304.387,
+      "utxocir": 2.319384
+    },
+    {
+      "height": 966195,
+      "timestamp": 1788953304,
+      "avgFees_sats": 1192565,
+      "usd_price": 78910,
+      "fee_usd": 941.053,
+      "utxocir": 1.673325
+    },
+    {
+      "height": 966196,
+      "timestamp": 1788953510,
+      "avgFees_sats": 1512230,
+      "usd_price": 78910,
+      "fee_usd": 1193.3007,
+      "utxocir": 2.121856
+    },
+    {
+      "height": 966197,
+      "timestamp": 1788953831,
+      "avgFees_sats": 1737062,
+      "usd_price": 78910,
+      "fee_usd": 1370.7156,
+      "utxocir": 2.437325
+    },
+    {
+      "height": 966198,
+      "timestamp": 1788953996,
+      "avgFees_sats": 1312130,
+      "usd_price": 78910,
+      "fee_usd": 1035.4018,
+      "utxocir": 1.84109
+    },
+    {
+      "height": 966199,
+      "timestamp": 1788954349,
+      "avgFees_sats": 1479889,
+      "usd_price": 78910,
+      "fee_usd": 1167.7804,
+      "utxocir": 2.076478
+    },
+    {
+      "height": 966200,
+      "timestamp": 1788954394,
+      "avgFees_sats": 533506,
+      "usd_price": 78910,
+      "fee_usd": 420.9896,
+      "utxocir": 0.748579
+    },
+    {
+      "height": 966201,
+      "timestamp": 1788954724,
+      "avgFees_sats": 1240529,
+      "usd_price": 78910,
+      "fee_usd": 978.9014,
+      "utxocir": 1.740624
+    },
+    {
+      "height": 966202,
+      "timestamp": 1788957039,
+      "avgFees_sats": 5292170,
+      "usd_price": 79322,
+      "fee_usd": 4197.8551,
+      "utxocir": 7.464377
+    },
+    {
+      "height": 966203,
+      "timestamp": 1788957320,
+      "avgFees_sats": 2432691,
+      "usd_price": 79322,
+      "fee_usd": 1929.6592,
+      "utxocir": 3.431205
+    },
+    {
+      "height": 966204,
+      "timestamp": 1788957384,
+      "avgFees_sats": 1203099,
+      "usd_price": 79322,
+      "fee_usd": 954.3222,
+      "utxocir": 1.696919
+    },
+    {
+      "height": 966205,
+      "timestamp": 1788957499,
+      "avgFees_sats": 1115002,
+      "usd_price": 79322,
+      "fee_usd": 884.4419,
+      "utxocir": 1.572662
+    },
+    {
+      "height": 966206,
+      "timestamp": 1788957695,
+      "avgFees_sats": 1205393,
+      "usd_price": 79322,
+      "fee_usd": 956.1418,
+      "utxocir": 1.700155
+    },
+    {
+      "height": 966207,
+      "timestamp": 1788957709,
+      "avgFees_sats": 370461,
+      "usd_price": 79322,
+      "fee_usd": 293.8571,
+      "utxocir": 0.522519
+    },
+    {
+      "height": 966208,
+      "timestamp": 1788958253,
+      "avgFees_sats": 2006883,
+      "usd_price": 79322,
+      "fee_usd": 1591.8997,
+      "utxocir": 2.830622
+    },
+    {
+      "height": 966209,
+      "timestamp": 1788958280,
+      "avgFees_sats": 676107,
+      "usd_price": 79322,
+      "fee_usd": 536.3016,
+      "utxocir": 0.95362
+    },
+    {
+      "height": 966210,
+      "timestamp": 1788958798,
+      "avgFees_sats": 2014086,
+      "usd_price": 79577,
+      "fee_usd": 1602.7492,
+      "utxocir": 2.849913
+    },
+    {
+      "height": 966211,
+      "timestamp": 1788958994,
+      "avgFees_sats": 561218,
+      "usd_price": 79577,
+      "fee_usd": 446.6004,
+      "utxocir": 0.794118
+    },
+    {
+      "height": 966212,
+      "timestamp": 1788960633,
+      "avgFees_sats": 29434103,
+      "usd_price": 79577,
+      "fee_usd": 23422.7761,
+      "utxocir": 41.64899
+    },
+    {
+      "height": 966213,
+      "timestamp": 1788960845,
+      "avgFees_sats": 3917474,
+      "usd_price": 79577,
+      "fee_usd": 3117.4083,
+      "utxocir": 5.54319
+    },
+    {
+      "height": 966214,
+      "timestamp": 1788961451,
+      "avgFees_sats": 3254093,
+      "usd_price": 79577,
+      "fee_usd": 2589.5096,
+      "utxocir": 4.604512
+    },
+    {
+      "height": 966215,
+      "timestamp": 1788962371,
+      "avgFees_sats": 3482294,
+      "usd_price": 79577,
+      "fee_usd": 2771.1051,
+      "utxocir": 4.927415
+    },
+    {
+      "height": 966216,
+      "timestamp": 1788963119,
+      "avgFees_sats": 3177127,
+      "usd_price": 79119,
+      "fee_usd": 2513.7111,
+      "utxocir": 4.469732
+    },
+    {
+      "height": 966217,
+      "timestamp": 1788963173,
+      "avgFees_sats": 1256716,
+      "usd_price": 79119,
+      "fee_usd": 994.3011,
+      "utxocir": 1.768007
+    },
+    {
+      "height": 966218,
+      "timestamp": 1788963446,
+      "avgFees_sats": 1636232,
+      "usd_price": 79119,
+      "fee_usd": 1294.5704,
+      "utxocir": 2.301928
+    },
+    {
+      "height": 966219,
+      "timestamp": 1788963783,
+      "avgFees_sats": 1276931,
+      "usd_price": 79119,
+      "fee_usd": 1010.295,
+      "utxocir": 1.796447
+    },
+    {
+      "height": 966220,
+      "timestamp": 1788964552,
+      "avgFees_sats": 7188370,
+      "usd_price": 79119,
+      "fee_usd": 5687.3665,
+      "utxocir": 10.112937
+    },
+    {
+      "height": 966222,
+      "timestamp": 1788964996,
+      "avgFees_sats": 1854778,
+      "usd_price": 79119,
+      "fee_usd": 1467.4818,
+      "utxocir": 2.609389
+    },
+    {
+      "height": 966221,
+      "timestamp": 1788965091,
+      "avgFees_sats": 2647293,
+      "usd_price": 79119,
+      "fee_usd": 2094.5117,
+      "utxocir": 3.724336
+    },
+    {
+      "height": 966223,
+      "timestamp": 1788965198,
+      "avgFees_sats": 1106109,
+      "usd_price": 79119,
+      "fee_usd": 875.1424,
+      "utxocir": 1.556126
+    },
+    {
+      "height": 966225,
+      "timestamp": 1788965800,
+      "avgFees_sats": 614318,
+      "usd_price": 79119,
+      "fee_usd": 486.0423,
+      "utxocir": 0.864251
+    },
+    {
+      "height": 966226,
+      "timestamp": 1788965876,
+      "avgFees_sats": 422381,
+      "usd_price": 79119,
+      "fee_usd": 334.1836,
+      "utxocir": 0.594225
+    },
+    {
+      "height": 966224,
+      "timestamp": 1788965886,
+      "avgFees_sats": 1572183,
+      "usd_price": 79119,
+      "fee_usd": 1243.8955,
+      "utxocir": 2.211821
+    },
+    {
+      "height": 966227,
+      "timestamp": 1788965965,
+      "avgFees_sats": 360669,
+      "usd_price": 79119,
+      "fee_usd": 285.3577,
+      "utxocir": 0.507406
+    },
+    {
+      "height": 966228,
+      "timestamp": 1788966848,
+      "avgFees_sats": 2998550,
+      "usd_price": 78941,
+      "fee_usd": 2367.0854,
+      "utxocir": 4.209011
+    },
+    {
+      "height": 966229,
+      "timestamp": 1788967389,
+      "avgFees_sats": 2196799,
+      "usd_price": 78941,
+      "fee_usd": 1734.1751,
+      "utxocir": 3.083607
+    },
+    {
+      "height": 966230,
+      "timestamp": 1788967952,
+      "avgFees_sats": 2086902,
+      "usd_price": 78941,
+      "fee_usd": 1647.4213,
+      "utxocir": 2.929347
+    },
+    {
+      "height": 966231,
+      "timestamp": 1788968191,
+      "avgFees_sats": 1174869,
+      "usd_price": 78941,
+      "fee_usd": 927.4533,
+      "utxocir": 1.649142
+    },
+    {
+      "height": 966232,
+      "timestamp": 1788971108,
+      "avgFees_sats": 6686963,
+      "usd_price": 78576,
+      "fee_usd": 5254.348,
+      "utxocir": 9.34297
+    },
+    {
+      "height": 966233,
+      "timestamp": 1788971440,
+      "avgFees_sats": 4052550,
+      "usd_price": 78576,
+      "fee_usd": 3184.3317,
+      "utxocir": 5.66219
+    },
+    {
+      "height": 966234,
+      "timestamp": 1788971485,
+      "avgFees_sats": 2090010,
+      "usd_price": 78576,
+      "fee_usd": 1642.2463,
+      "utxocir": 2.920145
+    },
+    {
+      "height": 966235,
+      "timestamp": 1788971588,
+      "avgFees_sats": 1466298,
+      "usd_price": 78576,
+      "fee_usd": 1152.1583,
+      "utxocir": 2.0487
+    },
+    {
+      "height": 966236,
+      "timestamp": 1788971744,
+      "avgFees_sats": 1589273,
+      "usd_price": 78576,
+      "fee_usd": 1248.7872,
+      "utxocir": 2.220519
+    },
+    {
+      "height": 966237,
+      "timestamp": 1788971812,
+      "avgFees_sats": 1036325,
+      "usd_price": 78576,
+      "fee_usd": 814.3027,
+      "utxocir": 1.447945
+    },
+    {
+      "height": 966238,
+      "timestamp": 1788971902,
+      "avgFees_sats": 666501,
+      "usd_price": 78576,
+      "fee_usd": 523.7098,
+      "utxocir": 0.93123
+    },
+    {
+      "height": 966240,
+      "timestamp": 1788972127,
+      "avgFees_sats": 524530,
+      "usd_price": 78576,
+      "fee_usd": 412.1547,
+      "utxocir": 0.732869
+    },
+    {
+      "height": 966239,
+      "timestamp": 1788972217,
+      "avgFees_sats": 1289418,
+      "usd_price": 78576,
+      "fee_usd": 1013.1731,
+      "utxocir": 1.801564
+    },
+    {
+      "height": 966241,
+      "timestamp": 1788972701,
+      "avgFees_sats": 2173792,
+      "usd_price": 78576,
+      "fee_usd": 1708.0788,
+      "utxocir": 3.037204
+    },
+    {
+      "height": 966242,
+      "timestamp": 1788972871,
+      "avgFees_sats": 1537051,
+      "usd_price": 78576,
+      "fee_usd": 1207.7532,
+      "utxocir": 2.147555
+    },
+    {
+      "height": 966243,
+      "timestamp": 1788972966,
+      "avgFees_sats": 1181324,
+      "usd_price": 78576,
+      "fee_usd": 928.2371,
+      "utxocir": 1.650536
+    },
+    {
+      "height": 966244,
+      "timestamp": 1788973938,
+      "avgFees_sats": 4466275,
+      "usd_price": 78785,
+      "fee_usd": 3518.7548,
+      "utxocir": 6.256841
+    },
+    {
+      "height": 966245,
+      "timestamp": 1788974011,
+      "avgFees_sats": 1369534,
+      "usd_price": 78785,
+      "fee_usd": 1078.9874,
+      "utxocir": 1.918591
+    },
+    {
+      "height": 966246,
+      "timestamp": 1788974837,
+      "avgFees_sats": 3005088,
+      "usd_price": 78785,
+      "fee_usd": 2367.5586,
+      "utxocir": 4.209852
+    },
+    {
+      "height": 966247,
+      "timestamp": 1788975031,
+      "avgFees_sats": 1104729,
+      "usd_price": 78785,
+      "fee_usd": 870.3607,
+      "utxocir": 1.547624
+    },
+    {
+      "height": 966248,
+      "timestamp": 1788975928,
+      "avgFees_sats": 2742941,
+      "usd_price": 78785,
+      "fee_usd": 2161.0261,
+      "utxocir": 3.842608
+    },
+    {
+      "height": 966249,
+      "timestamp": 1788976155,
+      "avgFees_sats": 1324367,
+      "usd_price": 78785,
+      "fee_usd": 1043.4025,
+      "utxocir": 1.855316
+    },
+    {
+      "height": 966250,
+      "timestamp": 1788976276,
+      "avgFees_sats": 671358,
+      "usd_price": 78785,
+      "fee_usd": 528.9294,
+      "utxocir": 0.940511
+    },
+    {
+      "height": 966251,
+      "timestamp": 1788976318,
+      "avgFees_sats": 421298,
+      "usd_price": 78785,
+      "fee_usd": 331.9196,
+      "utxocir": 0.5902
+    },
+    {
+      "height": 966253,
+      "timestamp": 1788977562,
+      "avgFees_sats": 1328314,
+      "usd_price": 78763,
+      "fee_usd": 1046.22,
+      "utxocir": 1.860326
+    },
+    {
+      "height": 966252,
+      "timestamp": 1788977661,
+      "avgFees_sats": 3816851,
+      "usd_price": 78763,
+      "fee_usd": 3006.2664,
+      "utxocir": 5.345564
+    },
+    {
+      "height": 966254,
+      "timestamp": 1788977754,
+      "avgFees_sats": 1098480,
+      "usd_price": 78763,
+      "fee_usd": 865.1958,
+      "utxocir": 1.53844
+    },
+    {
+      "height": 966255,
+      "timestamp": 1788978011,
+      "avgFees_sats": 1102293,
+      "usd_price": 78763,
+      "fee_usd": 868.199,
+      "utxocir": 1.54378
+    },
+    {
+      "height": 966256,
+      "timestamp": 1788978629,
+      "avgFees_sats": 1937590,
+      "usd_price": 78763,
+      "fee_usd": 1526.104,
+      "utxocir": 2.713628
+    },
+    {
+      "height": 966257,
+      "timestamp": 1788979220,
+      "avgFees_sats": 1915845,
+      "usd_price": 78763,
+      "fee_usd": 1508.977,
+      "utxocir": 2.683173
+    },
+    {
+      "height": 966258,
+      "timestamp": 1788980154,
+      "avgFees_sats": 2741410,
+      "usd_price": 78763,
+      "fee_usd": 2159.2168,
+      "utxocir": 3.839391
+    },
+    {
+      "height": 966259,
+      "timestamp": 1788981261,
+      "avgFees_sats": 3362405,
+      "usd_price": 78404,
+      "fee_usd": 2636.26,
+      "utxocir": 4.687641
+    },
+    {
+      "height": 966260,
+      "timestamp": 1788981672,
+      "avgFees_sats": 1860741,
+      "usd_price": 78404,
+      "fee_usd": 1458.8954,
+      "utxocir": 2.594121
+    },
+    {
+      "height": 966261,
+      "timestamp": 1788982494,
+      "avgFees_sats": 2192217,
+      "usd_price": 78404,
+      "fee_usd": 1718.7858,
+      "utxocir": 3.056243
+    },
+    {
+      "height": 966262,
+      "timestamp": 1788982829,
+      "avgFees_sats": 840698,
+      "usd_price": 78404,
+      "fee_usd": 659.1409,
+      "utxocir": 1.172045
+    },
+    {
+      "height": 966263,
+      "timestamp": 1788983060,
+      "avgFees_sats": 1331402,
+      "usd_price": 78404,
+      "fee_usd": 1043.8724,
+      "utxocir": 1.856152
+    },
+    {
+      "height": 966264,
+      "timestamp": 1788983803,
+      "avgFees_sats": 1938180,
+      "usd_price": 78404,
+      "fee_usd": 1519.6106,
+      "utxocir": 2.702081
+    },
+    {
+      "height": 966265,
+      "timestamp": 1788984860,
+      "avgFees_sats": 2969726,
+      "usd_price": 78230,
+      "fee_usd": 2323.2166,
+      "utxocir": 4.131006
+    },
+    {
+      "height": 966266,
+      "timestamp": 1788985414,
+      "avgFees_sats": 2442625,
+      "usd_price": 78230,
+      "fee_usd": 1910.8655,
+      "utxocir": 3.397788
+    },
+    {
+      "height": 966267,
+      "timestamp": 1788986208,
+      "avgFees_sats": 1996370,
+      "usd_price": 78230,
+      "fee_usd": 1561.7603,
+      "utxocir": 2.777029
+    },
+    {
+      "height": 966268,
+      "timestamp": 1788987040,
+      "avgFees_sats": 2248482,
+      "usd_price": 78230,
+      "fee_usd": 1758.9875,
+      "utxocir": 3.127727
+    },
+    {
+      "height": 966269,
+      "timestamp": 1788987587,
+      "avgFees_sats": 1556192,
+      "usd_price": 78323,
+      "fee_usd": 1218.8563,
+      "utxocir": 2.167298
+    },
+    {
+      "height": 966270,
+      "timestamp": 1788987926,
+      "avgFees_sats": 1300406,
+      "usd_price": 78323,
+      "fee_usd": 1018.517,
+      "utxocir": 1.811066
+    }
+  ]
+}
