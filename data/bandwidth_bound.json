@@ -1,0 +1,29 @@
+{
+  "schema": "bsahi.bandwidth-bound/1",
+  "generated_at": "2026-08-04",
+  "model_spec_version": "2.1.0",
+  "bound_type": "ANALYTICAL \u2014 not measured",
+  "note": "The bandwidth bound is ANALYTICAL, not measured. It uses the retail bandwidth cost proxy ($0.05/GB) from model-spec.json v2.1.0. Real node bandwidth bills are mostly flat-rate/unmetered, so this is an upper-bound economic proxy. No propagation delay data exists in the repository \u2014 block_interval.json contains block production intervals, not network propagation delays between nodes. A measured bound would require per-node propagation timing measurements (e.g., using the Bitcoin Core getnetworkinfo + timestamp-based propagation tests).",
+  "parameters": {
+    "B_block_bytes": 1500000,
+    "R_blocks_per_year": 52596,
+    "B_all_yr_bytes": 78894000000,
+    "bw_GB_yr": 78.894,
+    "cost_per_gb_usd": 0.05,
+    "N_nodes": 32000,
+    "cost_per_gb_basis": "Retail proxy ($0.05/GB) \u2014 NOT measured; real node bills are flat-rate/unmetered"
+  },
+  "bounds": {
+    "bw_cost_per_year_node_usd": 3.9447,
+    "bw_cost_per_year_net_usd": 126230.4,
+    "bw_cost_per_block_node_usd": 7.5e-05,
+    "bw_cost_per_block_net_usd": 2.4,
+    "bw_insc_incr_node_usd": 0.024,
+    "bw_insc_incr_net_usd": 768.0
+  },
+  "comparison_to_storage": {
+    "L_net_per_block_usd": 5627.808,
+    "bw_share_of_L_net_pct": 0.0,
+    "note": "Bandwidth cost is a small fraction of total storage cost per block."
+  }
+}
