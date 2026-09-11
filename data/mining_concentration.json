@@ -1,0 +1,29 @@
+{
+  "schema": "bsahi.mining-concentration/1",
+  "generated_at": "2026-09-09T21:32:30.423Z",
+  "source": "GitHub Actions (public API mempool.space /api/v1/mining/hashrate/24h)",
+  "unit": "EH/s",
+  "note": "DATA GAP \u2014 hashrate.json contains network-wide INSTANTANEOUS hashrate (EH/s) ONLY. Per-pool hashrate distribution data does not exist in this repository. Top-1/top-3/top-5 pool share and Gini coefficient CANNOT be computed from this data. See research/mining-concentration-note.md for the full analysis and data requirements.",
+  "network_statistics": {
+    "n_observations": 240,
+    "period_start": "2026-08-17T08:35:09.637Z",
+    "period_end": "2026-09-09T21:32:30.423Z",
+    "mean_eh": 912.98,
+    "min_eh": 850.36,
+    "max_eh": 964.58,
+    "range_eh": 114.22,
+    "coefficient_of_variation": 0.1251,
+    "peak_at": "2026-08-18T18:27:26.113Z",
+    "trough_at": "2026-08-26T05:59:29.652Z",
+    "peak_to_trough_ratio": 1.1343
+  },
+  "concentration_metrics": {
+    "top_1_pool_share": null,
+    "top_3_pool_share": null,
+    "top_5_pool_share": null,
+    "gini_coefficient": null,
+    "most_concentrated_period": null,
+    "least_concentrated_period": null,
+    "reason": "Per-pool hashrate data does not exist in the repository. hashrate.json only contains network total hashrate over time. Pool-level distribution requires a different data source (e.g., mempool.space /api/v1/mining/pools, BTC.com pool API, blockchain.info pool statistics)."
+  }
+}
