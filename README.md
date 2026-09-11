@@ -1,5 +1,15 @@
 # Bitcoin Resource Accounting — Block Space Research
 
+> BitcoinSahi is a Bitcoin 'stress & boundary observatory' that measures what Bitcoin costs to operate, verify, secure and coordinate — and studies when increasing resource costs or concentration of power can push the system toward a measurable boundary.
+
+**Core loop:** Bitcoin activity → resource burden → economic cost → power concentration → verification/coordination → network stress → boundary
+
+**Single thesis:** "BitcoinSahi studies the relationship between Bitcoin's resource burden, economic incentives, verification accessibility, concentration of power, and consensus resilience — using live measurements and historical events to identify and test the boundaries of the system."
+
+**Single question:** "How much stress can Bitcoin absorb before the cost of participating, verifying, producing, or coordinating becomes meaningfully asymmetric?"
+
+
+
 **The research program of [Bitcoin Sahi](https://bitcoinsahi.com)** — a complete
 accounting system for every long-lived resource consumed by Bitcoin, quantifying
 how much of each cost the fee market internalizes. **SCCR (Storage Cost Coverage
