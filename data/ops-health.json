@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-15T05:27:41.566Z",
+  "generated_at": "2026-09-15T07:08:29.193Z",
   "status": "DEGRADED",
   "issues": [
-    "SPOOL: stale sources: bip110_signal,block_interval",
+    "SPOOL: stale sources: bip110_signal,block_adoption,block_hash,block_height,block_interval,blockchair,blocks,btc_price,coinpaprika,derived_metrics,difficulty,fear_greed,fee_history,fees,hashrate,lightning,mempool,mempool_blocks,mempool_recent,mining_pools,raw_block_tip,research_findings",
     "DE SERVER: unhealthy",
-    "DE AGENT: last run 23759 min ago",
-    "ORCHESTRATOR: heartbeat 23748 min ago",
+    "DE AGENT: last run 23860 min ago",
+    "ORCHESTRATOR: heartbeat 23849 min ago",
     "CAPTURE: failure ratio 56% (last 24h) > 20%"
   ],
   "checks": {
@@ -13,7 +13,7 @@
       "accountingOk": true,
       "pending": 11,
       "dead": 0,
-      "stale": 2
+      "stale": 22
     },
     "de_server": {
       "ok": false,
@@ -21,10 +21,10 @@
       "agent": null
     },
     "de_agent": {
-      "lastRunAgeMin": 23759
+      "lastRunAgeMin": 23860
     },
     "orchestrator": {
-      "heartbeatAgeMin": 23748,
+      "heartbeatAgeMin": 23849,
       "phase": "cycle-complete"
     },
     "capture": {
