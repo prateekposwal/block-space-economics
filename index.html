@@ -27,7 +27,7 @@
   <meta name="twitter:image" content="https://bitcoinsahi.com/og-image.png">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: -apple-system, system-ui, sans-serif; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--ui); }
     #viz-fees { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; }
 
     .state-bar { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 20; text-align: center; pointer-events: none; }
@@ -56,13 +56,13 @@
     #genesis-strip { position: fixed; bottom: 42px; left: 0; width: 100vw; height: 2px; z-index: 15; pointer-events: none; }
     #genesis-strip canvas { display: block; width: 100%; height: 100%; }
 
-    #dollar-context { position: fixed; top: 330px; left: 50%; transform: translateX(-50%); z-index: 15; text-align: center; font-size: 14px; color: rgba(255,255,255,0.4); pointer-events: none; font-variant-numeric: tabular-nums; animation: fadeInOut 3s ease-in-out infinite; }
+    #dollar-context { position: fixed; top: auto; bottom: 150px; left: 50%; transform: translateX(-50%); z-index: 15; text-align: center; font-size: 14px; color: rgba(255,255,255,0.4); pointer-events: none; font-variant-numeric: tabular-nums; animation: fadeInOut 3s ease-in-out infinite; }
     @keyframes fadeInOut {
       0%, 100% { opacity: 0.4; }
       50% { opacity: 0.7; }
     }
 
-    #narrative-frame { position:fixed;top:378px;left:50%;transform:translateX(-50%);z-index:15;text-align:center;pointer-events:none; }
+    #narrative-frame { position:fixed;top:auto;bottom:196px;left:50%;transform:translateX(-50%);z-index:15;text-align:center;pointer-events:none; }
     #narrative-text { font-size:13px;color:rgba(255,255,255,0.6);transition:opacity 1s;font-style:italic; }
 
     #metrics-ticker { position: fixed; bottom: 0; left: 0; width: 100vw; z-index: 15; overflow: hidden; white-space: nowrap; font-size: 11px; color: rgba(255,255,255,0.6); padding: 4px 0; background: var(--bg); border-top: 1px solid rgba(255,255,255,0.05); font-variant-numeric: tabular-nums; letter-spacing: 0.3px; }
@@ -85,8 +85,8 @@
     @media (max-width: 600px) {
       .bottom-area { width: 90%; }
       .bottom-area .cta { display: block; }
-      #dollar-context { font-size: 12px; top: 54%; }
-      #narrative-frame { top: 58%; }
+      #dollar-context { font-size: 12px; top: auto; bottom: 170px; }
+      #narrative-frame { top: auto; bottom: 215px; }
       #narrative-frame #narrative-text { font-size: 11px; }
       #nav-links { bottom: 140px; right: 10px; }
       #nav-links a { padding: 10px 16px; font-size: 13px; min-width: 140px; }
@@ -96,8 +96,8 @@
       .state-bar { top: 113px; }
       .state-bar .state-label { font-size: 10px; }
       .state-bar .state-desc { font-size: 11px; margin-top: 2px; }
-      #dollar-context { top: 50%; font-size: 10px; }
-      #narrative-frame { top: 53%; }
+      #dollar-context { top: auto; bottom: 280px; font-size: 10px; }
+      #narrative-frame { top: auto; bottom: 325px; }
       #narrative-text { font-size: 10px; }
       #genesis-strip { bottom: 32px; }
       #metrics-ticker { font-size: 9px; padding: 3px 0; }
@@ -117,8 +117,8 @@
     }
 
     @media (max-width: 380px) {
-      #dollar-context { top: 48%; font-size: 9px; }
-      #narrative-frame { top: 51%; }
+      #dollar-context { top: auto; bottom: 300px; font-size: 9px; }
+      #narrative-frame { top: auto; bottom: 345px; }
       #nav-links a { font-size: 11px; padding: 7px 8px; }
       .legend-toggle { top: 113px; right: 10px; }
       .legend-panel { top: 251px; right: 10px; }
@@ -148,10 +148,10 @@
     #chip.s-stale b,#chip.s-unknown b{background:var(--err)}
     #statstrip{position:fixed;top:255px;left:50%;transform:translateX(-50%);z-index:25;display:flex;gap:22px;padding:9px 20px;border-radius:999px;background:rgba(26,22,18,0.6);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-variant-numeric:tabular-nums;pointer-events:none}
     #statstrip .ss{display:flex;align-items:baseline;gap:6px;font-size:12px}
-    #statstrip .ss b{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:15px;font-weight:600;color:var(--ink)}
+    #statstrip .ss b{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--ink)}
     #statstrip .ss i{font-style:normal;color:rgba(234,220,200,0.45);font-size:11px}
     #statstrip .ss .se{font-style:normal;color:rgba(234,220,200,0.3);font-size:10px;letter-spacing:.05em;text-transform:uppercase}
-    #vs-note{position:fixed;top:297px;left:50%;transform:translateX(-50%);z-index:24;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:.02em;color:rgba(234,220,200,0.4);text-align:center;pointer-events:none;max-width:90vw}
+    #vs-note{position:fixed;top:297px;left:50%;transform:translateX(-50%);z-index:24;font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:rgba(234,220,200,0.4);text-align:center;pointer-events:none;max-width:90vw}
     #state-bar{position:fixed;top:129px;left:50%;transform:translateX(-50%);z-index:24;text-align:center;pointer-events:none}
     @media (max-width:900px){
       #legend-toggle{top:220px;right:16px}

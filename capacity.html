@@ -50,7 +50,7 @@ a:hover{color:var(--accent-ink)}
 
 .gauge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:40px}
 .gauge-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;text-align:center}
-.gauge-value{font-size:2rem;font-weight:800;font-family:'SF Mono','Fira Code',monospace;font-variant-numeric:tabular-nums;margin:8px 0}
+.gauge-value{font-size:2rem;font-weight:800;font-family:var(--mono);font-variant-numeric:tabular-nums;margin:8px 0}
 .gauge-label{font-size:.75rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
 .gauge-sub{font-size:.8rem;color:var(--ink-3);margin-top:4px}
 .gauge-bar{height:4px;background:var(--line);border-radius:2px;margin-top:12px;overflow:hidden}
@@ -59,7 +59,7 @@ a:hover{color:var(--accent-ink)}
 .stat-row{display:flex;gap:16px;margin-bottom:40px;flex-wrap:wrap}
 .stat-card{flex:1;min-width:200px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
 .stat-card .stat-label{font-size:.7rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:4px}
-.stat-card .stat-value{font-size:1.5rem;font-weight:700;color:var(--ink);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums}
+.stat-card .stat-value{font-size:1.5rem;font-weight:700;color:var(--ink);font-family:var(--mono);font-variant-numeric:tabular-nums}
 
 .compact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:40px}
 
@@ -81,7 +81,7 @@ a:hover{color:var(--accent-ink)}
 .ln-section{margin-bottom:40px}
 .ln-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .ln-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;text-align:center}
-.ln-card .ln-value{font-size:1.8rem;font-weight:700;color:var(--ink);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums}
+.ln-card .ln-value{font-size:1.8rem;font-weight:700;color:var(--ink);font-family:var(--mono);font-variant-numeric:tabular-nums}
 .ln-card .ln-label{font-size:.7rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-top:4px}
 
 .footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3);margin-top:40px}
@@ -136,43 +136,43 @@ a:hover{color:var(--accent-ink)}
 <div class="stat-row" style="margin-bottom:24px;">
   <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--accent-ink);border-radius:12px;padding:16px;text-align:center;">
     <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Settled / Sec</div>
-    <div class="stat-value" id="settlement-per-sec" style="font-size:1.6rem;font-weight:800;color:var(--accent-ink);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+    <div class="stat-value" id="settlement-per-sec" style="font-size:1.6rem;font-weight:800;color:var(--accent-ink);font-family:var(--mono);font-variant-numeric:tabular-nums;">--</div>
   </div>
   <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--ok);border-radius:12px;padding:16px;text-align:center;">
     <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Per Block</div>
-    <div class="stat-value" id="settlement-per-block" style="font-size:1.6rem;font-weight:800;color:var(--ok);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+    <div class="stat-value" id="settlement-per-block" style="font-size:1.6rem;font-weight:800;color:var(--ok);font-family:var(--mono);font-variant-numeric:tabular-nums;">--</div>
   </div>
   <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--info);border-radius:12px;padding:16px;text-align:center;">
     <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Avg TX Value</div>
-    <div class="stat-value" id="avg-tx-value" style="font-size:1.6rem;font-weight:700;color:var(--info);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+    <div class="stat-value" id="avg-tx-value" style="font-size:1.6rem;font-weight:700;color:var(--info);font-family:var(--mono);font-variant-numeric:tabular-nums;">--</div>
   </div>
   <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid #BC8CFF;border-radius:12px;padding:16px;text-align:center;">
     <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">TX / Day</div>
-    <div class="stat-value" id="settlement-txs" style="font-size:1.6rem;font-weight:700;color:#BC8CFF;font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+    <div class="stat-value" id="settlement-txs" style="font-size:1.6rem;font-weight:700;color:#BC8CFF;font-family:var(--mono);font-variant-numeric:tabular-nums;">--</div>
   </div>
   <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--warn);border-radius:12px;padding:16px;text-align:center;">
     <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Nodes (Reachable)</div>
-    <div class="stat-value" id="settlement-nodes" style="font-size:1.3rem;font-weight:700;color:var(--warn);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+    <div class="stat-value" id="settlement-nodes" style="font-size:1.3rem;font-weight:700;color:var(--warn);font-family:var(--mono);font-variant-numeric:tabular-nums;">--</div>
   </div>
   <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--info);border-radius:12px;padding:16px;text-align:center;">
     <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Countries</div>
-    <div class="stat-value" id="settlement-countries" style="font-size:1.3rem;font-weight:700;color:var(--info);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+    <div class="stat-value" id="settlement-countries" style="font-size:1.3rem;font-weight:700;color:var(--info);font-family:var(--mono);font-variant-numeric:tabular-nums;">--</div>
   </div>
 </div>
 
 <div class="stat-row" style="margin-bottom:24px;">
   <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;">
     <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Daily Settlement</div>
-    <div class="stat-value" id="settlement-volume" style="font-size:1.4rem;font-weight:800;color:var(--accent-ink);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+    <div class="stat-value" id="settlement-volume" style="font-size:1.4rem;font-weight:800;color:var(--accent-ink);font-family:var(--mono);font-variant-numeric:tabular-nums;">--</div>
     <div class="stat-sub" style="font-size:.7rem;color:var(--ink-3);">Estimated total on-chain value</div>
   </div>
   <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;">
     <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">LN Capacity</div>
-    <div class="stat-value" id="ln-capacity-val" style="font-size:1.4rem;font-weight:700;color:var(--info);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+    <div class="stat-value" id="ln-capacity-val" style="font-size:1.4rem;font-weight:700;color:var(--info);font-family:var(--mono);font-variant-numeric:tabular-nums;">--</div>
   </div>
   <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;">
     <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Miner Revenue</div>
-    <div class="stat-value" id="settlement-miner" style="font-size:1.4rem;font-weight:700;color:var(--warn);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+    <div class="stat-value" id="settlement-miner" style="font-size:1.4rem;font-weight:700;color:var(--warn);font-family:var(--mono);font-variant-numeric:tabular-nums;">--</div>
   </div>
 </div>
 
