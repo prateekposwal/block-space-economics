@@ -11,7 +11,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Bitcoin Capacity — BSAHI">
   <meta name="twitter:description" content="How much value does Bitcoin settle per block and per day? Live capacity, settlement, and transaction-value analysis from the Bitcoin network.">
-  <meta name="theme-color" content="#1A1612">
+  <meta name="theme-color" content="#121110">
   <link rel="canonical" href="https://bitcoinsahi.com/capacity">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Bitcoin Capacity &amp; Settlement","item":"https://bitcoinsahi.com/capacity"}]}
@@ -25,68 +25,68 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px;scroll-behavior:smooth}
-body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-::selection{background:#D4933A;color:#1A1612}
-a{color:#D4933A;text-decoration:none}
-a:hover{color:#E8B86D}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--accent-ink);color:var(--bg)}
+a{color:var(--accent-ink);text-decoration:none}
+a:hover{color:var(--accent-ink)}
 
-.header{position:sticky;top:0;z-index:100;background:#1F1B16;border-bottom:1px solid #3A3228}
+.header{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--line)}
 .header-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:56px}
-.brand{font-size:1.125rem;font-weight:700;color:#D4933A;display:flex;align-items:center;gap:8px}
-.brand:hover{color:#E8B86D}
+.brand{font-size:1.125rem;font-weight:700;color:var(--accent-ink);display:flex;align-items:center;gap:8px}
+.brand:hover{color:var(--accent-ink)}
 .nav{display:flex;gap:4px;flex-wrap:wrap}
-.nav a{padding:6px 16px;font-size:.875rem;font-weight:500;color:#9B8B78;border-radius:6px;transition:all .2s}
-.nav a:hover{color:#EADCC8;background:#2A251E}
-.nav a.active{color:#EADCC8;background:#2A251E}
+.nav a{padding:6px 16px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;transition:all .2s}
+.nav a:hover{color:var(--ink);background:var(--surface-muted)}
+.nav a.active{color:var(--ink);background:var(--surface-muted)}
 
 .hero{padding:60px 24px 40px;text-align:center}
 .hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-0.02em;margin-bottom:12px}
-.hero h1 span{background:linear-gradient(135deg,#D4933A,#E8B86D);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero p{font-size:1.05rem;color:#9B8B78;max-width:700px;margin:0 auto;line-height:1.7}
+.hero h1 span{background:linear-gradient(135deg,var(--accent-ink),var(--accent-ink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:1.05rem;color:var(--ink-2);max-width:700px;margin:0 auto;line-height:1.7}
 
 .container{max-width:1200px;margin:0 auto;padding:0 24px}
 
-.section-title{font-size:1.1rem;font-weight:700;color:#EADCC8;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-title{font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:16px;display:flex;align-items:center;gap:8px}
 
 .gauge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:40px}
-.gauge-card{background:#231F19;border:1px solid #3A3228;border-radius:12px;padding:20px;text-align:center}
+.gauge-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;text-align:center}
 .gauge-value{font-size:2rem;font-weight:800;font-family:'SF Mono','Fira Code',monospace;font-variant-numeric:tabular-nums;margin:8px 0}
-.gauge-label{font-size:.75rem;color:#6A5D4E;text-transform:uppercase;letter-spacing:.08em;font-weight:600}
-.gauge-sub{font-size:.8rem;color:#6A5D4E;margin-top:4px}
-.gauge-bar{height:4px;background:#3A3228;border-radius:2px;margin-top:12px;overflow:hidden}
+.gauge-label{font-size:.75rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.gauge-sub{font-size:.8rem;color:var(--ink-3);margin-top:4px}
+.gauge-bar{height:4px;background:var(--line);border-radius:2px;margin-top:12px;overflow:hidden}
 .gauge-fill{height:100%;border-radius:2px;transition:width .5s ease}
 
 .stat-row{display:flex;gap:16px;margin-bottom:40px;flex-wrap:wrap}
-.stat-card{flex:1;min-width:200px;background:#231F19;border:1px solid #3A3228;border-radius:12px;padding:20px}
-.stat-card .stat-label{font-size:.7rem;color:#6A5D4E;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:4px}
-.stat-card .stat-value{font-size:1.5rem;font-weight:700;color:#EADCC8;font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums}
+.stat-card{flex:1;min-width:200px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+.stat-card .stat-label{font-size:.7rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:4px}
+.stat-card .stat-value{font-size:1.5rem;font-weight:700;color:var(--ink);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums}
 
 .compact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:40px}
 
 .adoption-section{margin-bottom:40px}
 .adoption-bar{display:flex;height:40px;border-radius:8px;overflow:hidden;margin:12px 0}
 .adoption-seg{display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;transition:width .5s}
-.adoption-seg.segwit{background:#58A6FF;color:#1A1612}
-.adoption-seg.taproot{background:#3BA35D;color:#1A1612}
-.adoption-seg.legacy{background:#3A3228;color:#9B8B78}
+.adoption-seg.segwit{background:var(--info);color:var(--bg)}
+.adoption-seg.taproot{background:var(--ok);color:var(--bg)}
+.adoption-seg.legacy{background:var(--line);color:var(--ink-2)}
 
 .mempool-section{margin-bottom:40px}
-.mempool-viz{background:#1A1612;border:1px solid #3A3228;border-radius:12px;padding:20px;height:200px;position:relative;overflow:hidden}
+.mempool-viz{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:20px;height:200px;position:relative;overflow:hidden}
 
 .chart-section{margin-bottom:40px}
-.chart-container{background:#1A1612;border:1px solid #3A3228;border-radius:12px;padding:20px;height:250px;position:relative}
+.chart-container{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:20px;height:250px;position:relative}
 
 .canvas-fill{width:100%;height:100%;display:block;border-radius:8px}
 
 .ln-section{margin-bottom:40px}
 .ln-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.ln-card{background:#231F19;border:1px solid #3A3228;border-radius:12px;padding:20px;text-align:center}
-.ln-card .ln-value{font-size:1.8rem;font-weight:700;color:#EADCC8;font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums}
-.ln-card .ln-label{font-size:.7rem;color:#6A5D4E;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-top:4px}
+.ln-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;text-align:center}
+.ln-card .ln-value{font-size:1.8rem;font-weight:700;color:var(--ink);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums}
+.ln-card .ln-label{font-size:.7rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-top:4px}
 
-.footer{border-top:1px solid #3A3228;padding:24px;text-align:center;font-size:.85rem;color:#6A5D4E;margin-top:40px}
+.footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3);margin-top:40px}
 
-#settlement-canvas{width:100%;height:auto;min-height:200px;border-radius:12px;background:#1A1612;border:1px solid #3A3228;margin-bottom:24px}
+#settlement-canvas{width:100%;height:auto;min-height:200px;border-radius:12px;background:var(--bg);border:1px solid var(--line);margin-bottom:24px}
 
 @media(max-width:600px){
   .compact-grid{grid-template-columns:repeat(2,1fr)}
@@ -104,6 +104,23 @@ a:hover{color:#E8B86D}
 </style>
 <script src="/js/beta-nav.js" defer></script>
 <script src="/js/data-health.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+  /* legacy aliases (pages migrated from the old token scheme) */
+  --card:var(--surface); --border:var(--line); --fg:var(--ink); --muted:var(--ink-2);
+  --gold:var(--accent-ink); --blue:var(--info); --green:var(--ok); --red:var(--err);
+}
+</style>
 </head>
 <body>
 <div class="header">
@@ -114,66 +131,66 @@ a:hover{color:#E8B86D}
 <a href="/learn">Learn</a>
 <a href="/capacity" class="active">Capacity</a>
 <a href="/fork-tracker">Fork</a><a href="/story.html">Data Story</a><a href="/articles.html">Articles</a><a href="/beta.html">Beta</a><a href="/research">Research</a>
-<span id="data-health" title="Data status" data-health-extra="/data/adoption.json:generated_at" style="font-size:0.9em;color:#8B949E;margin-left:10px;">⚪</span>
+<span id="data-health" title="Data status" data-health-extra="/data/adoption.json:generated_at" style="font-size:0.9em;color:var(--ink-3);margin-left:10px;">⚪</span>
 </div>
 </div>
 </div>
 
 <section class="hero">
 <h1>Bitcoin's <span>Settlement Engine</span></h1>
-<p>Bitcoin moves <strong id="settlement-hero">--</strong> <span style="font-size:.8rem;color:#6A5D4E;">per second</span> — not by processing millions of micro-transactions, but by settling high-value transfers. Every block is a batch settlement. This is the story of Bitcoin's economic throughput.</p>
+<p>Bitcoin moves <strong id="settlement-hero">--</strong> <span style="font-size:.8rem;color:var(--ink-3);">per second</span> — not by processing millions of micro-transactions, but by settling high-value transfers. Every block is a batch settlement. This is the story of Bitcoin's economic throughput.</p>
 </section>
 
 <div class="container">
 
-<canvas id="settlement-canvas" style="display:block;width:100%;max-width:100%;box-sizing:border-box;height:auto;min-height:200px;border-radius:12px;background:#1A1612;border:1px solid #3A3228;margin-bottom:24px;"></canvas>
+<canvas id="settlement-canvas" style="display:block;width:100%;max-width:100%;box-sizing:border-box;height:auto;min-height:200px;border-radius:12px;background:var(--bg);border:1px solid var(--line);margin-bottom:24px;"></canvas>
 
 <div class="stat-row" style="margin-bottom:24px;">
-  <div class="stat-card" style="flex:1;background:#231F19;border:1px solid #D4933A;border-radius:12px;padding:16px;text-align:center;">
-    <div class="stat-label" style="font-size:.65rem;color:#6A5D4E;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Settled / Sec</div>
-    <div class="stat-value" id="settlement-per-sec" style="font-size:1.6rem;font-weight:800;color:#D4933A;font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+  <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--accent-ink);border-radius:12px;padding:16px;text-align:center;">
+    <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Settled / Sec</div>
+    <div class="stat-value" id="settlement-per-sec" style="font-size:1.6rem;font-weight:800;color:var(--accent-ink);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
   </div>
-  <div class="stat-card" style="flex:1;background:#231F19;border:1px solid #3BA35D;border-radius:12px;padding:16px;text-align:center;">
-    <div class="stat-label" style="font-size:.65rem;color:#6A5D4E;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Per Block</div>
-    <div class="stat-value" id="settlement-per-block" style="font-size:1.6rem;font-weight:800;color:#3BA35D;font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+  <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--ok);border-radius:12px;padding:16px;text-align:center;">
+    <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Per Block</div>
+    <div class="stat-value" id="settlement-per-block" style="font-size:1.6rem;font-weight:800;color:var(--ok);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
   </div>
-  <div class="stat-card" style="flex:1;background:#231F19;border:1px solid #58A6FF;border-radius:12px;padding:16px;text-align:center;">
-    <div class="stat-label" style="font-size:.65rem;color:#6A5D4E;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Avg TX Value</div>
-    <div class="stat-value" id="avg-tx-value" style="font-size:1.6rem;font-weight:700;color:#58A6FF;font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+  <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--info);border-radius:12px;padding:16px;text-align:center;">
+    <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Avg TX Value</div>
+    <div class="stat-value" id="avg-tx-value" style="font-size:1.6rem;font-weight:700;color:var(--info);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
   </div>
-  <div class="stat-card" style="flex:1;background:#231F19;border:1px solid #BC8CFF;border-radius:12px;padding:16px;text-align:center;">
-    <div class="stat-label" style="font-size:.65rem;color:#6A5D4E;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">TX / Day</div>
+  <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid #BC8CFF;border-radius:12px;padding:16px;text-align:center;">
+    <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">TX / Day</div>
     <div class="stat-value" id="settlement-txs" style="font-size:1.6rem;font-weight:700;color:#BC8CFF;font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
   </div>
-  <div class="stat-card" style="flex:1;background:#231F19;border:1px solid #D4762A;border-radius:12px;padding:16px;text-align:center;">
-    <div class="stat-label" style="font-size:.65rem;color:#6A5D4E;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Nodes (Reachable)</div>
-    <div class="stat-value" id="settlement-nodes" style="font-size:1.3rem;font-weight:700;color:#D4762A;font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+  <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--warn);border-radius:12px;padding:16px;text-align:center;">
+    <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Nodes (Reachable)</div>
+    <div class="stat-value" id="settlement-nodes" style="font-size:1.3rem;font-weight:700;color:var(--warn);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
   </div>
-  <div class="stat-card" style="flex:1;background:#231F19;border:1px solid #58A6FF;border-radius:12px;padding:16px;text-align:center;">
-    <div class="stat-label" style="font-size:.65rem;color:#6A5D4E;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Countries</div>
-    <div class="stat-value" id="settlement-countries" style="font-size:1.3rem;font-weight:700;color:#58A6FF;font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+  <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--info);border-radius:12px;padding:16px;text-align:center;">
+    <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Countries</div>
+    <div class="stat-value" id="settlement-countries" style="font-size:1.3rem;font-weight:700;color:var(--info);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
   </div>
 </div>
 
 <div class="stat-row" style="margin-bottom:24px;">
-  <div class="stat-card" style="flex:1;background:#231F19;border:1px solid #3A3228;border-radius:12px;padding:16px;text-align:center;">
-    <div class="stat-label" style="font-size:.65rem;color:#6A5D4E;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Daily Settlement</div>
-    <div class="stat-value" id="settlement-volume" style="font-size:1.4rem;font-weight:800;color:#D4933A;font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
-    <div class="stat-sub" style="font-size:.7rem;color:#6A5D4E;">Estimated total on-chain value</div>
+  <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;">
+    <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Daily Settlement</div>
+    <div class="stat-value" id="settlement-volume" style="font-size:1.4rem;font-weight:800;color:var(--accent-ink);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+    <div class="stat-sub" style="font-size:.7rem;color:var(--ink-3);">Estimated total on-chain value</div>
   </div>
-  <div class="stat-card" style="flex:1;background:#231F19;border:1px solid #3A3228;border-radius:12px;padding:16px;text-align:center;">
-    <div class="stat-label" style="font-size:.65rem;color:#6A5D4E;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">LN Capacity</div>
-    <div class="stat-value" id="ln-capacity-val" style="font-size:1.4rem;font-weight:700;color:#58A6FF;font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+  <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;">
+    <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">LN Capacity</div>
+    <div class="stat-value" id="ln-capacity-val" style="font-size:1.4rem;font-weight:700;color:var(--info);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
   </div>
-  <div class="stat-card" style="flex:1;background:#231F19;border:1px solid #3A3228;border-radius:12px;padding:16px;text-align:center;">
-    <div class="stat-label" style="font-size:.65rem;color:#6A5D4E;text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Miner Revenue</div>
-    <div class="stat-value" id="settlement-miner" style="font-size:1.4rem;font-weight:700;color:#D4762A;font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
+  <div class="stat-card" style="flex:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;">
+    <div class="stat-label" style="font-size:.65rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;">Miner Revenue</div>
+    <div class="stat-value" id="settlement-miner" style="font-size:1.4rem;font-weight:700;color:var(--warn);font-family:'SF Mono',monospace;font-variant-numeric:tabular-nums;">--</div>
   </div>
 </div>
 
 <div class="compact-grid" id="metric-grid">
   <div class="stat-card"><div class="stat-label">On-Chain Throughput</div><div class="stat-value" style="font-size:1.2rem;">~3-7 tx/s</div></div>
-  <div class="stat-card"><div class="stat-label">Inflow Rate</div><div class="stat-value" id="m-inflow" style="color:#58A6FF;">-- <span style="font-size:.8rem;">tx/min</span></div></div>
+  <div class="stat-card"><div class="stat-label">Inflow Rate</div><div class="stat-value" id="m-inflow" style="color:var(--info);">-- <span style="font-size:.8rem;">tx/min</span></div></div>
   <div class="stat-card"><div class="stat-label">Block Weight Usage</div><div class="stat-value" id="m-weight-pct">--</div></div>
   <div class="stat-card"><div class="stat-label">Avg Tx Size</div><div class="stat-value" id="m-avg-tx">--</div></div>
 </div>

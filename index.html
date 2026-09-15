@@ -12,7 +12,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Bitcoin Sahi — Block Space Research">
   <meta name="twitter:description" content="Live Bitcoin fee, mempool, and block data from an autonomous research engine. Watch block space economics unfold in real time — fees, forecasts, and Bitcoin Resource Accounting research.">
-  <meta name="theme-color" content="#1A1612">
+  <meta name="theme-color" content="#121110">
   <link rel="canonical" href="https://bitcoinsahi.com/">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Organization","@id":"https://bitcoinsahi.com/#organization","name":"Bitcoin Sahi","url":"https://bitcoinsahi.com/","logo":{"@type":"ImageObject","url":"https://bitcoinsahi.com/og-image.png","width":1200,"height":630},"sameAs":["https://github.com/prateekposwal/block-space-economics"]}
@@ -27,7 +27,7 @@
   <meta name="twitter:image" content="https://bitcoinsahi.com/og-image.png">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background: #1A1612; font-family: -apple-system, system-ui, sans-serif; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: -apple-system, system-ui, sans-serif; }
     #viz-fees { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; }
 
     .state-bar { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 20; text-align: center; pointer-events: none; }
@@ -35,7 +35,7 @@
     .state-bar .state-desc { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; }
 
     .bottom-area { position: fixed; bottom: 48px; left: 50%; transform: translateX(-50%); z-index: 20; text-align: center; }
-    .bottom-area .cta { display: inline-block; padding: 14px 32px; background: #F7931A; color: #1A1612; font-size: 17px; font-weight: 700; border-radius: 100px; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+    .bottom-area .cta { display: inline-block; padding: 14px 32px; background: var(--accent); color: var(--bg); font-size: 17px; font-weight: 700; border-radius: 100px; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
     .bottom-area .cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(247,147,26,0.3); }
     .bottom-area .cta.low-fees { animation: ctaPulse 2s ease-in-out infinite; }
     .bottom-area .hint { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 8px; }
@@ -47,7 +47,7 @@
 
     .legend-toggle { position: fixed; top: 90px; right: 20px; z-index: 30; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
     .legend-toggle:hover { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); }
-    .legend-panel { position: fixed; top: 130px; right: 20px; z-index: 40; background: #2A2622; border: 1px solid #3A3632; border-radius: 10px; padding: 16px; width: 220px; display: none; }
+    .legend-panel { position: fixed; top: 130px; right: 20px; z-index: 40; background: var(--surface-muted); border: 1px solid var(--surface-muted); border-radius: 10px; padding: 16px; width: 220px; display: none; }
     .legend-panel.visible { display: block; }
     .legend-panel .l-item { display: flex; align-items: center; gap: 10px; padding: 4px 0; font-size: 12px; color: rgba(255,255,255,0.6); }
     .legend-panel .l-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
@@ -65,11 +65,11 @@
     #narrative-frame { position:fixed;top:62%;left:50%;transform:translateX(-50%);z-index:15;text-align:center;pointer-events:none; }
     #narrative-text { font-size:13px;color:rgba(255,255,255,0.6);transition:opacity 1s;font-style:italic; }
 
-    #metrics-ticker { position: fixed; bottom: 0; left: 0; width: 100vw; z-index: 15; overflow: hidden; white-space: nowrap; font-size: 11px; color: rgba(255,255,255,0.6); padding: 4px 0; background: #1A1612; border-top: 1px solid rgba(255,255,255,0.05); font-variant-numeric: tabular-nums; letter-spacing: 0.3px; }
+    #metrics-ticker { position: fixed; bottom: 0; left: 0; width: 100vw; z-index: 15; overflow: hidden; white-space: nowrap; font-size: 11px; color: rgba(255,255,255,0.6); padding: 4px 0; background: var(--bg); border-top: 1px solid rgba(255,255,255,0.05); font-variant-numeric: tabular-nums; letter-spacing: 0.3px; }
     #nav-links { position: fixed; bottom: 160px; right: 20px; z-index: 30; display: flex; flex-direction: column; gap: 10px; }
-    #nav-links a { display: flex; align-items: center; gap: 10px; padding: 14px 24px; background: #231F19; border: 1px solid #3A3228; border-radius: 12px; color: #EADCC8; font-size: 15px; font-weight: 600; text-decoration: none; transition: all 0.2s; min-width: 180px; }
-    #nav-links a:hover { border-color: #4A4034; }
-    #nav-links a span { color: #D4933A; font-weight: 800; font-size: 18px; }
+    #nav-links a { display: flex; align-items: center; gap: 10px; padding: 14px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; color: var(--ink); font-size: 15px; font-weight: 600; text-decoration: none; transition: all 0.2s; min-width: 180px; }
+    #nav-links a:hover { border-color: var(--line); }
+    #nav-links a span { color: var(--accent-ink); font-weight: 800; font-size: 18px; }
     .ticker-track { display: inline-block; white-space: nowrap; padding-left: 0; animation: ticker-scroll 45s linear infinite; }
     .ticker-track span { display: inline-block; }
     .ticker-track .sep { margin: 0 10px; color: rgba(255,255,255,0.15); }
@@ -136,19 +136,19 @@
        live stats with freshness, and trust signals in the same palette. */
     #topbar{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;gap:16px;padding:14px 20px;background:linear-gradient(rgba(26,22,18,0.9),rgba(26,22,18,0));pointer-events:none}
     #topbar>*{pointer-events:auto}
-    .brand{display:inline-flex;align-items:center;gap:9px;color:#EADCC8;text-decoration:none;font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-    .brand .bi{color:#F7931A;font-size:16px;line-height:1}
+    .brand{display:inline-flex;align-items:center;gap:9px;color:var(--ink);text-decoration:none;font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    .brand .bi{color:var(--accent);font-size:16px;line-height:1}
     #topnav{display:flex;gap:4px;margin-left:6px}
     #topnav a{color:rgba(234,220,200,0.55);text-decoration:none;font-size:13px;font-weight:500;padding:6px 11px;border-radius:8px;transition:color .15s,background .15s}
-    #topnav a:hover{color:#EADCC8;background:rgba(255,255,255,0.07)}
-    #topnav a.on{color:#EADCC8;box-shadow:inset 0 -2px 0 #F7931A}
+    #topnav a:hover{color:var(--ink);background:rgba(255,255,255,0.07)}
+    #topnav a.on{color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent)}
     #chip{display:inline-flex;align-items:center;gap:7px;margin-left:auto;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.14);color:rgba(234,220,200,0.7)}
-    #chip b{width:8px;height:8px;border-radius:50%;background:#8B949E}
-    #chip.s-live b{background:#3FB950}#chip.s-delayed b{background:#D29922}
-    #chip.s-stale b,#chip.s-unknown b{background:#F85149}
+    #chip b{width:8px;height:8px;border-radius:50%;background:var(--ink-3)}
+    #chip.s-live b{background:var(--ok)}#chip.s-delayed b{background:var(--warn)}
+    #chip.s-stale b,#chip.s-unknown b{background:var(--err)}
     #statstrip{position:fixed;top:190px;left:50%;transform:translateX(-50%);z-index:25;display:flex;gap:22px;padding:9px 20px;border-radius:999px;background:rgba(26,22,18,0.6);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-variant-numeric:tabular-nums;pointer-events:none}
     #statstrip .ss{display:flex;align-items:baseline;gap:6px;font-size:12px}
-    #statstrip .ss b{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:15px;font-weight:600;color:#EADCC8}
+    #statstrip .ss b{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:15px;font-weight:600;color:var(--ink)}
     #statstrip .ss i{font-style:normal;color:rgba(234,220,200,0.45);font-size:11px}
     #statstrip .ss .se{font-style:normal;color:rgba(234,220,200,0.3);font-size:10px;letter-spacing:.05em;text-transform:uppercase}
     #vs-note{position:fixed;top:232px;left:50%;transform:translateX(-50%);z-index:24;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:.02em;color:rgba(234,220,200,0.4);text-align:center;pointer-events:none;max-width:90vw}
@@ -175,6 +175,23 @@
       #vs-note{display:none}
     }
   </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+  /* legacy aliases (pages migrated from the old token scheme) */
+  --card:var(--surface); --border:var(--line); --fg:var(--ink); --muted:var(--ink-2);
+  --gold:var(--accent-ink); --blue:var(--info); --green:var(--ok); --red:var(--err);
+}
+</style>
 </head>
 <body data-version="v5-design-system">
   <canvas id="viz-fees"></canvas>
@@ -202,7 +219,7 @@
 
   <!-- Visible H1 (only content per architect) -->
   <div id="headline" style="position:fixed;top:110px;left:50%;transform:translateX(-50%);z-index:25;text-align:center;pointer-events:none;max-width:640px;width:calc(100% - 40px);">
-    <h1 style="font-size:clamp(20px,3.5vw,34px);color:#EADCC8;margin:0;letter-spacing:0.5px;">Bitcoin block space, <span style="color:#F7931A;">live</span>. <span id="data-health" title="Data status" style="font-size:0.6em;color:#8B949E;">⚪</span></h1>
+    <h1 style="font-size:clamp(20px,3.5vw,34px);color:var(--ink);margin:0;letter-spacing:0.5px;">Bitcoin block space, <span style="color:var(--accent);">live</span>. <span id="data-health" title="Data status" style="font-size:0.6em;color:var(--ink-3);">⚪</span></h1>
   </div>
 
   <!-- SEO content layer (crawler-readable, invisible to visitors) -->
@@ -220,16 +237,16 @@
   </div>
 
   <div class="state-bar" id="state-bar">
-    <div class="state-label" id="state-label" style="color:#D29922;">Data pending</div>
+    <div class="state-label" id="state-label" style="color:var(--warn);">Data pending</div>
     <div class="state-desc" id="state-desc">Waiting for live fee data…</div>
   </div>
 
   <button class="legend-toggle" id="legend-toggle" aria-label="Toggle legend" aria-expanded="false" onclick="document.getElementById('legend-panel').classList.toggle('visible'); this.setAttribute('aria-expanded', document.getElementById('legend-panel').classList.contains('visible'));">?</button>
   <div class="legend-panel" id="legend-panel">
     <div class="l-title">What am I looking at?</div>
-    <div class="l-item"><span class="l-dot" style="background:#3FB950;"></span> Low fee block</div>
-    <div class="l-item"><span class="l-dot" style="background:#D29922;"></span> Moderate fee</div>
-    <div class="l-item"><span class="l-dot" style="background:#F85149;"></span> High fee — congested</div>
+    <div class="l-item"><span class="l-dot" style="background:var(--ok);"></span> Low fee block</div>
+    <div class="l-item"><span class="l-dot" style="background:var(--warn);"></span> Moderate fee</div>
+    <div class="l-item"><span class="l-dot" style="background:var(--err);"></span> High fee — congested</div>
     <div class="l-item"><span style="color:rgba(255,255,255,0.4);font-size:14px;">◌</span> Floating particles = mempool transactions waiting</div>
     <div class="l-item"><span style="color:rgba(255,255,255,0.4);font-size:14px;">⬜</span> Each bar = one Bitcoin block (last 24h)</div>
   </div>

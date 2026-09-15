@@ -11,20 +11,20 @@
 <link rel="canonical" href="https://bitcoinsahi.com/beta.html">
 <title>BSAHI — Join the Beta (free, first 100)</title>
 <style>
-:root{--bg:#0D1117;--card:#161B22;--border:#30363D;--fg:#F0F6FC;--muted:#8B949E;--accent:#F7931A;--green:#3FB950;--red:#F85149}
+
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.7}
-header{background:#161B22;border-bottom:1px solid var(--border);padding:14px 24px}
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px}
 .header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
 .nav{display:flex;gap:8px;flex-wrap:wrap}
 .nav a{padding:6px 12px;font-size:.8rem;color:var(--muted);text-decoration:none;border-radius:6px}
-.nav a:hover{color:var(--fg);background:#21262D}
+.nav a:hover{color:var(--fg);background:var(--surface-muted)}
 .container{max-width:1100px;margin:0 auto;padding:40px 28px 80px}
 .hero{text-align:center;padding:20px 0 30px}
 .hero h1{color:var(--accent);font-size:2.4rem;margin-bottom:10px}
 .hero p{color:var(--muted);max-width:760px;margin:0 auto;font-size:1.06rem}
-.badge{display:inline-block;background:var(--accent);color:#0D1117;font-weight:800;font-size:.8rem;padding:5px 16px;border-radius:20px;margin-bottom:16px;letter-spacing:.04em}
+.badge{display:inline-block;background:var(--accent);color:var(--bg);font-weight:800;font-size:.8rem;padding:5px 16px;border-radius:20px;margin-bottom:16px;letter-spacing:.04em}
 .status{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin:24px auto;max-width:820px;display:flex;gap:30px;justify-content:center;flex-wrap:wrap;text-align:center}
 .status .big{font-size:2.4rem;font-weight:800;color:var(--accent)}
 .status .lbl{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
@@ -34,7 +34,7 @@ header{background:#161B22;border-bottom:1px solid var(--border);padding:14px 24p
 label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px;margin-top:16px}
 input,select{width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:10px;color:var(--fg);font-size:1rem;font-family:inherit}
 input:focus,select:focus{outline:none;border-color:var(--accent)}
-.btn{width:100%;margin-top:24px;padding:14px;border-radius:12px;background:var(--accent);color:#0D1117;font-size:1.05rem;font-weight:800;border:none;cursor:pointer;transition:all .2s}
+.btn{width:100%;margin-top:24px;padding:14px;border-radius:12px;background:var(--accent);color:var(--bg);font-size:1.05rem;font-weight:800;border:none;cursor:pointer;transition:all .2s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(247,147,26,.3)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .msg{margin-top:16px;padding:12px 16px;border-radius:10px;font-size:.92rem;display:none}
@@ -45,7 +45,7 @@ input:focus,select:focus{outline:none;border-color:var(--accent)}
 .login-nudge{max-width:640px;margin:0 auto 20px;background:rgba(247,147,26,.06);border:1px solid rgba(247,147,26,.35);border-radius:12px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .login-nudge b{color:var(--fg);display:block;font-size:.95rem}
 .login-nudge span{color:var(--muted);font-size:.85rem}
-.login-nudge a{background:var(--accent);color:#0D1117;font-weight:800;padding:10px 22px;border-radius:10px;text-decoration:none;font-size:.9rem;white-space:nowrap;transition:all .2s}
+.login-nudge a{background:var(--accent);color:var(--bg);font-weight:800;padding:10px 22px;border-radius:10px;text-decoration:none;font-size:.9rem;white-space:nowrap;transition:all .2s}
 .login-nudge a:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(247,147,26,.3)}
 .perks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:30px auto;max-width:900px}
 .perk{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center}
@@ -56,6 +56,23 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
 @media(max-width:600px){.hero h1{font-size:1.6rem}.form-wrap{padding:24px 18px}.container{padding:24px 16px 60px}.login-nudge{padding:14px 16px}}
 </style>
 <script src="/js/beta-nav.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+  /* legacy aliases (pages migrated from the old token scheme) */
+  --card:var(--surface); --border:var(--line); --fg:var(--ink); --muted:var(--ink-2);
+  --gold:var(--accent-ink); --blue:var(--info); --green:var(--ok); --red:var(--err);
+}
+</style>
 </head>
 <body>
 <header><div class="header-inner"><a href="/" class="brand">⬡ BSAHI</a><nav class="nav">
@@ -85,15 +102,15 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
 <div id="how-it-works" style="max-width:900px;margin:30px auto;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:30px">
   <h2 style="color:var(--fg);margin-bottom:16px">How it works — 3 steps</h2>
   <div style="display:flex;gap:16px;margin-bottom:14px;align-items:flex-start">
-    <div style="background:var(--accent);color:#0D1117;font-weight:800;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+    <div style="background:var(--accent);color:var(--bg);font-weight:800;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
     <div><b style="color:var(--fg)">Register</b><div style="color:var(--muted);font-size:.92rem">Fill the form below. It opens a GitHub registration — no card, no account needed beyond your email.</div></div>
   </div>
   <div style="display:flex;gap:16px;margin-bottom:14px;align-items:flex-start">
-    <div style="background:var(--accent);color:#0D1117;font-weight:800;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+    <div style="background:var(--accent);color:var(--bg);font-weight:800;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
     <div><b style="color:var(--fg)">Get your beta key</b><div style="color:var(--muted);font-size:.92rem">We record your spot (first 100 = free 6 months) and post your beta access key on your registration issue — view it in the confirmation.</div></div>
   </div>
   <div style="display:flex;gap:16px;align-items:flex-start">
-    <div style="background:var(--accent);color:#0D1117;font-weight:800;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+    <div style="background:var(--accent);color:var(--bg);font-weight:800;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
     <div><b style="color:var(--fg)">Unlock + use</b><div style="color:var(--muted);font-size:.92rem">Log in at <a href="/beta-login.html" style="color:var(--accent)">beta-login.html</a> with your key to unlock the Send Widget and SCCR Index.</div></div>
   </div>
   <p style="color:var(--muted);font-size:.85rem;margin-top:16px">💡 After you submit, you'll be asked to confirm on GitHub — that's the registration. It takes ~30 seconds. Your spot + access key are recorded automatically.</p>

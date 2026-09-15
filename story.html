@@ -11,38 +11,38 @@
 <link rel="canonical" href="https://bitcoinsahi.com/story.html">
 <title>BSAHI — The Data Story</title>
 <style>
-:root{--bg:#1A1612;--card:#1F1B16;--border:#3A3228;--fg:#E8E5E0;--muted:#9B8B78;--accent:#F7931A;--gold:#D4933A;--blue:#58A6FF;--green:#3FB950;--red:#F85149}
+
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.7}
-header{background:#231F19;border-bottom:1px solid var(--border);padding:14px 20px;position:sticky;top:0;z-index:50}
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 20px;position:sticky;top:0;z-index:50}
 .header-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
 .nav{display:flex;gap:6px;flex-wrap:wrap}
 .nav a{padding:6px 12px;font-size:.8rem;color:var(--muted);text-decoration:none;border-radius:6px;transition:all .2s}
-.nav a:hover{color:var(--fg);background:#2A251E}
-.nav a.active{background:#2A251E;color:var(--fg)}
+.nav a:hover{color:var(--fg);background:var(--surface-muted)}
+.nav a.active{background:var(--surface-muted);color:var(--fg)}
 .container{max-width:1100px;margin:0 auto;padding:28px 20px 70px}
 .hero{padding:26px 0 30px;border-bottom:1px solid var(--border);margin-bottom:26px}
 .hero h1{color:var(--accent);font-size:1.8rem;margin-bottom:8px}
 .hero p{color:var(--muted);max-width:760px;font-size:.98rem}
 .persona-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.persona-tags span{background:#2A251E;border:1px solid var(--border);border-radius:20px;padding:4px 14px;font-size:.75rem;color:var(--muted)}
+.persona-tags span{background:var(--surface-muted);border:1px solid var(--border);border-radius:20px;padding:4px 14px;font-size:.75rem;color:var(--muted)}
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:22px}
 .card h2{color:var(--fg);font-size:1.15rem;margin-bottom:6px}
 .card .sub{color:var(--muted);font-size:.86rem;margin-bottom:14px}
 .metric-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
-.metric{background:#231F19;border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
 .metric .v{font-size:1.5rem;font-weight:700;color:var(--accent)}
 .metric .l{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
-canvas{width:100%;height:auto;background:#171310;border-radius:10px;display:block}
+canvas{width:100%;height:auto;background:var(--bg);border-radius:10px;display:block}
 .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:.75rem;color:var(--muted)}
 .legend .sw{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:5px;vertical-align:middle}
-.callout{border-left:3px solid var(--accent);background:#2A251E;border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0;color:var(--muted);font-size:.9rem}
+.callout{border-left:3px solid var(--accent);background:var(--surface-muted);border-radius:0 8px 8px 0;padding:12px 16px;margin:14px 0;color:var(--muted);font-size:.9rem}
 .callout b{color:var(--fg)}
-.story-tag{display:inline-block;background:var(--accent);color:#171310;font-weight:700;font-size:.65rem;padding:2px 10px;border-radius:20px;margin-bottom:8px;letter-spacing:.04em}
-.story-tag.blue{background:var(--blue);color:#0B1220}
-.story-tag.green{background:var(--green);color:#0B1F10}
-.story-tag.red{background:var(--red);color:#1F0B0B}
+.story-tag{display:inline-block;background:var(--accent);color:var(--bg);font-weight:700;font-size:.65rem;padding:2px 10px;border-radius:20px;margin-bottom:8px;letter-spacing:.04em}
+.story-tag.blue{background:var(--blue);color:var(--surface)}
+.story-tag.green{background:var(--green);color:var(--surface)}
+.story-tag.red{background:var(--red);color:var(--surface)}
 footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-size:.8rem;color:var(--muted)}
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
 footer .links a{color:var(--muted);text-decoration:none}
@@ -56,11 +56,28 @@ footer .links a:hover{color:var(--accent)}
 </style>
 <script src="/js/beta-nav.js" defer></script>
 <script src="/js/data-health.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+  /* legacy aliases (pages migrated from the old token scheme) */
+  --card:var(--surface); --border:var(--line); --fg:var(--ink); --muted:var(--ink-2);
+  --gold:var(--accent-ink); --blue:var(--info); --green:var(--ok); --red:var(--err);
+}
+</style>
 </head>
 <body>
 <header><div class="header-inner"><a href="/" class="brand">⬡ BSAHI</a><nav class="nav">
 <a href="/">Home</a><a href="/live">Live Fees</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/story.html">Data Story</a><a href="/articles.html" class="active">Articles</a><a href="/beta.html">Beta</a>
-</nav><span id="data-health" title="Data status" data-health-extra="/data/bip110.json:observedAt /data/sccr.json:generated_at" style="font-size:0.9em;color:#8B949E;margin-left:10px;">⚪</span></div></header>
+</nav><span id="data-health" title="Data status" data-health-extra="/data/bip110.json:observedAt /data/sccr.json:generated_at" style="font-size:0.9em;color:var(--ink-3);margin-left:10px;">⚪</span></div></header>
 
 <div class="container">
 <div class="hero">
@@ -88,7 +105,7 @@ footer .links a:hover{color:var(--accent)}
     <div class="metric"><div class="v" id="bip-status">…</div><div class="l">Window status</div></div>
   </div>
   <canvas id="bip-canvas" width="1000" height="220"></canvas>
-  <div class="legend"><span><span class="sw" style="background:#171310"></span>non-signaling block</span><span><span class="sw" style="background:var(--accent)"></span>signaling block</span><span><span class="sw" style="background:var(--red)"></span>window boundary</span><span><span class="sw" style="background:var(--blue)"></span>lock-in height</span></div>
+  <div class="legend"><span><span class="sw" style="background:var(--bg)"></span>non-signaling block</span><span><span class="sw" style="background:var(--accent)"></span>signaling block</span><span><span class="sw" style="background:var(--red)"></span>window boundary</span><span><span class="sw" style="background:var(--blue)"></span>lock-in height</span></div>
   <div class="callout"><b>The story:</b> a soft fork whose activation doesn't need miners — the enforcement clause is carried by node software. If signaling stays low but lock-in happens anyway, that's the governance boundary made visible: <b>miners can refuse, but they can't stop it.</b> Details: <a href="/research/governance-boundary.html" style="color:var(--accent)">governance-boundary note →</a></div>
   <div class="callout" style="border-left-color:var(--blue)"><b>The correction:</b> <b>UASF/URSF are coordination mechanisms — not proof that miners control Bitcoin.</b> A flag-day or a user-resisted fork is a way for node operators to coordinate enforcement, not evidence of who holds power. And miner concentration is a <b>real attack surface</b> — but it doesn't automatically equal protocol control. BIP-110 is the live test of exactly this: the 55% threshold and the mandatory window are coordination parameters, and the outcome tells us who actually moves the valid-state transition boundary.</div>
 </div>

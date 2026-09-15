@@ -11,7 +11,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="BIP-110 Fork Tracker — BSAHI">
   <meta name="twitter:description" content="Track BIP-110 miner signaling and consensus activation in real time. Signaling percentage, block versions, and lock-in progress for the temporary data soft fork.">
-  <meta name="theme-color" content="#1A1612">
+  <meta name="theme-color" content="#121110">
   <link rel="canonical" href="https://bitcoinsahi.com/fork-tracker">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"BIP-110 Fork Tracker","item":"https://bitcoinsahi.com/fork-tracker"}]}
@@ -25,150 +25,167 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px;-webkit-font-smoothing:antialiased}
-body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;min-height:100vh;line-height:1.5}
-a{color:#D4933A;text-decoration:none;transition:color .2s}
-a:hover{color:#E8B86D}
-::selection{background:#D4933A;color:#1A1612}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);min-height:100vh;line-height:1.5}
+a{color:var(--accent-ink);text-decoration:none;transition:color .2s}
+a:hover{color:var(--accent-ink)}
+::selection{background:var(--accent-ink);color:var(--bg)}
 ::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:#1A1612}
-::-webkit-scrollbar-thumb{background:#3A3228;border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:#4A4034}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--line)}
 
 .container{max-width:1200px;margin:0 auto;padding:0 24px}
 
 /* Header */
-.header{background:#1F1B16;border-bottom:1px solid #3A3228;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .header-inner{display:flex;align-items:center;justify-content:space-between;height:56px}
-.brand{font-size:1.125rem;font-weight:600;color:#EADCC8;display:flex;align-items:center;gap:8px;letter-spacing:-0.01em}
-.brand:hover{color:#E8B86D}
+.brand{font-size:1.125rem;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:8px;letter-spacing:-0.01em}
+.brand:hover{color:var(--accent-ink)}
 .brand-icon{font-size:1.25rem}
 .nav{display:flex;gap:0;flex-wrap:wrap}
-.nav-item{padding:6px 16px;font-size:.875rem;font-weight:500;color:#9B8B78;border-radius:6px;transition:all .2s}
-.nav-item.active{background:#2A251E;color:#EADCC8}
-.nav a.nav-item{color:#9B8B78;text-decoration:none}
-.nav a.nav-item:hover{color:#EADCC8;background:#2A251E}
+.nav-item{padding:6px 16px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;transition:all .2s}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+.nav a.nav-item{color:var(--ink-2);text-decoration:none}
+.nav a.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
 
 /* Status Bar */
-.status-bar{background:#14110E;border-bottom:1px solid #3A3228;padding:8px 0}
-.status-inner{display:flex;align-items:center;justify-content:space-between;font-size:.75rem;color:#9B8B78}
+.status-bar{background:var(--bg);border-bottom:1px solid var(--line);padding:8px 0}
+.status-inner{display:flex;align-items:center;justify-content:space-between;font-size:.75rem;color:var(--ink-2)}
 .status-left{display:flex;align-items:center;gap:10px}
-.status-dot{width:8px;height:8px;border-radius:50%;background:#3BA35D;display:inline-block;animation:pulse-dot 2s infinite}
-.status-dot.offline{background:#C0392B;animation:none}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);display:inline-block;animation:pulse-dot 2s infinite}
+.status-dot.offline{background:var(--err);animation:none}
 @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
 .status-label{text-transform:uppercase;letter-spacing:.05em;font-weight:500}
 .status-time{font-variant-numeric:tabular-nums}
-.network-badge{background:#2A251E;padding:2px 10px;border-radius:4px;font-weight:500;color:#EADCC8;font-size:.7rem;letter-spacing:.04em;border:1px solid #3A3228}
+.network-badge{background:var(--surface-muted);padding:2px 10px;border-radius:4px;font-weight:500;color:var(--ink);font-size:.7rem;letter-spacing:.04em;border:1px solid var(--line)}
 
 /* Hero */
 .hero{padding:48px 0 32px;text-align:center}
-.hero-title{font-size:2rem;font-weight:700;letter-spacing:-0.02em;color:#EADCC8;margin-bottom:12px}
-.hero-desc{max-width:700px;margin:0 auto 24px;color:#9B8B78;font-size:.95rem;line-height:1.7}
+.hero-title{font-size:2rem;font-weight:700;letter-spacing:-0.02em;color:var(--ink);margin-bottom:12px}
+.hero-desc{max-width:700px;margin:0 auto 24px;color:var(--ink-2);font-size:.95rem;line-height:1.7}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:100px;font-size:.85rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase}
-.hero-badge.inactive{background:rgba(212,118,42,.15);color:#D4762A;border:1px solid rgba(212,118,42,.3)}
-.hero-badge.locked-in{background:rgba(59,163,93,.15);color:#3BA35D;border:1px solid rgba(59,163,93,.3)}
-.hero-badge.activated{background:rgba(59,163,93,.15);color:#3BA35D;border:1px solid rgba(59,163,93,.3)}
+.hero-badge.inactive{background:rgba(212,118,42,.15);color:var(--warn);border:1px solid rgba(212,118,42,.3)}
+.hero-badge.locked-in{background:rgba(59,163,93,.15);color:var(--ok);border:1px solid rgba(59,163,93,.3)}
+.hero-badge.activated{background:rgba(59,163,93,.15);color:var(--ok);border:1px solid rgba(59,163,93,.3)}
 
 /* Status Cards */
 .cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}
 @media(max-width:600px){.cards-grid{grid-template-columns:repeat(2,1fr)}.header-inner{height:auto;flex-wrap:wrap;gap:4px;padding:10px 12px}.nav{padding:8px 12px}.nav-item{padding:6px 9px;font-size:.78rem}}
-.card{background:#231F19;border:1px solid #3A3228;border-radius:12px;padding:20px;transition:all .3s;position:relative;overflow:hidden}
-.card:hover{border-color:#4A4034;background:#28231C}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;transition:all .3s;position:relative;overflow:hidden}
+.card:hover{border-color:var(--line);background:var(--surface-muted)}
 .card.pulse{animation:card-pulse .6s ease-out}
 @keyframes card-pulse{0%{box-shadow:0 0 0 0 rgba(212,147,58,.2)}50%{box-shadow:0 0 0 8px rgba(212,147,58,.05)}100%{box-shadow:0 0 0 0 rgba(212,147,58,0)}}
-.card-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:#6A5D4E;font-weight:600;margin-bottom:8px}
-.card-value{font-size:1.5rem;font-weight:700;color:#EADCC8;letter-spacing:-0.02em}
+.card-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);font-weight:600;margin-bottom:8px}
+.card-value{font-size:1.5rem;font-weight:700;color:var(--ink);letter-spacing:-0.02em}
 .card-value.small{font-size:1.15rem}
-.card-value.green{color:#3BA35D}
-.card-value.orange{color:#D4762A}
-.card-sub{font-size:.75rem;color:#6A5D4E;margin-top:4px}
+.card-value.green{color:var(--ok)}
+.card-value.orange{color:var(--warn)}
+.card-sub{font-size:.75rem;color:var(--ink-3);margin-top:4px}
 
 /* Signaling Timeline */
 .timeline-section{margin-bottom:40px}
-.timeline-section h2{font-size:1rem;font-weight:600;margin-bottom:16px;color:#EADCC8}
-.timeline-track{position:relative;height:48px;background:#1A1612;border-radius:8px;border:1px solid #3A3228;overflow:hidden}
-.timeline-past{position:absolute;left:0;top:0;bottom:0;background:#3A3228;transition:width .8s ease;border-radius:7px 0 0 7px}
+.timeline-section h2{font-size:1rem;font-weight:600;margin-bottom:16px;color:var(--ink)}
+.timeline-track{position:relative;height:48px;background:var(--bg);border-radius:8px;border:1px solid var(--line);overflow:hidden}
+.timeline-past{position:absolute;left:0;top:0;bottom:0;background:var(--line);transition:width .8s ease;border-radius:7px 0 0 7px}
 .timeline-future{position:absolute;left:0;top:0;bottom:0;right:0;background:transparent}
-.timeline-now{position:absolute;top:-4px;width:3px;height:calc(100% + 8px);background:#D4933A;transition:left .8s ease;z-index:2}
-.timeline-now::after{content:'';position:absolute;top:-4px;left:50%;transform:translateX(-50%);border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid #D4933A}
+.timeline-now{position:absolute;top:-4px;width:3px;height:calc(100% + 8px);background:var(--accent-ink);transition:left .8s ease;z-index:2}
+.timeline-now::after{content:'';position:absolute;top:-4px;left:50%;transform:translateX(-50%);border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid var(--accent-ink)}
 .timeline-marker{position:absolute;top:0;width:2px;height:100%;background:rgba(212,147,58,.4);z-index:1;transition:left .8s ease}
-.timeline-marker::after{content:'55%';position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:.6rem;color:#D4933A;font-weight:600}
-.timeline-labels{display:flex;justify-content:space-between;margin-top:8px;font-size:.7rem;color:#6A5D4E}
-.timeline-labels span.now-label{color:#D4933A;font-weight:600}
+.timeline-marker::after{content:'55%';position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:.6rem;color:var(--accent-ink);font-weight:600}
+.timeline-labels{display:flex;justify-content:space-between;margin-top:8px;font-size:.7rem;color:var(--ink-3)}
+.timeline-labels span.now-label{color:var(--accent-ink);font-weight:600}
 
 /* Block Table */
 .table-section{margin-bottom:40px}
 .table-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.table-header h2{font-size:1rem;font-weight:600;color:#EADCC8}
-.table-count{font-size:.75rem;color:#6A5D4E;background:#231F19;padding:2px 10px;border-radius:100px}
-.table-wrap{overflow-x:auto;border:1px solid #3A3228;border-radius:12px}
+.table-header h2{font-size:1rem;font-weight:600;color:var(--ink)}
+.table-count{font-size:.75rem;color:var(--ink-3);background:var(--surface);padding:2px 10px;border-radius:100px}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
 table{width:100%;border-collapse:collapse;font-size:.85rem}
-thead{background:#1F1B16}
-th{padding:12px 16px;text-align:left;font-weight:600;color:#6A5D4E;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid #3A3228;white-space:nowrap}
-td{padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6;white-space:nowrap}
+thead{background:var(--surface)}
+th{padding:12px 16px;text-align:left;font-weight:600;color:var(--ink-3);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);white-space:nowrap}
 tr:last-child td{border-bottom:none}
-tr:hover td{background:#28231C}
-td.height{font-weight:600;color:#EADCC8;font-variant-numeric:tabular-nums}
-td.time{color:#9B8B78;font-variant-numeric:tabular-nums}
-td.version{font-family:'SF Mono','Fira Code','Cascadia Code',monospace;font-size:.8rem;color:#9B8B78}
+tr:hover td{background:var(--surface-muted)}
+td.height{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+td.time{color:var(--ink-2);font-variant-numeric:tabular-nums}
+td.version{font-family:'SF Mono','Fira Code','Cascadia Code',monospace;font-size:.8rem;color:var(--ink-2)}
 td.signal{text-align:center;font-size:1rem}
 td.fee{font-variant-numeric:tabular-nums;font-weight:500}
-.table-empty td{padding:32px;text-align:center;color:#6A5D4E;font-style:italic}
+.table-empty td{padding:32px;text-align:center;color:var(--ink-3);font-style:italic}
 
 /* Impact Cards */
 .impact-section{margin-bottom:48px}
-.impact-section h2{font-size:1rem;font-weight:600;margin-bottom:16px;color:#EADCC8}
+.impact-section h2{font-size:1rem;font-weight:600;margin-bottom:16px;color:var(--ink)}
 .impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 @media(max-width:600px){.impact-grid{grid-template-columns:1fr}}
-.impact-card{background:#231F19;border:1px solid #3A3228;border-radius:12px;padding:24px;transition:border-color .3s}
-.impact-card:hover{border-color:#4A4034}
+.impact-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;transition:border-color .3s}
+.impact-card:hover{border-color:var(--line)}
 .impact-icon{font-size:1.5rem;margin-bottom:12px}
-.impact-card h3{font-size:.9rem;font-weight:600;color:#EADCC8;margin-bottom:8px}
-.impact-card p{font-size:.82rem;color:#9B8B78;line-height:1.7}
+.impact-card h3{font-size:.9rem;font-weight:600;color:var(--ink);margin-bottom:8px}
+.impact-card p{font-size:.82rem;color:var(--ink-2);line-height:1.7}
 
 /* Explainer Box */
-.explain-box{background:#231F19;border:1px solid #3A3228;border-radius:12px;padding:24px;margin-bottom:32px}
-.explain-title{font-size:.95rem;font-weight:700;color:#EADCC8;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.explain-box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;margin-bottom:32px}
+.explain-title{font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .explain-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:600px){.explain-grid{grid-template-columns:1fr}}
 .explain-card{padding:16px;border-radius:10px}
 .explain-card.policy{background:rgba(88,166,255,.06);border:1px solid rgba(88,166,255,.15)}
 .explain-card.consensus{background:rgba(212,147,58,.06);border:1px solid rgba(212,147,58,.15)}
 .explain-card .ec-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:6px}
-.explain-card.policy .ec-label{color:#58A6FF}
-.explain-card.consensus .ec-label{color:#D4933A}
-.explain-card .ec-title{font-size:.95rem;font-weight:700;color:#EADCC8;margin-bottom:6px}
-.explain-card .ec-desc{font-size:.8rem;color:#9B8B78;line-height:1.6;margin-bottom:8px}
-.explain-card .ec-detail{font-size:.75rem;color:#6A5D4E;line-height:1.5}
+.explain-card.policy .ec-label{color:var(--info)}
+.explain-card.consensus .ec-label{color:var(--accent-ink)}
+.explain-card .ec-title{font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:6px}
+.explain-card .ec-desc{font-size:.8rem;color:var(--ink-2);line-height:1.6;margin-bottom:8px}
+.explain-card .ec-detail{font-size:.75rem;color:var(--ink-3);line-height:1.5}
 .explain-card .ec-tag{display:inline-block;font-size:.65rem;padding:2px 8px;border-radius:6px;font-weight:600;margin-top:6px}
-.explain-card.policy .ec-tag{background:rgba(88,166,255,.12);color:#58A6FF}
-.explain-card.consensus .ec-tag{background:rgba(212,147,58,.12);color:#D4933A}
+.explain-card.policy .ec-tag{background:rgba(88,166,255,.12);color:var(--info)}
+.explain-card.consensus .ec-tag{background:rgba(212,147,58,.12);color:var(--accent-ink)}
 
 /* Scenario Cards */
 .scenario-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px}
 @media(max-width:600px){.scenario-grid{grid-template-columns:1fr}}
-.scenario-card{background:#231F19;border:1px solid #3A3228;border-radius:12px;padding:20px;transition:border-color .3s}
-.scenario-card.likely{border-left:3px solid #3BA35D}
-.scenario-card.possible{border-left:3px solid #D4762A}
-.scenario-card.unlikely{border-left:3px solid #C0392B}
+.scenario-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;transition:border-color .3s}
+.scenario-card.likely{border-left:3px solid var(--ok)}
+.scenario-card.possible{border-left:3px solid var(--warn)}
+.scenario-card.unlikely{border-left:3px solid var(--err)}
 .scenario-card .sc-icon{font-size:1.3rem;margin-bottom:8px}
-.scenario-card h4{font-size:.9rem;font-weight:600;color:#EADCC8;margin-bottom:6px}
-.scenario-card p{font-size:.8rem;color:#9B8B78;line-height:1.6;margin-bottom:8px}
-.scenario-card .sc-prob{font-size:.7rem;color:#6A5D4E}
+.scenario-card h4{font-size:.9rem;font-weight:600;color:var(--ink);margin-bottom:6px}
+.scenario-card p{font-size:.8rem;color:var(--ink-2);line-height:1.6;margin-bottom:8px}
+.scenario-card .sc-prob{font-size:.7rem;color:var(--ink-3)}
 
 /* Node Version Badge */
-.version-badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:6px;font-size:.7rem;font-weight:500;background:#2A251E;color:#9B8B78;border:1px solid #3A3228;margin:2px}
+.version-badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:6px;font-size:.7rem;font-weight:500;background:var(--surface-muted);color:var(--ink-2);border:1px solid var(--line);margin:2px}
 
 /* Loading / Error */
-.loading{text-align:center;padding:40px;color:#6A5D4E}
-.loading-spinner{display:inline-block;width:24px;height:24px;border:2px solid #3A3228;border-top-color:#D4933A;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px}
+.loading{text-align:center;padding:40px;color:var(--ink-3)}
+.loading-spinner{display:inline-block;width:24px;height:24px;border:2px solid var(--line);border-top-color:var(--accent-ink);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:12px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.error-banner{background:rgba(192,57,43,.12);border:1px solid rgba(192,57,43,.3);border-radius:8px;padding:12px 16px;color:#E0746A;font-size:.82rem;margin-bottom:24px;display:none}
+.error-banner{background:rgba(192,57,43,.12);border:1px solid rgba(192,57,43,.3);border-radius:8px;padding:12px 16px;color:var(--err);font-size:.82rem;margin-bottom:24px;display:none}
   @media (prefers-reduced-motion: reduce) {
     * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   }
 </style>
 <script src="/js/beta-nav.js" defer></script>
 <script src="/js/data-health.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+  /* legacy aliases (pages migrated from the old token scheme) */
+  --card:var(--surface); --border:var(--line); --fg:var(--ink); --muted:var(--ink-2);
+  --gold:var(--accent-ink); --blue:var(--info); --green:var(--ok); --red:var(--err);
+}
+</style>
 </head>
 <body>
 
@@ -181,7 +198,7 @@ td.fee{font-variant-numeric:tabular-nums;font-weight:500}
  <a href="/capacity" class="nav-item">Capacity</a>
  <span class="nav-item active">Fork Tracker</span>
  </nav>
- <span id="data-health" title="Data status" data-health-extra="/data/bip110.json:observedAt" style="font-size:0.9em;color:#8B949E;margin-left:10px;">⚪</span>
+ <span id="data-health" title="Data status" data-health-extra="/data/bip110.json:observedAt" style="font-size:0.9em;color:var(--ink-3);margin-left:10px;">⚪</span>
  </div>
  </header>
 
@@ -279,9 +296,9 @@ td.fee{font-variant-numeric:tabular-nums;font-weight:500}
 </section>
 
 <section class="viz-section" id="dailySignalingSection">
-<div class="viz-section-title" style="font-size:1.1rem;font-weight:700;color:#EADCC8;margin:28px 0 6px;">Daily Signaling — Bit 4 Share</div>
-<div class="viz-section-desc" style="font-size:.9rem;color:#6A5D4E;margin-bottom:12px;line-height:1.6;">Observed share of sampled blocks signaling bit 4, per day, with the 55% lock-in threshold. Bars use only captured blocks (no fabricated values). Data: <code>data/bip110_daily.json</code>.</div>
-<canvas id="viz-bip110-daily" style="display:block;width:100%;max-width:1100px;border-radius:12px;background:#1A1612;border:1px solid #3A3228;"></canvas>
+<div class="viz-section-title" style="font-size:1.1rem;font-weight:700;color:var(--ink);margin:28px 0 6px;">Daily Signaling — Bit 4 Share</div>
+<div class="viz-section-desc" style="font-size:.9rem;color:var(--ink-3);margin-bottom:12px;line-height:1.6;">Observed share of sampled blocks signaling bit 4, per day, with the 55% lock-in threshold. Bars use only captured blocks (no fabricated values). Data: <code>data/bip110_daily.json</code>.</div>
+<canvas id="viz-bip110-daily" style="display:block;width:100%;max-width:1100px;border-radius:12px;background:var(--bg);border:1px solid var(--line);"></canvas>
 </section>
 
 <section class="table-section" id="tableSection">
@@ -331,26 +348,26 @@ td.fee{font-variant-numeric:tabular-nums;font-weight:500}
 
 <section class="impact-section">
 <h2>📋 What Actually Changes?</h2>
-<div style="overflow-x:auto;border:1px solid #3A3228;border-radius:12px;margin-bottom:24px">
+<div style="overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin-bottom:24px">
 <table style="width:100%;border-collapse:collapse;font-size:.85rem">
-<thead style="background:#1F1B16">
-<tr><th style="padding:12px 16px;text-align:left;font-weight:600;color:#6A5D4E;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid #3A3228">Aspect</th>
-<th style="padding:12px 16px;text-align:left;font-weight:600;color:#6A5D4E;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid #3A3228">Before</th>
-<th style="padding:12px 16px;text-align:left;font-weight:600;color:#6A5D4E;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid #3A3228">After (if activated)</th></tr>
+<thead style="background:var(--surface)">
+<tr><th style="padding:12px 16px;text-align:left;font-weight:600;color:var(--ink-3);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--line)">Aspect</th>
+<th style="padding:12px 16px;text-align:left;font-weight:600;color:var(--ink-3);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--line)">Before</th>
+<th style="padding:12px 16px;text-align:left;font-weight:600;color:var(--ink-3);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--line)">After (if activated)</th></tr>
 </thead>
 <tbody>
-<tr><td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6;font-weight:600;color:#EADCC8">Relay Policy</td>
-<td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6">Can differ between nodes</td>
-<td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6">Consensus rules become stricter for upgraded nodes</td></tr>
-<tr><td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6;font-weight:600;color:#EADCC8">Validity</td>
-<td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6">Large data transactions remain consensus-valid</td>
-<td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6">Certain oversized constructions become consensus-invalid</td></tr>
-<tr><td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6;font-weight:600;color:#EADCC8">Block Acceptance</td>
-<td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6">Miners decide via policy</td>
-<td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6">Validity determined by new consensus rules</td></tr>
-<tr><td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6;font-weight:600;color:#EADCC8">Duration</td>
-<td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6">Ongoing</td>
-<td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6">~1 year, then automatic expiration</td></tr>
+<tr><td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);font-weight:600;color:var(--ink)">Relay Policy</td>
+<td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2)">Can differ between nodes</td>
+<td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2)">Consensus rules become stricter for upgraded nodes</td></tr>
+<tr><td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);font-weight:600;color:var(--ink)">Validity</td>
+<td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2)">Large data transactions remain consensus-valid</td>
+<td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2)">Certain oversized constructions become consensus-invalid</td></tr>
+<tr><td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);font-weight:600;color:var(--ink)">Block Acceptance</td>
+<td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2)">Miners decide via policy</td>
+<td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2)">Validity determined by new consensus rules</td></tr>
+<tr><td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);font-weight:600;color:var(--ink)">Duration</td>
+<td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2)">Ongoing</td>
+<td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2)">~1 year, then automatic expiration</td></tr>
 </tbody>
 </table>
 </div>
@@ -358,25 +375,25 @@ td.fee{font-variant-numeric:tabular-nums;font-weight:500}
 
 <section class="impact-section">
 <h2>👤 Who Is Affected?</h2>
-<div style="overflow-x:auto;border:1px solid #3A3228;border-radius:12px;margin-bottom:24px">
+<div style="overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin-bottom:24px">
 <table style="width:100%;border-collapse:collapse;font-size:.85rem">
-<thead style="background:#1F1B16">
-<tr><th style="padding:12px 16px;text-align:left;font-weight:600;color:#6A5D4E;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid #3A3228">Persona</th>
-<th style="padding:12px 16px;text-align:left;font-weight:600;color:#6A5D4E;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid #3A3228">Possible Impact</th></tr>
+<thead style="background:var(--surface)">
+<tr><th style="padding:12px 16px;text-align:left;font-weight:600;color:var(--ink-3);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--line)">Persona</th>
+<th style="padding:12px 16px;text-align:left;font-weight:600;color:var(--ink-3);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--line)">Possible Impact</th></tr>
 </thead>
 <tbody>
-<tr><td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6;font-weight:600;color:#EADCC8">Bitcoin User</td>
-<td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6">Usually none unless using affected transaction types</td></tr>
-<tr><td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6;font-weight:600;color:#EADCC8">Wallet Developer</td>
-<td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6">May need to update transaction creation logic</td></tr>
-<tr><td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6;font-weight:600;color:#EADCC8">Miner</td>
-<td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6">Decide whether to signal and enforce the proposal</td></tr>
-<tr><td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6;font-weight:600;color:#EADCC8">Node Operator</td>
-<td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6">Choose whether to upgrade</td></tr>
-<tr><td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6;font-weight:600;color:#EADCC8">Data Protocols</td>
-<td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6">May need to adapt transaction formats or migrate activity</td></tr>
-<tr><td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6;font-weight:600;color:#EADCC8">Researcher</td>
-<td style="padding:10px 16px;border-bottom:1px solid #2A251E;color:#C4B8A6">Monitor adoption, signaling, and economic effects</td></tr>
+<tr><td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);font-weight:600;color:var(--ink)">Bitcoin User</td>
+<td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2)">Usually none unless using affected transaction types</td></tr>
+<tr><td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);font-weight:600;color:var(--ink)">Wallet Developer</td>
+<td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2)">May need to update transaction creation logic</td></tr>
+<tr><td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);font-weight:600;color:var(--ink)">Miner</td>
+<td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2)">Decide whether to signal and enforce the proposal</td></tr>
+<tr><td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);font-weight:600;color:var(--ink)">Node Operator</td>
+<td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2)">Choose whether to upgrade</td></tr>
+<tr><td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);font-weight:600;color:var(--ink)">Data Protocols</td>
+<td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2)">May need to adapt transaction formats or migrate activity</td></tr>
+<tr><td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);font-weight:600;color:var(--ink)">Researcher</td>
+<td style="padding:10px 16px;border-bottom:1px solid var(--surface-muted);color:var(--ink-2)">Monitor adoption, signaling, and economic effects</td></tr>
 </tbody>
 </table>
 </div>
@@ -385,19 +402,19 @@ td.fee{font-variant-numeric:tabular-nums;font-weight:500}
 <section class="impact-section">
 <h2>📋 Possible Scenarios</h2>
 <div class="scenario-grid">
-<div class="scenario-card" style="border-left:3px solid #3BA35D">
+<div class="scenario-card" style="border-left:3px solid var(--ok)">
 <div class="sc-icon">📊</div>
 <h4>Lock-in</h4>
 <p>55% signaling threshold reached within a 2016-block period. BIP-110 locks in, grace period begins, then activates for ~1 year before automatic expiration.</p>
 <div class="sc-prob">Depends on miner adoption · Track signaling % above</div>
 </div>
-<div class="scenario-card" style="border-left:3px solid #D4762A">
+<div class="scenario-card" style="border-left:3px solid var(--warn)">
 <div class="sc-icon">⏸</div>
 <h4>No Lock-in</h4>
 <p>Threshold not reached during the signaling period. BIP-110 does not activate. Core30 relay policy remains the de facto standard. Debate could continue in subsequent periods.</p>
 <div class="sc-prob">Depends on miner signaling behavior</div>
 </div>
-<div class="scenario-card" style="border-left:3px solid #C0392B">
+<div class="scenario-card" style="border-left:3px solid var(--err)">
 <div class="sc-icon">🔀</div>
 <h4>Contentious Activation</h4>
 <p>Activation occurs while a portion of the ecosystem continues using previous rules, potentially resulting in competing chains if economic actors support both.</p>
@@ -408,13 +425,13 @@ td.fee{font-variant-numeric:tabular-nums;font-weight:500}
 
 <section class="impact-section">
 <h2>❓ Known Unknowns</h2>
-<div style="background:#231F19;border:1px solid #3A3228;border-radius:12px;padding:20px;">
+<div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;">
 <ul style="list-style:none;padding:0;margin:0">
-<li style="padding:8px 0;border-bottom:1px solid #2A251E;color:#9B8B78;font-size:.85rem;line-height:1.6">🔸 <strong style="color:#EADCC8">Miner participation</strong> — which pools will signal and enforce remains uncertain</li>
-<li style="padding:8px 0;border-bottom:1px solid #2A251E;color:#9B8B78;font-size:.85rem;line-height:1.6">🔸 <strong style="color:#EADCC8">Exchange and wallet support</strong> — adoption by infrastructure providers is unknown</li>
-<li style="padding:8px 0;border-bottom:1px solid #2A251E;color:#9B8B78;font-size:.85rem;line-height:1.6">🔸 <strong style="color:#EADCC8">Fee market effects</strong> — impact on transaction fees cannot be predicted precisely</li>
-<li style="padding:8px 0;border-bottom:1px solid #2A251E;color:#9B8B78;font-size:.85rem;line-height:1.6">🔸 <strong style="color:#EADCC8">Ecosystem response</strong> — how applications and users adapt depends on economic incentives</li>
-<li style="padding:8px 0;border-bottom:1px solid #2A251E;color:#9B8B78;font-size:.85rem;line-height:1.6">🔸 <strong style="color:#EADCC8">Chain split risk</strong> — whether a minority chain persists depends on economic support</li>
+<li style="padding:8px 0;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);font-size:.85rem;line-height:1.6">🔸 <strong style="color:var(--ink)">Miner participation</strong> — which pools will signal and enforce remains uncertain</li>
+<li style="padding:8px 0;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);font-size:.85rem;line-height:1.6">🔸 <strong style="color:var(--ink)">Exchange and wallet support</strong> — adoption by infrastructure providers is unknown</li>
+<li style="padding:8px 0;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);font-size:.85rem;line-height:1.6">🔸 <strong style="color:var(--ink)">Fee market effects</strong> — impact on transaction fees cannot be predicted precisely</li>
+<li style="padding:8px 0;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);font-size:.85rem;line-height:1.6">🔸 <strong style="color:var(--ink)">Ecosystem response</strong> — how applications and users adapt depends on economic incentives</li>
+<li style="padding:8px 0;border-bottom:1px solid var(--surface-muted);color:var(--ink-2);font-size:.85rem;line-height:1.6">🔸 <strong style="color:var(--ink)">Chain split risk</strong> — whether a minority chain persists depends on economic support</li>
 </ul>
 </div>
 </section>

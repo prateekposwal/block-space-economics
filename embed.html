@@ -2,14 +2,31 @@
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><meta name="robots" content="noindex,nofollow">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:#0D1117;color:#F0F6FC;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:13px;padding:12px}
+  body{background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:13px;padding:12px}
   .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .stat{background:#161B22;border:1px solid #30363D;border-radius:8px;padding:8px 12px;text-align:center;flex:1;min-width:80px}
-  .lbl{font-size:9px;color:#8B949E;text-transform:uppercase;letter-spacing:0.5px}
+  .stat{background:var(--surface);border:1px solid var(--surface-muted);border-radius:8px;padding:8px 12px;text-align:center;flex:1;min-width:80px}
+  .lbl{font-size:9px;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.5px}
   .val{font-size:18px;font-weight:700;margin-top:2px}
-  .val.green{color:#3FB950}.val.orange{color:#F7931A}
-  a{color:#F7931A;text-decoration:none;font-size:10px;display:block;text-align:center;margin-top:6px}
-</style></head><body>
+  .val.green{color:var(--ok)}.val.orange{color:var(--accent)}
+  a{color:var(--accent);text-decoration:none;font-size:10px;display:block;text-align:center;margin-top:6px}
+</style><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+  /* legacy aliases (pages migrated from the old token scheme) */
+  --card:var(--surface); --border:var(--line); --fg:var(--ink); --muted:var(--ink-2);
+  --gold:var(--accent-ink); --blue:var(--info); --green:var(--ok); --red:var(--err);
+}
+</style>
+</head><body>
 <div class="row"><div class="stat"><div class="lbl">BTC</div><div class="val green" id="btc">—</div></div>
 <div class="stat"><div class="lbl">Fastest Fee</div><div class="val orange" id="fee">—</div></div>
 <div class="stat"><div class="lbl">Storage/Insc</div><div class="val orange">$0.0077</div></div></div>

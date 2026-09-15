@@ -4,20 +4,37 @@
 <title>BSAHI — Should I Send Now?</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:#0D1117;color:#F0F6FC;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:13px;padding:16px}
-  .widget{background:#161B22;border:1px solid #30363D;border-radius:12px;padding:18px}
-  .q{font-size:15px;font-weight:700;color:#E6EDF3;margin-bottom:12px}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:13px;padding:16px}
+  .widget{background:var(--surface);border:1px solid var(--surface-muted);border-radius:12px;padding:18px}
+  .q{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:12px}
   .verdict{font-size:20px;font-weight:800;margin-bottom:14px}
-  .verdict.green{color:#3FB950}.verdict.yellow{color:#F7931A}.verdict.red{color:#F85149}.verdict.gray{color:#8B949E}
-  .detail{font-size:11px;color:#8B949E;line-height:1.7;margin-bottom:14px}
+  .verdict.green{color:var(--ok)}.verdict.yellow{color:var(--accent)}.verdict.red{color:var(--err)}.verdict.gray{color:var(--ink-3)}
+  .detail{font-size:11px;color:var(--ink-3);line-height:1.7;margin-bottom:14px}
   .row{display:flex;gap:8px;flex-wrap:wrap}
-  .stat{background:#0D1117;border:1px solid #30363D;border-radius:8px;padding:8px 12px;text-align:center;flex:1;min-width:70px}
-  .lbl{font-size:9px;color:#8B949E;text-transform:uppercase;letter-spacing:.5px}
+  .stat{background:var(--bg);border:1px solid var(--surface-muted);border-radius:8px;padding:8px 12px;text-align:center;flex:1;min-width:70px}
+  .lbl{font-size:9px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.5px}
   .val{font-size:16px;font-weight:700;margin-top:2px}
-  .note{font-size:10px;color:#8B949E;text-align:center;margin-top:12px}
-  .note a{color:#F7931A;text-decoration:none}
-  .err{color:#F85149;font-size:12px;text-align:center;margin-top:12px;display:none}
-</style></head>
+  .note{font-size:10px;color:var(--ink-3);text-align:center;margin-top:12px}
+  .note a{color:var(--accent);text-decoration:none}
+  .err{color:var(--err);font-size:12px;text-align:center;margin-top:12px;display:none}
+</style><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+  /* legacy aliases (pages migrated from the old token scheme) */
+  --card:var(--surface); --border:var(--line); --fg:var(--ink); --muted:var(--ink-2);
+  --gold:var(--accent-ink); --blue:var(--info); --green:var(--ok); --red:var(--err);
+}
+</style>
+</head>
 <body>
 <div class="widget">
   <div class="q">Should I send Bitcoin now?</div>
