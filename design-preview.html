@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en" data-theme="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BSAHI Design System — Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBFAF7; --surface:#FFFFFF; --surface-muted:#F4F1EA;
+  --ink:#1C1917; --ink-2:#57534E; --ink-3:#7C7468; --line:#E7E2D8;
+  --accent:#F7931A; --accent-ink:#B45309;
+  --ok:#15803D; --warn:#B45309; --err:#B91C1C; --info:#2563EB;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  --p:4px; --c:96px; --g:clamp(20px,4vw,32px);
+}
+html[data-theme="dark"]{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+}
+@media (prefers-color-scheme: dark){ html[data-theme="system"]{ --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24; --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA; --sys-dark:1; } }
+html[data-theme="light"]{ --bg:#FBFAF7; --surface:#FFFFFF; --surface-muted:#F4F1EA;
+  --ink:#1C1917; --ink-2:#57534E; --ink-3:#7C7468; --line:#E7E2D8;
+  --accent:#F7931A; --accent-ink:#B45309; --ok:#15803D; --warn:#B45309; --err:#B91C1C; --info:#2563EB; }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#fff}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+a{color:var(--accent-ink)}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 var(--g)}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:24px;height:56px}
+.brand{font-family:var(--disp);font-size:20px;font-weight:500;letter-spacing:.2px;color:var(--ink);text-decoration:none}
+.brand b{color:var(--accent);font-weight:500}
+.nav-links{display:flex;gap:4px;margin-left:8px}
+.nav-links a{color:var(--ink-2);text-decoration:none;font-size:14px;padding:8px 12px;border-radius:8px}
+.nav-links a:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-links a.on{color:var(--ink);border-bottom:2px solid var(--accent)}
+.chip{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2)}
+.chip.ok{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,transparent)}
+.chip.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,transparent)}
+.theme-btn{font:500 13px var(--ui);color:var(--ink);background:var(--surface);border:1px solid var(--line);padding:8px 12px;border-radius:8px;cursor:pointer}
+.theme-btn:hover{border-color:var(--ink-3)}
+
+/* hero/thesis */
+.hero{padding:var(--c) 0 64px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 16px}
+.thesis{font-family:var(--disp);font-weight:400;font-size:clamp(32px,4.6vw,44px);line-height:1.12;letter-spacing:-.2px;max-width:20ch;margin:0}
+.thesis em{font-style:italic;color:var(--accent-ink)}
+.lede{margin:20px 0 0;max-width:56ch;color:var(--ink-2);font-size:18px}
+
+/* sections */
+.sec{padding:48px 0;border-top:1px solid var(--line)}
+.sec h2{font-family:var(--disp);font-weight:500;font-size:24px;margin:0 0 4px}
+.sec .note{color:var(--ink-3);font-size:13px;margin:0 0 32px}
+.grid{display:grid;gap:20px}
+.cols-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.cols-3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+
+/* color chips */
+.chip-row{display:flex;gap:10px;flex-wrap:wrap}
+.sw{flex:1 1 150px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.sw .paint{height:64px}
+.sw .meta{padding:8px 10px;font-family:var(--mono);font-size:11px;color:var(--ink-2);background:var(--surface)}
+.sw .meta b{display:block;color:var(--ink);font-weight:500}
+
+/* type */
+.type-grid{display:grid;gap:8px}
+.trow{display:flex;align-items:baseline;gap:20px;border-bottom:1px dashed var(--line);padding:10px 0}
+.trow .lab{flex:0 0 120px;font-family:var(--mono);font-size:12px;color:var(--ink-3)}
+.trow .samp{flex:1}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 15px var(--ui);border:none;border-radius:6px;padding:12px 20px;min-height:44px;cursor:pointer;text-decoration:none;transition:transform .12s cubic-bezier(.2,.8,.2,1),box-shadow .12s,background .12s}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--accent);color:#1C1917}
+.btn.primary:hover{box-shadow:0 2px 10px color-mix(in srgb,var(--accent) 35%,transparent)}
+.btn.secondary{background:transparent;color:var(--ink);border:1px solid var(--ink-2)}
+.btn.secondary:hover{border-color:var(--ink);background:var(--surface-muted)}
+.btn.ghost{background:transparent;color:var(--accent-ink)}
+.btn.ghost:hover{text-decoration:underline}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+/* forms */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.field label{font-size:13px;font-weight:600;color:var(--ink-2)}
+.field input,.field select{font:400 16px var(--mono);color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px;min-height:44px}
+.field input:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
+.field .help{font-size:12px;color:var(--ink-3)}
+.field.err input{border-color:var(--err)}
+.field.err .help{color:var(--err)}
+
+/* stat cards */
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+.stat .lbl{font-size:13px;color:var(--ink-2)}
+.stat .val{font-family:var(--mono);font-weight:500;font-size:24px;margin:4px 0 2px;display:flex;align-items:baseline;gap:8px}
+.stat .val small{font-size:13px;color:var(--ink-3);font-family:var(--ui)}
+.stat .delta{font-family:var(--mono);font-size:12px}
+.stat .delta.up{color:var(--ok)} .stat .delta.down{color:var(--err)}
+.stat .fresh{margin-top:8px}
+.fro{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid}
+.fro.ok{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,transparent)}
+.fro.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,transparent)}
+.fro.err{color:var(--err);border-color:color-mix(in srgb,var(--err) 40%,transparent)}
+
+/* definition card */
+.def{background:var(--surface-muted);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:16px 20px}
+.def h3{font-family:var(--disp);font-weight:500;font-size:20px;margin:0 0 6px}
+.def p{margin:0;color:var(--ink-2);font-size:14px}
+
+/* research card */
+.rcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px;cursor:pointer;transition:border-color .12s,box-shadow .12s}
+.rcard:hover{border-color:var(--accent);box-shadow:0 4px 16px color-mix(in srgb,var(--ink) 8%,transparent)}
+.rcard .eyebrow{font-size:11px;margin:0}
+.rcard h3{font-family:var(--disp);font-weight:500;font-size:20px;line-height:1.25;margin:0}
+.rcard p{margin:0;color:var(--ink-2);font-size:14px}
+.rcard .meta{font-size:12px;color:var(--ink-3)}
+
+/* table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl thead th{position:sticky;top:0;background:var(--surface);font-size:13px;font-weight:600;color:var(--ink-2);text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+.tbl tbody td{padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink-2)}
+.tbl tbody tr:last-child td{border-bottom:none}
+.tbl tbody tr:hover td{background:var(--surface-muted)}
+.tbl .num{font-family:var(--mono);text-align:right;color:var(--ink)}
+.tbl .mono{font-family:var(--mono)}
+
+/* tags */
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2)}
+.tag.ok{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 40%,transparent)}
+.tag.warn{color:var(--warn);border-color:color-mix(in srgb,var(--warn) 40%,transparent)}
+.tag.err{color:var(--err);border-color:color-mix(in srgb,var(--err) 40%,transparent)}
+
+/* states */
+.statebox{border:1px dashed var(--line);border-radius:10px;padding:16px}
+.skeleton{display:inline-block;width:100%;height:14px;border-radius:4px;background:linear-gradient(90deg,var(--surface-muted) 25%,color-mix(in srgb,var(--surface-muted) 60%,var(--surface)) 50%,var(--surface-muted) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
+@keyframes shimmer{to{background-position:-200% 0}}
+.empty{font-size:14px;color:var(--ink-3);text-align:center;padding:24px}
+.empty::before{content:"∅";display:block;font-family:var(--mono);font-size:28px;color:var(--ink-3);margin-bottom:8px}
+.banner{display:flex;gap:10px;align-items:center;font-size:13px;padding:10px 14px;border-radius:8px}
+.banner.warn{color:var(--warn);background:color-mix(in srgb,var(--warn) 10%,transparent);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent)}
+.banner.err{color:var(--err);background:color-mix(in srgb,var(--err) 10%,transparent);border:1px solid color-mix(in srgb,var(--err) 30%,transparent)}
+
+/* spacing ruler */
+.ruler{display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap}
+.ruler i{background:var(--accent);display:block}
+@media (prefers-reduced-motion: reduce){.skeleton{animation:none}*{transition:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Primary">
+  <div class="wrap">
+    <a class="brand" href="#">Bitcoin<b>Sahi</b>·DS</a>
+    <div class="nav-links">
+      <a href="#type">Type</a>
+      <a href="#color">Color</a>
+      <a href="#comp">Components</a>
+      <a href="#states">States</a>
+      <a href="#spacing">Spacing</a>
+    </div>
+    <span class="chip ok">● fresh · 3m</span>
+    <button class="theme-btn" id="themeBtn" type="button">Theme: system</button>
+  </div>
+</nav>
+
+<header class="wrap">
+  <div class="hero">
+    <p class="eyebrow">Design system · v1 · 2026-09</p>
+    <h1 class="thesis">Serious Bitcoin research that measures something <em>real</em> you can't see — data you can trust at a glance.</h1>
+    <p class="lede">BitcoinSahi is a stress and boundary observatory. This page is the living preview of its design system: light editorial paper for research, an auto-derived dark terminal for the live dashboard, one accent, honest data states.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="sec" id="type">
+    <h2>Typography</h2>
+    <p class="note">Newsreader (theses) · Inter (UI) · IBM Plex Mono (every fact)</p>
+    <div class="type-grid">
+      <div class="trow"><span class="lab">display 44</span><span class="samp" style="font-family:var(--disp);font-size:44px;line-height:1.12">Resource accounting</span></div>
+      <div class="trow"><span class="lab">heading 32</span><span class="samp" style="font-family:var(--disp);font-size:32px">The Governance Boundary</span></div>
+      <div class="trow"><span class="lab">section 24</span><span class="samp" style="font-family:var(--disp);font-size:24px">How the fee market internalizes storage cost</span></div>
+      <div class="trow"><span class="lab">body 16</span><span class="samp">Every number carries a source and a timestamp. Data never appears naked; decoration never pretends to be data.</span></div>
+      <div class="trow"><span class="lab">meta 13</span><span class="samp" style="color:var(--ink-2);font-size:13px">Measured 142 blocks on 2026-09-15 · model-spec v2.1.0 · N=32,000</span></div>
+      <div class="trow"><span class="lab">fact 20 mono</span><span class="samp" style="font-family:var(--mono);font-size:20px;font-weight:500">0.3999 <span style="color:var(--ink-3);font-size:13px">SCCR</span></span></div>
+      <div class="trow"><span class="lab">code 13 mono</span><span class="samp" style="font-family:var(--mono);font-size:13px;color:var(--ink-2)">payload_ts: 2026-09-15T03:54:42Z</span></div>
+    </div>
+  </section>
+
+  <section class="sec" id="color">
+    <h2>Color</h2>
+    <p class="note">Paper + ink + one orange. Dark auto-derives from the same tokens.</p>
+    <div class="chip-row">
+      <div class="sw"><div class="paint" style="background:var(--bg)"></div><div class="meta"><b>bg</b>page</div></div>
+      <div class="sw"><div class="paint" style="background:var(--surface);border-bottom:1px solid var(--line)"></div><div class="meta"><b>surface</b>cards</div></div>
+      <div class="sw"><div class="paint" style="background:var(--surface-muted)"></div><div class="meta"><b>surface-muted</b>wells</div></div>
+      <div class="sw"><div class="paint" style="background:var(--ink)"></div><div class="meta"><b>ink</b>text · 14.9:1</div></div>
+      <div class="sw"><div class="paint" style="background:var(--accent)"></div><div class="meta"><b>accent</b>orange · paint only</div></div>
+      <div class="sw"><div class="paint" style="background:var(--accent-ink)"></div><div class="meta"><b>accent-ink</b>text orange · 5.4:1</div></div>
+      <div class="sw"><div class="paint" style="background:var(--ok)"></div><div class="meta"><b>ok</b>fresh</div></div>
+      <div class="sw"><div class="paint" style="background:var(--warn)"></div><div class="meta"><b>warn</b>stale</div></div>
+      <div class="sw"><div class="paint" style="background:var(--err)"></div><div class="meta"><b>err</b>error</div></div>
+      <div class="sw"><div class="paint" style="background:var(--info)"></div><div class="meta"><b>info</b>callout</div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="comp">
+    <h2>Components</h2>
+    <p class="note">Buttons, forms, stat cards, definition, research card, table, tags, nav</p>
+
+    <h3 style="font-family:var(--disp);font-weight:500;margin:24px 0 12px">Buttons</h3>
+    <div class="chip-row" style="align-items:center">
+      <button class="btn primary" type="button">Read the working paper</button>
+      <button class="btn secondary" type="button">Live dashboard</button>
+      <button class="btn ghost" type="button">Methodology →</button>
+      <button class="btn primary" type="button" disabled>Disabled</button>
+    </div>
+
+    <h3 style="font-family:var(--disp);font-weight:500;margin:24px 0 12px">Form</h3>
+    <div class="grid cols-2">
+      <div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@example.com">
+          <span class="help">Beta access — no spam, ever.</span>
+        </div>
+        <div class="field err">
+          <label for="email2">Email</label>
+          <input id="email2" type="email" value="bad-address" aria-describedby="e-h">
+          <span class="help" id="e-h">Enter a valid email address.</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="fee">Fastest fee (sat/vB)</label>
+        <input id="fee" type="text" value="1">
+        <span class="help">Mono for facts. Sources and timestamps always attached.</span>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--disp);font-weight:500;margin:24px 0 12px">Stat cards — freshness tag is mandatory</h3>
+    <div class="grid cols-3">
+      <div class="stat">
+        <div class="lbl">Storage Cost Coverage Ratio</div>
+        <div class="val">0.3999<small>SCCR</small></div>
+        <div class="delta up">▲ +59.9% <small style="font-family:var(--ui);color:var(--ink-3)">yo-day</small></div>
+        <span class="fro ok">● measured 3m ago</span>
+      </div>
+      <div class="stat">
+        <div class="lbl">Fastest fee</div>
+        <div class="val">1<small>sat/vB</small></div>
+        <div class="delta up">▲ −80%</div>
+        <span class="fro ok">● live</span>
+      </div>
+      <div class="stat">
+        <div class="lbl">Mempool</div>
+        <div class="val">32,702<small>txs</small></div>
+        <div class="delta down">▼ +1,240</div>
+        <span class="fro warn">○ stale · 4h</span>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--disp);font-weight:500;margin:24px 0 12px">Definition + research cards</h3>
+    <div class="grid cols-3">
+      <div class="def">
+        <h3>SCCR</h3>
+        <p>How much of the estimated 10-year storage cost the fee market internalizes today.</p>
+      </div>
+      <div class="rcard">
+        <p class="eyebrow">Working paper</p>
+        <h3>Storage Cost Internalization in Bitcoin's Fee Market</h3>
+        <p>Metric #1 measured across a real node census of N=32,000.</p>
+        <span class="meta">2026-09-10 · 24 min · Methodology</span>
+      </div>
+      <div class="rcard">
+        <p class="eyebrow">Boundary event</p>
+        <h3>The Governance Boundary — BIP-110 as a live experiment</h3>
+        <p>What a locked-in signaling change can tell us about consensus limits.</p>
+        <span class="meta">2026-09-02 · 18 min · Case study</span>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--disp);font-weight:500;margin:24px 0 12px">Research-grade table</h3>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <caption style="text-align:left;font-size:13px;color:var(--ink-3);padding:10px 14px 4px">Daily SCCR series (UTC) — source: txn fee data, capture log</caption>
+        <thead><tr><th scope="col">Date</th><th scope="col" style="text-align:right">SCCR</th><th scope="col" style="text-align:right">Blocks</th><th scope="col" style="text-align:right">Below 1×</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">2026-09-11</td><td class="num">0.2703</td><td class="num">160</td><td class="num">100%</td></tr>
+          <tr><td class="mono">2026-09-12</td><td class="num">0.2006</td><td class="num">155</td><td class="num">99.4%</td></tr>
+          <tr><td class="mono">2026-09-13</td><td class="num">0.1882</td><td class="num">154</td><td class="num">100%</td></tr>
+          <tr><td class="mono">2026-09-14</td><td class="num">0.2501</td><td class="num">151</td><td class="num">100%</td></tr>
+          <tr><td class="mono">2026-09-15</td><td class="num" style="color:var(--accent-ink)">0.3999</td><td class="num">142</td><td class="num">94.4%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="font-family:var(--disp);font-weight:500;margin:24px 0 12px">Tags</h3>
+    <div class="tags">
+      <span class="tag ok">LOW</span><span class="tag warn">MODERATE</span><span class="tag err">HIGH</span>
+      <span class="tag">fresh</span><span class="tag warn">stale</span><span class="tag">research</span>
+    </div>
+  </section>
+
+  <section class="sec" id="states">
+    <h2>States</h2>
+    <p class="note">Loading = skeleton. Empty ≠ broken. Error = message + retry. Stale = honest banner with age.</p>
+    <div class="grid cols-2">
+      <div class="statebox">
+        <div class="skeleton" style="width:60%"></div>
+        <div class="skeleton" style="width:40%;margin-top:8px"></div>
+      </div>
+      <div class="statebox"><div class="empty">No fee samples yet — waiting for the first capture</div></div>
+      <div class="banner warn">Data stale — 4h old · snapshot 03:54 UTC · retrying</div>
+      <div class="banner err">Live API unreachable · using snapshot · retry 30s</div>
+    </div>
+    <div class="grid cols-3" style="margin-top:20px">
+      <div class="stat"><div class="lbl">SCCR (fallback)</div><div class="val">0.3999</div><span class="fro warn">○ snapshot · 4h</span><div class="skeleton" style="margin-top:10px"></div></div>
+      <div class="stat"><div class="lbl">Lightning</div><div class="val" style="color:var(--ink-3)">—</div><span class="fro err">✕ no mirror</span></div>
+      <div class="stat"><div class="lbl">Height</div><div class="val">967,090</div><span class="fro ok">● fresh</span></div>
+    </div>
+  </section>
+
+  <section class="sec" id="spacing">
+    <h2>Spacing &amp; radius</h2>
+    <p class="note">4px base on the page; 44px touch targets; fluid gutter. Rules are hairline, not heavy.</p>
+    <div class="ruler">
+      <i style="width:4px;height:16px"></i><i style="width:8px;height:16px"></i><i style="width:12px;height:16px"></i>
+      <i style="width:16px;height:16px"></i><i style="width:20px;height:16px"></i><i style="width:24px;height:16px"></i>
+      <i style="width:32px;height:16px"></i><i style="width:48px;height:16px"></i><i style="width:64px;height:16px"></i>
+    </div>
+  </section>
+
+</main>
+
+<footer style="border-top:1px solid var(--line);margin-top:48px">
+  <div class="wrap" style="padding:32px 0 48px;font-size:13px;color:var(--ink-3)">
+    BitcoinSahi — design system preview. Source of truth: <span style="font-family:var(--mono)">DESIGN.md</span>. Orange paint is exclusively bitcoin; text orange is <span style="font-family:var(--mono)">accent-ink</span>.
+  </div>
+</footer>
+
+<script>
+(function(){
+  var html=document.documentElement,btn=document.getElementById('themeBtn');
+  var order=['light','dark','system'];
+  btn.addEventListener('click',function(){
+    var cur=html.getAttribute('data-theme')||'system';
+    html.setAttribute('data-theme',order[(order.indexOf(cur)+1)%3]);
+    btn.textContent='Theme: '+html.getAttribute('data-theme');
+  });
+})();
+</script>
+</body>
+</html>
