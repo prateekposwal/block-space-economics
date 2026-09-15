@@ -19,6 +19,9 @@ var DATA_ENGINE = (function () {
   var storageListeners = [];
   var timer = null;
   var FETCH_INTERVAL = 60000;
+  var SNAPSHOT_CACHE = null;
+  var SNAPSHOT_LOADING = false;
+  var SNAPSHOT_WAITERS = [];
 
   var ENDPOINTS = [
     { key: 'fees',            url: 'https://mempool.space/api/v1/fees/recommended' },
@@ -272,17 +275,69 @@ var DATA_ENGINE = (function () {
     }
   }
 
+  function loadSnapshotOnce(cb) {
+    if (SNAPSHOT_CACHE) { cb(null, SNAPSHOT_CACHE); return; }
+    SNAPSHOT_WAITERS.push(cb);
+    if (SNAPSHOT_LOADING) return;
+    SNAPSHOT_LOADING = true;
+    xhrGet('/data/snapshot.json', function (err, snap) {
+      SNAPSHOT_LOADING = false;
+      if (!err && snap) { SNAPSHOT_CACHE = snap; }
+      var waiters = SNAPSHOT_WAITERS;
+      SNAPSHOT_WAITERS = [];
+      for (var i = 0; i < waiters.length; i++) waiters[i](err, snap);
+    });
+  }
+
+  function snapshotForKey(key, snap) {
+    switch (key) {
+      case 'fees':
+        return (snap && snap.fees && typeof snap.fees.fastestFee === 'number') ? snap.fees : null;
+      case 'btc_price':
+        return (snap && typeof snap.btc_price === 'number') ? { USD: snap.btc_price } : null;
+      case 'mempool':
+        return (snap && typeof snap.mempool_tx === 'number') ? { count: snap.mempool_tx } : null;
+      case 'block_height':
+        return (snap && typeof snap.block_height === 'number') ? snap.block_height : null;
+      case 'fee_history':
+        return (snap && Array.isArray(snap.history) && snap.history.length) ? snap.history : null;
+      default:
+        return null;
+    }
+  }
+
+  function snapshotFallback(key, cb) {
+    loadSnapshotOnce(function (err, snap) {
+      if (err) { cb(err, null); return; }
+      var raw = snapshotForKey(key, snap);
+      cb(raw === null ? new Error('no field') : null, raw);
+    });
+  }
+
   function fetchAll() {
     var remaining = ENDPOINTS.length;
 
-    function done(err, key, raw) {
-      if (err) {
-        console.warn('DATA_ENGINE [' + key + ']', err.message);
-      } else {
-        normalize(key, raw);
-      }
+    function finishSync() {
       remaining--;
       if (remaining === 0) notify();
+    }
+
+    function done(err, key, raw) {
+      if (!err) {
+        normalize(key, raw);
+        finishSync();
+        return;
+      }
+      console.warn('DATA_ENGINE [' + key + ']', err.message);
+      snapshotFallback(key, function (fErr, fRaw) {
+        if (!fErr && fRaw) {
+          normalize(key, fRaw);
+          console.warn('DATA_ENGINE [' + key + '] snapshot fallback');
+        } else {
+          console.warn('DATA_ENGINE [' + key + '] snapshot fallback', fErr ? fErr.message : 'no field');
+        }
+        finishSync();
+      });
     }
 
     for (var i = 0; i < ENDPOINTS.length; i++) {
