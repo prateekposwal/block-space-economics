@@ -20,12 +20,29 @@ function sha1(s) { return require('crypto').createHash('sha1').update(s).digest(
 // the snapshot payload must stay live even while the local mirror is down.
 // Node 18+ global fetch; every source fails independently (a dead endpoint
 // degrades that one field, never the whole snapshot).
+// mempool.space API mirrors, tried in order. Primary is canonical; alternatives
+// are API-compatible community mirrors (verified: emzy.de serves the same
+// /api/v1/fees/recommended shape). First host that answers is memoized for the
+// rest of the run so a downed primary costs one short probe, not one per field.
+var MM_HOSTS = ['mempool.space', 'mempool.emzy.de', 'mempool.hashed.systems'];
+var mmWorkingHost = null;
 function liveGet(apiPath) {
-  var url = 'https://mempool.space' + apiPath;
-  return global.fetch(url, { signal: AbortSignal.timeout(15000) }).then(function(r) {
-    if (!r.ok) throw new Error('HTTP ' + r.status + ' from ' + url);
-    return r.json();
-  });
+  var hosts = mmWorkingHost ? [mmWorkingHost].concat(MM_HOSTS.filter(function (h) { return h !== mmWorkingHost; })) : MM_HOSTS;
+  var idx = 0;
+  function attempt() {
+    if (idx >= hosts.length) return Promise.reject(new Error('no mempool API host reachable for ' + apiPath));
+    var host = hosts[idx++];
+    var ms = host === 'mempool.space' ? 4500 : 12000;
+    return global.fetch('https://' + host + apiPath, { signal: AbortSignal.timeout(ms) }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status + ' from ' + host);
+      mmWorkingHost = host;
+      return r.json();
+    }).catch(function (e) {
+      console.error('host ' + host + ' failed for ' + apiPath + ': ' + ((e && e.message) || e));
+      return attempt();
+    });
+  }
+  return attempt();
 }
 function liveGetText(apiPath) {
   var url = 'https://blockstream.info' + apiPath;
@@ -72,12 +89,19 @@ function fetchLivePayload() {
       }).catch(function(e) { console.error('live height fetch failed:', (e && e.message) || e); });
     });
   });
-  // mempool count — mempool.space /api/mempool
+  // mempool count — mempool.space-family first, blockstream.info as a second
+  // mirror (same {count, vsize, total_fee, fee_histogram} shape).
   chain = chain.then(function() {
     return liveGet('/api/mempool').then(function(d) {
       out.mempool = d;
       out.mempool_ts = tsNow();
-    }).catch(function(e) { console.error('live mempool fetch failed:', (e && e.message) || e); });
+    }).catch(function(e) {
+      console.error('live mempool fetch failed:', (e && e.message) || e);
+      return liveGetText('/api/mempool').then(function(t) {
+        try { out.mempool = JSON.parse(t); out.mempool_ts = tsNow(); }
+        catch (err) { console.error('blockstream mempool parse failed:', err.message); }
+      }).catch(function(e2) { console.error('blockstream mempool fallback failed:', (e2 && e2.message) || e2); });
+    });
   });
   // lightning stats — mempool.space /api/v1/lightning/statistics/latest
   chain = chain.then(function() {
