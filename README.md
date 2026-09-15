@@ -8,6 +8,8 @@
 
 **Single question:** "How much stress can Bitcoin absorb before the cost of participating, verifying, producing, or coordinating becomes meaningfully asymmetric?"
 
+**Research frame:** boundary-class definitions, the data-confidence matrix, and the arrow → instrument map live in [THESIS.md](THESIS.md). README is the engineering entry point; THESIS.md is the research frame.
+
 
 
 **The research program of [Bitcoin Sahi](https://bitcoinsahi.com)** — a complete
