@@ -52,8 +52,13 @@ body{background:var(--bg);color:var(--ink);font-family:var(--ui);min-height:100v
 .tab-btn.active{color:var(--accent-ink);border-color:color-mix(in srgb,var(--accent) 55%,transparent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
 
 .content { max-width: 1600px; margin: 0 auto; padding: 32px 40px 80px; }
-.page-h1 { font-family: var(--disp); font-size: clamp(26px,3vw,34px); font-weight: 500; color: var(--ink); margin: 0 0 8px; letter-spacing: -0.01em; }
+.page-h1 { font-family: var(--disp); font-size: clamp(38px,5.5vw,64px); font-weight: 500; color: var(--ink); margin: 12px 0 8px; letter-spacing: -0.01em; line-height: 1.1; }
 .page-intro { font-size: .95rem; color: var(--ink-2); margin-bottom: 20px; max-width: 720px; line-height: 1.6; }
+.page-tabs { display:flex; gap:8px; flex-wrap:wrap; align-items:center; padding:4px 0 20px; overflow-x:auto; }
+.tab-btn { padding:10px 18px; border-radius:999px; font:600 15px var(--ui); color:var(--ink-2); background:var(--surface); border:1px solid var(--line); cursor:pointer; white-space:nowrap; transition:all .15s; min-height:42px; }
+.tab-btn:hover { color:var(--ink); border-color:var(--ink-3); background:var(--surface-muted); transform:translateY(-1px); }
+.tab-btn.active { background:var(--accent); color:#1C1917; border-color:var(--accent); box-shadow:0 2px 12px color-mix(in srgb,var(--accent) 40%,transparent); }
+.tab-btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
 
@@ -230,7 +235,11 @@ body{background:var(--bg);color:var(--ink);font-family:var(--ui);min-height:100v
   <div class="site-nav-inner">
     <span id="chip" title="Data freshness"><b id="chip-dot"></b><span id="chip-label">Live</span></span>
   </div>
-  <nav class="nav-tabs" aria-label="Dashboards">
+</header>
+
+ <div class="content">
+
+ <nav class="page-tabs" id="panel-tabs" aria-label="Dashboards">
     <button class="tab-btn active" data-tab="send">Send</button>
     <button class="tab-btn" data-tab="lightning">Lightning</button>
     <button class="tab-btn" data-tab="exchange">Exchange</button>
@@ -239,9 +248,6 @@ body{background:var(--bg);color:var(--ink);font-family:var(--ui);min-height:100v
     <button class="tab-btn" data-tab="research">Research</button>
     <button class="tab-btn" data-tab="developer">Dev</button>
   </nav>
-</header>
-
- <div class="content">
 
  <h1 class="page-h1">Live Bitcoin Fees &amp; Mempool Data</h1>
  <p class="page-intro">Real-time Bitcoin fee rates, mempool depth, and block data from mempool.space and the BSAHI research engine — decide when to send, open channels, batch withdrawals, or run a node.</p>
