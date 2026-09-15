@@ -11,7 +11,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Bitcoin Sahi — Decision Center">
   <meta name="twitter:description" content="Live Bitcoin fee rates, mempool depth, and block data. Check sat/vB fees, congestion, and block production in real time — decide when to send on Bitcoin.">
-  <meta name="theme-color" content="#1A1612">
+  <meta name="theme-color" content="#121110">
   <link rel="canonical" href="https://bitcoinsahi.com/live">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Live Bitcoin Fees &amp; Mempool Data","item":"https://bitcoinsahi.com/live"}]}
@@ -23,91 +23,126 @@
   <meta name="twitter:image" content="https://bitcoinsahi.com/og-image.png">
 <title>Live Bitcoin Fees &amp; Mempool Data — Bitcoin Sahi</title>
 <style>
+:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px}
-body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;min-height:100vh;line-height:1.5}
-::selection{background:#D4933A;color:#1A1612}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#1C1917}
 
-.header{display:flex;align-items:center;gap:8px;padding:14px 24px;background:#1F1B16;border-bottom:1px solid #3A3228;overflow-x:auto;position:sticky;top:0;z-index:20}
-.header .brand{font-size:1.125rem;font-weight:700;color:#D4933A;margin-right:24px;white-space:nowrap;letter-spacing:-0.01em;display:flex;align-items:center;gap:6px}
-.tab-btn{padding:8px 18px;border-radius:8px;font-size:.875rem;font-weight:500;color:#9B8B78;background:transparent;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:all .2s}
-.tab-btn:hover{color:#EADCC8;border-color:#3A3228;background:#2A251E}
-.tab-btn.active{color:#D4933A;border-color:#D4933A;background:rgba(212,147,58,.12)}
+/* Topbar — same chrome conventions as the homepage */
+.topbar-bar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.tb-row1{display:flex;align-items:center;gap:16px;padding:12px 20px 6px;max-width:1600px;margin:0 auto}
+.tb-tabs{display:flex;gap:6px;padding:6px 20px 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:1600px;margin:0 auto}
+.brand{display:inline-flex;align-items:center;gap:9px;color:var(--ink);text-decoration:none;font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.brand .bi{color:var(--accent);font-size:16px;line-height:1}
+#chip{display:inline-flex;align-items:center;gap:7px;margin-left:auto;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:999px;border:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
+#chip b{width:8px;height:8px;border-radius:50%;background:var(--ink-3)}
+#chip.s-live b{background:var(--ok)}#chip.s-delayed b{background:var(--warn)}
+#chip.s-stale b{background:var(--err)}
+.tab-btn{padding:7px 16px;border-radius:999px;font-size:14px;font-weight:600;color:var(--ink-2);background:transparent;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:var(--ui)}
+.tab-btn:hover{color:var(--ink);border-color:var(--line);background:var(--surface-muted)}
+.tab-btn.active{color:var(--accent-ink);border-color:color-mix(in srgb,var(--accent) 55%,transparent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
 
 .content { max-width: 1600px; margin: 0 auto; padding: 32px 40px 80px; }
-.page-h1 { font-size: 1.6rem; font-weight: 700; color: #EADCC8; margin: 0 0 8px; letter-spacing: -0.01em; }
-.page-intro { font-size: .95rem; color: #9B8B78; margin-bottom: 20px; max-width: 720px; line-height: 1.6; }
+.page-h1 { font-family: var(--disp); font-size: clamp(26px,3vw,34px); font-weight: 500; color: var(--ink); margin: 0 0 8px; letter-spacing: -0.01em; }
+.page-intro { font-size: .95rem; color: var(--ink-2); margin-bottom: 20px; max-width: 720px; line-height: 1.6; }
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
 
-.dc{background:#231F19;border:1px solid #3A3228;border-radius:12px;padding:28px;margin-bottom:20px}
-.dc .dc-q{font-size:1rem;font-weight:600;color:#EADCC8;margin-bottom:8px}
-.dc .dc-a{font-size:2rem;font-weight:700;margin-bottom:6px;letter-spacing:-0.02em}
-.dc .dc-sub{font-size:.85rem;color:#6A5D4E}
-.dc .green{color:#3BA35D}
-.dc .yellow{color:#D4762A}
-.dc .red{color:#C0392B}
-.dc .orange{color:#D4762A}
+.dc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:28px;margin-bottom:20px}
+.dc .dc-q{font-family:var(--disp);font-size:1.05rem;font-weight:500;color:var(--ink);margin-bottom:8px}
+.dc .dc-a{font-family:var(--mono);font-size:2rem;font-weight:600;margin-bottom:6px;letter-spacing:-0.02em}
+.dc .dc-sub{font-size:.85rem;color:var(--ink-3)}
+.dc .green{color:var(--ok)}
+.dc .yellow{color:var(--warn)}
+.dc .red{color:var(--err)}
+.dc .orange{color:var(--warn)}
 
 .fee-grid{display:flex;gap:10px;margin:16px 0}
 .fee-grid>*{flex:1;min-width:0}
-.fee-card{background:#1A1612;border:1px solid #3A3228;border-radius:10px;padding:18px;text-align:center}
-.fee-card .fc-label{font-size:.7rem;color:#6A5D4E;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:4px}
-.fee-card .fc-value{font-size:1.5rem;font-weight:700;margin:6px 0;color:#EADCC8;font-family:'SF Mono','Fira Code','Cascadia Code',monospace;font-variant-numeric:tabular-nums}
-.fee-card .fc-sub{font-size:.7rem;color:#6A5D4E}
+.fee-card{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:18px;text-align:center}
+.fee-card .fc-label{font-size:.7rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:4px}
+.fee-card .fc-value{font-family:var(--mono);font-size:1.5rem;font-weight:600;margin:6px 0;color:var(--ink);font-variant-numeric:tabular-nums}
+.fee-card .fc-sub{font-size:.7rem;color:var(--ink-3)}
 
-.dollar-cost{text-align:center;font-size:.9rem;color:#6A5D4E;padding:10px 0 6px}
+.dollar-cost{text-align:center;font-size:.9rem;color:var(--ink-3);padding:10px 0 6px}
 
 .stat-row{display:flex;gap:10px;margin:16px 0}
 .stat-row>*{flex:1;min-width:0}
-.stat-card{background:#1A1612;border:1px solid #3A3228;border-radius:10px;padding:18px;text-align:center}
-.stat-card .sc-label{font-size:.7rem;color:#6A5D4E;text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:4px}
-.stat-card .sc-value{font-size:1.5rem;font-weight:700;margin:6px 0;color:#EADCC8;font-family:'SF Mono','Fira Code',monospace;font-variant-numeric:tabular-nums}
+.stat-card{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:18px;text-align:center}
+.stat-card .sc-label{font-size:.7rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600;margin-bottom:4px}
+.stat-card .sc-value{font-family:var(--mono);font-size:1.5rem;font-weight:600;margin:6px 0;color:var(--ink);font-variant-numeric:tabular-nums}
+.ac-orange{border-top:3px solid var(--accent)}
+.ac-blue{border-top:3px solid var(--info)}
+.ac-green{border-top:3px solid var(--ok)}
+.ac-red{border-top:3px solid var(--err)}
+.ac-purple{border-top:3px solid #BC8CFF}
 
-.viz-canvas{width:100%;height:600px;border-radius:12px;background:#1A1612;border:1px solid #3A3228;margin-top:16px}
+.viz-canvas{width:100%;height:600px;border-radius:12px;background:var(--bg);border:1px solid var(--line);margin-top:16px}
 
 .viz-section{margin-bottom:32px}
-.viz-section-title{font-size:1rem;font-weight:600;color:#EADCC8;margin-bottom:6px}
-.viz-section-desc{font-size:.85rem;color:#6A5D4E;margin-bottom:14px;line-height:1.6}
+.viz-section-title{font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:6px}
+.viz-section-desc{font-size:.85rem;color:var(--ink-3);margin-bottom:14px;line-height:1.6}
 
-.insight-card{background:#231F19;border:1px solid #3A3228;border-radius:12px;padding:20px;display:flex;gap:14px;margin-top:20px}
+.insight-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;gap:14px;margin-top:20px}
 .insight-icon{font-size:1.5rem;flex-shrink:0;margin-top:2px}
-.insight-title{font-size:.9rem;font-weight:600;color:#EADCC8;margin-bottom:6px}
-.insight-text{font-size:.85rem;color:#9B8B78;line-height:1.6}
+.insight-title{font-size:.9rem;font-weight:600;color:var(--ink);margin-bottom:6px}
+.insight-text{font-size:.85rem;color:var(--ink-2);line-height:1.6}
 
 .weather-wrap{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;font-size:13px}
-.weather-sunny{background:rgba(59,163,93,.1);color:#3BA35D}
-.weather-cloudy{background:rgba(212,147,58,.1);color:#D4933A}
-.weather-rainy{background:rgba(212,118,42,.12);color:#D4762A}
-.weather-storm{background:rgba(192,57,43,.12);color:#C0392B}
-.weather-extreme{background:rgba(192,57,43,.2);color:#C0392B}
+.weather-sunny{background:color-mix(in srgb,var(--ok) 12%,transparent);color:var(--ok)}
+.weather-cloudy{background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent-ink)}
+.weather-rainy{background:color-mix(in srgb,var(--warn) 14%,transparent);color:var(--warn)}
+.weather-storm{background:color-mix(in srgb,var(--err) 14%,transparent);color:var(--err)}
+.weather-extreme{background:color-mix(in srgb,var(--err) 22%,transparent);color:var(--err)}
 
-.brief-card{background:rgba(212,147,58,.04);border:1px solid rgba(212,147,58,.12);border-radius:10px;padding:12px 16px;margin:12px 0;display:flex;align-items:flex-start;gap:10px}
+.brief-card{background:color-mix(in srgb,var(--accent) 6%,transparent);border:1px solid color-mix(in srgb,var(--accent) 18%,transparent);border-radius:10px;padding:12px 16px;margin:12px 0;display:flex;align-items:flex-start;gap:10px}
 .brief-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
-.brief-content{font-size:.8rem;color:#9B8B78;line-height:1.5}
-.brief-content strong{color:#EADCC8;font-weight:600}
+.brief-content{font-size:.8rem;color:var(--ink-2);line-height:1.5}
+.brief-content strong{color:var(--ink);font-weight:600}
 .brief-content .tag{display:inline-block;font-size:.65rem;padding:1px 8px;border-radius:8px;margin-right:4px;font-weight:600}
-.tag-green{background:rgba(59,163,93,.15);color:#3BA35D}
-.tag-yellow{background:rgba(212,118,42,.15);color:#D4762A}
-.tag-red{background:rgba(192,57,43,.15);color:#C0392B}
-.tag-blue{background:rgba(88,166,255,.15);color:#58A6FF}
+.tag-green{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.tag-yellow{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.tag-red{background:color-mix(in srgb,var(--err) 18%,transparent);color:var(--err)}
+.tag-blue{background:color-mix(in srgb,var(--info) 18%,transparent);color:var(--info)}
 
-.genesis-strip{position:fixed;bottom:34px;left:0;width:100%;height:2px;z-index:50;background:linear-gradient(90deg,#D4933A 0%,#3BA35D 25%,#D4762A 50%,#C0392B 75%,#D4933A 100%);background-size:200% 100%;animation:genesis-shimmer 4s linear infinite}
+.genesis-strip{position:fixed;bottom:34px;left:0;width:100%;height:2px;z-index:50;background:linear-gradient(90deg,var(--accent) 0%,var(--ok) 25%,var(--warn) 50%,var(--err) 75%,var(--accent) 100%);background-size:200% 100%;animation:genesis-shimmer 4s linear infinite}
 @keyframes genesis-shimmer{0%{background-position:0 0}100%{background-position:200% 0}}
 
-.ticker{position:fixed;bottom:0;left:0;width:100%;height:32px;z-index:50;background:#0F0D0B;border-top:1px solid #3A3228;overflow:hidden;display:flex;align-items:center}
+.ticker{position:fixed;bottom:0;left:0;width:100%;height:32px;z-index:50;background:#0F0D0B;border-top:1px solid var(--line);overflow:hidden;display:flex;align-items:center}
 .ticker-track{display:flex;white-space:nowrap;will-change:transform;animation:ticker-scroll 60s linear infinite}
-.ticker-item{display:inline-flex;align-items:center;gap:8px;font-size:.75rem;color:#6A5D4E;font-variant-numeric:tabular-nums;padding:0 20px;border-right:1px solid #3A3228}
-.ticker-item .ti-label{color:#6A5D4E}
-.ticker-item .ti-value{color:#9B8B78;font-weight:600}
+.ticker-item{display:inline-flex;align-items:center;gap:8px;font-size:.75rem;color:var(--ink-3);font-variant-numeric:tabular-nums;padding:0 20px;border-right:1px solid var(--line)}
+.ticker-item .ti-label{color:var(--ink-3)}
+.ticker-item .ti-value{color:var(--ink-2);font-weight:600}
 @keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 @keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.4}}
 
-.loading-skeleton{padding:40px;text-align:center;color:#6A5D4E;font-size:.9rem}
-.loading-skeleton .spinner{width:24px;height:24px;border:2px solid #3A3228;border-top-color:#D4933A;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+.loading-skeleton{padding:40px;text-align:center;color:var(--ink-3);font-size:.9rem}
+.loading-skeleton .spinner{width:24px;height:24px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .skeleton-hidden{display:none}
+
+.footer{border-top:1px solid var(--line);margin-top:48px}
+.footer .fw{max-width:1600px;margin:0 auto;padding:28px 40px 64px;display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;font-size:13px;color:var(--ink-3)}
+.footer .fw .brand{font-size:14px}
+.footer a{color:var(--ink-2);text-decoration:none}
+.footer a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 14px var(--ui);border:none;border-radius:8px;padding:10px 16px;min-height:42px;cursor:pointer;text-decoration:none;transition:box-shadow .15s,background .15s}
+.btn.primary{background:var(--accent);color:#1C1917}
+.btn.primary:hover{box-shadow:0 2px 12px color-mix(in srgb,var(--accent) 40%,transparent)}
+.btn.secondary{background:var(--surface);border:1px solid var(--line);color:var(--ink)}
+.btn.secondary:hover{border-color:var(--ink-2)}
+.control{text-align:center;margin:0 0 16px}
+.control a,.control button{display:inline-block;width:100%;margin-bottom:8px}
 
 @media(max-width:600px){
   .fee-grid{flex-direction:column}
@@ -123,11 +158,13 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
 }
 
 @media(max-width:480px){
-  .header{padding:8px 8px;gap:3px}
+  .tb-row1{padding:8px 12px 4px}
+  .tb-tabs{padding:4px 8px 8px}
+  .brand{font-size:14px}
+  #chip{margin-left:4px}
   .tab-btn{font-size:.75rem;padding:6px 10px}
-  .header .brand{font-size:.9rem;margin-right:8px}
-  .header{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  .header::after{content:'';flex-shrink:0;width:8px}
+  .tb-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tb-tabs::after{content:'';flex-shrink:0;width:8px}
   .content{padding:16px 12px 60px}
   .viz-canvas { height: 300px; }
   .dc { padding: 16px; margin-bottom: 12px; }
@@ -167,38 +204,42 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
   .insight-text { font-size: 12px; }
 }
 
-.ds-card{background:#231F19;border:1px solid #3A3228;border-radius:12px;padding:24px;margin-bottom:16px;transition:all .2s;cursor:pointer}
-.ds-card:hover{border-color:#4A4034;background:#28231C}
-.ds-card .ds-name{font-size:1.125rem;font-weight:700;color:#EADCC8}
-.ds-card .ds-purpose{font-size:.9rem;color:#9B8B78;margin-bottom:10px;line-height:1.6}
-.ds-card .ds-persona-tag{font-size:.7rem;padding:4px 12px;border-radius:12px;background:rgba(212,147,58,.12);color:rgba(212,147,58,.8);font-weight:600}
-.ds-card .ds-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid #3A3228;font-size:.8rem;color:#6A5D4E;font-family:'SF Mono','Fira Code',monospace;line-height:1.6}
+.ds-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;margin-bottom:16px;transition:all .2s;cursor:pointer}
+.ds-card:hover{border-color:var(--ink-3);background:var(--surface-muted)}
+.ds-card .ds-name{font-size:1.125rem;font-weight:700;color:var(--ink)}
+.ds-card .ds-purpose{font-size:.9rem;color:var(--ink-2);margin-bottom:10px;line-height:1.6}
+.ds-card .ds-persona-tag{font-size:.7rem;padding:4px 12px;border-radius:12px;background:color-mix(in srgb,var(--accent) 12%,transparent);color:color-mix(in srgb,var(--accent) 80%,transparent);font-weight:600}
+.ds-card .ds-detail{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);font-size:.8rem;color:var(--ink-3);font-family:var(--mono);line-height:1.6}
 .ds-card.expanded .ds-detail{display:block}
-.ds-card .ds-url{color:#D4933A;text-decoration:none}
+.ds-card .ds-url{color:var(--accent-ink);text-decoration:none}
 .ds-card .ds-url:hover{text-decoration:underline}
-.ds-card .ds-data-preview{font-size:.75rem;color:#6A5D4E;background:#1A1612;border:1px solid #3A3228;border-radius:4px;padding:6px 8px;margin-top:6px;max-height:40px;overflow:hidden}
+.ds-card .ds-data-preview{font-size:.75rem;color:var(--ink-3);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:6px 8px;margin-top:6px;max-height:40px;overflow:hidden}
   @media (prefers-reduced-motion: reduce) {
     * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="/js/beta-nav.js" defer></script>
 <script src="/js/data-health-config.js"></script>
 </head>
 <body>
-<div class="header">
-  <a href="/" style="text-decoration:none;"><span class="brand">⬡ BSAHI</span></a>
-  <button class="tab-btn active" data-tab="send">Send</button>
-  <button class="tab-btn" data-tab="lightning">Lightning</button>
-  <button class="tab-btn" data-tab="exchange">Exchange</button>
-  <button class="tab-btn" data-tab="node">Node</button>
-  <button class="tab-btn" data-tab="miner">Miner</button>
-  <button class="tab-btn" data-tab="research">Research</button>
-  <button class="tab-btn" data-tab="developer">Dev</button>
-  <a href="/learn" style="padding:10px 20px;border-radius:10px;font-size:15px;font-weight:500;color:#888;background:transparent;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;text-decoration:none;">Learn</a>
-  <a href="/capacity" style="padding:10px 20px;border-radius:10px;font-size:15px;font-weight:500;color:#888;background:transparent;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;text-decoration:none;">Capacity</a>
-  <a href="/fork-tracker" style="padding:10px 20px;border-radius:10px;font-size:15px;font-weight:500;color:#888;background:transparent;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;text-decoration:none;margin-left:auto;">Fork</a>
-  <a href="/story.html" style="padding:10px 20px;border-radius:10px;font-size:15px;font-weight:500;color:#888;background:transparent;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;text-decoration:none;color:#D4933A;border:1px solid #3A3228;">Data Story</a><a href="/articles.html" style="padding:10px 20px;border-radius:10px;font-size:15px;font-weight:500;color:#888;background:transparent;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;text-decoration:none;color:#D4933A;border:1px solid #3A3228;">Articles</a><a href="/beta.html" style="padding:10px 20px;border-radius:10px;font-size:15px;font-weight:500;color:#888;background:transparent;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;text-decoration:none;color:#D4933A;border:1px solid #3A3228;">Beta</a><a href="/research" style="padding:10px 20px;border-radius:10px;font-size:15px;font-weight:500;color:#888;background:transparent;border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;text-decoration:none;color:#D4933A;border:1px solid #3A3228;">Research</a>
-</div>
+<header class="topbar-bar">
+  <div class="tb-row1">
+    <a class="brand" href="/"><span class="bi">⬡</span> BSAHI</a>
+    <span id="chip" title="Data freshness"><b id="chip-dot"></b><span id="chip-label">Live</span></span>
+  </div>
+  <nav class="tb-tabs" aria-label="Dashboards">
+    <button class="tab-btn active" data-tab="send">Send</button>
+    <button class="tab-btn" data-tab="lightning">Lightning</button>
+    <button class="tab-btn" data-tab="exchange">Exchange</button>
+    <button class="tab-btn" data-tab="node">Node</button>
+    <button class="tab-btn" data-tab="miner">Miner</button>
+    <button class="tab-btn" data-tab="research">Research</button>
+    <button class="tab-btn" data-tab="developer">Dev</button>
+  </nav>
+</header>
 
  <div class="content">
 
@@ -258,9 +299,9 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
     <div class="brief-content" id="brief-lightning-text">Loading market insights...</div>
   </div>
   <div class="stat-row">
-    <div class="stat-card" style="border-top:3px solid #58A6FF;"><div class="sc-label">Nodes</div><div class="sc-value" id="ln-nodes">--</div><div class="fc-sub">Public LN nodes</div></div>
-    <div class="stat-card" style="border-top:3px solid #BC8CFF;"><div class="sc-label">Channels</div><div class="sc-value" id="ln-channels">--</div><div class="fc-sub">Active payment channels</div></div>
-    <div class="stat-card" style="border-top:3px solid #D4933A;"><div class="sc-label">Capacity</div><div class="sc-value" id="ln-capacity">--</div><div class="fc-sub">Total BTC locked</div></div>
+    <div class="stat-card ac-blue"><div class="sc-label">Nodes</div><div class="sc-value" id="ln-nodes">--</div><div class="fc-sub">Public LN nodes</div></div>
+    <div class="stat-card ac-purple"><div class="sc-label">Channels</div><div class="sc-value" id="ln-channels">--</div><div class="fc-sub">Active payment channels</div></div>
+    <div class="stat-card ac-orange"><div class="sc-label">Capacity</div><div class="sc-value" id="ln-capacity">--</div><div class="fc-sub">Total BTC locked</div></div>
   </div>
   <div class="viz-section">
     <div class="viz-section-title">Lightning Network</div>
@@ -288,9 +329,9 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
     <div class="brief-content" id="brief-exchange-text">Loading market insights...</div>
   </div>
   <div class="stat-row">
-    <div class="stat-card" style="border-top:3px solid #D4933A;"><div class="sc-label">Current Fee</div><div class="sc-value" id="ex-fee">--</div><div class="fc-sub">Economy sat/vB</div></div>
-    <div class="stat-card" style="border-top:3px solid #58A6FF;"><div class="sc-label">Batch Size</div><div class="sc-value" id="ex-batch">--</div><div class="fc-sub">Withdrawals per tx</div></div>
-    <div class="stat-card" style="border-top:3px solid #3BA35D;"><div class="sc-label">Savings</div><div class="sc-value" id="ex-savings">--</div><div class="fc-sub">Per 1K withdrawals</div></div>
+    <div class="stat-card ac-orange"><div class="sc-label">Current Fee</div><div class="sc-value" id="ex-fee">--</div><div class="fc-sub">Economy sat/vB</div></div>
+    <div class="stat-card ac-blue"><div class="sc-label">Batch Size</div><div class="sc-value" id="ex-batch">--</div><div class="fc-sub">Withdrawals per tx</div></div>
+    <div class="stat-card ac-green"><div class="sc-label">Savings</div><div class="sc-value" id="ex-savings">--</div><div class="fc-sub">Per 1K withdrawals</div></div>
   </div>
   <div class="viz-section">
     <div class="viz-section-title">Batch vs Individual Withdrawal Cost</div>
@@ -318,9 +359,9 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
     <div class="brief-content" id="brief-node-text">Loading market insights...</div>
   </div>
   <div class="stat-row">
-    <div class="stat-card" style="border-top:3px solid #D4933A;"><div class="sc-label">Hardware</div><div class="sc-value" id="node-hw">--</div><div class="fc-sub">Annual depreciation</div></div>
-    <div class="stat-card" style="border-top:3px solid #58A6FF;"><div class="sc-label">Bandwidth</div><div class="sc-value" id="node-bw">--</div><div class="fc-sub">Per year</div></div>
-    <div class="stat-card" style="border-top:3px solid #3BA35D;"><div class="sc-label">Power</div><div class="sc-value" id="node-power">--</div><div class="fc-sub">Electricity per year</div></div>
+    <div class="stat-card ac-orange"><div class="sc-label">Hardware</div><div class="sc-value" id="node-hw">--</div><div class="fc-sub">Annual depreciation</div></div>
+    <div class="stat-card ac-blue"><div class="sc-label">Bandwidth</div><div class="sc-value" id="node-bw">--</div><div class="fc-sub">Per year</div></div>
+    <div class="stat-card ac-green"><div class="sc-label">Power</div><div class="sc-value" id="node-power">--</div><div class="fc-sub">Electricity per year</div></div>
   </div>
   <div class="viz-section">
     <div class="viz-section-title">Annual Cost Breakdown</div>
@@ -348,15 +389,15 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
     <div class="brief-content" id="brief-miner-text">Loading market insights...</div>
   </div>
   <div class="stat-row">
-    <div class="stat-card" style="border-top:3px solid #D4933A;"><div class="sc-label">Subsidy</div><div class="sc-value" id="miner-subsidy">3.125</div><div class="fc-sub">BTC per block</div></div>
-    <div class="stat-card" style="border-top:3px solid #D4933A;"><div class="sc-label">Fees</div><div class="sc-value" id="miner-fees" style="color:#D4933A;">--</div><div class="fc-sub">BTC per block (avg)</div></div>
-    <div class="stat-card" style="border-top:3px solid #58A6FF;"><div class="sc-label">Total</div><div class="sc-value" id="miner-total">--</div><div class="fc-sub">BTC per block</div></div>
-    <div class="stat-card" style="border-top:3px solid #D4933A;"><div class="sc-label">Daily Rev</div><div class="sc-value" id="miner-daily" style="color:#D4933A;">--</div><div class="fc-sub">USD per day</div></div>
+    <div class="stat-card ac-orange"><div class="sc-label">Subsidy</div><div class="sc-value" id="miner-subsidy">3.125</div><div class="fc-sub">BTC per block</div></div>
+    <div class="stat-card ac-orange"><div class="sc-label">Fees</div><div class="sc-value" id="miner-fees" style="color:#D4933A;">--</div><div class="fc-sub">BTC per block (avg)</div></div>
+    <div class="stat-card ac-blue"><div class="sc-label">Total</div><div class="sc-value" id="miner-total">--</div><div class="fc-sub">BTC per block</div></div>
+    <div class="stat-card ac-orange"><div class="sc-label">Daily Rev</div><div class="sc-value" id="miner-daily" style="color:#D4933A;">--</div><div class="fc-sub">USD per day</div></div>
   </div>
   <div class="stat-row" id="pool-stats" style="display:none;">
-    <div class="stat-card" style="border-top:3px solid #D4933A;"><div class="sc-label">Top Pool</div><div class="sc-value" id="pool-top1" style="font-size:1.2rem;color:#D4933A;">--</div><div class="fc-sub" id="pool-top1-pct"></div></div>
-    <div class="stat-card" style="border-top:3px solid #58A6FF;"><div class="sc-label">#2 Pool</div><div class="sc-value" id="pool-top2" style="font-size:1.2rem;color:#58A6FF;">--</div><div class="fc-sub" id="pool-top2-pct"></div></div>
-    <div class="stat-card" style="border-top:3px solid #3BA35D;"><div class="sc-label">#3 Pool</div><div class="sc-value" id="pool-top3" style="font-size:1.2rem;color:#3BA35D;">--</div><div class="fc-sub" id="pool-top3-pct"></div></div>
+    <div class="stat-card ac-orange"><div class="sc-label">Top Pool</div><div class="sc-value" id="pool-top1" style="font-size:1.2rem;color:#D4933A;">--</div><div class="fc-sub" id="pool-top1-pct"></div></div>
+    <div class="stat-card ac-blue"><div class="sc-label">#2 Pool</div><div class="sc-value" id="pool-top2" style="font-size:1.2rem;color:#58A6FF;">--</div><div class="fc-sub" id="pool-top2-pct"></div></div>
+    <div class="stat-card ac-green"><div class="sc-label">#3 Pool</div><div class="sc-value" id="pool-top3" style="font-size:1.2rem;color:#3BA35D;">--</div><div class="fc-sub" id="pool-top3-pct"></div></div>
   </div>
   <div class="viz-section">
     <div class="viz-section-title">Block Reward Composition</div>
@@ -378,23 +419,25 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
     <h2 class="dc-q">Latest data</h2>
     <div class="dc-a" id="res-verdict" style="font-size:1.4rem;">Checking...</div>
     <div class="dc-sub" style="margin-bottom:12px;">Fee history, model outputs, and datasets</div>
-    <button id="csv-download-btn" style="display:block;width:100%;padding:10px;background:#2A2622;border:1px solid transparent;border-radius:8px;color:#F7931A;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;font-family:inherit;margin-bottom:8px;text-align:center;">⬇ Download Fee History CSV</button>
-    <div id="data-freshness" style="font-size:10px;color:rgba(255,255,255,0.25);text-align:center;margin-top:4px;">Data refreshes every 60s from mempool.space</div>
-    <a href="https://github.com/prateekposwal/block-space-economics" style="display:block;padding:10px;background:#2A2622;border-radius:8px;color:#F7931A;text-decoration:none;text-align:center;">View on GitHub →</a>
+    <div class="control">
+      <button id="csv-download-btn" class="btn primary" style="width:100%;">⬇ Download Fee History CSV</button>
+      <div id="data-freshness" style="font-size:10px;color:var(--ink-3);text-align:center;margin-top:4px;">Data refreshes every 60s from mempool.space</div>
+      <a href="https://github.com/prateekposwal/block-space-economics" class="btn secondary" style="width:100%;margin-top:8px;">View on GitHub →</a>
+    </div>
   </div>
   <div class="brief-card" id="brief-research">
     <span class="brief-icon">📊</span>
     <div class="brief-content" id="brief-research-text">Loading market insights...</div>
   </div>
   <div class="stat-row">
-    <div class="stat-card" style="border-top:3px solid #C0392B;"><div class="sc-label">Volatility</div><div class="sc-value" id="res-volatility">--</div><div class="fc-sub">24h fee variance</div></div>
-    <div class="stat-card" style="border-top:3px solid #3BA35D;"><div class="sc-label">Avg Fee</div><div class="sc-value" id="res-avgfee">--</div><div class="fc-sub">Economy avg 24h</div></div>
-    <div class="stat-card" style="border-top:3px solid #58A6FF;"><div class="sc-label">Range</div><div class="sc-value" id="res-range">--</div><div class="fc-sub">Min - Max sat/vB</div></div>
+    <div class="stat-card ac-red"><div class="sc-label">Volatility</div><div class="sc-value" id="res-volatility">--</div><div class="fc-sub">24h fee variance</div></div>
+    <div class="stat-card ac-green"><div class="sc-label">Avg Fee</div><div class="sc-value" id="res-avgfee">--</div><div class="fc-sub">Economy avg 24h</div></div>
+    <div class="stat-card ac-blue"><div class="sc-label">Range</div><div class="sc-value" id="res-range">--</div><div class="fc-sub">Min - Max sat/vB</div></div>
   </div>
   <div class="stat-row">
-    <div class="stat-card" style="border-top:3px solid #D4933A;"><div class="sc-label">Miner Revenue</div><div class="sc-value" id="res-daily-rev" style="color:#D4933A;">--</div><div class="fc-sub">USD per day (new BTC + fees)</div></div>
-    <div class="stat-card" style="border-top:3px solid #3BA35D;"><div class="sc-label">Est. Settlement</div><div class="sc-value" id="res-settlement" style="color:#3BA35D;">--</div><div class="fc-sub">USD per day (all tx value)</div></div>
-    <div class="stat-card" style="border-top:3px solid #58A6FF;"><div class="sc-label">Txs/Day</div><div class="sc-value" id="res-txs-day" style="color:#58A6FF;">--</div><div class="fc-sub">Estimated on-chain</div></div>
+    <div class="stat-card ac-orange"><div class="sc-label">Miner Revenue</div><div class="sc-value" id="res-daily-rev" style="color:#D4933A;">--</div><div class="fc-sub">USD per day (new BTC + fees)</div></div>
+    <div class="stat-card ac-green"><div class="sc-label">Est. Settlement</div><div class="sc-value" id="res-settlement" style="color:#3BA35D;">--</div><div class="fc-sub">USD per day (all tx value)</div></div>
+    <div class="stat-card ac-blue"><div class="sc-label">Txs/Day</div><div class="sc-value" id="res-txs-day" style="color:#58A6FF;">--</div><div class="fc-sub">Estimated on-chain</div></div>
   </div>
   <div class="viz-section">
     <div class="viz-section-title">Fee History Analysis</div>
@@ -447,6 +490,21 @@ body{background:#1A1612;color:#EADCC8;font-family:-apple-system,BlinkMacSystemFo
 </div>
 
 </div>
+
+<footer class="footer">
+  <div class="fw">
+    <a class="brand" href="/"><span class="bi">⬡</span> BSAHI</a>
+    <span>·</span>
+    <a href="/learn">Learn</a>
+    <a href="/capacity">Capacity</a>
+    <a href="/fork-tracker">Fork</a>
+    <a href="/story.html">Data Story</a>
+    <a href="/articles.html">Articles</a>
+    <a href="/research">Research</a>
+    <a href="/beta.html">Beta</a>
+    <span style="margin-left:auto;">Live data · captured &amp; timestamped · reproducible</span>
+  </div>
+</footer>
 
 <!-- Genesis Strip -->
 <div class="genesis-strip"></div>
@@ -501,6 +559,20 @@ try {
       var ffEl = document.getElementById('fee-fastest'); if (ffEl && typeof snapFees.fastestFee === 'number') ffEl.textContent = snapFees.fastestFee + ' sat/vB';
       var hhEl = document.getElementById('fee-hour'); if (hhEl && typeof snapFees.hourFee === 'number') hhEl.textContent = snapFees.hourFee + ' sat/vB';
       var eeEl = document.getElementById('fee-economy'); if (eeEl && typeof snapFees.economyFee === 'number') eeEl.textContent = snapFees.economyFee + ' sat/vB';
+      // Same snapshot bridge as the homepage: render the SEND verdict and
+      // dollar cost from real snapshot data when the live feed is unreachable.
+      var svEl = document.getElementById('send-verdict');
+      var sff = snapFees.fastestFee;
+      if (svEl && sff > 0) {
+        svEl.textContent = sff < 5 ? '✅ Yes, fees are low' : sff < 20 ? '🟡 Fees moderate — economy rate recommended' : '🔴 Fees high — wait if possible';
+        svEl.className = 'dc-a ' + (sff < 5 ? 'green' : sff < 20 ? 'yellow' : 'red');
+      }
+      var dcEl = document.getElementById('dollar-cost');
+      if (dcEl && typeof s.btc_price === 'number') {
+        var eco = (typeof snapFees.economyFee === 'number') ? snapFees.economyFee : (typeof snapFees.hourFee === 'number') ? snapFees.hourFee : sff;
+        var d10 = eco * 140 * s.btc_price / 100000000;
+        dcEl.textContent = 'Fastest: $' + (sff * 140 * s.btc_price / 100000000).toFixed(2) + ' │ Hour: $' + ((typeof snapFees.hourFee === 'number' ? snapFees.hourFee : sff) * 140 * s.btc_price / 100000000).toFixed(2) + ' │ Economy: $' + d10.toFixed(2);
+      }
     }
     if (s.forecast && s.forecast.length) {
       var f = s.forecast[0];
@@ -673,6 +745,11 @@ if (typeof DATA_ENGINE !== 'undefined') {
     b.className = 'weather-wrap ' + weather.cls;
     b.innerHTML = weather.icon + ' <span>' + weather.label + '</span>';
   });
+  // Topbar freshness chip — same weather source as the badges, never a lie.
+  var chipEl = document.getElementById('chip');
+  var chipLabelEl = document.getElementById('chip-label');
+  if (chipLabelEl) chipLabelEl.textContent = weather.label;
+  if (chipEl) chipEl.className = ' ' + (weather.cls.indexOf('sunny') > -1 ? 's-live' : (weather.cls.indexOf('storm') > -1 || weather.cls.indexOf('extreme') > -1) ? 's-stale' : 's-delayed');
   document.querySelectorAll('#live-state').forEach(function(el) {
     el.textContent = weather.advice;
     el.style.color = weather.color;
