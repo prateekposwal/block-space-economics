@@ -125,3 +125,13 @@
   #chip { margin-left: 0; max-width: 118px; overflow: hidden; }
   .nav-tabs { padding: 4px 12px 8px; }
 }
+/* ─── Typography ramp ───────────────────────────────────────────────────
+   Every heading level uses Newsreader (the display token). Page-specific
+   selectors may override size/weight/color; font-family below is the
+   default for any heading that doesn't set its own. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--disp);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
