@@ -81,12 +81,12 @@ body.gated .container{display:none}
 
 <div class="ticker">
   <div class="row">
-    <div><div class="lbl">SCCR today</div><div class="value" id="sccr-value">…</div></div>
-    <div><div class="lbl">Trend</div><div class="status down" id="sccr-trend">…</div></div>
-    <div><div class="lbl">Blocks</div><div id="sccr-blocks">…</div></div>
-    <div><div class="lbl">Below 1×</div><div id="sccr-below">…</div></div>
+    <div><div class="lbl">SCCR today</div><div class="value" id="sccr-value">0.3999</div></div>
+    <div><div class="lbl">Trend</div><div class="status down" id="sccr-trend">▲ +0.0%</div></div>
+    <div><div class="lbl">Blocks</div><div id="sccr-blocks">142</div></div>
+    <div><div class="lbl">Below 1×</div><div id="sccr-below">94.37%</div></div>
   </div>
-  <div class="note" id="sccr-note">Loading live SCCR…</div>
+  <div class="note" id="sccr-note">Measured 142 blocks on 2026-09-14 (model-spec v2.1.0). Reproduce it: research/reproduce.</div>
 </div>
 
 <div class="beta-status">
@@ -106,7 +106,7 @@ body.gated .container{display:none}
   <h3>Daily series (UTC)</h3>
   <table>
     <thead><tr><th>Date</th><th>SCCR</th><th>Blocks</th><th>Below 1×</th></tr></thead>
-    <tbody id="history-rows"><tr><td colspan="4">Loading…</td></tr></tbody>
+    <tbody id="history-rows"><tr><td>2026-09-08</td><td>0.2790</td><td>136</td><td>97.79%</td></tr><tr><td>2026-09-09</td><td>0.3719</td><td>137</td><td>95.62%</td></tr><tr><td>2026-09-10</td><td>0.3999</td><td>142</td><td>94.37%</td></tr><tr><td>2026-09-11</td><td>0.3999</td><td>142</td><td>94.37%</td></tr><tr><td>2026-09-13</td><td>0.3999</td><td>142</td><td>94.37%</td></tr><tr><td>2026-09-14</td><td>0.3999</td><td>142</td><td>94.37%</td></tr></tbody>
   </table>
   <p class="caveat">Early series — a handful of daily measurements so far. We publish the caveat with the number. The daily tracker accumulates a clean point each day; the index firms up as the series grows.</p>
 </div>

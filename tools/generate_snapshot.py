@@ -5,7 +5,7 @@ Builds data/snapshot.json + fee_forecast.json + alerts.json + fee_history.json
 from public API inputs so the GitHub Actions snapshot tier works even when the
 local Mac is off. Writes only on content change (hash compare) to dedupe commits.
 """
-import json, os, sys, glob, hashlib, urllib.request
+import json, os, sys, glob, hashlib, subprocess, urllib.request
 from datetime import datetime, timezone
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -145,6 +145,13 @@ def main():
         d = load_local(f, None)
         if d:
             write_on_change(f, d)
+    # Bake the shipped SCCR values into the committed static HTML so crawlers
+    # and no-JS clients see real numbers instead of "loading…" placeholders.
+    try:
+        subprocess.run([sys.executable, os.path.join(REPO, 'tools', 'bake_sccr_html.py')],
+                       cwd=REPO, check=False, capture_output=True)
+    except Exception as e:
+        print('html bake failed:', e)
     print("snapshot complete")
 
 if __name__ == '__main__':

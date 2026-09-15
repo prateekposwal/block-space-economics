@@ -214,6 +214,15 @@ def main():
     with open(os.path.join(DATA_DIR, 'sccr_history.json'), 'w') as f:
         json.dump({'endpoint': '/data/sccr_history.json', 'count': len(history), 'payload': history}, f, indent=2)
 
+    # Re-stamp the committed static HTML so the day's numbers ship in the paint
+    # (crawler-visible), not just behind JS.
+    try:
+        import subprocess
+        subprocess.run([sys.executable, os.path.join(REPO, 'tools', 'bake_sccr_html.py')],
+                       cwd=REPO, check=False, capture_output=True)
+    except Exception as e:
+        print('html bake failed:', e)
+
     print('SCCR live: %.4f (%d blocks, %d below 1x) -> data/sccr*.json' % (avg, len(ratios), below))
     print('  history points: %d' % len(history))
     return 0

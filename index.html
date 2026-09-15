@@ -254,10 +254,42 @@
       }
     }
 
+    // A fee/mempool/price of 0 is "no data", never a real value — upstream
+    // feeds return zeros when they hiccup, and a live page must not print them.
+    function posNum(v) {
+      return (typeof v === 'number' && isFinite(v) && v > 0) ? v : null;
+    }
+
+    // Best-known network state: the captured snapshot is the curated source of
+    // truth; the live feed fills any field the snapshot lacks. Both through the
+    // posNum gate so a zeroed source can never overwrite a real value.
+    function canonicalStats() {
+      var s = snapshotD || {};
+      var sf = s.fees || {};
+      var l = DATA_ENGINE.get() || {};
+      var lf = l.fees || {};
+      var h = (s.block_height !== undefined) ? s.block_height : (l.block_height !== undefined ? l.block_height : null);
+      var m = (s.mempool && s.mempool.count !== undefined) ? s.mempool.count
+            : (s.mempool_tx !== undefined) ? s.mempool_tx
+            : (l.mempool && l.mempool.count !== undefined ? l.mempool.count : null);
+      return {
+        fees: {
+          fastestFee: posNum(sf.fastestFee) || posNum(lf.fastestFee),
+          halfHourFee: posNum(sf.halfHourFee) || posNum(lf.halfHourFee),
+          hourFee: posNum(sf.hourFee) || posNum(lf.hourFee),
+          economyFee: posNum(sf.economyFee) || posNum(lf.economyFee)
+        },
+        mempool_count: posNum(m),
+        block_height: posNum(h),
+        btc_price: posNum(s.btc_price) || posNum(l.btc_price)
+      };
+    }
+
     function updateDollarContext() {
-      var fees = DATA_ENGINE.get().fees || {};
-      var price = DATA_ENGINE.get().btc_price || 0;
-      var economy = (typeof fees.economyFee === 'number') ? fees.economyFee : (typeof fees.hourFee === 'number' ? fees.hourFee : null);
+      var d = canonicalStats();
+      var fees = d.fees;
+      var economy = fees.economyFee !== null ? fees.economyFee : fees.hourFee;
+      var price = d.btc_price;
       if (economy === null || !price) {
         document.getElementById('ctx-economy').textContent = '--';
         document.getElementById('ctx-dollar').textContent = '--';
@@ -278,10 +310,10 @@
     var tickerCache = '';
 
     function buildTicker() {
-      var d = DATA_ENGINE.get();
-      var blocks = (typeof d.block_height === 'number') ? fmtNum(d.block_height) + ' blocks' : '-- blocks';
-      var mp = (d.mempool && typeof d.mempool.count === 'number') ? fmtNum(d.mempool.count) + ' txs in mempool' : '-- txs in mempool';
-      var price = d.btc_price ? '$' + Math.round(d.btc_price).toLocaleString() + ' BTC' : '-- BTC';
+      var d = canonicalStats();
+      var blocks = (d.block_height !== null) ? fmtNum(d.block_height) + ' blocks' : '-- blocks';
+      var mp = (d.mempool_count !== null) ? fmtNum(d.mempool_count) + ' txs in mempool' : '-- txs in mempool';
+      var price = d.btc_price !== null ? '$' + Math.round(d.btc_price).toLocaleString() + ' BTC' : '-- BTC';
       var items = [blocks, mp, price];
       return items.join(' \u25B8 ');
     }
@@ -307,6 +339,7 @@
     // never a green dot next to a yellow state-bar (or vice versa).
     // level ∈ live|delayed|stale|unknown|pending
     var snapshotFees = null;
+    var snapshotD = null;
     var liveFeedOk = false;
 
     function applyStatus(level, fastest) {
@@ -334,29 +367,28 @@
     }
 
     function refreshUI() {
-      var f = DATA_ENGINE.get().fees || {};
-      var fastest = f.fastestFee;
-      if (typeof fastest === 'number') liveFeedOk = true;
-      if (typeof fastest !== 'number') {
-        // Live feed empty — fall back to the snapshot (same source as the dot).
-        fastest = (snapshotFees && typeof snapshotFees.fastestFee === 'number') ? snapshotFees.fastestFee : null;
-      }
-      var level = (typeof fastest === 'number') ? (liveFeedOk ? 'live' : 'delayed') : (snapshotFees ? 'delayed' : 'pending');
-      applyStatus(level, typeof fastest === 'number' ? fastest : null);
+      var liveFees = DATA_ENGINE.get().fees || {};
+      var liveHas = posNum(liveFees.fastestFee) !== null;
+      if (liveHas) liveFeedOk = true;
+      var fastest = canonicalStats().fees.fastestFee;
+      var level = liveHas ? 'live' : (snapshotFees ? 'delayed' : 'pending');
+      applyStatus(level, fastest);
       drawGenesisStrip();
       updateDollarContext();
       updateTicker();
-      updateVisibleStats(DATA_ENGINE.get());
+      updateVisibleStats();
     }
 
-    function updateVisibleStats(d) {
-      d = d || {};
-      var fees = d.fees || {};
+    // The SEO fact list keeps the units in the static markup — this renderer
+    // writes only numbers, or '--' when no real value exists yet.
+    function updateVisibleStats() {
+      var d = canonicalStats();
+      var fees = d.fees;
       function set(id, v) { var el = document.getElementById(id); if (el) el.textContent = (v === null || v === undefined) ? '--' : v; }
-      set('vs-fastest', typeof fees.fastestFee === 'number' ? fees.fastestFee + ' sat/vB' : null);
-      set('vs-economy', typeof fees.economyFee === 'number' ? fees.economyFee + ' sat/vB' : null);
-      set('vs-mempool', (d.mempool && typeof d.mempool.count === 'number') ? d.mempool.count.toLocaleString() + ' txs' : null);
-      set('vs-height', typeof d.block_height === 'number' ? '#' + d.block_height.toLocaleString() : null);
+      set('vs-fastest', fees.fastestFee !== null ? fees.fastestFee.toFixed(0) : null);
+      set('vs-economy', fees.economyFee !== null ? fees.economyFee.toFixed(0) : null);
+      set('vs-mempool', d.mempool_count !== null ? d.mempool_count.toLocaleString() : null);
+      set('vs-height', d.block_height !== null ? '#' + d.block_height.toLocaleString() : null);
     }
     try {
       fetch('/data/snapshot.json').then(function(r) { return r.json(); }).then(function(s) {
@@ -380,8 +412,10 @@
           setHealth('stale');
           return;
         }
-        updateVisibleStats({ fees: s.fees || {}, mempool: { count: s.mempool_tx }, block_height: s.block_height });
-        snapshotFees = s.fees || null; // state-bar fallback source (same as the dot)
+        snapshotD = { fees: s.fees || {}, mempool: { count: s.mempool_tx }, mempool_tx: s.mempool_tx, block_height: s.block_height, btc_price: s.btc_price };
+        snapshotFees = snapshotD.fees;
+        updateVisibleStats();
+        updateDollarContext();
         refreshUI(); // re-derive the verdict now that snapshot fees are available
         var ago = ageMin < 90 ? Math.round(ageMin) + ' min ago' : Math.round(ageMin / 60) + 'h ago';
         n.textContent = 'Snapshot from ' + ts.slice(0, 16) + ' · ' + ago + ' · live data refreshes every 60s';
@@ -407,10 +441,11 @@
     // indicators derive from one source, so they are always identical.
     window.__onDataHealth = function (dotState) {
       var level = dotState === 'unknown' ? 'unknown' : dotState;
-      var f = DATA_ENGINE.get().fees || {};
-      var fastest = (typeof f.fastestFee === 'number') ? f.fastestFee : (snapshotFees && typeof snapshotFees.fastestFee === 'number' ? snapshotFees.fastestFee : null);
-      if (level === 'live') level = (typeof fastest === 'number') ? 'live' : 'delayed';
-      applyStatus(level, typeof fastest === 'number' ? fastest : null);
+      var liveFees = DATA_ENGINE.get().fees || {};
+      var fastest = posNum(liveFees.fastestFee) !== null ? liveFees.fastestFee
+        : (snapshotFees && posNum(snapshotFees.fastestFee) !== null ? snapshotFees.fastestFee : null);
+      if (level === 'live') level = (fastest !== null) ? 'live' : 'delayed';
+      applyStatus(level, fastest);
     };
 
     DATA_ENGINE.onUpdate(refreshUI);
