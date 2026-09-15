@@ -180,7 +180,10 @@ is no longer symmetrical.
 
 The §8.5 gate is upstream: nothing past item 5 gets scheduled until the Tier-1
 gaps are measured or explicitly documented as deferred. (Gate satisfied for
-items 1–3 of §8: matrix, catalog, and SCCR reconstruction all shipped.)
+items 1–3 of §8: matrix, catalog, and SCCR reconstruction all shipped. Tier-1
+calibration gaps as of 2026-09-16: pool concentration **measured**; node census
+**measured**; pruned-vs-archival **documented reading**; regional energy
+**aggregate measured**, regional granularity **deferred-open**.)
 
 ## 9. What this is not
 
