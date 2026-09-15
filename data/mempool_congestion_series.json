@@ -1,0 +1,142 @@
+{
+  "schema": "bsahi.mempool-congestion/1",
+  "generated_at": "2026-09-15T22:51:00.065405+00:00",
+  "source": "blockchain.info charts mempool-count + mempool-size (frozen), daily from 2016-06-14",
+  "note": "Primary frozen series for congestion reconstruction 2016-2026 (row 3 historical leg). Pre-2016 congestion not capturable from this series (chart starts 2016-06); those eras remain reconstruction-only.",
+  "eras": [
+    {
+      "era": "2016",
+      "n_samples": 81,
+      "mean_mempool_txs": 6994.7,
+      "peak_mempool_txs": 63352,
+      "peak_date": "2016-11-24",
+      "days_above_50k_pct": 1.2,
+      "days_above_100k_pct": 0.0,
+      "days_above_200k_pct": 0.0,
+      "days_above_500k_pct": 0.0,
+      "congestion_regime": "LOW"
+    },
+    {
+      "era": "2017",
+      "n_samples": 146,
+      "mean_mempool_txs": 35532.8,
+      "peak_mempool_txs": 173688,
+      "peak_date": "2017-05-20",
+      "days_above_50k_pct": 27.4,
+      "days_above_100k_pct": 11.0,
+      "days_above_200k_pct": 0.0,
+      "days_above_500k_pct": 0.0,
+      "congestion_regime": "MODERATE (>100k present)"
+    },
+    {
+      "era": "2018",
+      "n_samples": 146,
+      "mean_mempool_txs": 9116.1,
+      "peak_mempool_txs": 87880,
+      "peak_date": "2018-01-03",
+      "days_above_50k_pct": 4.1,
+      "days_above_100k_pct": 0.0,
+      "days_above_200k_pct": 0.0,
+      "days_above_500k_pct": 0.0,
+      "congestion_regime": "LOW"
+    },
+    {
+      "era": "2019",
+      "n_samples": 146,
+      "mean_mempool_txs": 10794.3,
+      "peak_mempool_txs": 60198,
+      "peak_date": "2019-05-15",
+      "days_above_50k_pct": 1.4,
+      "days_above_100k_pct": 0.0,
+      "days_above_200k_pct": 0.0,
+      "days_above_500k_pct": 0.0,
+      "congestion_regime": "LOW"
+    },
+    {
+      "era": "2020",
+      "n_samples": 146,
+      "mean_mempool_txs": 19173.2,
+      "peak_mempool_txs": 131691,
+      "peak_date": "2020-10-31",
+      "days_above_50k_pct": 10.3,
+      "days_above_100k_pct": 1.4,
+      "days_above_200k_pct": 0.0,
+      "days_above_500k_pct": 0.0,
+      "congestion_regime": "MODERATE (>100k present)"
+    },
+    {
+      "era": "2021",
+      "n_samples": 146,
+      "mean_mempool_txs": 23815.4,
+      "peak_mempool_txs": 128533,
+      "peak_date": "2021-04-19",
+      "days_above_50k_pct": 15.1,
+      "days_above_100k_pct": 2.1,
+      "days_above_200k_pct": 0.0,
+      "days_above_500k_pct": 0.0,
+      "congestion_regime": "MODERATE (>100k present)"
+    },
+    {
+      "era": "2022",
+      "n_samples": 146,
+      "mean_mempool_txs": 5762.7,
+      "peak_mempool_txs": 46318,
+      "peak_date": "2022-05-12",
+      "days_above_50k_pct": 0.0,
+      "days_above_100k_pct": 0.0,
+      "days_above_200k_pct": 0.0,
+      "days_above_500k_pct": 0.0,
+      "congestion_regime": "LOW"
+    },
+    {
+      "era": "2023",
+      "n_samples": 146,
+      "mean_mempool_txs": 101147.4,
+      "peak_mempool_txs": 283139,
+      "peak_date": "2023-08-10",
+      "days_above_50k_pct": 58.2,
+      "days_above_100k_pct": 47.3,
+      "days_above_200k_pct": 18.5,
+      "days_above_500k_pct": 0.0,
+      "congestion_regime": "MODERATE (>100k present)"
+    },
+    {
+      "era": "2024",
+      "n_samples": 146,
+      "mean_mempool_txs": 128758.9,
+      "peak_mempool_txs": 225015,
+      "peak_date": "2024-10-11",
+      "days_above_50k_pct": 96.6,
+      "days_above_100k_pct": 72.6,
+      "days_above_200k_pct": 6.8,
+      "days_above_500k_pct": 0.0,
+      "congestion_regime": "MODERATE (>100k present)"
+    },
+    {
+      "era": "2025",
+      "n_samples": 146,
+      "mean_mempool_txs": 18323.9,
+      "peak_mempool_txs": 158384,
+      "peak_date": "2025-01-02",
+      "days_above_50k_pct": 11.0,
+      "days_above_100k_pct": 7.5,
+      "days_above_200k_pct": 0.0,
+      "days_above_500k_pct": 0.0,
+      "congestion_regime": "MODERATE (>100k present)"
+    },
+    {
+      "era": "2026",
+      "n_samples": 103,
+      "mean_mempool_txs": 13880.4,
+      "peak_mempool_txs": 96917,
+      "peak_date": "2026-08-02",
+      "days_above_50k_pct": 9.7,
+      "days_above_100k_pct": 0.0,
+      "days_above_200k_pct": 0.0,
+      "days_above_500k_pct": 0.0,
+      "congestion_regime": "LOW"
+    }
+  ],
+  "mempool_size_bytes_last": 13285376.0,
+  "mempool_count_last": 34686.5
+}

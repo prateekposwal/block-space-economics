@@ -178,6 +178,7 @@ is no longer symmetrical.
    - Pruned-vs-archival split (row 9 companion) — **DOCUMENTED READING 2026-09-16**: not remotely observable; P2P egress blocked here; scope note filed, no split fabricated.
    - Regional energy (row 13) — **aggregate leg DONE 2026-09-16** (production-cost instrument: 2026 energy ≈ 84% of miner revenue, fees ≈ 0.7% of the energy bill; grade C assumption-bound). Regional granularity stays D (Cambridge map capture pending).
    - UTXO series / VCI hardening (rows 6+7) — **reachability filed 2026-09-16** (`utxo-series-reachability.md`): continuous historical UTXO count not obtainable from this environment (CoinMetrics no metric, blockchair rate-limited, others unreachable). VCI chain leg cross-checked 2.7% vs blockchair. D holds until a synced local node (`gettxoutsetinfo`) or blockchair full scan.
+   - Difficulty + mempool-congestion (rows 10, 3) — **historical legs DONE 2026-09-16**: difficulty frozen 2009→2026 (row 10 hist B→A); mempool-count/size frozen 2016-06→2026 with per-era congestion reads (row 3 hist B→B\*). Peak-congestion era = 2024 (96.6% days >50K txs).
 
 The §8.5 gate is upstream: nothing past item 5 gets scheduled until the Tier-1
 gaps are measured or explicitly documented as deferred. (Gate satisfied for
