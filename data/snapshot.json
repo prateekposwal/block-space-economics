@@ -1,39 +1,39 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-15T20:01:33.381Z",
+  "generated_at": "2026-09-15T20:32:23.337Z",
   "freshness_min": 0,
-  "payload_ts": "2026-09-15T20:01:19.501Z",
-  "fees_ts": "2026-09-15T20:01:19.501Z",
-  "price_ts": "2026-09-15T20:01:20.786Z",
-  "height_ts": "2026-09-15T20:01:23.141Z",
-  "mempool_ts": "2026-09-15T20:01:31.831Z",
-  "lightning_ts": "2026-09-15T20:01:33.380Z",
+  "payload_ts": "2026-09-15T20:24:54.645Z",
+  "fees_ts": "2026-09-15T20:31:52.317Z",
+  "price_ts": "2026-09-15T20:31:53.670Z",
+  "height_ts": "2026-09-15T20:24:54.645Z",
+  "mempool_ts": "2026-09-15T20:32:21.907Z",
+  "lightning_ts": "2026-09-15T20:32:23.336Z",
   "fees": {
-    "fastestFee": 6,
-    "halfHourFee": 5,
-    "hourFee": 4,
+    "fastestFee": 3,
+    "halfHourFee": 3,
+    "hourFee": 2,
     "economyFee": 2,
     "minimumFee": 1
   },
-  "btc_price": 75998,
-  "block_height": 967178,
-  "mempool_tx": 39803,
+  "btc_price": 75877,
+  "block_height": 967181,
+  "mempool_tx": 35235,
   "lightning": {
     "latest": {
       "id": 121515,
       "added": "2026-09-15T00:00:00.000Z",
-      "channel_count": 31768,
+      "channel_count": 31769,
       "node_count": 16144,
-      "total_capacity": 371389762493,
+      "total_capacity": 371437786637,
       "tor_nodes": 7915,
       "clearnet_nodes": 4605,
       "unannounced_nodes": 2021,
-      "avg_capacity": 11690688,
+      "avg_capacity": 11691831,
       "avg_fee_rate": 814,
       "avg_base_fee_mtokens": 883,
       "med_capacity": 2000100,
       "med_fee_rate": 100,
-      "med_base_fee_mtokens": 375,
+      "med_base_fee_mtokens": 382,
       "clearnet_tor_nodes": 1603
     },
     "previous": {
@@ -57,21 +57,23 @@
   "forecast": [
     {
       "day_offset": 1,
-      "predicted_fastest_fee": 1.2,
+      "predicted_fastest_fee": 1.4,
       "trend": "stable"
     },
     {
       "day_offset": 2,
-      "predicted_fastest_fee": 1.2,
+      "predicted_fastest_fee": 1.4,
       "trend": "stable"
     },
     {
       "day_offset": 3,
-      "predicted_fastest_fee": 1.1,
+      "predicted_fastest_fee": 1.3,
       "trend": "stable"
     }
   ],
-  "alerts": [],
+  "alerts": [
+    "⚡ Fast blocks: avg interval 5 min — below 5 min"
+  ],
   "history": [
     {
       "date": "2026-08-18",
@@ -376,6 +378,10 @@
     {
       "date": "2026-09-16",
       "fastestFee": 1
+    },
+    {
+      "date": "2026-09-16",
+      "fastestFee": 2
     }
   ],
   "totalPosts": 0
