@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-09-15T12:29:58.906Z",
+  "generated_at": "2026-09-15T13:02:47.431Z",
   "status": "DEGRADED",
   "issues": [
     "SPOOL: stale sources: bip110_signal,block_interval",
-    "ORCHESTRATOR: heartbeat 24170 min ago",
+    "ORCHESTRATOR: heartbeat 24203 min ago",
     "CAPTURE: failure ratio 70% (last 24h) > 20%"
   ],
   "checks": {
     "spool": {
       "accountingOk": true,
-      "pending": 11,
+      "pending": 0,
       "dead": 0,
       "stale": 2
     },
@@ -19,10 +19,10 @@
       "agent": "running"
     },
     "de_agent": {
-      "lastRunAgeMin": 75
+      "lastRunAgeMin": 29
     },
     "orchestrator": {
-      "heartbeatAgeMin": 24170,
+      "heartbeatAgeMin": 24203,
       "phase": "cycle-complete"
     },
     "capture": {
