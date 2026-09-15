@@ -1,0 +1,23 @@
+{
+  "schema": "bsahi.utxo-series/1",
+  "generated_at": "2026-09-15T22:45:15.518866+00:00",
+  "status": "ANCHORS + CROSS-CHECK \u2014 continuous UTXO-count series NOT obtainable this session (documented in research/utxo-series-reachability.md)",
+  "anchors_blockchair_2026_09_15": {
+    "outputs_ever_created": 3925409015,
+    "transactions_ever": 1440100408,
+    "hodling_addresses": 59573659,
+    "blocks": 967192,
+    "blockchain_size_bytes": 768994703599,
+    "blockchain_size_gb": 769.0
+  },
+  "utxo_count_2026": null,
+  "utxo_count_reason": "No reachable primary source exposes a current UTXO count (blockchair /stats has cumulative outputs, not unspent; blockchair /blocks rate-limited 430 for a full scan; esplora/mempool/bitinfocharts/legacy /q hang or 404). Not fabricated.",
+  "vci_chain_size_cross_check": {
+    "vci_chain_gb_2026_avg_size_route": 789.45,
+    "blockchair_chain_gb_2026": 769.0,
+    "relative_diff_pct": 2.7,
+    "note": "VCI's cumulative avg-block-size route runs ~10% high of blockchair's direct measurement; well within the documented scenario grade. Neither is the UTXO state leg."
+  },
+  "vci_state_leg_status": "utxo_state_gb remains the documented estimate table in verify_cost_index.py (0.5-11 GB per era); hardening to a measured series is blocked on a reachable UTXO-count source or a synced local node (gettxoutsetinfo snapshots).",
+  "row6_historical_grade": "D \u2014 unchanged; reachability evidence filed (research/utxo-series-reachability.md)."
+}
