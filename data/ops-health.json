@@ -1,16 +1,19 @@
 {
-  "generated_at": "2026-08-29T17:51:51.558Z",
+  "generated_at": "2026-09-15T05:27:41.566Z",
   "status": "DEGRADED",
   "issues": [
-    "SPOOL: stale sources: bip110_signal,block_adoption,block_hash,block_height,block_interval,blockchair,blocks,btc_price,coinpaprika,derived_metrics,difficulty,fear_greed,fee_history,fees,hashrate,lightning,mempool,mempool_blocks,mempool_recent,mining_pools,node_census,raw_block_tip,research_findings",
-    "DE SERVER: unhealthy"
+    "SPOOL: stale sources: bip110_signal,block_interval",
+    "DE SERVER: unhealthy",
+    "DE AGENT: last run 23759 min ago",
+    "ORCHESTRATOR: heartbeat 23748 min ago",
+    "CAPTURE: failure ratio 56% (last 24h) > 20%"
   ],
   "checks": {
     "spool": {
       "accountingOk": true,
-      "pending": 0,
+      "pending": 11,
       "dead": 0,
-      "stale": 23
+      "stale": 2
     },
     "de_server": {
       "ok": false,
@@ -18,17 +21,17 @@
       "agent": null
     },
     "de_agent": {
-      "lastRunAgeMin": 23
+      "lastRunAgeMin": 23759
     },
     "orchestrator": {
-      "heartbeatAgeMin": 12,
+      "heartbeatAgeMin": 23748,
       "phase": "cycle-complete"
     },
     "capture": {
-      "failureRatioPct": 0,
+      "failureRatioPct": 56,
       "windowHours": 24,
-      "windowTotal": 0,
-      "windowFailed": 0
+      "windowTotal": 18,
+      "windowFailed": 10
     }
   }
 }
