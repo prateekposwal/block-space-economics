@@ -146,18 +146,24 @@
     #chip b{width:8px;height:8px;border-radius:50%;background:#8B949E}
     #chip.s-live b{background:#3FB950}#chip.s-delayed b{background:#D29922}
     #chip.s-stale b,#chip.s-unknown b{background:#F85149}
-    #statstrip{position:fixed;top:150px;left:50%;transform:translateX(-50%);z-index:25;display:flex;gap:22px;padding:9px 20px;border-radius:999px;background:rgba(26,22,18,0.6);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-variant-numeric:tabular-nums;pointer-events:none}
+    #statstrip{position:fixed;top:190px;left:50%;transform:translateX(-50%);z-index:25;display:flex;gap:22px;padding:9px 20px;border-radius:999px;background:rgba(26,22,18,0.6);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-variant-numeric:tabular-nums;pointer-events:none}
     #statstrip .ss{display:flex;align-items:baseline;gap:6px;font-size:12px}
     #statstrip .ss b{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:15px;font-weight:600;color:#EADCC8}
     #statstrip .ss i{font-style:normal;color:rgba(234,220,200,0.45);font-size:11px}
     #statstrip .ss .se{font-style:normal;color:rgba(234,220,200,0.3);font-size:10px;letter-spacing:.05em;text-transform:uppercase}
-    #vs-note{position:fixed;top:194px;left:50%;transform:translateX(-50%);z-index:24;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:.02em;color:rgba(234,220,200,0.4);text-align:center;pointer-events:none;max-width:90vw}
+    #vs-note{position:fixed;top:232px;left:50%;transform:translateX(-50%);z-index:24;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:.02em;color:rgba(234,220,200,0.4);text-align:center;pointer-events:none;max-width:90vw}
     #state-bar{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:24;text-align:center;pointer-events:none}
+    @media (max-width:900px){
+      #legend-toggle{top:155px;right:16px}
+    }
     @media (max-width:600px){
       #topbar{padding:10px 12px;flex-wrap:wrap;row-gap:6px}
       #topnav{order:3;width:100%;justify-content:flex-start;margin-left:0}
       #chip{order:2}
+      #headline{top:118px}
       #state-bar{top:auto;bottom:118px}
+      #state-bar .state-desc{display:none}
+      #legend-toggle{top:155px;right:12px}
       #statstrip{top:auto;bottom:64px;left:10px;right:10px;transform:none;border-radius:14px;justify-content:space-between;gap:12px;white-space:nowrap}
       #statstrip .ss b{font-size:13px}
       #vs-note{display:none}
@@ -189,7 +195,7 @@
   <div id="vs-note">Waiting for the latest snapshot…</div>
 
   <!-- Visible H1 (only content per architect) -->
-  <div style="position:fixed;top:110px;left:50%;transform:translateX(-50%);z-index:25;text-align:center;pointer-events:none;max-width:640px;width:calc(100% - 40px);">
+  <div id="headline" style="position:fixed;top:110px;left:50%;transform:translateX(-50%);z-index:25;text-align:center;pointer-events:none;max-width:640px;width:calc(100% - 40px);">
     <h1 style="font-size:clamp(20px,3.5vw,34px);color:#EADCC8;margin:0;letter-spacing:0.5px;">Bitcoin block space, <span style="color:#F7931A;">live</span>. <span id="data-health" title="Data status" style="font-size:0.6em;color:#8B949E;">⚪</span></h1>
   </div>
 
@@ -402,13 +408,13 @@
         else { emoji = '\uD83D\uDFE1'; color = '#D29922'; verdict = 'Data pending'; desc = 'Waiting for live fee data\u2026'; ctaEl.classList.remove('low-fees'); }
         if (level === 'delayed' && emoji === '\uD83D\uDFE2') { emoji = '\uD83D\uDFE1'; color = '#D29922'; }
       } else if (level === 'stale') {
-        emoji = '\uD83D\uDD34'; color = '#F85149'; verdict = 'Data stale'; desc = 'Snapshot is stale — pipeline check needed.';
+        emoji = '\uD83D\uDFE1'; color = '#D29922'; verdict = 'Delayed data'; desc = 'Showing the last confirmed snapshot.';
         ctaEl.classList.remove('low-fees');
       } else if (level === 'pending') {
-        emoji = '\uD83D\uDFE1'; color = '#D29922'; verdict = 'Data pending'; desc = 'Waiting for live fee data\u2026';
+        emoji = '\uD83D\uDFE1'; color = '#D29922'; verdict = 'Data pending'; desc = 'Waiting for live data\u2026';
         ctaEl.classList.remove('low-fees');
       } else {
-        emoji = '\u26AA'; color = '#8B949E'; verdict = 'Data unavailable'; desc = 'Status unknown.';
+        emoji = '\u26AA'; color = '#F85149'; verdict = 'Data unavailable'; desc = 'Live feed offline \u2014 showing the last confirmed snapshot.';
         ctaEl.classList.remove('low-fees');
       }
       // Both indicators — identical, always.
@@ -419,7 +425,7 @@
       var chip = document.getElementById('chip');
       var chop = document.getElementById('chip-label');
       if (chop) chop.textContent = verdict;
-      if (chip) chip.className = ' ' + (level === 'live' ? 's-live' : (level === 'delayed' || level === 'pending') ? 's-delayed' : 's-stale');
+      if (chip) chip.className = ' ' + (level === 'live' ? 's-live' : (level === 'delayed' || level === 'pending' || level === 'stale') ? 's-delayed' : 's-stale');
     }
 
     function refreshUI() {
@@ -463,8 +469,8 @@
         var n = document.getElementById('vs-note');
         if (!n) return;
         if (ageMin > cfgSm) {
-          n.textContent = '⚠ Data stale — last snapshot ' + Math.round(ageMin / 60) + 'h ago (pipeline check needed)';
-          n.style.color = '#E0653A';
+          n.textContent = 'Last confirmed data: ' + ts.slice(0, 16) + ' (' + Math.round(ageMin / 60) + 'h ago) \u2014 new snapshot expected shortly';
+          n.style.color = '#D29922';
           setHealth('stale');
           return;
         }
@@ -474,14 +480,14 @@
         updateDollarContext();
         refreshUI(); // re-derive the verdict now that snapshot fees are available
         var ago = ageMin < 90 ? Math.round(ageMin) + ' min ago' : Math.round(ageMin / 60) + 'h ago';
-        n.textContent = 'Snapshot from ' + ts.slice(0, 16) + ' · ' + ago + ' · live data refreshes every 60s';
+        n.textContent = 'Updated ' + ago + ' \u00B7 refreshing about every minute';
         n.style.color = '';
         setHealth(ageMin > cfgLm ? 'delayed' : 'live');
       }).catch(function() {
         // Never leave a stale green state — a failed snapshot fetch is a real signal.
         setHealth('stale');
         var n = document.getElementById('vs-note');
-        if (n) { n.textContent = '⚠ Data unavailable — could not load snapshot (pipeline check needed)'; n.style.color = '#F85149'; }
+        if (n) { n.textContent = 'Live feed offline \u2014 snapshot unavailable'; n.style.color = '#F85149'; }
       });
     } catch (e) { setHealth('stale'); }
 
