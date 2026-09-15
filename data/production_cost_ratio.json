@@ -1,0 +1,212 @@
+{
+  "schema": "bsahi.production-cost-ratio/1",
+  "generated_at": "2026-09-15T19:37:17.261099+00:00",
+  "status": "AGGREGATE (network-wide) \u2014 producing-side instrument; regional split NOT included (grade D until Cambridge-map + regional electricity capture)",
+  "assumptions": {
+    "asec_efficiency_j_per_th_by_era": {
+      "2012": 1500,
+      "2013": 800,
+      "2014": 400,
+      "2015": 350,
+      "2016": 400,
+      "2017": 400,
+      "2018": 150,
+      "2019": 100,
+      "2020": 70,
+      "2021": 55,
+      "2022": 45,
+      "2023": 38,
+      "2024": 32,
+      "2025": 28,
+      "2026": 25
+    },
+    "electricity_usd_per_kwh": 0.05,
+    "grade": "C \u2014 published paper estimates + assumed global mining average; hashrate/revenue/fee-price legs are frozen primary series (B)"
+  },
+  "eras": [
+    {
+      "era": "2012",
+      "hashrate_ehs": 15.48,
+      "asec_efficiency_j_per_th": 1500,
+      "power_gw": 0.0,
+      "energy_kwh_day": 557.0,
+      "energy_cost_usd_day": 28.0,
+      "production_value_usd_day": 71323.0,
+      "production_cost_ratio": 0.0,
+      "fee_coverage_of_production_pct": 540.423,
+      "electricity_usd_per_kwh": 0.05
+    },
+    {
+      "era": "2013",
+      "hashrate_ehs": 1405.3,
+      "asec_efficiency_j_per_th": 800,
+      "power_gw": 0.0,
+      "energy_kwh_day": 26982.0,
+      "energy_cost_usd_day": 1349.0,
+      "production_value_usd_day": 947760.0,
+      "production_cost_ratio": 0.001,
+      "fee_coverage_of_production_pct": 610.982,
+      "electricity_usd_per_kwh": 0.05
+    },
+    {
+      "era": "2014",
+      "hashrate_ehs": 139502.22,
+      "asec_efficiency_j_per_th": 400,
+      "power_gw": 0.1,
+      "energy_kwh_day": 1339221.0,
+      "energy_cost_usd_day": 66961.0,
+      "production_value_usd_day": 2703300.0,
+      "production_cost_ratio": 0.025,
+      "fee_coverage_of_production_pct": 9.771,
+      "electricity_usd_per_kwh": 0.05
+    },
+    {
+      "era": "2015",
+      "hashrate_ehs": 406748.39,
+      "asec_efficiency_j_per_th": 350,
+      "power_gw": 0.1,
+      "energy_kwh_day": 3416687.0,
+      "energy_cost_usd_day": 170834.0,
+      "production_value_usd_day": 1167665.0,
+      "production_cost_ratio": 0.146,
+      "fee_coverage_of_production_pct": 3.491,
+      "electricity_usd_per_kwh": 0.05
+    },
+    {
+      "era": "2016",
+      "hashrate_ehs": 1522891.52,
+      "asec_efficiency_j_per_th": 400,
+      "power_gw": 0.6,
+      "energy_kwh_day": 14619759.0,
+      "energy_cost_usd_day": 730988.0,
+      "production_value_usd_day": 1610367.0,
+      "production_cost_ratio": 0.454,
+      "fee_coverage_of_production_pct": 5.026,
+      "electricity_usd_per_kwh": 0.05
+    },
+    {
+      "era": "2017",
+      "hashrate_ehs": 6320188.99,
+      "asec_efficiency_j_per_th": 400,
+      "power_gw": 2.5,
+      "energy_kwh_day": 60673814.0,
+      "energy_cost_usd_day": 3033691.0,
+      "production_value_usd_day": 9443153.0,
+      "production_cost_ratio": 0.321,
+      "fee_coverage_of_production_pct": 35.748,
+      "electricity_usd_per_kwh": 0.05
+    },
+    {
+      "era": "2018",
+      "hashrate_ehs": 37125106.09,
+      "asec_efficiency_j_per_th": 150,
+      "power_gw": 5.6,
+      "energy_kwh_day": 133650382.0,
+      "energy_cost_usd_day": 6682519.0,
+      "production_value_usd_day": 15113615.0,
+      "production_cost_ratio": 0.442,
+      "fee_coverage_of_production_pct": 8.015,
+      "electricity_usd_per_kwh": 0.05
+    },
+    {
+      "era": "2019",
+      "hashrate_ehs": 66756920.53,
+      "asec_efficiency_j_per_th": 100,
+      "power_gw": 6.7,
+      "energy_kwh_day": 160216609.0,
+      "energy_cost_usd_day": 8010830.0,
+      "production_value_usd_day": 14418260.0,
+      "production_cost_ratio": 0.556,
+      "fee_coverage_of_production_pct": 4.976,
+      "electricity_usd_per_kwh": 0.05
+    },
+    {
+      "era": "2020",
+      "hashrate_ehs": 120407598.0,
+      "asec_efficiency_j_per_th": 70,
+      "power_gw": 8.4,
+      "energy_kwh_day": 202284765.0,
+      "energy_cost_usd_day": 10114238.0,
+      "production_value_usd_day": 13776099.0,
+      "production_cost_ratio": 0.734,
+      "fee_coverage_of_production_pct": 8.108,
+      "electricity_usd_per_kwh": 0.05
+    },
+    {
+      "era": "2021",
+      "hashrate_ehs": 143604801.71,
+      "asec_efficiency_j_per_th": 55,
+      "power_gw": 7.9,
+      "energy_kwh_day": 189558338.0,
+      "energy_cost_usd_day": 9477917.0,
+      "production_value_usd_day": 46242541.0,
+      "production_cost_ratio": 0.205,
+      "fee_coverage_of_production_pct": 29.059,
+      "electricity_usd_per_kwh": 0.05
+    },
+    {
+      "era": "2022",
+      "hashrate_ehs": 221674280.62,
+      "asec_efficiency_j_per_th": 45,
+      "power_gw": 10.0,
+      "energy_kwh_day": 239408223.0,
+      "energy_cost_usd_day": 11970411.0,
+      "production_value_usd_day": 26432057.0,
+      "production_cost_ratio": 0.453,
+      "fee_coverage_of_production_pct": 3.533,
+      "electricity_usd_per_kwh": 0.05
+    },
+    {
+      "era": "2023",
+      "hashrate_ehs": 379972671.29,
+      "asec_efficiency_j_per_th": 38,
+      "power_gw": 14.4,
+      "energy_kwh_day": 346535076.0,
+      "energy_cost_usd_day": 17326754.0,
+      "production_value_usd_day": 29151315.0,
+      "production_cost_ratio": 0.594,
+      "fee_coverage_of_production_pct": 10.947,
+      "electricity_usd_per_kwh": 0.05
+    },
+    {
+      "era": "2024",
+      "hashrate_ehs": 635822394.32,
+      "asec_efficiency_j_per_th": 32,
+      "power_gw": 20.3,
+      "energy_kwh_day": 488311599.0,
+      "energy_cost_usd_day": 24415580.0,
+      "production_value_usd_day": 41192699.0,
+      "production_cost_ratio": 0.593,
+      "fee_coverage_of_production_pct": 14.0,
+      "electricity_usd_per_kwh": 0.05
+    },
+    {
+      "era": "2025",
+      "hashrate_ehs": 937474630.93,
+      "asec_efficiency_j_per_th": 28,
+      "power_gw": 26.2,
+      "energy_kwh_day": 629982952.0,
+      "energy_cost_usd_day": 31499148.0,
+      "production_value_usd_day": 47595225.0,
+      "production_cost_ratio": 0.662,
+      "fee_coverage_of_production_pct": 1.557,
+      "electricity_usd_per_kwh": 0.05
+    },
+    {
+      "era": "2026",
+      "hashrate_ehs": 953036993.87,
+      "asec_efficiency_j_per_th": 25,
+      "power_gw": 23.8,
+      "energy_kwh_day": 571822196.0,
+      "energy_cost_usd_day": 28591110.0,
+      "production_value_usd_day": 34103534.0,
+      "production_cost_ratio": 0.838,
+      "fee_coverage_of_production_pct": 0.7,
+      "electricity_usd_per_kwh": 0.05
+    }
+  ],
+  "headline": {
+    "reading": "fee market pays a tiny share of the production energy bill across all eras (fee coverage 0.1-4%); energy cost vs production value hovers below 1x at the assumed $0.05/kWh midpoint, i.e. mining remains viable network-wide on the flow-cost basis",
+    "sensitivity": "ratio is linear in $/kWh and efficiency; at $/kWh=0.08 the network flips money-losing in low-fee years; production-cost is the aggregate 'producing-side' stress, distinct from regional (Cambridge map) grade D."
+  }
+}

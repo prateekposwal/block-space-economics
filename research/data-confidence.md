@@ -43,7 +43,7 @@ Rules the matrix obeys:
 | 10 | Mining hashrate level | **B** | **B** | `hashrate.json`: 240 points from 2026-08-19 (~934 EH/s) | Historical difficulty/hashrate series recoverable from public archives (not yet pulled into repo) | `data/hashrate.json` |
 | 11 | Mining pool concentration | **C** | **D** | `mining_concentration.json` schema v2: live block-tag attribution from mempool.space (24h/3d/1w/1y validated windows); `tools/research/pool_concentration.py`; **live measurement now exists**: 24h top-1=23%, top-3=56%, top-5=77%, HHI 0.140, gini 0.539; 1y top-1=29%, top-3=59%, top-5=77%, HHI 0.152 (1520 pts, moderately concentrated per DOJ), gini 0.782. Unknown share 0.6–2.5%. | Pre-2023 per-pool attribution (historical D): coinbase-tag coverage is partial before ~2014, merged mining invisible; block-tag attribution ≠ pool-reported hashrate (pool-reported is a ground-truth cross-check not captured). | `data/mining_concentration.json`, `tools/research/pool_concentration.py`, `captured-data/mempool.space/` |
 | 12 | Governance signaling (BIP-110) | **A** | **B** | `bip110.json` + `bip110_daily.json` (full signaling series, 0% at lock-in, height 963648); 2017 signaling in primary archives; **software/version distribution proxy captured 2026-09-16** (`node_version_distribution.json`: 97.7% Core, 38.8% on Core 30/31, self-declared UA) | Pre-BIP-110 signaling requires archive reconstruction; version share is self-declared, not verified | `data/bip110*.json`, `research/bip110-post-lockin-case-study.md`, `data/node_version_distribution.json` |
-| 13 | Regional production cost (energy) | **D** | **D** | Nothing captured | Would need mining-map power mix + regional electricity series. **Critical gap.** | — |
+| 13 | Regional production cost (energy) | **C** | **C** | **Aggregate producing-side instrument SHIPPED 2026-09-16** (`production_cost_ratio.py` + `production_cost_ratio.json`): network energy cost vs miner revenue vs fee-market share, per era 2012-2026 from frozen series. 2026: energy ≈ 84% of revenue at $0.05/kWh mid; fees pay ≈ 0.7% of the energy bill. Efficiency + $/kWh documented assumptions (grade C) | **Regional granularity stays D** — Cambridge-map pool-country shares and regional electricity series not yet captured; efficiency table is CBECI-calibrated estimate, not measured | `data/production_cost_ratio.json`, `tools/research/production_cost_ratio.py`, `research/production-cost-note.md` |
 
 ---
 
@@ -57,9 +57,12 @@ Rules the matrix obeys:
    boundary threshold crossed. **Historical leg stays D**: pre-2023 per-pool
    attribution, and pool-reported hashrate (ground truth) is not yet cross-checked
    against block attribution.
-2. **Regional energy cost (row 13).** The "producing" side of the asymmetry
-   question has no instrument. Energy prices + hashrate mix by region exist
-   as public series but are not captured. D until then.
+2. **Regional energy cost (row 13).** **AGGREGATE leg CLOSED 2026-09-16**
+   (`tools/research/production_cost_ratio.py`: network energy cost vs miner
+   revenue vs fee-market share; 2026 energy≈84% of revenue, fees≈0.7% of energy
+   bill, grade C assumption-bound). **Regional granularity stays the D**: the
+   Cambridge mining-map pool-country shares + regional electricity series are
+   still not captured — that is the remaining piece for row 13 D→B.
 3. **Historical node count (row 9).** **PARTIAL-CLOSED 2026-09-16**: two eras
     are now primary-anchored (2017-12-11 → N=11,891 via Wayback-archived
     bitnodes API; 2026 → N≈26,635 via btcnodes.io series). Grades row 9:
@@ -86,7 +89,7 @@ Rules the matrix obeys:
 | Node census protocol re-worked (sample > addrman cap, live inbound) | row 9: C → B — **DONE 2026-09-16** (btcnodes series replaces addrman cap; live now B) |
 | Block-tag vs pool-reported hashrate cross-check | row 11: C → B live |
 | Pruned-vs-archival probe (needs P2P egress) | row 9/5: T/N split — **DOCUMENTED READING** (no egress here; scope note filed) |
-| Regional energy capture added | row 13: D → B (public series) |
+| Regional energy capture added | row 13: D → B — **aggregate leg DONE 2026-09-16 (row now C)**, regional granularity remains the open D |
 | Any new reconstruction contradicts a boundary-catalog claim | update `research/boundary-catalog.md` and record the revision here |
 
 When a grade changes, move it here with the date and the artifact that earned it (capture name, reconstruction doc, or PR).
@@ -111,5 +114,9 @@ attribution, four validated windows, raw cached; no boundary threshold crossed).
 btcnodes.io snapshot series (3,981 primary snapshots, ~26.6K reachable nodes;
 addrman 32,000 recognized as a cap artifact). Historical: two era anchors (2017 → N
 11,891 Wayback-archived; 2026 → N 26,635), SCCR N-table 2/14 rows primary-anchored.
-Next regeneration when a pool-reported hashrate cross-check or the regional-energy
-capture lands.*
+2026-09-16 (third): regional energy row 13 aggregate leg D→C — network-wide production
+cost instrument shipped (energy vs revenue vs fee-market share per era; 2026 energy≈84%
+of revenue, fees≈0.7% of the energy bill). Efficiency table + electricity price are
+documented assumptions (C); regional granularity remains D (Cambridge map not yet captured).
+Next regeneration when the regional capture, a pool-reported hashrate cross-check, or a
+measured network-average efficiency series lands.*

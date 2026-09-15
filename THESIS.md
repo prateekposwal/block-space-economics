@@ -175,9 +175,8 @@ is no longer symmetrical.
 5. **Tier-1 calibration gaps (data-confidence §"Critical gaps")** — **IN PROGRESS** (items 1–3 of the matrix's critical gaps are now being closed, the gate in §8.6 having opened once items 1–3 above shipped):
    - Pool concentration (row 11) — **live gap CLOSED 2026-09-16**: measured, no threshold crossed, grade D→C live.
    - Primary historical node census (row 9) — **PARTIAL-CLOSED 2026-09-16**: btcnodes.io series (3,981 snapshots, ~26.6K reachable, live grade D→B); two era anchors (2017→11,891, 2026→26,635); grading row 9 historical D→C. Deep 2013-2016 / 2018-2025 remains open.
-   - Pruned-vs-archival split (row 9 companion) — next.
-   - Pruned-vs-archival split (row 9 companion) — next.
-   - Regional energy (row 13, D) — pending.
+   - Pruned-vs-archival split (row 9 companion) — **DOCUMENTED READING 2026-09-16**: not remotely observable; P2P egress blocked here; scope note filed, no split fabricated.
+   - Regional energy (row 13) — **aggregate leg DONE 2026-09-16** (production-cost instrument: 2026 energy ≈ 84% of miner revenue, fees ≈ 0.7% of the energy bill; grade C assumption-bound). Regional granularity stays D (Cambridge map capture pending).
 
 The §8.5 gate is upstream: nothing past item 5 gets scheduled until the Tier-1
 gaps are measured or explicitly documented as deferred. (Gate satisfied for
