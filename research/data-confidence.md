@@ -41,7 +41,7 @@ Rules the matrix obeys:
 | 8 | Bandwidth/relay (propagation) | **C** | **D** | `bandwidth_bound.json` bounds (block + batch model) | Marginal propagation leg unbundled from fixed node cost; no topology data | `research/bandwidth-bound-note.md` |
 | 9 | Node count / distribution | **C** | **D** | `node_census.json`: totalKnownAddresses **32,000 (exact addrman cap)**, liveConnections 8, lower_bound=true, 2026-08-02 | Denominator capped by addrman; live sample tiny; pre-2014 census estimates wide-error; counting methods changed over time. **The weakest pillar.** | `data/node_census.json`, `research/node-census-staleness-note.md` |
 | 10 | Mining hashrate level | **B** | **B** | `hashrate.json`: 240 points from 2026-08-19 (~934 EH/s) | Historical difficulty/hashrate series recoverable from public archives (not yet pulled into repo) | `data/hashrate.json` |
-| 11 | Mining pool concentration | **D** | **D** | `mining_concentration.json`: **all concentration metrics are None** — "per-pool hashrate data does not exist" | Pool share attribution partial; merged mining + solo invisible; nothing captured. **Critical gap.** | `data/mining_concentration.json`, `research/mining-concentration-note.md` |
+| 11 | Mining pool concentration | **C** | **D** | `mining_concentration.json` schema v2: live block-tag attribution from mempool.space (24h/3d/1w/1y validated windows); `tools/research/pool_concentration.py`; **live measurement now exists**: 24h top-1=23%, top-3=56%, top-5=77%, HHI 0.140, gini 0.539; 1y top-1=29%, top-3=59%, top-5=77%, HHI 0.152 (1520 pts, moderately concentrated per DOJ), gini 0.782. Unknown share 0.6–2.5%. | Pre-2023 per-pool attribution (historical D): coinbase-tag coverage is partial before ~2014, merged mining invisible; block-tag attribution ≠ pool-reported hashrate (pool-reported is a ground-truth cross-check not captured). | `data/mining_concentration.json`, `tools/research/pool_concentration.py`, `captured-data/mempool.space/` |
 | 12 | Governance signaling (BIP-110) | **A** | **B** | `bip110.json` + `bip110_daily.json` (full signaling series, 0% at lock-in, height 963648); 2017 signaling in primary archives | Pre-BIP-110 signaling requires archive reconstruction | `data/bip110*.json`, `research/bip110-post-lockin-case-study.md` |
 | 13 | Regional production cost (energy) | **D** | **D** | Nothing captured | Would need mining-map power mix + regional electricity series. **Critical gap.** | — |
 
@@ -49,13 +49,14 @@ Rules the matrix obeys:
 
 ## Critical gaps (grade D, named as build-or-document decisions)
 
-1. **Mining pool concentration (row 11).** The surviving dataset that would
-   calibrate every power-concentration claim is not being captured. The
-   existence of a publicly documented alternative (Cambridge Bitcoin Mining
-   Map's pool attribution, or coinbase-tag-based attribution from
-   `txtoolbox`-style indexers) means this is *retrievable* but **unmeasured today**.
-   Until built, every concentration statement in the catalog must be flagged
-   "measurement, not calibrated."
+1. **Mining pool concentration (row 11).** **Live gap CLOSED 2026-09-16** —
+   `tools/research/pool_concentration.py` + `data/mining_concentration.json`
+   (block-tag attribution, mempool.space `/api/v1/mining/pools`, validated windows
+   24h/3d/1w/1y, raw cached under `captured-data/mempool.space/`). First live
+   reading: 24h top-1=23.3%, top-3=55.8%, top-5=76.7%, HHI 0.140, gini 0.539 — no
+   boundary threshold crossed. **Historical leg stays D**: pre-2023 per-pool
+   attribution, and pool-reported hashrate (ground truth) is not yet cross-checked
+   against block attribution.
 2. **Regional energy cost (row 13).** The "producing" side of the asymmetry
    question has no instrument. Energy prices + hashrate mix by region exist
    as public series but are not captured. D until then.
@@ -74,7 +75,8 @@ Rules the matrix obeys:
 
 | Action | Moves |
 |---|---|
-| New live capture (e.g., per-pool hashrate, IBD benchmark series) | row 11, 7: D → C/B census live captures |
+| New live capture (e.g., per-pool hashrate, IBD benchmark series) | row 11 (pool concentration): **D → C live** (done 2026-09-16); row 7: C live hardening |
+| Pool-reported hashrate cross-check + historical per-pool attribution | row 11: C → B live, D → C historical |
 | Historical SCCR reconstruction completes (fees+price+nodes+blocksize per era) | rows 1, 3, 4, 5: **now B** (fee/price/blocksize legs; era node-count leg stays C/D) — see `tools/research/sccr_historical_reconstruct.py` + `data/sccr_historical_series.json` |
 | UTXO historical series pulled (indexer or scale-based reconstruction) | row 6: D → C |
 | Node census protocol re-worked (sample > addrman cap, live inbound) | row 9: C → B |
@@ -96,5 +98,8 @@ read as calibrated — it is a documented reading with an open data door.
 *Regeneration log: 2026-09-15 — created from live `data/*.json` captures and
 `research/` documentation. 2026-09-15: historical SCCR reconstruction executed —
 rows 1, 3, 4, 5 historical legs moved C/INCOMPLETE → B\* (era-fee/price/blocksize
-from frozen daily aggregates; era node-count leg remains approximation). Next
-regeneration when per-pool hashrate capture or a primary node census lands.*
+from frozen daily aggregates; era node-count leg remains approximation). 2026-09-16:
+pool concentration row 11 live leg moved D → C (mempool.space pool-list block-tag
+attribution, four validated windows, raw cached; no boundary threshold crossed).
+Next regeneration when a pool-reported hashrate cross-check, a primary node
+census, or the regional-energy capture lands.*

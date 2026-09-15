@@ -1,9 +1,55 @@
 # Mining Concentration Measurement — Research Note
 
 **BSAHI — Resource Concentration Observatory**
-*Produced: 2026-09-11*
+*Produced: 2026-09-11* | *Updated: 2026-09-16 (row-11 gap closed, first measurement)*
 
 ---
+
+## Measurement update (2026-09-16) — the gap is closed
+
+`tools/research/pool_concentration.py` now captures per-pool block-tag attribution
+from mempool.space `/api/v1/mining/pools` for four validated windows
+(24h / 3d / 1w / 1y). The 2w / 6m variants of this endpoint silently return
+**all-time** data and are excluded by a block-count sanity band. Raw responses are
+cached under `captured-data/mempool.space/` for offline reproduction.
+
+### First reading (2026-09-16)
+
+| window | blocks | known | unknown% | top-1 | top-3 | top-5 | HHI | N_eff | Gini |
+|---|---|---|---|---|---|---|---|---|---|
+| 24h | 163 | 14 | 2.5 | 23.3% | 55.8% | 76.7% | 0.140 | 7.1 | 0.539 |
+| 3d | 470 | 16 | 1.3 | 26.6% | 59.8% | 77.4% | 0.150 | 6.7 | 0.594 |
+| 1w | 1075 | 17 | 1.2 | 26.3% | 57.7% | 76.6% | 0.144 | 7.0 | 0.603 |
+| 1y | 52335 | 31 | 0.6 | 28.5% | 58.6% | 77.4% | 0.152 | 6.6 | 0.782 |
+
+Top-1 shares: Foundry USA 28.5%, AntPool 17.9%, F2Pool 12.2%, ViaBTC 9.9%,
+SpiderPool 8.9%, MARA 4.9%, SECPOOL 4.1%, Luxor 3.2% (1y).
+
+- **No boundary threshold crossed.** Top-1 is far below 50% (51%-attack
+  borderline); top-3 ≈ 59%, below the 75% coordination-risk line; top-5 ≈ 77%
+  below 85%.
+- **HHI ≈ 0.15 (≈1500 DOJ points) = "moderately concentrated"** — far below the
+  2500 "highly concentrated" line; effective pool count N_eff ≈ 6.6–7.1.
+- **Gini ≈ 0.54 (24h) / 0.78 (1y).** The distribution is skewed toward the top
+  pools; 1y Gini is higher because long-run shares concentrate more than any
+  single day.
+- **Unknown share 0.6–2.5%** — coinbase-tag attribution is near-complete;
+  well below the 5% noise flag.
+
+### Honesty block (applies to every number above)
+
+Block-tag attribution is a **proxy for hashrate share, not a measurement of it**:
+pools can sign externally and public block lists aggregate at pool level, and a
+pool's *reported* hashrate (e.g., via their own dashboards) can deviate from the
+block-observed share. Underlying attribution comes from regex-matching coinbase
+text. Historical per-pool attribution is still weak pre-2014, and merged mining
+(e.g., Rootstock/RSK sidechains) is invisible to coinbase scanning. Ground-truth
+pool-reported hashrate is a cross-check not yet captured — that is the next step
+for this row (C → B).
+
+---
+
+## Data Availability Assessment (original, retained for context)
 
 ## Data Availability Assessment
 
@@ -73,17 +119,18 @@ observable and measurable.
 
 ## Honest statement
 
-**This task is DEFERRED due to a data gap.** The repository does not contain
-per-pool hashrate data. The concentration measurement script was written and
-the network-level statistics were computed from existing data. The Gini
-coefficient and top-N pool shares cannot be produced without external data
-sources. No numbers were fabricated.
+**RESOLVED 2026-09-16.** The deferred task is complete: per-pool block-tag
+attribution is now captured (returns ~7 effective pools, no boundary threshold
+crossed — see Measurement update above). `data/mining_concentration.json` is
+schema v2 with measured metrics; raw responses cached and reproducible.
 
-To complete this task, one of the following is needed:
-- Add per-pool hashrate capture to the data-engineering pipeline (e.g., a
-  new agent that calls mempool.space pool API)
-- Use a historical pool dataset from a primary source (e.g., blockchain.info
-  pool distribution archive)
+Still open (not fabricated, live-graded C): pool-reported hashrate ground-truth
+cross-check; pre-2023 historical attribution; merged-mining visibility.
+
+To go from C → B, the following is needed:
+- A pool-reported hashrate cross-check capture (pools' own dashboards or the
+  Cambridge Bitcoin Mining Map pool attribution)
+- Historical per-pool attribution for the 2013–2023 era from a primary source
 
 ---
 

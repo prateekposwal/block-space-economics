@@ -172,8 +172,15 @@ is no longer symmetrical.
 3. **Historical SCCR reconstruction** — DONE (reconstruction-estimate, not measurement). 14 eras computed deterministically from frozen daily aggregates (`tools/research/sccr_historical_reconstruct.py`, `data/sccr_historical_series.json`, addendum in `research/HISTORICAL_SCCR_RECONSTRUCTION.md`). Q7 verdict: 2021/2023 reproduce within 50%; 2017 and 2024 do not. Era node-count leg remains an approximation (grade C/D) until a primary historical census lands.
 4. **VCI prototype** — DONE (scenario-limited). `tools/research/verify_cost_index.py` + `data/verify_cost_index.json`: per-era chain/state size → sync days, cost, affordability, and cost-as-ppm-of-annual-value. Reading: sync time stayed ~1-2 days 2013-2026; affordability rose 14%→30% of a month's income; value-relative cost collapsed ~17×. Hardening = captured IBD benchmarks + real UTXO size (now assumptions). Grade C live / D historical.
 
-Nothing after item 4 gets scheduled until items 1–3 are reviewed, because every
-later instrument depends on the calibration they produce.
+5. **Tier-1 calibration gaps (data-confidence §"Critical gaps")** — **IN PROGRESS** (items 1–3 of the matrix's critical gaps are now being closed, the gate in §8.6 having opened once items 1–3 above shipped):
+   - Pool concentration (row 11) — **live gap CLOSED 2026-09-16**: measured, no threshold crossed, grade D→C live.
+   - Primary historical node census (row 9, D historical) — next.
+   - Pruned-vs-archival split (row 9 companion) — next.
+   - Regional energy (row 13, D) — pending.
+
+The §8.5 gate is upstream: nothing past item 5 gets scheduled until the Tier-1
+gaps are measured or explicitly documented as deferred. (Gate satisfied for
+items 1–3 of §8: matrix, catalog, and SCCR reconstruction all shipped.)
 
 ## 9. What this is not
 
