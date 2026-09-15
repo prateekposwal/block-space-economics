@@ -301,6 +301,27 @@ var DATA_ENGINE = (function () {
         return (snap && typeof snap.block_height === 'number') ? snap.block_height : null;
       case 'fee_history':
         return (snap && Array.isArray(snap.history) && snap.history.length) ? snap.history : null;
+      case 'lightning': {
+        if (!snap || !snap.lightning) return null;
+        var l = snap.lightning.latest || snap.lightning;
+        if (l.node_count === undefined && l.nodes === undefined && l.nodeCount === undefined) return null;
+        return {
+          latest: {
+            node_count: l.node_count || l.nodeCount || l.nodes || 0,
+            channel_count: l.channel_count || l.channelCount || l.channels || 0,
+            total_capacity: (typeof l.total_capacity === 'number') ? l.total_capacity : Math.round((l.capacity_btc || 0) * 100000000),
+            avg_fee_rate: l.avg_fee_rate || 0,
+            avg_capacity: l.avg_capacity || 0,
+            med_capacity: l.med_capacity || 0,
+            med_fee_rate: l.med_fee_rate || 0,
+            tor_nodes: l.tor_nodes || 0,
+            clearnet_nodes: l.clearnet_nodes || 0,
+            unannounced_nodes: l.unannounced_nodes || 0,
+            clearnet_tor_nodes: l.clearnet_tor_nodes || 0,
+            added: l.added || l.date || l.capturedAt || null
+          }
+        };
+      }
       default:
         return null;
     }

@@ -40,7 +40,7 @@ function liveGetText(apiPath) {
 // field null so the caller falls back to the local mirror/spool.
 function fetchLivePayload() {
   var tsNow = function() { return new Date().toISOString(); };
-  var out = { fees: null, fees_ts: null, price: null, price_ts: null, height: null, height_ts: null, mempool: null, mempool_ts: null };
+  var out = { fees: null, fees_ts: null, price: null, price_ts: null, height: null, height_ts: null, mempool: null, mempool_ts: null, lightning: null, lightning_ts: null };
   var chain = Promise.resolve();
   // fees (5-tier) — mempool.space /api/v1/fees/recommended
   chain = chain.then(function() {
@@ -78,6 +78,13 @@ function fetchLivePayload() {
       out.mempool = d;
       out.mempool_ts = tsNow();
     }).catch(function(e) { console.error('live mempool fetch failed:', (e && e.message) || e); });
+  });
+  // lightning stats — mempool.space /api/v1/lightning/statistics/latest
+  chain = chain.then(function() {
+    return liveGet('/api/v1/lightning/statistics/latest').then(function(d) {
+      out.lightning = d;
+      out.lightning_ts = tsNow();
+    }).catch(function(e) { console.error('live lightning fetch failed:', (e && e.message) || e); });
   });
   return chain.then(function() { return out; });
 }
@@ -144,16 +151,18 @@ async function runAsync() {
   live = null;
   try { live = await fetchLivePayload(); } catch (e) { console.error('live payload fetch failed:', (e && e.message) || e); }
   var price = null, height = null, mempool = null, fees = null;
-  var fees_ts = null, price_ts = null, height_ts = null, mempool_ts = null;
+  var fees_ts = null, price_ts = null, height_ts = null, mempool_ts = null, lightning = null, lightning_ts = null;
   if (live) {
     price = live.price || null;
     height = live.height !== null && live.height !== undefined ? live.height : null;
     mempool = live.mempool || null;
     fees = live.fees || null;
+    lightning = live.lightning || null;
     fees_ts = live.fees_ts || null;
     price_ts = live.price_ts || null;
     height_ts = live.height_ts || null;
     mempool_ts = live.mempool_ts || null;
+    lightning_ts = live.lightning_ts || null;
   }
   // Fallbacks (per-field, honest ts): mirror/spool data with the capture time.
   if (price === null || price === undefined) {
@@ -168,30 +177,51 @@ async function runAsync() {
     var mm = epData('mempool');
     if (mm) { mempool = mm; mempool_ts = mirrorCaptureTs; }
   }
+  if (lightning === null || lightning === undefined) {
+    var lh = epData('lightning');
+    if (!lh) {
+      var lhist = loadJson(path.join(REPO, 'data', 'lightning_history.json'), null);
+      if (lhist && lhist.latest) lh = lhist.latest;
+      if (lh && lhist && lhist.generated_at) lightning_ts = lhist.generated_at;
+    }
+    if (lh) { lightning = lh; if (!lightning_ts) lightning_ts = mirrorCaptureTs; }
+  }
+  // Fees: resolve the spool-last fee capture ONCE, then use it both as the
+  // full fallback (live API down) and as a per-tier mirror for a PARTIAL live
+  // payload (e.g. economyFee missing) — the 5-tier shape must never degrade.
+  var spoolFee = null;
+  try {
+    var feeDir = path.join(REPO, 'captured-data', 'spool', 'index', 'fees');
+    var feeFiles = fs.existsSync(feeDir) ? fs.readdirSync(feeDir).filter(function(f) { return f.endsWith('.jsonl'); }).sort() : [];
+    if (feeFiles.length) {
+      var flines = fs.readFileSync(path.join(feeDir, feeFiles[feeFiles.length - 1]), 'utf8').trim().split('\n');
+      var flast = flines.length ? JSON.parse(flines[flines.length - 1]) : null;
+      var fd = flast && flast.payload && flast.payload.data ? flast.payload.data : null;
+      if (fd) spoolFee = { data: fd, ts: flast.enqueuedAt || (flast.captureTime ? flast.captureTime.replace('_', 'T').replace(/-(\d{2})-(\d{2})$/, ':$1:$2') : null) || mirrorCaptureTs };
+    }
+  } catch (e) {}
   if (fees === null || fees === undefined) {
-    // spool-last fees fallback (authoritative when live API is down)
     fees = {};
-    try {
-      var feeDir = path.join(REPO, 'captured-data', 'spool', 'index', 'fees');
-      var feeFiles = fs.existsSync(feeDir) ? fs.readdirSync(feeDir).filter(function(f) { return f.endsWith('.jsonl'); }).sort() : [];
-      if (feeFiles.length) {
-        var lines = fs.readFileSync(path.join(feeDir, feeFiles[feeFiles.length - 1]), 'utf8').trim().split('\n');
-        var last = lines.length ? JSON.parse(lines[lines.length - 1]) : null;
-        var fd = last && last.payload && last.payload.data ? last.payload.data : null;
-        if (fd) {
-          ['fastestFee', 'halfHourFee', 'hourFee', 'economyFee', 'minimumFee'].forEach(function(k) {
-            if (fd[k] !== undefined && fd[k] !== null) fees[k] = fd[k];
-          });
-          // enqueuedAt is ISO (parseable); captureTime is BSAHI dashed format
-          // ("2026-08-22_00-02-20") — prefer the ISO field for honest age math.
-          fees_ts = last.enqueuedAt || (last.captureTime ? last.captureTime.replace('_', 'T').replace(/-(\d{2})-(\d{2})$/, ':$1:$2') : null) || mirrorCaptureTs;
-        }
-      }
-    } catch (e) {}
+    if (spoolFee) {
+      ['fastestFee', 'halfHourFee', 'hourFee', 'economyFee', 'minimumFee'].forEach(function(k) {
+        if (spoolFee.data[k] !== undefined && spoolFee.data[k] !== null) fees[k] = spoolFee.data[k];
+      });
+      // enqueuedAt is ISO (parseable); captureTime is BSAHI dashed format
+      // ("2026-08-22_00-02-20") — prefer the ISO field for honest age math.
+      fees_ts = spoolFee.ts;
+    }
     if (fees.fastestFee === undefined && fc && fc.latest_fastest_fee !== undefined) fees.fastestFee = fc.latest_fastest_fee;
+  } else if (spoolFee) {
+    ['fastestFee', 'halfHourFee', 'hourFee', 'economyFee', 'minimumFee'].forEach(function(k) {
+      if (fees[k] === undefined && spoolFee.data[k] !== undefined && spoolFee.data[k] !== null) fees[k] = spoolFee.data[k];
+    });
   }
   // Aggregate honest payload timestamp: the OLDEST per-field datum bounds the
   // payload (a single frozen field must not green-light the whole snapshot).
+  // lightning_ts is intentionally NOT gating: the Lightning stats mirror is a
+  // slow daily series (lightning_history.json), not a live feed — a stale daily
+  // row must not flag the whole payload "stale" while fees/price/height/mempool
+  // are fresh.
   var fieldTs = [fees_ts, price_ts, height_ts, mempool_ts].filter(function(x) { return x && !isNaN(new Date(x).getTime()); });
   var payload_ts = fieldTs.length ? fieldTs.sort()[0] : null;
 
@@ -207,10 +237,12 @@ async function runAsync() {
     price_ts: price_ts,
     height_ts: height_ts,
     mempool_ts: mempool_ts,
+    lightning_ts: lightning_ts,
     fees: fees,
     btc_price: (price && price.USD) || null,
     block_height: height,
     mempool_tx: (mempool && mempool.count) || null,
+    lightning: lightning,
     forecast: fc ? fc.forecast : [],
     alerts: (alerts && alerts.alerts) || [],
     history: history,

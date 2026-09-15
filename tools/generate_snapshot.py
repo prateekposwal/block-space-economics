@@ -54,8 +54,9 @@ def build_snapshot():
     btc = 0
     height = 0
     mempool_tx = 0
+    lightning = None
     now_iso = datetime.now(timezone.utc).isoformat()
-    fees_ts = price_ts = height_ts = mempool_ts = None
+    fees_ts = price_ts = height_ts = mempool_ts = lightning_ts = None
     try:
         d = json.loads(fetch('https://mempool.space/api/v1/fees/recommended'))
         for k in ['fastestFee', 'halfHourFee', 'hourFee', 'economyFee', 'minimumFee']:
@@ -64,6 +65,13 @@ def build_snapshot():
         fees_ts = now_iso
     except Exception as e:
         print('fees fetch failed:', e)
+    # Per-tier mirror: a partial live fees payload must not drop a tier — fill
+    # missing tiers from the previously committed snapshot.
+    prev = load_local('snapshot.json', None)
+    if prev and isinstance(prev.get('fees'), dict):
+        for k in ['fastestFee', 'halfHourFee', 'hourFee', 'economyFee', 'minimumFee']:
+            if k not in fees and k in prev['fees']:
+                fees[k] = prev['fees'][k]
     try:
         p = json.loads(fetch('https://mempool.space/api/v1/prices'))
         btc = p.get('USD', 0)
@@ -85,6 +93,16 @@ def build_snapshot():
         mempool_ts = now_iso
     except Exception as e:
         print('mempool fetch failed:', e)
+    try:
+        lightning = json.loads(fetch('https://mempool.space/api/v1/lightning/statistics/latest'))
+        lightning_ts = now_iso
+    except Exception as e:
+        print('lightning fetch failed:', e)
+    if not lightning:
+        lhist = load_local('lightning_history.json', None)
+        if lhist and lhist.get('latest'):
+            lightning = lhist['latest']
+            lightning_ts = lhist.get('generated_at')
 
     # Forecast from history fallback (runner-safe)
     forecast = []
@@ -101,6 +119,9 @@ def build_snapshot():
     except Exception as e:
         print('forecast failed:', e)
 
+    # lightning_ts intentionally not gating payload_ts: the Lightning stats mirror
+    # is a slow daily series, not a live feed — a stale daily row must not mark
+    # the whole payload stale while fees/price/height/mempool are fresh.
     field_ts = [ts for ts in (fees_ts, price_ts, height_ts, mempool_ts) if ts]
     payload_ts = min(field_ts) if field_ts else None
 
@@ -113,10 +134,12 @@ def build_snapshot():
         "price_ts": price_ts,
         "height_ts": height_ts,
         "mempool_ts": mempool_ts,
+        "lightning_ts": lightning_ts,
         "fees": fees,
         "btc_price": btc,
         "block_height": height,
         "mempool_tx": mempool_tx,
+        "lightning": lightning,
         "forecast": forecast,
         "alerts": [],
         "history": [{"date": h.get('date'), "fastestFee": h.get('fastestFee')} for h in load_local('fee_history.json', []) if h.get('date')],
