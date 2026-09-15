@@ -12,12 +12,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Bitcoin Sahi — Block Space Research">
   <meta name="twitter:description" content="Live Bitcoin fee, mempool, and block data from an autonomous research engine. Watch block space economics unfold in real time — fees, forecasts, and Bitcoin Resource Accounting research.">
-  <meta name="theme-color" content="#FBFAF7">
+  <meta name="theme-color" content="#1A1612">
   <link rel="canonical" href="https://bitcoinsahi.com/">
-  <link rel="icon" href="/assets/logo-48.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Organization","@id":"https://bitcoinsahi.com/#organization","name":"Bitcoin Sahi","url":"https://bitcoinsahi.com/","logo":{"@type":"ImageObject","url":"https://bitcoinsahi.com/og-image.png","width":1200,"height":630},"sameAs":["https://github.com/prateekposwal/block-space-economics"]}
   </script>
@@ -29,144 +25,173 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Bitcoin block space, live — bitcoinsahi.com">
   <meta name="twitter:image" content="https://bitcoinsahi.com/og-image.png">
-  <link rel="stylesheet" href="/css/design-system.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #1A1612; font-family: -apple-system, system-ui, sans-serif; }
+    #viz-fees { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; }
+
+    .state-bar { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 20; text-align: center; pointer-events: none; }
+    .state-bar .state-label { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; transition: color 1s ease; }
+    .state-bar .state-desc { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+    .bottom-area { position: fixed; bottom: 48px; left: 50%; transform: translateX(-50%); z-index: 20; text-align: center; }
+    .bottom-area .cta { display: inline-block; padding: 14px 32px; background: #F7931A; color: #1A1612; font-size: 17px; font-weight: 700; border-radius: 100px; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
+    .bottom-area .cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(247,147,26,0.3); }
+    .bottom-area .cta.low-fees { animation: ctaPulse 2s ease-in-out infinite; }
+    .bottom-area .hint { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 8px; }
+
+    @keyframes ctaPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(247,147,26,0.4); }
+      50% { box-shadow: 0 0 0 12px rgba(247,147,26,0); }
+    }
+
+    .legend-toggle { position: fixed; top: 90px; right: 20px; z-index: 30; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .legend-toggle:hover { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); }
+    .legend-panel { position: fixed; top: 130px; right: 20px; z-index: 40; background: #2A2622; border: 1px solid #3A3632; border-radius: 10px; padding: 16px; width: 220px; display: none; }
+    .legend-panel.visible { display: block; }
+    .legend-panel .l-item { display: flex; align-items: center; gap: 10px; padding: 4px 0; font-size: 12px; color: rgba(255,255,255,0.6); }
+    .legend-panel .l-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+    .legend-panel .l-title { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.8); margin-bottom: 8px; }
+
+    #genesis-strip { position: fixed; bottom: 42px; left: 0; width: 100vw; height: 2px; z-index: 15; pointer-events: none; }
+    #genesis-strip canvas { display: block; width: 100%; height: 100%; }
+
+    #dollar-context { position: fixed; top: 58%; left: 50%; transform: translateX(-50%); z-index: 15; text-align: center; font-size: 14px; color: rgba(255,255,255,0.4); pointer-events: none; font-variant-numeric: tabular-nums; animation: fadeInOut 3s ease-in-out infinite; }
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.7; }
+    }
+
+    #narrative-frame { position:fixed;top:62%;left:50%;transform:translateX(-50%);z-index:15;text-align:center;pointer-events:none; }
+    #narrative-text { font-size:13px;color:rgba(255,255,255,0.6);transition:opacity 1s;font-style:italic; }
+
+    #metrics-ticker { position: fixed; bottom: 0; left: 0; width: 100vw; z-index: 15; overflow: hidden; white-space: nowrap; font-size: 11px; color: rgba(255,255,255,0.6); padding: 4px 0; background: #1A1612; border-top: 1px solid rgba(255,255,255,0.05); font-variant-numeric: tabular-nums; letter-spacing: 0.3px; }
+    #nav-links { position: fixed; bottom: 160px; right: 20px; z-index: 30; display: flex; flex-direction: column; gap: 10px; }
+    #nav-links a { display: flex; align-items: center; gap: 10px; padding: 14px 24px; background: #231F19; border: 1px solid #3A3228; border-radius: 12px; color: #EADCC8; font-size: 15px; font-weight: 600; text-decoration: none; transition: all 0.2s; min-width: 180px; }
+    #nav-links a:hover { border-color: #4A4034; }
+    #nav-links a span { color: #D4933A; font-weight: 800; font-size: 18px; }
+    .ticker-track { display: inline-block; white-space: nowrap; padding-left: 0; animation: ticker-scroll 45s linear infinite; }
+    .ticker-track span { display: inline-block; }
+    .ticker-track .sep { margin: 0 10px; color: rgba(255,255,255,0.15); }
+    @keyframes ticker-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Mobile layout — consolidated from three contradictory duplicate blocks.
+       Final intent preserved: nav-links dock above the ticker, CTA floats above
+       them, legend toggle top-right, legend panel BELOW the fixed headline so
+       opening it never covers the H1. No !important crutches. */
+    @media (max-width: 600px) {
+      .bottom-area { width: 90%; }
+      .bottom-area .cta { display: block; }
+      #dollar-context { font-size: 12px; top: 54%; }
+      #narrative-frame { top: 58%; }
+      #narrative-frame #narrative-text { font-size: 11px; }
+      #nav-links { bottom: 140px; right: 10px; }
+      #nav-links a { padding: 10px 16px; font-size: 13px; min-width: 140px; }
+    }
+
+    @media (max-width: 480px) {
+      .state-bar { top: 10px; }
+      .state-bar .state-label { font-size: 10px; }
+      .state-bar .state-desc { font-size: 11px; margin-top: 2px; }
+      #dollar-context { top: 50%; font-size: 10px; }
+      #narrative-frame { top: 53%; }
+      #narrative-text { font-size: 10px; }
+      #genesis-strip { bottom: 32px; }
+      #metrics-ticker { font-size: 9px; padding: 3px 0; }
+      /* Legend: toggle top-right; panel opens below the fixed headline
+         (headline sits at top:110px, so 150px clears it). */
+      .legend-toggle { top: 12px; right: 12px; width: 28px; height: 28px; font-size: 12px; }
+      .legend-panel { top: 150px; right: 12px; width: 180px; padding: 12px; }
+      .legend-panel .l-item { font-size: 10px; }
+      /* Nav dock: bottom bar above the ticker, buttons in a wrapped row. */
+      #nav-links { bottom: 40px; right: 8px; left: 8px; flex-direction: row; flex-wrap: wrap; gap: 4px; justify-content: center; }
+      #nav-links a { min-width: 0; flex: 1 1 calc(33% - 4px); max-width: none; padding: 7px 8px; font-size: 11px; justify-content: center; }
+      #nav-links a span { font-size: 14px; }
+      /* CTA floats above the nav dock so nothing overlaps. */
+      .bottom-area { bottom: 200px; }
+      .bottom-area .cta { padding: 10px 20px; font-size: 14px; }
+      .bottom-area .hint { font-size: 10px; }
+    }
+
+    @media (max-width: 380px) {
+      #dollar-context { top: 48%; font-size: 9px; }
+      #narrative-frame { top: 51%; }
+      #nav-links a { font-size: 11px; padding: 7px 8px; }
+      .legend-toggle { top: 10px; right: 10px; }
+      .legend-panel { top: 148px; right: 10px; }
+    }
+  @media (prefers-reduced-motion: reduce) {
+    .state-bar, .bottom-area, .legend-panel { animation: none !important; transition: none !important; }
+  }
+  </style>
 <script src="/js/data-health-config.js"></script>
 <script src="/js/beta-nav.js" defer></script>
 <script src="/js/data-health.js" defer></script>
+<style id="bsahi-chrome">
+    /* BSAHI chrome — the design system layered over the living canvas.
+       The visualization stays the page; this layer adds navigation,
+       live stats with freshness, and trust signals in the same palette. */
+    #topbar{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;gap:16px;padding:14px 20px;background:linear-gradient(rgba(26,22,18,0.9),rgba(26,22,18,0));pointer-events:none}
+    #topbar>*{pointer-events:auto}
+    .brand{display:inline-flex;align-items:center;gap:9px;color:#EADCC8;text-decoration:none;font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    .brand .bi{color:#F7931A;font-size:16px;line-height:1}
+    #topnav{display:flex;gap:4px;margin-left:6px}
+    #topnav a{color:rgba(234,220,200,0.55);text-decoration:none;font-size:13px;font-weight:500;padding:6px 11px;border-radius:8px;transition:color .15s,background .15s}
+    #topnav a:hover{color:#EADCC8;background:rgba(255,255,255,0.07)}
+    #topnav a.on{color:#EADCC8;box-shadow:inset 0 -2px 0 #F7931A}
+    #chip{display:inline-flex;align-items:center;gap:7px;margin-left:auto;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.14);color:rgba(234,220,200,0.7)}
+    #chip b{width:8px;height:8px;border-radius:50%;background:#8B949E}
+    #chip.s-live b{background:#3FB950}#chip.s-delayed b{background:#D29922}
+    #chip.s-stale b,#chip.s-unknown b{background:#F85149}
+    #statstrip{position:fixed;top:150px;left:50%;transform:translateX(-50%);z-index:25;display:flex;gap:22px;padding:9px 20px;border-radius:999px;background:rgba(26,22,18,0.6);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-variant-numeric:tabular-nums;pointer-events:none}
+    #statstrip .ss{display:flex;align-items:baseline;gap:6px;font-size:12px}
+    #statstrip .ss b{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:15px;font-weight:600;color:#EADCC8}
+    #statstrip .ss i{font-style:normal;color:rgba(234,220,200,0.45);font-size:11px}
+    #statstrip .ss .se{font-style:normal;color:rgba(234,220,200,0.3);font-size:10px;letter-spacing:.05em;text-transform:uppercase}
+    #vs-note{position:fixed;top:194px;left:50%;transform:translateX(-50%);z-index:24;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:.02em;color:rgba(234,220,200,0.4);text-align:center;pointer-events:none;max-width:90vw}
+    #state-bar{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:24;text-align:center;pointer-events:none}
+    @media (max-width:600px){
+      #topbar{padding:10px 12px;flex-wrap:wrap;row-gap:6px}
+      #topnav{order:3;width:100%;justify-content:flex-start;margin-left:0}
+      #chip{order:2}
+      #state-bar{top:auto;bottom:118px}
+      #statstrip{top:auto;bottom:64px;left:10px;right:10px;transform:none;border-radius:14px;justify-content:space-between;gap:12px;white-space:nowrap}
+      #statstrip .ss b{font-size:13px}
+      #vs-note{display:none}
+    }
+  </style>
 </head>
 <body data-version="v5-design-system">
+  <canvas id="viz-fees"></canvas>
 
-  <!-- Sticky nav: brand (current BSAHI mark), primary links, live-status chip -->
-  <header class="nav">
-    <div class="wrap">
-      <a class="brand" href="/">
-        <img src="/assets/logo.png" alt="Bitcoin Sahi logo" width="30" height="30">
-        <span class="wm">Bitcoin<b>Sahi</b></span>
-      </a>
-      <nav class="nav-links" id="nav-links" aria-label="Primary">
-        <a href="/" class="on" aria-current="page">Live</a>
-        <a href="/learn">Learn</a>
-        <a href="/research/">Research</a>
-        <a href="/status">Status</a>
-      </nav>
-      <span class="chip" id="bsahi-health-chip" title="Data status">
-        <span id="data-health" style="font-size:1em;">⚪</span>
-        <span id="chip-label">checking…</span>
-      </span>
-    </div>
+  <!-- System chrome over the canvas: brand (existing BSAHI mark), nav, live status -->
+  <header id="topbar">
+    <a class="brand" href="/"><span class="bi">⬡</span> BSAHI</a>
+    <nav id="topnav" aria-label="Primary">
+      <a href="/" class="on">Live</a>
+      <a href="/learn">Learn</a>
+      <a href="/research/">Research</a>
+      <a href="/capacity">Capacity</a>
+    </nav>
+    <span id="chip" title="Data freshness"><b id="chip-dot"></b><span id="chip-label">Connecting</span></span>
   </header>
 
-  <main class="wrap">
+  <!-- Live network state, same single source of truth as the H1 dot -->
+  <div id="statstrip" aria-label="Live network state">
+    <span class="ss"><i class="se">Fastest</i><b id="vs-fastest">--</b><i>sat/vB</i></span>
+    <span class="ss"><i class="se">Economy</i><b id="vs-economy">--</b><i>sat/vB</i></span>
+    <span class="ss"><i class="se">Mempool</i><b id="vs-mempool">--</b><i>txs</i></span>
+    <span class="ss"><i class="se">Height</i><b id="vs-height">--</b></span>
+  </div>
+  <div id="vs-note">Waiting for the latest snapshot…</div>
 
-    <!-- Hero: thesis + CTAs -->
-    <section class="hero">
-      <p class="eyebrow">Autonomous research — block space economics</p>
-      <h1 class="thesis">Bitcoin block space, <em>measured</em> — live, every block.</h1>
-      <p class="lede">
-        Bitcoin Sahi is an autonomous research engine that watches Bitcoin's fee market,
-        mempool, and block space in real time. Every bar below is one block; the floating
-        particles are transactions waiting in the mempool. Data is captured every few
-        minutes and every live number carries a freshness tag.
-      </p>
-      <div class="cta-row">
-        <div class="bottom-area">
-          <a class="btn primary cta" href="/learn">Read the research →</a>
-        </div>
-        <a class="btn secondary" href="/live">Live dashboard →</a>
-      </div>
-    </section>
-
-    <!-- Live network state: system stat cards (populated by the engine) -->
-    <section class="sec" aria-label="Live network state">
-      <h2>Live network state</h2>
-      <p class="note">Curated snapshot + live feed, one source of truth. Values render only when a real number exists.</p>
-      <div class="grid cols-4">
-        <div class="stat">
-          <div class="lbl">Fastest fee</div>
-          <div class="val"><span id="vs-fastest">--</span><small>sat/vB</small></div>
-          <span class="fro" id="fro-fastest">pending</span>
-        </div>
-        <div class="stat">
-          <div class="lbl">Economy fee</div>
-          <div class="val"><span id="vs-economy">--</span><small>sat/vB</small></div>
-          <span class="fro" id="fro-economy">pending</span>
-        </div>
-        <div class="stat">
-          <div class="lbl">Mempool</div>
-          <div class="val"><span id="vs-mempool">--</span><small>txs</small></div>
-          <span class="fro" id="fro-mempool">pending</span>
-        </div>
-        <div class="stat">
-          <div class="lbl">Block height</div>
-          <div class="val"><span id="vs-height">--</span></div>
-          <span class="fro" id="fro-height">pending</span>
-        </div>
-      </div>
-
-      <div class="grid cols-2" style="margin-top:20px;">
-        <div class="def">
-          <h3>Transacting now</h3>
-          <p>An economy-rate transaction (140 vbytes) costs <b style="font-family:var(--mono)"><span id="ctx-economy">--</span> sat/vB</b> ≈ <b style="font-family:var(--mono)">$<span id="ctx-dollar">--</span></b> right now.</p>
-        </div>
-        <div class="def">
-          <h3>How to read this</h3>
-          <p>Green bars stay when fees are low, red when congested. The skyline is the last 24 hours — 144 blocks — with each bar a real confirmed block.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- The living visualization: same engine, contained panel -->
-    <section class="sec" aria-label="Live block space visualization">
-      <div class="viz-panel">
-        <canvas id="viz-fees" aria-label="Fee skyline: each bar is one Bitcoin block, colored by fee rate"></canvas>
-        <div id="genesis-strip"><canvas id="genesis-canvas"></canvas></div>
-        <div class="viz-meta">
-          <span class="state-bar" id="state-bar">
-            <span class="state-label" id="state-label" style="color:#B45309;">● Data pending</span>
-            <span class="state-desc" id="state-desc">Waiting for live fee data…</span>
-          </span>
-          <button class="legend-toggle" id="legend-toggle" aria-label="Toggle legend" aria-expanded="false"
-            onclick="document.getElementById('legend-panel').classList.toggle('visible'); this.setAttribute('aria-expanded', document.getElementById('legend-panel').classList.contains('visible'));">?</button>
-          <span class="narrative" id="narrative-frame"><span id="narrative-text">Each bar is one Bitcoin block — mined every ~10 minutes</span></span>
-        </div>
-        <div class="legend-panel" id="legend-panel">
-          <div class="l-title">Legend</div>
-          <div class="l-item"><span class="l-dot" style="background:#3FB950;"></span>Low fees — calm network</div>
-          <div class="l-item"><span class="l-dot" style="background:#D29922;"></span>Elevated fees</div>
-          <div class="l-item"><span class="l-dot" style="background:#F85149;"></span>High fees — congestion</div>
-          <div class="l-item"><span class="l-dot" style="background:#3D7AFF;"></span>Mempool transaction</div>
-        </div>
-      </div>
-      <p id="vs-note" style="font-family:var(--mono);font-size:12px;color:var(--ink-3);margin:12px 4px 0;">Waiting for the latest snapshot…</p>
-    </section>
-
-    <!-- Latest research -->
-    <section class="sec" aria-label="Latest research">
-      <h2>Latest research</h2>
-      <p class="note">Open, reproducible, and measured — not announced.</p>
-      <div class="grid cols-3">
-        <a class="rcard" href="/research/working-paper.html">
-          <p class="eyebrow">Metric #1</p>
-          <h3>Bitcoin Resource Accounting</h3>
-          <p>How much of each long-lived resource Bitcoin consumes does the fee market internalize? Storage (SCCR) first — measured, reproducible.</p>
-          <span class="meta">Working paper →</span>
-        </a>
-        <a class="rcard" href="/research/governance-boundary.html">
-          <p class="eyebrow">Open question</p>
-          <h3>The governance boundary</h3>
-          <p>Where protocol-level consensus ends and operating outside the network begins.</p>
-          <span class="meta">Read →</span>
-        </a>
-        <a class="rcard" href="/learn">
-          <p class="eyebrow">Explainers</p>
-          <h3>Learn block space economics</h3>
-          <p>Fees, mempool, block space, SCCR — plain-language tours of how the market prices scarcity.</p>
-          <span class="meta">Start learning →</span>
-        </a>
-      </div>
-    </section>
-
-  </main>
+  <!-- Visible H1 (only content per architect) -->
+  <div style="position:fixed;top:110px;left:50%;transform:translateX(-50%);z-index:25;text-align:center;pointer-events:none;max-width:640px;width:calc(100% - 40px);">
+    <h1 style="font-size:clamp(20px,3.5vw,34px);color:#EADCC8;margin:0;letter-spacing:0.5px;">Bitcoin block space, <span style="color:#F7931A;">live</span>. <span id="data-health" title="Data status" style="font-size:0.6em;color:#8B949E;">⚪</span></h1>
+  </div>
 
   <!-- SEO content layer (crawler-readable, invisible to visitors) -->
   <div style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;" aria-hidden="false">
@@ -182,24 +207,49 @@
     <a href="/learn">Read the research →</a>
   </div>
 
-  <!-- Ticker strip -->
+  <div class="state-bar" id="state-bar">
+    <div class="state-label" id="state-label" style="color:#D29922;">Data pending</div>
+    <div class="state-desc" id="state-desc">Waiting for live fee data…</div>
+  </div>
+
+  <button class="legend-toggle" id="legend-toggle" aria-label="Toggle legend" aria-expanded="false" onclick="document.getElementById('legend-panel').classList.toggle('visible'); this.setAttribute('aria-expanded', document.getElementById('legend-panel').classList.contains('visible'));">?</button>
+  <div class="legend-panel" id="legend-panel">
+    <div class="l-title">What am I looking at?</div>
+    <div class="l-item"><span class="l-dot" style="background:#3FB950;"></span> Low fee block</div>
+    <div class="l-item"><span class="l-dot" style="background:#D29922;"></span> Moderate fee</div>
+    <div class="l-item"><span class="l-dot" style="background:#F85149;"></span> High fee — congested</div>
+    <div class="l-item"><span style="color:rgba(255,255,255,0.4);font-size:14px;">◌</span> Floating particles = mempool transactions waiting</div>
+    <div class="l-item"><span style="color:rgba(255,255,255,0.4);font-size:14px;">⬜</span> Each bar = one Bitcoin block (last 24h)</div>
+  </div>
+
+    <div class="bottom-area">
+      <a href="/live" class="cta">Should I send now?</a>
+      <div class="hint" style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:8px;">Hover over bars to see block details</div>
+    </div>
+
+    <div id="nav-links">
+      <a href="/fork-tracker"><span>⬡</span> Fork Tracker</a>
+      <a href="/story.html"><span>◈</span> Data Story</a>
+      <a href="/beta.html"><span>✦</span> Beta</a>
+    </div>
+    </div>
+
+    <!-- Visible below-the-fold content (public-facing, not SEO-hidden) -->
+
+
+  <div id="genesis-strip"><canvas id="genesis-canvas"></canvas></div>
+
+  <div id="dollar-context">
+    Economy: <span id="ctx-economy">--</span> sat/vB = $<span id="ctx-dollar">--</span> per tx
+  </div>
+
+  <div id="narrative-frame"><div id="narrative-text"></div></div>
   <div id="metrics-ticker"><div class="ticker-track" id="ticker-track"></div></div>
 
-  <footer class="footer">
-    <div class="wrap">
-      <a class="brand" href="/">
-        <img src="/assets/logo.png" alt="Bitcoin Sahi logo" width="24" height="24">
-        <span class="wm" style="font-size:16px;">Bitcoin<b>Sahi</b></span>
-      </a>
-      <p style="margin:10px 0 0;">An autonomous research engine measuring Bitcoin block space economics in real time. Every number on this site is captured, timestamped, and reproducible.</p>
-      <p style="margin:8px 0 0;">Live · <a href="/learn">Learn</a> · <a href="/research/">Research</a> · <a href="/status">Status</a> · <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></p>
-    </div>
-  </footer>
-
-<script src="tools/data-engine.js"></script>
-<script src="tools/viz-core.js"></script>
-<script src="tools/viz-fees.js"></script>
-<script>
+  <script src="tools/data-engine.js"></script>
+  <script src="tools/viz-core.js"></script>
+  <script src="tools/viz-fees.js"></script>
+  <script>
     DATA_ENGINE.start();
     VIZ_Fees.init('viz-fees');
 
@@ -228,7 +278,7 @@
       var fees = DATA_ENGINE.get().fees || {};
       var fc = (typeof fees.fastestFee === 'number' && fees.fastestFee > 0) ? feeColor(fees.fastestFee) : { r: 139, g: 148, b: 158 };
       var grad = ctx.createLinearGradient(0, 0, w, 0);
-      grad.addColorStop(0, '#FBFAF7');
+      grad.addColorStop(0, '#1A1612');
       grad.addColorStop(0.6, 'rgba(' + fc.r + ',' + fc.g + ',' + fc.b + ',0.25)');
       grad.addColorStop(0.9, 'rgba(' + fc.r + ',' + fc.g + ',' + fc.b + ',0.6)');
       grad.addColorStop(1, 'rgb(' + fc.r + ',' + fc.g + ',' + fc.b + ')');
@@ -334,7 +384,6 @@
     var stateDesc = document.getElementById('state-desc');
     var ctaEl = document.querySelector('.bottom-area .cta');
     var dotEl = document.getElementById('data-health');
-    var chipLabel = document.getElementById('chip-label');
 
     // ONE source of truth for status. Both the health dot and the state-bar
     // derive from the SAME snapshot state so they are always identical —
@@ -364,22 +413,13 @@
       }
       // Both indicators — identical, always.
       if (dotEl) { dotEl.textContent = emoji; dotEl.style.color = color; dotEl.title = verdict + ' — ' + desc; }
-      if (chipLabel) { chipLabel.textContent = verdict; }
       if (stateLabel) { stateLabel.textContent = emoji + ' ' + verdict; stateLabel.style.color = color; }
       if (stateDesc) stateDesc.textContent = desc;
-      // Freshness tags on the stat cards, one verdict for all four.
-      var froClass = {
-        live: 'fro ok', delayed: 'fro warn', pending: 'fro warn',
-        stale: 'fro err', unknown: 'fro err'
-      }[level] || 'fro warn';
-      var froText = {
-        live: 'live', delayed: 'delayed', pending: 'pending',
-        stale: 'stale', unknown: 'unavailable'
-      }[level] || 'pending';
-      ['fro-fastest', 'fro-economy', 'fro-mempool', 'fro-height'].forEach(function(id) {
-        var el = document.getElementById(id);
-        if (el) { el.className = froClass; el.textContent = froText; }
-      });
+      // Nav chip + stat strip freshness, fed by the SAME verdict.
+      var chip = document.getElementById('chip');
+      var chop = document.getElementById('chip-label');
+      if (chop) chop.textContent = verdict;
+      if (chip) chip.className = ' ' + (level === 'live' ? 's-live' : (level === 'delayed' || level === 'pending') ? 's-delayed' : 's-stale');
     }
 
     function refreshUI() {
