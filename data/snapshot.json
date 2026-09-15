@@ -1,35 +1,35 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-15T13:47:20.597Z",
+  "generated_at": "2026-09-15T14:28:00.290Z",
   "freshness_min": 0,
-  "payload_ts": "2026-09-15T13:47:10.511Z",
-  "fees_ts": "2026-09-15T13:47:10.511Z",
-  "price_ts": "2026-09-15T13:47:11.291Z",
-  "height_ts": "2026-09-15T13:47:12.715Z",
-  "mempool_ts": "2026-09-15T13:47:19.830Z",
-  "lightning_ts": "2026-09-15T13:47:20.596Z",
+  "payload_ts": "2026-09-15T14:27:43.486Z",
+  "fees_ts": "2026-09-15T14:27:43.486Z",
+  "price_ts": "2026-09-15T14:27:44.694Z",
+  "height_ts": "2026-09-15T14:27:51.044Z",
+  "mempool_ts": "2026-09-15T14:27:59.050Z",
+  "lightning_ts": "2026-09-15T14:28:00.288Z",
   "fees": {
-    "fastestFee": 3,
-    "halfHourFee": 3,
+    "fastestFee": 2,
+    "halfHourFee": 1,
     "hourFee": 1,
     "economyFee": 1,
     "minimumFee": 1
   },
-  "btc_price": 76400,
-  "block_height": 967128,
-  "mempool_tx": 37975,
+  "btc_price": 76372,
+  "block_height": 967134,
+  "mempool_tx": 34420,
   "lightning": {
     "latest": {
       "id": 121515,
       "added": "2026-09-15T00:00:00.000Z",
-      "channel_count": 31796,
+      "channel_count": 31798,
       "node_count": 16140,
-      "total_capacity": 373580919540,
+      "total_capacity": 373515919540,
       "tor_nodes": 7913,
-      "clearnet_nodes": 4606,
-      "unannounced_nodes": 2020,
-      "avg_capacity": 11749306,
-      "avg_fee_rate": 817,
+      "clearnet_nodes": 4605,
+      "unannounced_nodes": 2021,
+      "avg_capacity": 11746522,
+      "avg_fee_rate": 816,
       "avg_base_fee_mtokens": 883,
       "med_capacity": 2002002,
       "med_fee_rate": 100,
@@ -71,9 +71,7 @@
       "trend": "falling"
     }
   ],
-  "alerts": [
-    "⚡ economyFee: 0.0 sat/vB — below 1 threshold at high BTC price"
-  ],
+  "alerts": [],
   "history": [
     {
       "date": "2026-08-17",
@@ -358,6 +356,10 @@
     {
       "date": "2026-09-15",
       "fastestFee": 1
+    },
+    {
+      "date": "2026-09-15",
+      "fastestFee": 2
     }
   ],
   "totalPosts": 0
