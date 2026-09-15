@@ -221,16 +221,16 @@ body{background:var(--bg);color:var(--ink);font-family:var(--ui);min-height:100v
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="/js/site-nav.js"></script>
 <script src="/js/beta-nav.js" defer></script>
 <script src="/js/data-health-config.js"></script>
 </head>
 <body>
-<header class="topbar-bar">
-  <div class="tb-row1">
-    <a class="brand" href="/"><span class="bi">⬡</span> BSAHI</a>
+<header class="site-nav" id="site-nav">
+  <div class="site-nav-inner">
     <span id="chip" title="Data freshness"><b id="chip-dot"></b><span id="chip-label">Live</span></span>
   </div>
-  <nav class="tb-tabs" aria-label="Dashboards">
+  <nav class="nav-tabs" aria-label="Dashboards">
     <button class="tab-btn active" data-tab="send">Send</button>
     <button class="tab-btn" data-tab="lightning">Lightning</button>
     <button class="tab-btn" data-tab="exchange">Exchange</button>

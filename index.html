@@ -45,9 +45,9 @@
       50% { box-shadow: 0 0 0 12px rgba(247,147,26,0); }
     }
 
-    .legend-toggle { position: fixed; top: 90px; right: 20px; z-index: 30; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .legend-toggle { position: fixed; top: 155px; right: 20px; z-index: 30; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
     .legend-toggle:hover { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); }
-    .legend-panel { position: fixed; top: 130px; right: 20px; z-index: 40; background: var(--surface-muted); border: 1px solid var(--surface-muted); border-radius: 10px; padding: 16px; width: 220px; display: none; }
+    .legend-panel { position: fixed; top: 195px; right: 20px; z-index: 40; background: var(--surface-muted); border: 1px solid var(--surface-muted); border-radius: 10px; padding: 16px; width: 220px; display: none; }
     .legend-panel.visible { display: block; }
     .legend-panel .l-item { display: flex; align-items: center; gap: 10px; padding: 4px 0; font-size: 12px; color: rgba(255,255,255,0.6); }
     .legend-panel .l-dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
@@ -93,7 +93,7 @@
     }
 
     @media (max-width: 480px) {
-      .state-bar { top: 10px; }
+      .state-bar { top: 113px; }
       .state-bar .state-label { font-size: 10px; }
       .state-bar .state-desc { font-size: 11px; margin-top: 2px; }
       #dollar-context { top: 50%; font-size: 10px; }
@@ -103,8 +103,8 @@
       #metrics-ticker { font-size: 9px; padding: 3px 0; }
       /* Legend: toggle top-right; panel opens below the fixed headline
          (headline sits at top:110px, so 150px clears it). */
-      .legend-toggle { top: 12px; right: 12px; width: 28px; height: 28px; font-size: 12px; }
-      .legend-panel { top: 150px; right: 12px; width: 180px; padding: 12px; }
+      .legend-toggle { top: 115px; right: 12px; width: 28px; height: 28px; font-size: 12px; }
+      .legend-panel { top: 253px; right: 12px; width: 180px; padding: 12px; }
       .legend-panel .l-item { font-size: 10px; }
       /* Nav dock: bottom bar above the ticker, buttons in a wrapped row. */
       #nav-links { bottom: 40px; right: 8px; left: 8px; flex-direction: row; flex-wrap: wrap; gap: 4px; justify-content: center; }
@@ -120,8 +120,8 @@
       #dollar-context { top: 48%; font-size: 9px; }
       #narrative-frame { top: 51%; }
       #nav-links a { font-size: 11px; padding: 7px 8px; }
-      .legend-toggle { top: 10px; right: 10px; }
-      .legend-panel { top: 148px; right: 10px; }
+      .legend-toggle { top: 113px; right: 10px; }
+      .legend-panel { top: 251px; right: 10px; }
     }
   @media (prefers-reduced-motion: reduce) {
     .state-bar, .bottom-area, .legend-panel { animation: none !important; transition: none !important; }
@@ -146,29 +146,29 @@
     #chip b{width:8px;height:8px;border-radius:50%;background:var(--ink-3)}
     #chip.s-live b{background:var(--ok)}#chip.s-delayed b{background:var(--warn)}
     #chip.s-stale b,#chip.s-unknown b{background:var(--err)}
-    #statstrip{position:fixed;top:190px;left:50%;transform:translateX(-50%);z-index:25;display:flex;gap:22px;padding:9px 20px;border-radius:999px;background:rgba(26,22,18,0.6);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-variant-numeric:tabular-nums;pointer-events:none}
+    #statstrip{position:fixed;top:255px;left:50%;transform:translateX(-50%);z-index:25;display:flex;gap:22px;padding:9px 20px;border-radius:999px;background:rgba(26,22,18,0.6);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-variant-numeric:tabular-nums;pointer-events:none}
     #statstrip .ss{display:flex;align-items:baseline;gap:6px;font-size:12px}
     #statstrip .ss b{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:15px;font-weight:600;color:var(--ink)}
     #statstrip .ss i{font-style:normal;color:rgba(234,220,200,0.45);font-size:11px}
     #statstrip .ss .se{font-style:normal;color:rgba(234,220,200,0.3);font-size:10px;letter-spacing:.05em;text-transform:uppercase}
-    #vs-note{position:fixed;top:232px;left:50%;transform:translateX(-50%);z-index:24;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:.02em;color:rgba(234,220,200,0.4);text-align:center;pointer-events:none;max-width:90vw}
-    #state-bar{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:24;text-align:center;pointer-events:none}
+    #vs-note{position:fixed;top:297px;left:50%;transform:translateX(-50%);z-index:24;font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:11px;letter-spacing:.02em;color:rgba(234,220,200,0.4);text-align:center;pointer-events:none;max-width:90vw}
+    #state-bar{position:fixed;top:129px;left:50%;transform:translateX(-50%);z-index:24;text-align:center;pointer-events:none}
     @media (max-width:900px){
-      #legend-toggle{top:155px;right:16px}
+      #legend-toggle{top:220px;right:16px}
     }
     @media (max-width:600px){
       #topbar{padding:10px 12px;flex-wrap:wrap;row-gap:6px}
       #topnav{order:3;width:100%;justify-content:flex-start;margin-left:0}
       #chip{order:2}
-      #headline{top:118px}
-      #legend-toggle{top:96px;right:12px}
+      #headline{top:221px}
+      #legend-toggle{top:199px;right:12px}
       /* Mobile stat strip sits UNDER the title — the bottom dock, CTA, and
          ticker keep their original places and nothing overlaps. */
       #state-bar{display:none}
       #nav-links{position:fixed;bottom:40px;left:8px;right:8px;flex-direction:row;flex-wrap:wrap;gap:4px;justify-content:center}
       #nav-links a{min-width:0;flex:1 1 calc(33% - 4px);max-width:none;padding:7px 8px;font-size:11px;justify-content:center}
       #nav-links a span{font-size:14px}
-      #statstrip{top:172px;bottom:auto;left:50%;right:auto;transform:translateX(-50%);border-radius:999px;justify-content:center;gap:16px;white-space:nowrap;max-width:95vw;overflow-x:auto}
+      #statstrip{top:275px;bottom:auto;left:50%;right:auto;transform:translateX(-50%);border-radius:999px;justify-content:center;gap:16px;white-space:nowrap;max-width:95vw;overflow-x:auto}
       #statstrip .ss b{font-size:13px}
       .bottom-area{bottom:88px}
       .bottom-area .hint{display:none}
@@ -197,17 +197,6 @@
   <canvas id="viz-fees"></canvas>
 
   <!-- System chrome over the canvas: brand (existing BSAHI mark), nav, live status -->
-  <header id="topbar">
-    <a class="brand" href="/"><span class="bi">⬡</span> BSAHI</a>
-    <nav id="topnav" aria-label="Primary">
-      <a href="/" class="on">Live</a>
-      <a href="/learn">Learn</a>
-      <a href="/research/">Research</a>
-      <a href="/capacity">Capacity</a>
-    </nav>
-    <span id="chip" title="Data freshness"><b id="chip-dot"></b><span id="chip-label">Connecting</span></span>
-  </header>
-
   <!-- Live network state, same single source of truth as the H1 dot -->
   <div id="statstrip" aria-label="Live network state">
     <span class="ss"><i class="se">Fastest</i><b id="vs-fastest">--</b><i>sat/vB</i></span>
@@ -218,7 +207,7 @@
   <div id="vs-note">Waiting for the latest snapshot…</div>
 
   <!-- Visible H1 (only content per architect) -->
-  <div id="headline" style="position:fixed;top:110px;left:50%;transform:translateX(-50%);z-index:25;text-align:center;pointer-events:none;max-width:640px;width:calc(100% - 40px);">
+  <div id="headline" style="position:fixed;top:175px;left:50%;transform:translateX(-50%);z-index:25;text-align:center;pointer-events:none;max-width:640px;width:calc(100% - 40px);">
     <h1 style="font-size:clamp(20px,3.5vw,34px);color:var(--ink);margin:0;letter-spacing:0.5px;">Bitcoin block space, <span style="color:var(--accent);">live</span>. <span id="data-health" title="Data status" style="font-size:0.6em;color:var(--ink-3);">⚪</span></h1>
   </div>
 
@@ -256,13 +245,6 @@
       <div class="hint" style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:8px;">Each bar is one Bitcoin block — the skyline is the last 24h</div>
     </div>
 
-    <div id="nav-links">
-      <a href="/fork-tracker"><span>⬡</span> Fork Tracker</a>
-      <a href="/story.html"><span>◈</span> Data Story</a>
-      <a href="/beta.html"><span>✦</span> Beta</a>
-    </div>
-    </div>
-
     <!-- Visible below-the-fold content (public-facing, not SEO-hidden) -->
 
 
@@ -275,6 +257,7 @@
   <div id="narrative-frame"><div id="narrative-text"></div></div>
   <div id="metrics-ticker"><div class="ticker-track" id="ticker-track"></div></div>
 
+  <script src="/js/site-nav.js"></script>
   <script src="tools/data-engine.js"></script>
   <script src="tools/viz-core.js"></script>
   <script src="tools/viz-fees.js"></script>

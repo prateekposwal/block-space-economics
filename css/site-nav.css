@@ -1,0 +1,112 @@
+/* BSAHI site topbar — the one nav bar used on every page.
+   Loaded from /js/site-nav.js (link injected) + can be linked directly. */
+
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  margin: 0;
+  padding: 0;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.site-nav-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 64px;
+  padding: 0 20px;
+}
+.site-nav .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-family: var(--ui);
+  position: relative;
+}
+.site-nav .brand .bi { color: var(--accent); font-size: 16px; line-height: 1; }
+.site-nav-links { display: flex; gap: 2px; flex-wrap: wrap; }
+.site-nav-links a {
+  display: inline-block;
+  padding: 7px 14px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ink-2);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+  font-family: var(--ui);
+}
+.site-nav-links a:hover { color: var(--ink); background: var(--surface-muted); }
+.site-nav-links a.active {
+  color: var(--accent-ink);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+#chip {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  border: 1px solid var(--line);
+  padding: 5px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-family: var(--ui);
+}
+#chip b { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); }
+#chip.s-live b { background: var(--ok); }
+#chip.s-delayed b { background: var(--warn); }
+#chip.s-stale b { background: var(--err); }
+
+/* Page-level tab strip (live dashboard) — second row inside the same header */
+.nav-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 6px 20px 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.nav-tabs .tab-btn {
+  padding: 7px 16px;
+  border-radius: 999px;
+  font: 600 14px var(--ui);
+  color: var(--ink-2);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.nav-tabs .tab-btn:hover { color: var(--ink); border-color: var(--line); background: var(--surface-muted); }
+.nav-tabs .tab-btn.active {
+  color: var(--accent-ink);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+@media (max-width: 600px) {
+  .site-nav-inner { flex-wrap: wrap; min-height: 0; padding: 8px 12px; row-gap: 4px; }
+  .site-nav-links { order: 3; width: 100%; gap: 2px; }
+  .site-nav-links a { padding: 6px 10px; font-size: 0.78rem; }
+  #chip { margin-left: auto; }
+  .nav-tabs { padding: 4px 8px 8px; }
+}

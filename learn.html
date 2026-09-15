@@ -150,19 +150,7 @@ footer .links a:hover{color:var(--accent-ink)}
 </head>
 <body>
 
-<div class="header">
-<div class="header-inner">
-<a href="/" class="brand"><span class="bi">⬡</span> BSAHI</a>
- <div class="nav">
- <a href="/live">Decide</a>
- <a href="/learn" class="active">Learn</a>
- <a href="/capacity">Capacity</a>
-  <a href="/fork-tracker">Fork</a><a href="/story.html">Data Story</a><a href="/articles.html">Articles</a><a href="/beta.html">Beta</a>
-  <a href="/research">Research</a>
-    </div>
-  </div>
- </div>
-
+<script src="/js/site-nav.js"></script>
 
 <section class="hero">
 <div class="hero-badge">The Bitcoin Block</div>
@@ -262,7 +250,7 @@ Each new block strengthens every block that came before it. To rewrite history, 
 <!-- BSAHI Section -->
 <section class="scroll-section fade-in" id="about">
 <div class="section-number">About Bitcoin Sahi</div>
-<h2 class="section-title">Making Block Space <span style="color:var(--accent-ink);">Understandable</span></h2>
+<h2 class="section-title">Making Block Space <span style="color:#FBBF24;">Understandable</span></h2>
 
 <div class="bsahi-section">
 <h2>The Problem We <span>Solve</span></h2>
@@ -281,7 +269,7 @@ Each new block strengthens every block that came before it. To rewrite history, 
 <div class="diff-desc">Show charts, metrics, and API status. You interpret the data and make your own decision.</div>
 </div>
 <div class="diff-card us">
-<div class="diff-label" style="color:var(--ok);">BSAHI</div>
+<div class="diff-label" style="color:#4ADE80;">BSAHI</div>
 <div class="diff-title">Decisions</div>
 <div class="diff-desc">Shows what matters for your role — miner, sender, exchange — and tells you what to do. Data → Insight → Action.</div>
 </div>
@@ -293,7 +281,7 @@ Each new block strengthens every block that came before it. To rewrite history, 
 <div class="diff-desc">Raw blockchain data. You build the integration, you handle the scaling, you manage the reliability.</div>
 </div>
 <div class="diff-card us">
-<div class="diff-label" style="color:var(--ok);">BSAHI</div>
+<div class="diff-label" style="color:#4ADE80;">BSAHI</div>
 <div class="diff-title">Data for Everyone</div>
 <div class="diff-desc">Curated, persona-connected data with reliability monitoring. Each source shows who it serves and why it matters. Enterprise feeds available for those who need more.</div>
 </div>
@@ -305,7 +293,7 @@ Each new block strengthens every block that came before it. To rewrite history, 
 <div class="diff-desc">Historical charts. "What happened yesterday?"</div>
 </div>
 <div class="diff-card us">
-<div class="diff-label" style="color:var(--ok);">BSAHI</div>
+<div class="diff-label" style="color:#4ADE80;">BSAHI</div>
 <div class="diff-title">Live + Predictive</div>
 <div class="diff-desc">Real-time data with historical capture. Building toward fee forecasting, anomaly detection, and congestion prediction.</div>
 </div>
@@ -317,7 +305,7 @@ Each new block strengthens every block that came before it. To rewrite history, 
 <div class="diff-desc">100% dependent on third-party API availability. When mempool.space goes down, their site goes blank.</div>
 </div>
 <div class="diff-card us">
-<div class="diff-label" style="color:var(--ok);">BSAHI</div>
+<div class="diff-label" style="color:#4ADE80;">BSAHI</div>
 <div class="diff-title">Self-Owned Infrastructure</div>
 <div class="diff-desc">Our own Bitcoin Core node + localStorage cache + Blockchair fallback. When any data source is down, cached data and fallbacks keep the site functional.</div>
 </div>
@@ -328,21 +316,21 @@ Each new block strengthens every block that came before it. To rewrite history, 
 <h2>Our <span>Architecture</span></h2>
 <p>BSAHI runs on a four-layer pipeline — from raw network data to persona-driven decisions, updated every 60 seconds:</p>
 <div style="display:flex;flex-direction:column;gap:12px;margin:20px 0;">
-<div style="background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;align-items:center;gap:16px;">
-<span style="font-size:1.5rem;color:var(--accent-ink);font-weight:800;">⬡</span>
-<div><div style="font-weight:600;color:var(--ink);margin-bottom:2px;">Layer 1: Data Sources</div><div style="font-size:.85rem;color:var(--ink-3);"><strong style="color:var(--ink);">20+ endpoints</strong> across mempool.space, Blockchair, CoinPaprika, Blockstream, Fear &amp; Greed, plus our own <strong style="color:var(--ink);">Bitcoin Core node</strong> — flowing into <strong style="color:var(--ink);">26 data sources</strong>. <strong style="color:var(--ink);">10,000+ captures</strong> in SQLite, backfilled continuously. Historical sampler covering blocks from 2009.</div></div>
+<div style="background:#121110;border:1px solid #332F2A;border-radius:10px;padding:16px;display:flex;align-items:center;gap:16px;">
+<span style="font-size:1.5rem;color:#FBBF24;font-weight:800;">⬡</span>
+<div><div style="font-weight:600;color:#F5F1EA;margin-bottom:2px;">Layer 1: Data Sources</div><div style="font-size:.85rem;color:#8B8580;"><strong style="color:#F5F1EA;">20+ endpoints</strong> across mempool.space, Blockchair, CoinPaprika, Blockstream, Fear &amp; Greed, plus our own <strong style="color:#F5F1EA;">Bitcoin Core node</strong> — flowing into <strong style="color:#F5F1EA;">26 data sources</strong>. <strong style="color:#F5F1EA;">10,000+ captures</strong> in SQLite, backfilled continuously. Historical sampler covering blocks from 2009.</div></div>
 </div>
-<div style="background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;align-items:center;gap:16px;">
-<span style="font-size:1.5rem;color:var(--accent-ink);font-weight:800;">⬡</span>
-<div><div style="font-weight:600;color:var(--ink);margin-bottom:2px;">Layer 2: Data Engineering Agent</div><div style="font-size:.85rem;color:var(--ink-3);">Monitors all 20+ endpoints every cycle. Block interval tracking, fee volatility, mempool inflow/outflow modeling. Auto-discovers new data sources. Daily health reports to <code style="color:var(--ink-2);">reports/data-engineering/</code>.</div></div>
+<div style="background:#121110;border:1px solid #332F2A;border-radius:10px;padding:16px;display:flex;align-items:center;gap:16px;">
+<span style="font-size:1.5rem;color:#FBBF24;font-weight:800;">⬡</span>
+<div><div style="font-weight:600;color:#F5F1EA;margin-bottom:2px;">Layer 2: Data Engineering Agent</div><div style="font-size:.85rem;color:#8B8580;">Monitors all 20+ endpoints every cycle. Block interval tracking, fee volatility, mempool inflow/outflow modeling. Auto-discovers new data sources. Daily health reports to <code style="color:#A8A29E;">reports/data-engineering/</code>.</div></div>
 </div>
-<div style="background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;align-items:center;gap:16px;">
-<span style="font-size:1.5rem;color:var(--accent-ink);font-weight:800;">⬡</span>
-<div><div style="font-weight:600;color:var(--ink);margin-bottom:2px;">Layer 3: Research Agents</div><div style="font-size:.85rem;color:var(--ink-3);">5 specialist agents (Bitcoin Core, Lightning, APIs, General, Academic) scanning GitHub, arXiv, forums every 4 hours. First empirical finding: <strong style="color:var(--accent-ink);">Storage Cost Coverage Ratio: <span id="agent-sccr-live">0.3999</span></strong> — fees cover ~<span id="agent-sccr-pct">40.0</span>% of the estimated 10-year storage cost at the real node census (N=<span id="agent-sccr-n">32,000</span>).</div></div>
+<div style="background:#121110;border:1px solid #332F2A;border-radius:10px;padding:16px;display:flex;align-items:center;gap:16px;">
+<span style="font-size:1.5rem;color:#FBBF24;font-weight:800;">⬡</span>
+<div><div style="font-weight:600;color:#F5F1EA;margin-bottom:2px;">Layer 3: Research Agents</div><div style="font-size:.85rem;color:#8B8580;">5 specialist agents (Bitcoin Core, Lightning, APIs, General, Academic) scanning GitHub, arXiv, forums every 4 hours. First empirical finding: <strong style="color:#FBBF24;">Storage Cost Coverage Ratio: <span id="agent-sccr-live">0.3999</span></strong> — fees cover ~<span id="agent-sccr-pct">40.0</span>% of the estimated 10-year storage cost at the real node census (N=<span id="agent-sccr-n">32,000</span>).</div></div>
 </div>
-<div style="background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;align-items:center;gap:16px;">
-<span style="font-size:1.5rem;color:var(--accent-ink);font-weight:800;">⬡</span>
-<div><div style="font-weight:600;color:var(--ink);margin-bottom:2px;">Layer 4: Decision Engine</div><div style="font-size:.85rem;color:var(--ink-3);">7 personas + Capacity Dashboard + Fork Tracker + Bitcoin Weather + Settlement Metrics. Every tab shows persona-relevant data with Market Brief insights and research-powered context.</div></div>
+<div style="background:#121110;border:1px solid #332F2A;border-radius:10px;padding:16px;display:flex;align-items:center;gap:16px;">
+<span style="font-size:1.5rem;color:#FBBF24;font-weight:800;">⬡</span>
+<div><div style="font-weight:600;color:#F5F1EA;margin-bottom:2px;">Layer 4: Decision Engine</div><div style="font-size:.85rem;color:#8B8580;">7 personas + Capacity Dashboard + Fork Tracker + Bitcoin Weather + Settlement Metrics. Every tab shows persona-relevant data with Market Brief insights and research-powered context.</div></div>
 </div>
 </div>
 </div>
@@ -353,22 +341,22 @@ Each new block strengthens every block that came before it. To rewrite history, 
 <p>Our research (<a href="https://github.com/prateekposwal/block-space-economics/blob/main/research/problem_statement.md">The Bitcoin Block Space Problem</a>) frames this question. In July 2026, we produced the first empirical measurement — and we ran it through an internal audit that caught and corrected a 10× time-horizon error in our own code (v2.0.0). We publish the correction openly because reproducibility is the methodology, not a marketing claim: the corrected number is reproduced by three independent implementations (JS, Python, C) to the last decimal, and you can verify it yourself in ~15 minutes via the <a href="/research/verification_appendix.html">reproducibility note</a> and <a href="/research/reproduce/">reproduction kit</a>):</p>
 <div class="highlight"><strong id="storage-ratio-value">Storage Cost Coverage Ratio: <span id="sccr-live">0.3999</span></strong> — Current Bitcoin transaction fees cover <span id="sccr-pct">40.0</span>% of the estimated 10-year storage cost across the real node census (N=<span id="sccr-n">32,000</span>). <span id="sccr-below">94.37</span>% of sampled blocks fall below the 1× threshold.</div>
   <p id="sccr-meta">Live SCCR measured continuously from captured fee data (see <a href="/research/working-paper.html">the working paper (Storage Cost Internalization in Bitcoin's Fee Market)</a> and <a href="/research/reproduce/">the reproduction kit</a>).</p>
-  <p style="font-size:.9rem;color:var(--ink-2);margin-top:8px;">New research: <a href="/research/cost-to-flood.html">Cost to Flood</a> — the attacker-side measurement (leverage ratio 3.0×) · <a href="/research/governance-boundary.html">The Governance Boundary</a> — BIP-110 as a live experiment.</p>
-  <p id="sccr-freshness" style="font-size:.8rem;color:var(--ink-3);margin-top:4px;">Updated 2026-09-15 07:08 (daily SCCR tracker)</p>
+  <p style="font-size:.9rem;color:#A8A29E;margin-top:8px;">New research: <a href="/research/cost-to-flood.html">Cost to Flood</a> — the attacker-side measurement (leverage ratio 3.0×) · <a href="/research/governance-boundary.html">The Governance Boundary</a> — BIP-110 as a live experiment.</p>
+  <p id="sccr-freshness" style="font-size:.8rem;color:#8B8580;margin-top:4px;">Updated 2026-09-15 07:08 (daily SCCR tracker)</p>
  </div>
 
  <div class="bsahi-section" id="sccr-dashboard">
    <h2>Live <span>SCCR</span> Dashboard</h2>
-   <p style="font-size:.9rem;color:var(--ink-2);">Storage Cost Coverage Ratio — the share of estimated long-term replicated storage cost that current transaction fees cover. Reads <code>data/sccr.json</code> (static API endpoint <code>/data/sccr_latest.json</code>).</p>
+   <p style="font-size:.9rem;color:#A8A29E;">Storage Cost Coverage Ratio — the share of estimated long-term replicated storage cost that current transaction fees cover. Reads <code>data/sccr.json</code> (static API endpoint <code>/data/sccr_latest.json</code>).</p>
    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px;">
-     <div style="background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;"><div style="font-size:.75rem;color:var(--ink-2);">SCCR (avg)</div><div id="sccr-card-avg" style="font-size:1.6rem;font-weight:700;color:#F7931A;">0.3999</div></div>
-     <div style="background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;"><div style="font-size:.75rem;color:var(--ink-2);">Min / Max</div><div id="sccr-card-range" style="font-size:1.1rem;font-weight:700;color:var(--ink);">0.0598 / 1.5167</div></div>
-     <div style="background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;"><div style="font-size:.75rem;color:var(--ink-2);">Below 1×</div><div id="sccr-card-below" style="font-size:1.6rem;font-weight:700;color:var(--ink);">94.37%</div></div>
-     <div style="background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;"><div style="font-size:.75rem;color:var(--ink-2);">Blocks sampled</div><div id="sccr-card-blocks" style="font-size:1.6rem;font-weight:700;color:var(--ink);">142</div></div>
-     <div style="background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;"><div style="font-size:.75rem;color:var(--ink-2);">Node count (N)</div><div id="sccr-card-n" style="font-size:1.1rem;font-weight:700;color:var(--ink);">32,000</div></div>
-     <div style="background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px;"><div style="font-size:.75rem;color:var(--ink-2);">Capture date</div><div id="sccr-card-date" style="font-size:1.1rem;font-weight:600;color:var(--ink);">2026-09-15</div></div>
+     <div style="background:#1B1917;border:1px solid #332F2A;border-radius:8px;padding:14px;"><div style="font-size:.75rem;color:#A8A29E;">SCCR (avg)</div><div id="sccr-card-avg" style="font-size:1.6rem;font-weight:700;color:#F7931A;">0.3999</div></div>
+     <div style="background:#1B1917;border:1px solid #332F2A;border-radius:8px;padding:14px;"><div style="font-size:.75rem;color:#A8A29E;">Min / Max</div><div id="sccr-card-range" style="font-size:1.1rem;font-weight:700;color:#F5F1EA;">0.0598 / 1.5167</div></div>
+     <div style="background:#1B1917;border:1px solid #332F2A;border-radius:8px;padding:14px;"><div style="font-size:.75rem;color:#A8A29E;">Below 1×</div><div id="sccr-card-below" style="font-size:1.6rem;font-weight:700;color:#F5F1EA;">94.37%</div></div>
+     <div style="background:#1B1917;border:1px solid #332F2A;border-radius:8px;padding:14px;"><div style="font-size:.75rem;color:#A8A29E;">Blocks sampled</div><div id="sccr-card-blocks" style="font-size:1.6rem;font-weight:700;color:#F5F1EA;">142</div></div>
+     <div style="background:#1B1917;border:1px solid #332F2A;border-radius:8px;padding:14px;"><div style="font-size:.75rem;color:#A8A29E;">Node count (N)</div><div id="sccr-card-n" style="font-size:1.1rem;font-weight:700;color:#F5F1EA;">32,000</div></div>
+     <div style="background:#1B1917;border:1px solid #332F2A;border-radius:8px;padding:14px;"><div style="font-size:.75rem;color:#A8A29E;">Capture date</div><div id="sccr-card-date" style="font-size:1.1rem;font-weight:600;color:#F5F1EA;">2026-09-15</div></div>
    </div>
-   <p style="font-size:.8rem;color:var(--ink-3);margin-top:10px;">Model: SCCR = fee_USD / L_net · N=<span id="sccr-note-n">32K</span> primary-source lower-bound census as of <span id="sccr-note-census">2026-08-02</span> (≥32,000 known addresses via Bitcoin Core getnodeaddresses) · T=<span id="sccr-note-t">10</span> yr assumption · model-spec v<span id="sccr-note-spec">2.1.0</span>. The ratio moves with the fee market — this is a live, dated measurement, not a static figure.</p>
+   <p style="font-size:.8rem;color:#8B8580;margin-top:10px;">Model: SCCR = fee_USD / L_net · N=<span id="sccr-note-n">32K</span> primary-source lower-bound census as of <span id="sccr-note-census">2026-08-02</span> (≥32,000 known addresses via Bitcoin Core getnodeaddresses) · T=<span id="sccr-note-t">10</span> yr assumption · model-spec v<span id="sccr-note-spec">2.1.0</span>. The ratio moves with the fee market — this is a live, dated measurement, not a static figure.</p>
  </div>
 
  <script>
@@ -551,11 +539,13 @@ var chainLinks = [];
 
 function resizeHero() {
   var r = heroCanvas.parentElement.getBoundingClientRect();
-  heroW = heroCanvas.width = Math.min(r.width || 800, 900);
+  heroW = Math.min(r.width || 800, 900);
   // Proportional height (900:480 = 1.875:1) so the block graph never distorts
   // on narrow/mobile viewports. The CSS media query height is overridden by
   // this inline set so the canvas matches its internal resolution.
   heroH = Math.round(heroW / 1.875);
+  heroCanvas.width = heroW;
+  heroCanvas.height = heroH;
   heroCanvas.style.width = heroW + 'px';
   heroCanvas.style.height = heroH + 'px';
   if (window.devicePixelRatio > 1) {
@@ -588,7 +578,7 @@ function initHero() {
 }
 
 function loopHero() {
-  heroCtx.fillStyle = 'var(--bg)';
+  heroCtx.fillStyle = '#121110';
   heroCtx.fillRect(0, 0, heroW, heroH);
 
   // Title
@@ -642,7 +632,7 @@ function loopHero() {
     if (p.x < 0 || p.x > heroW * 0.35) { p.vx *= -1; }
     if (p.y < 0 || p.y > heroH) { p.vy *= -1; }
     heroCtx.globalAlpha = 0.3 + p.life * 0.4;
-    heroCtx.fillStyle = 'var(--accent-ink)';
+    heroCtx.fillStyle = '#FBBF24';
     heroCtx.beginPath();
     heroCtx.arc(p.x, p.y, p.size * (0.5 + p.life * 0.5), 0, Math.PI * 2);
     heroCtx.fill();
@@ -653,9 +643,9 @@ function loopHero() {
   var t = Date.now() / 1000;
   var blockPulse = Math.sin(t * 2) * 3;
   var bx = heroW * 0.5;
-  var by = heroH * 2;
-  heroCtx.fillStyle = 'var(--surface)';
-  heroCtx.strokeStyle = 'var(--accent-ink)';
+  var by = heroH * 0.5;
+  heroCtx.fillStyle = '#1B1917';
+  heroCtx.strokeStyle = '#FBBF24';
   heroCtx.lineWidth = 2;
   var bw = 60 + blockPulse;
   var bh = 60 + blockPulse;
@@ -788,7 +778,7 @@ var mempoolRAF = null;
 function drawMempool() {
   if (!memCtx) return;
   var t = Date.now() / 1000;
-  memCtx.fillStyle = 'var(--bg)';
+  memCtx.fillStyle = '#121110';
   memCtx.fillRect(0, 0, memW, memH);
   var d = typeof DATA_ENGINE !== 'undefined' ? DATA_ENGINE.get() : null;
   var hist = d && d.mempool ? d.mempool.fee_histogram : [];
@@ -818,16 +808,16 @@ function drawMempool() {
     // Peak value label
     var peakIdx = 0, peakVal = 0;
     for (var i = 0; i < hist.length; i++) { if (hist[i][1] > peakVal) { peakVal = hist[i][1]; peakIdx = i; } }
-    memCtx.fillStyle = 'var(--ink)';
+    memCtx.fillStyle = '#F5F1EA';
     memCtx.font = 'bold 12px -apple-system,sans-serif';
     memCtx.textAlign = 'center';
     memCtx.fillText(peakVal.toLocaleString() + ' txs', 50 + (peakIdx / hist.length) * (memW - 80), memH - 50 - (peakVal / maxCount) * (memH - 80));
-    memCtx.fillStyle = 'var(--ink-3)';
+    memCtx.fillStyle = '#8B8580';
     memCtx.font = '10px -apple-system,sans-serif';
     memCtx.textAlign = 'center';
     memCtx.fillText('peak at ' + hist[peakIdx][0].toFixed(1) + ' sat/vB', 50 + (peakIdx / hist.length) * (memW - 80), memH - 36 - (peakVal / maxCount) * (memH - 80));
     // Labels
-    memCtx.fillStyle = 'var(--ink-3)';
+    memCtx.fillStyle = '#8B8580';
     memCtx.font = '12px -apple-system,sans-serif';
     memCtx.textAlign = 'left';
     memCtx.fillText('0 sat/vB', 50, memH - 12);
@@ -840,12 +830,12 @@ function drawMempool() {
     memCtx.font = '11px -apple-system,sans-serif';
     memCtx.fillText('Waiting transactions', 0, 0);
     memCtx.restore();
-    memCtx.fillStyle = 'var(--ink)';
+    memCtx.fillStyle = '#F5F1EA';
     memCtx.font = 'bold 16px -apple-system,sans-serif';
     memCtx.textAlign = 'left';
     memCtx.fillText('Fee Histogram — Current Mempool Distribution', 50, 28);
   } else {
-    memCtx.fillStyle = 'var(--ink-3)';
+    memCtx.fillStyle = '#8B8580';
     memCtx.font = '14px -apple-system,sans-serif';
     memCtx.textAlign = 'center';
     memCtx.fillText('Waiting for mempool data...', memW / 2, memH / 2);
@@ -867,7 +857,7 @@ function initMiningViz() {
 function loopMining() {
   if (!miningCtx) return;
   var t = Date.now() / 1000;
-  miningCtx.fillStyle = 'var(--bg)';
+  miningCtx.fillStyle = '#121110';
   miningCtx.fillRect(0, 0, miningW, miningH);
   miningCtx.fillStyle = 'rgba(234,220,200,0.6)';
   miningCtx.font = 'bold 13px -apple-system,sans-serif';
@@ -877,10 +867,10 @@ function loopMining() {
   var nonce = Math.floor(t * 1000000) % 4294967296;
   miningCtx.font = 'bold 28px "SF Mono",monospace';
   miningCtx.textAlign = 'center';
-  miningCtx.fillStyle = 'var(--accent-ink)';
+  miningCtx.fillStyle = '#FBBF24';
   miningCtx.fillText(nonce.toLocaleString(), miningW / 2, miningH * 0.4);
   miningCtx.font = '12px -apple-system,sans-serif';
-  miningCtx.fillStyle = 'var(--ink-3)';
+  miningCtx.fillStyle = '#8B8580';
   miningCtx.fillText('Nonce — miners iterate until hash meets target', miningW / 2, miningH * 0.4 + 28);
   // Hash display
   var hash = '';
@@ -914,7 +904,7 @@ function initPropViz() {
 function loopProp() {
   if (!propCtx) return;
   var t = Date.now() / 1000;
-  propCtx.fillStyle = 'var(--bg)';
+  propCtx.fillStyle = '#121110';
   propCtx.fillRect(0, 0, propW, propH);
   propCtx.fillStyle = 'rgba(234,220,200,0.6)';
   propCtx.font = 'bold 13px -apple-system,sans-serif';
@@ -962,7 +952,7 @@ function initChainViz() {
 function loopChain() {
   if (!chainCtx) return;
   var t = Date.now() / 1000;
-  chainCtx.fillStyle = 'var(--bg)';
+  chainCtx.fillStyle = '#121110';
   chainCtx.fillRect(0, 0, chainW, chainH);
   chainCtx.fillStyle = 'rgba(234,220,200,0.6)';
   chainCtx.font = 'bold 13px -apple-system,sans-serif';
@@ -996,12 +986,12 @@ function loopChain() {
     }
   }
   // Genesis label
-  chainCtx.fillStyle = 'var(--ink-3)';
+  chainCtx.fillStyle = '#8B8580';
   chainCtx.font = '10px -apple-system,sans-serif';
   chainCtx.textAlign = 'center';
   chainCtx.fillText('Genesis Block 2009', startX, chainY + 38);
   chainCtx.fillText('Today', endX, chainY + 38);
-  chainCtx.fillStyle = 'var(--accent-ink)';
+  chainCtx.fillStyle = '#FBBF24';
   chainCtx.font = 'bold 10px -apple-system,sans-serif';
   chainCtx.fillText('← Time →', (startX + endX) / 2, chainY + 38);
   requestAnimationFrame(loopChain);
@@ -1035,8 +1025,8 @@ fetch('/captured-data/research-priority.json').then(function(r) { return r.json(
     var arrow = { rising: '▲', falling: '▼', flat: '—' };
     el.innerHTML = j.priorities.slice(0, 3).map(function(p) {
       return '<div style="display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid #2A241C;">' +
-        '<span><strong style="color:var(--accent-ink);">' + p.persona_owner + '</strong> — ' + p.title + '</span>' +
-        '<span>' + (arrow[p.trend] || '—') + ' <span style="color:var(--ink);">' + Number(p.score).toFixed(3) + '</span>' +
+        '<span><strong style="color:#FBBF24;">' + p.persona_owner + '</strong> — ' + p.title + '</span>' +
+        '<span>' + (arrow[p.trend] || '—') + ' <span style="color:#F5F1EA;">' + Number(p.score).toFixed(3) + '</span>' +
         (p.has_gap ? ' <span style="color:#58A6FF;">· open question</span>' : '') + '</span></div>';
     }).join('');
   }
