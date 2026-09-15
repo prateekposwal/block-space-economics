@@ -1,6 +1,6 @@
 {
   "schema": "bsahi.sccr-historical-series.v3",
-  "generated_at": "2026-09-15T18:08:02.113968+00:00",
+  "generated_at": "2026-09-15T19:19:58.054178+00:00",
   "model_spec_version": "v2.1.0 (canonical)",
   "status": "RECONSTRUCTED-ESTIMATE \u2014 daily aggregates from blockchain.info charts; fee=BTC/day x USD price; node count scenario B is an approximation",
   "l_net_formula": "C x T x N / R_blocks",
@@ -38,6 +38,7 @@
       "L_net_usd_32k": 5627.8,
       "L_net_usd_eraN": 703.48,
       "N_scenario_B": 4000,
+      "N_source": "approximation (no primary source recovered)",
       "sccr_const_N32k": 0.0085,
       "sccr_era_adjusted_N": 0.0677,
       "data_confidence": "C"
@@ -53,6 +54,7 @@
       "L_net_usd_32k": 5627.8,
       "L_net_usd_eraN": 791.41,
       "N_scenario_B": 4500,
+      "N_source": "approximation (no primary source recovered)",
       "sccr_const_N32k": 0.007,
       "sccr_era_adjusted_N": 0.0501,
       "data_confidence": "C"
@@ -68,6 +70,7 @@
       "L_net_usd_32k": 5627.8,
       "L_net_usd_eraN": 879.34,
       "N_scenario_B": 5000,
+      "N_source": "approximation (no primary source recovered)",
       "sccr_const_N32k": 0.0072,
       "sccr_era_adjusted_N": 0.0461,
       "data_confidence": "C"
@@ -83,6 +86,7 @@
       "L_net_usd_32k": 5627.8,
       "L_net_usd_eraN": 1055.21,
       "N_scenario_B": 6000,
+      "N_source": "approximation (no primary source recovered)",
       "sccr_const_N32k": 0.0438,
       "sccr_era_adjusted_N": 0.2337,
       "data_confidence": "B"
@@ -96,11 +100,12 @@
       "btc_price_usd_avg": 3944.3,
       "fee_usd_per_block": 6996.64,
       "L_net_usd_32k": 5627.8,
-      "L_net_usd_eraN": 1406.95,
-      "N_scenario_B": 8000,
+      "L_net_usd_eraN": 2091.26,
+      "N_scenario_B": 11891,
+      "N_source": "primary anchor: bitnodes.earn.com API archived 2017-12-11 (Wayback)",
       "sccr_const_N32k": 1.2432,
-      "sccr_era_adjusted_N": 4.9729,
-      "data_confidence": "B"
+      "sccr_era_adjusted_N": 3.3457,
+      "data_confidence": "B*"
     },
     {
       "era": "2018",
@@ -113,6 +118,7 @@
       "L_net_usd_32k": 5627.8,
       "L_net_usd_eraN": 1582.82,
       "N_scenario_B": 9000,
+      "N_source": "approximation (no primary source recovered)",
       "sccr_const_N32k": 0.6474,
       "sccr_era_adjusted_N": 2.302,
       "data_confidence": "B"
@@ -128,6 +134,7 @@
       "L_net_usd_32k": 5627.8,
       "L_net_usd_eraN": 1758.69,
       "N_scenario_B": 10000,
+      "N_source": "approximation (no primary source recovered)",
       "sccr_const_N32k": 0.4785,
       "sccr_era_adjusted_N": 1.5313,
       "data_confidence": "B"
@@ -143,6 +150,7 @@
       "L_net_usd_32k": 5627.8,
       "L_net_usd_eraN": 1934.56,
       "N_scenario_B": 11000,
+      "N_source": "approximation (no primary source recovered)",
       "sccr_const_N32k": 0.9912,
       "sccr_era_adjusted_N": 2.8835,
       "data_confidence": "B"
@@ -158,6 +166,7 @@
       "L_net_usd_32k": 5627.8,
       "L_net_usd_eraN": 2110.43,
       "N_scenario_B": 12000,
+      "N_source": "approximation (no primary source recovered)",
       "sccr_const_N32k": 3.3291,
       "sccr_era_adjusted_N": 8.8777,
       "data_confidence": "B"
@@ -173,6 +182,7 @@
       "L_net_usd_32k": 5627.8,
       "L_net_usd_eraN": 2286.3,
       "N_scenario_B": 13000,
+      "N_source": "approximation (no primary source recovered)",
       "sccr_const_N32k": 0.513,
       "sccr_era_adjusted_N": 1.2627,
       "data_confidence": "B"
@@ -188,6 +198,7 @@
       "L_net_usd_32k": 5627.8,
       "L_net_usd_eraN": 2638.03,
       "N_scenario_B": 15000,
+      "N_source": "approximation (no primary source recovered)",
       "sccr_const_N32k": 2.2928,
       "sccr_era_adjusted_N": 4.8914,
       "data_confidence": "B"
@@ -203,6 +214,7 @@
       "L_net_usd_32k": 5627.8,
       "L_net_usd_eraN": 2989.77,
       "N_scenario_B": 17000,
+      "N_source": "approximation (no primary source recovered)",
       "sccr_const_N32k": 4.1888,
       "sccr_era_adjusted_N": 7.8847,
       "data_confidence": "B"
@@ -218,6 +230,7 @@
       "L_net_usd_32k": 5627.8,
       "L_net_usd_eraN": 2989.77,
       "N_scenario_B": 17000,
+      "N_source": "approximation (no primary source recovered)",
       "sccr_const_N32k": 0.6011,
       "sccr_era_adjusted_N": 1.1315,
       "data_confidence": "B"
@@ -231,18 +244,19 @@
       "btc_price_usd_avg": 72624.84,
       "fee_usd_per_block": 1390.7,
       "L_net_usd_32k": 5627.8,
-      "L_net_usd_eraN": 5627.8,
-      "N_scenario_B": 32000,
+      "L_net_usd_eraN": 4684.27,
+      "N_scenario_B": 26635,
+      "N_source": "primary anchor: btcnodes.io snapshot series mean 2026-05-08..09-15",
       "sccr_const_N32k": 0.2471,
-      "sccr_era_adjusted_N": 0.2471,
-      "data_confidence": "B"
+      "sccr_era_adjusted_N": 0.2969,
+      "data_confidence": "B*"
     }
   ],
   "q7_claims": {
     "2017": {
       "claimed": 10.0,
       "measured_const_N32k": 1.2432,
-      "measured_era_adjusted_N": 4.9729,
+      "measured_era_adjusted_N": 3.3457,
       "verdict": "INCOMPATIBLE (>50% off)"
     },
     "2021": {

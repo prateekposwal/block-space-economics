@@ -39,7 +39,7 @@ Rules the matrix obeys:
 | 6 | UTXO cost (state persistence as externality) | **B** | **D** | `utxo_cost_ratio.json`: 144 blocks (966127–966270), avg UCIR 2.87, 84% of blocks above 1× | Pre-2016 UTXO series thin; earlier reconstruction only | `data/utxo_cost_ratio.json` |
 | 7 | Validation/verification cost (VCI target) | **C** | **D** | **VCI prototype shipped** (`tools/research/verify_cost_index.py`, `data/verify_cost_index.json`): chain-size + era-scaled throughput scenario → sync days, cost, affordability, value-relative ppm; `bandwidth_bound.json` bounds | Hardening needs a captured IBD-benchmark series + a real UTXO set size series; until then the result is scenario-limited (documented in the tool) | `data/verify_cost_index.json`, `tools/research/verify_cost_index.py`, `research/bandwidth-bound-note.md`, `research/validation-cost.md` |
 | 8 | Bandwidth/relay (propagation) | **C** | **D** | `bandwidth_bound.json` bounds (block + batch model) | Marginal propagation leg unbundled from fixed node cost; no topology data | `research/bandwidth-bound-note.md` |
-| 9 | Node count / distribution | **C** | **D** | `node_census.json`: totalKnownAddresses **32,000 (exact addrman cap)**, liveConnections 8, lower_bound=true, 2026-08-02 | Denominator capped by addrman; live sample tiny; pre-2014 census estimates wide-error; counting methods changed over time. **The weakest pillar.** | `data/node_census.json`, `research/node-census-staleness-note.md` |
+| 9 | Node count / distribution | **B** | **C** | `node_census_series.json` (btcnodes.io snapshot API, 3,981 snapshots 2026-05-08→09-15, ~26.6K reachable nodes, primary source); `node_census.json` addrman=32,000 is the **addrman cap, not a count**; `liveConnections=8` | **2017-12-11 and 2026 are primary-anchored** (N=11,891 and N=26,635 in the SCCR N table, grade B\*); pre-2018 continuous series not recoverable (btcnodes retains ~4mo; wayback has only 2017-12 API capture); 2013-2016 and 2018-2025 remain approximation | `data/node_census_series.json`, `data/node_census_anchors.json`, `tools/research/node_census_capture.py`, `research/node-census-staleness-note.md` |
 | 10 | Mining hashrate level | **B** | **B** | `hashrate.json`: 240 points from 2026-08-19 (~934 EH/s) | Historical difficulty/hashrate series recoverable from public archives (not yet pulled into repo) | `data/hashrate.json` |
 | 11 | Mining pool concentration | **C** | **D** | `mining_concentration.json` schema v2: live block-tag attribution from mempool.space (24h/3d/1w/1y validated windows); `tools/research/pool_concentration.py`; **live measurement now exists**: 24h top-1=23%, top-3=56%, top-5=77%, HHI 0.140, gini 0.539; 1y top-1=29%, top-3=59%, top-5=77%, HHI 0.152 (1520 pts, moderately concentrated per DOJ), gini 0.782. Unknown share 0.6–2.5%. | Pre-2023 per-pool attribution (historical D): coinbase-tag coverage is partial before ~2014, merged mining invisible; block-tag attribution ≠ pool-reported hashrate (pool-reported is a ground-truth cross-check not captured). | `data/mining_concentration.json`, `tools/research/pool_concentration.py`, `captured-data/mempool.space/` |
 | 12 | Governance signaling (BIP-110) | **A** | **B** | `bip110.json` + `bip110_daily.json` (full signaling series, 0% at lock-in, height 963648); 2017 signaling in primary archives | Pre-BIP-110 signaling requires archive reconstruction | `data/bip110*.json`, `research/bip110-post-lockin-case-study.md` |
@@ -60,9 +60,13 @@ Rules the matrix obeys:
 2. **Regional energy cost (row 13).** The "producing" side of the asymmetry
    question has no instrument. Energy prices + hashrate mix by region exist
    as public series but are not captured. D until then.
-3. **Historical node count (row 9).** Pre-2014 node estimates are the
-   historical D that most limits the Satoshi-test (THESIS.md §6) — add to the
-   reconstruction backlog with the 2017 fee/spike work.
+3. **Historical node count (row 9).** **PARTIAL-CLOSED 2026-09-16**: two eras
+    are now primary-anchored (2017-12-11 → N=11,891 via Wayback-archived
+    bitnodes API; 2026 → N≈26,635 via btcnodes.io series). Grades row 9:
+    live C → **B**, historical D → **C**. The remaining wedge is 2013-2016 /
+    2018-2025 (no continuous primary source recovered; btcnodes retains only
+    ~4 months, Wayback holds only the 2017-12 API capture). Still the
+    historical wedge that most limits the Satoshi test.
 4. **Verification Cost Index (row 7).** The THESIS.md §6 operationalization
    of the Satoshi claim. **Prototype shipped** (deterministic, scenario-limited):
    sync-time flat ~1-2 days 2013-2026; affordability 14%→30% of a month's
@@ -79,7 +83,7 @@ Rules the matrix obeys:
 | Pool-reported hashrate cross-check + historical per-pool attribution | row 11: C → B live, D → C historical |
 | Historical SCCR reconstruction completes (fees+price+nodes+blocksize per era) | rows 1, 3, 4, 5: **now B** (fee/price/blocksize legs; era node-count leg stays C/D) — see `tools/research/sccr_historical_reconstruct.py` + `data/sccr_historical_series.json` |
 | UTXO historical series pulled (indexer or scale-based reconstruction) | row 6: D → C |
-| Node census protocol re-worked (sample > addrman cap, live inbound) | row 9: C → B |
+| Node census protocol re-worked (sample > addrman cap, live inbound) | row 9: C → B — **DONE 2026-09-16** (btcnodes series replaces addrman cap; live now B) |
 | Regional energy capture added | row 13: D → B (public series) |
 | Any new reconstruction contradicts a boundary-catalog claim | update `research/boundary-catalog.md` and record the revision here |
 
@@ -101,5 +105,9 @@ rows 1, 3, 4, 5 historical legs moved C/INCOMPLETE → B\* (era-fee/price/blocks
 from frozen daily aggregates; era node-count leg remains approximation). 2026-09-16:
 pool concentration row 11 live leg moved D → C (mempool.space pool-list block-tag
 attribution, four validated windows, raw cached; no boundary threshold crossed).
-Next regeneration when a pool-reported hashrate cross-check, a primary node
-census, or the regional-energy capture lands.*
+2026-09-16 (second): node census row 9 — live D→B / historical D→C. Live source =
+btcnodes.io snapshot series (3,981 primary snapshots, ~26.6K reachable nodes;
+addrman 32,000 recognized as a cap artifact). Historical: two era anchors (2017 → N
+11,891 Wayback-archived; 2026 → N 26,635), SCCR N-table 2/14 rows primary-anchored.
+Next regeneration when a pool-reported hashrate cross-check or the regional-energy
+capture lands.*

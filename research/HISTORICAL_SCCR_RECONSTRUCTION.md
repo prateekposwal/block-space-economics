@@ -299,11 +299,36 @@ not ~10×), 2024 ❌ (recomputed ~7.9×, not ~4.8×).
   node economics (L_net moves with N only).
 
 **Honest limits (unchanged, must be restated):**
-- Era N is an approximation table (grade C/D), informed by the Q7 reverse-engineering
-  and the node-count narrative. A primary historical node census would move rows to B.
+- Era N is an approximation table for 12/14 rows (grade C/D), informed by the Q7
+  reverse-engineering and the node-count narrative; **2017 and 2026 are now
+  primary-anchored (v2.4.0, grade B\*)**.
 - fee_USD/block is derived from daily BTC aggregates, not per-block fee captures.
 - 2013-2015 series are sparse at the epoch start (grade C).
 - This is a reconstruction-estimate, not a measurement. It is published to make the
   Q7 claims testable, not to replace the 2026 live measurement.
 
 **Regenerate:** `python3 tools/research/sccr_historical_reconstruct.py`
+
+---
+
+## v2.4.0 ADDENDUM — primary node-count anchors (2026-09-16)
+
+The era-N leg is no longer pure approximation. `tools/research/node_census_capture.py`
+added two primary anchors, and the reconstruction now uses them:
+
+| era | N used | source |
+|---|---|---|
+| 2017 | **11,891** | Wayback-archived `bitnodes.earn.com/api/v1/snapshots/` page-1, 2017-12-11 20:59 UTC |
+| 2026 | **26,635** | btcnodes.io snapshot series, mean 2026-05-08..2026-09-15 (3,981 snapshots) |
+
+**Result on re-run** (reconstruction, 2026-09-16):
+- 2017: SCCR_era dropped **4.97 → 3.35** (N 8,000 → 11,891). The Q7 "2017 ≈ 10" claim is
+  *more* falsified, not less — the anchor works against the claim.
+- 2026: SCCR rose **0.247 → 0.297** (N 32,000 → 26,635; addrman 32,000 was a cap, not a
+  count). First sustained sub-1× regime still confirmed.
+- 2021 / 2023 / 2024 verdicts unchanged.
+- 2017 and 2026 now carry `N_source` + grade B\*; 2013-2016 and 2018-2025 remain
+  approximation (no continuous primary source recovered).
+
+Era-N status: **2/14 era-rows primary-anchored**; deep-history reconstruction
+(Bitcoin Core addrman before 2018, other crawls) is a documented open item.

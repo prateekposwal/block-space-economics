@@ -33,12 +33,23 @@ N_PRINCIPAL = 32000
 # Era-adjusted node approximation table — NOT repo measurements.
 # Anchored to the Q7 reverse-engineering (8k/2017, 15k/2023) and the general
 # node-count narrative (Dashjr/bitnodes-era crawls). Grade C/D.
+# PRIMARY ANCHORS (2026-09-16, tools/research/node_census_capture.py):
+#   2017 -> 11,891 (bitnodes.earn.com API archived 2017-12-11, Wayback Machine)
+#   2026 -> 26,635 (btcnodes.io snapshot series, mean 2026-05-08..2026-09-15)
+# Anchored eras use PRIMARY_ANCHOR_N below; remaining eras stay approximation.
 ERA_N = {
     2013: 4_000, 2014: 4_500, 2015: 5_000, 2016: 6_000,
     2017: 8_000, 2018: 9_000, 2019: 10_000, 2020: 11_000,
     2021: 12_000, 2022: 13_000, 2023: 15_000, 2024: 17_000,
     2025: 17_000, 2026: N_PRINCIPAL,
 }
+PRIMARY_ANCHOR_N = {2017: 11_891, 2026: 26_635}
+ANCHOR_SOURCE = {
+    2017: "primary anchor: bitnodes.earn.com API archived 2017-12-11 (Wayback)",
+    2026: "primary anchor: btcnodes.io snapshot series mean 2026-05-08..09-15",
+}
+ANCHOR_NOTE = ("2013-2016 / 2018-2025 remain approximation (no primary source "
+               "recovered); 2017 and 2026 are primary-anchored.")
 
 def load(slug):
     with open(os.path.join(SRC, slug + ".json")) as f:
@@ -76,7 +87,8 @@ def main():
         fee_usd_block = fee_b * price_avg / blocks_day if price_avg else None
 
         L_net_32 = C_USD * T_YRS * N_PRINCIPAL / R_BLOCKS
-        N_era = ERA_N.get(yr, N_PRINCIPAL)
+        N_era = PRIMARY_ANCHOR_N.get(yr, ERA_N.get(yr, N_PRINCIPAL))
+        anchored = yr in PRIMARY_ANCHOR_N
         L_net_era = C_USD * T_YRS * N_era / R_BLOCKS
 
         eras_out.append({
@@ -90,9 +102,10 @@ def main():
             "L_net_usd_32k": round(L_net_32, 2),
             "L_net_usd_eraN": round(L_net_era, 2),
             "N_scenario_B": N_era,
+            "N_source": ANCHOR_SOURCE.get(yr, "approximation (no primary source recovered)"),
             "sccr_const_N32k": round(fee_usd_block / L_net_32, 4) if fee_usd_block else None,
             "sccr_era_adjusted_N": round(fee_usd_block / L_net_era, 4) if fee_usd_block else None,
-            "data_confidence": "C" if yr < 2016 else "B",  # era price/fee date: primary aggregates; node N is approximation
+            "data_confidence": "C" if yr < 2016 else ("B*" if anchored else "B"),  # anchored eras carry primary N
         })
 
     # Q7 comparison
