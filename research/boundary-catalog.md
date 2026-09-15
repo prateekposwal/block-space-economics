@@ -21,7 +21,7 @@
 | 6 | SegWit + blocksize war | 2017-08 | E/G | 1MB cap + fee crisis; BCH split | UASF/BIP-91; soft fork | absorbed (G), persisted (E) | B |
 | 7 | SegWit2x cancellation | 2017-11-08 | G | attempted hard fork by majority hash power | consensus refused | absorbed | B |
 | 8 | BCH/BSV split | 2018-11-15 | G | fork-of-fork, 128MB blocks, reorg attempt | hard-fork divergence | persisted | C |
-| 9 | Ordinals / Runes data regime | 2023-01 → | E/T | data-bearing outputs exploit SegWit discount | absorbed into fee market | persisted (check 2026) | C |
+| 9 | Ordinals / Runes data regime | 2023-01 → | E/T | data-bearing outputs exploit SegWit discount | absorbed into fee market | persisted (check 2026) | **B** (frozen daily aggregates cover 2023-2024) |
 | 10 | BIP-110 post-lock-in | 2026-08-23 | G/V | UASF at 0% miner signaling | height-based enforcement | absorbed | A |
 
 Grades are preliminary and follow THESIS.md §5 rules: **A** = live captures in this repo, **B** = strong primary-source archives, **C** = partial primary + secondary reconstruction, **D** = contested/thin. The catalog is the calibration set: an event whose grade improves moves the arrow's confidence accordingly.
@@ -106,7 +106,7 @@ Grades are preliminary and follow THESIS.md §5 rules: **A** = live captures in 
 - **Stress vector:** inscriptions embed data via `OP_FALSE OP_IF ... OP_ENDIF` in witness data (January 2023), exploiting the 4× SegWit weight discount that BIP66-era design (item 6) intended for scalability. BRC-20 (March 2023) and Runes (April 2024 halving) followed. Blocks filled with data-carrying outputs — the storage externality becomes measurable in the fee market, which is exactly the phenomenon the SCCR framework exists to measure.
 - **Resolution:** no consensus response; the network absorbed higher data loads and fee volatility. The dependence remains and is the live subject of this repo's measurements.
 - **Outcome:** **persisted** (as of 2026) — check against current storage vs fee data.
-- **Surviving data:** partial public archives for 2023-2024; the repo's own live captures begin in 2026. THIS is the reconstruction target the SCCR historical work (Rank 1) must cover.
+- **Surviving data:** partial public archives for 2023-2024; the repo's own live captures begin in 2026. Historical SCCR reconstruction (Rank 1) has since frozen 2009→2026 daily fee/price/block aggregates (`captured-data/historical/`) and reconstructs 2024 era-adjusted SCCR ≈ 7.9× — the storage-does-it-persist test is now measurable.
 - **What would falsify this reading:** evidence that inscription demand was a transient spike rather than a persistent data regime (2025-2026 data would show it), or that the storage externality is not actually materializing in fees.
 
 ## 10. BIP-110 post-lock-in (2026-08-23)

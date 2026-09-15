@@ -169,8 +169,7 @@ is no longer symmetrical.
 
 1. **Full data-confidence matrix** — DONE. 13 arrows, dual live/historical grades, filed against current `data/*.json` captures. Critical gaps named: mining pool concentration (D, uncaptured), regional energy (D, uncaptured), historical node count (D), VCI (D). See [`research/data-confidence.md`](research/data-confidence.md).
 2. **Boundary Catalog** — DONE: 10 events, each with boundary class, stress vector, surviving data, resolution, outcome, and a falsifiable claim; cross-referenced to the full 2017 and BIP-110 studies. See [`research/boundary-catalog.md`](research/boundary-catalog.md). This is the calibration set for every future index.
-3. **Historical SCCR reconstruction** — execute `research/HISTORICAL_SCCR_RECONSTRUCTION.md`,
-   publish the result (data + methodology + confidence) as a citable dataset.
+3. **Historical SCCR reconstruction** — DONE (reconstruction-estimate, not measurement). 14 eras computed deterministically from frozen daily aggregates (`tools/research/sccr_historical_reconstruct.py`, `data/sccr_historical_series.json`, addendum in `research/HISTORICAL_SCCR_RECONSTRUCTION.md`). Q7 verdict: 2021/2023 reproduce within 50%; 2017 and 2024 do not. Era node-count leg remains an approximation (grade C/D) until a primary historical census lands.
 4. **VCI prototype** — live verification cost from current size + hardware
    price series; historical series once reconstruction data lands.
 

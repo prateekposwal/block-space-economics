@@ -31,11 +31,11 @@ Rules the matrix obeys:
 
 | # | Arrow (core loop) | Live grade | Historical grade | What exists today (dated) | Known gap / noise | File / source |
 |---|---|---|---|---|---|---|
-| 1 | Fee market (fees sat/vB, per block) | **A** | **C** | Per-block history `fee_history_blocks.json`, `fee_history.json`; capture continuity Jul 31–Aug 22 + Sep 15 2026 | Pre-2026 archive reconstruction needed; 2017 spike (~400–500 sat/vB peak Dec 2017) from primary archives only | `data/fee_history*.json`, `research/boundary-event-2017.md` |
+| 1 | Fee market (fees sat/vB, per block) | **A** | **B** | Per-block history `fee_history_blocks.json`, `fee_history.json`; capture continuity Jul 31–Aug 22 + Sep 15 2026; **historical daily BTC aggregates now frozen** (`captured-data/historical/`) | Per-block fee reconstructions pre-2026 still derive from daily aggregates | `data/fee_history*.json`, `research/sccr_historical_reconstruct.py` |
 | 2 | USD price | **A** | **A** | `btc_price` in every `data/snapshot.json` capture; continuous daily series available back to 2010 from public APIs | — | `data/snapshot.json`, CoinGecko/archive APIs |
-| 3 | Mempool pressure | **A** | **C** | `mempool_fee_histogram.json`, `mempool_tx` per snapshot; `block_interval.json` | Pre-2026 congestion episodes need archive reconstruction | `data/` |
-| 4 | Block/state size | **A** | **C** | Block size/weight captured per block (Jul-Aug 2026 captures); `adoption.json` | Historical block-size series reconstructable from archives but not yet captured | `data/adoption.json`, captured spool |
-| 5 | Storage cost coverage (SCCR) | **A** | **INCOMPLETE** | `sccr.json`, `sccr_latest.json`, `sccr_history.json`, model-spec v2.0.1, 3 independent implementations repro | `sccr_historical_series.json` status is **INCOMPLETE — data gaps prevent full reconstruction**; Q7-era claims are unverifiable | `data/sccr*.json`, `research/HISTORICAL_SCCR_RECONSTRUCTION.md` |
+| 3 | Mempool pressure | **A** | **B** | `mempool_fee_histogram.json`, `mempool_tx` per snapshot; `block_interval.json`; historical tx aggregates frozen | Congestion episodes before the frozen series need per-era reconstruction | `data/`, `captured-data/historical/` |
+| 4 | Block/state size | **A** | **B** | Block size/weight captured per block (Jul-Aug 2026 captures); `adoption.json`; historical avg-block-size daily series frozen (2009→2026) | Historical per-block weights, not just daily averages | `data/adoption.json`, `captured-data/historical/blockchain.info/avg-block-size.json` |
+| 5 | Storage cost coverage (SCCR) | **A** | **B\*** | `sccr.json`, `sccr_latest.json`, `sccr_history.json`, model-spec v2.0.1, 3 independent implementations | **Historical leg now RECONSTRUCTED-ESTIMATE** (14 eras, deterministic tool): fee/price/blocksize from frozen daily aggregates (grade B); era node-count leg remains approximation (grade C/D). Q7 2021/2023 verified within 50%; 2017/2024 do not reproduce the claims. | `data/sccr_historical_series.json`, `tools/research/sccr_historical_reconstruct.py`, `research/HISTORICAL_SCCR_RECONSTRUCTION.md` |
 | 6 | UTXO cost (state persistence as externality) | **B** | **D** | `utxo_cost_ratio.json`: 144 blocks (966127–966270), avg UCIR 2.87, 84% of blocks above 1× | Pre-2016 UTXO series thin; earlier reconstruction only | `data/utxo_cost_ratio.json` |
 | 7 | Validation/verification cost (VCI target) | **C** | **D** | `bandwidth_bound.json` (bounds), validation metrics in working paper; sync/IBD benchmarks not yet captured continuously | IBD time-vs-hardware series not captured; historical near-nothing | `research/bandwidth-bound-note.md`, `research/validation-cost.md` |
 | 8 | Bandwidth/relay (propagation) | **C** | **D** | `bandwidth_bound.json` bounds (block + batch model) | Marginal propagation leg unbundled from fixed node cost; no topology data | `research/bandwidth-bound-note.md` |
@@ -73,7 +73,7 @@ Rules the matrix obeys:
 | Action | Moves |
 |---|---|
 | New live capture (e.g., per-pool hashrate, IBD benchmark series) | row 11, 7: D → C/B census live captures |
-| Historical SCCR reconstruction completes (fees+price+nodes+blocksize per era) | rows 1, 3, 4, 5: C/C/C/INCOMPLETE → B |
+| Historical SCCR reconstruction completes (fees+price+nodes+blocksize per era) | rows 1, 3, 4, 5: **now B** (fee/price/blocksize legs; era node-count leg stays C/D) — see `tools/research/sccr_historical_reconstruct.py` + `data/sccr_historical_series.json` |
 | UTXO historical series pulled (indexer or scale-based reconstruction) | row 6: D → C |
 | Node census protocol re-worked (sample > addrman cap, live inbound) | row 9: C → B |
 | Regional energy capture added | row 13: D → B (public series) |
@@ -92,5 +92,7 @@ read as calibrated — it is a documented reading with an open data door.
 ---
 
 *Regeneration log: 2026-09-15 — created from live `data/*.json` captures and
-`research/` documentation. Next regeneration scheduled when historical SCCR
-reconstruction or a pool-concentration capture lands.*
+`research/` documentation. 2026-09-15: historical SCCR reconstruction executed —
+rows 1, 3, 4, 5 historical legs moved C/INCOMPLETE → B\* (era-fee/price/blocksize
+from frozen daily aggregates; era node-count leg remains approximation). Next
+regeneration when per-pool hashrate capture or a primary node census lands.*
