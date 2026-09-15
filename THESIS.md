@@ -121,6 +121,9 @@ Rules of the matrix: a grade is attached to a **dated capture or citation**;
 the matrix is regenerated, never hand-waved; any arrow whose grade is D may run
 live but is labeled "measurement, not calibrated."
 
+The full graded matrix (13 arrows, live + historical, filed sources) lives in
+[`research/data-confidence.md`](research/data-confidence.md).
+
 ## 6. The Satoshi test (the strongest falsifiable claim)
 
 Satoshi's emails predict that increasing node burden pushes verification toward
@@ -164,8 +167,7 @@ is no longer symmetrical.
 
 ## 8. Immediate scope (do these next, in order)
 
-1. **Full data-confidence matrix** — promote Section 5 skeleton to the real,
-   dated, cited matrix. This is the first deliverable of the instrument.
+1. **Full data-confidence matrix** — DONE. 13 arrows, dual live/historical grades, filed against current `data/*.json` captures. Critical gaps named: mining pool concentration (D, uncaptured), regional energy (D, uncaptured), historical node count (D), VCI (D). See [`research/data-confidence.md`](research/data-confidence.md).
 2. **Boundary Catalog** — DONE: 10 events, each with boundary class, stress vector, surviving data, resolution, outcome, and a falsifiable claim; cross-referenced to the full 2017 and BIP-110 studies. See [`research/boundary-catalog.md`](research/boundary-catalog.md). This is the calibration set for every future index.
 3. **Historical SCCR reconstruction** — execute `research/HISTORICAL_SCCR_RECONSTRUCTION.md`,
    publish the result (data + methodology + confidence) as a citable dataset.
