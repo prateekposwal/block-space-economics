@@ -161,17 +161,17 @@
       #topnav{order:3;width:100%;justify-content:flex-start;margin-left:0}
       #chip{order:2}
       #headline{top:118px}
-      #legend-toggle{top:155px;right:12px}
-      /* One clean bottom stack on phones (bottom → up):
-         ticker → nav dock → stat strip → CTA. The verdict bar is hidden
-         because the topbar chip already shows it. */
+      #legend-toggle{top:96px;right:12px}
+      /* Mobile stat strip sits UNDER the title — the bottom dock, CTA, and
+         ticker keep their original places and nothing overlaps. */
       #state-bar{display:none}
       #nav-links{position:fixed;bottom:40px;left:8px;right:8px;flex-direction:row;flex-wrap:wrap;gap:4px;justify-content:center}
       #nav-links a{min-width:0;flex:1 1 calc(33% - 4px);max-width:none;padding:7px 8px;font-size:11px;justify-content:center}
       #nav-links a span{font-size:14px}
-      #statstrip{top:auto;bottom:96px;left:10px;right:10px;transform:none;border-radius:14px;justify-content:space-between;gap:12px;white-space:nowrap}
+      #statstrip{top:172px;bottom:auto;left:50%;right:auto;transform:translateX(-50%);border-radius:999px;justify-content:center;gap:16px;white-space:nowrap;max-width:95vw;overflow-x:auto}
       #statstrip .ss b{font-size:13px}
-      .bottom-area{bottom:196px}
+      .bottom-area{bottom:88px}
+      .bottom-area .hint{display:none}
       #vs-note{display:none}
     }
   </style>
@@ -236,7 +236,7 @@
 
     <div class="bottom-area">
       <a href="/live" class="cta">Should I send now?</a>
-      <div class="hint" style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:8px;">Hover over bars to see block details</div>
+      <div class="hint" style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:8px;">Each bar is one Bitcoin block — the skyline is the last 24h</div>
     </div>
 
     <div id="nav-links">
