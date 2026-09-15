@@ -29,7 +29,7 @@ Every session in this repo MUST honor these load-bearing rules:
 ### Dead sources (DO NOT fetch — 404, documented in tools/data-engineering/config.js `deadSources`)
 - ~~blockchain.info UTXO count~~ (404; proxied via blockchair outputs)
 - ~~ordinals.com stats~~ (404; inscription stats via fetch_inscription_stats.py)
-- ~~wickedsmartbitcoin BIP-110 signaling~~ (404, ~0.1% signaling, DOA)
+- ~~wickedsmartbitcoin BIP-110 signaling~~ (404, ~0.1% signaling — STALE: BIP-110 locked in at height 963648 on 2026-08-23; see research/bip110-post-lockin-case-study.md)
 
 ### Community
 - [r/BitcoinEngineering](https://reddit.com/r/BitcoinEngineering)
@@ -49,9 +49,9 @@ Every session in this repo MUST honor these load-bearing rules:
 - [x] Update hypothesis if data contradicts current state
 - [x] Commit any changes to repo
 
-## State (2026-07-28)
+## State (2026-09-10)
 - **All 3 research phases complete** — R1 (Reading), R2 (Cost Model), R3 (Problem Statement)
-- **BIP-110 analyzed** — ~0.1% miner signaling, DOA. Michael Saylor called it "iatrogenic."
+- **BIP-110 locked in** — height 963648 (2026-08-23 00:48:47 UTC). 0% bit-4 miner signaling during window (961632–963647); lock-in guaranteed by height-based UASF timeout, not miner consensus. See research/bip110-post-lockin-case-study.md.
 - **r/BitcoinEngineering discussion live** — /t/2750
 - **Monetization plan** — Phase R4 in TODO: API tiers ($50–$500/mo), consulting, annual report
 - **Domain ready** — bitcoinsahi.com live on GitHub Pages (DNS pointed)
