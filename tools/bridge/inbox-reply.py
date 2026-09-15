@@ -8,7 +8,7 @@ sends an inbox notification for every reply to our comments.
 """
 import subprocess, base64, time, json, os, sys, random
 
-REPO = '/Users/prateekposwal/Desktop/block-space-economics'
+REPO = '/Users/prateekposwal/block-space-economics'
 REPLY_STATE = os.path.join(REPO, 'captured-data', 'reply-state.json')
 
 def run_js(js_code, timeout=30):

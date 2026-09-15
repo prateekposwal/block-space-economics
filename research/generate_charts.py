@@ -118,6 +118,6 @@ fig.text(0.5, 0.01,
          ha='center', fontsize=8, color='#666')
 
 plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-plt.savefig('/Users/prateekposwal/Desktop/block-space-economics/research/chart_dashboard.png',
+plt.savefig('/Users/prateekposwal/block-space-economics/research/chart_dashboard.png',
             dpi=200, bbox_inches='tight', facecolor='#f8f9fa')
 print("Dashboard chart saved")

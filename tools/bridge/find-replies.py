@@ -8,7 +8,7 @@ replies under it. Returns the reply content + reply box location.
 """
 import subprocess, base64, time, json, os, sys
 
-REPO = '/Users/prateekposwal/Desktop/block-space-economics'
+REPO = '/Users/prateekposwal/block-space-economics'
 OUR_USERNAMES = ['New_Spare3193']  # our Reddit account
 
 def run_js(js_code, timeout=25):

@@ -78,7 +78,7 @@ def main():
         "p5": p5, "p10": p10, "p50": p50, "p90": p90, "p95": p95,
         "node_cost_median": statistics.median(node_costs),
     }
-    with open('/Users/prateekposwal/Desktop/block-space-economics/tools/monte_carlo_output.json', 'w') as f:
+    with open('/Users/prateekposwal/block-space-economics/tools/monte_carlo_output.json', 'w') as f:
         json.dump(out, f, indent=2)
 
 if __name__ == "__main__":

@@ -76,6 +76,6 @@ fig.text(0.5, -0.02,
          ha='center', fontsize=8, color='#888')
 
 plt.tight_layout()
-plt.savefig('/Users/prateekposwal/Desktop/block-space-economics/research/chart_social.png',
+plt.savefig('/Users/prateekposwal/block-space-economics/research/chart_social.png',
             dpi=200, bbox_inches='tight', facecolor='#f8f9fa', pad_inches=0.3)
 print("Social chart saved")

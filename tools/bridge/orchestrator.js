@@ -15,7 +15,7 @@ var { exec } = require('child_process');
 var path = require('path');
 var fs = require('fs');
 
-var REPO = '/Users/prateekposwal/Desktop/block-space-economics';
+var REPO = '/Users/prateekposwal/block-space-economics';
 process.env.PATH = '/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin';
 var logFile = path.join(REPO, 'captured-data', 'engagement.log');
 var REST_FILE = path.join(REPO, 'captured-data', 'work-rest-state.json');

@@ -7,7 +7,7 @@ Also exposes shared config cooldowns (single source of truth: orchestrator-confi
 """
 import subprocess, json, os, sys
 
-REPO = '/Users/prateekposwal/Desktop/block-space-economics'
+REPO = '/Users/prateekposwal/block-space-economics'
 CLI = os.path.join(REPO, 'tools/bridge/seen-state.js')
 CONFIG_FILE = os.path.join(REPO, 'tools/bridge', 'orchestrator-config.json')
 
