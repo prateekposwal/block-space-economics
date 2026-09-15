@@ -151,7 +151,6 @@
     #statstrip .ss b{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--ink)}
     #statstrip .ss i{font-style:normal;color:rgba(234,220,200,0.45);font-size:11px}
     #statstrip .ss .se{font-style:normal;color:rgba(234,220,200,0.3);font-size:10px;letter-spacing:.05em;text-transform:uppercase}
-    #vs-note{position:fixed;top:310px;left:50%;transform:translateX(-50%);z-index:24;font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--ink-3);text-align:center;pointer-events:none;max-width:90vw;background:rgba(18,17,16,0.72);border:1px solid var(--line);border-radius:999px;padding:5px 12px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
     #state-bar{position:fixed;top:129px;left:50%;transform:translateX(-50%);z-index:24;text-align:center;pointer-events:none}
     @media (max-width:900px){
       #legend-toggle{top:220px;right:16px}
@@ -172,7 +171,6 @@
       #statstrip .ss b{font-size:13px}
       .bottom-area{bottom:88px}
       .bottom-area .hint{display:none}
-      #vs-note{top:358px;max-width:90vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     }
   </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -204,7 +202,7 @@
     <span class="ss"><i class="se">Mempool</i><b id="vs-mempool">--</b><i>txs</i></span>
     <span class="ss"><i class="se">Height</i><b id="vs-height">--</b></span>
   </div>
-  <div id="vs-note">Waiting for the latest snapshot…</div>
+
 
   <!-- Visible H1 (only content per architect) -->
   <div id="headline" style="position:fixed;top:175px;left:50%;transform:translateX(-50%);z-index:25;text-align:center;pointer-events:none;max-width:640px;width:calc(100% - 40px);">
@@ -472,12 +470,7 @@
         var ts = (s && (s.payload_ts || s.generated_at)) || null;
         if (!ts) { setHealth('stale'); return; }
         var ageMin = (Date.now() - new Date(ts).getTime()) / 60000;
-        var n = document.getElementById('vs-note');
-        if (!n) return;
-        if (ageMin > cfgSm) {
-          n.textContent = 'Last confirmed data: ' + ts.slice(0, 16) + ' (' + Math.round(ageMin / 60) + 'h ago) \u2014 new snapshot expected shortly';
-          n.style.color = '#D29922';
-          setHealth('stale');
+        if (ageMin > cfgSm) {          setHealth('stale');
           return;
         }
         snapshotD = { fees: s.fees || {}, mempool: { count: s.mempool_tx }, mempool_tx: s.mempool_tx, block_height: s.block_height, btc_price: s.btc_price };
@@ -485,16 +478,10 @@
         updateVisibleStats();
         updateDollarContext();
         refreshUI(); // re-derive the verdict now that snapshot fees are available
-        var ago = ageMin < 90 ? Math.round(ageMin) + ' min ago' : Math.round(ageMin / 60) + 'h ago';
-        n.textContent = 'Updated ' + ago + ' \u00B7 refreshing about every minute';
-        n.style.color = '';
         setHealth(ageMin > cfgLm ? 'delayed' : 'live');
       }).catch(function() {
         // Never leave a stale green state — a failed snapshot fetch is a real signal.
-        setHealth('stale');
-        var n = document.getElementById('vs-note');
-        if (n) { n.textContent = 'Live feed offline \u2014 snapshot unavailable'; n.style.color = '#F85149'; }
-      });
+        setHealth('stale');      });
     } catch (e) { setHealth('stale'); }
 
     // Shared data-health dot (🟢 live / 🟡 delayed / 🔴 stale / ⚪ unknown).
