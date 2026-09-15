@@ -56,14 +56,14 @@
     #genesis-strip { position: fixed; bottom: 42px; left: 0; width: 100vw; height: 2px; z-index: 15; pointer-events: none; }
     #genesis-strip canvas { display: block; width: 100%; height: 100%; }
 
-    #dollar-context { position: fixed; top: auto; bottom: 150px; left: 50%; transform: translateX(-50%); z-index: 15; text-align: center; font-size: 14px; color: rgba(255,255,255,0.4); pointer-events: none; font-variant-numeric: tabular-nums; animation: fadeInOut 3s ease-in-out infinite; }
+    #dollar-context { position: fixed; top: auto; bottom: 152px; left: 50%; transform: translateX(-50%); z-index: 15; text-align: center; font-size: 13px; color: var(--ink-2); pointer-events: none; font-variant-numeric: tabular-nums; background: rgba(18,17,16,0.72); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); animation: fadeInOut 3s ease-in-out infinite; }
     @keyframes fadeInOut {
       0%, 100% { opacity: 0.4; }
       50% { opacity: 0.7; }
     }
 
-    #narrative-frame { position:fixed;top:auto;bottom:196px;left:50%;transform:translateX(-50%);z-index:15;text-align:center;pointer-events:none; }
-    #narrative-text { font-size:13px;color:rgba(255,255,255,0.6);transition:opacity 1s;font-style:italic; }
+    #narrative-frame { position:fixed;top:auto;bottom:198px;left:50%;transform:translateX(-50%);z-index:15;text-align:center;pointer-events:none;background:rgba(18,17,16,0.72);border:1px solid var(--line);border-radius:999px;padding:7px 16px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px); }
+    #narrative-text { font-size:13px;color:var(--ink-2);transition:opacity 1s;font-style:italic; }
 
     #metrics-ticker { position: fixed; bottom: 0; left: 0; width: 100vw; z-index: 15; overflow: hidden; white-space: nowrap; font-size: 11px; color: rgba(255,255,255,0.6); padding: 4px 0; background: var(--bg); border-top: 1px solid rgba(255,255,255,0.05); font-variant-numeric: tabular-nums; letter-spacing: 0.3px; }
     #nav-links { position: fixed; bottom: 160px; right: 20px; z-index: 30; display: flex; flex-direction: column; gap: 10px; }
@@ -151,7 +151,7 @@
     #statstrip .ss b{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--ink)}
     #statstrip .ss i{font-style:normal;color:rgba(234,220,200,0.45);font-size:11px}
     #statstrip .ss .se{font-style:normal;color:rgba(234,220,200,0.3);font-size:10px;letter-spacing:.05em;text-transform:uppercase}
-    #vs-note{position:fixed;top:297px;left:50%;transform:translateX(-50%);z-index:24;font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:rgba(234,220,200,0.4);text-align:center;pointer-events:none;max-width:90vw}
+    #vs-note{position:fixed;top:294px;left:50%;transform:translateX(-50%);z-index:24;font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--ink-3);text-align:center;pointer-events:none;max-width:90vw;background:rgba(18,17,16,0.72);border:1px solid var(--line);border-radius:999px;padding:5px 12px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
     #state-bar{position:fixed;top:129px;left:50%;transform:translateX(-50%);z-index:24;text-align:center;pointer-events:none}
     @media (max-width:900px){
       #legend-toggle{top:220px;right:16px}
@@ -208,7 +208,7 @@
 
   <!-- Visible H1 (only content per architect) -->
   <div id="headline" style="position:fixed;top:175px;left:50%;transform:translateX(-50%);z-index:25;text-align:center;pointer-events:none;max-width:640px;width:calc(100% - 40px);">
-    <h1 style="font-size:clamp(20px,3.5vw,34px);color:var(--ink);margin:0;letter-spacing:0.5px;">Bitcoin block space, <span style="color:var(--accent);">live</span>. <span id="data-health" title="Data status" style="font-size:0.6em;color:var(--ink-3);">⚪</span></h1>
+    <h1 style="font-family:var(--disp);font-weight:600;font-size:clamp(20px,3.5vw,34px);color:var(--ink);margin:0;letter-spacing:0.25px;">Bitcoin block space, <span style="color:var(--accent);">live</span>. <span id="data-health" title="Data status" style="font-size:0.6em;color:var(--ink-3);">⚪</span></h1>
   </div>
 
   <!-- SEO content layer (crawler-readable, invisible to visitors) -->
