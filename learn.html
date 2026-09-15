@@ -835,10 +835,13 @@ function drawMempool() {
     memCtx.textAlign = 'left';
     memCtx.fillText('Fee Histogram — Current Mempool Distribution', 50, 28);
   } else {
-    memCtx.fillStyle = '#8B8580';
-    memCtx.font = '14px -apple-system,sans-serif';
+    memCtx.fillStyle = '#F5F1EA';
+    memCtx.font = 'bold 15px -apple-system,sans-serif';
     memCtx.textAlign = 'center';
-    memCtx.fillText('Waiting for mempool data...', memW / 2, memH / 2);
+    memCtx.fillText('Fee histogram pending — live mempool unreachable', memW / 2, memH / 2 - 10);
+    memCtx.fillStyle = '#A8A29E';
+    memCtx.font = '12px -apple-system,sans-serif';
+    memCtx.fillText('Polling mirrors (mempool.emzy.de, hashed.systems)…', memW / 2, memH / 2 + 16);
   }
   mempoolRAF = requestAnimationFrame(drawMempool);
 }

@@ -29,6 +29,8 @@
 
   function isActive(href) {
     var p = global.location.pathname;
+    // home "/" is the live canvas — keep the Live pill lit there too
+    if (p === '/' || p === '') return href === '/live';
     if (p === href) return true;
     if (href === '/articles.html' || href === '/beta.html') return p === href;
     return p.indexOf(href + '/') === 0;
