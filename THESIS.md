@@ -159,17 +159,14 @@ is no longer symmetrical.
 | Power concentration | Fork-tracker (BIP-110), governance boundary | `/fork-tracker`, `research/governance-boundary.html` | marginal-concentration series (new hashrate/UTXOs/fees) |
 | Verification/coordination | Node census (N=32K), bip110 case study | `tools/agents/agent-25`, `research/bip110-post-lockin-case-study.md` | VCI index (build) |
 | Network stress | Live dashboard | `/live` | historical stress reconstruction |
-| Boundary | event docs | `research/boundary-event-2017.md` | Boundary Catalog (task) |
+| Boundary | boundary catalog (10 events) | [`research/boundary-catalog.md`](research/boundary-catalog.md), `research/boundary-event-2017.md` | add events as data-grade improves |
 | Production cost (energy/regional) | none | — | mining map + electricity series (build) |
 
 ## 8. Immediate scope (do these next, in order)
 
 1. **Full data-confidence matrix** — promote Section 5 skeleton to the real,
    dated, cited matrix. This is the first deliverable of the instrument.
-2. **Boundary Catalog** — structured, falsifiable table of 8–10 historical
-   near-boundary events: stress vector, surviving data, resolution mechanism,
-   and outcome class (absorbed / reset / persisted). Pure research, no new
-   live infra; becomes the calibration set for every future index.
+2. **Boundary Catalog** — DONE: 10 events, each with boundary class, stress vector, surviving data, resolution, outcome, and a falsifiable claim; cross-referenced to the full 2017 and BIP-110 studies. See [`research/boundary-catalog.md`](research/boundary-catalog.md). This is the calibration set for every future index.
 3. **Historical SCCR reconstruction** — execute `research/HISTORICAL_SCCR_RECONSTRUCTION.md`,
    publish the result (data + methodology + confidence) as a citable dataset.
 4. **VCI prototype** — live verification cost from current size + hardware
