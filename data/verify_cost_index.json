@@ -1,0 +1,210 @@
+{
+  "schema": "bsahi.verify-cost-index.v1",
+  "generated_at": "2026-09-15T18:13:22.147213+00:00",
+  "status": "PROTOTYPE \u2014 documented assumptions, deterministic from frozen series",
+  "thesis_anchor": "THESIS.md Sec 6 \u2014 the Satoshi node-burden claim, operationalized as verification time+money vs the value of what is verified.",
+  "assumptions": {
+    "sync_gb_per_day_table": {
+      "2013": 15,
+      "2014": 30,
+      "2015": 50,
+      "2016": 70,
+      "2017": 90,
+      "2018": 110,
+      "2019": 140,
+      "2020": 180,
+      "2021": 220,
+      "2022": 260,
+      "2023": 300,
+      "2024": 340,
+      "2025": 380,
+      "2026": 400
+    },
+    "wage_usd_per_hour": 25.0,
+    "monthly_income_usd": 4000.0,
+    "utxo_state_gb_table": {
+      "2013": 0.5,
+      "2014": 0.7,
+      "2015": 1.0,
+      "2016": 1.7,
+      "2017": 2.5,
+      "2018": 3.2,
+      "2019": 4.0,
+      "2020": 5.0,
+      "2021": 6.0,
+      "2022": 7.0,
+      "2023": 9.0,
+      "2024": 10.0,
+      "2025": 11.0,
+      "2026": 11.0
+    },
+    "note": "Commodity archive-sync ~400 GB/day (2026) gives ~2-day sync for the ~800 GB chain, consistent with published IBD benchmarks. Wage/income held constant so the comparison is about the chain, not incomes. Absolute ratios are scenario-limited; the trend is the claim."
+  },
+  "headline_readings": {
+    "verification_time_days_stayed_flat": "~1-2 days across 2013-2026 (chain growth offset by era-scaled commodity throughput assumption)",
+    "affordability_pct_of_monthly_income": "2013=14.0% -> 2026=30.0% (modest rise)",
+    "cost_relative_to_value_verified_ppm_of_annual_value": "2013=1.615 ppm -> 2026=0.096 ppm (collapsed ~16.8x: verification became far cheaper relative to what it checks)",
+    "satoshi_claim_reading": "On time-cost, node burden stayed FLAT (Satoshi's bigger-farms prediction did not materialize as runaway sync time). On value-relative cost, independent verification became far MORE affordable. The verification-access boundary was not crossed on cost grounds in 2013-2026 under this scenario.",
+    "sensitivity": "Result scales linearly in the throughput assumption; lower per-era throughput raises both the flat time curve and the affordability rise. No IBD-benchmark or real UTXO series is captured yet \u2014 grade C live, D historical."
+  },
+  "inputs": [
+    "captured-data/historical/blockchain.info/avg-block-size.json",
+    "captured-data/historical/blockchain.info/miners-revenue.json"
+  ],
+  "eras": [
+    {
+      "era": "2013",
+      "chain_gb": 13.47,
+      "utxo_state_gb": 0.5,
+      "total_gb": 13.97,
+      "sync_days": 0.93,
+      "sync_cost_usd": 558.69,
+      "value_verified_usd_day": 947759.61,
+      "vci_ppm_of_annual_value": 1.615,
+      "affordability_pct_monthly_income": 13.967
+    },
+    {
+      "era": "2014",
+      "chain_gb": 27.67,
+      "utxo_state_gb": 0.7,
+      "total_gb": 28.37,
+      "sync_days": 0.95,
+      "sync_cost_usd": 567.38,
+      "value_verified_usd_day": 2703300.06,
+      "vci_ppm_of_annual_value": 0.575,
+      "affordability_pct_monthly_income": 14.185
+    },
+    {
+      "era": "2015",
+      "chain_gb": 55.51,
+      "utxo_state_gb": 1.0,
+      "total_gb": 56.51,
+      "sync_days": 1.13,
+      "sync_cost_usd": 678.1,
+      "value_verified_usd_day": 1167664.74,
+      "vci_ppm_of_annual_value": 1.591,
+      "affordability_pct_monthly_income": 16.952
+    },
+    {
+      "era": "2016",
+      "chain_gb": 99.37,
+      "utxo_state_gb": 1.7,
+      "total_gb": 101.07,
+      "sync_days": 1.44,
+      "sync_cost_usd": 866.35,
+      "value_verified_usd_day": 1610366.8,
+      "vci_ppm_of_annual_value": 1.474,
+      "affordability_pct_monthly_income": 21.659
+    },
+    {
+      "era": "2017",
+      "chain_gb": 150.67,
+      "utxo_state_gb": 2.5,
+      "total_gb": 153.17,
+      "sync_days": 1.7,
+      "sync_cost_usd": 1021.16,
+      "value_verified_usd_day": 9443152.89,
+      "vci_ppm_of_annual_value": 0.296,
+      "affordability_pct_monthly_income": 25.529
+    },
+    {
+      "era": "2018",
+      "chain_gb": 202.19,
+      "utxo_state_gb": 3.2,
+      "total_gb": 205.39,
+      "sync_days": 1.87,
+      "sync_cost_usd": 1120.3,
+      "value_verified_usd_day": 15113614.68,
+      "vci_ppm_of_annual_value": 0.203,
+      "affordability_pct_monthly_income": 28.007
+    },
+    {
+      "era": "2019",
+      "chain_gb": 261.75,
+      "utxo_state_gb": 4.0,
+      "total_gb": 265.75,
+      "sync_days": 1.9,
+      "sync_cost_usd": 1138.91,
+      "value_verified_usd_day": 14418259.73,
+      "vci_ppm_of_annual_value": 0.216,
+      "affordability_pct_monthly_income": 28.473
+    },
+    {
+      "era": "2020",
+      "chain_gb": 327.03,
+      "utxo_state_gb": 5.0,
+      "total_gb": 332.03,
+      "sync_days": 1.84,
+      "sync_cost_usd": 1106.78,
+      "value_verified_usd_day": 13776099.48,
+      "vci_ppm_of_annual_value": 0.22,
+      "affordability_pct_monthly_income": 27.669
+    },
+    {
+      "era": "2021",
+      "chain_gb": 395.78,
+      "utxo_state_gb": 6.0,
+      "total_gb": 401.78,
+      "sync_days": 1.83,
+      "sync_cost_usd": 1095.76,
+      "value_verified_usd_day": 46242540.72,
+      "vci_ppm_of_annual_value": 0.065,
+      "affordability_pct_monthly_income": 27.394
+    },
+    {
+      "era": "2022",
+      "chain_gb": 463.71,
+      "utxo_state_gb": 7.0,
+      "total_gb": 470.71,
+      "sync_days": 1.81,
+      "sync_cost_usd": 1086.25,
+      "value_verified_usd_day": 26432057.45,
+      "vci_ppm_of_annual_value": 0.113,
+      "affordability_pct_monthly_income": 27.156
+    },
+    {
+      "era": "2023",
+      "chain_gb": 555.7,
+      "utxo_state_gb": 9.0,
+      "total_gb": 564.7,
+      "sync_days": 1.88,
+      "sync_cost_usd": 1129.41,
+      "value_verified_usd_day": 29151314.88,
+      "vci_ppm_of_annual_value": 0.106,
+      "affordability_pct_monthly_income": 28.235
+    },
+    {
+      "era": "2024",
+      "chain_gb": 645.74,
+      "utxo_state_gb": 10.0,
+      "total_gb": 655.74,
+      "sync_days": 1.93,
+      "sync_cost_usd": 1157.19,
+      "value_verified_usd_day": 41192698.65,
+      "vci_ppm_of_annual_value": 0.077,
+      "affordability_pct_monthly_income": 28.93
+    },
+    {
+      "era": "2025",
+      "chain_gb": 729.64,
+      "utxo_state_gb": 11.0,
+      "total_gb": 740.64,
+      "sync_days": 1.95,
+      "sync_cost_usd": 1169.44,
+      "value_verified_usd_day": 47595225.33,
+      "vci_ppm_of_annual_value": 0.067,
+      "affordability_pct_monthly_income": 29.236
+    },
+    {
+      "era": "2026",
+      "chain_gb": 789.45,
+      "utxo_state_gb": 11.0,
+      "total_gb": 800.45,
+      "sync_days": 2.0,
+      "sync_cost_usd": 1200.67,
+      "value_verified_usd_day": 34103534.04,
+      "vci_ppm_of_annual_value": 0.096,
+      "affordability_pct_monthly_income": 30.017
+    }
+  ]
+}

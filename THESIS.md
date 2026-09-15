@@ -92,8 +92,8 @@ boundary index retro-fits labels onto history.
 
 - Stress vector: time and money to fully verify vs. the value of verification.
 - Historical anchor: Satoshi's node-burden prediction (Section 6).
-- Live proxies: verification cost index (to be built), node census.
-- Current status: **the class with the clearest hypothesis and thinnest data.**
+- Live proxies: VCI prototype (chain size + era-scaled sync scenario), node census.
+- Current status: the class with the clearest hypothesis; VCI prototype now gives a first reading (sync time ~1-2 days, value-relative cost collapsed ~17x) — hardening still needs a captured IBD-benchmark series.
 
 Each class gets its own boundary diagnosis ("absorbed / reset / persisted")
 per historical event. See the Boundary Catalog task (Section 8).
@@ -170,8 +170,7 @@ is no longer symmetrical.
 1. **Full data-confidence matrix** — DONE. 13 arrows, dual live/historical grades, filed against current `data/*.json` captures. Critical gaps named: mining pool concentration (D, uncaptured), regional energy (D, uncaptured), historical node count (D), VCI (D). See [`research/data-confidence.md`](research/data-confidence.md).
 2. **Boundary Catalog** — DONE: 10 events, each with boundary class, stress vector, surviving data, resolution, outcome, and a falsifiable claim; cross-referenced to the full 2017 and BIP-110 studies. See [`research/boundary-catalog.md`](research/boundary-catalog.md). This is the calibration set for every future index.
 3. **Historical SCCR reconstruction** — DONE (reconstruction-estimate, not measurement). 14 eras computed deterministically from frozen daily aggregates (`tools/research/sccr_historical_reconstruct.py`, `data/sccr_historical_series.json`, addendum in `research/HISTORICAL_SCCR_RECONSTRUCTION.md`). Q7 verdict: 2021/2023 reproduce within 50%; 2017 and 2024 do not. Era node-count leg remains an approximation (grade C/D) until a primary historical census lands.
-4. **VCI prototype** — live verification cost from current size + hardware
-   price series; historical series once reconstruction data lands.
+4. **VCI prototype** — DONE (scenario-limited). `tools/research/verify_cost_index.py` + `data/verify_cost_index.json`: per-era chain/state size → sync days, cost, affordability, and cost-as-ppm-of-annual-value. Reading: sync time stayed ~1-2 days 2013-2026; affordability rose 14%→30% of a month's income; value-relative cost collapsed ~17×. Hardening = captured IBD benchmarks + real UTXO size (now assumptions). Grade C live / D historical.
 
 Nothing after item 4 gets scheduled until items 1–3 are reviewed, because every
 later instrument depends on the calibration they produce.

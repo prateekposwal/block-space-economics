@@ -37,7 +37,7 @@ Rules the matrix obeys:
 | 4 | Block/state size | **A** | **B** | Block size/weight captured per block (Jul-Aug 2026 captures); `adoption.json`; historical avg-block-size daily series frozen (2009→2026) | Historical per-block weights, not just daily averages | `data/adoption.json`, `captured-data/historical/blockchain.info/avg-block-size.json` |
 | 5 | Storage cost coverage (SCCR) | **A** | **B\*** | `sccr.json`, `sccr_latest.json`, `sccr_history.json`, model-spec v2.0.1, 3 independent implementations | **Historical leg now RECONSTRUCTED-ESTIMATE** (14 eras, deterministic tool): fee/price/blocksize from frozen daily aggregates (grade B); era node-count leg remains approximation (grade C/D). Q7 2021/2023 verified within 50%; 2017/2024 do not reproduce the claims. | `data/sccr_historical_series.json`, `tools/research/sccr_historical_reconstruct.py`, `research/HISTORICAL_SCCR_RECONSTRUCTION.md` |
 | 6 | UTXO cost (state persistence as externality) | **B** | **D** | `utxo_cost_ratio.json`: 144 blocks (966127–966270), avg UCIR 2.87, 84% of blocks above 1× | Pre-2016 UTXO series thin; earlier reconstruction only | `data/utxo_cost_ratio.json` |
-| 7 | Validation/verification cost (VCI target) | **C** | **D** | `bandwidth_bound.json` (bounds), validation metrics in working paper; sync/IBD benchmarks not yet captured continuously | IBD time-vs-hardware series not captured; historical near-nothing | `research/bandwidth-bound-note.md`, `research/validation-cost.md` |
+| 7 | Validation/verification cost (VCI target) | **C** | **D** | **VCI prototype shipped** (`tools/research/verify_cost_index.py`, `data/verify_cost_index.json`): chain-size + era-scaled throughput scenario → sync days, cost, affordability, value-relative ppm; `bandwidth_bound.json` bounds | Hardening needs a captured IBD-benchmark series + a real UTXO set size series; until then the result is scenario-limited (documented in the tool) | `data/verify_cost_index.json`, `tools/research/verify_cost_index.py`, `research/bandwidth-bound-note.md`, `research/validation-cost.md` |
 | 8 | Bandwidth/relay (propagation) | **C** | **D** | `bandwidth_bound.json` bounds (block + batch model) | Marginal propagation leg unbundled from fixed node cost; no topology data | `research/bandwidth-bound-note.md` |
 | 9 | Node count / distribution | **C** | **D** | `node_census.json`: totalKnownAddresses **32,000 (exact addrman cap)**, liveConnections 8, lower_bound=true, 2026-08-02 | Denominator capped by addrman; live sample tiny; pre-2014 census estimates wide-error; counting methods changed over time. **The weakest pillar.** | `data/node_census.json`, `research/node-census-staleness-note.md` |
 | 10 | Mining hashrate level | **B** | **B** | `hashrate.json`: 240 points from 2026-08-19 (~934 EH/s) | Historical difficulty/hashrate series recoverable from public archives (not yet pulled into repo) | `data/hashrate.json` |
@@ -63,8 +63,10 @@ Rules the matrix obeys:
    historical D that most limits the Satoshi-test (THESIS.md §6) — add to the
    reconstruction backlog with the 2017 fee/spike work.
 4. **Verification Cost Index (row 7).** The THESIS.md §6 operationalization
-   of the Satoshi claim. Live D→C is achievable with IBD benchmarks + chain
-   size captures; the historical leg stays D until reconstruction data lands.
+   of the Satoshi claim. **Prototype shipped** (deterministic, scenario-limited):
+   sync-time flat ~1-2 days 2013-2026; affordability 14%→30% of a month's
+   income; value-relative cost collapsed ~17×. Hardening = captured IBD
+   benchmark series + real UTXO set size (both currently assumptions).
 
 ---
 
