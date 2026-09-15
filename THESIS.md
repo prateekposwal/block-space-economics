@@ -173,7 +173,7 @@ is no longer symmetrical.
 4. **VCI prototype** — DONE (scenario-limited). `tools/research/verify_cost_index.py` + `data/verify_cost_index.json`: per-era chain/state size → sync days, cost, affordability, and cost-as-ppm-of-annual-value. Reading: sync time stayed ~1-2 days 2013-2026; affordability rose 14%→30% of a month's income; value-relative cost collapsed ~17×. Hardening = captured IBD benchmarks + real UTXO size (now assumptions). Grade C live / D historical.
 
 5. **Tier-1 calibration gaps (data-confidence §"Critical gaps")** — **IN PROGRESS** (items 1–3 of the matrix's critical gaps are now being closed, the gate in §8.6 having opened once items 1–3 above shipped):
-   - Pool concentration (row 11) — **live gap CLOSED 2026-09-16**: measured, no threshold crossed, grade D→C live.
+   - Pool concentration (row 11) — **live gap CLOSED 2026-09-16**: measured, no threshold crossed, grade D→C live. 2026-09-16 (validation): 7/7 pools coherent ≤1.5σ, network-total blockchair↔mempool 2.34% — **C→B blocked on pool self-reported hashrate (unreachable; documented)**.
    - Primary historical node census (row 9) — **PARTIAL-CLOSED 2026-09-16**: btcnodes.io series (3,981 snapshots, ~26.6K reachable, live grade D→B); two era anchors (2017→11,891, 2026→26,635); grading row 9 historical D→C. Deep 2013-2016 / 2018-2025 remains open.
    - Pruned-vs-archival split (row 9 companion) — **DOCUMENTED READING 2026-09-16**: not remotely observable; P2P egress blocked here; scope note filed, no split fabricated.
    - Regional energy (row 13) — **aggregate leg DONE 2026-09-16** (production-cost instrument: 2026 energy ≈ 84% of miner revenue, fees ≈ 0.7% of the energy bill; grade C assumption-bound). Regional granularity stays D (Cambridge map capture pending).

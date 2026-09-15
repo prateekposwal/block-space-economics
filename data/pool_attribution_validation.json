@@ -1,0 +1,50 @@
+{
+  "schema": "bsahi.pool-attribution-validation/1",
+  "generated_at": "2026-09-15T22:28:25.900114+00:00",
+  "status": "Validation vs reachable independent evidence; self-reported pool hashrate UNAVAILABLE (documented) -- see research/pool-hashrate-reachability.md",
+  "internal_coherence": {
+    "n_pools_shared_across_windows": 7,
+    "n_coherent_within_3sigma": 7,
+    "least_coherent": [
+      {
+        "pool": "F2Pool",
+        "shares": {
+          "24h": 0.134969,
+          "3d": 0.140426,
+          "1w": 0.138605,
+          "1y": 0.121735
+        },
+        "max_abs_deviation_from_1y_sigma": 1.5,
+        "coherent_within_3sigma": true
+      },
+      {
+        "pool": "Foundry USA",
+        "shares": {
+          "24h": 0.233129,
+          "3d": 0.265957,
+          "1w": 0.263256,
+          "1y": 0.284819
+        },
+        "max_abs_deviation_from_1y_sigma": 1.4,
+        "coherent_within_3sigma": true
+      },
+      {
+        "pool": "SpiderPool",
+        "shares": {
+          "24h": 0.128834,
+          "3d": 0.085106,
+          "1w": 0.092093,
+          "1y": 0.089137
+        },
+        "max_abs_deviation_from_1y_sigma": 1.4,
+        "coherent_within_3sigma": true
+      }
+    ]
+  },
+  "network_cross_check_blockchair": {
+    "blockchair_hashrate_24h_ehs": 1013.7,
+    "mempool_space_hashrate_24h_ehs": 1037.69,
+    "relative_diff_pct": 2.34
+  },
+  "honesty": "Internal coherence supports the attribution; blockchair hashrate confirms the network total. Neither replaces pool self-reported hashrate for a per-pool ground-truth cross-check (unreachable from this environment)."
+}
