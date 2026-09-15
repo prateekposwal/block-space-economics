@@ -148,6 +148,14 @@ measurement is Phase I follow-on work, not a blocker for v2.1.0 submission.
 - [ ] If/when a split is measured: recompute SCCR at N_archival and report the
       archival-only ratio as the concentration-adjusted figure.
 
+**2026-09-16 status update:** split remains unmeasured. P2P egress test from the
+build environment shows the deep-block probe cannot run here (SYN completes on a
+minority of hosts; zero application bytes after `version` handshake). Resolution
+filed as a DOCUMENTED READING in `research/pruned-split-measurement-scope.md`
+(build-or-document). The reachable population's self-declared software/version
+distribution IS captured (97.7% Core, 38.8% Core 30/31) — a governance proxy, not
+a pruning split.
+
 ---
 
 *Bitcoin Sahi Research Council — Companion note to working-paper v2.1.0 (Phase I), 2026-08-02*
