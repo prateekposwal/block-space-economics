@@ -66,10 +66,6 @@
     #narrative-text { font-size:13px;color:var(--ink-2);transition:opacity 1s;font-style:italic; }
 
     #metrics-ticker { position: fixed; bottom: 0; left: 0; width: 100vw; z-index: 15; overflow: hidden; white-space: nowrap; font-size: 11px; color: rgba(255,255,255,0.6); padding: 4px 0; background: var(--bg); border-top: 1px solid rgba(255,255,255,0.05); font-variant-numeric: tabular-nums; letter-spacing: 0.3px; }
-    #nav-links { position: fixed; bottom: 160px; right: 20px; z-index: 30; display: flex; flex-direction: column; gap: 10px; }
-    #nav-links a { display: flex; align-items: center; gap: 10px; padding: 14px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; color: var(--ink); font-size: 15px; font-weight: 600; text-decoration: none; transition: all 0.2s; min-width: 180px; }
-    #nav-links a:hover { border-color: var(--line); }
-    #nav-links a span { color: var(--accent-ink); font-weight: 800; font-size: 18px; }
     .ticker-track { display: inline-block; white-space: nowrap; padding-left: 0; animation: ticker-scroll 45s linear infinite; }
     .ticker-track span { display: inline-block; }
     .ticker-track .sep { margin: 0 10px; color: rgba(255,255,255,0.15); }
@@ -78,18 +74,12 @@
       100% { transform: translateX(-50%); }
     }
 
-    /* Mobile layout — consolidated from three contradictory duplicate blocks.
-       Final intent preserved: nav-links dock above the ticker, CTA floats above
-       them, legend toggle top-right, legend panel BELOW the fixed headline so
-       opening it never covers the H1. No !important crutches. */
     @media (max-width: 600px) {
       .bottom-area { width: 90%; }
       .bottom-area .cta { display: block; }
       #dollar-context { font-size: 12px; top: auto; bottom: 170px; }
       #narrative-frame { top: auto; bottom: 215px; }
       #narrative-frame #narrative-text { font-size: 11px; }
-      #nav-links { bottom: 140px; right: 10px; }
-      #nav-links a { padding: 10px 16px; font-size: 13px; min-width: 140px; }
     }
 
     @media (max-width: 480px) {
@@ -106,10 +96,6 @@
       .legend-toggle { top: 115px; right: 12px; width: 28px; height: 28px; font-size: 12px; }
       .legend-panel { top: 253px; right: 12px; width: 180px; padding: 12px; }
       .legend-panel .l-item { font-size: 10px; }
-      /* Nav dock: bottom bar above the ticker, buttons in a wrapped row. */
-      #nav-links { bottom: 40px; right: 8px; left: 8px; flex-direction: row; flex-wrap: wrap; gap: 4px; justify-content: center; }
-      #nav-links a { min-width: 0; flex: 1 1 calc(33% - 4px); max-width: none; padding: 7px 8px; font-size: 11px; justify-content: center; }
-      #nav-links a span { font-size: 14px; }
       /* CTA floats above the nav dock so nothing overlaps. */
       .bottom-area { bottom: 200px; }
       .bottom-area .cta { padding: 10px 20px; font-size: 14px; }
@@ -119,7 +105,6 @@
     @media (max-width: 380px) {
       #dollar-context { top: auto; bottom: 300px; font-size: 9px; }
       #narrative-frame { top: auto; bottom: 345px; }
-      #nav-links a { font-size: 11px; padding: 7px 8px; }
       .legend-toggle { top: 113px; right: 10px; }
       .legend-panel { top: 251px; right: 10px; }
     }
@@ -134,34 +119,13 @@
     /* BSAHI chrome — the design system layered over the living canvas.
        The visualization stays the page; this layer adds navigation,
        live stats with freshness, and trust signals in the same palette. */
-    #topbar{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;gap:16px;padding:14px 20px;background:linear-gradient(rgba(26,22,18,0.9),rgba(26,22,18,0));pointer-events:none}
-    #topbar>*{pointer-events:auto}
-    .brand{display:inline-flex;align-items:center;gap:9px;color:var(--ink);text-decoration:none;font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-    .brand .bi{color:var(--accent);font-size:16px;line-height:1}
-    #topnav{display:flex;gap:4px;margin-left:6px}
-    #topnav a{color:rgba(234,220,200,0.55);text-decoration:none;font-size:13px;font-weight:500;padding:6px 11px;border-radius:8px;transition:color .15s,background .15s}
-    #topnav a:hover{color:var(--ink);background:rgba(255,255,255,0.07)}
-    #topnav a.on{color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent)}
-    #chip{display:inline-flex;align-items:center;gap:7px;margin-left:auto;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.14);color:rgba(234,220,200,0.7)}
-    #chip b{width:8px;height:8px;border-radius:50%;background:var(--ink-3)}
-    #chip.s-live b{background:var(--ok)}#chip.s-delayed b{background:var(--warn)}
-    #chip.s-stale b,#chip.s-unknown b{background:var(--err)}
     #state-bar{position:fixed;top:129px;left:50%;transform:translateX(-50%);z-index:24;text-align:center;pointer-events:none}
     @media (max-width:900px){
       #legend-toggle{top:220px;right:16px}
     }
     @media (max-width:600px){
-      #topbar{padding:10px 12px;flex-wrap:wrap;row-gap:6px}
-      #topnav{order:3;width:100%;justify-content:flex-start;margin-left:0}
-      #chip{order:2}
-      #headline{top:221px}
       #legend-toggle{top:199px;right:12px}
-      /* Mobile stat strip sits UNDER the title — the bottom dock, CTA, and
-         ticker keep their original places and nothing overlaps. */
       #state-bar{display:none}
-      #nav-links{position:fixed;bottom:40px;left:8px;right:8px;flex-direction:row;flex-wrap:wrap;gap:4px;justify-content:center}
-      #nav-links a{min-width:0;flex:1 1 calc(33% - 4px);max-width:none;padding:7px 8px;font-size:11px;justify-content:center}
-      #nav-links a span{font-size:14px}
       .bottom-area{bottom:88px}
       .bottom-area .hint{display:none}
     }
