@@ -146,11 +146,6 @@
     #chip b{width:8px;height:8px;border-radius:50%;background:var(--ink-3)}
     #chip.s-live b{background:var(--ok)}#chip.s-delayed b{background:var(--warn)}
     #chip.s-stale b,#chip.s-unknown b{background:var(--err)}
-    #statstrip{position:fixed;top:255px;left:50%;transform:translateX(-50%);z-index:25;display:flex;gap:22px;padding:9px 20px;border-radius:999px;background:rgba(26,22,18,0.6);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-variant-numeric:tabular-nums;pointer-events:none}
-    #statstrip .ss{display:flex;align-items:baseline;gap:6px;font-size:12px}
-    #statstrip .ss b{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--ink)}
-    #statstrip .ss i{font-style:normal;color:rgba(234,220,200,0.45);font-size:11px}
-    #statstrip .ss .se{font-style:normal;color:rgba(234,220,200,0.3);font-size:10px;letter-spacing:.05em;text-transform:uppercase}
     #state-bar{position:fixed;top:129px;left:50%;transform:translateX(-50%);z-index:24;text-align:center;pointer-events:none}
     @media (max-width:900px){
       #legend-toggle{top:220px;right:16px}
@@ -167,8 +162,6 @@
       #nav-links{position:fixed;bottom:40px;left:8px;right:8px;flex-direction:row;flex-wrap:wrap;gap:4px;justify-content:center}
       #nav-links a{min-width:0;flex:1 1 calc(33% - 4px);max-width:none;padding:7px 8px;font-size:11px;justify-content:center}
       #nav-links a span{font-size:14px}
-      #statstrip{top:275px;bottom:auto;left:50%;transform:translateX(-50%);width:92vw;justify-content:center;flex-wrap:wrap;gap:8px 14px;white-space:normal;max-width:92vw;overflow:visible;border-radius:20px}
-      #statstrip .ss b{font-size:13px}
       .bottom-area{bottom:88px}
       .bottom-area .hint{display:none}
     }
@@ -194,14 +187,6 @@
 <body data-version="v5-design-system">
   <canvas id="viz-fees"></canvas>
 
-  <!-- System chrome over the canvas: brand (existing BSAHI mark), nav, live status -->
-  <!-- Live network state, same single source of truth as the H1 dot -->
-  <div id="statstrip" aria-label="Live network state">
-    <span class="ss"><i class="se">Fastest</i><b id="vs-fastest">--</b><i>sat/vB</i></span>
-    <span class="ss"><i class="se">Economy</i><b id="vs-economy">--</b><i>sat/vB</i></span>
-    <span class="ss"><i class="se">Mempool</i><b id="vs-mempool">--</b><i>txs</i></span>
-    <span class="ss"><i class="se">Height</i><b id="vs-height">--</b></span>
-  </div>
 
 
   <!-- Visible H1 (only content per architect) -->
