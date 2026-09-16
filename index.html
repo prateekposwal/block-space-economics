@@ -27,7 +27,7 @@
   <meta name="twitter:image" content="https://bitcoinsahi.com/og-image.png">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg); font-family: var(--ui); }
+    html, body { width: 100%; min-height: 100%; overflow-x: hidden; background: var(--bg); font-family: var(--ui); }
     #viz-fees { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; }
 
     .state-bar { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 20; text-align: center; pointer-events: none; }
@@ -129,6 +129,33 @@
       .bottom-area{bottom:88px}
       .bottom-area .hint{display:none}
     }
+
+    /* Homepage: the visualisation is a 100vh hero; real, visible content follows
+       it and the page scrolls down to it. Hero children anchor to the hero (not
+       the viewport) so they scroll away with it. This REPLACES the old clipped
+       "crawler-readable, invisible to visitors" text layer with visible content. */
+    #home-hero{position:relative;height:100vh;overflow:hidden}
+    /* Homepage only: the nav overlays the hero and scrolls away with it, so the
+       hero fills the viewport (the sticky nav would otherwise push the ticker
+       off-screen). Other pages keep the sticky nav in normal flow. */
+    body > .site-nav{position:absolute;top:0;left:0;right:0}
+    #home-hero #viz-fees,#home-hero #headline,#home-hero .state-bar,
+    #home-hero .legend-toggle,#home-hero .legend-panel,#home-hero .bottom-area,
+    #home-hero #genesis-strip,#home-hero #dollar-context,
+    #home-hero #narrative-frame,#home-hero #metrics-ticker{position:absolute}
+    #home-content{position:relative;z-index:60;background:var(--bg);border-top:1px solid var(--line);padding:56px 24px 72px;min-height:100vh}
+    #home-content .wrap{max-width:760px;margin:0 auto}
+    #home-content h2{font-family:var(--disp);color:var(--ink);font-size:1.5rem;margin:30px 0 10px}
+    #home-content h2:first-child{margin-top:0}
+    #home-content p,#home-content li{color:var(--ink-2);line-height:1.8}
+    #home-content a{color:var(--accent-ink)}
+    #home-content ul{padding-left:22px}
+    /* Short / landscape viewports: the auto-fading captions collide with the H1.
+       Hide them (decorative; /live shows the same data) so the H1, CTA and
+       ticker stay readable. */
+    @media (max-height:640px){
+      #home-hero #dollar-context,#home-hero #narrative-frame{display:none}
+    }
   </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -153,27 +180,14 @@
 <link rel="stylesheet" href="/css/site-nav.css">
 </head>
 <body data-version="v5-design-system">
+  <div id="home-hero">
   <canvas id="viz-fees"></canvas>
 
 
 
   <!-- Visible H1 (only content per architect) -->
-  <div id="headline" style="position:fixed;top:175px;left:50%;transform:translateX(-50%);z-index:25;text-align:center;pointer-events:none;max-width:640px;width:calc(100% - 40px);">
+  <div id="headline" style="position:absolute;top:175px;left:50%;transform:translateX(-50%);z-index:25;text-align:center;pointer-events:none;max-width:640px;width:calc(100% - 40px);">
     <h1 style="font-family:var(--disp);font-weight:600;font-size:clamp(20px,3.5vw,34px);color:var(--ink);margin:0;letter-spacing:0.25px;">Bitcoin block space, <span style="color:var(--accent);">live</span>. <span id="data-health" title="Data status" style="font-size:0.6em;color:var(--ink-3);">⚪</span></h1>
-  </div>
-
-  <!-- SEO content layer (crawler-readable, invisible to visitors) -->
-  <div style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;" aria-hidden="false">
-    <p>Bitcoin Sahi — live Bitcoin fee, mempool, and block data from an autonomous research engine measuring block space economics in real time.</p>
-    <p>Bitcoin Sahi is an autonomous research engine measuring Bitcoin's fee market, mempool, and block space in real time. Every bar above is one block; the floating particles are transactions waiting in the mempool.</p>
-    <h2>Live network state</h2>
-    <ul>
-      <li>Fastest fee and economy fee in satoshis per virtual byte, total transactions waiting in the mempool, and the current block height.</li>
-      <li>A one-vbyte economy rate transaction costs a fraction of a US cent or more depending on real fee pressure.</li>
-    </ul>
-    <h2>Latest research</h2>
-    <p><strong>Bitcoin Resource Accounting</strong> — open research on the long-lived resources Bitcoin consumes (replicated storage, UTXO state, validation, relay, bandwidth) and how much of each cost the fee market internalizes. Storage (SCCR) is Metric #1, measured and reproducible.</p>
-    <a href="/learn">Read the research →</a>
   </div>
 
   <div class="state-bar" id="state-bar">
@@ -196,9 +210,6 @@
       <div class="hint" style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:8px;">Each bar is one Bitcoin block — the skyline is the last 24h</div>
     </div>
 
-    <!-- Visible below-the-fold content (public-facing, not SEO-hidden) -->
-
-
   <div id="genesis-strip"><canvas id="genesis-canvas"></canvas></div>
 
   <div id="dollar-context">
@@ -207,6 +218,27 @@
 
   <div id="narrative-frame"><div id="narrative-text"></div></div>
   <div id="metrics-ticker"><div class="ticker-track" id="ticker-track"></div></div>
+
+  </div><!-- /#home-hero -->
+
+  <section id="home-content">
+    <div class="wrap">
+      <h2>Bitcoin block space, live</h2>
+      <p>Bitcoin Sahi is an autonomous research engine measuring Bitcoin&rsquo;s fee market, mempool, and block space in real time. Every bar above is one Bitcoin block &mdash; the floating particles are transactions waiting in the mempool.</p>
+      <p>Live right now: the fastest and economy fee in satoshis per virtual byte (sat/vB), how many transactions are waiting to be confirmed, and the current block height. A one-vbyte economy-rate transaction costs a fraction of a US cent &mdash; or more, when fee pressure rises.</p>
+
+      <h2>Live network state</h2>
+      <ul>
+        <li><strong>Fees</strong> &mdash; fastest and economy rates in sat/vB, and what a typical transaction costs in dollars.</li>
+        <li><strong>Mempool</strong> &mdash; how many transactions are competing for the next block.</li>
+        <li><strong>Block height</strong> &mdash; the current tip of the chain; each bar in the skyline is one block from the last 24 hours.</li>
+      </ul>
+
+      <h2>Latest research</h2>
+      <p><strong>Bitcoin Resource Accounting</strong> &mdash; open research on the long-lived resources Bitcoin consumes (replicated storage, UTXO state, validation, relay, bandwidth) and how much of each cost the fee market internalizes. Storage &mdash; the <strong>Storage Cost Coverage Ratio (SCCR)</strong> &mdash; is Metric #1, measured and reproducible.</p>
+      <p><a href="/learn">Read the research &rarr;</a> &middot; <a href="/live">Should I send now? &rarr;</a> &middot; <a href="/articles.html">Research archive &rarr;</a></p>
+    </div>
+  </section>
 
   <script src="/js/site-nav.js"></script>
   <script src="tools/data-engine.js"></script>
