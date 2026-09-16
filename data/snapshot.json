@@ -1,40 +1,40 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-16T21:36:22.389528+00:00",
+  "generated_at": "2026-09-16T22:03:15.550Z",
   "freshness_min": 0,
-  "payload_ts": "2026-09-16T21:36:20.529569+00:00",
-  "fees_ts": "2026-09-16T21:36:20.529569+00:00",
-  "price_ts": "2026-09-16T21:36:20.529569+00:00",
-  "height_ts": "2026-09-16T21:36:20.529569+00:00",
-  "mempool_ts": "2026-09-16T21:36:20.529569+00:00",
-  "lightning_ts": "2026-09-16T21:36:20.529569+00:00",
+  "payload_ts": "2026-09-16T22:03:07.732Z",
+  "fees_ts": "2026-09-16T22:03:07.732Z",
+  "price_ts": "2026-09-16T22:03:08.309Z",
+  "height_ts": "2026-09-16T22:03:14.657Z",
+  "mempool_ts": "2026-09-16T22:03:15.359Z",
+  "lightning_ts": "2026-09-16T22:03:15.549Z",
   "fees": {
-    "fastestFee": 2,
-    "halfHourFee": 1,
+    "fastestFee": 5,
+    "halfHourFee": 4,
     "hourFee": 1,
     "economyFee": 1,
     "minimumFee": 1
   },
-  "btc_price": 75993,
+  "btc_price": 75922,
   "block_height": 967327,
-  "mempool_tx": 78550,
+  "mempool_tx": 83256,
   "lightning": {
     "latest": {
-      "id": 118870,
-      "added": "2026-05-22T00:00:00.000Z",
-      "channel_count": 41080,
-      "node_count": 17438,
-      "total_capacity": 489826757734,
-      "tor_nodes": 8975,
-      "clearnet_nodes": 4696,
-      "unannounced_nodes": 2000,
-      "avg_capacity": 11923728,
-      "avg_fee_rate": 817,
-      "avg_base_fee_mtokens": 880,
-      "med_capacity": 2100000,
+      "id": 154152,
+      "added": "2026-08-30T00:00:00.000Z",
+      "channel_count": 32676,
+      "node_count": 16237,
+      "total_capacity": 379442797509,
+      "tor_nodes": 7981,
+      "clearnet_nodes": 4595,
+      "unannounced_nodes": 2027,
+      "avg_capacity": 11612278,
+      "avg_fee_rate": 824,
+      "avg_base_fee_mtokens": 903,
+      "med_capacity": 2035000,
       "med_fee_rate": 100,
-      "med_base_fee_mtokens": 100,
-      "clearnet_tor_nodes": 1767
+      "med_base_fee_mtokens": 500,
+      "clearnet_tor_nodes": 1634
     }
   },
   "forecast": [
@@ -54,7 +54,10 @@
       "trend": "stable"
     }
   ],
-  "alerts": [],
+  "alerts": [
+    "🛡 ORCHESTRATOR: heartbeat 26181 min ago",
+    "🛡 CAPTURE: failure ratio 35% (last 24h) > 20%"
+  ],
   "history": [
     {
       "date": "2026-08-19",
@@ -411,6 +414,10 @@
     {
       "date": "2026-09-17",
       "fastestFee": 1
+    },
+    {
+      "date": "2026-09-17",
+      "fastestFee": 3
     }
   ],
   "totalPosts": 0
