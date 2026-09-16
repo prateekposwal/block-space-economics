@@ -56,11 +56,9 @@ were checked against the canonical SNI archive on 2026-08-03:
 | e | Fresh-key ceremony line | ✅ **VERIFIED — two passages** | §10 (Privacy): *"As an additional firewall, **a new key pair should be used for each transaction** to keep them from being linked to a common owner."* §11 (Calculations) — the interactive ceremony: *"**The receiver generates a new key pair and gives the public key to the sender shortly before signing. This prevents the sender from preparing a chain of blocks ahead of time** by working on it continuously until he is lucky enough to get far enough ahead, then executing the transaction at that moment."* |
 | f | Anti-master-chain principle: Satoshi proposed separate chains sharing PoW — ancestor of merged mining/sidechains | ✅ **VERIFIED — BitcoinTalk thread "BitDNS and Generalizing Bitcoin", Dec 9–11 2010 (SNI posts 532/535/537/539)** | Post 532: *"I think it would be possible for BitDNS to be a completely separate network and separate block chain, yet **share CPU power with Bitcoin**. The only overlap is to make it so miners can search for proof-of-work for both networks simultaneously."* Post 535: *"**Piling every proof-of-work quorum system in the world into one dataset doesn't scale.** Bitcoin and BitDNS can be used separately… **The networks need to have separate fates.**"* Post 539: *"Independent networks/chains can **share CPU power without sharing much else**."* Post 537 (BSAHI-relevant): *"It will be much easier if you can freely use all the space you need **without worrying about paying fees for expensive space in Bitcoin's chain**."* Post 534 (bonus): Satoshi designs a fee-incentive-based transaction replacement — an RBF/CPFP ancestor: *"every node bears witness to which transaction it saw first by working to put it into a block."* |
 
-**Nuance on (f).** The principle is better stated as **"share security, not
-data"** than "share PoW but not a chain": Satoshi proposed separate chains
+**Nuance on (f).** The principle is better stated as **"share security, not data"** than "share PoW but not a chain": Satoshi proposed separate chains
 (sharing *nothing* but CPU power) — the direct ancestor of **merged mining**
-(Namecoin, 2011, implemented exactly this) and the seed of the **sidechain
-argument** (post 537: a separate chain exists precisely to avoid the main
+(Namecoin, 2011, implemented exactly this) and the seed of the **sidechain argument** (post 537: a separate chain exists precisely to avoid the main
 chain's block-space fees). No "master chain" was ever proposed — the
 whitepaper's §12 is the opposite: *"The network is robust in its unstructured
 simplicity."*
@@ -69,11 +67,10 @@ simplicity."*
 
 ## 3. The 44-pattern map (by category)
 
-**⚪ The enumeration is the architect's analysis (external write-up, not yet in
-this repo).** Counts as given: mathematical/structural 16 · game-theoretic 6 ·
+**⚪ The enumeration is the architect's analysis (external write-up, not yet in this repo).** Counts as given: mathematical/structural 16 · game-theoretic 6 ·
 cryptographic 7 · economic 7 · social/philosophical 8 = 44. The members that
 survive verification with primary anchors are listed below; the full 44-item
-list is **LEFT** (needs the architect's original transcription before any
+list is **outstanding** (needs the architect's original transcription before any
 further pattern enters the record — see §9 ledger).
 
 | Category | Pattern (anchored) | Anchor |
@@ -107,8 +104,7 @@ further pattern enters the record — see §9 ledger).
    happen — the double-spend defense is an absence-proof, and the whole ledger
    exists to make absence globally checkable.
 2. **Anti-master-chain principle** — ✅ BitDNS thread (Dec 2010). Satoshi's
-   design for auxiliary networks: separate chains, separate fates, **shared CPU
-   power only**. The ancestor of merged mining (Namecoin) and the sidechain
+   design for auxiliary networks: separate chains, separate fates, **shared CPU power only**. The ancestor of merged mining (Namecoin) and the sidechain
    argument. **BSAHI relevance:** post 537 shows Satoshi explicitly routed
    data-heavy applications *off* the main chain to avoid *"fees for expensive
    space in Bitcoin's chain"* — the main chain's block space was expensive by
@@ -220,9 +216,9 @@ framing (§8.3).
 - BitcoinTalk, "BitDNS and Generalizing Bitcoin" (thread Nov 2010; Satoshi's replies Dec 9–11, 2010): SNI posts 532, 534, 535, 537, 539 — https://satoshi.nakamotoinstitute.org/posts/bitcointalk/{532,534,535,537,539}/
 - Prior verification (storage/fees/node-equilibrium): `research/satoshi-primary-source-note.md`
 
-## 10. Evidence ledger + DONE/LEFT
+## 10. Evidence ledger & status
 
-**DONE (verified, 2026-08-03):** six checkable claims verified against SNI
+**Verified (2026-08-03):** six checkable claims verified against SNI
 canonical text (2 location-corrections: b → §9, and note a → §2); four
 nobody-talks-about patterns anchored; four famous-but-wrong patterns anchored
 (21M/1MB/halving myth confirmed NOT in whitepaper, §6 "predetermined number of
@@ -230,7 +226,7 @@ coins" confirmed, repo audit clean); BSAHI-7 parent mapping written (3
 architect mappings ★ + 4 repo-derived, all labeled analysis); closing
 meta-pattern anchored to §12 last line; §8.3 light touch applied + cross-ref.
 
-**LEFT / TODO (verified):** the full 44-item enumeration is **not** in this
+**Outstanding:** the full 44-item enumeration is **not** in this
 repo — only the counts (16/6/7/7/8) and the anchored members above. Before any
 further pattern enters BSAHI surfaces, the architect's original 44-pattern
 write-up must be transcribed and each remaining member checked against primary

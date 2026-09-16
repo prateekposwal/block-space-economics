@@ -8,8 +8,7 @@
 
 ## What it is
 
-A self-contained, iframe-embeddable widget that tells a user **whether to send
-Bitcoin now** — based on live mempool conditions from our Bitcoin Core node.
+A self-contained, iframe-embeddable widget that tells a user **whether to send Bitcoin now** — based on live mempool conditions from our Bitcoin Core node.
 It computes a fee-weather verdict (Sunny → Storm) and shows the cost of a
 typical transaction.
 

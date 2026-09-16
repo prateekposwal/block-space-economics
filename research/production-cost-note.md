@@ -37,8 +37,7 @@ efficiency table is a documented estimate, grade C).
   flow-cost viability wall; at $0.06/kWh the network's aggregate energy bill
   would exceed its revenue. This is the producing-side stress (boundary class E)
   in its strongest form yet — a cost squeeze, not a fee shortage symptom.
-- **Block-space fees pay 0.7% of the energy cost that produces the blocks they
-  live in** (2026). The fee market internalizes ≈ nothing of the physical
+- **Block-space fees pay 0.7% of the energy cost that produces the blocks they live in** (2026). The fee market internalizes ≈ nothing of the physical
   production cost. (2012-2017 fee coverage looks high only because the estimated
   energy bills were tiny — grade-C baseline effect.)
 - The trend is rising: cost/value went 0.32 (2017) → 0.56 (2019) → 0.73 (2020)
@@ -47,8 +46,7 @@ efficiency table is a documented estimate, grade C).
 
 ## Honesty block
 
-- **Efficiency ($/kWh, J/TH) are documented assumptions, not measurements
-  (grade C).** The ratio is linear in both. The hashrate + revenue + fee + price
+- **Efficiency ($/kWh, J/TH) are documented assumptions, not measurements (grade C).** The ratio is linear in both. The hashrate + revenue + fee + price
   legs are frozen primary series (grade B).
 - **Aggregate only — regional split NOT included.** The Cambridge-mining-map /
   regional-electricity capture that row 13 names is still grade D. This closes

@@ -1,7 +1,6 @@
 # Historical Series Extension: Difficulty + Mempool Congestion
 
-**BSAHI — row 10 (mining hashrate level, historical A), row 3 (mempool pressure,
-historical B\*)**
+**BSAHI — row 10 (mining hashrate level, historical A), row 3 (mempool pressure, historical B\*)**
 *Produced: 2026-09-16 · Instrument: `tools/research/historical_series_extension.py`*
 
 ## What was frozen

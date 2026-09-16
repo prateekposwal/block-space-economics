@@ -450,14 +450,11 @@ current value, not by who makes it:
 
 - **If a critic simply asserts a different value or a different modeling choice**
   (T = 20, marginal attribution, "validation matters more") --- there is no
-  evidence the current value is wrong. That is **Type C territory: recorded as
-  feedback** (community-feedback triage, `research/community-review-plan.md` §4),
+  evidence the current value is wrong. That is **Type C territory: recorded as feedback** (community-feedback triage, `research/community-review-plan.md` §4),
   engaged in the next revision, and **the measurement stands**.
 - **If the critic shows the current value or measurement is wrong** --- with
   evidence, a reproduction mismatch, or better data (a complete node census, a
-  corrected fee capture, a measured cost decomposition) --- that is **Type M
-  territory: a falsification candidate** under §7.1 falsifiers 1–3, and **the
-  headline is at risk** until the discrepancy is reconciled.
+  corrected fee capture, a measured cost decomposition) --- that is **Type M territory: a falsification candidate** under §7.1 falsifiers 1–3, and **the headline is at risk** until the discrepancy is reconciled.
 
 **Type C --- "Assumption I chose" (deliberate modeling choice).** A selection
 among defensible alternatives, made explicit and documented where it appears
@@ -545,8 +542,7 @@ Because the replication factor N is the dominant input and is only bounded (≥3
 
 The paper's measurement question is answered in §5; its falsifiers are §7.1. The
 program's forward agenda — the v3.0 economic-dynamics questions, their first
-answers, and the cross-chain generalization — **deliberately lives outside this
-core paper** in the companion `research/future-directions-v3.md` (plan-of-record:
+answers, and the cross-chain generalization — **deliberately lives outside this core paper** in the companion `research/future-directions-v3.md` (plan-of-record:
 `roadmap.md` §8/§9/§11). This keeps the paper a *measurement*, not a
 research-program pitch.
 

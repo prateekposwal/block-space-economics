@@ -115,8 +115,7 @@ body.gated .container{display:none}</style>
 <p>with an in-RAM UTXO cache (steady state is CPU-bound, sync is I/O-bound; the</p>
 <p>two brackets straddle the true value).</p>
 <p><strong>Key quantities carried in the model:</strong> R_blocks (52,596) and N (≥32K) are</p>
-<p>canonical in <code>research/model-spec.json</code>; the validation leg adds **no new model</p>
-<p>constant** — it is a resource-budget bound on C (the bundled $925/yr node cost),</p>
+<p>canonical in <code>research/model-spec.json</code>; the validation leg adds <strong>no new model constant</strong> — it is a resource-budget bound on C (the bundled $925/yr node cost),</p>
 <p>the same decomposition discipline as the bandwidth leg.</p>
 <h3>3. Reference literature</h3>
 <ul>
@@ -161,9 +160,7 @@ body.gated .container{display:none}</style>
 </ul>
 <p>(≥32K known addresses, addrman-cap; true band 10K–100K).</p>
 <h3>5. Falsifiable claim (v1)</h3>
-<blockquote>**&quot;Validation cost per full node per year is &lt; $100 — bounded from above by</blockquote>
-<blockquote>the entire node hardware+operating budget C = $925/yr (model-spec v2.1.0),</blockquote>
-<blockquote>with a central order-of-magnitude estimate of ~$1–2/yr per node.&quot;**</blockquote>
+<blockquote><strong>&quot;Validation cost per full node per year is &lt; $100 — bounded from above by the entire node hardware+operating budget C = $925/yr (model-spec v2.1.0), with a central order-of-magnitude estimate of ~$1–2/yr per node.&quot;</strong></blockquote>
 <p>This claim is falsified if: (a) a measured benchmark shows steady-state</p>
 <p>validation CPU ≥ ~200 h/yr per node on reference hardware (⇒ ≥ $20–100/yr at</p>
 <p>the amortized rate — inside the $100 bound but outside the stated order of</p>

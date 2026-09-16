@@ -27,14 +27,12 @@ leverage ratio of the vulnerability, and it has never been measured.
 
 ### 1. The leverage ratio L = 3.0×
 Filling every block at the fee floor costs the attacker ~$65M/yr and imposes
-~$197M of 10-year storage cost on the network. The vulnerability is **real and
-moderately leveraged** — the attacker gets ~3× the cost they pay. Not the
+~$197M of 10-year storage cost on the network. The vulnerability is **real and moderately leveraged** — the attacker gets ~3× the cost they pay. Not the
 apocalypse, not harmless. A nation-state budget sustains this indefinitely.
 
 ### 2. Dust is a WEAK attack on storage (L_dust = 0.9×) — the counterintuitive result
 The per-node lifetime storage cost of a dust UTXO is slightly *less* than the
-fee that creates it (~$0.246 to mint, ~$0.229 imposed). **Dust's real threat is
-the validation/RAM leg, not storage** — the UTXO set is an in-memory index every
+fee that creates it (~$0.246 to mint, ~$0.229 imposed). **Dust's real threat is the validation/RAM leg, not storage** — the UTXO set is an in-memory index every
 node must hold. This is exactly what the 4-resource model anticipated: the cost
 surfaces differ by leg.
 
@@ -66,13 +64,14 @@ the network, but it can price node operation up.
   you'd want priced, I'd genuinely like to run them." This note is the first
   batch.
 
-## DONE vs LEFT
+## Status
 
-**DONE:** P_flood/P_year/C_node_imposed/L/L_dust/boundedness computed and verified;
-this v1 note.
+**Published:** P_flood/P_year/C_node_imposed/L/L_dust/boundedness computed and
+verified; this v1 note.
 
-**LEFT:** budget scenario table (nation-state budgets → node impact); dust-RAM
-leg measurement; decision: standalone vs fold into working-paper §5.8.
+**In progress / open:** budget scenario table (nation-state budgets → node
+impact); dust-RAM leg measurement; decision: standalone vs fold into the
+working-paper §5.8.
 
 ---
 

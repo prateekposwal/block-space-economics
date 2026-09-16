@@ -20,8 +20,7 @@ that confirmed data imposes on the network.
 | 2026-08-04 | 0.2611 | 159 | `data/sccr_history.json` |
 | 2026-08-10 | 0.2379 | 145 | `data/sccr_history.json` |
 
-**Caveat — early series, small n.** This is a **4-point series over a 9-day span
-with a data gap Aug 5–9** (the daily tracker was installed mid-series). The
+**Caveat — early series, small n.** This is a **4-point series over a 9-day span with a data gap Aug 5–9** (the daily tracker was installed mid-series). The
 ~35% relative swing (0.28 → 0.24) is a *directional signal from a young
 series*, not a settled trend. We publish it as a live measurement with its
 uncertainty visible — the method and code are public so anyone can reproduce
@@ -47,8 +46,7 @@ imposes stays the same — the leverage ratio **rises** as fees fall.
 ## Not a defect — a measurement
 
 We are not claiming this is broken. The SCCR is a measurement of a pricing gap;
-a falling value is the model working as intended — **tracking the growing
-unpriced residue** that the paper exists to quantify. The trend is the
+a falling value is the model working as intended — **tracking the growing unpriced residue** that the paper exists to quantify. The trend is the
 contribution: the externality is *not static*, it moves with the fee market,
 and right now it is moving away from coverage.
 
@@ -60,11 +58,11 @@ paper's §5.4 knife-edge (the strong claim inverts at N≈49K or BTC≈$77K) and
 `cost-to-flood.md` (leverage 3.0×) bracket this — the falling trend moves
 *along* those bounds.
 
-## DONE vs LEFT
+## Status
 
-**DONE:** the trend note; the data is live-measured daily.
-**LEFT:** wire this as the research headline on the site (Data Story / Articles);
-watch the trend daily (the agent captures it).
+**Published:** this note, with live measurements taken every day.
+**In progress:** promotion to a research headline (Data Story / Articles) once the
+series firms up; the daily capture keeps running automatically.
 
 ---
 

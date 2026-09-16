@@ -84,10 +84,8 @@ body.gated .container{display:none}</style>
 <tr><td>2026-08-04</td><td>0.2611</td><td>159</td><td><code>data/sccr_history.json</code></td></tr>
 <tr><td>2026-08-10</td><td>0.2379</td><td>145</td><td><code>data/sccr_history.json</code></td></tr>
 </table>
-<p><strong>Caveat — early series, small n.</strong> This is a **4-point series over a 9-day span</p>
-<p>with a data gap Aug 5–9** (the daily tracker was installed mid-series). The</p>
-<p>~35% relative swing (0.28 → 0.24) is a *directional signal from a young</p>
-<p>series*, not a settled trend. We publish it as a live measurement with its</p>
+<p><strong>Caveat — early series, small n.</strong> This is a <strong>4-point series over a 9-day span with a data gap Aug 5–9</strong> (the daily tracker was installed mid-series). The</p>
+<p>~35% relative swing (0.28 → 0.24) is a <em>directional signal from a young series</em>, not a settled trend. We publish it as a live measurement with its</p>
 <p>uncertainty visible — the method and code are public so anyone can reproduce</p>
 <p>every digit. As the daily tracker accumulates clean points, the trendline</p>
 <p>will firm up.</p>
@@ -103,26 +101,24 @@ body.gated .container{display:none}</style>
 </ul>
 <p>costs&quot; widens</p>
 <p>This is also the <strong>attacker-side implication</strong> from <code>cost-to-flood.md</code>: in a</p>
-<p>low-fee regime, flooding the chain gets *cheaper per byte* while the storage it</p>
+<p>low-fee regime, flooding the chain gets <em>cheaper per byte</em> while the storage it</p>
 <p>imposes stays the same — the leverage ratio <strong>rises</strong> as fees fall.</p>
 <h3>Not a defect — a measurement</h3>
 <p>We are not claiming this is broken. The SCCR is a measurement of a pricing gap;</p>
-<p>a falling value is the model working as intended — **tracking the growing</p>
-<p>unpriced residue** that the paper exists to quantify. The trend is the</p>
-<p>contribution: the externality is *not static*, it moves with the fee market,</p>
+<p>a falling value is the model working as intended — <strong>tracking the growing unpriced residue</strong> that the paper exists to quantify. The trend is the</p>
+<p>contribution: the externality is <em>not static</em>, it moves with the fee market,</p>
 <p>and right now it is moving away from coverage.</p>
 <h3>Open question this raises</h3>
 <p>If fees keep falling and the ratio keeps dropping, at what point does the</p>
-<p>unpriced storage cost become a *binding* constraint on node operation? The</p>
+<p>unpriced storage cost become a <em>binding</em> constraint on node operation? The</p>
 <p>paper&#x27;s §5.4 knife-edge (the strong claim inverts at N≈49K or BTC≈$77K) and</p>
 <p><code>cost-to-flood.md</code> (leverage 3.0×) bracket this — the falling trend moves</p>
-<p>*along* those bounds.</p>
-<h3>DONE vs LEFT</h3>
-<p><strong>DONE:</strong> the trend note; the data is live-measured daily.</p>
-<p><strong>LEFT:</strong> wire this as the research headline on the site (Data Story / Articles);</p>
-<p>watch the trend daily (the agent captures it).</p>
+<p><em>along</em> those bounds.</p>
+<h3>Status</h3>
+<p><strong>Published:</strong> this note, with live measurements taken every day.</p>
+<p><strong>In progress:</strong> promotion to a research headline (Data Story / Articles) once the series firms up; the daily capture keeps running automatically.</p>
 <hr>
-<p>*Bitcoin Sahi Research — The Externality Is Growing (SCCR trend note), 2026-08-11.*</p>
+<p><em>Bitcoin Sahi Research — The Externality Is Growing (SCCR trend note), 2026-08-11.</em></p>
 <p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
 </div>
 <footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>

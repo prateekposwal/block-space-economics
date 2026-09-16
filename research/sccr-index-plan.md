@@ -11,8 +11,7 @@ Fear & Greed, but for Bitcoin's block-space storage economics.
 
 A daily, reproducible index of the **Storage Cost Coverage Ratio (SCCR)** — the
 share of modeled 10-year storage cost that transaction fees cover. Quoted like
-Fear & Greed or a Glassnode metric, but for an unowned niche: **the economics of
-permanent blockchain data.**
+Fear & Greed or a Glassnode metric, but for an unowned niche: **the economics of permanent blockchain data.**
 
 **What it looks like on a ticker:**
 > SCCR today: **0.238** (fees cover ~24% of modeled storage cost)

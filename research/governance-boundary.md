@@ -78,13 +78,15 @@ SegWit activated August 2017 without a split. The *threat of enforcement*
 changed miner behavior — which is exactly what BIP-110's mandatory window is
 testing again.
 
-## DONE vs LEFT
+## Status
 
-**DONE:** the frame; BIP-110 parameterization verified; live capture recording
-(in-window, 0% signaling, lock-in ~Aug 23); 2017 calibration identified.
+**Published:** the governance frame; BIP-110 parameters verified against the BIP
+text; live capture running (in-window, 0% signaling, lock-in ~Aug 23); 2017
+SegWit calibration identified.
 
-**LEFT:** post-window analysis (after lock-in ~Aug 23 — what happened at the
-disagreement point?); economic-majority data source; full GBI index.
+**In progress / open:** post-window analysis (what actually happens at the
+agreement point after lock-in ~Aug 23); an economic-majority data source; the
+full governance-boundary index.
 
 ---
 

@@ -17,8 +17,7 @@ verbatim · ⚠️ VERIFIED but context-corrected · ❌ APOCRYPHAL / NOT FOUND.
 > incentive, never a storage price; and when he needed to protect storage he used
 > quantity control (block-size cap), not price.
 
-The proposed causal chain: **2008 design (storage designed-around, not priced) →
-2017 SegWit discount → 2023 Ordinals → measured externality**, as a primary-source
+The proposed causal chain: **2008 design (storage designed-around, not priced) → 2017 SegWit discount → 2023 Ordinals → measured externality**, as a primary-source
 argument against the efficient-markets objection (working-paper §8.3).
 
 ## 2. Verification verdict — what checks out and what does not
@@ -43,8 +42,7 @@ reached for quantity control, not price (✅ posts 441/485), and (iv) he predict
 node-count equilibrium (✅ posts 188/287). But two of the architect's specific
 attributions are wrong and must not enter the paper as stated: the dollars-and-bytes
 modeling in email #2 is **bandwidth**, not storage; emails #7/#11 contain **no**
-storage claims; and §7's "storage should not be a problem" is about **headers in
-RAM**, not full-chain disk storage.
+storage claims; and §7's "storage should not be a problem" is about **headers in RAM**, not full-chain disk storage.
 
 ## 3. The causal chain, stated honestly
 

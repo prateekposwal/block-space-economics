@@ -115,21 +115,18 @@ body.gated .container{display:none}</style>
 <tr><td>e</td><td>Fresh-key ceremony line</td><td>✅ <strong>VERIFIED — two passages</strong></td><td>§10 (Privacy): *&quot;As an additional firewall, <strong>a new key pair should be used for each transaction</strong> to keep them from being linked to a common owner.&quot;* §11 (Calculations) — the interactive ceremony: *&quot;<strong>The receiver generates a new key pair and gives the public key to the sender shortly before signing. This prevents the sender from preparing a chain of blocks ahead of time</strong> by working on it continuously until he is lucky enough to get far enough ahead, then executing the transaction at that moment.&quot;*</td></tr>
 <tr><td>f</td><td>Anti-master-chain principle: Satoshi proposed separate chains sharing PoW — ancestor of merged mining/sidechains</td><td>✅ <strong>VERIFIED — BitcoinTalk thread &quot;BitDNS and Generalizing Bitcoin&quot;, Dec 9–11 2010 (SNI posts 532/535/537/539)</strong></td><td>Post 532: *&quot;I think it would be possible for BitDNS to be a completely separate network and separate block chain, yet <strong>share CPU power with Bitcoin</strong>. The only overlap is to make it so miners can search for proof-of-work for both networks simultaneously.&quot;* Post 535: *&quot;<strong>Piling every proof-of-work quorum system in the world into one dataset doesn&#x27;t scale.</strong> Bitcoin and BitDNS can be used separately… <strong>The networks need to have separate fates.</strong>&quot;* Post 539: *&quot;Independent networks/chains can <strong>share CPU power without sharing much else</strong>.&quot;* Post 537 (BSAHI-relevant): *&quot;It will be much easier if you can freely use all the space you need <strong>without worrying about paying fees for expensive space in Bitcoin&#x27;s chain</strong>.&quot;* Post 534 (bonus): Satoshi designs a fee-incentive-based transaction replacement — an RBF/CPFP ancestor: *&quot;every node bears witness to which transaction it saw first by working to put it into a block.&quot;*</td></tr>
 </table>
-<p><strong>Nuance on (f).</strong> The principle is better stated as **&quot;share security, not</p>
-<p>data&quot;** than &quot;share PoW but not a chain&quot;: Satoshi proposed separate chains</p>
+<p><strong>Nuance on (f).</strong> The principle is better stated as <strong>&quot;share security, not data&quot;</strong> than &quot;share PoW but not a chain&quot;: Satoshi proposed separate chains</p>
 <p>(sharing *nothing* but CPU power) — the direct ancestor of <strong>merged mining</strong></p>
-<p>(Namecoin, 2011, implemented exactly this) and the seed of the **sidechain</p>
-<p>argument** (post 537: a separate chain exists precisely to avoid the main</p>
+<p>(Namecoin, 2011, implemented exactly this) and the seed of the <strong>sidechain argument</strong> (post 537: a separate chain exists precisely to avoid the main</p>
 <p>chain&#x27;s block-space fees). No &quot;master chain&quot; was ever proposed — the</p>
 <p>whitepaper&#x27;s §12 is the opposite: *&quot;The network is robust in its unstructured</p>
 <p>simplicity.&quot;*</p>
 <hr>
 <h3>3. The 44-pattern map (by category)</h3>
-<p>**⚪ The enumeration is the architect&#x27;s analysis (external write-up, not yet in</p>
-<p>this repo).** Counts as given: mathematical/structural 16 · game-theoretic 6 ·</p>
+<p><strong>⚪ The enumeration is the architect&#x27;s analysis (external write-up, not yet in this repo).</strong> Counts as given: mathematical/structural 16 · game-theoretic 6 ·</p>
 <p>cryptographic 7 · economic 7 · social/philosophical 8 = 44. The members that</p>
 <p>survive verification with primary anchors are listed below; the full 44-item</p>
-<p>list is <strong>LEFT</strong> (needs the architect&#x27;s original transcription before any</p>
+<p>list is <strong>outstanding</strong> (needs the architect&#x27;s original transcription before any</p>
 <p>further pattern enters the record — see §9 ledger).</p>
 <table>
 <tr><th>Category</th><th>Pattern (anchored)</th><th>Anchor</th></tr>
@@ -164,8 +161,7 @@ body.gated .container{display:none}</style>
 <ol>
 <li><strong>Anti-master-chain principle</strong> — ✅ BitDNS thread (Dec 2010). Satoshi&#x27;s</li>
 </ol>
-<p>design for auxiliary networks: separate chains, separate fates, **shared CPU</p>
-<p>power only**. The ancestor of merged mining (Namecoin) and the sidechain</p>
+<p>design for auxiliary networks: separate chains, separate fates, <strong>shared CPU power only</strong>. The ancestor of merged mining (Namecoin) and the sidechain</p>
 <p>argument. <strong>BSAHI relevance:</strong> post 537 shows Satoshi explicitly routed</p>
 <p>data-heavy applications *off* the main chain to avoid *&quot;fees for expensive</p>
 <p>space in Bitcoin&#x27;s chain&quot;* — the main chain&#x27;s block space was expensive by</p>
@@ -284,15 +280,15 @@ body.gated .container{display:none}</style>
 <li>BitcoinTalk, &quot;BitDNS and Generalizing Bitcoin&quot; (thread Nov 2010; Satoshi&#x27;s replies Dec 9–11, 2010): SNI posts 532, 534, 535, 537, 539 — https://satoshi.nakamotoinstitute.org/posts/bitcointalk/{532,534,535,537,539}/</li>
 <li>Prior verification (storage/fees/node-equilibrium): <code>research/satoshi-primary-source-note.md</code></li>
 </ul>
-<h3>10. Evidence ledger + DONE/LEFT</h3>
-<p><strong>DONE (verified, 2026-08-03):</strong> six checkable claims verified against SNI</p>
+<h3>10. Evidence ledger &amp; status</h3>
+<p><strong>Verified (2026-08-03):</strong> six checkable claims verified against SNI</p>
 <p>canonical text (2 location-corrections: b → §9, and note a → §2); four</p>
 <p>nobody-talks-about patterns anchored; four famous-but-wrong patterns anchored</p>
 <p>(21M/1MB/halving myth confirmed NOT in whitepaper, §6 &quot;predetermined number of</p>
 <p>coins&quot; confirmed, repo audit clean); BSAHI-7 parent mapping written (3</p>
 <p>architect mappings ★ + 4 repo-derived, all labeled analysis); closing</p>
 <p>meta-pattern anchored to §12 last line; §8.3 light touch applied + cross-ref.</p>
-<p><strong>LEFT / TODO (verified):</strong> the full 44-item enumeration is <strong>not</strong> in this</p>
+<p><strong>Outstanding:</strong> the full 44-item enumeration is <strong>not</strong> in this</p>
 <p>repo — only the counts (16/6/7/7/8) and the anchored members above. Before any</p>
 <p>further pattern enters BSAHI surfaces, the architect&#x27;s original 44-pattern</p>
 <p>write-up must be transcribed and each remaining member checked against primary</p>
