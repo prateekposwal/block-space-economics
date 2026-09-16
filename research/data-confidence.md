@@ -91,6 +91,8 @@ Rules the matrix obeys:
 | Pruned-vs-archival probe (needs P2P egress) | row 9/5: T/N split — **DOCUMENTED READING** (no egress here; scope note filed) |
 | Regional energy capture added | row 13: D → B — **aggregate leg DONE 2026-09-16 (row now C)**, regional granularity remains the open D |
 | Historical difficulty + mempool series frozen (blockchain.info charts) | row 10 historical: B → **A**; row 3 historical: B → **B\*** (2016-2026 covered; pre-2016 reconstruction-only) — **done 2026-09-16** (`historical_series_extension.py`) |
+| Per-block sample validation strip (esplora + blockchain.info rawblock fee) | rows 1, 4 historical: B → **B with documented per-block check** (2010-2022 sampled; fee leg confirmed highly noisy per-block → aggregate leg B is right; 2023-2026 pending blockstream 400/day cap) — **done 2026-09-16** (`perblock_validation.py`, `perblock-validation-note.md`) |
+| Per-block version-bits reconstruction (blockchair `version` scan) | row 12 historical: B → **A** — **blocked 2026-09-16**: same bulk per-block wall as rows 1/4 (blockchair 430, esplora 400/day cap); BIP-110 (bit 4) is the first deployment of that bit — pre-2026 era documented as absent, reconstruction only |
 | Any new reconstruction contradicts a boundary-catalog claim | update `research/boundary-catalog.md` and record the revision here |
 
 When a grade changes, move it here with the date and the artifact that earned it (capture name, reconstruction doc, or PR).
