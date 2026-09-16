@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <meta name="description" content="The Bitcoin Block Space Problem — BSAHI Working Paper v2.2.0 (model-spec.json v2.0.1) Bitcoin block space economics research from BSAHI — live fee, mempool, and">
-<meta property="og:title" content="Working-Paper">
+<meta property="og:title" content="Storage Cost Internalization in Bitcoin&#x27;s Fee Market">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://bitcoinsahi.com/research/working-paper.html">
 <meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
@@ -13,9 +13,9 @@
 <meta name="theme-color" content="#121110">
 <link rel="canonical" href="https://bitcoinsahi.com/research/working-paper.html">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Working-Paper","item":"https://bitcoinsahi.com/research/working-paper.html"}]}
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Storage Cost Internalization in Bitcoin's Fee Market","item":"https://bitcoinsahi.com/research/working-paper.html"}]}
 </script>
-<title>Working-Paper — BSAHI Research</title>
+<title>Storage Cost Internalization in Bitcoin&#x27;s Fee Market — BSAHI Research</title>
 <style>
 :root{
   --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
@@ -61,8 +61,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 
 <script src="/js/site-nav.js"></script>
 <div class="container">
-<h1>Working-Paper</h1>
-<h2>Storage Cost Internalization in Bitcoin&#x27;s Fee Market</h2>
+<h1>Storage Cost Internalization in Bitcoin&#x27;s Fee Market</h1>
 <p><strong>The Bitcoin Block Space Problem</strong> — BSAHI Working Paper v2.2.0 (model-spec.json v2.0.1) <em>Prepared by Prateek Poswal (Independent Researcher) within the Bitcoin Sahi Research Council program · ORCID: 0009-0005-2139-1877 · 2026-08-03</em></p>
 <p><em>This work is licensed under a Creative Commons Attribution 4.0 International License (CC BY 4.0). To view a copy, visit https://creativecommons.org/licenses/by/4.0/.</em></p>
 <hr>
@@ -176,10 +175,11 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <p><strong>Why average, not marginal?</strong> <code>cb</code> is an <em>average</em> (accounting) attribution: total node cost divided by total bytes. The 164× (dimensionless) marginal branch (<code>cb_insc</code>) attributes the same cost to inscription bytes only — a <em>marginal</em> (optimization) view. Both are valid; they answer different questions. Average cost is the right tool for <strong>accounting</strong> — &quot;what share of the network&#x27;s modeled hosting bill does the fee market cover?&quot; — which is this paper&#x27;s question. Marginal cost is the right tool for <strong>optimization</strong> — &quot;what does one more byte cost the network?&quot; — which is the inscription-externality branch&#x27;s question. The paper uses the average for its headline (accounting) and documents the marginal variant explicitly (the 164× marginal-inscription branch above), rather than burying the choice. A future marginal-attribution study would be a legitimate companion, not a correction.</p>
 <h3>5. Findings</h3>
 <h4>5.1 The Storage Cost Coverage Ratio</h4>
-<p>Measured from live <code>fee_history</code> captures at node count N=32,000 — the best-available <strong>primary-source lower-bound census (≥32,000 known addresses via Bitcoin Core <code>getnodeaddresses</code>; §5.4)</strong>. The headline, in three lines (exact numbers in the tables below):</p>
+<p>Measured from live <code>fee_history</code> captures at node count N=32,000 — the best-available <strong>primary-source lower-bound census (≥32,000 known addresses via Bitcoin Core <code>getnodeaddresses</code>; §5.4)</strong>. The headline, in four lines (exact numbers in the tables below):</p>
 <ul>
-<li><strong>Representative live measurement: ≈0.22</strong></li>
-<li><strong>Observed band: ≈0.22–0.29</strong> (across captures at N=32K)</li>
+<li><strong>Dated baseline band (Aug 02–15): ≈0.22</strong> at N=32K, with ~100% of sampled blocks below 1× storage cost.</li>
+<li><strong>Live series (Sep 07): 0.40</strong> at N=32K, <strong>94.37% of blocks below 1×</strong> — the coverage ratio is fee-market-driven and time-varying.</li>
+<li><strong>Dynamic finding:</strong> SCCR moved <strong>0.16 → 0.45 → 0.40</strong> across a 22-point daily series (2026-08-02 → 2026-09-07).</li>
 <li><strong>Model uncertainty: depends strongly on the replication factor N</strong> — the true-N band (<strong>~0.07–0.71</strong>, §5.4) is a <em>different</em> uncertainty from the observed-sample band above</li>
 </ul>
 <p>Two snapshots, dated explicitly:</p>

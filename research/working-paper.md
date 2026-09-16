@@ -158,10 +158,11 @@ The inscription-externality branch uses a **marginal attribution**: `cb_insc = C
 
 ### 5.1 The Storage Cost Coverage Ratio
 
-Measured from live `fee_history` captures at node count N=32,000 — the best-available **primary-source lower-bound census (≥32,000 known addresses via Bitcoin Core `getnodeaddresses`; §5.4)**. The headline, in three lines (exact numbers in the tables below):
+Measured from live `fee_history` captures at node count N=32,000 — the best-available **primary-source lower-bound census (≥32,000 known addresses via Bitcoin Core `getnodeaddresses`; §5.4)**. The headline, in four lines (exact numbers in the tables below):
 
-- **Representative live measurement: ≈0.22**
-- **Observed band: ≈0.22–0.29** (across captures at N=32K)
+- **Dated baseline band (Aug 02–15): ≈0.22** at N=32K, with ~100% of sampled blocks below 1× storage cost.
+- **Live series (Sep 07): 0.40** at N=32K, **94.37% of blocks below 1×** — the coverage ratio is fee-market-driven and time-varying.
+- **Dynamic finding:** SCCR moved **0.16 → 0.45 → 0.40** across a 22-point daily series (2026-08-02 → 2026-09-07).
 - **Model uncertainty: depends strongly on the replication factor N** — the true-N band (**~0.07–0.71**, §5.4) is a *different* uncertainty from the observed-sample band above
 
 Two snapshots, dated explicitly:

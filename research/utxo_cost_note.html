@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <meta name="description" content="The Bitcoin fee market prices congestion (inclusion in the next block) but not permanence (lifetime storage in every full node&#x27;s blockchain history). This note ">
-<meta property="og:title" content="Utxo Cost Note">
+<meta property="og:title" content="UTXO Storage Cost Model — Research Note">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://bitcoinsahi.com/research/utxo_cost_note.html">
 <meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
@@ -13,9 +13,9 @@
 <meta name="theme-color" content="#121110">
 <link rel="canonical" href="https://bitcoinsahi.com/research/utxo_cost_note.html">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Utxo Cost Note","item":"https://bitcoinsahi.com/research/utxo_cost_note.html"}]}
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"UTXO Storage Cost Model \u2014 Research Note","item":"https://bitcoinsahi.com/research/utxo_cost_note.html"}]}
 </script>
-<title>Utxo Cost Note — BSAHI Research</title>
+<title>UTXO Storage Cost Model — Research Note — BSAHI Research</title>
 <style>
 :root{
   --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
@@ -61,11 +61,8 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 
 <script src="/js/site-nav.js"></script>
 <div class="container">
-<h1>Utxo Cost Note</h1>
-<h2>UTXO Storage Cost Model — Research Note</h2>
-<p><strong>Project:</strong> Bitcoin Priority Oracle</p>
-<p><strong>Phase:</strong> R2 — UTXO Cost Function</p>
-<p><strong>Date:</strong> 2026-07-28</p>
+<h1>UTXO Storage Cost Model — Research Note</h1>
+<p><strong>Project:</strong> Bitcoin Priority Oracle <strong>Phase:</strong> R2 — UTXO Cost Function <strong>Date:</strong> 2026-07-28</p>
 <hr>
 <h3>Summary</h3>
 <p>The Bitcoin fee market prices <strong>congestion</strong> (inclusion in the next block) but not <strong>permanence</strong> (lifetime storage in every full node&#x27;s blockchain history). This note quantifies the gap.</p>
@@ -77,7 +74,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 
 CostPerBytePerYear = NodeCostPerYear / (UTXO_bytes_added_per_year)
 
-InscriptionStorageCost = CostPerBytePerYear <em> inscription_bytes </em> assumed_lifetime_years</code></pre>
+InscriptionStorageCost = CostPerBytePerYear * inscription_bytes * assumed_lifetime_years</code></pre>
 <p>Where:</p>
 <ul>
 <li><code>HW_depreciation = $500 / 3 years = $166.67/yr</code></li>

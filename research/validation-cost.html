@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex,nofollow">
 
 <meta name="description" content="Status: STARTED (v1, 2026-08-04). This is an analytical bound plus a Bitcoin block space economics research from BSAHI — live fee, mempool, and settlement data ">
-<meta property="og:title" content="Validation-Cost">
+<meta property="og:title" content="The Validation Leg — v1 (order-of-magnitude survey)">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://bitcoinsahi.com/research/validation-cost.html">
 <meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
@@ -16,9 +16,9 @@
 <link rel="canonical" href="https://bitcoinsahi.com/research/validation-cost.html">
 <script src="/js/beta-gate.js" defer></script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Validation-Cost","item":"https://bitcoinsahi.com/research/validation-cost.html"}]}
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"The Validation Leg \u2014 v1 (order-of-magnitude survey)","item":"https://bitcoinsahi.com/research/validation-cost.html"}]}
 </script>
-<title>Validation-Cost — BSAHI Research</title>
+<title>The Validation Leg — v1 (order-of-magnitude survey) — BSAHI Research</title>
 <style>
 :root{
   --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
@@ -66,36 +66,16 @@ body.gated .container{display:none}</style>
 
 <script src="/js/site-nav.js"></script>
 <div class="container">
-<h1>Validation-Cost</h1>
-<h2>The Validation Leg — v1 (order-of-magnitude survey)</h2>
-<p><strong>Status: STARTED (v1, 2026-08-04).</strong> This is an analytical bound plus a</p>
-<p>literature survey — NOT a measured benchmark. It answers the question the</p>
-<p>storage leg deliberately left open (§7 of the working paper): what does</p>
-<p><em>validation</em> cost, as a distinct resource leg of the fee-internalization</p>
-<p>framework? Confidence: <strong>order-of-magnitude only</strong> (uncertainty band ≈ 0.5×–5×).</p>
+<h1>The Validation Leg — v1 (order-of-magnitude survey)</h1>
+<p><strong>Status: STARTED (v1, 2026-08-04).</strong> This is an analytical bound plus a literature survey — NOT a measured benchmark. It answers the question the storage leg deliberately left open (§7 of the working paper): what does <em>validation</em> cost, as a distinct resource leg of the fee-internalization framework? Confidence: <strong>order-of-magnitude only</strong> (uncertainty band ≈ 0.5×–5×).</p>
 <h3>1. What validation cost IS</h3>
-<p>Per full node, per block, validation is the CPU work of proving the block is</p>
-<p><em>legitimate</em> before (and while) it is stored or pruned:</p>
+<p>Per full node, per block, validation is the CPU work of proving the block is <em>legitimate</em> before (and while) it is stored or pruned:</p>
 <ol>
-<li><strong>Proof-of-work check</strong> — hash the 80-byte header below the target</li>
+<li><strong>Proof-of-work check</strong> — hash the 80-byte header below the target (trivial: one SHA256d ≈ microseconds; the expensive PoW is paid by miners, not validators).</li>
+<li><strong>Block-structure rules</strong> — size/weight limits, merkle-root consistency, witness commitment, timestamp/version fields.</li>
+<li><strong>Transaction validity</strong> — script execution and <strong>signature verification</strong> (the dominant term: ECDSA / Schnorr checks per input), UTXO-set availability (no double-spend), fee arithmetic, standardness.</li>
 </ol>
-<p>(trivial: one SHA256d ≈ microseconds; the expensive PoW is paid by miners,</p>
-<p>not validators).</p>
-<ol>
-<li><strong>Block-structure rules</strong> — size/weight limits, merkle-root consistency,</li>
-</ol>
-<p>witness commitment, timestamp/version fields.</p>
-<ol>
-<li><strong>Transaction validity</strong> — script execution and <strong>signature verification</strong></li>
-</ol>
-<p>(the dominant term: ECDSA / Schnorr checks per input), UTXO-set</p>
-<p>availability (no double-spend), fee arithmetic, standardness.</p>
-<p><strong>The structural property that makes validation special:</strong> it is the <em>only</em></p>
-<p>cost that is strictly unavoidable at any replication scale — every node pays it</p>
-<p>for every block since genesis, pruned or archival, and no node can &quot;skip&quot;</p>
-<p>validation and remain a full node. Storage can be pruned; bandwidth is one</p>
-<p>download per block; validation is CPU work <em>repeated N times</em> (once per node)</p>
-<p>and is not amortizable below one full pass per block per node.</p>
+<p><strong>The structural property that makes validation special:</strong> it is the <em>only</em> cost that is strictly unavoidable at any replication scale — every node pays it for every block since genesis, pruned or archival, and no node can &quot;skip&quot; validation and remain a full node. Storage can be pruned; bandwidth is one download per block; validation is CPU work <em>repeated N times</em> (once per node) and is not amortizable below one full pass per block per node.</p>
 <h3>2. Rough analytical bound (order of magnitude)</h3>
 <table>
 <tr><th>Term</th><th>Value</th><th>Basis</th></tr>
@@ -108,15 +88,8 @@ body.gated .container{display:none}</style>
 <tr><td><strong>Validation cost per node per year</strong></td><td><strong>~$0.5–$5</strong></td><td>1.5–15 h × $0.10–0.50; central ≈ <strong>$1–2/yr</strong></td></tr>
 <tr><td>Network-wide (N = 32K)</td><td><strong>~$16K–160K/yr</strong></td><td>× the ≥32K lower-bound census; central ~$32–64K/yr</td></tr>
 </table>
-<p><strong>Cross-check via initial sync.</strong> Full initial validation of ~1M blocks adds on</p>
-<p>the order of 6–24 h of CPU over an assumevalid-style sync on comparable</p>
-<p>hardware ⇒ 0.02–0.09 s/block <em>averaged</em> (I/O-bound, so a lower bound on CPU) —</p>
-<p>consistent with the 0.1–1 s/block estimate above for <em>steady-state</em> validation</p>
-<p>with an in-RAM UTXO cache (steady state is CPU-bound, sync is I/O-bound; the</p>
-<p>two brackets straddle the true value).</p>
-<p><strong>Key quantities carried in the model:</strong> R_blocks (52,596) and N (≥32K) are</p>
-<p>canonical in <code>research/model-spec.json</code>; the validation leg adds <strong>no new model constant</strong> — it is a resource-budget bound on C (the bundled $925/yr node cost),</p>
-<p>the same decomposition discipline as the bandwidth leg.</p>
+<p><strong>Cross-check via initial sync.</strong> Full initial validation of ~1M blocks adds on the order of 6–24 h of CPU over an assumevalid-style sync on comparable hardware ⇒ 0.02–0.09 s/block <em>averaged</em> (I/O-bound, so a lower bound on CPU) — consistent with the 0.1–1 s/block estimate above for <em>steady-state</em> validation with an in-RAM UTXO cache (steady state is CPU-bound, sync is I/O-bound; the two brackets straddle the true value).</p>
+<p><strong>Key quantities carried in the model:</strong> R_blocks (52,596) and N (≥32K) are canonical in <code>research/model-spec.json</code>; the validation leg adds <strong>no new model constant</strong> — it is a resource-budget bound on C (the bundled $925/yr node cost), the same decomposition discipline as the bandwidth leg.</p>
 <h3>3. Reference literature</h3>
 <ul>
 <li><strong>Node-cost context:</strong> Tschorsch, F. &amp; Scheuermann, B., <em>Bitcoin and Beyond: A Technical Survey on Decentralized Digital Currencies</em>, IEEE COMST 18(3), 2016 — surveys full-node validation/storage/bandwidth cost components and gives the classic per-node cost decomposition this bound refines.</li>
@@ -132,29 +105,13 @@ body.gated .container{display:none}</style>
 </ul>
 <h3>5. Falsifiable claim (v1)</h3>
 <blockquote><strong>&quot;Validation cost per full node per year is &lt; $100 — bounded from above by the entire node hardware+operating budget C = $925/yr (model-spec v2.1.0), with a central order-of-magnitude estimate of ~$1–2/yr per node.&quot;</strong></blockquote>
-<p>This claim is falsified if: (a) a measured benchmark shows steady-state</p>
-<p>validation CPU ≥ ~200 h/yr per node on reference hardware (⇒ ≥ $20–100/yr at</p>
-<p>the amortized rate — inside the $100 bound but outside the stated order of</p>
-<p>magnitude), or (b) a defensible full node census with per-node hardware data</p>
-<p>shows validation is a <em>binding</em> provisioning constraint (i.e., nodes are</p>
-<p>upgraded <em>because of</em> validation load, making the marginal cost the hardware</p>
-<p>delta, not the CPU-hours — the <code>C</code>-decomposition caveat in §7.2 row 3 of the</p>
-<p>working paper). Both directions are checkable against Bitcoin Core benchmarks</p>
-<p>and a hardware census; until either lands, the bound stands as the v1 value.</p>
+<p>This claim is falsified if: (a) a measured benchmark shows steady-state validation CPU ≥ ~200 h/yr per node on reference hardware (⇒ ≥ $20–100/yr at the amortized rate — inside the $100 bound but outside the stated order of magnitude), or (b) a defensible full node census with per-node hardware data shows validation is a <em>binding</em> provisioning constraint (i.e., nodes are upgraded <em>because of</em> validation load, making the marginal cost the hardware delta, not the CPU-hours — the <code>C</code>-decomposition caveat in §7.2 row 3 of the working paper). Both directions are checkable against Bitcoin Core benchmarks and a hardware census; until either lands, the bound stands as the v1 value.</p>
 <h3>6. What this leg does NOT claim</h3>
 <ul>
 <li>It does <strong>not</strong> measure validation on any specific hardware.</li>
-<li>It does <strong>not</strong> include <strong>mining</strong> PoW (that is a producer cost, priced by</li>
+<li>It does <strong>not</strong> include <strong>mining</strong> PoW (that is a producer cost, priced by the block subsidy — a different market entirely).</li>
+<li>It does <strong>not</strong> claim validation is economically significant <em>today</em>; it claims the opposite order of magnitude: validation is cheap per node because it is <em>per-block cheap</em>, and its network total (~$16K–160K/yr at ≥32K nodes) is small relative to the storage leg&#x27;s network totals (L_net ≈ $5.6K per average block × 52,596 blocks/yr ≈ $297M/yr modeled). The leg exists so the framework can <em>show</em> this, not assert it.</li>
 </ul>
-<p>the block subsidy — a different market entirely).</p>
-<ul>
-<li>It does <strong>not</strong> claim validation is economically significant <em>today</em>; it</li>
-</ul>
-<p>claims the opposite order of magnitude: validation is cheap per node because</p>
-<p>it is <em>per-block cheap</em>, and its network total (~$16K–160K/yr at ≥32K nodes)</p>
-<p>is small relative to the storage leg&#x27;s network totals (L_net ≈ $5.6K per</p>
-<p>average block × 52,596 blocks/yr ≈ $297M/yr modeled). The leg exists so the</p>
-<p>framework can <em>show</em> this, not assert it.</p>
 <p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
 </div>
 <footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>

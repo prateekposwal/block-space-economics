@@ -86,7 +86,8 @@ def page(name, title, body):
     md_path = os.path.join(REPO, 'research', name + '.md')
     with open(md_path) as f:
         text = f.read()
-    rendered = grp.render_md(text)
+    title = grp.md_title(text) or humanize(name)
+    rendered = grp.render_md_body(text)
     return '''<!DOCTYPE html>
 <html lang="en">
 <head>

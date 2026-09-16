@@ -196,6 +196,26 @@ def render_md(text):
     return '\n'.join(out)
 
 
+def md_title(text):
+    """Display title: the first markdown H1, or None."""
+    for line in text.split('\n'):
+        if line.startswith('# '):
+            return line[2:].strip()
+    return None
+
+
+def render_md_body(text):
+    """render_md with the leading title heading removed — the page supplies its
+    own <h1> from md_title(), so the rendered '# Title' would be a duplicate."""
+    body = render_md(text)
+    title = md_title(text)
+    if title:
+        dup = '<h2>' + inline(title) + '</h2>\n'
+        if body.startswith(dup):
+            body = body[len(dup):]
+    return body
+
+
 def humanize(name):
     return name.replace('_', ' ').replace('.md', '').title()
 
@@ -298,9 +318,9 @@ def main():
         name = os.path.splitext(os.path.basename(f))[0]
         with open(f) as fh:
             text = fh.read()
-        title = humanize(name)
+        title = md_title(text) or humanize(name)
         desc = make_desc(title, first_para(text))
-        body = render_md(text)
+        body = render_md_body(text)
         page = make_page(name, title, desc, body, None, gated=(name in gated))
         with open(os.path.join(OUT, name + '.html'), 'w') as fh:
             fh.write(page)

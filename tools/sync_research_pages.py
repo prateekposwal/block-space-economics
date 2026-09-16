@@ -1,60 +1,114 @@
 #!/usr/bin/env python3
-"""Re-render the body of served research pages in place from their .md sources,
-preserving each page's migrated chrome (style block, site-nav, footer, <h1>).
+"""Sync served research pages from their .md sources, preserving each page's
+migrated chrome.
 
 tools/generate_research_pages.py still emits the pre-migration palette and a
-<header> block, so re-running it would clobber the migrated design. This syncer
-replaces ONLY the rendered-markdown region — everything between the page's
-<h1>...</h1> and its '<p style="margin-top:32px;">' back-link — and leaves the
-head/body chrome byte-identical.
+slug title (humanize(name)); re-running it would clobber the migrated design.
+This syncer instead rewrites, in place:
 
-Use when an .md source has been edited and its served .html is stale.
+  * <h1>, <title>, og:title, and the BreadcrumbList name -> the md's '# ' title
+    (previously the slug, e.g. "Working-Paper")
+  * the rendered-markdown body -> fresh from the md, with the leading duplicate
+    title heading removed (the page supplies <h1>)
+
+Everything else in the file — style block, nav, footer, gate — is left
+byte-identical.
 
 Run: python3 tools/sync_research_pages.py [page ...]
-     (defaults to the known-drifted pages)
+     (defaults to every research/*.md that has a served .html)
 """
+import glob
+import html
 import importlib.util
+import json
 import os
+import re
 import sys
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 _spec = importlib.util.spec_from_file_location(
     'grp', os.path.join(REPO, 'tools', 'generate_research_pages.py'))
 grp = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(grp)  # gives render_md()
+_spec.loader.exec_module(grp)  # render_md_body(), inline(), md_title()
 
-START_MARK = '<h1>'
+TITLE_SUFFIX = ' — BSAHI Research'
+H1_MARK = '<h1>'
 END_MARK = '<p style="margin-top:32px;">'
+DATACARD_MARK = '<div class="datacard"'
 
-DEFAULT = ['working-paper', 'satoshi-primary-source-note',
-           'whitepaper-patterns', 'widget-product']
+
+def _plain(title):
+    """Plain-text title for <title>/og/breadcrumb (drop inline markdown)."""
+    return html.unescape(re.sub(r'[*`]', '', title)).strip()
 
 
 def sync(name):
     md_path = os.path.join(REPO, 'research', name + '.md')
     html_path = os.path.join(REPO, 'research', name + '.html')
+    if not (os.path.exists(md_path) and os.path.exists(html_path)):
+        return None
     with open(md_path) as f:
         md = f.read()
+    title = grp.md_title(md)
+    if not title:
+        return None
     with open(html_path) as f:
-        lines = f.read().split('\n')
+        orig = f.read()
+    text = orig
 
-    starts = [i for i, l in enumerate(lines) if l.startswith(START_MARK)]
+    # Body region: everything between the <h1> line and the back-link line.
+    lines = text.split('\n')
+    starts = [i for i, l in enumerate(lines) if l.startswith(H1_MARK)]
     ends = [i for i, l in enumerate(lines) if l.startswith(END_MARK)]
-    if not starts or not ends:
-        raise SystemExit(f'{name}: markers not found (h1={starts} end={ends})')
-    start, end = starts[0], ends[0]
-    if end <= start:
-        raise SystemExit(f'{name}: end marker precedes h1')
+    if starts and ends and ends[0] > starts[0]:
+        end = ends[0]
+        # Keep a trailing data card (calibration notes) as chrome.
+        if lines[end - 1].startswith(DATACARD_MARK):
+            end -= 1
+        body = grp.render_md_body(md).split('\n')
+        lines = lines[:starts[0] + 1] + body + lines[end:]
+        text = '\n'.join(lines)
 
-    rendered = grp.render_md(md).split('\n')
-    out = lines[:start + 1] + rendered + lines[end:]
-    with open(html_path, 'w') as f:
-        f.write('\n'.join(out))
-    return len(lines), len(out)
+    # <h1>, <title>, og:title, breadcrumb name -> the md title.
+    h1 = grp.inline(title)
+    plain = _plain(title)
+    text = re.sub(r'<h1>.*?</h1>',
+                  lambda m: '<h1>' + h1 + '</h1>', text, count=1)
+    text = re.sub(r'<title>.*?</title>',
+                  lambda m: '<title>' + html.escape(plain) + TITLE_SUFFIX + '</title>',
+                  text, count=1)
+    text = re.sub(r'(<meta property="og:title" content=")[^"]*(")',
+                  lambda m: m.group(1) + html.escape(plain, quote=True) + m.group(2),
+                  text, count=1)
+    text = re.sub(
+        r'"name":"[^"]*","item":"https://bitcoinsahi\.com/research/'
+        + re.escape(name) + r'\.html"',
+        lambda m: ('"name":' + json.dumps(plain)
+                   + ',"item":"https://bitcoinsahi.com/research/' + name + '.html"'),
+        text, count=1)
+
+    changed = text != orig
+    if changed:
+        with open(html_path, 'w') as f:
+            f.write(text)
+    return changed
 
 
 if __name__ == '__main__':
-    names = sys.argv[1:] or DEFAULT
-    for n in names:
-        before, after = sync(n)
-        print(f'{n}: {before} -> {after} lines')
+    if len(sys.argv) > 1:
+        names = sys.argv[1:]
+    else:
+        names = sorted(
+            os.path.basename(p)[:-3]
+            for p in glob.glob(os.path.join(REPO, 'research', '*.md'))
+            if os.path.exists(os.path.join(REPO, 'research',
+                                           os.path.basename(p)[:-3] + '.html')))
+    n = 0
+    for nm in names:
+        r = sync(nm)
+        if r is None:
+            print(f'{nm}: skipped (no md title or html)')
+        elif r:
+            n += 1
+            print(f'{nm}: synced')
+    print(f'{n} page(s) updated')
