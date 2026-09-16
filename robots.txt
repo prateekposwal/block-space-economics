@@ -2,10 +2,15 @@ User-agent: *
 Allow: /
 
 # Internal tooling and ops files — not content. (Note: /tools/*.js is NOT
-# blocked because the homepage loads tools/data-engine.js + viz-*.js to render;
+# blocked: the homepage loads tools/data-engine.js + viz-*.js to render, and
 # blocking it would stop Googlebot rendering the homepage.)
 Disallow: /tools/agents/
+Disallow: /captured-data/
+Disallow: /private/
 Disallow: /AGENTS.md
+Disallow: /THESIS.md
+Disallow: /DESIGN.md
+Disallow: /package.json
 Disallow: /local-admin.html
 
 Sitemap: https://bitcoinsahi.com/sitemap.xml
