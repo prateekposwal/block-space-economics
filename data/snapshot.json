@@ -1,40 +1,40 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-16T22:33:47.895Z",
+  "generated_at": "2026-09-16T23:04:29.470Z",
   "freshness_min": 0,
-  "payload_ts": "2026-09-16T22:33:28.963Z",
-  "fees_ts": "2026-09-16T22:33:28.963Z",
-  "price_ts": "2026-09-16T22:33:30.159Z",
-  "height_ts": "2026-09-16T22:33:37.471Z",
-  "mempool_ts": "2026-09-16T22:33:46.800Z",
-  "lightning_ts": "2026-09-16T22:33:47.894Z",
+  "payload_ts": "2026-09-16T22:57:28.718Z",
+  "fees_ts": "2026-09-16T23:04:01.384Z",
+  "price_ts": "2026-09-16T23:04:02.114Z",
+  "height_ts": "2026-09-16T23:04:11.880Z",
+  "mempool_ts": "2026-09-16T22:57:28.718Z",
+  "lightning_ts": "2026-09-16T23:04:29.469Z",
   "fees": {
-    "fastestFee": 2,
+    "fastestFee": 3,
     "halfHourFee": 1,
     "hourFee": 1,
     "economyFee": 1,
     "minimumFee": 1
   },
-  "btc_price": 75691,
-  "block_height": 967330,
-  "mempool_tx": 78843,
+  "btc_price": 75615,
+  "block_height": 967333,
+  "mempool_tx": 78344,
   "lightning": {
     "latest": {
       "id": 121656,
       "added": "2026-09-16T00:00:00.000Z",
-      "channel_count": 31688,
-      "node_count": 16134,
-      "total_capacity": 371279536163,
+      "channel_count": 31691,
+      "node_count": 16133,
+      "total_capacity": 371414110147,
       "tor_nodes": 7905,
       "clearnet_nodes": 4606,
       "unannounced_nodes": 2022,
-      "avg_capacity": 11716724,
+      "avg_capacity": 11719861,
       "avg_fee_rate": 811,
       "avg_base_fee_mtokens": 925,
       "med_capacity": 2001001,
       "med_fee_rate": 100,
       "med_base_fee_mtokens": 773,
-      "clearnet_tor_nodes": 1601
+      "clearnet_tor_nodes": 1600
     },
     "previous": {
       "id": 120677,
@@ -72,7 +72,8 @@
     }
   ],
   "alerts": [
-    "🛡 ORCHESTRATOR: heartbeat 26211 min ago",
+    "🛡 SPOOL: stale sources: bip110_signal,block_interval",
+    "🛡 ORCHESTRATOR: heartbeat 26241 min ago",
     "🛡 CAPTURE: failure ratio 37% (last 24h) > 20%"
   ],
   "history": [
@@ -431,6 +432,10 @@
     {
       "date": "2026-09-17",
       "fastestFee": 1
+    },
+    {
+      "date": "2026-09-17",
+      "fastestFee": 3
     },
     {
       "date": "2026-09-17",
