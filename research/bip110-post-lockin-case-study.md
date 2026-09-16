@@ -1,7 +1,7 @@
 # BIP-110 Post-Lock-In Case Study
 
 **BSAHI — First Non-SCCR Empirical Governance Observation**
-*Rank 2 of the BSAHI plan · Produced: 2026-09-10 · Author: BSAHI Research Council*
+*Rank 2 of the BSAHI plan · Produced: 2026-09-10 · Author: Prateek Poswal (Independent Researcher, ORCID 0009-0005-2139-1877)*
 
 ---
 

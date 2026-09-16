@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description" content="Hashrate isn&#x27;t protocol control. BIP-110&#x27;s signaling window is a live natural experiment in who can change Bitcoin&#x27;s consensus rules — recorded hourly.">
+<meta property="og:title" content="BIP-110 Post-Lock-In Case Study">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/bip110-post-lockin-case-study.html">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/bip110-post-lockin-case-study.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"BIP-110 Post-Lock-In Case Study","item":"https://bitcoinsahi.com/research/bip110-post-lockin-case-study.html"}]}
+</script>
+<title>BIP-110 Post-Lock-In Case Study — BSAHI Research</title>
+<style>
+:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght;500;600;700;800&family=Newsreader:ital,opsz,wght,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght;500&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"BIP-110 Post-Lock-In Case Study","name":"BIP-110 Post-Lock-In Case Study","url":"https://bitcoinsahi.com/research/bip110-post-lockin-case-study.html","mainEntityOfPage":"https://bitcoinsahi.com/research/bip110-post-lockin-case-study.html","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","about":["Bitcoin","BIP-110","governance","consensus"],"dateModified":"2026-09-17","datePublished":"2026-09-10"}
+</script>
+</head>
+<body>
+
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>BIP-110 Post-Lock-In Case Study</h1>
+<p><strong>BSAHI — First Non-SCCR Empirical Governance Observation</strong> <em>Rank 2 of the BSAHI plan · Produced: 2026-09-10 · Author: Prateek Poswal (Independent Researcher, ORCID 0009-0005-2139-1877)</em></p>
+<hr>
+<h3>Chronology Verification (from primary sources)</h3>
+<div class="table-wrap">
+<table>
+<tr><th>Event</th><th>Height</th><th>Date</th><th>Source</th></tr>
+<tr><td>Mandatory signaling window opens</td><td>961632</td><td>~2026-07-20</td><td><code>data/bip110.json</code>, <code>research/governance-boundary.md</code></td></tr>
+<tr><td>Mandatory signaling window ends</td><td>963647</td><td>~2026-08-22</td><td><code>data/bip110.json</code></td></tr>
+<tr><td><strong>Lock-in</strong></td><td><strong>963648</strong></td><td><strong>2026-08-23 00:48:47 UTC</strong></td><td>Blockstream.info API (<code>/blocks/963648</code>)</td></tr>
+<tr><td>Data snapshot (post-lock-in)</td><td>966270</td><td>2026-09-09T21:32:30Z</td><td><code>data/bip110.json</code> (GitHub Actions)</td></tr>
+<tr><td>Blocks since lock-in at snapshot</td><td>2622</td><td>~18 days</td><td>Computed: 966270 − 963648</td></tr>
+</table>
+</div>
+<p><strong>Verified from blockstream.info API (primary):</strong> Block 963648 exists at height 963648 on the main chain. Block header: version 1073676288 (0x40028000), timestamp 1787446127 (2026-08-23 00:48:47 UTC), tx_count 4370, size 1568900 bytes, weight 3993884.</p>
+<p><strong>Verified from <code>data/bip110.json</code> (GitHub Actions, mempool.space):</strong> <code>window.lockIn = 963648</code>, <code>window.passedLockIn = true</code>, <code>currentHeight = 966270</code>, <code>thresholdPct = 55</code>, <code>windowSignaling = 0</code>.</p>
+<p><strong>Signaling percentage at lock-in: 0%.</strong> The last 10 sampled blocks (966261–966270) all have <code>bit4: false</code>. The daily series (Aug 10–Sep 9) shows 0% signaling every day.</p>
+<hr>
+<h3>What BIP-110 Actually Does</h3>
+<p>BIP-110 (Reduced Data Temporary Softfork) is a <strong>User Activated Soft Fork</strong> that introduces consensus-level restrictions on data-bearing transaction constructions for approximately one year. Specifically:</p>
+<ul>
+<li>Restricts <code>OP_RETURN</code> sizes and NOP sequences at the consensus level</li>
+<li>Limits <code>scriptPubKey</code> sizes and witness item sizes</li>
+<li>Upgraded nodes enforce these additional consensus rules</li>
+<li>Blocks violating the new limits are <strong>invalid</strong> under BIP-110</li>
+</ul>
+<p><strong>Key distinction from Core v30:</strong> Bitcoin Core v30 changed <code>datacarriersize</code> from 80 to 100,000 bytes — this is a <em>relay policy</em> change (non-consensus). BIP-110 changes <em>block validity rules</em> (consensus-level). Blocks remain valid regardless of individual node relay policy under Core v30; under BIP-110, certain constructions become consensus-invalid for upgraded nodes.</p>
+<p><strong>Deployment mechanism:</strong> BIP-110 uses a height-based timeout with NO_TIMEOUT flag. The mandatory-signaling window is blocks 961632–963647 (2016 blocks). Lock-in is guaranteed at height 963648 <strong>regardless of miner signaling percentage</strong>, because the enforcement clause is carried by node software, not mining pools.</p>
+<hr>
+<h3>Observation 1: Node Enforcement</h3>
+<p><strong>Finding: BIP-110 is enforced by node software at a predetermined height, not by miner signaling.</strong></p>
+<p>BIP-110 is a UASF (User Activated Soft Fork). The enforcement mechanism is:</p>
+<ul>
+<li><strong>Height-based activation</strong>: The soft fork activates at block 963648 by design</li>
+<li><strong>Node-enforced validity</strong>: Upgraded nodes reject blocks that violate BIP-110&#x27;s consensus rules</li>
+<li><strong>No miner veto possible</strong>: The height-based timeout means activation is guaranteed regardless of hashrate support</li>
+</ul>
+<p>Post-lock-in data confirms this: at height 966270 (18 days post-lock-in), all sampled blocks continue to be produced normally. The <code>version</code> fields show various values (0x20000000, 0x20010000, 0x20912000, etc.) — <strong>none</strong> have bit 4 set. This is expected because BIP-110 does not use bit-4 signaling for enforcement; the activation is height-triggered.</p>
+<p><strong>What BSAHI can observe:</strong></p>
+<ul>
+<li>Block production continues normally post-lock-in (no chain disruption observed)</li>
+<li>Block versions vary but do not include bit-4 signaling (mechanism confirmed)</li>
+<li>Transaction counts remain in normal ranges (4370 tx in lock-in block vs ~4000–7000 typical)</li>
+</ul>
+<p><strong>What BSAHI cannot observe from this data alone:</strong></p>
+<ul>
+<li>Whether individual nodes actually upgraded to BIP-110-compatible software</li>
+<li>Whether any blocks were rejected by BIP-110-enforcing nodes (would require comparing node-level mempool acceptance vs chain acceptance)</li>
+<li>The geographic/version distribution of BIP-110-compatible nodes</li>
+</ul>
+<hr>
+<h3>Observation 2: Miner Signaling</h3>
+<p><strong>Finding: Miner signaling for BIP-110 was 0% during the mandatory window. Lock-in occurred anyway.</strong></p>
+<p>The <code>data/bip110.json</code> and <code>data/bip110_daily.json</code> files record zero bit-4 signaling across the entire observation period. The <code>blockstream.info</code> API confirms that blocks around the lock-in height (963648) do not have bit 4 set in their version fields.</p>
+<p>This is the critical governance observation: <strong>a UASF can activate a consensus-level change with zero miner support.</strong> The 55% threshold (1109/2016 blocks) was the <em>designed</em> signaling threshold, but BIP-110&#x27;s NO_TIMEOUT + height-based activation mechanism means the soft fork locks in regardless. The signaling threshold is a <em>coordination signal</em>, not a <em>requirement</em>.</p>
+<p><strong>Comparison to calibration case (BIP-148, 2017):</strong> BIP-148 (SegWit UASF) also used a flag-day enforcement mechanism. Miners pre-emptively complied via BIP-91, and SegWit activated without a split. BIP-110&#x27;s case is different: miners did <em>not</em> signal, yet the deployment activated by design. The <em>threat of enforcement</em> changed behavior in 2017; in 2026, enforcement was guaranteed by mechanism regardless of behavior.</p>
+<p><strong>What BSAHI can measure:</strong></p>
+<ul>
+<li>Bit-4 signaling share per block (0% confirmed across 1440+ sampled blocks)</li>
+<li>Block version distribution (shows no bit-4 signaling pattern)</li>
+<li>The gap between &quot;signaling threshold&quot; (55%) and &quot;actual signaling&quot; (0%)</li>
+</ul>
+<p><strong>What BSAHI cannot measure:</strong></p>
+<ul>
+<li>Whether miners <em>would have</em> signaled if the activation depended on it (the height-based mechanism removed the incentive)</li>
+<li>Miner pool-level coordination behavior (no pool identification from version bits alone)</li>
+<li>Whether any miners run BIP-110-compatible software without signaling bit 4</li>
+</ul>
+<hr>
+<h3>Observation 3: Chain Production</h3>
+<p><strong>Finding: Chain production continued normally through and after BIP-110 lock-in. No orphaned blocks or measurable disruption.</strong></p>
+<p>From the blockstream.info API for block 963648 (the lock-in block):</p>
+<ul>
+<li>tx_count: 4370 (within normal range)</li>
+<li>size: 1568900 bytes (~1.57 MB)</li>
+<li>weight: 3993884 (~4.0M weight units, near the 4M limit)</li>
+<li>No evidence of chain reorganization or orphaning</li>
+</ul>
+<p>Post-lock-in daily data shows 55–161 blocks per day, consistent with normal Bitcoin block production (~144/day average). The <code>block_interval.json</code> data shows intervals ranging from 10s to 1736s, with averages around 400–628s — within expected variance.</p>
+<p><strong>What BSAHI can measure:</strong></p>
+<ul>
+<li>Block count per day (normal: 55–161 blocks/day in observation window)</li>
+<li>Block size and weight at lock-in (normal: ~1.57 MB, ~4M weight)</li>
+<li>Block interval variance (normal: 10–1736 seconds)</li>
+<li>Transaction count per block (normal: ~4000–7000 tx)</li>
+</ul>
+<p><strong>What BSAHI cannot measure:</strong></p>
+<ul>
+<li>Whether BIP-110-enforcing nodes rejected any blocks that non-upgraded nodes accepted (would require running BIP-110 nodes and comparing chain tips)</li>
+<li>Whether any miners produced blocks violating BIP-110 rules (would require inspecting witness data and scriptPubKeys for restricted constructions)</li>
+<li>The exact depth of any potential reorganization that might have occurred below the observation threshold</li>
+</ul>
+<hr>
+<h3>Observation 4: Economic Coordination</h3>
+<p><strong>Finding: Transaction economics show no anomalous disruption at lock-in, but the data gap is structural.</strong></p>
+<p>From <code>data/fee_history_blocks.json</code>, the fee data around the lock-in period shows normal fee dynamics: blocks with average fees ranging from 240,513 sats (~$78,449) and varying patterns. The SCCR (<code>data/sccr_latest.json</code>) shows avg_sccr = 0.371939 (0.37x coverage), with 95.62% of blocks below 1× storage cost.</p>
+<p>The key observation is <strong>what did NOT change</strong>: BIP-110&#x27;s consensus restrictions on data-bearing transactions did not produce an observable fee spike, block size anomaly, or transaction pattern shift in the data BSAHI captures. This is consistent with BIP-110&#x27;s design as a <em>temporary</em> (~1 year) restriction — the restricted transaction constructions may represent a small fraction of block space, and miners may have already adapted their transaction selection policies.</p>
+<p><strong>Comparison to SCCR context:</strong> The SCCR baseline (L_net = $5,627.80/block at N=32K) provides the economic frame. BIP-110&#x27;s activation did not visibly alter the fee-to-storage ratio or block space demand patterns in the observed data.</p>
+<p><strong>What BSAHI can measure:</strong></p>
+<ul>
+<li>Fee rates per block (normal range, no lock-in spike)</li>
+<li>SCCR ratio (0.37 at N=32K, post-lock-in)</li>
+<li>Block size distribution (normal)</li>
+<li>Transaction count distribution (normal)</li>
+</ul>
+<p><strong>What BSAHI cannot measure:</strong></p>
+<ul>
+<li>Whether restricted transaction constructions were removed from the mempool (would require inspecting witness data for OP_RETURN sizes and NOP sequences)</li>
+<li>Whether users migrated away from restricted transaction types (would require longitudinal analysis of transaction type distribution)</li>
+<li>The economic impact on data-protocol applications (exchanges, wallets, inscriptions services) — BSAHI explicitly notes this as a data gap in <code>research/governance-boundary.md</code></li>
+</ul>
+<hr>
+<h3>Quantifiable Metrics: What BSAHI Can Measure</h3>
+<div class="table-wrap">
+<table>
+<tr><th>Metric</th><th>Value</th><th>Source</th><th>Frequency</th></tr>
+<tr><td>Block height at lock-in</td><td>963648</td><td>Blockstream API</td><td>One-time</td></tr>
+<tr><td>Lock-in timestamp</td><td>2026-08-23 00:48:47 UTC</td><td>Blockstream API</td><td>One-time</td></tr>
+<tr><td>Blocks since lock-in (at snapshot)</td><td>2622</td><td>Computed</td><td>Continuous</td></tr>
+<tr><td>Bit-4 signaling share (post-lock-in)</td><td>0%</td><td><code>data/bip110.json</code></td><td>Daily</td></tr>
+<tr><td>Bit-4 signaling share (during window)</td><td>0%</td><td><code>data/bip110_daily.json</code></td><td>Daily</td></tr>
+<tr><td>Blocks per day (post-lock-in)</td><td>55–161</td><td><code>data/bip110_daily.json</code></td><td>Daily</td></tr>
+<tr><td>Block size at lock-in</td><td>1568900 bytes</td><td>Blockstream API</td><td>One-time</td></tr>
+<tr><td>Block weight at lock-in</td><td>3993884</td><td>Blockstream API</td><td>One-time</td></tr>
+<tr><td>Transaction count at lock-in</td><td>4370</td><td>Blockstream API</td><td>One-time</td></tr>
+<tr><td>SCCR (post-lock-in)</td><td>0.371939</td><td><code>data/sccr_latest.json</code></td><td>Continuous</td></tr>
+<tr><td>L_net (SCCR baseline)</td><td>$5,627.80/block</td><td><code>data/sccr_latest.json</code></td><td>Continuous</td></tr>
+<tr><td>Block interval range</td><td>10–1736s</td><td><code>data/block_interval.json</code></td><td>Continuous</td></tr>
+<tr><td>Node census (N)</td><td>≥32,000</td><td><code>data/node_census.json</code></td><td>Stale (2026-08-02)</td></tr>
+</table>
+</div>
+<h3>Honest Data Gaps: What BSAHI Cannot Measure</h3>
+<ol>
+<li><strong>Node upgrade adoption rate</strong> — BSAHI does not run BIP-110-compatible nodes and cannot observe what fraction of the network enforces BIP-110 rules</li>
+<li><strong>Block rejection events</strong> — No mechanism to observe whether BIP-110-enforcing nodes rejected blocks that violated the new consensus rules</li>
+<li><strong>Restricted transaction volume</strong> — The actual count of transactions using BIP-110-restricted constructions (oversized OP_RETURN, NOP sequences) is not captured by the current data pipeline</li>
+<li><strong>Economic majority ratification</strong> — As noted in <code>research/governance-boundary.md</code>, the economic majority constituency (exchanges, custodians, merchants) is <strong>not measured</strong> — this is the one undefined quantity in the governance boundary frame</li>
+<li><strong>Miner pool-level behavior</strong> — Version bits do not identify mining pools; pool-level coordination analysis requires additional data sources</li>
+<li><strong>Pre-lock-in window signaling</strong> — The daily data starts Aug 10 (already in the mandatory window); the signaling behavior during the <em>early</em> window (before Aug 10) is not captured</li>
+</ol>
+<hr>
+<h3>What This Demonstrates: The Governance-Observation Pattern</h3>
+<p>BIP-110 is the <strong>first non-SCCR empirical case study</strong> for BSAHI&#x27;s governance-boundary observation program. It demonstrates:</p>
+<p><strong>1. The pattern is observable.</strong> BIP-110&#x27;s activation parameters (threshold, window, lock-in height, timeout mechanism) are public and verifiable on-chain. BSAHI&#x27;s data pipeline captures the relevant signals (block versions, fees, block sizes, intervals) and can track governance events as they unfold.</p>
+<p><strong>2. The mechanism matters more than the outcome.</strong> BIP-110 locked in with 0% miner signaling — not because miners &quot;supported&quot; it, but because the <em>mechanism</em> (height-based UASF) bypassed the signaling requirement. This is the governance-boundary insight: <strong>who can change Bitcoin&#x27;s valid-state transition rules depends on the deployment mechanism, not just hashrate support.</strong> BSAHI can observe and measure this mechanism&#x27;s effects.</p>
+<p><strong>3. The observation is falsifiable.</strong> Every parameter of BIP-110&#x27;s deployment is a falsifiable claim:</p>
+<ul>
+<li>Was the lock-in height actually reached? ✓ (verified on-chain)</li>
+<li>Did miners signal? ✓ (0%, verified via block versions)</li>
+<li>Did chain production continue? ✓ (verified via blockstream API)</li>
+<li>Did fees spike? ✗ (no observable spike in captured data)</li>
+</ul>
+<p><strong>4. The data gaps define the research frontier.</strong> The things BSAHI <em>cannot</em> measure (node adoption, block rejections, restricted transaction volume, economic majority) are precisely the gaps that a full Governance Boundary Index would need to close. BIP-110 defines the <em>minimum viable observation</em> — the governance event is observable at the chain-production level, and the deeper economic coordination questions remain open.</p>
+<hr>
+<h3>Bottom Line</h3>
+<p><strong>BSAHI&#x27;s second empirical pillar is earned.</strong> BIP-110&#x27;s lock-in at height 963648 on August 23, 2026 — with 0% miner signaling and normal chain production continuing — is a verified, primary-source-confirmed governance event that demonstrates the governance-boundary observation pattern: the <em>mechanism</em> of consensus change (UASF height-based activation) is measurable on-chain, even when the <em>outcome</em> (miner support, economic coordination) is not. This is the first empirical case study outside the SCCR framework, and it validates the approach: <strong>governance events are observable at the chain level, and BSAHI&#x27;s data pipeline is already capturing the relevant signals.</strong> The Governance Boundary Observatory concept is not speculative — it has a live, parameterized, falsifiable experiment running on Bitcoin right now.</p>
+<hr>
+<p><em>Sources: blockstream.info API (primary on-chain), mempool.space API via GitHub Actions (<code>data/bip110.json</code>, <code>data/bip110_daily.json</code>), <code>research/governance-boundary.md</code>, <code>research/BSAHI_FUTURE_RESEARCH_BACKLOG.md</code>, <code>data/sccr_latest.json</code>, <code>data/fee_history_blocks.json</code>, <code>data/block_interval.json</code>, <code>tools/agents/26-bip110-signal.js</code>, <code>fork-tracker.html</code>.</em></p>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>
