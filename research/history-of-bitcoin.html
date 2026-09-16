@@ -53,7 +53,10 @@ hr{border:none;border-top:1px solid var(--line);margin:24px 0}
 footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
-footer .links a:hover{color:var(--accent-ink)}</style>
+footer .links a:hover{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -99,6 +102,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 </ul>
 <p>Three chains, three answers to &quot;how big should a block be.&quot;</p>
 <h3>The halvings (subsidy → fee transition)</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Halving</th><th>Block</th><th>Date</th><th>Subsidy</th></tr>
 <tr><td>#1</td><td>210,000</td><td>Nov 28 2012</td><td>50 → 25</td></tr>
@@ -107,6 +111,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>#4</td><td>840,000</td><td>Apr 20 2024</td><td>6.25 → 3.125</td></tr>
 <tr><td>#5 (est)</td><td>1,050,000</td><td>~2028</td><td>3.125 → 1.5625</td></tr>
 </table>
+</div>
 <p>#4 is the first halving where fees (inscriptions/Runes-driven) are a material share of miner revenue — the subsidy→fee transition becomes visible in real time.</p>
 <h3>2021: Taproot, El Salvador, the $69K bull run</h3>
 <ul>

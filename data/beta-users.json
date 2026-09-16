@@ -1,17 +1,17 @@
 {
-  "schema": "bsahi.beta-users/1",
+  "schema": "bsahi.beta-users/2",
   "registered_at": "2026-08-11T00:03:25.021Z",
+  "note": "PII-free roster. Entries store a SHA-256 hash of the access key only \u2014 no email, name, or raw key. Keys are random (not derivable from an email).",
   "users": [
     {
-      "email": "prateekpos007@gmail.com",
-      "name": "Prateek",
+      "id": "beta-0001",
+      "label": "Beta #1",
+      "key_sha256": "46b20e8ff5be3c786e83a569aff8a6f21c857f81babf7a9a9803df3d523338cd",
       "product": "both",
-      "source": "github-issue",
-      "registered_at": "2026-08-11T00:03:25.020Z",
       "plan": "beta-free-6mo",
       "spot": 1,
+      "registered_at": "2026-08-11T00:03:25.020Z",
       "expiry": "2027-02-11T00:03:25.021Z",
-      "key": "cHJhdGVla3BvczAwN0BnbWFpbC5jb218MXxic2FoaS1iZXRh",
       "active": true
     }
   ]

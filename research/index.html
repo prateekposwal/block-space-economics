@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>try{if(!localStorage.getItem('bsahi_beta_key'))location.replace('/beta-login.html?next='+encodeURIComponent(location.pathname));}catch(e){}</script>
-<meta name="robots" content="noindex,nofollow">
 <meta name="description" content="The BSAHI open research library on Bitcoin block space economics — Bitcoin Resource Accounting: measuring how much of every long-lived resource cost the fee market internalizes. Live Bitcoin network data, updated continuously.">
 <meta property="og:title" content="BSAHI Research — Bitcoin Resource Accounting">
-<script src="/js/beta-gate.js" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"}]}
 </script>
@@ -52,7 +49,7 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
 footer .links a:hover{color:var(--accent-ink)}
-body.gated .container{display:none}
+
 .rlist{list-style:none;padding:0;margin:0 0 32px}
 .rlist li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:0 0 12px;transition:all .2s}
 .rlist li:hover{border-color:var(--accent);transform:translateX(4px)}
@@ -67,14 +64,16 @@ body.gated .container{display:none}
 .kv div{margin:2px 0}
 .kv table{margin:10px 0 4px;font-size:.82rem}
 .kv th{background:var(--surface-muted)}
-</style><script src="/js/beta-nav.js" defer></script>
 
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght;500;600;700;800&family=Newsreader:ital,opsz,wght,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght;500&display=swap" rel="stylesheet">
 </head>
-<body class="gated">
+<body>
 
 <script src="/js/site-nav.js"></script>
 <div class="container">

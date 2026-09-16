@@ -5,8 +5,12 @@
  *                        this file loads with defer and re-verifies via
  *                        BSAHIGate.guard(), revealing body content on success)
  *
- * Mirrors tools/agents/27-beta-manager.js verifyKey() — runs client-side
- * against the public data/beta-users.json (static GitHub Pages, no server).
+ * Keys are RANDOM (not derived from an email). The public roster
+ * (data/beta-users.json) stores only a SHA-256 hash of each key, so no PII and
+ * no raw key is ever served. Verification hashes the presented key and looks
+ * for a matching, active, unexpired entry.
+ * Static GitHub Pages has no server, so this is access obfuscation, not
+ * cryptographic auth — the roster no longer contains anything worth stealing.
  */
 (function (global) {
   'use strict';
@@ -29,43 +33,52 @@
     global.location.replace(url);
   }
 
+  /* Normalise a presented key: trim, drop internal whitespace, strip base64
+   * '=' padding (keys are issued unpadded). */
+  function normalizeKey(key) {
+    return String(key == null ? '' : key).replace(/\s+/g, '').replace(/=+$/, '');
+  }
+
+  /* SHA-256 hex of a UTF-8 string. Requires a secure context (HTTPS). */
+  function sha256Hex(str) {
+    if (!(global.crypto && global.crypto.subtle && global.TextEncoder)) {
+      return Promise.reject(new Error('crypto.subtle unavailable'));
+    }
+    return global.crypto.subtle.digest('SHA-256', new global.TextEncoder().encode(str))
+      .then(function (buf) {
+        return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+          return ('0' + b.toString(16)).slice(-2);
+        }).join('');
+      });
+  }
+
   /* verifyKeyStatic(key) → Promise<{ok:true,user} | {ok:false,error[,rosterError]}>
-   * Decode key → email|spot|bsahi-beta, find the user in the public roster,
-   * re-derive the deterministic key and compare, then check active + expiry.
-   * Roster fetch failure returns {ok:false, rosterError:true} so callers can
-   * fail open (gate) or surface the error (login form). */
+   * Hash the presented key, find a matching entry in the public roster, then
+   * check active + expiry. Roster fetch failure returns
+   * {ok:false, rosterError:true} so the gate can fail open (keep users in). */
   function verifyKeyStatic(key) {
-    var decoded, parts;
-    try {
-      decoded = atob(String(key || '').replace(/-/g, '+').replace(/_/g, '/'));
-      parts = decoded.split('|');
-    } catch (e) {
-      return Promise.resolve({ ok: false, error: 'Invalid key format.' });
-    }
-    if (parts.length !== 3 || parts[2] !== 'bsahi-beta') {
-      return Promise.resolve({ ok: false, error: 'Invalid key format.' });
-    }
-    var email = parts[0];
-    var spot = parts[1];
-    return fetch(ROSTER_URL).then(function (r) { return r.json(); }).then(function (users) {
-      var u = (users.users || []).find(function (x) { return x.email === email; });
-      if (!u) {
-        return { ok: false, error: 'No beta user found for this key. Check your email or contact beta@bitcoinsahi.com.' };
+    var k = normalizeKey(key);
+    if (!k) return Promise.resolve({ ok: false, error: 'Enter your key.' });
+    return sha256Hex(k).then(function (hash) {
+      return fetch(ROSTER_URL).then(function (r) { return r.json(); }).then(function (roster) {
+        var users = (roster && roster.users) || [];
+        var u = users.find(function (x) { return x.key_sha256 === hash; });
+        if (!u) {
+          return { ok: false, error: 'That beta key was not recognised. Check your email or contact beta@bitcoinsahi.com.' };
+        }
+        if (!u.active) {
+          return { ok: false, error: 'Account not active. Contact beta@bitcoinsahi.com.' };
+        }
+        if (u.expiry && new Date(u.expiry) < new Date()) {
+          return { ok: false, error: 'Beta expired ' + String(u.expiry).slice(0, 10) + '. Contact beta@bitcoinsahi.com.' };
+        }
+        // Never return PII — the roster holds none.
+        return { ok: true, user: { id: u.id, label: u.label, product: u.product, plan: u.plan, spot: u.spot, expiry: u.expiry } };
+      });
+    }).catch(function (err) {
+      if (err && /crypto\.subtle/.test(err.message || '')) {
+        return { ok: false, error: 'This browser cannot verify beta keys. Try a modern browser over HTTPS.' };
       }
-      // Re-derive and compare the deterministic key (email|spot|bsahi-beta).
-      var expect = btoa(email + '|' + (u.spot || spot) + '|bsahi-beta').replace(/=+$/, '');
-      if (String(key).replace(/=+$/, '') !== expect) {
-        return { ok: false, error: 'Key does not match your registration.' };
-      }
-      if (!u.active) {
-        return { ok: false, error: 'Account not active. Contact beta@bitcoinsahi.com.' };
-      }
-      if (u.expiry && new Date(u.expiry) < new Date()) {
-        return { ok: false, error: 'Beta expired ' + String(u.expiry).slice(0, 10) + '. Contact beta@bitcoinsahi.com.' };
-      }
-      return { ok: true, user: u };
-    }).catch(function () {
-      // Roster unreachable — flag so the gate can fail open (keep users in).
       return { ok: false, rosterError: true, error: 'Could not load the beta roster. If you have a beta key, email beta@bitcoinsahi.com for access.' };
     });
   }

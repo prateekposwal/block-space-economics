@@ -53,7 +53,10 @@ hr{border:none;border-top:1px solid var(--line);margin:24px 0}
 footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
-footer .links a:hover{color:var(--accent-ink)}</style>
+footer .links a:hover{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
@@ -84,6 +87,7 @@ InscriptionStorageCost = CostPerBytePerYear * inscription_bytes * assumed_lifeti
 </ul>
 <hr>
 <h3>Key Numbers</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Metric</th><th>Value</th></tr>
 <tr><td>Annual node cost (hardware)</td><td>$166.67</td></tr>
@@ -96,6 +100,7 @@ InscriptionStorageCost = CostPerBytePerYear * inscription_bytes * assumed_lifeti
 <tr><td><strong>Cost per inscription (10yr lifetime)</strong></td><td><strong>$0.0077</strong></td></tr>
 <tr><td>Cost for 100K inscriptions (10yr)</td><td>$770</td></tr>
 </table>
+</div>
 <hr>
 <h3>SegWit Weight Formula Impact</h3>
 <p>BIP-141 defines block weight as:</p>
@@ -114,6 +119,7 @@ InscriptionStorageCost = CostPerBytePerYear * inscription_bytes * assumed_lifeti
 </ol>
 <hr>
 <h3>Fee Market Comparison</h3>
+<div class="table-wrap">
 <table>
 <tr><th></th><th>Congestion pricing (current market)</th><th>Storage cost (modeled)</th></tr>
 <tr><td>What it prices</td><td>Space in next block (~10 min)</td><td>Lifetime storage in every node</td></tr>
@@ -122,6 +128,7 @@ InscriptionStorageCost = CostPerBytePerYear * inscription_bytes * assumed_lifeti
 <tr><td>Market mechanism</td><td>Competitive fee auction</td><td>None — unpriced externality</td></tr>
 <tr><td>Orders of magnitude</td><td>6–7× higher per tx</td><td>—</td></tr>
 </table>
+</div>
 <p><strong>Key observation:</strong> The current fee market is functioning well for congestion, but there is no mechanism for storage cost recovery. Even if the absolute numbers are small today, the externality scales with inscription volume. At 10× current rates (1M inscriptions/mo), the annual storage externality reaches ~$92K/yr across the network.</p>
 <hr>
 <h3>Open Questions</h3>

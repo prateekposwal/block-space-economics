@@ -57,7 +57,10 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
 footer .links a:hover{color:var(--accent-ink)}
-body.gated .container{display:none}</style>
+body.gated .container{display:none}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 <script src="/js/beta-nav.js" defer></script>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,6 +79,7 @@ body.gated .container{display:none}</style>
 <blockquote>7-day trend: falling · 90-day series: [clean daily points]</blockquote>
 <blockquote>Status: <strong>fee market cooling → unpriced storage externality growing</strong></blockquote>
 <h3>Why it&#x27;s licensable (the moat)</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Asset</th><th>What BSAHI has</th></tr>
 <tr><td><strong>Methodology</strong></td><td>Published, versioned, falsifiable (<code>model-spec.json</code>, working paper)</td></tr>
@@ -84,7 +88,9 @@ body.gated .container{display:none}</style>
 <tr><td><strong>History</strong></td><td>Daily UTC-dated series accumulating (sccr-tracker daemon, now corrected)</td></tr>
 <tr><td><strong>Integrity</strong></td><td>The 10× correction is published openly — the audit is a feature</td></tr>
 </table>
+</div>
 <h3>The 90-day path to a quotable index</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Milestone</th><th>Gate</th><th>Status</th></tr>
 <tr><td><strong>Clean daily series</strong></td><td>sccr-tracker appends one UTC entry/day, no gaps</td><td>✅ daemon corrected; 4 points now, gap Aug 5-9 was pre-fix</td></tr>
@@ -93,6 +99,7 @@ body.gated .container{display:none}</style>
 <tr><td><strong>Press citation</strong></td><td>Pitch the trend + BIP-110 hook to crypto media NOW (news peg is live)</td><td>🔸 can start before 90 days</td></tr>
 <tr><td><strong>Index licensing</strong></td><td>Media/funds subscribe to the feed</td><td>🔸 after press citation + D5</td></tr>
 </table>
+</div>
 <h3>The press angle (now, not after 90 days)</h3>
 <p>The <strong>BIP-110 governance tracker</strong> is a live news peg <em>this week</em>. Pitch:</p>
 <ul>
@@ -100,12 +107,14 @@ body.gated .container{display:none}</style>
 <li>&quot;The storage cost nobody prices — first daily index&quot; → the methodology story</li>
 </ul>
 <h3>Licensing tiers (once the series + D5 land)</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Tier</th><th>Customer</th><th>Price</th></tr>
 <tr><td><strong>Media citation</strong></td><td>Crypto press (The Block, CoinDesk)</td><td>Free for attribution (distribution)</td></tr>
 <tr><td><strong>Feed license</strong></td><td>Funds, researchers</td><td>$X/mo for the daily series + methodology</td></tr>
 <tr><td><strong>Enterprise</strong></td><td>Exchanges, insurers</td><td>SLA feed + flood-burden risk monitor</td></tr>
 </table>
+</div>
 <h3>What I need to execute this (honest)</h3>
 <ol>
 <li><strong>The D5 recruit message sent</strong> (external co-signer — the single highest-leverage credibility unlock; everything below compounds on it)</li>

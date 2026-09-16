@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>try{if(!localStorage.getItem('bsahi_beta_key'))location.replace('/beta-login.html?next='+encodeURIComponent(location.pathname));}catch(e){}</script>
-<meta name="robots" content="noindex,nofollow">
 
 <meta name="description" content="The &quot;cleared the blackboard&quot; lens: the master pattern, the pattern lattice, and verified anchors Bitcoin block space economics research from BSAHI — live fee, m">
 <meta property="og:title" content="The Bitcoin Whitepaper — 44-Pattern Analysis Note">
@@ -14,7 +12,6 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#121110">
 <link rel="canonical" href="https://bitcoinsahi.com/research/whitepaper-patterns.html">
-<script src="/js/beta-gate.js" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"The Bitcoin Whitepaper \u2014 44-Pattern Analysis Note","item":"https://bitcoinsahi.com/research/whitepaper-patterns.html"}]}
 </script>
@@ -57,12 +54,14 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
 footer .links a:hover{color:var(--accent-ink)}
-body.gated .container{display:none}</style>
-<script src="/js/beta-nav.js" defer></script>
+
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
-<body class="gated">
+<body>
 
 <script src="/js/site-nav.js"></script>
 <div class="container">
@@ -72,6 +71,7 @@ body.gated .container{display:none}</style>
 <hr>
 <h3>1. The master pattern: engineered asymmetry</h3>
 <p><strong>⚪ ANALYSIS — the organizing claim of the lens.</strong> Every mechanism in Bitcoin manufactures a <strong>cost asymmetry</strong> so that correct action is cheap and incorrect action is expensive. The whitepaper&#x27;s own text shows the pattern everywhere:</p>
+<div class="table-wrap">
 <table>
 <tr><th>Social problem</th><th>Re-expressed as</th><th>Whitepaper anchor</th></tr>
 <tr><td>Trust</td><td>Work</td><td>§4: <em>&quot;The average work required is exponential in the number of zero bits required and can be verified by executing a single hash&quot;</em> — produce expensive, verify cheap</td></tr>
@@ -80,10 +80,12 @@ body.gated .container{display:none}</style>
 <tr><td>Privacy</td><td>Key control</td><td>§10: <em>&quot;a new key pair should be used for each transaction&quot;</em></td></tr>
 <tr><td>Order</td><td>Time</td><td>§2: <em>&quot;The only way to confirm the absence of a transaction is to be aware of all transactions&quot;</em>; §3 timestamps</td></tr>
 </table>
+</div>
 <p><strong>Four primitives, exactly two per mechanism (⚪ ANALYSIS).</strong> The whitepaper names four primitives — <strong>HASH</strong> (SHA-256, §4), <strong>WORK</strong> (§4 PoW), <strong>KEY</strong> (§2/§10/§11 digital signatures), <strong>CHAIN</strong> (§3 timestamp chain) — and every mechanism in the paper composes exactly two: PoW = HASH+WORK; signatures = KEY+HASH; the ledger = WORK+CHAIN; the timestamp = HASH+CHAIN. The claims &quot;no fifth primitive&quot; and &quot;exactly two compose&quot; are structural claims about the lens, not quoted text — labeled as analysis; the four primitives themselves are named in the paper.</p>
 <hr>
 <h3>2. Verification table — the six checkable claims</h3>
 <p>The lens makes six factual claims about the whitepaper/forum record. All six were checked against the canonical SNI archive on 2026-08-03:</p>
+<div class="table-wrap">
 <table>
 <tr><th>#</th><th>Claim</th><th>Verdict</th><th>Exact primary text (SNI canonical)</th></tr>
 <tr><td>a</td><td>Negative-fact line: &quot;The only way to confirm the absence of a transaction…&quot; appears in the whitepaper</td><td>✅ <strong>VERIFIED verbatim — §2</strong> (Transactions, double-spend framing)</td><td><em>&quot;We need a way for the payee to know that the previous owners did not sign any earlier transactions. For our purposes, the earliest transaction is the one that counts… <strong>The only way to confirm the absence of a transaction is to be aware of all transactions.</strong>&quot;</em> The negative-fact reading is textually anchored: the public ledger exists because proving <em>absence</em> (of a prior spend) requires global awareness.</td></tr>
@@ -93,10 +95,12 @@ body.gated .container{display:none}</style>
 <tr><td>e</td><td>Fresh-key ceremony line</td><td>✅ <strong>VERIFIED — two passages</strong></td><td>§10 (Privacy): <em>&quot;As an additional firewall, <strong>a new key pair should be used for each transaction</strong> to keep them from being linked to a common owner.&quot;</em> §11 (Calculations) — the interactive ceremony: <em>&quot;<strong>The receiver generates a new key pair and gives the public key to the sender shortly before signing. This prevents the sender from preparing a chain of blocks ahead of time</strong> by working on it continuously until he is lucky enough to get far enough ahead, then executing the transaction at that moment.&quot;</em></td></tr>
 <tr><td>f</td><td>Anti-master-chain principle: Satoshi proposed separate chains sharing PoW — ancestor of merged mining/sidechains</td><td>✅ <strong>VERIFIED — BitcoinTalk thread &quot;BitDNS and Generalizing Bitcoin&quot;, Dec 9–11 2010 (SNI posts 532/535/537/539)</strong></td><td>Post 532: <em>&quot;I think it would be possible for BitDNS to be a completely separate network and separate block chain, yet <strong>share CPU power with Bitcoin</strong>. The only overlap is to make it so miners can search for proof-of-work for both networks simultaneously.&quot;</em> Post 535: <em>&quot;<strong>Piling every proof-of-work quorum system in the world into one dataset doesn&#x27;t scale.</strong> Bitcoin and BitDNS can be used separately… <strong>The networks need to have separate fates.</strong>&quot;</em> Post 539: <em>&quot;Independent networks/chains can <strong>share CPU power without sharing much else</strong>.&quot;</em> Post 537 (BSAHI-relevant): <em>&quot;It will be much easier if you can freely use all the space you need <strong>without worrying about paying fees for expensive space in Bitcoin&#x27;s chain</strong>.&quot;</em> Post 534 (bonus): Satoshi designs a fee-incentive-based transaction replacement — an RBF/CPFP ancestor: <em>&quot;every node bears witness to which transaction it saw first by working to put it into a block.&quot;</em></td></tr>
 </table>
+</div>
 <p><strong>Nuance on (f).</strong> The principle is better stated as <strong>&quot;share security, not data&quot;</strong> than &quot;share PoW but not a chain&quot;: Satoshi proposed separate chains (sharing <em>nothing</em> but CPU power) — the direct ancestor of <strong>merged mining</strong> (Namecoin, 2011, implemented exactly this) and the seed of the <strong>sidechain argument</strong> (post 537: a separate chain exists precisely to avoid the main chain&#x27;s block-space fees). No &quot;master chain&quot; was ever proposed — the whitepaper&#x27;s §12 is the opposite: <em>&quot;The network is robust in its unstructured simplicity.&quot;</em></p>
 <hr>
 <h3>3. The 44-pattern map (by category)</h3>
 <p><strong>⚪ The enumeration is the architect&#x27;s analysis (external write-up, not yet in this repo).</strong> Counts as given: mathematical/structural 16 · game-theoretic 6 · cryptographic 7 · economic 7 · social/philosophical 8 = 44. The members that survive verification with primary anchors are listed below; the full 44-item list is <strong>outstanding</strong> (needs the architect&#x27;s original transcription before any further pattern enters the record — see §9 ledger).</p>
+<div class="table-wrap">
 <table>
 <tr><th>Category</th><th>Pattern (anchored)</th><th>Anchor</th></tr>
 <tr><td>Master</td><td>Engineered asymmetry</td><td>§4/§12 (table in §1)</td></tr>
@@ -117,6 +121,7 @@ body.gated .container{display:none}</style>
 <tr><td>Social</td><td>Trust substituted, not eliminated</td><td>Abstract/§6 ⚠️ (see §4, #3)</td></tr>
 <tr><td>Social</td><td>&quot;Predetermined number of coins&quot; — supply unspecified in paper</td><td>§6 ✅</td></tr>
 </table>
+</div>
 <hr>
 <h3>4. The &quot;nobody talks about&quot; patterns (4)</h3>
 <ol>
@@ -135,6 +140,7 @@ body.gated .container{display:none}</style>
 <hr>
 <h3>6. How the 7 BSAHI patterns descend from the deeper lattice</h3>
 <p><strong>⚪ ANALYSIS — parent mapping.</strong> BSAHI&#x27;s program (the canonical 7-angle agenda, <code>research/angles.js</code>) studies the storage/fee-market <strong>cross-section</strong> of the full 44-pattern lattice: each BSAHI angle is a <em>child</em> of a deeper lattice pattern. The architect&#x27;s three mappings (marked ★) plus the repo-derived parents for the remaining angles:</p>
+<div class="table-wrap">
 <table>
 <tr><th>BSAHI pattern (repo anchor)</th><th>Parent lattice pattern</th><th>Evidence anchor</th></tr>
 <tr><td>Who-pays: payer/receiver mismatch (framework-paper-outline §4; pruning_externality_analysis.md)</td><td><strong>Cost-induced security</strong> ★</td><td>§6; post 537: fees are for block space; storage cost falls on non-compensated nodes</td></tr>
@@ -145,6 +151,7 @@ body.gated .container{display:none}</style>
 <tr><td>Permanence vs congestion — the SCCR measurement (working-paper §5)</td><td>Who-pays (one-time payer vs long-lived bearer)</td><td>§9; §8.3 designer-intent paragraph</td></tr>
 <tr><td>Causal chain: fees → security → node cost (angles.js; roadmap §8 Q1)</td><td>Cost-induced security + node equilibrium</td><td>§6; post 188 ✅</td></tr>
 </table>
+</div>
 <p><strong>Cross-section reading:</strong> SCCR is the lattice&#x27;s <em>storage column</em> made measurable — the fee market&#x27;s one price (congestion) measured against the recurring cost that the who-pays structure assigns to nodes. The framework paper&#x27;s Resource Coverage Matrix (roadmap §3/§4) is the lattice rendered as a measurement program.</p>
 <h3>7. The closing meta-pattern</h3>
 <p>✅ §12, last line: <em>&quot;Any needed rules and incentives can be enforced with this consensus mechanism.&quot;</em> The lens&#x27;s reading: <strong>the mechanism is the message</strong> — the paper&#x27;s final sentence is not about the currency, it is about the enforcement substrate. ⚪ Framing: <em>&quot;Bitcoin is not a currency with a security model — it is a security model that issues a currency.&quot;</em> For this paper&#x27;s program the line matters directly: if <em>rules and incentives</em> are what the mechanism enforces, then the fee market enforces exactly the incentives it was given (inclusion) — and measuring what it does <strong>not</strong> price (storage) is measuring the mechanism&#x27;s actual incentive surface, which is the SCCR program&#x27;s framing (§8.3).</p>

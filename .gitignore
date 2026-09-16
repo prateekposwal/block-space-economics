@@ -89,7 +89,10 @@ captured-data/__pycache__/
 tools/alerts.json
 tools/fee_forecast.json
 tools/monte_carlo_output.json
-# beta files are TRACKED on purpose (serverless workflow needs them to register+commit)
+# Beta roster (data/beta-users.json) is tracked but PII-FREE: it stores only a
+# SHA-256 hash of each access key — no email, name, or raw key. The private PII
+# ledger lives in private/ and is never committed or deployed.
+private/
 data/roi.json
 
 # Local-only admin + launchd secrets — never public

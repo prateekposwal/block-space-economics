@@ -53,7 +53,10 @@ hr{border:none;border-top:1px solid var(--line);margin:24px 0}
 footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
-footer .links a:hover{color:var(--accent-ink)}</style>
+footer .links a:hover{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
@@ -69,6 +72,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <p>Does Bitcoin&#x27;s fee market fully internalize the long-term costs imposed by permanently recorded blockchain data, or does it primarily price short-term competition for block space?</p>
 <p>The witness discount substantially reduced the cost of storing witness-resident data relative to non-witness data. Years later, inscription protocols took advantage of that pricing structure.</p>
 <h3>What We Know</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Metric</th><th>Value</th></tr>
 <tr><td>Annual node operation cost</td><td>~$925 (HW + bandwidth + electricity)</td></tr>
@@ -78,6 +82,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>Unpriced storage liabilities at 100K/mo</td><td>~$9,200 (10-yr) · ~$920/yr steady-state, spread across all nodes</td></tr>
 <tr><td>Current fee range</td><td>$0.06–$0.13 (low activity) to $5–50 (peak)</td></tr>
 </table>
+</div>
 <h3>The Gap</h3>
 <p>The fee market works well for its designed purpose: allocating block space among competing transactions during congestion. A high-fee transaction gets confirmed faster. This is <strong>congestion pricing</strong>.</p>
 <p>But storage cost is fundamentally different:</p>

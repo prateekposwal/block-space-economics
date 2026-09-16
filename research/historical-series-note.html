@@ -55,7 +55,10 @@ footer .links a:hover{color:var(--accent-ink)}
 .datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
 .datacard b{color:var(--ink)}
 .kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
-.kv code{color:var(--accent-ink)}</style>
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
@@ -65,12 +68,14 @@ footer .links a:hover{color:var(--accent-ink)}
 <p><strong>BSAHI — row 10 (mining hashrate level, historical A), row 3 (mempool pressure, historical B*)</strong> <em>Produced: 2026-09-16 · Instrument: <code>tools/research/historical_series_extension.py</code></em></p>
 <h3>What was frozen</h3>
 <p>Two primary series from the blockchain.info charts family (same deterministic capture path as the existing frozen daily aggregates under <code>captured-data/historical/blockchain.info/</code>):</p>
+<div class="table-wrap">
 <table>
 <tr><th>Series</th><th>Coverage</th><th>Points</th><th>Data file</th></tr>
 <tr><td><strong>Difficulty</strong></td><td>2009-01-03 → 2026-09-13</td><td>1,614</td><td><code>data/difficulty_series.json</code></td></tr>
 <tr><td><strong>Mempool count</strong> (pending txs)</td><td>2016-06-14 → 2026 (daily, ~4-day cadence)</td><td>1,498</td><td><code>data/mempool_congestion_series.json</code></td></tr>
 <tr><td><strong>Mempool size</strong> (bytes pending)</td><td>2016-06-14 → 2026</td><td>1,498</td><td><code>data/mempool_congestion_series.json</code></td></tr>
 </table>
+</div>
 <p>Difficulty latest reading: <strong>127,450,789,715,844</strong> (2026-09-13).</p>
 <h3>Grade impact</h3>
 <ul>
@@ -78,6 +83,7 @@ footer .links a:hover{color:var(--accent-ink)}
 <li><strong>Row 3 (mempool pressure):</strong> historical B → <strong>B*</strong>. The 2016-2026 congestion record is now a primary frozen series with per-era reads. Pre-2016-06 episodes remain reconstruction-only (the chart starts then).</li>
 </ul>
 <h3>Congestion reads by era (2016-2026)</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Era</th><th>Mean pending txs</th><th>Peak</th><th>Peak date</th><th>Days &gt;50k</th><th>Days &gt;100k</th><th>Days &gt;200k</th><th>Regime</th></tr>
 <tr><td>2016</td><td>6,995</td><td>63,352</td><td>2016-11-24</td><td>1.2%</td><td>0%</td><td>0%</td><td>LOW</td></tr>
@@ -92,6 +98,7 @@ footer .links a:hover{color:var(--accent-ink)}
 <tr><td>2025</td><td>18,324</td><td>158,384</td><td>2025-01-02</td><td>11.0%</td><td>7.5%</td><td>0%</td><td>MODERATE</td></tr>
 <tr><td>2026</td><td>13,880</td><td>96,917</td><td>2026-08-02</td><td>9.7%</td><td>0%</td><td>0%</td><td>LOW</td></tr>
 </table>
+</div>
 <p><strong>Headline:</strong> 2024 was the congestion peak (96.6% of days over 50K pending txs, 72.6% over 100K); 2023 the Ordinals year (58.2% over 50K, 18.5% over 200K, peak 283,139); 2022 the empty year (0 days over 50K). Pending-mempool tx counts stay well under the 2017-era backlogs&#x27; <em>share</em> of activity, but the <em>duration</em> of sustained congestion in 2023-24 exceeded 2017.</p>
 <p>Latest live read (2026-09-15): mempool count 34,687 pending txs, mempool size ~13.3 MB pending.</p>
 <h3>Reproducibility</h3>

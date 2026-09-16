@@ -53,7 +53,10 @@ hr{border:none;border-top:1px solid var(--line);margin:24px 0}
 footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
-footer .links a:hover{color:var(--accent-ink)}</style>
+footer .links a:hover{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,6 +73,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <h3>The one-sentence thesis</h3>
 <p>The node-side measurement (SCCR ≈ 0.22) says fees under-price storage; the <strong>attacker-side measurement</strong> — what it costs to impose that storage — is the leverage ratio of the vulnerability, and it has never been measured.</p>
 <h3>The headline numbers (verified 2026-08-10)</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Quantity</th><th>Value</th><th>Meaning</th></tr>
 <tr><td><strong>P_flood</strong> (fill one block)</td><td><strong>$329–1,231</strong></td><td>at fee floor (0.0052 BTC) vs avg (0.0195 BTC)</td></tr>
@@ -79,6 +83,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td><strong>L_dust</strong> (storage leg)</td><td><strong>0.9×</strong></td><td>dust&#x27;s per-node storage cost is <em>less</em> than its fee</td></tr>
 <tr><td><strong>Boundedness</strong></td><td><strong>~52.6 GB/yr</strong></td><td>max vbytes the block-weight cap allows</td></tr>
 </table>
+</div>
 <h3>The three results</h3>
 <h4>1. The leverage ratio L = 3.0×</h4>
 <p>Filling every block at the fee floor costs the attacker ~$65M/yr and imposes ~$197M of 10-year storage cost on the network. The vulnerability is <strong>real and moderately leveraged</strong> — the attacker gets ~3× the cost they pay. Not the apocalypse, not harmless. A nation-state budget sustains this indefinitely.</p>

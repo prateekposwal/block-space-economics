@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>try{if(!localStorage.getItem('bsahi_beta_key'))location.replace('/beta-login.html?next='+encodeURIComponent(location.pathname));}catch(e){}</script>
-<meta name="robots" content="noindex,nofollow">
 
 <meta name="description" content="The Storage Cost Coverage Ratio, as measured on the canonical daily feed Bitcoin block space economics research from BSAHI — live fee, mempool, and settlement d">
 <meta property="og:title" content="The Externality Is Growing — SCCR Trend, Week of Aug 2026">
@@ -14,7 +12,6 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#121110">
 <link rel="canonical" href="https://bitcoinsahi.com/research/sccr-trend-note.html">
-<script src="/js/beta-gate.js" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"The Externality Is Growing \u2014 SCCR Trend, Week of Aug 2026","item":"https://bitcoinsahi.com/research/sccr-trend-note.html"}]}
 </script>
@@ -57,12 +54,14 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
 footer .links a:hover{color:var(--accent-ink)}
-body.gated .container{display:none}</style>
-<script src="/js/beta-nav.js" defer></script>
+
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
-<body class="gated">
+<body>
 
 <script src="/js/site-nav.js"></script>
 <div class="container">
@@ -71,6 +70,7 @@ body.gated .container{display:none}</style>
 <hr>
 <h3>The finding</h3>
 <p>The Storage Cost Coverage Ratio, as measured on the canonical daily feed (<code>data/sccr_history.json</code>), is <strong>falling</strong> — from ~0.28 to <strong>0.238</strong> across the measured days. Transaction fees are covering less of the modeled storage cost that confirmed data imposes on the network.</p>
+<div class="table-wrap">
 <table>
 <tr><th>Date</th><th>Avg SCCR</th><th>Blocks sampled</th><th>Source</th></tr>
 <tr><td>2026-08-02</td><td>0.2243</td><td>153</td><td><code>data/sccr_history.json</code></td></tr>
@@ -78,6 +78,7 @@ body.gated .container{display:none}</style>
 <tr><td>2026-08-04</td><td>0.2611</td><td>159</td><td><code>data/sccr_history.json</code></td></tr>
 <tr><td>2026-08-10</td><td>0.2379</td><td>145</td><td><code>data/sccr_history.json</code></td></tr>
 </table>
+</div>
 <p><strong>Caveat — early series, small n.</strong> This is a <strong>4-point series over a 9-day span with a data gap Aug 5–9</strong> (the daily tracker was installed mid-series). The ~35% relative swing (0.28 → 0.24) is a <em>directional signal from a young series</em>, not a settled trend. We publish it as a live measurement with its uncertainty visible — the method and code are public so anyone can reproduce every digit. As the daily tracker accumulates clean points, the trendline will firm up.</p>
 <h3>Why this matters</h3>
 <p>The SCCR is the ratio of fees paid to the estimated 10-year storage cost. When it falls, the <strong>unpriced externality is growing</strong> — each block&#x27;s data costs the network more relative to what the fee market pays for it.</p>

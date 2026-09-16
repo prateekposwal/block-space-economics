@@ -35,6 +35,8 @@ h3{color:#EADCC8;font-size:1.1rem;margin:20px 0 8px}
 p{color:#C9C2B8;line-height:1.8;margin:0 0 14px}
 a{color:#D4933A}
 table{border-collapse:collapse;margin:14px 0;width:100%}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
 th,td{border:1px solid #3A3228;padding:8px 12px;text-align:left;font-size:.9rem}
 th{background:#231F19;color:#EADCC8}
 blockquote{border-left:3px solid #F7931A;margin:14px 0;padding:4px 16px;color:#9B8B78;background:#1F1B16}
@@ -89,12 +91,17 @@ def render_md(text):
             # F1: skip separator rows like |---|----| (all-dash cells)
             rows = [r for r in rows if not all(re.fullmatch(r'-{2,}', c.strip()) for c in r.strip().strip('|').split('|') if c.strip())]
             if len(rows) >= 2:
+                # Wrap in a horizontal-scroll container so wide tables never
+                # overflow the viewport on mobile (the rightmost column was
+                # previously clipped).
+                out.append('<div class="table-wrap">')
                 out.append('<table>')
                 for ri, r in enumerate(rows):
                     cells = [c.strip() for c in r.strip().strip('|').split('|')]
                     tag = 'th' if ri == 0 else 'td'
                     out.append('<tr>' + ''.join('<' + tag + '>' + inline(c) + '</' + tag + '>' for c in cells) + '</tr>')
                 out.append('</table>')
+                out.append('</div>')
             table_buf = []
             in_table = False
 

@@ -12,7 +12,7 @@
 <meta name="theme-color" content="#121110">
 <link rel="canonical" href="https://bitcoinsahi.com/research/utxo-series-reachability.html">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"UTXO Series — Reachability Finding (build-or-document)","item":"https://bitcoinsahi.com/research/utxo-series-reachability.html"}]}
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"UTXO Series \u2014 Reachability Finding (build-or-document)","item":"https://bitcoinsahi.com/research/utxo-series-reachability.html"}]}
 </script>
 <title>UTXO Series — Reachability Finding (build-or-document) — BSAHI Research</title>
 <style>:root{
@@ -55,7 +55,10 @@ footer .links a:hover{color:var(--accent-ink)}
 .datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
 .datacard b{color:var(--ink)}
 .kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
-.kv code{color:var(--accent-ink)}</style>
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
@@ -66,6 +69,7 @@ footer .links a:hover{color:var(--accent-ink)}
 <h3>Goal</h3>
 <p>A continuous historical UTXO-count / state-size series: (a) moves row 6 historical D → C, and (b) hardens the VCI <code>utxo_state_gb</code> estimate table.</p>
 <h3>Sources probed (2026-09-16) and results</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Source</th><th>What it would give</th><th>Result</th></tr>
 <tr><td>CoinMetrics community API (<code>catalog-v2/asset-metrics?assets=btc</code>)</td><td>UTXO-count metric</td><td>NO utxo metric in the 31-metric BTC catalog (SplyCur, TxCnt etc. only)</td></tr>
@@ -77,6 +81,7 @@ footer .links a:hover{color:var(--accent-ink)}
 <tr><td>blockchain.info legacy <code>/q/</code> endpoints</td><td><code>unspentcount</code>-style query</td><td><strong>Hangs</strong> on probed paths</td></tr>
 <tr><td>blockchain.info <code>/pools</code>, <code>__NEXT_DATA__</code></td><td>(attribution, not UTXO)</td><td>client-side only (noted for row 11)</td></tr>
 </table>
+</div>
 <h3>What the reachable evidence delivers (shipped)</h3>
 <p><code>tools/research/utxo_series.py</code> + <code>data/utxo_series.json</code>:</p>
 <ol>

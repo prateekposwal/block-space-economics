@@ -36,6 +36,9 @@ blockquote{border-left:3px solid var(--accent-ink);margin:16px 0;padding:4px 16p
 code{background:var(--surface);padding:2px 5px;border-radius:3px;font-size:.85rem}
 strong{color:var(--ink)}
 a{color:var(--accent-ink)}
+
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
 </style>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,6 +59,7 @@ storage coverage doubled-then-nearly-tripled, measured live on real blocks.</blo
 dated</strong> quantity — and it just moved sharply.</p>
 
 <h2>The measured series (last 8 points, from the live record)</h2>
+<div class="table-wrap">
 <table>
 <tr><th>Date</th><th>avg_SCCR</th><th>blocks</th><th>below 1×</th></tr>
 <tr><td>2026-08-14</td><td>0.2378</td><td>148</td><td>99.3%</td></tr>
@@ -67,6 +71,7 @@ dated</strong> quantity — and it just moved sharply.</p>
 <tr><td>2026-08-20</td><td>0.4059</td><td>126</td><td>98.4%</td></tr>
 <tr><td>2026-08-21</td><td><strong>0.4433</strong></td><td>133</td><td><strong>96.2%</strong></td></tr>
 </table>
+</div>
 
 <p><strong>Bottom line:</strong> avg SCCR is up <strong>~2.8×</strong> from its 5-day low
 (0.1574 → 0.4433). The share of blocks below the full-coverage 1× threshold has dropped from

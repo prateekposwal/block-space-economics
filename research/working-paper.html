@@ -53,7 +53,10 @@ hr{border:none;border-top:1px solid var(--line);margin:24px 0}
 footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
-footer .links a:hover{color:var(--accent-ink)}</style>
+footer .links a:hover{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
@@ -77,6 +80,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <p>A joint Monte Carlo over N, C, T, and price (current band, 10,000 draws) gives a P5–P95 interval of <strong>0.07–0.47</strong>, median 0.17, with <strong>99.9% of draws below the 1× threshold</strong>; the share of sampled blocks below 1× ranges ~79–100% depending on the true N. We reconcile two cost models that previously disagreed by 16.4× (dimensionless), document the correction transparently (model-spec.json v2.0.0), and state results to the precision the evidence licenses: <strong>external reproduction is pending (D5)</strong>. The framework is reproducible, falsifiable research.</p>
 <p><strong>Hypothesis:</strong> Bitcoin&#x27;s fee market efficiently allocates scarce block space, but may not fully internalize every long-lived resource cost created by confirmed transactions.</p>
 <p><strong>Final numbers at a glance</strong> — the headline in four lines, exact figures (all captures dated; model-spec v2.0.1; the full derivation is §4–§5, the sensitivity and knife-edge details are §5.3–§5.4, and the falsifiers are §7.1):</p>
+<div class="table-wrap">
 <table>
 <tr><th>Quantity</th><th>Value</th></tr>
 <tr><td><strong>Dated baseline band</strong> ≈0.22 — SCCR at N=32K, Aug 02–15 (primary-source lower-bound census)</td><td><strong>0.2243</strong> (2026-08-02, 153 blocks) · <strong>0.2840</strong> (2026-08-03) · <strong>0.2611</strong> (2026-08-04) · <strong>0.2095</strong> (2026-08-15) — see <code>data/sccr_history.json</code></td></tr>
@@ -86,6 +90,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>Blocks below 1×</td><td><strong>94.37%</strong> (live series, Sep 07, N=32K) vs ~100% (dated Aug 02–15 baseline, N=32K); ~79% at N=10K, 100% at N≥32K</td></tr>
 <tr><td>External reproduction</td><td><strong>PENDING (D5)</strong> — independent runs requested; every figure above is stated to the precision the evidence licenses</td></tr>
 </table>
+</div>
 <hr>
 <h3>1. Introduction: Congestion Pricing vs. Permanence Cost</h3>
 <p>The one-sentence frame (full treatment in <code>problem_statement.md</code>):</p>
@@ -144,6 +149,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <h3>4. The Model</h3>
 <h4>4.1 Canonical specification</h4>
 <p>All quantities, units, and formulas live in <strong><code>research/model-spec.json</code> (v2.0.1)</strong> — a single canonical source that every script imports. No script redefines a model constant.</p>
+<div class="table-wrap">
 <table>
 <tr><th>Quantity</th><th>Symbol</th><th>Units</th><th>Value</th><th>Source</th></tr>
 <tr><td>Annual node cost</td><td>C</td><td>USD/yr</td><td>925</td><td><code>utxo_cost_model</code> component sum (924.35) rounded</td></tr>
@@ -157,6 +163,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>Network lifetime cost/block</td><td>L_net</td><td>USD/block</td><td>5,628</td><td>L × N (=32K)</td></tr>
 <tr><td><strong>Storage Cost Coverage Ratio</strong></td><td><strong>SCCR</strong></td><td>dimensionless</td><td><strong>0.2228</strong> (167 blocks, live 2026-08-02); <strong>~0.29</strong> (156 blocks, dated 2026-08-01); <strong>~0.07–0.71</strong> across the N=10K–100K band</td><td>fee_USD / L_net</td></tr>
 </table>
+</div>
 <pre><code>                    Fees Paid (USD / block)
    SCCR  =  ─────────────────────────────────────────────
             Modeled Lifetime Storage Cost (USD / block)
@@ -183,6 +190,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <li><strong>Model uncertainty: depends strongly on the replication factor N</strong> — the true-N band (<strong>~0.07–0.71</strong>, §5.4) is a <em>different</em> uncertainty from the observed-sample band above</li>
 </ul>
 <p>Two snapshots, dated explicitly:</p>
+<div class="table-wrap">
 <table>
 <tr><th>Metric</th><th>Dated capture (2026-08-01)</th><th>Live capture (2026-08-02)</th></tr>
 <tr><td>Blocks sampled</td><td>156</td><td>167</td></tr>
@@ -190,11 +198,13 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>Min / Max (dimensionless)</td><td>~0.058 / ~1.537</td><td>~0.058 / ~0.832</td></tr>
 <tr><td>Blocks below 1×</td><td><strong>98.7%</strong> (154/156)</td><td><strong>100.0%</strong></td></tr>
 </table>
+</div>
 <p><strong>Live re-measure (canonical, 2026-08-02):</strong> the ratio moves with the fee market. The canonical re-measure recorded in <code>research/model-spec.json</code> v2.0.1 is <strong>0.2252</strong> (168 blocks, 2026-08-02); the 0.2228 above is the same capture window re-read at the time of writing (167 blocks). The 0.293 figure is the dated 2026-08-01 snapshot. The single source of truth is <code>research/model-spec.json</code> (v2.0.1, canonical); all surfaces must read the live value from <code>node tools/research/storage-ratio.js</code>, never a hardcoded figure. The v2.0.0 N=60K-era values (0.1719 / 0.1535) are superseded.</p>
 <p><strong>Fee-regime + node-count dependence:</strong> the ratio tracks both the fee market and the replication factor. Under the earlier N=60K assumption the average was 0.156–0.172 (dimensionless) with 100% below 1×; at the primary-source lower-bound census N=32K it rises to ~0.22–0.29 with ~98.7–100% below 1× (a few high-fee blocks exceed coverage in the dated capture). Because N is a lower bound and independent estimates span 10K–100K, the honest headline is the <strong>N-band range: ~0.07–0.71</strong> (inverse-linear in N, §5.4). The headline is a <em>distribution over time and parameters</em>, not a point.</p>
 <p><strong>Interpretation:</strong> transaction fees cover, on average, roughly <strong>22–29%</strong> of the estimated 10-year replicated storage cost of an average block across the ≥32K observed nodes. Most sampled blocks&#x27; fees remain below their estimated storage cost. <strong>Point-in-time discipline:</strong> every figure in this section is a dated, capture-specific measurement — the time-series is live and growing (daily SCCR tracker, <code>com.bsahi.sccr-tracker.plist</code>), and the paper deliberately reports snapshots rather than a stationary number. This is not a convenience but a consequence of the model: <code>cb(t) = C(t)/B_year(t)</code> is itself time-dependent (§4.1), so the ratio is a snapshot over its capture window by construction — block fullness, node costs, and fee levels all move between captures.</p>
 <h4>5.2 The inscription externality (marginal branch)</h4>
 <p>At 100,000 inscriptions/month (~400 bytes each, in witness):</p>
+<div class="table-wrap">
 <table>
 <tr><th>Metric</th><th>Value</th></tr>
 <tr><td>Cost per byte per year (marginal)</td><td>1.92573e-6 USD/(byte·yr)</td></tr>
@@ -202,10 +212,12 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>New 10-yr storage liabilities created per year at 100K/mo</td><td>~$9,240 USD/yr spread across all nodes</td></tr>
 <tr><td>Steady-state annual externality (amortized)</td><td>~$924 USD/yr spread across all nodes</td></tr>
 </table>
+</div>
 <p><strong>Unit note (corrected):</strong> $9,240 is the <em>undiscounted 10-year liability of one year&#x27;s inscriptions</em> (USD/yr), not an annual cost. Amortized over the 10-yr horizon it is ~$924/yr. This was previously labeled &quot;annual unpriced externality&quot; — a T/1 conflation of the same shape as the fixed 10× bug, in label only. The per-node figure (~$0.015 USD/(node·yr)) is unchanged under either reading.</p>
 <p><strong>Pruning-consistency note:</strong> this externality is structurally real but <strong>not economically significant at current volumes</strong> — per-node it is well under $1/yr. The contribution of this paper is the reproducible ratio framework, not the magnitude. A future fee regime (sustained congestion, larger data-bearing volume) would change the magnitude while keeping the framework intact.</p>
 <h4>5.3 Sensitivity</h4>
 <p>Recomputed at the live capture (2026-08-02, 167 blocks; baseline SCCR = 0.2228 (dimensionless) at N=32K, C=$925/yr, T=10 yr) with <code>node tools/research/storage-ratio.js</code> and the canonical spec. The table&#x27;s parameter ranges bracket the canonical values:</p>
+<div class="table-wrap">
 <table>
 <tr><th>Parameter</th><th>Value</th><th>Avg SCCR (dimensionless)</th></tr>
 <tr><td>Node cost, C (USD/yr)</td><td>600 / 925 / 1400</td><td>0.343 / 0.223 / 0.147</td></tr>
@@ -213,7 +225,9 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>Storage horizon, T (yr)</td><td>5 / 10 / 15</td><td>0.446 / 0.223 / 0.149</td></tr>
 <tr><td>Avg block size, B (MB)</td><td>1.0 / 1.5 / 2.0</td><td>0.223 (invariant)</td></tr>
 </table>
+</div>
 <p><strong>BTC price (the dominant omitted driver — verified in independent implementation):</strong> the ratio is linear in price. At the live N=32K baseline (capture price ≈ $63,018 USD/BTC):</p>
+<div class="table-wrap">
 <table>
 <tr><th>BTC price (USD/BTC)</th><th>Avg SCCR (dimensionless, N=32K)</th></tr>
 <tr><td>$30,000</td><td>0.106</td></tr>
@@ -223,6 +237,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>$200,000</td><td>0.707</td></tr>
 <tr><td>$500,000</td><td>1.768</td></tr>
 </table>
+</div>
 <p><strong>Caveat — price and fee level are not independent shocks.</strong> The table above varies the BTC price holding the fee level (sat/vB) fixed, but in historical data fee levels and price co-move: bull markets raise both the price <em>and</em> on-chain fee demand (higher fee rates, fuller blocks), so a price rise is typically accompanied by a fee-level rise, compounding the ratio&#x27;s increase. Conversely, a price fall in a demand crash carries fee levels down with it. The single-lever rows are therefore <em>ceteris-paribus</em> isolations for the model&#x27;s arithmetic, not forecasts of how the ratio would move along a realized price path; the joint direction of price-and-fee co-movement is exactly the kind of dynamic question the v3.0 agenda (companion <code>future-directions-v3.md</code> §1) leaves open.</p>
 <p><strong>Structural property:</strong> SCCR is <strong>invariant to block size</strong> — <code>cb ∝ 1/B</code> while <code>L ∝ B</code>, so <code>B</code> cancels. Caveat: this invariance follows from attributing <em>all</em> node cost per byte then multiplying back by bytes — it reflects that the model is size-agnostic (contains no size-dependent economics), not that size is economically irrelevant.</p>
 <h4>5.4 The knife-edge: node count and the strong claim</h4>
@@ -234,14 +249,17 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <p><strong>Live recompute (2026-08-02 baseline, SCCR = 0.2228 at N=32K):</strong> because the baseline ratio itself rose, the average now inverts at <strong>N ≈ 7,130 nodes</strong> or <strong>BTC ≈ $283,000</strong>; the &quot;100% below 1×&quot; break on the dated capture is unchanged at N ≈ 49,200 (the max block is 0.832× at N=32K on the live capture, still below 1×). Both the dated and live thresholds are reported; the model-spec v2.0.1 note retains the v2.0.0-era values (10.3K / $366K).</p>
 <p><strong>The node census — a primary-source lower-bound census (≥32,000 known addresses via Bitcoin Core <code>getnodeaddresses</code>), not a full enumeration.</strong> We replaced the 60K assumption with data from a live Bitcoin Core node: a <strong><code>getnodeaddresses</code> RPC query</strong> returned <strong>32,000 known addresses</strong> — the RPC maximum, meaning the node&#x27;s address manager is saturated at the cap and the true reachable set is <em>at least</em> 32K. At census time the node also reported <strong>8 live outbound P2P connections</strong> (2026-08-02) — the observed live reachable set is small relative to the 32K known-address lower bound, which is exactly why we report the address-manager saturation as the primary figure. <strong>We do not call this a complete census</strong>: 32K is an artifact of the RPC cap, not a measured enumeration, and independent estimates span ~10K–100K (BSAHI&#x27;s own earlier marketing data used ~27.8K). The paper therefore reports the ratio as a <strong>range across the true-N band</strong>, with 32K as the best-available lower-bound estimate.</p>
 <p><strong>Consequence of the lower-bound census N=32,000 (recomputed, dated 156-block capture):</strong></p>
+<div class="table-wrap">
 <table>
 <tr><th>Metric</th><th>At N=60K (old assumption)</th><th>At N=32K (primary-source lower-bound census)</th></tr>
 <tr><td>Average SCCR (dimensionless)</td><td>0.156–0.172</td><td><strong>~0.293</strong></td></tr>
 <tr><td>Max per-block ratio (dimensionless)</td><td>0.820</td><td><strong>1.537</strong></td></tr>
 <tr><td>Blocks below 1×</td><td>100.0%</td><td><strong>98.7%</strong> (154/156)</td></tr>
 </table>
+</div>
 <p><strong>This is a substantive finding, not a cosmetic one.</strong> With a defensible node count, fees cover <em>more</em> of the modeled storage cost than the 60K assumption implied (~29% vs ~17%), and a handful of high-fee blocks now <em>exceed</em> 1× coverage. The direction of the headline is unchanged — most blocks are still below 1× — but the strong form (&quot;100% below 1×&quot;) does <strong>not</strong> survive the lower-bound census on the dated capture. <strong>The defensible claim is: ~22–29% average coverage at N=32K, ~98.7–100% of sampled blocks below 1×, and ~0.07–0.71 average across the true-N band (10K–100K).</strong> (1× remains a descriptive calibration point, not a normative target — §1.)</p>
 <p><strong>Joint Monte Carlo on the headline</strong> (<code>research/sccr_monte_carlo.py</code>, 10,000 samples, N ~ Tri(10K,150K,mode 60K), C ~ Tri($500,$2000,mode $925), T ~ Tri(5,30,mode 10), P ~ Tri($30K,$120K,mode $62.9K)):</p>
+<div class="table-wrap">
 <table>
 <tr><th>Quantile</th><th>SCCR (dimensionless)</th></tr>
 <tr><td>P5</td><td>0.034</td></tr>
@@ -251,8 +269,10 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>P95</td><td>0.338</td></tr>
 <tr><td>Share below 1×</td><td><strong>99.8%</strong></td></tr>
 </table>
+</div>
 <p>The median is below the deterministic point estimate because the node-count distribution&#x27;s right tail (median N ≈ 86K) dominates. The result is robust in distribution: under joint uncertainty about every scale parameter, the ratio remains below 1 in 99.8% of draws — the <em>direction</em> of the finding is not sensitive to the audited parameter uncertainty, though the magnitude spans ~10× (P5–P95).</p>
 <p><strong>Current-N-band Monte Carlo</strong> (<code>research/sccr_monte_carlo_range.py</code>, 10,000 draws, N ~ Tri(10K, 100K, mode 32K) — the paper&#x27;s stated uncertainty band with the census as mode; C ~ Tri($600, $1400, mode $925), T ~ Tri(5, 15, mode 10), P ~ Tri($30K, $120K, mode $63,018); anchored at the live baseline and cross-checked against the frozen capture):</p>
+<div class="table-wrap">
 <table>
 <tr><th>Quantile</th><th>SCCR (dimensionless, live anchor)</th></tr>
 <tr><td>P5</td><td>0.071</td></tr>
@@ -262,9 +282,11 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>P95</td><td>0.467</td></tr>
 <tr><td>Share below 1×</td><td><strong>99.9%</strong></td></tr>
 </table>
+</div>
 <p>The current-band median (0.17) sits near the N=32K point estimates (0.22–0.29), and the P5–P95 interval (0.07–0.47) brackets the deterministic N-band range (~0.07–0.71): the confidence interval and the range are two views of the same N-driven uncertainty. The old-N-band result above (99.8% below 1×) remains as the historical conservative check.</p>
 <h4>5.5 The Bandwidth Leg (v1 analytical bound)</h4>
 <p><em>(Added 2026-08-04, G-06.)</em> The storage leg prices <em>stored</em> bytes; the bandwidth leg prices the <strong>marginal propagation</strong> of those bytes: every full node — pruned or archival — must download every byte of every block (<code>pruning_externality_analysis.md</code>). Quantities live in <code>model-spec.json</code> v2.1.0 (<code>cost_per_gb</code> input; derived <code>bw_GB_yr</code>, <code>bw_cost_per_year_node</code>, <code>bw_cost_per_year_net</code>, <code>bw_insc_incr_node</code>); the formula is <strong>B × replication × $/GB</strong>:</p>
+<div class="table-wrap">
 <table>
 <tr><th>Quantity</th><th>Value</th><th>Meaning</th></tr>
 <tr><td><code>bw_GB_yr</code> = B_all_yr / 1e9</td><td><strong>78.894 GB/yr</strong></td><td>full-chain bytes each node downloads</td></tr>
@@ -273,9 +295,11 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td><code>bw_cost_per_year_net</code></td><td><strong>~$126K/yr</strong></td><td>× N=32K lower-bound census</td></tr>
 <tr><td><code>bw_insc_incr_node</code></td><td><strong>$0.024/yr per node</strong></td><td>inscription-incremental share (480 MB/yr × $0.05/GB) — reconciles the earlier &quot;~$0.02/yr&quot; figure</td></tr>
 </table>
+</div>
 <p><strong>Honest framing:</strong> this is an <strong>analytical bound, not a measurement.</strong> Real node bandwidth bills are overwhelmingly flat-rate (residential/colocation unmetered), so $/GB is a <em>marginal economic proxy</em>, not a typical bill. The bound&#x27;s job is to bound the <em>marginal</em> propagation externality the storage leg deliberately excludes (§7 limitation 5): the full-chain marginal cost is <strong>~$3.94/yr per node</strong> (~$126K/yr network at ≥32K nodes), and the inscription-incremental slice is <strong>~$0.024/yr per node</strong> — small in both frames, in the same direction as the pruning analysis&#x27;s verdict (<code>pruning_externality_analysis.md</code>: $0.02–0.05/yr unavoidable per node).</p>
 <h4>5.6 The Validation Leg (v1 order-of-magnitude survey)</h4>
 <p><em>(Added 2026-08-04, G-06; full survey: <code>research/validation-cost.md</code>.)</em> Validation is the CPU work every node pays for every block since genesis — PoW-header check (trivial), block rules, and <strong>signature verification</strong> (the dominant term) — and it is the only leg that is strictly unavoidable at any replication scale (storage can be pruned; validation cannot be skipped). The v1 bound, <strong>order-of-magnitude only</strong> (band ≈ 0.5×–5×):</p>
+<div class="table-wrap">
 <table>
 <tr><th>Term</th><th>Value</th></tr>
 <tr><td>Blocks/yr (R_blocks)</td><td>52,596</td></tr>
@@ -285,9 +309,11 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td><strong>Validation cost per node per year</strong></td><td><strong>~$0.5–$5</strong> (central ≈ $1–2/yr at $0.10–0.50/CPU-h)</td></tr>
 <tr><td>Network-wide (N = 32K)</td><td><strong>~$16K–160K/yr</strong></td></tr>
 </table>
+</div>
 <p><strong>Falsifiable claim (v1):</strong> <em>validation cost per full node per year is &lt; $100 — bounded from above by the entire node budget C = $925/yr, central estimate ~$1–2/yr.</em> Falsified by a measured benchmark showing ≥ ~200 h/yr steady-state validation CPU, or a hardware census showing validation is a <em>binding</em> provisioning constraint. Literature anchored on Tschorsch &amp; Scheuermann (2016, IEEE COMST), Delgado-Segura et al. (2018, UTXO analysis), Bitcoin Core&#x27;s <code>src/bench</code> suite; the architect-notes 3-paper fee list is acknowledged as <em>not</em> modeling validation — the gap this leg opens. <strong>Verdict:</strong> validation is cheap <em>per block</em>, so cheap per node; its network total (~$16K–160K/yr) is ~3 orders of magnitude below the storage leg&#x27;s modeled network burden — which is itself the finding, not an assertion.</p>
 <h4>5.7 The UTXO Leg (v1 measurement)</h4>
 <p><em>(Added 2026-08-04, G-06.)</em> <code>getblockstats → utxo_size_inc</code> — the net byte delta of the UTXO set after each block — was already captured by agent-06 but <strong>dropped at DB write</strong> (no <code>block_stats</code> column). Fixed end-to-end: column added to <code>tools/db/schema.sql</code>, wired through <code>tools/db/init.js</code> (<code>insertBlockStats</code> + idempotent <code>ALTER TABLE</code> migration), live path in <code>tools/data-engineering/spool-consumer.js</code> (every <code>btc_rpc</code> capture now persists per-block rows), and a backfill (<code>tools/db/backfill-block-stats.js</code>) populated the history from the spool + raw captures. Measured v1 result (2026-08-04, <code>captured-data/bsahi.db</code>):</p>
+<div class="table-wrap">
 <table>
 <tr><th>Metric</th><th>Value</th></tr>
 <tr><td>block_stats rows with utxo_size_inc</td><td><strong>165 unique heights</strong> (backfill: 351 writes, 119 capture files)</td></tr>
@@ -295,6 +321,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>Max height covered</td><td>671,460</td></tr>
 <tr><td>Live path</td><td>verified (handler test: height→utxo_size_inc persisted)</td></tr>
 </table>
+</div>
 <p><strong>Status:</strong> the leg is now <em>measured</em> (the resource&#x27;s size per block is in the queryable DB, growing live). What remains is the <em>pricing</em> step — attributing a $/byte/yr cost to the UTXO delta (the UTXO set is the index that makes validation/script lookups fast; its cost surface is the next model step, and it stays in §7 future work until then).</p>
 <h3>6. Internal Validation, Correction, and Reconciliation (v2.0.0)</h3>
 <p>Internal validation identified an inconsistency in the SCCR implementation, traced it to a <strong>duplicated time-horizon term</strong>, corrected the implementation, regenerated all reported values, and confirmed the qualitative conclusions unchanged. We present the correction in four labeled steps: <strong>Bug → Fix → Results → Reconciliation</strong>.</p>
@@ -304,6 +331,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <h4>6.2 The fix</h4>
 <p><code>cb</code> is defined horizon-free (<code>C / bytes-per-year</code>); <code>T</code> enters only through <code>L = cb × B × T</code>. This is the canonical v2.0.0 definition and is pinned in <code>research/model-spec.json</code>; no script may reintroduce <code>T</code> into <code>cb</code>.</p>
 <h4>6.3 Results</h4>
+<div class="table-wrap">
 <table>
 <tr><th>Quantity</th><th>Before (v1.0.0 formula, N=60K)</th><th>After (v2.0.0, N=60K)</th></tr>
 <tr><td>Cost per byte per year (USD/(byte·yr))</td><td>1.17247e-7</td><td><strong>1.17247e-8</strong></td></tr>
@@ -312,6 +340,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td><strong>Average SCCR (dimensionless)</strong></td><td>0.0172</td><td><strong>0.1719</strong></td></tr>
 <tr><td>Blocks below 1×</td><td>100%</td><td><strong>100% (unchanged)</strong></td></tr>
 </table>
+</div>
 <p><strong>Why the conclusion survived the correction.</strong> Although the correction increased the estimated SCCR by ~10× on a same-capture basis (0.0172 → 0.1719 (dimensionless) at the then-assumed N=60K) — and by ~11.5× across the as-reported headlines (v1.0.0 <strong>0.0149</strong> → v2.0.0 <strong>0.1719</strong>, a change that also spans different capture windows) — every sampled block still remained below the modeled full-cost threshold (1×) under the then-assumed node count (N=60K). At the lower-bound census N=32K the average rose further to <strong>~0.225 (22.5%)</strong> on the 2026-08-02 live re-measure (168 blocks), with ~99% of sampled blocks still below the 1× threshold. The magnitude of the measurement moved by an order of magnitude; the <em>direction</em> of the finding did not.</p>
 <p><em>Note: the table above documents the 10× time-horizon correction at the then-assumed N=60K. A separate, subsequent correction replaced the node count with the primary-source lower-bound census (N=32K), which moves the average to ~0.22–0.29 and the below-1× share to ~99–100% (see §5.4). The two corrections are independent and both are documented.</em></p>
 <h4>6.4 Reconciliation</h4>
@@ -369,6 +398,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 </ul>
 <p><strong>Type C --- &quot;Assumption I chose&quot; (deliberate modeling choice).</strong> A selection among defensible alternatives, made explicit and documented where it appears (§7 items 1–7). Not falsifiable by asserting a different choice; a reviewer preferring another selection records <strong>feedback</strong>, not falsification. Reclassification to Type M requires showing the choice is internally inconsistent with the paper&#x27;s own stated method, or rests on an empirical premise that is wrong.</p>
 <p><strong>Type M --- &quot;Assumption that might be mismeasured&quot; (empirical risk).</strong> An empirical quantity, measurement, or bound embedded in the model. Falsifiable: if the measurement is wrong, the conclusion may shift. A critic who shows the current value/measurement is wrong opens a <strong>falsification candidate</strong> --- handled under §7.1 falsifiers 1–3; the headline falls until reconciled.</p>
+<div class="table-wrap">
 <table>
 <tr><th>#</th><th>Assumption</th><th>Type</th><th>Why it&#x27;s that type</th><th>What would reclassify or falsify it</th></tr>
 <tr><td>1</td><td>Storage horizon <strong>T = 10 yr</strong></td><td><strong>C</strong></td><td>A selection within a defensible range (pruning shortens retention, permanent storage extends it, §7 item 3); sensitivity disclosed (§5.3: T = 5/10/15 → 0.446/0.223/0.149), direction robust</td><td>A measured network-wide retention distribution showing effective retention is an order of magnitude shorter --- that reframes the externality reading (falsifier 5); it does not make T = 10 an error</td></tr>
@@ -381,6 +411,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>8</td><td><strong>Homogeneous node cost structure</strong></td><td><strong>C (with an empirical seam)</strong></td><td>The single-scalar structure is a deliberate simplification, documented (§7 item 2); heterogeneity is a refinement direction, not an error</td><td>The <em>value inside</em> the structure (C = $925/yr) is empirical --- a defensible regional refinement that moves the band is already named falsifier 2; the structural choice itself is not falsifiable by asserting heterogeneity</td></tr>
 <tr><td>9</td><td><strong>No discounting; constant cost</strong></td><td><strong>C</strong></td><td>A documented choice with disclosed sensitivity (§7 item 4): discounting at r = 5%/8% cuts the liability&#x27;s present value by ~27%/45%, moving the average up (~0.30–0.53 at N=32K) --- still below the 1× average threshold; the majority-below-1× direction is robust</td><td>A corrected treatment that flips the headline&#x27;s direction --- none identified under the disclosed sensitivity; a critic asserting discounting records feedback, not falsification</td></tr>
 </table>
+</div>
 <p><strong>The blurry case, named honestly.</strong> Row 3 (C bundling) is the one assumption that sits on the line. The <em>decision to bundle</em> is a choice (Type C); the <em>claim that the bundle&#x27;s components are as measured</em> is empirical (Type M). Because the bandwidth leg (600) is the largest component, the storage-specific reading of the headline depends on a decomposition that is currently <em>assumed</em>, not measured. We therefore classify C bundling <strong>leaning Type M</strong> --- the safe default: an external challenge to the decomposition gets the full falsification response, not the feedback bucket.</p>
 <p><strong>Why the taxonomy is stated in advance.</strong> Every assumption-level critique this paper receives will be routed by this table before it is answered: Type C critiques are engaged as feedback in the next revision (the reproduced number stands); Type M critiques are treated as falsification candidates until the evidence is reconciled (§7.1 falsifiers 1–3). This is the mechanism that keeps &quot;reproduced the number, disagrees with framing&quot; from silently becoming &quot;the paper might just be wrong&quot; --- and keeps a genuine mismeasurement from being dismissed as a mere framing disagreement. The plan-of-record mirror of this taxonomy lives in <code>roadmap.md</code> §12.</p>
 <h3>8. Economics and Related Work</h3>
@@ -410,6 +441,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <h3>10. Future Directions (v3.0) — the agenda, in a companion</h3>
 <p>The paper&#x27;s measurement question is answered in §5; its falsifiers are §7.1. The program&#x27;s forward agenda — the v3.0 economic-dynamics questions, their first answers, and the cross-chain generalization — <strong>deliberately lives outside this core paper</strong> in the companion <code>research/future-directions-v3.md</code> (plan-of-record: <code>roadmap.md</code> §8/§9/§11). This keeps the paper a <em>measurement</em>, not a research-program pitch.</p>
 <p><strong>The eight v3.0 questions</strong> (headline model output at the live baseline — SCCR = 0.2228 at N=32K, T=10 yr, C=$925/yr; full derivation and method notes in the companion §1):</p>
+<div class="table-wrap">
 <table>
 <tr><th>#</th><th>Question</th><th>Headline model output (live baseline)</th></tr>
 <tr><td>1</td><td>Storage horizon: SCCR at T = 5, 10, 20, 30, 50 yr</td><td>0.446 / 0.223 / 0.111 / 0.074 / 0.045 (inverse-linear in T)</td></tr>
@@ -421,6 +453,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>7</td><td>Can SCCR reach 1 without protocol changes?</td><td>Historically yes: SCCR averaged <strong>above 1×</strong> in 2017–2024 fee-peak years (2017 avg ~10.0, 2021 ~8.0, 2023 ~5.0, 2024 ~4.8, era-adjusted node counts); 2025–2026 is the first sustained sub-1× regime</td></tr>
 <tr><td>8</td><td>What is the equilibrium? Does price, fees, or demand close the loop?</td><td><strong>Open.</strong> The model measures a ratio; it does not close the dynamic loop (N ↔ fees ↔ price). Framed as a dynamic system in the companion §2 Q1</td></tr>
 </table>
+</div>
 <p><strong>Where the answers live:</strong> deep-question first answers Q1–Q5 (equilibrium, attribute pricing, the RIR family with DCIR, price-only internalization, 2040 scenarios) are in companion §2 with exact model output from <code>tools/research/sccr_dynamics.py</code>; the cross-chain generalization (Phase V horizon) is in companion §3. The falsification conditions that govern the claims above remain in the core at §7.1.</p>
 <p><strong>Open-question honesty.</strong> Nothing in this agenda claims the fee market <em>will</em> internalize these costs, nor that it <em>should</em> — the claim is narrower: the question is well-posed, the drivers are identified, and each driver&#x27;s lever on the ratio is measured.</p>
 <hr>

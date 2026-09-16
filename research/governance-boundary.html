@@ -53,7 +53,10 @@ hr{border:none;border-top:1px solid var(--line);margin:24px 0}
 footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
-footer .links a:hover{color:var(--accent-ink)}</style>
+footer .links a:hover{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -69,6 +72,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <hr>
 <h3>The frame</h3>
 <p>Four common claims are each half-right:</p>
+<div class="table-wrap">
 <table>
 <tr><th>Claim</th><th>Verdict</th></tr>
 <tr><td>Hashrate concentration = protocol control</td><td>❌ Miners can fork; they can&#x27;t change rules others run</td></tr>
@@ -76,8 +80,10 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>Developer influence = consensus</td><td>❌ A BIP is a proposal; adoption is voluntary</td></tr>
 <tr><td>UASF = automatic legitimacy</td><td>❌ Enforcement binds only if people actually run it</td></tr>
 </table>
+</div>
 <p>The real question is <strong>measurable</strong>, not philosophical: who can change Bitcoin&#x27;s valid-state transition rules, under what coordination threshold, and what happens when constituencies disagree? BIP-110 is a live, parameterized experiment in exactly this boundary.</p>
 <h3>BIP-110 — the parameterization (verified from BIP text)</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Parameter</th><th>Value</th><th>What it means for the boundary</th></tr>
 <tr><td>Activation threshold</td><td><strong>55%</strong> (1109/2016) vs the usual 95%</td><td>urgency lowers the coordination bar</td></tr>
@@ -87,8 +93,10 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>Active duration</td><td>~1 year</td><td>reversible pressure, not permanent capture</td></tr>
 <tr><td>Terminal state</td><td><strong>EXPIRED</strong> (no FAILED)</td><td>no dead-end</td></tr>
 </table>
+</div>
 <p>Every parameter is a falsifiable claim about <em>who decides</em>. That is a natural experiment with its entire parameterization public in advance — a first for Bitcoin.</p>
 <h3>LIVE observation (2026-08-10, agent-26 capture)</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Metric</th><th>Value</th></tr>
 <tr><td>Current height</td><td>961,792</td></tr>
@@ -96,6 +104,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>Blocks until lock-in</td><td>~1,856 (~12.9 days → lock-in ≈ Aug 23)</td></tr>
 <tr><td>Signaling bit 4 (last 10 blocks)</td><td><strong>0%</strong></td></tr>
 </table>
+</div>
 <p><strong>First data point:</strong> inside the mandatory window, miners are <strong>not</strong> signaling bit 4 — yet the deployment is designed to lock in regardless at height 963648, because the enforcement clause is carried by node software, not pools. Whether this holds, and what happens at the disagreement point, is the observation the window captures.</p>
 <h3>The three measurable components (the GBI)</h3>
 <ol>

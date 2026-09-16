@@ -99,7 +99,7 @@ function safeNext(){
  * stored-key auto-reveal below). */
 function revealAccess(res){
   document.getElementById('access').style.display = 'block';
-  document.getElementById('access-name').textContent = res.user.name || 'beta user';
+  document.getElementById('access-name').textContent = res.user.label || 'beta user';
   document.getElementById('access-expiry').textContent = (res.user.expiry||'').slice(0,10) || '—';
   document.getElementById('access-plan').textContent = res.user.plan || '—';
   document.getElementById('key').value = '';

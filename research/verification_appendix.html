@@ -53,7 +53,10 @@ hr{border:none;border-top:1px solid var(--line);margin:24px 0}
 footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
-footer .links a:hover{color:var(--accent-ink)}</style>
+footer .links a:hover{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
@@ -277,6 +280,7 @@ if __name__ == &quot;__main__&quot;:
         main()</code></pre>
 <hr>
 <h3>Sensitivity Analysis</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Parameter</th><th>Low Estimate</th><th>Base Estimate</th><th>High Estimate</th><th>Impact on Cost/Byte</th></tr>
 <tr><td>Hardware cost/3yr</td><td>$200 (RPi 4 only)</td><td>$500</td><td>$1,000 (high-end mini PC)</td><td>±40%</td></tr>
@@ -286,6 +290,7 @@ if __name__ == &quot;__main__&quot;:
 <tr><td>Inscription size</td><td>200 bytes</td><td>400 bytes</td><td>1,000 bytes</td><td>±60%</td></tr>
 <tr><td>Inscription volume/mo</td><td>50,000</td><td>100,000</td><td>300,000</td><td>±60%</td></tr>
 </table>
+</div>
 <p><strong>Key finding:</strong> Even at the most conservative estimates (lowest hardware, lowest bandwidth, most efficient node), the cost per byte per year is within ~2× of the base estimate. The conclusion — that storage cost is orders of magnitude below current fees — is robust.</p>
 <hr>
 <h3>How to Reproduce Every Number</h3>
@@ -313,6 +318,7 @@ python3 research/verify_inscription_size.py &lt;txid&gt;
 </ol>
 <hr>
 <h3>Model Reconciliation (v2.0.0)</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Aspect</th><th>storage-ratio.js (SCCR)</th><th>utxo_cost_model.py (inscription externality)</th></tr>
 <tr><td>Quantity estimated</td><td>cb for Storage Cost Coverage Ratio (all block data)</td><td>cb for marginal inscription burden</td></tr>
@@ -323,6 +329,7 @@ python3 research/verify_inscription_size.py &lt;txid&gt;
 <tr><td>Attribution</td><td>block-average</td><td>marginal</td></tr>
 <tr><td>Horizon T</td><td>twice (bug: /T in denominator L48/77 AND ×T in L33)</td><td>once (×T in final lifetime only)</td></tr>
 </table>
+</div>
 <p><strong>Decomposition:</strong> the observed 16.4× gap between the two models = 164× denominator gap ÷ 10× time-horizon bug.</p>
 <p><strong>Verdict:</strong> Finding 1 is primarily intentional-but-unexplained differing denominators (164×), partially masked by the 10× bug; Finding 2 is a confirmed 10× dimensional error (cb inflated ×10, ratio deflated ×10).</p>
 <hr>

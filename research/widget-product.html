@@ -57,7 +57,10 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
 footer .links a:hover{color:var(--accent-ink)}
-body.gated .container{display:none}</style>
+body.gated .container{display:none}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 <script src="/js/beta-nav.js" defer></script>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -96,12 +99,14 @@ body.gated .container{display:none}</style>
 <li><strong>Whitelabel-ready</strong>: the verdict logic is pure CSS/JS — recolor to any brand.</li>
 </ul>
 <h3>Freemium → paid path</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Tier</th><th>Price</th><th>What you get</th></tr>
 <tr><td>Free (public)</td><td>$0</td><td>Live widget + current data snapshot</td></tr>
 <tr><td>Developer</td><td>$50/mo</td><td>History, projections, custom verdict thresholds, API key</td></tr>
 <tr><td>Enterprise</td><td>$500/mo</td><td>Real-time webhooks, SLA, dedicated support, white-label</td></tr>
 </table>
+</div>
 <h3>Next (productization follow-ups)</h3>
 <ul>
 <li>[x] Widget page live + verdict logic extracted from live.html</li>

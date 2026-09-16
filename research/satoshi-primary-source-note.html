@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>try{if(!localStorage.getItem('bsahi_beta_key'))location.replace('/beta-login.html?next='+encodeURIComponent(location.pathname));}catch(e){}</script>
-<meta name="robots" content="noindex,nofollow">
 
 <meta name="description" content="What Satoshi actually wrote about storage, fees, and node equilibrium Bitcoin block space economics research from BSAHI — live fee, mempool, and settlement data">
 <meta property="og:title" content="Satoshi&#x27;s Primary Sources — Verification Note">
@@ -14,7 +12,6 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#121110">
 <link rel="canonical" href="https://bitcoinsahi.com/research/satoshi-primary-source-note.html">
-<script src="/js/beta-gate.js" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Satoshi's Primary Sources \u2014 Verification Note","item":"https://bitcoinsahi.com/research/satoshi-primary-source-note.html"}]}
 </script>
@@ -57,12 +54,14 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
 footer .links a:hover{color:var(--accent-ink)}
-body.gated .container{display:none}</style>
-<script src="/js/beta-nav.js" defer></script>
+
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
-<body class="gated">
+<body>
 
 <script src="/js/site-nav.js"></script>
 <div class="container">
@@ -77,6 +76,7 @@ body.gated .container{display:none}</style>
 <blockquote>quantity control (block-size cap), not price.</blockquote>
 <p>The proposed causal chain: <strong>2008 design (storage designed-around, not priced) → 2017 SegWit discount → 2023 Ordinals → measured externality</strong>, as a primary-source argument against the efficient-markets objection (working-paper §8.3).</p>
 <h3>2. Verification verdict — what checks out and what does not</h3>
+<div class="table-wrap">
 <table>
 <tr><th>#</th><th>Claim</th><th>Verdict</th><th>Notes</th></tr>
 <tr><td>1</td><td>Whitepaper §6: fee = &quot;the difference is a transaction fee&quot; (inclusion incentive)</td><td>✅ <strong>VERIFIED verbatim</strong></td><td>Exact text: <em>&quot;If the output value of a transaction is less than its input value, the difference is a transaction fee that is added to the incentive value of the block containing the transaction.&quot;</em> Fees are defined as an incentive to <em>produce blocks</em> — never as a storage price.</td></tr>
@@ -90,6 +90,7 @@ body.gated .container{display:none}</style>
 <tr><td>9</td><td>Post 485 (Oct 4, 2010): phased block-size cap increase</td><td>✅ <strong>VERIFIED verbatim</strong></td><td>Exact text: <em>&quot;It can be phased in, like: if (blocknumber &gt; 115000) maxblocksize = largerlimit.&quot;</em> The 1MB-era cap is a changeable quantity control, not a price.</td></tr>
 <tr><td>10</td><td>&quot;Proof of work is the one invention that makes Bitcoin possible&quot;</td><td>❌ <strong>APOCRYPHAL — NOT FOUND</strong></td><td>Searched: full whitepaper, all 15 cryptography-list emails, posts 188/287/441/485, P2P Foundation posts. <strong>This quote appears nowhere in the SNI archive.</strong> It circulates in secondary quote-collections with no primary source. <strong>Do NOT use it.</strong></td></tr>
 </table>
+</div>
 <p><strong>Bottom line:</strong> the architect&#x27;s <em>pattern</em> is real — (i) fees were defined purely as an inclusion incentive (✅ §6, email #13), (ii) storage was designed <em>around</em> via pruning/SPV and dismissed (✅ §7), (iii) when storage protection was needed Satoshi reached for quantity control, not price (✅ posts 441/485), and (iv) he predicted a node-count equilibrium (✅ posts 188/287). But two of the architect&#x27;s specific attributions are wrong and must not enter the paper as stated: the dollars-and-bytes modeling in email #2 is <strong>bandwidth</strong>, not storage; emails #7/#11 contain <strong>no</strong> storage claims; and §7&#x27;s &quot;storage should not be a problem&quot; is about <strong>headers in RAM</strong>, not full-chain disk storage.</p>
 <h3>3. The causal chain, stated honestly</h3>
 <p><strong>2008 design:</strong> fee defined as block-production incentive (§6, email #13); full-chain storage designed around via SPV/pruning, header load dismissed (§7); a separate bandwidth cost estimated in dollars and dismissed (email #2). Storage was never a priced attribute of the fee.</p>
@@ -100,6 +101,7 @@ body.gated .container{display:none}</style>
 <p>The chain supports the paper&#x27;s framing: the fee market was never designed to price storage, so finding that it does not is a measurement of the design&#x27;s actual behavior, not a claim of market failure. This is the honest, source-supported version of the architect&#x27;s argument.</p>
 <h3>4. The falsifiable-claims table (Satoshi&#x27;s claims → our data)</h3>
 <p>The strongest use of the primary sources: Satoshi made <strong>testable claims</strong> about node count, storage burden, and equilibrium. Each becomes a falsifiable specimen against this paper&#x27;s measurements.</p>
+<div class="table-wrap">
 <table>
 <tr><th>Satoshi&#x27;s claim (source)</th><th>What it predicts</th><th>Our data (working-paper)</th><th>Status</th></tr>
 <tr><td>&quot;I anticipate there will never be more than 100K nodes, probably less&quot; (post 188, 2010)</td><td>N &lt; 100K, probably less</td><td>Primary-source lower-bound census N ≥ 32,000 known addresses (addrman cap); independent estimates 10K–100K</td><td>✅ <strong>CONSISTENT</strong> — the paper&#x27;s N-band (10K–100K) brackets his ceiling; his claim is not falsified by the census, and his upper bound sits at the top of our uncertainty band</td></tr>
@@ -109,6 +111,7 @@ body.gated .container{display:none}</style>
 <tr><td>&quot;nodes will have an incentive to receive and include all the transactions they can&quot; (email #13, 2008)</td><td>Fee incentive is sufficient to induce inclusion</td><td>Fee market clears blocks at ~2 sat/vB (live baseline); inclusion incentive works — the mechanism functions</td><td>✅ <strong>CONSISTENT</strong> — the fee market does clear inclusion; it is the <em>storage</em> leg that is unpriced, which is exactly the paper&#x27;s claim</td></tr>
 <tr><td>&quot;The threshold can easily be changed... keep it lower as a circuit breaker... limit the amount of wasted disk space&quot; (post 441, 2010)</td><td>Storage protection via quantity control, not price</td><td>The 1MB cap persisted into the Ordinals era; SegWit&#x27;s 4:1 discount changed effective capacity</td><td>✅ <strong>CONSISTENT</strong> — quantity control, not price, was the design&#x27;s storage-protection mechanism</td></tr>
 </table>
+</div>
 <p><strong>Assessment:</strong> the falsifiable-claims table is genuinely strong and belongs in the framework paper (Paper 4) — it converts the &quot;Satoshi predicted it&quot; anecdote into testable hypotheses. The two live specimens (N-equilibrium → roadmap Q1; node count → census) are already the roadmap&#x27;s open questions, now anchored in the designer&#x27;s own predictions.</p>
 <h3>5. The two insights, placed</h3>
 <ol>

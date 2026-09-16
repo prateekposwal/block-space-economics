@@ -57,7 +57,10 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
 footer .links a:hover{color:var(--accent-ink)}
-body.gated .container{display:none}</style>
+body.gated .container{display:none}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 <script src="/js/beta-nav.js" defer></script>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,6 +82,7 @@ body.gated .container{display:none}</style>
 <h3>The lane (decided 2026-08-11)</h3>
 <p><strong>Primary: data/API business.</strong> Wedge product = the embeddable &quot;Should I send now?&quot; widget + API for wallets and exchanges. Phase 2 = the SCCR as a licensed index (Fear &amp; Greed, but for block-space economics). Phase 3 = risk-pricing (storage-burden insurance) — conversations only, not yet product.</p>
 <h3>What we&#x27;re selling (built already)</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Product</th><th>Customer</th><th>Price (R4 plan)</th><th>Status</th></tr>
 <tr><td><strong>&quot;Should I send now?&quot; widget + API</strong></td><td>Wallets (BlueWallet, Sparrow), exchanges</td><td>Freemium → Developer $50/mo</td><td>~80% built (<code>live.html</code> verdict + <code>embed.html</code> skeleton)</td></tr>
@@ -86,6 +90,7 @@ body.gated .container{display:none}</style>
 <tr><td><strong>SCCR licensed index</strong></td><td>Media, funds, researchers</td><td>Feed licensing</td><td>Needs D5 + 90-day clean trendline</td></tr>
 <tr><td><strong>&quot;State of Block Space&quot; annual report</strong></td><td>Institutions</td><td>$500/copy</td><td>After index</td></tr>
 </table>
+</div>
 <h3>Who pays (and why)</h3>
 <ul>
 <li><strong>Wallets/exchanges</strong> pay to tell users <em>when to transact</em> — the widget saves them fee dollars and is embeddable in one line.</li>

@@ -3,8 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>try{if(!localStorage.getItem('bsahi_beta_key'))location.replace('/beta-login.html?next='+encodeURIComponent(location.pathname));}catch(e){}</script>
-<meta name="robots" content="noindex,nofollow">
 
 <meta name="description" content="Status: STARTED (v1, 2026-08-04). This is an analytical bound plus a Bitcoin block space economics research from BSAHI — live fee, mempool, and settlement data ">
 <meta property="og:title" content="The Validation Leg — v1 (order-of-magnitude survey)">
@@ -14,7 +12,6 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#121110">
 <link rel="canonical" href="https://bitcoinsahi.com/research/validation-cost.html">
-<script src="/js/beta-gate.js" defer></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"The Validation Leg \u2014 v1 (order-of-magnitude survey)","item":"https://bitcoinsahi.com/research/validation-cost.html"}]}
 </script>
@@ -57,12 +54,14 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
 footer .links a:hover{color:var(--accent-ink)}
-body.gated .container{display:none}</style>
-<script src="/js/beta-nav.js" defer></script>
+
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
-<body class="gated">
+<body>
 
 <script src="/js/site-nav.js"></script>
 <div class="container">
@@ -77,6 +76,7 @@ body.gated .container{display:none}</style>
 </ol>
 <p><strong>The structural property that makes validation special:</strong> it is the <em>only</em> cost that is strictly unavoidable at any replication scale — every node pays it for every block since genesis, pruned or archival, and no node can &quot;skip&quot; validation and remain a full node. Storage can be pruned; bandwidth is one download per block; validation is CPU work <em>repeated N times</em> (once per node) and is not amortizable below one full pass per block per node.</p>
 <h3>2. Rough analytical bound (order of magnitude)</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Term</th><th>Value</th><th>Basis</th></tr>
 <tr><td>Blocks per year, R_blocks</td><td><strong>52,596</strong></td><td>model-spec.json (365.25 × 24 × 6)</td></tr>
@@ -88,6 +88,7 @@ body.gated .container{display:none}</style>
 <tr><td><strong>Validation cost per node per year</strong></td><td><strong>~$0.5–$5</strong></td><td>1.5–15 h × $0.10–0.50; central ≈ <strong>$1–2/yr</strong></td></tr>
 <tr><td>Network-wide (N = 32K)</td><td><strong>~$16K–160K/yr</strong></td><td>× the ≥32K lower-bound census; central ~$32–64K/yr</td></tr>
 </table>
+</div>
 <p><strong>Cross-check via initial sync.</strong> Full initial validation of ~1M blocks adds on the order of 6–24 h of CPU over an assumevalid-style sync on comparable hardware ⇒ 0.02–0.09 s/block <em>averaged</em> (I/O-bound, so a lower bound on CPU) — consistent with the 0.1–1 s/block estimate above for <em>steady-state</em> validation with an in-RAM UTXO cache (steady state is CPU-bound, sync is I/O-bound; the two brackets straddle the true value).</p>
 <p><strong>Key quantities carried in the model:</strong> R_blocks (52,596) and N (≥32K) are canonical in <code>research/model-spec.json</code>; the validation leg adds <strong>no new model constant</strong> — it is a resource-budget bound on C (the bundled $925/yr node cost), the same decomposition discipline as the bandwidth leg.</p>
 <h3>3. Reference literature</h3>

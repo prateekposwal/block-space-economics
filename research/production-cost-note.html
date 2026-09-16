@@ -12,7 +12,7 @@
 <meta name="theme-color" content="#121110">
 <link rel="canonical" href="https://bitcoinsahi.com/research/production-cost-note.html">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Production-Cost Ratio — research note (Tier-1 item 4, aggregate leg)","item":"https://bitcoinsahi.com/research/production-cost-note.html"}]}
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Production-Cost Ratio \u2014 research note (Tier-1 item 4, aggregate leg)","item":"https://bitcoinsahi.com/research/production-cost-note.html"}]}
 </script>
 <title>Production-Cost Ratio — research note (Tier-1 item 4, aggregate leg) — BSAHI Research</title>
 <style>:root{
@@ -55,7 +55,10 @@ footer .links a:hover{color:var(--accent-ink)}
 .datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
 .datacard b{color:var(--ink)}
 .kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
-.kv code{color:var(--accent-ink)}</style>
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
@@ -67,6 +70,7 @@ footer .links a:hover{color:var(--accent-ink)}
 <p><code>tools/research/production_cost_ratio.py</code> + <code>data/production_cost_ratio.json</code>. Deterministic from frozen daily series (hash-rate TH/s, miners-revenue USD/day, transaction-fees BTC/day, market-price USD — all under <code>captured-data/historical/</code>). Per era:</p>
 <p>power_GW        = hashrate_TH/s x network-average ASIC efficiency (J/TH) energy_cost_$day = power_x_hours x electricity $/kWh (assumption = 0.05) production_value_$day = miners revenue (subsidy + fees) production_cost_ratio = energy_cost / production_value   (network viability) fee_coverage_of_production = fee_usd_day / energy_cost   (block-space&#x27;s share)</p>
 <h3>First reading (2026-09-16)</h3>
+<div class="table-wrap">
 <table>
 <tr><th>era</th><th>EH/s</th><th>GW</th><th>energyⱼₖ (kWh/day)</th><th>cost $/day</th><th>prod value $/day</th><th>cost/value</th><th>fee % of prod. cost</th></tr>
 <tr><td>2017</td><td>6.3</td><td>2.5</td><td>60.7M</td><td>3.03M</td><td>9.44M</td><td>0.32</td><td>35.7</td></tr>
@@ -77,6 +81,7 @@ footer .links a:hover{color:var(--accent-ink)}
 <tr><td>2025</td><td>937</td><td>26.2</td><td>630M</td><td>31.5M</td><td>47.6M</td><td>0.66</td><td>1.6</td></tr>
 <tr><td>2026</td><td>953</td><td>23.8</td><td>572M</td><td>28.6M</td><td>34.1M</td><td>0.84</td><td>0.7</td></tr>
 </table>
+</div>
 <p>Total is in the CBECI-consistent ballpark (2017 ≈ 22 TWh/yr, 2026 ≈ 209 TWh/yr; efficiency table is a documented estimate, grade C).</p>
 <h3>Reading</h3>
 <ul>

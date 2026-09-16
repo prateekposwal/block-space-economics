@@ -57,7 +57,10 @@ footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size
 footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .links a{color:var(--ink-3);text-decoration:none}
 footer .links a:hover{color:var(--accent-ink)}
-body.gated .container{display:none}</style>
+body.gated .container{display:none}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
 <script src="/js/beta-nav.js" defer></script>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -91,6 +94,7 @@ body.gated .container{display:none}</style>
 <blockquote>Link in comments.</blockquote>
 <hr>
 <h3>Why this version (vs. the earlier draft)</h3>
+<div class="table-wrap">
 <table>
 <tr><th>Reviewer point</th><th>How this post fixes it</th></tr>
 <tr><td>#1 Personas</td><td><strong>Zero persona names</strong> — &quot;five automated research agents&quot; only</td></tr>
@@ -98,6 +102,7 @@ body.gated .container{display:none}</style>
 <tr><td>#3 Volatility undercuts number</td><td><strong>&quot;~24%... early series, four daily measurements, one gap&quot;</strong> — honest caveat, true to canonical data</td></tr>
 <tr><td>#4 Jargon-to-ask ratio</td><td><strong>5-second skim test:</strong> headline = problem, bold = number, &quot;what we&#x27;re building&quot; = product, &quot;ask&quot; = raise</td></tr>
 </table>
+</div>
 <h3>Posting notes</h3>
 <ul>
 <li><strong>Post once</strong> on the architect&#x27;s LinkedIn (Prateek Poswal, Independent Researcher — real identity, consistent with D3/arXiv).</li>
