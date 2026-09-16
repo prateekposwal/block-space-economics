@@ -24,6 +24,11 @@ from datetime import datetime, timezone
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 DATA_DIR = os.path.join(REPO, 'data')
 SPEC_PATH = os.path.join(REPO, 'research', 'model-spec.json')
+# The reproduction kit input is FROZEN (immutable by contract). The CI-safe
+# frozen mode reads the live refresh that generate_research_data.js writes to
+# captured-data/sccr-live/, falling back to the frozen kit input when the live
+# file is absent (e.g., local runs). Never writes into research/reproduce/.
+LIVE_CAPTURE = os.path.join(REPO, 'captured-data', 'sccr-live', 'fee_history_capture.json')
 FROZEN = os.path.join(REPO, 'research', 'reproduce', 'input', 'fee_history_capture.json')
 
 
@@ -167,7 +172,12 @@ def main():
     args = ap.parse_args()
 
     cfg = load_spec()
-    capture = json.load(open(FROZEN)) if args.frozen else load_capture_live()
+    if args.frozen:
+        capture_path = LIVE_CAPTURE if os.path.exists(LIVE_CAPTURE) else FROZEN
+        with open(capture_path) as f:
+            capture = json.load(f)
+    else:
+        capture = load_capture_live()
     ratios, heights, l_net = compute(cfg, capture)
     if not ratios:
         print('ERROR: no blocks parsed', file=sys.stderr)

@@ -39,13 +39,15 @@ cached; the mid-era sample additionally gets a rawblock fetch for the block-leve
 Rate-limit handling: per-request retries with 90 s backoff on 429; per-era
 checkpointing so a quota-limited run resumes exactly where it stopped.
 
-## Findings (2020-2022 shown; runs complete the table)
+## Findings (2023-2024 landed via overnight supervisor; table complete through 2024)
 
 - **Row 4 — size/weight:** early eras (2010-2013) sample 0-32 kWU blocks; the
   chain runs near-full 3993 kWU from ~2018 onward. Mean sample size 0.75 MB
-  (2017) → 1.8 MB (2025-26) against a weight ceiling of 4 MWU — the SegWit
+  (2017) → 1.6-2.0 MB (2023-24) against a weight ceiling of 4 MWU — the SegWit
   divergence is visible: post-2017 `weight ≈ 4× size`, pre-SegWit `weight ≈ 4×
-  size` holds except deflationary 2015-16 blocks.
+  size` holds except deflationary 2015-16 blocks. Ordinals/Runes-era tx counts
+  confirm congestion: 2023 sampled 2,924 txs/block, 2024 4,246 txs/block (vs
+  ~1,400-1,700 in 2021-22).
 - **Row 1 — fee leg:** single-block fee samples are **highly noisy** vs an era
   annual mean, and the dispersion is itself the finding: 2017 spike 2.36×
   (4.194 vs 1.774 BTC/block), 2018 0.06× (0.031 vs 0.484), 2022 0.02× (0.002

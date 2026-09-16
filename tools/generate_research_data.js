@@ -430,10 +430,12 @@ function buildAdoption() {
 // SQLite DB). GH now owns it. The public 24h fee endpoint returns per-block
 // {avgHeight, timestamp, avgFees, USD} — the EXACT schema of the frozen
 // reproducibility capture — so this builder:
-//   (1) refreshes research/reproduce/input/fee_history_capture.json (the frozen
+//   (1) refreshes captured-data/sccr-live/fee_history_capture.json (the LIVE
 //       capture; bare-array schema preserved — a wrapper object would break the
 //       Array.isArray guards in the C/JS/Python reproduce consumers, so refresh
-//       provenance goes to a sibling .meta file instead),
+//       provenance goes to a sibling .meta file instead). The reproduction kit
+//       input research/reproduce/input/fee_history_capture.json is FROZEN and
+//       must NEVER be written here.
 //   (2) runs tools/research/sccr_live.py --frozen (the canonical writer) to
 //       produce data/sccr.json + sccr_latest.json + sccr_history.json in the
 //       same shapes live mode writes.
@@ -449,7 +451,8 @@ function runPython(script, args) {
 }
 
 async function buildSccr() {
-  var FROZEN_DIR = path.join(REPO, 'research', 'reproduce', 'input');
+  var LIVE_DIR = path.join(REPO, 'captured-data', 'sccr-live');   // live, refreshable
+  var FROZEN_INPUT = path.join(REPO, 'research', 'reproduce', 'input');  // immutable — never written
   var rows = await getJson('https://mempool.space/api/v1/mining/blocks/fees/24h', 45000);
   if (!Array.isArray(rows) || rows.length < 100) throw new Error('sccr: need >=100 blocks from 24h series, got ' + (Array.isArray(rows) ? rows.length : typeof rows));
   var byHeight = {};
@@ -474,17 +477,18 @@ async function buildSccr() {
 
   var now = new Date().toISOString();
   var firstH = blocks[0].avgHeight, lastH = blocks[blocks.length - 1].avgHeight;
-  var frozenChanged = writeOnChange('fee_history_capture.json', blocks, FROZEN_DIR);
+  if (!fs.existsSync(LIVE_DIR)) fs.mkdirSync(LIVE_DIR, { recursive: true });
+  var frozenChanged = writeOnChange('fee_history_capture.json', blocks, LIVE_DIR);
   var metaChanged = writeOnChange('fee_history_capture.meta.json', {
     schema: 'bsahi.fee-history-capture-meta/1',
-    file: 'research/reproduce/input/fee_history_capture.json',
+    file: 'captured-data/sccr-live/fee_history_capture.json',
     generated_at: now,
     source: 'GitHub Actions (public API mempool.space /api/v1/mining/blocks/fees/24h) via tools/generate_research_data.js buildSccr',
     count: blocks.length,
     first_height: firstH,
     last_height: lastH,
-    note: 'The capture file itself stays a bare array of {avgHeight, timestamp, avgFees, USD} so the C/JS/Python reproduce consumers keep parsing it unchanged; this meta file carries the refresh provenance the bare-array schema cannot.'
-  }, FROZEN_DIR);
+    note: 'LIVE capture for the SCCR dashboard/history — refreshable by design. The reproduction kit input (research/reproduce/input/fee_history_capture.json) is FROZEN and independent.'
+  }, LIVE_DIR);
 
   // Canonical writer — frozen mode computes from the refreshed capture and
   // writes data/sccr.json + data/sccr_latest.json + data/sccr_history.json

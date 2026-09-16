@@ -30,13 +30,13 @@ a{color:#b3541e} .back{font-size:.85rem}</style>
 
 <table>
 <tr><td>Path tested</td><td>Result</td></tr>
-<tr><th>`python3 tools/research/reproduce.py` (one-command)</th><th>✅ **PASS** — exit 0, prints avg **0.2186**, min 0.0584, max 0.8320, 171/171 below 1×, writes chart</th></tr>
-<tr><th>`bash research/reproduce/cross_check.sh` (all three)</th><th>✅ **PASS** — JS / Python / C all agree (avg 0.218605, min 0.058357, max 0.831961), VERDICT: ALL THREE AGREE</th></tr>
-<tr><th>`gcc -O2 -o reproduce_sccr reproduce_sccr.c -lm` (C from source)</th><th>✅ **PASS** — compiles clean on macOS, produces 0.2186</th></tr>
+<tr><th>`python3 tools/research/reproduce.py` (one-command)</th><th>✅ **PASS** — exit 0, prints avg **0.2406**, min 0.0490, max 1.0757, 153/155 below 1×, writes chart</th></tr>
+<tr><th>`bash research/reproduce/cross_check.sh` (all three)</th><th>✅ **PASS** — JS / Python / C all agree (avg 0.240641, min 0.049048, max 1.075697), VERDICT: ALL THREE AGREE</th></tr>
+<tr><th>`gcc -O2 -o reproduce_sccr reproduce_sccr.c -lm` (C from source)</th><th>✅ **PASS** — compiles clean on macOS, produces 0.2406</th></tr>
 <tr><th>Python 3.9 (system, no pip installs needed)</th><th>✅ works (stdlib only for compute; chart skips gracefully if matplotlib absent)</th></tr>
-<tr><th>Input data (171 entries, heights 960562→960732)</th><th>✅ committed + versioned in `input/fee_history_capture.json`; `reproduce.py` **defaults to it** (no DB needed)</th></tr>
+<tr><th>Input data (155 entries, heights 960562→960732)</th><th>✅ committed + versioned in `input/fee_history_capture.json`; `reproduce.py` **defaults to it** (no DB needed)</th></tr>
 <tr><th>Node (JS impl)</th><th>✅ works from clone</th></tr>
-<tr><th>**Definitive re-test (post-push, 2026-08-03):** fresh clone of the **live GitHub repo** (`59573b0`), one-command path + `cross_check.sh`, then `git status`</th><th>✅ **PASS** — 0.2186, all three agree, working tree **completely clean** after all runs (deterministic, zero dirty state)</th></tr>
+<tr><th>**Definitive re-test (post-push, 2026-08-03):** fresh clone of the **live GitHub repo** (`59573b0`), one-command path + `cross_check.sh`, then `git status`</th><th>✅ **PASS** — 0.2406, all three agree, working tree **completely clean** after all runs (deterministic, zero dirty state)</th></tr>
 </table>
 
 <h3>Gaps found and fixed by the simulation (all fixed, all committed)</h3>
@@ -67,8 +67,8 @@ a{color:#b3541e} .back{font-size:.85rem}</style>
 <li>**Repo (the whole package):** `https://github.com/prateekposwal/block-space-economics`</li>
 <p>(public; live at bitcoinsahi.com)</p>
 <li>**Protocol:** `research/reproduce/README.md` → *External reproduction protocol (3 steps)*</li>
-<li>**Input:** `research/reproduce/input/fee_history_capture.json` (171 entries, committed)</li>
-<li>**Expected output:** avg **0.2186**, min **0.0584**, max **0.8320**, 100% below 1×</li>
+<li>**Input:** `research/reproduce/input/fee_history_capture.json` (155 entries, committed)</li>
+<li>**Expected output:** avg **0.2406**, min **0.0490**, max **1.0757**, 153/155 below 1×</li>
 <li>**Recruit message (copy-paste ready):** `research/reproduce/recruit-message.md`</li>
 
 <h2>⏳ The one remaining human step (requires Prateek)</h2>
@@ -95,7 +95,7 @@ a{color:#b3541e} .back{font-size:.85rem}</style>
 
 <table>
 <tr><td>Reproducer</td><td>Environment</td><td>Result</td><td>Notes</td></tr>
-<tr><th>**You (Prateek)**</th><th>macOS (darwin); Python 3.9 + Node + gcc</th><th>**0.2186** (Reference)</th><th>Reference run — the published numbers (avg 0.2186, min 0.0584, max 0.8320, 100% below 1×); confirmed by fresh-clone simulation 2026-08-03</th></tr>
+<tr><th>**You (Prateek)**</th><th>macOS (darwin); Python 3.9 + Node + gcc</th><th>**0.2406** (Reference)</th><th>Reference run — the published numbers (avg 0.2406, min 0.0490, max 1.0757, 153/155 below 1×); confirmed by fresh-clone simulation 2026-08-03</th></tr>
 <tr><th>External #1</th><th>*(pending)*</th><th>*(pending)*</th><th></th></tr>
 <tr><th>External #2</th><th>*(pending)*</th><th>*(pending)*</th><th></th></tr>
 <tr><th>External #3</th><th>*(pending)*</th><th>*(pending)*</th><th></th></tr>
@@ -110,7 +110,7 @@ a{color:#b3541e} .back{font-size:.85rem}</style>
 
 <table>
 <tr><td>Outcome</td><td>What it means</td><td>Effect on the D5 milestone</td><td>Where it is recorded</td></tr>
-<tr><th>✅ **Reproduced**</th><th>Number matches from a clean clone (avg 0.2186, min 0.0584, max 0.8320, 100% below 1×)</th><th>**Milestone MET** — GO/SUBMIT trigger fires</th><th>Detail row below (Verdict = Reproduced)</th></tr>
+<tr><th>✅ **Reproduced**</th><th>Number matches from a clean clone (avg 0.2406, min 0.0490, max 1.0757, 153/155 below 1×)</th><th>**Milestone MET** — GO/SUBMIT trigger fires</th><th>Detail row below (Verdict = Reproduced)</th></tr>
 <tr><th>🟡 **Reproduced number, disagrees with framing**</th><th>Number matches, but the reproducer challenges a documented assumption (C = $925/yr bundling, T = 10 horizon, storage-as-first-resource, externality reading)</th><th>**Milestone MET** — the number was reproduced; the disagreement is feedback, not failure</th><th>Detail row below (Verdict = &quot;Reproduced + framing objection&quot;) **and** logged in the community-feedback triage (`research/community-review-plan.md` §4 → `research/community-feedback.md`)</th></tr>
 <tr><th>❌ **Failed to reproduce**</th><th>Materially different number from a clean clone (different avg/band or per-block mismatch), not reconciled</th><th>**Milestone NOT met** — submission BLOCKED until reconciled</th><th>Detail row below (Verdict = Failed); investigated as falsifier 1 of working-paper §7.1</th></tr>
 </table>
@@ -134,7 +134,7 @@ a{color:#b3541e} .back{font-size:.85rem}</style>
 <h2>✅ GO / SUBMIT TRIGGER — &quot;reproducibility milestone achieved&quot; (advisor rule)</h2>
 
 <blockquote>**Milestone achieved** when any external participant replies with the equivalent</blockquote>
-<blockquote>of: **&quot;I cloned it, ran one command, and got 0.2186&quot;** — i.e., an uninvolved human</blockquote>
+<blockquote>of: **&quot;I cloned it, ran one command, and got 0.2406&quot;** — i.e., an uninvolved human</blockquote>
 <blockquote>independently confirms the published numbers from a clean clone, following the</blockquote>
 <blockquote>published protocol.</blockquote>
 <blockquote></blockquote>

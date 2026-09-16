@@ -36,7 +36,7 @@ L = cb × B_block × T = 0.175869 USD/block/node
 L_net = L × N = 5,627.80 USD/block (at N=32,000)
 ```
 
-**Verified by three independent implementations** (JS, Python, C) — `research/reproduce/README.md` confirms all three produce avg SCCR = 0.2186, min 0.0584, max 0.8320, 100% below 1× (171 blocks, 2026-08-02 freeze).
+**Verified by three independent implementations** (JS, Python, C) — `research/reproduce/README.md` confirms all three produce avg SCCR = 0.2406, min 0.0490, max 1.0757, 153/155 below 1× (155 blocks, 2026-09-16 frozen snapshot; re-based that date — the earlier 171-block / 0.2186 freeze was never committed to git and the GH pipeline refreshed the kit input in place. See `research/reproduce/external-reproduction.md`.).
 
 The formula is **sound and reproducible**. The problem is not model coherence — it is **data availability**.
 

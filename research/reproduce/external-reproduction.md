@@ -1,12 +1,39 @@
 # External Reproduction Log
 
 **Status:** 🟡 IN PROGRESS — kit verified reproducible-by-stranger (fresh-clone
-simulation 2026-08-03 PASS); **actual external reproducer still NOT engaged —
-that is the one remaining human step (Prateek sends the recruit message).**
+simulation 2026-08-03 PASS; **re-baselined to the 2026-09-16 frozen snapshot**
+on 2026-09-16 — the original 2026-08-02 capture was never versioned into git,
+and the GH Actions pipeline previously refreshed the kit input in place, making
+the documented 0.2186 unreachable from a clean clone. Fixed at the root: the
+pipeline no longer writes into `research/reproduce/input/`; live refreshes go to
+`captured-data/sccr-live/`. Re-verified clean-clone below.); **actual external
+reproducer still NOT engaged — that is the one remaining human step (Prateek
+sends the recruit message).**
 
 ---
 
-## ✅ Fresh-clone simulation (2026-08-03) — the closest autonomous proxy
+## ✅ Post-fix clean-clone verification (2026-09-16) — current baseline
+
+Reference contract (frozen snapshot 2026-09-16, 155 blocks, model-spec v2.1.0):
+**avg 0.2406, min 0.0490, max 1.0757, 153/155 below 1× (98.7%)**, L_net
+5627.804 USD/block.
+
+| Path tested | Result |
+|---|---|
+| `bash research/reproduce/cross_check.sh` (all three) | ✅ **PASS** — JS / Python / C all agree (avg 0.240641, min 0.049048, max 1.075697, below-1× 153), VERDICT: ALL THREE AGREE |
+| `python3 tools/research/reproduce.py` (one-command) | ✅ **PASS** — exit 0, reads frozen input by default (155 blocks, heights 967138→967292), reproduces avg 0.240641 |
+| `gcc -O2 -o reproduce_sccr reproduce_sccr.c -lm` (C from source) | ✅ **PASS** — compiles clean on macOS, agrees |
+| Input data (155 entries, heights 967138→967292) | ✅ committed + versioned in `input/fee_history_capture.json`; `reproduce.py` **defaults to it** (no DB needed) |
+| Determinism | ✅ `git status` clean after all runs (frozen input untouched by pipeline — verified) |
+
+---
+
+## ✅ Fresh-clone simulation (2026-08-03) — historical record (superseded baseline)
+
+> The rows below record the ORIGINAL 171-block / avg-0.2186 freeze baseline. That
+> specific input was never committed to git (the pipeline refreshed the file in
+> place); the 2026-09-16 re-baseline (above) is the current, reproducible
+> contract. Rows preserved for the log.
 
 An uninvolved person was simulated exactly: fresh `git clone` of the public
 repo into a clean temp dir, then **only** the published instructions
@@ -51,8 +78,8 @@ repo into a clean temp dir, then **only** the published instructions
 - **Repo (the whole package):** `https://github.com/prateekposwal/block-space-economics`
   (public; live at bitcoinsahi.com)
 - **Protocol:** `research/reproduce/README.md` → *External reproduction protocol (3 steps)*
-- **Input:** `research/reproduce/input/fee_history_capture.json` (171 entries, committed)
-- **Expected output:** avg **0.2186**, min **0.0584**, max **0.8320**, 100% below 1×
+- **Input:** `research/reproduce/input/fee_history_capture.json` (155 entries, committed)
+- **Expected output:** avg **0.2406**, min **0.0490**, max **1.0757**, 153/155 below 1× (98.7%)
 - **Recruit message (copy-paste ready):** `research/reproduce/recruit-message.md`
 
 ## ⏳ The one remaining human step (requires Prateek)
@@ -79,7 +106,7 @@ below.
 
 | Reproducer | Environment | Result | Notes |
 |---|---|---|---|
-| **You (Prateek)** | macOS (darwin); Python 3.9 + Node + gcc | **0.2186** (Reference) | Reference run — the published numbers (avg 0.2186, min 0.0584, max 0.8320, 100% below 1×); confirmed by fresh-clone simulation 2026-08-03 |
+| **You (Prateek)** | macOS (darwin); Python 3.9 + Node + gcc | **0.2406** (Reference) | Reference run — the published numbers (avg 0.2406, min 0.0490, max 1.0757, 153/155 below 1×); confirmed by clean-clone verification 2026-09-16 |
 | External #1 | *(pending)* | *(pending)* | |
 | External #2 | *(pending)* | *(pending)* | |
 | External #3 | *(pending)* | *(pending)* | |
@@ -93,7 +120,7 @@ disagreement about documented assumptions (working-paper §7.1).
 
 | Outcome | What it means | Effect on the D5 milestone | Where it is recorded |
 |---|---|---|---|
-| ✅ **Reproduced** | Number matches from a clean clone (avg 0.2186, min 0.0584, max 0.8320, 100% below 1×) | **Milestone MET** — GO/SUBMIT trigger fires | Detail row below (Verdict = Reproduced) |
+| ✅ **Reproduced** | Number matches from a clean clone (avg 0.2406, min 0.0490, max 1.0757, 153/155 below 1×) | **Milestone MET** — GO/SUBMIT trigger fires | Detail row below (Verdict = Reproduced) |
 | 🟡 **Reproduced number, disagrees with framing** | Number matches, but the reproducer challenges a documented assumption (C = $925/yr bundling, T = 10 horizon, storage-as-first-resource, externality reading) | **Milestone MET** — the number was reproduced; the disagreement is feedback, not failure | Detail row below (Verdict = "Reproduced + framing objection") **and** logged in the community-feedback triage (`research/community-review-plan.md` §4 → `research/community-feedback.md`) |
 | ❌ **Failed to reproduce** | Materially different number from a clean clone (different avg/band or per-block mismatch), not reconciled | **Milestone NOT met** — submission BLOCKED until reconciled | Detail row below (Verdict = Failed); investigated as falsifier 1 of working-paper §7.1 |
 
@@ -115,7 +142,7 @@ reproduction protocol"** — **NOT** "externally verified."
 ## ✅ GO / SUBMIT TRIGGER — "reproducibility milestone achieved" (advisor rule)
 
 > **Milestone achieved** when any external participant replies with the equivalent
-> of: **"I cloned it, ran one command, and got 0.2186"** — i.e., an uninvolved human
+> of: **"I cloned it, ran one command, and got 0.2406"** — i.e., an uninvolved human
 > independently confirms the published numbers from a clean clone, following the
 > published protocol.
 >

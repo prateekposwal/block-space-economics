@@ -2,7 +2,7 @@
 """
 Headline SCCR Monte Carlo — CURRENT-N-band edition (added 2026-08-03, second
 reviewer pass). Anchored at the live baseline (SCCR 0.2228 @ N=32K, 167 blocks,
-2026-08-02, P~$63,018) with the frozen-capture cross-check (0.2186, 171 blocks).
+2026-08-02, P~$63,018) with the frozen-capture cross-check (0.2406, 155 blocks, 2026-09-16 snapshot).
 
 The N band is updated to the paper's stated uncertainty — independent estimates
 span ~10K–100K reachable nodes; the 32K census is the mode (best available
@@ -26,7 +26,7 @@ SEED = 20260803
 # Anchors (documented in working-paper §5.1/§5.3 + tools/research/sccr_dynamics.py)
 LIVE_SCCR = 0.2228      # 167 blocks, 2026-08-02, P=$63,018
 LIVE_P = 63018.0
-FROZEN_SCCR = 0.218605  # 171 blocks, reproduce.py cross-check
+FROZEN_SCCR = 0.240641  # 155 blocks, 2026-09-16 frozen snapshot, reproduce.py cross-check
 N_CENSUS = 32000.0
 C_CANON = 925.0
 T_CANON = 10.0
@@ -76,7 +76,7 @@ def run():
     print("  C  ~ Triangular($600,$1400,mode $925) (sensitivity brackets §5.3)")
     print("  T  ~ Triangular(5,15,mode 10 yr)      (sensitivity brackets §5.3)")
     print("  P  ~ Triangular($30K,$120K,mode $63,018)")
-    print("  anchors: live 0.2228 @ N=32K (167 blk, P=$63,018); frozen 0.2186 (171 blk)")
+    print("  anchors: live 0.2406 @ N=32K (155 blk, 2026-09-16); frozen 0.2406 (155 blk)")
     live_r = report(live, "live anchor  ")
     frozen_r = report(frozen, "frozen anchor")
 

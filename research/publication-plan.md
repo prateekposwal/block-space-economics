@@ -39,7 +39,7 @@ already engaged (v1/v2 history).
 ## 0. Positioning aspiration — the frame, not the number
 
 *(Added 2026-08-03, after the advisor's closing prediction: five years from now,
-if this succeeds, this paper is not cited for the number 0.2186 — it is cited
+if this succeeds, this paper is not cited for the number 0.2406 — it is cited
 because readers write "Following the Bitcoin Resource Accounting framework
 introduced by Poswal, we define…".)* The durable goal of this publication is to
 introduce a reusable **frame** — **Bitcoin Resource Accounting**, with SCCR as its
@@ -323,9 +323,13 @@ clone and reproduced the published result" — the reproducibility milestone in
 reply (quote + date + reproducer, anonymous ok) in the reproduction log, then
 execute the sequence below in order. **No more polishing.***
 
-**What the trigger requires (2026-08-03 refinement).** The trigger fires on
-**reproduction of the number**: the reproducer confirms the published result
-from a clean clone (avg 0.2186, min 0.0584, max 0.8320, 100% below 1×). It does
+**What the trigger requires (2026-08-03 refinement; numbers re-based 2026-09-16).**
+The trigger fires on **reproduction of the number**: the reproducer confirms the
+published result from a clean clone (avg 0.2406, min 0.0490, max 1.0757, 153/155
+below 1× — the 2026-09-16 frozen snapshot in `research/reproduce/input/`; note
+the original 2026-08-02 0.2186 capture was never committed and the GH pipeline
+previously refreshed the kit input in place — fixed 2026-09-16, live refreshes
+moved to `captured-data/sccr-live/`). It does
 **not** require the reproducer to agree with the paper's framing or assumptions.
 A reproducer who reproduces the number but challenges a documented modeling
 choice (C = $925/yr bundling, T = 10 horizon, storage-as-first-resource, the
