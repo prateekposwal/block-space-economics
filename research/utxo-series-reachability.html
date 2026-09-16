@@ -63,11 +63,9 @@ footer .links a:hover{color:var(--accent-ink)}
 <div class="container">
 <h1>Utxo Series Reachability</h1>
 <h2>UTXO Series — Reachability Finding (build-or-document)</h2>
-<p><strong>BSAHI — row 6 (D historical), VCI state leg (row 7)</strong></p>
-<p><em>Produced: 2026-09-16</em></p>
+<p><strong>BSAHI — row 6 (D historical), VCI state leg (row 7)</strong> <em>Produced: 2026-09-16</em></p>
 <h3>Goal</h3>
-<p>A continuous historical UTXO-count / state-size series: (a) moves row 6</p>
-<p>historical D → C, and (b) hardens the VCI <code>utxo_state_gb</code> estimate table.</p>
+<p>A continuous historical UTXO-count / state-size series: (a) moves row 6 historical D → C, and (b) hardens the VCI <code>utxo_state_gb</code> estimate table.</p>
 <h3>Sources probed (2026-09-16) and results</h3>
 <table>
 <tr><th>Source</th><th>What it would give</th><th>Result</th></tr>
@@ -83,31 +81,16 @@ footer .links a:hover{color:var(--accent-ink)}
 <h3>What the reachable evidence delivers (shipped)</h3>
 <p><code>tools/research/utxo_series.py</code> + <code>data/utxo_series.json</code>:</p>
 <ol>
-<li><strong>Primary anchors (blockchair, frozen 2026-09-15):</strong> outputs-ever 3.925B,</li>
+<li><strong>Primary anchors (blockchair, frozen 2026-09-15):</strong> outputs-ever 3.925B, transactions-ever 1.44B, hodling-addresses 59.57M, chain size 769 GB.</li>
+<li><strong>VCI chain-size cross-check: 2.7%.</strong> VCI&#x27;s cumulative daily-avg-block-size route (789.5 GB) vs blockchair&#x27;s direct <code>blockchain_size</code> (769.0 GB) — the chain leg of VCI is now independently validated as tight.</li>
+<li><strong>UTXO-count: NOT MEASURED.</strong> No reachable primary source exposes a current unspent count; <code>utxo_count_2026</code> is explicitly <code>null</code>, not fabricated.</li>
 </ol>
-<p>transactions-ever 1.44B, hodling-addresses 59.57M, chain size 769 GB.</p>
-<ol>
-<li><strong>VCI chain-size cross-check: 2.7%.</strong> VCI&#x27;s cumulative daily-avg-block-size</li>
-</ol>
-<p>route (789.5 GB) vs blockchair&#x27;s direct <code>blockchain_size</code> (769.0 GB) — the</p>
-<p>chain leg of VCI is now independently validated as tight.</p>
-<ol>
-<li><strong>UTXO-count: NOT MEASURED.</strong> No reachable primary source exposes a current</li>
-</ol>
-<p>unspent count; <code>utxo_count_2026</code> is explicitly <code>null</code>, not fabricated.</p>
 <h3>Verdict</h3>
-<p><strong>Build-or-document: DOCUMENTED.</strong> Row 6 historical stays D; VCI state leg stays</p>
-<p>estimate-table. The pre-2016 continuous UTXO-count series requires one of:</p>
+<p><strong>Build-or-document: DOCUMENTED.</strong> Row 6 historical stays D; VCI state leg stays estimate-table. The pre-2016 continuous UTXO-count series requires one of:</p>
 <ol>
-<li>A <strong>synced local Bitcoin Core node</strong> (the ready path — the census node is</li>
+<li>A <strong>synced local Bitcoin Core node</strong> (the ready path — the census node is ~320K blocks behind; once synced, <code>gettxoutsetinfo</code> captures give a true primary series going forward, and per-block <code>nTx</code>-derived deltas cover the back-fill). This is the R5 node-sync decision, already deferred.</li>
+<li>A <strong>blockchair full block scan</strong> from a session/host tolerant of its rate limits (~10K requests), computing Σ(outputs − non-coinbase inputs) per block.</li>
 </ol>
-<p>~320K blocks behind; once synced, <code>gettxoutsetinfo</code> captures give a true</p>
-<p>primary series going forward, and per-block <code>nTx</code>-derived deltas cover the</p>
-<p>back-fill). This is the R5 node-sync decision, already deferred.</p>
-<ol>
-<li>A <strong>blockchair full block scan</strong> from a session/host tolerant of its rate</li>
-</ol>
-<p>limits (~10K requests), computing Σ(outputs − non-coinbase inputs) per block.</p>
 <p>No fabricated UTXO numbers exist in the repo.</p>
 <div class="datacard"><div class="kv">Data source: <code>data/utxo_series.json + verify_cost_index.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
 <p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>

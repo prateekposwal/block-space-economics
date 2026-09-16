@@ -180,6 +180,30 @@
       "ref_fee_btc_per_block": 0.358106,
       "fee_ratio_sample_over_ref": 1.071,
       "source": "esplora + blockchain.info rawblock fee"
+    },
+    {
+      "era": "2025",
+      "n_samples": 3,
+      "mean_weight_wu": 3996380,
+      "mean_size_bytes": 1951118,
+      "mean_tx_count": 2372.7,
+      "size_weight_ratio": 0.4882,
+      "sampled_fee_btc": 0.034754,
+      "ref_fee_btc_per_block": 0.033191,
+      "fee_ratio_sample_over_ref": 1.047,
+      "source": "esplora + blockchain.info rawblock fee"
+    },
+    {
+      "era": "2026",
+      "n_samples": 2,
+      "mean_weight_wu": 3995796.5,
+      "mean_size_bytes": 1681049,
+      "mean_tx_count": 5521.5,
+      "size_weight_ratio": 0.4207,
+      "sampled_fee_btc": 0.005916,
+      "ref_fee_btc_per_block": 0.019149,
+      "fee_ratio_sample_over_ref": 0.309,
+      "source": "esplora + blockchain.info rawblock fee"
     }
   ],
   "_rows": [
@@ -647,6 +671,60 @@
       ],
       "fee_sat": 38362970,
       "fee_btc": 0.38363
+    },
+    {
+      "era": "2025",
+      "samples": [
+        {
+          "height": 877258,
+          "timestamp": 1735689376,
+          "hash": "00000000000000000000068e416dc174bbfb909887df9b23a825af98305e457b",
+          "weight": 3993232,
+          "size": 3010714,
+          "tx_count": 1119
+        },
+        {
+          "height": 900100,
+          "timestamp": 1749254145,
+          "hash": "0000000000000000000059e2d67bd0f2fabeecde1634f61490d666e861b2df39",
+          "weight": 3997737,
+          "size": 1249218,
+          "tx_count": 2079
+        },
+        {
+          "height": 925939,
+          "timestamp": 1764547002,
+          "hash": "0000000000000000000052ecb6c55e9a4c691c326e5ec6c70b6ff293bbe919c9",
+          "weight": 3998171,
+          "size": 1593422,
+          "tx_count": 3920
+        }
+      ],
+      "fee_sat": 3475381,
+      "fee_btc": 0.034754
+    },
+    {
+      "era": "2026",
+      "samples": [
+        {
+          "height": 930340,
+          "timestamp": 1767225598,
+          "hash": "00000000000000000001df056a7ffb042578785c6b44b334c94dbf2dcfb74072",
+          "weight": 3993707,
+          "size": 1734800,
+          "tx_count": 4089
+        },
+        {
+          "height": 952665,
+          "timestamp": 1780790251,
+          "hash": "000000000000000000006375bedcef27decfe297ea95938b7b752af39d0377a5",
+          "weight": 3997886,
+          "size": 1627298,
+          "tx_count": 6954
+        }
+      ],
+      "fee_sat": 591551,
+      "fee_btc": 0.005916
     }
   ]
 }

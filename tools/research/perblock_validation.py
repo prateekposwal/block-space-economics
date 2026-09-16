@@ -60,7 +60,8 @@ def esplora(path):
                 d = json.loads(body)
             else:
                 d = body.decode().strip()
-                if not (len(d) == 64 and all(c in "0123456789abcdef" for c in d)):
+                is_hash = len(d) == 64 and all(c in "0123456789abcdef" for c in d)
+                if not (is_hash or d.isdigit()):
                     raise RuntimeError(f"unexpected body for {path}: {d[:80]}")
             with open(fp, "w") as f:
                 json.dump(d, f)
@@ -134,15 +135,31 @@ def block_at_height(h):
 
 _hcache = {}
 _cache_written = False
+_tip = None
+
+def tip_height():
+    """Live chain tip height, queried once per process."""
+    global _tip
+    if _tip is None:
+        _tip = int(esplora("/api/blocks/tip/height"))
+    return _tip
 
 def find_block_le(ts_target):
-    """Binary search (full range) for the block with greatest height whose
-    timestamp <= ts_target. Probe heights get cached, so repeat runs are cheap."""
-    lo, hi = 0, 1_200_000
+    """Binary search for the block with greatest height whose timestamp <= ts_target.
+    Bounded by the live tip so heights above the chain are never probed; a
+    'Block not found' response (tip race) is treated as above-tip rather than
+    fatal. Probe heights get cached, so repeat runs are cheap."""
+    lo, hi = 0, tip_height()
     best = None
     while lo <= hi:
         mid = (lo + hi) // 2
-        b = block_at_height(mid)
+        try:
+            b = block_at_height(mid)
+        except RuntimeError as e:
+            if "Block not found" in str(e):
+                hi = mid - 1
+                continue
+            raise
         if b["timestamp"] <= ts_target:
             best = b
             lo = mid + 1

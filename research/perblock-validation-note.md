@@ -1,6 +1,6 @@
 # Per-block validation strip — rows 1 (fee market) + 4 (block/state size)
 
-**Date:** 2026-09-16 · **Instrument:** `tools/research/perblock_validation.py`
+**Date:** 2026-09-16 (2025-2026 eras completed 2026-09-17) · **Instrument:** `tools/research/perblock_validation.py`
 **Output:** `data/perblock_validation.json`
 
 ## Purpose
@@ -39,22 +39,25 @@ cached; the mid-era sample additionally gets a rawblock fetch for the block-leve
 Rate-limit handling: per-request retries with 90 s backoff on 429; per-era
 checkpointing so a quota-limited run resumes exactly where it stopped.
 
-## Findings (2023-2024 landed via overnight supervisor; table complete through 2024)
+## Findings (table complete through 2026)
 
 - **Row 4 — size/weight:** early eras (2010-2013) sample 0-32 kWU blocks; the
   chain runs near-full 3993 kWU from ~2018 onward. Mean sample size 0.75 MB
-  (2017) → 1.6-2.0 MB (2023-24) against a weight ceiling of 4 MWU — the SegWit
+  (2017) → 1.6-2.0 MB (2023-26) against a weight ceiling of 4 MWU — the SegWit
   divergence is visible: post-2017 `weight ≈ 4× size`, pre-SegWit `weight ≈ 4×
   size` holds except deflationary 2015-16 blocks. Ordinals/Runes-era tx counts
   confirm congestion: 2023 sampled 2,924 txs/block, 2024 4,246 txs/block (vs
-  ~1,400-1,700 in 2021-22).
+  ~1,400-1,700 in 2021-22), and the recent eras stay near-full — 2025 1.95 MB /
+  2,373 txs, 2026 1.68 MB / 5,522 txs (the highest sampled tx density).
 - **Row 1 — fee leg:** single-block fee samples are **highly noisy** vs an era
   annual mean, and the dispersion is itself the finding: 2017 spike 2.36×
   (4.194 vs 1.774 BTC/block), 2018 0.06× (0.031 vs 0.484), 2022 0.02× (0.002
   vs 0.102). Per-block fees cluster around fee events, not the annual mean —
   the aggregation hides a heavy-tailed per-block distribution. The daily-aggregate
   leg (B) is therefore the right grade for era means; per-block *reconstruction*
-  (B→A) is genuinely a different object and stays blocked (see verdict).
+  (B→A) is genuinely a different object and stays blocked (see verdict). The
+  cooling fee market is visible at block level in the tail: 2025 lands near
+  parity (1.05×, 0.035 vs 0.033) while 2026 falls to 0.31× (0.006 vs 0.019).
 - **Grades:** row 1 historical stays **B**, row 4 historical stays **B** — each
   now carries a per-block validation strip (documented sampling bound) instead
   of an unverified daily-aggregate derivation. Not A: a 3-block-per-era sample is

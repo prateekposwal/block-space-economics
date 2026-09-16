@@ -98,11 +98,15 @@ def render_md(text):
             table_buf = []
             in_table = False
 
-    def flush_lists():
-        nonlocal in_ul, in_ol, li_buf, li_idx
+    def flush_li():
+        nonlocal li_buf, li_idx
         if li_buf is not None:
             out[li_idx] = '<li>' + inline(' '.join(li_buf)) + '</li>'
             li_buf = None
+
+    def flush_lists():
+        nonlocal in_ul, in_ol
+        flush_li()
         if in_ul: out.append('</ul>'); in_ul = False
         if in_ol: out.append('</ol>'); in_ol = False
 
@@ -164,6 +168,7 @@ def render_md(text):
             out.append('<blockquote>' + inline(s[2:]) + '</blockquote>')
         elif re.match(r'^(-|\*)\s+', s):
             flush_para()
+            flush_li()
             if not in_ul: out.append('<ul>')
             out.append('')
             li_idx = len(out) - 1
@@ -171,6 +176,7 @@ def render_md(text):
             in_ul = True
         elif re.match(r'^\d+\.\s+', s):
             flush_para()
+            flush_li()
             if not in_ol: out.append('<ol>')
             out.append('')
             li_idx = len(out) - 1
