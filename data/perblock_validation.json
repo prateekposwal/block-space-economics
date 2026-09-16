@@ -1,211 +1,502 @@
 {
   "schema": "bsahi.perblock-validation/1",
-  "generated_at": "2026-09-16T00:17:30.184064+00:00",
-  "method": "esplora block summary per sampled height (weight/size/tx_count/difficulty); blockchain.info rawblock top-level fee (sat) at mid-era sample",
-  "era_rows": [
-    {
-      "era": "2010",
-      "n_samples": 3,
-      "mean_weight_wu": 864,
-      "mean_size_bytes": 216,
-      "mean_tx_count": 1,
-      "size_weight_ratio": 0.25,
-      "sampled_fee_btc": 0.0,
-      "ref_fee_btc_per_block": null,
-      "fee_ratio_sample_over_ref": null,
-      "source": "esplora + blockchain.info rawblock fee"
-    },
-    {
-      "era": "2011",
-      "n_samples": 3,
-      "mean_weight_wu": 5716,
-      "mean_size_bytes": 1429,
-      "mean_tx_count": 3,
-      "size_weight_ratio": 0.25,
-      "sampled_fee_btc": 0.0,
-      "ref_fee_btc_per_block": null,
-      "fee_ratio_sample_over_ref": null,
-      "source": "esplora + blockchain.info rawblock fee"
-    },
-    {
-      "era": "2012",
-      "n_samples": 3,
-      "mean_weight_wu": 14808,
-      "mean_size_bytes": 3702,
-      "mean_tx_count": 12,
-      "size_weight_ratio": 0.25,
-      "sampled_fee_btc": 0.02,
-      "ref_fee_btc_per_block": null,
-      "fee_ratio_sample_over_ref": null,
-      "source": "esplora + blockchain.info rawblock fee"
-    },
-    {
-      "era": "2013",
-      "n_samples": 3,
-      "mean_weight_wu": 32212,
-      "mean_size_bytes": 8053,
-      "mean_tx_count": 13,
-      "size_weight_ratio": 0.25,
-      "sampled_fee_btc": 0.0045,
-      "ref_fee_btc_per_block": 0.2556242774566474,
-      "fee_ratio_sample_over_ref": 0.018,
-      "source": "esplora + blockchain.info rawblock fee"
-    },
-    {
-      "era": "2014",
-      "n_samples": 3,
-      "mean_weight_wu": 246424,
-      "mean_size_bytes": 61606,
-      "mean_tx_count": 122,
-      "size_weight_ratio": 0.25,
-      "sampled_fee_btc": 0.0874,
-      "ref_fee_btc_per_block": 0.07553090909090909,
-      "fee_ratio_sample_over_ref": 1.157,
-      "source": "esplora + blockchain.info rawblock fee"
-    },
-    {
-      "era": "2015",
-      "n_samples": 3,
-      "mean_weight_wu": 140652,
-      "mean_size_bytes": 35163,
-      "mean_tx_count": 67,
-      "size_weight_ratio": 0.25,
-      "sampled_fee_btc": 0.01138,
-      "ref_fee_btc_per_block": 0.1489517006802721,
-      "fee_ratio_sample_over_ref": 0.076,
-      "source": "esplora + blockchain.info rawblock fee"
-    },
-    {
-      "era": "2016",
-      "n_samples": 3,
-      "mean_weight_wu": 399840,
-      "mean_size_bytes": 99960,
-      "mean_tx_count": 164,
-      "size_weight_ratio": 0.25,
-      "sampled_fee_btc": 0.008823,
-      "ref_fee_btc_per_block": 0.43833892617449666,
-      "fee_ratio_sample_over_ref": 0.02,
-      "source": "esplora + blockchain.info rawblock fee"
-    },
-    {
-      "era": "2017",
-      "n_samples": 3,
-      "mean_weight_wu": 2996492,
-      "mean_size_bytes": 749123,
-      "mean_tx_count": 2334,
-      "size_weight_ratio": 0.25,
-      "sampled_fee_btc": 0.4611,
-      "ref_fee_btc_per_block": 1.7738606451612904,
-      "fee_ratio_sample_over_ref": 0.26,
-      "source": "esplora + blockchain.info rawblock fee"
-    },
-    {
-      "era": "2018",
-      "n_samples": 3,
-      "mean_weight_wu": 3993028,
-      "mean_size_bytes": 998257,
-      "mean_tx_count": 3047,
-      "size_weight_ratio": 0.25,
-      "sampled_fee_btc": 0.904613,
-      "ref_fee_btc_per_block": 0.483769387755102,
-      "fee_ratio_sample_over_ref": 1.87,
-      "source": "esplora + blockchain.info rawblock fee"
-    },
-    {
-      "era": "2019",
-      "n_samples": 3,
-      "mean_weight_wu": 3993123,
-      "mean_size_bytes": 1045260,
-      "mean_tx_count": 2090,
-      "size_weight_ratio": 0.2617650395442364,
-      "sampled_fee_btc": 1.870363,
-      "ref_fee_btc_per_block": 0.366572972972973,
-      "fee_ratio_sample_over_ref": 5.102,
-      "source": "esplora + blockchain.info rawblock fee"
-    },
+  "era_rows": [],
+  "_rows": [
     {
       "era": "2020",
-      "n_samples": 3,
-      "mean_weight_wu": 1318047,
-      "mean_size_bytes": 404088,
-      "mean_tx_count": 1170,
-      "size_weight_ratio": 0.30658087306446585,
-      "sampled_fee_btc": 0.05254,
-      "ref_fee_btc_per_block": 0.4999462585034013,
-      "fee_ratio_sample_over_ref": 0.105,
-      "source": "esplora + blockchain.info rawblock fee"
+      "samples": [
+        {
+          "height": 610690,
+          "timestamp": 1577835692,
+          "hash": "00000000000000000005f0cc9b565336243d08e65f71ba179a33921fb33aeb93",
+          "weight": 816206,
+          "size": 283571,
+          "tx_count": 744
+        },
+        {
+          "height": 633273,
+          "timestamp": 1591400854,
+          "hash": "0000000000000000000676f7fbea2585e8844e63a4dc1b0bb1c4af72b2f7cd71",
+          "weight": 3101164,
+          "size": 914227,
+          "tx_count": 2002
+        },
+        {
+          "height": 659285,
+          "timestamp": 1606694151,
+          "hash": "00000000000000000009c8cc0ca7fa7ddb8a670fc0042cb7214b76cfcd7db7a3",
+          "weight": 3992907,
+          "size": 1702005,
+          "tx_count": 909
+        }
+      ],
+      "fee_sat": 4027721,
+      "fee_btc": 0.040277
     },
     {
       "era": "2021",
-      "n_samples": 3,
-      "mean_weight_wu": 45570,
-      "mean_size_bytes": 12975,
-      "mean_tx_count": 41,
-      "size_weight_ratio": 0.2847267939433838,
-      "sampled_fee_btc": 0.002686,
-      "ref_fee_btc_per_block": 0.39645510204081635,
-      "fee_ratio_sample_over_ref": 0.007,
-      "source": "esplora + blockchain.info rawblock fee"
+      "samples": [
+        {
+          "height": 663912,
+          "timestamp": 1609459047,
+          "hash": "00000000000000000008713374ae8c7e1d6ff2834aad318133e980bc6713c37e",
+          "weight": 3993534,
+          "size": 1272042,
+          "tx_count": 2126
+        },
+        {
+          "height": 686585,
+          "timestamp": 1623023775,
+          "hash": "0000000000000000000b0f6ac93566639d0abdb0788f1bf75a6e976d66195caf",
+          "weight": 3993106,
+          "size": 1542556,
+          "tx_count": 1161
+        },
+        {
+          "height": 712010,
+          "timestamp": 1638314978,
+          "hash": "0000000000000000000c62f9ec344551d1acfdfc640f03c68567665d38f5fcc4",
+          "weight": 3993068,
+          "size": 1644752,
+          "tx_count": 1785
+        }
+      ],
+      "fee_sat": 18783139,
+      "fee_btc": 0.187831
     },
     {
       "era": "2022",
-      "n_samples": 3,
-      "mean_weight_wu": 3993012,
-      "mean_size_bytes": 1273737,
-      "mean_tx_count": 2148,
-      "size_weight_ratio": 0.318991528199765,
-      "sampled_fee_btc": 0.242578,
-      "ref_fee_btc_per_block": 0.10214675767918088,
-      "fee_ratio_sample_over_ref": 2.375,
-      "source": "esplora + blockchain.info rawblock fee"
+      "samples": [
+        {
+          "height": 716598,
+          "timestamp": 1640995146,
+          "hash": "00000000000000000000663310574194d510289c27dc81350f7ca190809d3608",
+          "weight": 1383649,
+          "size": 533206,
+          "tx_count": 902
+        },
+        {
+          "height": 739628,
+          "timestamp": 1654559698,
+          "hash": "00000000000000000000dc077c3a342c786e35026cea75c38cb41e334d06019c",
+          "weight": 40465,
+          "size": 14410,
+          "tx_count": 40
+        },
+        {
+          "height": 765373,
+          "timestamp": 1669851384,
+          "hash": "00000000000000000000b87759a2b1b515c5ec3d1cdc4ee7dc7c6a1f7db0651d",
+          "weight": 3998256,
+          "size": 1432563,
+          "tx_count": 3437
+        }
+      ],
+      "fee_sat": 160316,
+      "fee_btc": 0.001603
     },
     {
-      "era": "2023",
-      "n_samples": 3,
-      "mean_weight_wu": 3993411,
-      "mean_size_bytes": 1474848,
-      "mean_tx_count": 1413,
-      "size_weight_ratio": 0.3693203629678989,
-      "sampled_fee_btc": 0.031706,
-      "ref_fee_btc_per_block": 0.44972448979591834,
-      "fee_ratio_sample_over_ref": 0.071,
-      "source": "esplora + blockchain.info rawblock fee"
+      "era": "2010",
+      "samples": [
+        {
+          "height": 32489,
+          "timestamp": 1262303069,
+          "hash": "00000000827b23e7fcdd7fd189c7c61224542d98921e5f6a28e9e5b777b9db69",
+          "weight": 864,
+          "size": 216,
+          "tx_count": 1
+        },
+        {
+          "height": 59667,
+          "timestamp": 1275868130,
+          "hash": "000000000c185a5b7fe09e57475537d9c580be5cb0c7af852a37bd6433628ae6",
+          "weight": 860,
+          "size": 215,
+          "tx_count": 1
+        },
+        {
+          "height": 94801,
+          "timestamp": 1291160392,
+          "hash": "00000000000122d3c73aaef4c08340c7b388801b623d0650c1851c8bbb65077e",
+          "weight": 860,
+          "size": 215,
+          "tx_count": 1
+        }
+      ],
+      "fee_sat": 0,
+      "fee_btc": 0.0
     },
     {
-      "era": "2024",
-      "n_samples": 3,
-      "mean_weight_wu": 3998026,
-      "mean_size_bytes": 1629514,
-      "mean_tx_count": 2339,
-      "size_weight_ratio": 0.4075796405526127,
-      "sampled_fee_btc": 0.099991,
-      "ref_fee_btc_per_block": 0.35810620689655176,
-      "fee_ratio_sample_over_ref": 0.279,
-      "source": "esplora + blockchain.info rawblock fee"
+      "era": "2011",
+      "samples": [
+        {
+          "height": 100409,
+          "timestamp": 1293839690,
+          "hash": "00000000000076f095a312ad50f5b856250c1c0407b837831539f5641353a784",
+          "weight": 2524,
+          "size": 631,
+          "tx_count": 3
+        },
+        {
+          "height": 129110,
+          "timestamp": 1307404450,
+          "hash": "0000000000000b16337e640d101cde93c679c130436659ba21cdec3b9f218c5e",
+          "weight": 31608,
+          "size": 7902,
+          "tx_count": 20
+        },
+        {
+          "height": 155451,
+          "timestamp": 1322697519,
+          "hash": "00000000000006583956f4b5051f3045ec8f80b81216923f1af2efdb613be9c9",
+          "weight": 24096,
+          "size": 6024,
+          "tx_count": 7
+        }
+      ],
+      "fee_sat": 11481960,
+      "fee_btc": 0.11482
     },
     {
-      "era": "2025",
-      "n_samples": 3,
-      "mean_weight_wu": 3993051,
-      "mean_size_bytes": 1849218,
-      "mean_tx_count": 3806,
-      "size_weight_ratio": 0.4631090361730917,
-      "sampled_fee_btc": 0.248926,
-      "ref_fee_btc_per_block": 0.033191034482758626,
-      "fee_ratio_sample_over_ref": 7.5,
-      "source": "esplora + blockchain.info rawblock fee"
+      "era": "2012",
+      "samples": [
+        {
+          "height": 160036,
+          "timestamp": 1325375846,
+          "hash": "0000000000000e39986894aa938cf33348b24ebfef41d31f280737933b886673",
+          "weight": 123296,
+          "size": 30824,
+          "tx_count": 36
+        },
+        {
+          "height": 183195,
+          "timestamp": 1338940715,
+          "hash": "000000000000084cd3a06433fb7a9fb412eda94e5cc0d251ee97fa0c1361055e",
+          "weight": 165700,
+          "size": 41425,
+          "tx_count": 145
+        },
+        {
+          "height": 210224,
+          "timestamp": 1354233308,
+          "hash": "0000000000000227c47070a8ae2032ab30a0aa658ac06053f72d0de98cc4135f",
+          "weight": 196888,
+          "size": 49222,
+          "tx_count": 131
+        }
+      ],
+      "fee_sat": 617500,
+      "fee_btc": 0.006175
     },
     {
-      "era": "2026",
-      "n_samples": 2,
-      "mean_weight_wu": 3993606,
-      "mean_size_bytes": 1829004,
-      "mean_tx_count": 1721,
-      "size_weight_ratio": 0.4579830859629117,
-      "sampled_fee_btc": 0.037903,
-      "ref_fee_btc_per_block": 0.019149305555555555,
-      "fee_ratio_sample_over_ref": 1.979,
-      "source": "esplora + blockchain.info rawblock fee"
+      "era": "2013",
+      "samples": [
+        {
+          "height": 214562,
+          "timestamp": 1356997957,
+          "hash": "00000000000003295ad8492236979f0ed56e71e5c3dc8c3d2aaeb52eee502d22",
+          "weight": 447020,
+          "size": 111755,
+          "tx_count": 260
+        },
+        {
+          "height": 240154,
+          "timestamp": 1370562837,
+          "hash": "000000000000007795cbc3fc19a9a8a8fcf2f702a8ad7af8a1ca36e11ea3f181",
+          "weight": 328920,
+          "size": 82230,
+          "tx_count": 98
+        },
+        {
+          "height": 272374,
+          "timestamp": 1385853528,
+          "hash": "00000000000000003d09eff06411ec0d2f00e8b12f2442e01aacfa65bda8461d",
+          "weight": 598664,
+          "size": 149666,
+          "tx_count": 303
+        }
+      ],
+      "fee_sat": 7950000,
+      "fee_btc": 0.0795
+    },
+    {
+      "era": "2014",
+      "samples": [
+        {
+          "height": 277995,
+          "timestamp": 1388533521,
+          "hash": "0000000000000002646768bcc5062a072fd97339f9830fa2e4fe83d9478ebd5a",
+          "weight": 462864,
+          "size": 115716,
+          "tx_count": 188
+        },
+        {
+          "height": 304569,
+          "timestamp": 1402099076,
+          "hash": "00000000000000001afdd1e39be91514540cfebccb1a4a2565dca1cab544dcb9",
+          "weight": 701516,
+          "size": 175379,
+          "tx_count": 332
+        },
+        {
+          "height": 332362,
+          "timestamp": 1417391715,
+          "hash": "000000000000000005b5b33c59bc1571a618894cff8ecebca0764972a0a69106",
+          "weight": 689796,
+          "size": 172449,
+          "tx_count": 336
+        }
+      ],
+      "fee_sat": 5671556,
+      "fee_btc": 0.056716
+    },
+    {
+      "era": "2015",
+      "samples": [
+        {
+          "height": 336860,
+          "timestamp": 1420070227,
+          "hash": "000000000000000006b4a3327dcc9573b032f1ecef24acd8412cd29251f88b75",
+          "weight": 23688,
+          "size": 5922,
+          "tx_count": 16
+        },
+        {
+          "height": 359761,
+          "timestamp": 1433634855,
+          "hash": "00000000000000000e48b0f36c944be328c6d889ea7a6642ffb290d060fb7e7c",
+          "weight": 2800784,
+          "size": 700196,
+          "tx_count": 1344
+        },
+        {
+          "height": 386118,
+          "timestamp": 1448927522,
+          "hash": "00000000000000000c947ec8c00f0e09154ee25070f1b84409e580454480a830",
+          "weight": 199116,
+          "size": 49779,
+          "tx_count": 47
+        }
+      ],
+      "fee_sat": 20505156,
+      "fee_btc": 0.205052
+    },
+    {
+      "era": "2016",
+      "samples": [
+        {
+          "height": 391181,
+          "timestamp": 1451604911,
+          "hash": "000000000000000002dfcd5cd05cd4f80d792e51ecdc5942cd6cec1365b22a2d",
+          "weight": 736588,
+          "size": 184147,
+          "tx_count": 308
+        },
+        {
+          "height": 414969,
+          "timestamp": 1465171188,
+          "hash": "000000000000000003c4c7ab1ec63c5e85fa4086f45e095dfcaf1a5d34989d45",
+          "weight": 1745708,
+          "size": 436427,
+          "tx_count": 1134
+        },
+        {
+          "height": 441198,
+          "timestamp": 1480463902,
+          "hash": "000000000000000002ef876e64d044708e86925dec5904a6ef79e2d41db3ae5f",
+          "weight": 3992912,
+          "size": 998228,
+          "tx_count": 2574
+        }
+      ],
+      "fee_sat": 19977006,
+      "fee_btc": 0.19977
+    },
+    {
+      "era": "2017",
+      "samples": [
+        {
+          "height": 446032,
+          "timestamp": 1483227844,
+          "hash": "000000000000000003458396c743cdfa8247a4f6bc28ad413dba333a436edf75",
+          "weight": 3043716,
+          "size": 760929,
+          "tx_count": 1836
+        },
+        {
+          "height": 470105,
+          "timestamp": 1496793139,
+          "hash": "000000000000000000ee30693847cfb06886a9ca5d002ad6751688e4e41ade88",
+          "weight": 3992848,
+          "size": 998212,
+          "tx_count": 2057
+        },
+        {
+          "height": 496931,
+          "timestamp": 1512085332,
+          "hash": "0000000000000000008713b20d0d8bb7c0989b71cac6befddefb5f423d883197",
+          "weight": 3992767,
+          "size": 1021000,
+          "tx_count": 2325
+        }
+      ],
+      "fee_sat": 419391755,
+      "fee_btc": 4.193918
+    },
+    {
+      "era": "2018",
+      "samples": [
+        {
+          "height": 501960,
+          "timestamp": 1514764118,
+          "hash": "00000000000000000075ca6b039ebf264978f4b9e7105eb36fe0d1ecfad2cf06",
+          "weight": 3992844,
+          "size": 1013037,
+          "tx_count": 1717
+        },
+        {
+          "height": 526352,
+          "timestamp": 1528329182,
+          "hash": "00000000000000000004c478056196f78dea7096a80fc3b6beae67e330f47091",
+          "weight": 3993163,
+          "size": 1019236,
+          "tx_count": 408
+        },
+        {
+          "height": 552083,
+          "timestamp": 1543622198,
+          "hash": "0000000000000000000533a1c0a68130997d7f1ac583467a3bf3b10fd23f38d8",
+          "weight": 3993006,
+          "size": 1299147,
+          "tx_count": 2622
+        }
+      ],
+      "fee_sat": 3050779,
+      "fee_btc": 0.030508
+    },
+    {
+      "era": "2019",
+      "samples": [
+        {
+          "height": 556458,
+          "timestamp": 1546300592,
+          "hash": "0000000000000000000c351d88e917a179853750b57925cf6f181dc95421ec40",
+          "weight": 2469134,
+          "size": 860576,
+          "tx_count": 1331
+        },
+        {
+          "height": 579589,
+          "timestamp": 1559865546,
+          "hash": "000000000000000000183c86de210e2a795cf52b105770c2ab4a7e58789fb415",
+          "weight": 3993022,
+          "size": 1208971,
+          "tx_count": 3188
+        },
+        {
+          "height": 606087,
+          "timestamp": 1575156032,
+          "hash": "000000000000000000130e4eed40573070117b80bef33a6d2b01dde54a9d682d",
+          "weight": 3993285,
+          "size": 1382088,
+          "tx_count": 2987
+        }
+      ],
+      "fee_sat": 76969863,
+      "fee_btc": 0.769699
+    },
+    {
+      "era": "2020",
+      "samples": [
+        {
+          "height": 610690,
+          "timestamp": 1577835692,
+          "hash": "00000000000000000005f0cc9b565336243d08e65f71ba179a33921fb33aeb93",
+          "weight": 816206,
+          "size": 283571,
+          "tx_count": 744
+        },
+        {
+          "height": 633273,
+          "timestamp": 1591400854,
+          "hash": "0000000000000000000676f7fbea2585e8844e63a4dc1b0bb1c4af72b2f7cd71",
+          "weight": 3101164,
+          "size": 914227,
+          "tx_count": 2002
+        },
+        {
+          "height": 659285,
+          "timestamp": 1606694151,
+          "hash": "00000000000000000009c8cc0ca7fa7ddb8a670fc0042cb7214b76cfcd7db7a3",
+          "weight": 3992907,
+          "size": 1702005,
+          "tx_count": 909
+        }
+      ],
+      "fee_sat": 4027721,
+      "fee_btc": 0.040277
+    },
+    {
+      "era": "2021",
+      "samples": [
+        {
+          "height": 663912,
+          "timestamp": 1609459047,
+          "hash": "00000000000000000008713374ae8c7e1d6ff2834aad318133e980bc6713c37e",
+          "weight": 3993534,
+          "size": 1272042,
+          "tx_count": 2126
+        },
+        {
+          "height": 686585,
+          "timestamp": 1623023775,
+          "hash": "0000000000000000000b0f6ac93566639d0abdb0788f1bf75a6e976d66195caf",
+          "weight": 3993106,
+          "size": 1542556,
+          "tx_count": 1161
+        },
+        {
+          "height": 712010,
+          "timestamp": 1638314978,
+          "hash": "0000000000000000000c62f9ec344551d1acfdfc640f03c68567665d38f5fcc4",
+          "weight": 3993068,
+          "size": 1644752,
+          "tx_count": 1785
+        }
+      ],
+      "fee_sat": 18783139,
+      "fee_btc": 0.187831
+    },
+    {
+      "era": "2022",
+      "samples": [
+        {
+          "height": 716598,
+          "timestamp": 1640995146,
+          "hash": "00000000000000000000663310574194d510289c27dc81350f7ca190809d3608",
+          "weight": 1383649,
+          "size": 533206,
+          "tx_count": 902
+        },
+        {
+          "height": 739628,
+          "timestamp": 1654559698,
+          "hash": "00000000000000000000dc077c3a342c786e35026cea75c38cb41e334d06019c",
+          "weight": 40465,
+          "size": 14410,
+          "tx_count": 40
+        },
+        {
+          "height": 765373,
+          "timestamp": 1669851384,
+          "hash": "00000000000000000000b87759a2b1b515c5ec3d1cdc4ee7dc7c6a1f7db0651d",
+          "weight": 3998256,
+          "size": 1432563,
+          "tx_count": 3437
+        }
+      ],
+      "fee_sat": 160316,
+      "fee_btc": 0.001603
     }
   ]
 }
