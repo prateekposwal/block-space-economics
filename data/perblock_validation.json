@@ -1,100 +1,188 @@
 {
   "schema": "bsahi.perblock-validation/1",
-  "era_rows": [],
-  "_rows": [
+  "era_rows": [
+    {
+      "era": "2010",
+      "n_samples": 3,
+      "mean_weight_wu": 861.3,
+      "mean_size_bytes": 215.3,
+      "mean_tx_count": 1,
+      "size_weight_ratio": 0.25,
+      "sampled_fee_btc": 0.0,
+      "ref_fee_btc_per_block": null,
+      "fee_ratio_sample_over_ref": null,
+      "source": "esplora + blockchain.info rawblock fee"
+    },
+    {
+      "era": "2011",
+      "n_samples": 3,
+      "mean_weight_wu": 19409.3,
+      "mean_size_bytes": 4852.3,
+      "mean_tx_count": 10,
+      "size_weight_ratio": 0.25,
+      "sampled_fee_btc": 0.11482,
+      "ref_fee_btc_per_block": null,
+      "fee_ratio_sample_over_ref": null,
+      "source": "esplora + blockchain.info rawblock fee"
+    },
+    {
+      "era": "2012",
+      "n_samples": 3,
+      "mean_weight_wu": 161961.3,
+      "mean_size_bytes": 40490.3,
+      "mean_tx_count": 104,
+      "size_weight_ratio": 0.25,
+      "sampled_fee_btc": 0.006175,
+      "ref_fee_btc_per_block": null,
+      "fee_ratio_sample_over_ref": null,
+      "source": "esplora + blockchain.info rawblock fee"
+    },
+    {
+      "era": "2013",
+      "n_samples": 3,
+      "mean_weight_wu": 458201.3,
+      "mean_size_bytes": 114550.3,
+      "mean_tx_count": 220.3,
+      "size_weight_ratio": 0.25,
+      "sampled_fee_btc": 0.0795,
+      "ref_fee_btc_per_block": 0.255624,
+      "fee_ratio_sample_over_ref": 0.311,
+      "source": "esplora + blockchain.info rawblock fee"
+    },
+    {
+      "era": "2014",
+      "n_samples": 3,
+      "mean_weight_wu": 618058.7,
+      "mean_size_bytes": 154514.7,
+      "mean_tx_count": 285.3,
+      "size_weight_ratio": 0.25,
+      "sampled_fee_btc": 0.056716,
+      "ref_fee_btc_per_block": 0.075531,
+      "fee_ratio_sample_over_ref": 0.751,
+      "source": "esplora + blockchain.info rawblock fee"
+    },
+    {
+      "era": "2015",
+      "n_samples": 3,
+      "mean_weight_wu": 1007862.7,
+      "mean_size_bytes": 251965.7,
+      "mean_tx_count": 469,
+      "size_weight_ratio": 0.25,
+      "sampled_fee_btc": 0.205052,
+      "ref_fee_btc_per_block": 0.148952,
+      "fee_ratio_sample_over_ref": 1.377,
+      "source": "esplora + blockchain.info rawblock fee"
+    },
+    {
+      "era": "2016",
+      "n_samples": 3,
+      "mean_weight_wu": 2158402.7,
+      "mean_size_bytes": 539600.7,
+      "mean_tx_count": 1338.7,
+      "size_weight_ratio": 0.25,
+      "sampled_fee_btc": 0.19977,
+      "ref_fee_btc_per_block": 0.438339,
+      "fee_ratio_sample_over_ref": 0.456,
+      "source": "esplora + blockchain.info rawblock fee"
+    },
+    {
+      "era": "2017",
+      "n_samples": 3,
+      "mean_weight_wu": 3676443.7,
+      "mean_size_bytes": 926713.7,
+      "mean_tx_count": 2072.7,
+      "size_weight_ratio": 0.2521,
+      "sampled_fee_btc": 4.193918,
+      "ref_fee_btc_per_block": 1.773861,
+      "fee_ratio_sample_over_ref": 2.364,
+      "source": "esplora + blockchain.info rawblock fee"
+    },
+    {
+      "era": "2018",
+      "n_samples": 3,
+      "mean_weight_wu": 3993004.3,
+      "mean_size_bytes": 1110473.3,
+      "mean_tx_count": 1582.3,
+      "size_weight_ratio": 0.2781,
+      "sampled_fee_btc": 0.030508,
+      "ref_fee_btc_per_block": 0.483769,
+      "fee_ratio_sample_over_ref": 0.063,
+      "source": "esplora + blockchain.info rawblock fee"
+    },
+    {
+      "era": "2019",
+      "n_samples": 3,
+      "mean_weight_wu": 3485147,
+      "mean_size_bytes": 1150545,
+      "mean_tx_count": 2502,
+      "size_weight_ratio": 0.3301,
+      "sampled_fee_btc": 0.769699,
+      "ref_fee_btc_per_block": 0.366573,
+      "fee_ratio_sample_over_ref": 2.1,
+      "source": "esplora + blockchain.info rawblock fee"
+    },
     {
       "era": "2020",
-      "samples": [
-        {
-          "height": 610690,
-          "timestamp": 1577835692,
-          "hash": "00000000000000000005f0cc9b565336243d08e65f71ba179a33921fb33aeb93",
-          "weight": 816206,
-          "size": 283571,
-          "tx_count": 744
-        },
-        {
-          "height": 633273,
-          "timestamp": 1591400854,
-          "hash": "0000000000000000000676f7fbea2585e8844e63a4dc1b0bb1c4af72b2f7cd71",
-          "weight": 3101164,
-          "size": 914227,
-          "tx_count": 2002
-        },
-        {
-          "height": 659285,
-          "timestamp": 1606694151,
-          "hash": "00000000000000000009c8cc0ca7fa7ddb8a670fc0042cb7214b76cfcd7db7a3",
-          "weight": 3992907,
-          "size": 1702005,
-          "tx_count": 909
-        }
-      ],
-      "fee_sat": 4027721,
-      "fee_btc": 0.040277
+      "n_samples": 3,
+      "mean_weight_wu": 2636759,
+      "mean_size_bytes": 966601,
+      "mean_tx_count": 1218.3,
+      "size_weight_ratio": 0.3666,
+      "sampled_fee_btc": 0.040277,
+      "ref_fee_btc_per_block": 0.499946,
+      "fee_ratio_sample_over_ref": 0.081,
+      "source": "esplora + blockchain.info rawblock fee"
     },
     {
       "era": "2021",
-      "samples": [
-        {
-          "height": 663912,
-          "timestamp": 1609459047,
-          "hash": "00000000000000000008713374ae8c7e1d6ff2834aad318133e980bc6713c37e",
-          "weight": 3993534,
-          "size": 1272042,
-          "tx_count": 2126
-        },
-        {
-          "height": 686585,
-          "timestamp": 1623023775,
-          "hash": "0000000000000000000b0f6ac93566639d0abdb0788f1bf75a6e976d66195caf",
-          "weight": 3993106,
-          "size": 1542556,
-          "tx_count": 1161
-        },
-        {
-          "height": 712010,
-          "timestamp": 1638314978,
-          "hash": "0000000000000000000c62f9ec344551d1acfdfc640f03c68567665d38f5fcc4",
-          "weight": 3993068,
-          "size": 1644752,
-          "tx_count": 1785
-        }
-      ],
-      "fee_sat": 18783139,
-      "fee_btc": 0.187831
+      "n_samples": 3,
+      "mean_weight_wu": 3993236,
+      "mean_size_bytes": 1486450,
+      "mean_tx_count": 1690.7,
+      "size_weight_ratio": 0.3722,
+      "sampled_fee_btc": 0.187831,
+      "ref_fee_btc_per_block": 0.396455,
+      "fee_ratio_sample_over_ref": 0.474,
+      "source": "esplora + blockchain.info rawblock fee"
     },
     {
       "era": "2022",
-      "samples": [
-        {
-          "height": 716598,
-          "timestamp": 1640995146,
-          "hash": "00000000000000000000663310574194d510289c27dc81350f7ca190809d3608",
-          "weight": 1383649,
-          "size": 533206,
-          "tx_count": 902
-        },
-        {
-          "height": 739628,
-          "timestamp": 1654559698,
-          "hash": "00000000000000000000dc077c3a342c786e35026cea75c38cb41e334d06019c",
-          "weight": 40465,
-          "size": 14410,
-          "tx_count": 40
-        },
-        {
-          "height": 765373,
-          "timestamp": 1669851384,
-          "hash": "00000000000000000000b87759a2b1b515c5ec3d1cdc4ee7dc7c6a1f7db0651d",
-          "weight": 3998256,
-          "size": 1432563,
-          "tx_count": 3437
-        }
-      ],
-      "fee_sat": 160316,
-      "fee_btc": 0.001603
+      "n_samples": 3,
+      "mean_weight_wu": 1807456.7,
+      "mean_size_bytes": 660059.7,
+      "mean_tx_count": 1459.7,
+      "size_weight_ratio": 0.3652,
+      "sampled_fee_btc": 0.001603,
+      "ref_fee_btc_per_block": 0.102147,
+      "fee_ratio_sample_over_ref": 0.016,
+      "source": "esplora + blockchain.info rawblock fee"
     },
+    {
+      "era": "2023",
+      "n_samples": 3,
+      "mean_weight_wu": 3993030,
+      "mean_size_bytes": 1989438,
+      "mean_tx_count": 2924,
+      "size_weight_ratio": 0.4982,
+      "sampled_fee_btc": 0.900847,
+      "ref_fee_btc_per_block": 0.449724,
+      "fee_ratio_sample_over_ref": 2.003,
+      "source": "esplora + blockchain.info rawblock fee"
+    },
+    {
+      "era": "2024",
+      "n_samples": 3,
+      "mean_weight_wu": 3991884.3,
+      "mean_size_bytes": 1608167.3,
+      "mean_tx_count": 4246.3,
+      "size_weight_ratio": 0.4029,
+      "sampled_fee_btc": 0.38363,
+      "ref_fee_btc_per_block": 0.358106,
+      "fee_ratio_sample_over_ref": 1.071,
+      "source": "esplora + blockchain.info rawblock fee"
+    }
+  ],
+  "_rows": [
     {
       "era": "2010",
       "samples": [

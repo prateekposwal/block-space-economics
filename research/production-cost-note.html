@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Bitcoin Sahi calibration note — Production Cost Note. Data-confidence evidence for the block space economics research program: historical series, per-block validation, and reachability findings.">
+<meta property="og:title" content="Production Cost Note">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/production-cost-note.html">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/production-cost-note.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Production Cost Note","item":"https://bitcoinsahi.com/research/production-cost-note.html"}]}
+</script>
+<title>Production Cost Note — BSAHI Research</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Production Cost Note</h1>
+<h2>Production-Cost Ratio — research note (Tier-1 item 4, aggregate leg)</h2>
+<p><strong>BSAHI — producing-side instrument</strong></p>
+<p>*Produced: 2026-09-16*</p>
+<h3>The instrument</h3>
+<p><code>tools/research/production_cost_ratio.py</code> + <code>data/production_cost_ratio.json</code>.</p>
+<p>Deterministic from frozen daily series (hash-rate TH/s, miners-revenue USD/day,</p>
+<p>transaction-fees BTC/day, market-price USD — all under <code>captured-data/historical/</code>).</p>
+<p>Per era:</p>
+<p>power_GW        = hashrate_TH/s x network-average ASIC efficiency (J/TH)</p>
+<p>energy_cost_$day = power_x_hours x electricity $/kWh (assumption = 0.05)</p>
+<p>production_value_$day = miners revenue (subsidy + fees)</p>
+<p>production_cost_ratio = energy_cost / production_value   (network viability)</p>
+<p>fee_coverage_of_production = fee_usd_day / energy_cost   (block-space&#x27;s share)</p>
+<h3>First reading (2026-09-16)</h3>
+<table>
+<tr><th>era</th><th>EH/s</th><th>GW</th><th>energyⱼₖ (kWh/day)</th><th>cost $/day</th><th>prod value $/day</th><th>cost/value</th><th>fee % of prod. cost</th></tr>
+<tr><td>2017</td><td>6.3</td><td>2.5</td><td>60.7M</td><td>3.03M</td><td>9.44M</td><td>0.32</td><td>35.7</td></tr>
+<tr><td>2019</td><td>66.8</td><td>6.7</td><td>160.2M</td><td>8.01M</td><td>14.4M</td><td>0.56</td><td>5.0</td></tr>
+<tr><td>2020</td><td>120</td><td>8.4</td><td>202M</td><td>10.1M</td><td>13.8M</td><td>0.73</td><td>8.1</td></tr>
+<tr><td>2023</td><td>380</td><td>14.4</td><td>347M</td><td>17.3M</td><td>29.2M</td><td>0.59</td><td>10.9</td></tr>
+<tr><td>2024</td><td>636</td><td>20.3</td><td>488M</td><td>24.4M</td><td>41.2M</td><td>0.59</td><td>14.0</td></tr>
+<tr><td>2025</td><td>937</td><td>26.2</td><td>630M</td><td>31.5M</td><td>47.6M</td><td>0.66</td><td>1.6</td></tr>
+<tr><td>2026</td><td>953</td><td>23.8</td><td>572M</td><td>28.6M</td><td>34.1M</td><td>0.84</td><td>0.7</td></tr>
+</table>
+<p>Total is in the CBECI-consistent ballpark (2017 ≈ 22 TWh/yr, 2026 ≈ 209 TWh/yr;</p>
+<p>efficiency table is a documented estimate, grade C).</p>
+<h3>Reading</h3>
+<ul>
+<li><strong>2026: energy cost ≈ 84% of miner revenue at $0.05/kWh.</strong> Near the</li>
+</ul>
+<p>flow-cost viability wall; at $0.06/kWh the network&#x27;s aggregate energy bill</p>
+<p>would exceed its revenue. This is the producing-side stress (boundary class E)</p>
+<p>in its strongest form yet — a cost squeeze, not a fee shortage symptom.</p>
+<ul>
+<li>**Block-space fees pay 0.7% of the energy cost that produces the blocks they</li>
+</ul>
+<p>live in** (2026). The fee market internalizes ≈ nothing of the physical</p>
+<p>production cost. (2012-2017 fee coverage looks high only because the estimated</p>
+<p>energy bills were tiny — grade-C baseline effect.)</p>
+<ul>
+<li>The trend is rising: cost/value went 0.32 (2017) → 0.56 (2019) → 0.73 (2020)</li>
+</ul>
+<p>→ 0.59-0.66 (2023-25) → 0.84 (2026). Pressure is concentrated in subsidy-halving</p>
+<p>years as subsidy steps down against a growing energy bill.</p>
+<h3>Honesty block</h3>
+<ul>
+<li>**Efficiency ($/kWh, J/TH) are documented assumptions, not measurements</li>
+</ul>
+<p>(grade C).** The ratio is linear in both. The hashrate + revenue + fee + price</p>
+<p>legs are frozen primary series (grade B).</p>
+<ul>
+<li><strong>Aggregate only — regional split NOT included.</strong> The Cambridge-mining-map /</li>
+</ul>
+<p>regional-electricity capture that row 13 names is still grade D. This closes</p>
+<p>the &quot;producing side has no instrument&quot; gap, not the regional-granularity gap.</p>
+<ul>
+<li>No number above is the regional production cost; do not read the two as the</li>
+</ul>
+<p>same thing.</p>
+<h3>Next step for this row</h3>
+<p>Regional share capture (Cambridge map or pool-country attribution) + regional</p>
+<p>electricity series (EIA/IEA) → row 13 D → B. Aggregate stays C (assumption-bound)</p>
+<p>until a measured network-average efficiency series is captured.</p>
+<div class="datacard"><div class="kv">Data source: <code>data/production_cost_ratio.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Bitcoin Sahi calibration note — Pool Hashrate Reachability. Data-confidence evidence for the block space economics research program: historical series, per-block validation, and reachability findings.">
+<meta property="og:title" content="Pool Hashrate Reachability">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/pool-hashrate-reachability.html">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/pool-hashrate-reachability.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Pool Hashrate Reachability","item":"https://bitcoinsahi.com/research/pool-hashrate-reachability.html"}]}
+</script>
+<title>Pool Hashrate Reachability — BSAHI Research</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Pool Hashrate Reachability</h1>
+<h2>Pool Self-Reported Hashrate — Reachability Finding (build-or-document)</h2>
+<p><strong>BSAHI — row 11 validation, Tier-2 item 1</strong></p>
+<p>*Produced: 2026-09-16*</p>
+<h3>Claim tested</h3>
+<p>The row-11 C→B move requires an INDEPENDENT ground truth for per-pool hashrate,</p>
+<p>ideally pools&#x27; own reported hashrate. This note records what is reachable from</p>
+<p>this environment and what is not, so the grade move is evidence-based.</p>
+<h3>Reachability canvas (probed 2026-09-16)</h3>
+<table>
+<tr><th>Source</th><th>What it would give</th><th>Result</th></tr>
+<tr><td>pool.via.btc.com API</td><td>ViaBTC self-reported hashrate</td><td><strong>DNS does not resolve</strong> (Errno 8) from this host</td></tr>
+<tr><td>pool.btc.com</td><td>BTC.com pool stats / attribution</td><td><strong>DNS does not resolve</strong></td></tr>
+<tr><td>public-data.binance.org</td><td>Binance pool public stats</td><td><strong>DNS does not resolve</strong></td></tr>
+<tr><td>api.f2pool.com</td><td>F2Pool self-reported hashrate</td><td>reachable but <strong>requires F2P-API-SECRET token</strong> (public stats not granted)</td></tr>
+<tr><td>www.f2pool.com/coin/btc</td><td>F2Pool page</td><td><strong>404</strong> (path moved / page gone)</td></tr>
+<tr><td>antpool.com/statistics</td><td>AntPool self-reported hashrate</td><td><strong>SPA shell only</strong> — data client-rendered, no SSR number, no open API on probed paths</td></tr>
+<tr><td>miningpoolstats.stream</td><td>aggregator pool self-reports</td><td>reachable once; <strong>data client-side / API timeouts</strong></td></tr>
+<tr><td>blockchain.info/pools</td><td>independent block attribution</td><td><strong>client-side only</strong> (<code>__NEXT_DATA__</code> has no pool payload; no public stats API)</td></tr>
+<tr><td>api.blockchair.com/bitcoin/stats</td><td>independent network hashrate</td><td><strong>REACHABLE, works</strong> (1013.7 EH/s, H/s field)</td></tr>
+</table>
+<h3>What the reachable evidence does prove</h3>
+<p><code>tools/research/pool_attribution_validation.py</code> + <code>data/pool_attribution_validation.json</code>:</p>
+<ol>
+<li><strong>Internal coherence: 7/7 top pools.</strong> Each pool&#x27;s share across the 24h/3d/1w/1y</li>
+</ol>
+<p>windows agrees within ≤1.5σ (Poisson counting sigma per window). No pool is an</p>
+<p>attribution outlier. The measured shares are not a fluke of one window.</p>
+<ol>
+<li><strong>Network-total cross-check: 2.34%.</strong> blockchair <code>hashrate_24h</code> (1013.7 EH/s, an</li>
+</ol>
+<p>independent node-based estimate) vs mempool.space <code>lastEstimatedHashrate</code></p>
+<p>(1037.7 EH/s). Two independent implementations agree on the network total that</p>
+<p>the producing-side instrument depends on.</p>
+<h3>What it does NOT prove (and why the grade stays C live)</h3>
+<p>Self-reported per-pool hashrate is the definitive ground truth for row 11, and it</p>
+<p>is <strong>not reachable here</strong> (DNS-blocked / token-gated / SPA / client-side —</p>
+<p>canvas above). Without it, per-pool shares rest on block-tag attribution that is</p>
+<p>internally coherent and network-consistent but not yet corroborated against pools&#x27;</p>
+<p>own numbers.</p>
+<h3>Path to close (C → B live)</h3>
+<ol>
+<li>Re-run the pool probes from a host where <code>via.btc.com</code> / <code>pool.btc.com</code> /</li>
+</ol>
+<p><code>public-data.binance.org</code> resolve (VPN/proxy or cloud worker), OR</p>
+<ol>
+<li>Register for the F2Pool public API token and Binance Pool public stats, OR</li>
+<li>Fetch pool-reported hashrate from miningpoolstats&#x27; per-pool detail pages when its</li>
+</ol>
+<p>API is stable (<code>api.miningpoolstats.stream</code>).</p>
+<p>Then compute per-pool <code>reported_share / block_share</code> ratios and record them.</p>
+<h3>Verdict</h3>
+<p><strong>Build-or-document: DOCUMENTED.</strong> Row 11 stays C live until pool self-reported</p>
+<p>hashrate is captured; the evidence earned (internal coherence + network-total</p>
+<p>cross-check) is recorded in <code>data/pool_attribution_validation.json</code>. No</p>
+<p>fabricated pool-reported numbers exist.</p>
+<div class="datacard"><div class="kv">Data source: <code>data/pool_attribution_validation.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>

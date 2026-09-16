@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Bitcoin Sahi calibration note — Perblock Validation Note. Data-confidence evidence for the block space economics research program: historical series, per-block validation, and reachability findings.">
+<meta property="og:title" content="Perblock Validation Note">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/perblock-validation-note.html">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/perblock-validation-note.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Perblock Validation Note","item":"https://bitcoinsahi.com/research/perblock-validation-note.html"}]}
+</script>
+<title>Perblock Validation Note — BSAHI Research</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Perblock Validation Note</h1>
+<h2>Per-block validation strip — rows 1 (fee market) + 4 (block/state size)</h2>
+<p><strong>Date:</strong> 2026-09-16 · <strong>Instrument:</strong> <code>tools/research/perblock_validation.py</code></p>
+<p><strong>Output:</strong> <code>data/perblock_validation.json</code></p>
+<h3>Purpose</h3>
+<p>The SCCR historical reconstruction derives era-level fee and block-size legs from</p>
+<p>daily aggregates (<code>fee_btc_per_day</code>, <code>avg-block-size</code>, <code>blocks_per_day_est</code>).</p>
+<p>That derivation is grade B: correct in aggregate but unverified at the per-block</p>
+<p>level. This strip samples actual per-block measurements across 2010-2026 so the</p>
+<p>aggregate legs can be checked against direct observations, and so the SegWit-era</p>
+<p>size/weight divergence (a block/state-size boundary question, row 4) is quantified.</p>
+<h3>Sources (this environment)</h3>
+<table>
+<tr><th>Source</th><th>Endpoint</th><th>Gives</th><th>Status</th></tr>
+<tr><td>Blockstream esplora</td><td><code>/api/block-height/:h</code> + <code>/api/block/:hash</code></td><td><code>weight</code>, <code>size</code>, <code>tx_count</code>, <code>timestamp</code> per block</td><td>Reachable; ~1 req/s sustained, <strong>~500 credits/hr</strong> (429 beyond)</td></tr>
+<tr><td>blockchain.info</td><td><code>/rawblock/:hash</code> top-level <code>fee</code> (sat)</td><td>block-level total fees</td><td>Reachable; ~5 MB/block, infrequent, not rate-limited in practice</td></tr>
+</table>
+<p>Notes:</p>
+<ul>
+<li>mempool.space <code>/api/v1/block/height/:h</code> (has <code>feeTotal</code>) <strong>times out</strong> from here for</li>
+</ul>
+<p>historical heights; esplora&#x27;s block object has no fee field. blockchain.info</p>
+<p>rawblock carries the block-level <code>fee</code>, so fees were sampled there.</p>
+<ul>
+<li>blockchair <code>/bitcoin/blocks</code> remains <strong>HTTP 430</strong> (rate-limited) for the</li>
+</ul>
+<p>continuous per-block scan — unchanged since <code>utxo-series-reachability.md</code>.</p>
+<h3>Method</h3>
+<p>For each era 2010-2026, three target days (~Jan 1, ~Jun, ~Dec) are converted to a</p>
+<p>block height by binary search over the main chain (greatest height with</p>
+<p><code>timestamp &lt;= target</code>), via esplora. For each sampled height the block summary is</p>
+<p>cached; the mid-era sample additionally gets a rawblock fetch for the block-level</p>
+<p><code>fee</code>. <code>fee_btc</code> (sample) is compared to the era&#x27;s reconstruction reference</p>
+<p><code>fee_btc_per_day / blocks_per_day_est</code>.</p>
+<p>Rate-limit handling: per-request retries with 90 s backoff on 429; per-era</p>
+<p>checkpointing so a quota-limited run resumes exactly where it stopped.</p>
+<h3>Findings (2023-2024 landed via overnight supervisor; table complete through 2024)</h3>
+<ul>
+<li><strong>Row 4 — size/weight:</strong> early eras (2010-2013) sample 0-32 kWU blocks; the</li>
+</ul>
+<p>chain runs near-full 3993 kWU from ~2018 onward. Mean sample size 0.75 MB</p>
+<p>(2017) → 1.6-2.0 MB (2023-24) against a weight ceiling of 4 MWU — the SegWit</p>
+<p>divergence is visible: post-2017 <code>weight ≈ 4× size</code>, pre-SegWit `weight ≈ 4×</p>
+<p>size` holds except deflationary 2015-16 blocks. Ordinals/Runes-era tx counts</p>
+<p>confirm congestion: 2023 sampled 2,924 txs/block, 2024 4,246 txs/block (vs</p>
+<p>~1,400-1,700 in 2021-22).</p>
+<ul>
+<li><strong>Row 1 — fee leg:</strong> single-block fee samples are <strong>highly noisy</strong> vs an era</li>
+</ul>
+<p>annual mean, and the dispersion is itself the finding: 2017 spike 2.36×</p>
+<p>(4.194 vs 1.774 BTC/block), 2018 0.06× (0.031 vs 0.484), 2022 0.02× (0.002</p>
+<p>vs 0.102). Per-block fees cluster around fee events, not the annual mean —</p>
+<p>the aggregation hides a heavy-tailed per-block distribution. The daily-aggregate</p>
+<p>leg (B) is therefore the right grade for era means; per-block *reconstruction*</p>
+<p>(B→A) is genuinely a different object and stays blocked (see verdict).</p>
+<ul>
+<li><strong>Grades:</strong> row 1 historical stays <strong>B</strong>, row 4 historical stays <strong>B</strong> — each</li>
+</ul>
+<p>now carries a per-block validation strip (documented sampling bound) instead</p>
+<p>of an unverified daily-aggregate derivation. Not A: a 3-block-per-era sample is</p>
+<p>a check, not a reconstruction.</p>
+<h3>Reachability verdict</h3>
+<p>Full per-block reconstruction (B→A for rows 1, 4) is <strong>DOCUMENTED</strong> as blocked</p>
+<p>on a bulk continuous source: blockchair 430, mempool block-endpoint timeout,</p>
+<p>esplora no-fee. Two real completion paths: a synced local node (same R5 gate),</p>
+<p>or blockchair from a rate-limit-tolerant host.</p>
+<div class="datacard"><div class="kv">Data source: <code>data/perblock_validation.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Bitcoin Sahi calibration note — Utxo Series Reachability. Data-confidence evidence for the block space economics research program: historical series, per-block validation, and reachability findings.">
+<meta property="og:title" content="Utxo Series Reachability">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/utxo-series-reachability.html">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/utxo-series-reachability.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Utxo Series Reachability","item":"https://bitcoinsahi.com/research/utxo-series-reachability.html"}]}
+</script>
+<title>Utxo Series Reachability — BSAHI Research</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Utxo Series Reachability</h1>
+<h2>UTXO Series — Reachability Finding (build-or-document)</h2>
+<p><strong>BSAHI — row 6 (D historical), VCI state leg (row 7)</strong></p>
+<p>*Produced: 2026-09-16*</p>
+<h3>Goal</h3>
+<p>A continuous historical UTXO-count / state-size series: (a) moves row 6</p>
+<p>historical D → C, and (b) hardens the VCI <code>utxo_state_gb</code> estimate table.</p>
+<h3>Sources probed (2026-09-16) and results</h3>
+<table>
+<tr><th>Source</th><th>What it would give</th><th>Result</th></tr>
+<tr><td>CoinMetrics community API (<code>catalog-v2/asset-metrics?assets=btc</code>)</td><td>UTXO-count metric</td><td>NO utxo metric in the 31-metric BTC catalog (SplyCur, TxCnt etc. only)</td></tr>
+<tr><td>blockchair <code>/bitcoin/stats</code></td><td>aggregate state data</td><td><strong>REACHABLE (frozen)</strong>: <code>outputs</code> 3,925,409,015 (cumulative outputs created), <code>transactions</code> 1.44B, <code>hodling_addresses</code> 59.57M, <code>blockchain_size</code> 768,994,703,599 B. <strong>No unspent count. No cumulative inputs.</strong></td></tr>
+<tr><td>blockchair <code>/bitcoin/blocks</code> (inputs/outputs per block)</td><td>exact per-block UTXO delta for a full scan</td><td><strong>HTTP 430 rate-limit</strong> on all pagination attempts this session (limit=100/1000); ~967K blocks needed → full scan impractical under current limits</td></tr>
+<tr><td>blockstream esplora (<code>blockstream.info/api</code>)</td><td>UTXO aggregate</td><td>404 on probed paths; no UTXO-count aggregate exposed</td></tr>
+<tr><td>mempool.space <code>/api/...</code></td><td>UTXO aggregate/heuristics</td><td>No UTXO-count endpoint in public REST (mempool, fees, mining, lightning only)</td></tr>
+<tr><td>bitinfocharts <code>/bitcoin/utxo.html</code></td><td>UTXO count + history chart</td><td><strong>Hangs/timeouts</strong> (page never completes, even with raw-socket 40s cap)</td></tr>
+<tr><td>blockchain.info legacy <code>/q/</code> endpoints</td><td><code>unspentcount</code>-style query</td><td><strong>Hangs</strong> on probed paths</td></tr>
+<tr><td>blockchain.info <code>/pools</code>, <code>__NEXT_DATA__</code></td><td>(attribution, not UTXO)</td><td>client-side only (noted for row 11)</td></tr>
+</table>
+<h3>What the reachable evidence delivers (shipped)</h3>
+<p><code>tools/research/utxo_series.py</code> + <code>data/utxo_series.json</code>:</p>
+<ol>
+<li><strong>Primary anchors (blockchair, frozen 2026-09-15):</strong> outputs-ever 3.925B,</li>
+</ol>
+<p>transactions-ever 1.44B, hodling-addresses 59.57M, chain size 769 GB.</p>
+<ol>
+<li><strong>VCI chain-size cross-check: 2.7%.</strong> VCI&#x27;s cumulative daily-avg-block-size</li>
+</ol>
+<p>route (789.5 GB) vs blockchair&#x27;s direct <code>blockchain_size</code> (769.0 GB) — the</p>
+<p>chain leg of VCI is now independently validated as tight.</p>
+<ol>
+<li><strong>UTXO-count: NOT MEASURED.</strong> No reachable primary source exposes a current</li>
+</ol>
+<p>unspent count; <code>utxo_count_2026</code> is explicitly <code>null</code>, not fabricated.</p>
+<h3>Verdict</h3>
+<p><strong>Build-or-document: DOCUMENTED.</strong> Row 6 historical stays D; VCI state leg stays</p>
+<p>estimate-table. The pre-2016 continuous UTXO-count series requires one of:</p>
+<ol>
+<li>A <strong>synced local Bitcoin Core node</strong> (the ready path — the census node is</li>
+</ol>
+<p>~320K blocks behind; once synced, <code>gettxoutsetinfo</code> captures give a true</p>
+<p>primary series going forward, and per-block <code>nTx</code>-derived deltas cover the</p>
+<p>back-fill). This is the R5 node-sync decision, already deferred.</p>
+<ol>
+<li>A <strong>blockchair full block scan</strong> from a session/host tolerant of its rate</li>
+</ol>
+<p>limits (~10K requests), computing Σ(outputs − non-coinbase inputs) per block.</p>
+<p>No fabricated UTXO numbers exist in the repo.</p>
+<div class="datacard"><div class="kv">Data source: <code>data/utxo_series.json + verify_cost_index.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>

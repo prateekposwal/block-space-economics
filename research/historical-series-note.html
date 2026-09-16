@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Bitcoin Sahi calibration note — Historical Series Note. Data-confidence evidence for the block space economics research program: historical series, per-block validation, and reachability findings.">
+<meta property="og:title" content="Historical Series Note">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/historical-series-note.html">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/historical-series-note.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Historical Series Note","item":"https://bitcoinsahi.com/research/historical-series-note.html"}]}
+</script>
+<title>Historical Series Note — BSAHI Research</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Historical Series Note</h1>
+<h2>Historical Series Extension: Difficulty + Mempool Congestion</h2>
+<p>**BSAHI — row 10 (mining hashrate level, historical A), row 3 (mempool pressure,</p>
+<p>historical B\*)**</p>
+<p>*Produced: 2026-09-16 · Instrument: <code>tools/research/historical_series_extension.py</code>*</p>
+<h3>What was frozen</h3>
+<p>Two primary series from the blockchain.info charts family (same deterministic</p>
+<p>capture path as the existing frozen daily aggregates under</p>
+<p><code>captured-data/historical/blockchain.info/</code>):</p>
+<table>
+<tr><th>Series</th><th>Coverage</th><th>Points</th><th>Data file</th></tr>
+<tr><td><strong>Difficulty</strong></td><td>2009-01-03 → 2026-09-13</td><td>1,614</td><td><code>data/difficulty_series.json</code></td></tr>
+<tr><td><strong>Mempool count</strong> (pending txs)</td><td>2016-06-14 → 2026 (daily, ~4-day cadence)</td><td>1,498</td><td><code>data/mempool_congestion_series.json</code></td></tr>
+<tr><td><strong>Mempool size</strong> (bytes pending)</td><td>2016-06-14 → 2026</td><td>1,498</td><td><code>data/mempool_congestion_series.json</code></td></tr>
+</table>
+<p>Difficulty latest reading: <strong>127,450,789,715,844</strong> (2026-09-13).</p>
+<h3>Grade impact</h3>
+<ul>
+<li><strong>Row 10 (mining hashrate):</strong> historical B → <strong>A</strong>. Difficulty and the frozen</li>
+</ul>
+<p>hash-rate TH/s series both now cover 2009→2026 from primary sources; the two</p>
+<p>sides (target vs effort) cross-check each other.</p>
+<ul>
+<li><strong>Row 3 (mempool pressure):</strong> historical B → <strong>B\</strong>*. The 2016-2026 congestion</li>
+</ul>
+<p>record is now a primary frozen series with per-era reads. Pre-2016-06 episodes</p>
+<p>remain reconstruction-only (the chart starts then).</p>
+<h3>Congestion reads by era (2016-2026)</h3>
+<table>
+<tr><th>Era</th><th>Mean pending txs</th><th>Peak</th><th>Peak date</th><th>Days &gt;50k</th><th>Days &gt;100k</th><th>Days &gt;200k</th><th>Regime</th></tr>
+<tr><td>2016</td><td>6,995</td><td>63,352</td><td>2016-11-24</td><td>1.2%</td><td>0%</td><td>0%</td><td>LOW</td></tr>
+<tr><td>2017</td><td>35,533</td><td>173,688</td><td>2017-05-20</td><td>27.4%</td><td>11.0%</td><td>0%</td><td>MODERATE</td></tr>
+<tr><td>2018</td><td>9,116</td><td>87,880</td><td>2018-01-03</td><td>4.1%</td><td>0%</td><td>0%</td><td>LOW</td></tr>
+<tr><td>2019</td><td>10,794</td><td>60,198</td><td>2019-05-15</td><td>1.4%</td><td>0%</td><td>0%</td><td>LOW</td></tr>
+<tr><td>2020</td><td>19,173</td><td>131,691</td><td>2020-10-31</td><td>10.3%</td><td>1.4%</td><td>0%</td><td>MODERATE</td></tr>
+<tr><td>2021</td><td>23,815</td><td>128,533</td><td>2021-04-19</td><td>15.1%</td><td>2.1%</td><td>0%</td><td>MODERATE</td></tr>
+<tr><td>2022</td><td>5,763</td><td>46,318</td><td>2022-05-12</td><td>0%</td><td>0%</td><td>0%</td><td>LOW</td></tr>
+<tr><td><strong>2023</strong></td><td>101,147</td><td>283,139</td><td>2023-08-10</td><td><strong>58.2%</strong></td><td><strong>47.3%</strong></td><td><strong>18.5%</strong></td><td>MODERATE</td></tr>
+<tr><td><strong>2024</strong></td><td>128,759</td><td>225,015</td><td>2024-10-11</td><td><strong>96.6%</strong></td><td><strong>72.6%</strong></td><td><strong>6.8%</strong></td><td>MODERATE</td></tr>
+<tr><td>2025</td><td>18,324</td><td>158,384</td><td>2025-01-02</td><td>11.0%</td><td>7.5%</td><td>0%</td><td>MODERATE</td></tr>
+<tr><td>2026</td><td>13,880</td><td>96,917</td><td>2026-08-02</td><td>9.7%</td><td>0%</td><td>0%</td><td>LOW</td></tr>
+</table>
+<p><strong>Headline:</strong> 2024 was the congestion peak (96.6% of days over 50K pending txs,</p>
+<p>72.6% over 100K); 2023 the Ordinals year (58.2% over 50K, 18.5% over 200K,</p>
+<p>peak 283,139); 2022 the empty year (0 days over 50K). Pending-mempool tx counts</p>
+<p>stay well under the 2017-era backlogs&#x27; *share* of activity, but the *duration*</p>
+<p>of sustained congestion in 2023-24 exceeded 2017.</p>
+<p>Latest live read (2026-09-15): mempool count 34,687 pending txs, mempool size</p>
+<p>~13.3 MB pending.</p>
+<h3>Reproducibility</h3>
+<p>Deterministic: raw series frozen at `captured-data/historical/blockchain.info/</p>
+<p>charts/{difficulty,mempool-count,mempool-size}.json`; the aggregate instrument</p>
+<p>reads only the frozen files and writes <code>data/difficulty_series.json</code> +</p>
+<p><code>data/mempool_congestion_series.json</code>. Re-runnable offline after the freeze.</p>
+<div class="datacard"><div class="kv">Data source: <code>data/difficulty_series.json + mempool_congestion_series.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>
