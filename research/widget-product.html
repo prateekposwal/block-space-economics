@@ -68,17 +68,13 @@ body.gated .container{display:none}</style>
 <div class="container">
 <h1>Widget-Product</h1>
 <h2>BSAHI — &quot;Should I Send Now?&quot; Widget (product)</h2>
-<p><strong>Status:</strong> LIVE (2026-08-11) · <strong>Product:</strong> the freemium wedge of the data/API business</p>
-<p><strong>Widget URL:</strong> <code>https://bitcoinsahi.com/widget-send.html</code></p>
-<p><strong>Data API:</strong> <code>https://bitcoinsahi.com/tools/live_data.json</code> (public, refresh every 60s)</p>
+<p><strong>Status:</strong> LIVE (2026-08-11) · <strong>Product:</strong> the freemium wedge of the data/API business <strong>Widget URL:</strong> <code>https://bitcoinsahi.com/widget-send.html</code> <strong>Data API:</strong> <code>https://bitcoinsahi.com/tools/live_data.json</code> (public, refresh every 60s)</p>
 <hr>
 <h3>What it is</h3>
-<p>A self-contained, iframe-embeddable widget that tells a user <strong>whether to send Bitcoin now</strong> — based on live mempool conditions from our Bitcoin Core node.</p>
-<p>It computes a fee-weather verdict (Sunny → Storm) and shows the cost of a</p>
-<p>typical transaction.</p>
+<p>A self-contained, iframe-embeddable widget that tells a user <strong>whether to send Bitcoin now</strong> — based on live mempool conditions from our Bitcoin Core node. It computes a fee-weather verdict (Sunny → Storm) and shows the cost of a typical transaction.</p>
 <h3>Embed it (one line)</h3>
 <pre><code>&lt;iframe src=&quot;https://bitcoinsahi.com/widget-send.html&quot;
-        width=&quot;360&quot; height=&quot;280&quot; style=&quot;border:1px solid var(--surface-muted);border-radius:12px&quot;
+        width=&quot;360&quot; height=&quot;280&quot; style=&quot;border:1px solid #30363D;border-radius:12px&quot;
         loading=&quot;lazy&quot; title=&quot;Should I send Bitcoin now? — BSAHI&quot;&gt;&lt;/iframe&gt;</code></pre>
 <p>Dark theme by default; auto-refreshes every 60s; no dependencies.</p>
 <h3>The data API (freemium — free today)</h3>
@@ -92,20 +88,12 @@ body.gated .container{display:none}</style>
   &quot;bip110_signaling&quot;: { &quot;...&quot;: &quot;...&quot; },
   &quot;utxo_set&quot;: { &quot;...&quot;: &quot;...&quot; }
 }</code></pre>
-<p>Free tier: the current snapshot, refreshed hourly.</p>
-<p>Developer tier ($50/mo, planned): history, projections, custom verdict rules.</p>
-<p>Enterprise tier ($500/mo, planned): real-time webhooks, dedicated support.</p>
+<p>Free tier: the current snapshot, refreshed hourly. Developer tier ($50/mo, planned): history, projections, custom verdict rules. Enterprise tier ($500/mo, planned): real-time webhooks, dedicated support.</p>
 <h3>Why wallets/exchanges want it</h3>
 <ul>
-<li><strong>Tells users <em>when</em> to transact</strong> — saves them fee dollars, which is the</li>
-</ul>
-<p>#1 UX ask of any wallet.</p>
-<ul>
+<li><strong>Tells users <em>when</em> to transact</strong> — saves them fee dollars, which is the #1 UX ask of any wallet.</li>
 <li><strong>One-line embed</strong> — no SDK, no auth on the free tier.</li>
-<li><strong>Data is real</strong>: from a self-hosted Bitcoin Core node + mempool.space, not a</li>
-</ul>
-<p>scraped feed. 20+ endpoints, 26 sources, 10,000+ captures.</p>
-<ul>
+<li><strong>Data is real</strong>: from a self-hosted Bitcoin Core node + mempool.space, not a scraped feed. 20+ endpoints, 26 sources, 10,000+ captures.</li>
 <li><strong>Whitelabel-ready</strong>: the verdict logic is pure CSS/JS — recolor to any brand.</li>
 </ul>
 <h3>Freemium → paid path</h3>

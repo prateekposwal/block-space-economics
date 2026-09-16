@@ -69,15 +69,14 @@ body.gated .container{display:none}</style>
 <h1>Satoshi-Primary-Source-Note</h1>
 <h2>Satoshi&#x27;s Primary Sources — Verification Note</h2>
 <p><strong>What Satoshi actually wrote about storage, fees, and node equilibrium</strong></p>
-<p><em>Analysis note — NOT a submission artifact. Created 2026-08-03 by Prateek on Prateek&#x27;s request to verify an architect&#x27;s finding before any fold-in. Every quote below was re-verified against the canonical Satoshi Nakamoto Institute (SNI) archives and bitcoin.org/bitcoin.pdf on 2026-08-03. Status labels: ✅ VERIFIED verbatim · ⚠️ VERIFIED but context-corrected · ❌ APOCRYPHAL / NOT FOUND.</em></p>
+<p><em>(Analysis note — NOT a submission artifact. Created 2026-08-03 by Prateek on Prateek&#x27;s request to verify an architect&#x27;s finding before any fold-in. Every quote below was re-verified against the canonical Satoshi Nakamoto Institute (SNI) archives and bitcoin.org/bitcoin.pdf on 2026-08-03. Status labels: ✅ VERIFIED verbatim · ⚠️ VERIFIED but context-corrected · ❌ APOCRYPHAL / NOT FOUND.)</em></p>
 <hr>
 <h3>1. What the architect claimed</h3>
 <blockquote>Satoshi modeled the storage externality twice (in dollars AND bytes), dismissed</blockquote>
 <blockquote>it by design, and never priced it; fees were defined purely as an inclusion</blockquote>
 <blockquote>incentive, never a storage price; and when he needed to protect storage he used</blockquote>
 <blockquote>quantity control (block-size cap), not price.</blockquote>
-<p>The proposed causal chain: <strong>2008 design (storage designed-around, not priced) → 2017 SegWit discount → 2023 Ordinals → measured externality</strong>, as a primary-source</p>
-<p>argument against the efficient-markets objection (working-paper §8.3).</p>
+<p>The proposed causal chain: <strong>2008 design (storage designed-around, not priced) → 2017 SegWit discount → 2023 Ordinals → measured externality</strong>, as a primary-source argument against the efficient-markets objection (working-paper §8.3).</p>
 <h3>2. Verification verdict — what checks out and what does not</h3>
 <table>
 <tr><th>#</th><th>Claim</th><th>Verdict</th><th>Notes</th></tr>
@@ -92,55 +91,26 @@ body.gated .container{display:none}</style>
 <tr><td>9</td><td>Post 485 (Oct 4, 2010): phased block-size cap increase</td><td>✅ <strong>VERIFIED verbatim</strong></td><td>Exact text: <em>&quot;It can be phased in, like: if (blocknumber &gt; 115000) maxblocksize = largerlimit.&quot;</em> The 1MB-era cap is a changeable quantity control, not a price.</td></tr>
 <tr><td>10</td><td>&quot;Proof of work is the one invention that makes Bitcoin possible&quot;</td><td>❌ <strong>APOCRYPHAL — NOT FOUND</strong></td><td>Searched: full whitepaper, all 15 cryptography-list emails, posts 188/287/441/485, P2P Foundation posts. <strong>This quote appears nowhere in the SNI archive.</strong> It circulates in secondary quote-collections with no primary source. <strong>Do NOT use it.</strong></td></tr>
 </table>
-<p><strong>Bottom line:</strong> the architect&#x27;s <em>pattern</em> is real — (i) fees were defined purely as</p>
-<p>an inclusion incentive (✅ §6, email #13), (ii) storage was designed <em>around</em> via</p>
-<p>pruning/SPV and dismissed (✅ §7), (iii) when storage protection was needed Satoshi</p>
-<p>reached for quantity control, not price (✅ posts 441/485), and (iv) he predicted a</p>
-<p>node-count equilibrium (✅ posts 188/287). But two of the architect&#x27;s specific</p>
-<p>attributions are wrong and must not enter the paper as stated: the dollars-and-bytes</p>
-<p>modeling in email #2 is <strong>bandwidth</strong>, not storage; emails #7/#11 contain <strong>no</strong></p>
-<p>storage claims; and §7&#x27;s &quot;storage should not be a problem&quot; is about <strong>headers in RAM</strong>, not full-chain disk storage.</p>
+<p><strong>Bottom line:</strong> the architect&#x27;s <em>pattern</em> is real — (i) fees were defined purely as an inclusion incentive (✅ §6, email #13), (ii) storage was designed <em>around</em> via pruning/SPV and dismissed (✅ §7), (iii) when storage protection was needed Satoshi reached for quantity control, not price (✅ posts 441/485), and (iv) he predicted a node-count equilibrium (✅ posts 188/287). But two of the architect&#x27;s specific attributions are wrong and must not enter the paper as stated: the dollars-and-bytes modeling in email #2 is <strong>bandwidth</strong>, not storage; emails #7/#11 contain <strong>no</strong> storage claims; and §7&#x27;s &quot;storage should not be a problem&quot; is about <strong>headers in RAM</strong>, not full-chain disk storage.</p>
 <h3>3. The causal chain, stated honestly</h3>
-<p><strong>2008 design:</strong> fee defined as block-production incentive (§6, email #13); full-chain</p>
-<p>storage designed around via SPV/pruning, header load dismissed (§7); a separate</p>
-<p>bandwidth cost estimated in dollars and dismissed (email #2). Storage was never a</p>
-<p>priced attribute of the fee.</p>
-<p><strong>2010 hardening:</strong> when disk-space protection was needed, Satoshi used quantity</p>
-<p>control — a lower block-size threshold as a &quot;circuit breaker&quot; against &quot;wasted disk</p>
-<p>space&quot; (post 441), later a phased-in cap (post 485).</p>
-<p><strong>2017 SegWit:</strong> BIP 141&#x27;s 4:1 witness weight discount changed the <em>price</em> of</p>
-<p>witness-resident data relative to non-witness data (working-paper §3) — a deliberate</p>
-<p>protocol price change, made for malleability, with a storage-relevant side effect.</p>
-<p><strong>2023 Ordinals:</strong> inscriptions exploited the 4:1 discount to put data on-chain at a</p>
-<p>subsidized marginal price (working-paper §5.2). The externality becomes measurable in</p>
-<p>the fee market.</p>
-<p><strong>Measured result (live, 2026-08-21):</strong> SCCR <strong>0.4433</strong>,
-<strong>96.24%</strong> of blocks below 1× (133 blocks, <code>/data/sccr_history.json</code>,
-14-point record 08-02 → 08-21). Dated banded baseline (Aug 02–15): SCCR ≈ 0.22–0.29 at
-N=32K; ~98.7–100% of blocks below 1× (working-paper §5). The ratio is fee-market-driven
-and time-varying — see the <a href="/research/regime-event-2026-08-21.html">regime event page</a>.</p>
-<p>The chain supports the paper&#x27;s framing: the fee market was never designed to price</p>
-<p>storage, so finding that it does not is a measurement of the design&#x27;s actual behavior,</p>
-<p>not a claim of market failure. This is the honest, source-supported version of the</p>
-<p>architect&#x27;s argument.</p>
+<p><strong>2008 design:</strong> fee defined as block-production incentive (§6, email #13); full-chain storage designed around via SPV/pruning, header load dismissed (§7); a separate bandwidth cost estimated in dollars and dismissed (email #2). Storage was never a priced attribute of the fee.</p>
+<p><strong>2010 hardening:</strong> when disk-space protection was needed, Satoshi used quantity control — a lower block-size threshold as a &quot;circuit breaker&quot; against &quot;wasted disk space&quot; (post 441), later a phased-in cap (post 485).</p>
+<p><strong>2017 SegWit:</strong> BIP 141&#x27;s 4:1 witness weight discount changed the <em>price</em> of witness-resident data relative to non-witness data (working-paper §3) — a deliberate protocol price change, made for malleability, with a storage-relevant side effect.</p>
+<p><strong>2023 Ordinals:</strong> inscriptions exploited the 4:1 discount to put data on-chain at a subsidized marginal price (working-paper §5.2). The externality becomes measurable in the fee market.</p>
+<p><strong>Measured result:</strong> SCCR ≈ 0.22–0.29 at N=32K; ~98.7–100% of blocks below 1× (working-paper §5).</p>
+<p>The chain supports the paper&#x27;s framing: the fee market was never designed to price storage, so finding that it does not is a measurement of the design&#x27;s actual behavior, not a claim of market failure. This is the honest, source-supported version of the architect&#x27;s argument.</p>
 <h3>4. The falsifiable-claims table (Satoshi&#x27;s claims → our data)</h3>
-<p>The strongest use of the primary sources: Satoshi made <strong>testable claims</strong> about node</p>
-<p>count, storage burden, and equilibrium. Each becomes a falsifiable specimen against</p>
-<p>this paper&#x27;s measurements.</p>
+<p>The strongest use of the primary sources: Satoshi made <strong>testable claims</strong> about node count, storage burden, and equilibrium. Each becomes a falsifiable specimen against this paper&#x27;s measurements.</p>
 <table>
 <tr><th>Satoshi&#x27;s claim (source)</th><th>What it predicts</th><th>Our data (working-paper)</th><th>Status</th></tr>
 <tr><td>&quot;I anticipate there will never be more than 100K nodes, probably less&quot; (post 188, 2010)</td><td>N &lt; 100K, probably less</td><td>Primary-source lower-bound census N ≥ 32,000 known addresses (addrman cap); independent estimates 10K–100K</td><td>✅ <strong>CONSISTENT</strong> — the paper&#x27;s N-band (10K–100K) brackets his ceiling; his claim is not falsified by the census, and his upper bound sits at the top of our uncertainty band</td></tr>
 <tr><td>&quot;It will reach an equilibrium where it&#x27;s not worth it for more nodes to join in&quot; (post 188)</td><td>Node count self-limits via cost/benefit; N stabilizes</td><td>Roadmap Q1: the only endogenous negative feedback in the model is the N-margin loop; the model cannot yet close the loop</td><td>🟡 <strong>OPEN / NOT YET TESTED</strong> — this is roadmap Q1 (equilibrium force); a measured N-response function would test it directly (roadmap §8 Q1)</td></tr>
 <tr><td>&quot;The more burden it is to run a node, the fewer nodes there will be&quot; (post 287)</td><td>∂N/∂burden &lt; 0</td><td>C = $925/yr bundled node cost; SCCR ∝ 1/N</td><td>🟡 <strong>TESTABLE</strong> — burden↔N elasticity is a roadmap Phase IV dynamic question</td></tr>
-<tr><td>&quot;storage should not be a problem&quot; (whitepaper §7, 2008)</td><td>Storage is negligible for node operation</td><td>Live SCCR 0.4433 (2026-08-21; 96.24% below 1×); dated band 0.22–0.29; per-node lifetime storage liability ~$0.18/block; $925/yr node cost</td><td>⚠️ <strong>SCOPE-CAUTION</strong> — his claim covers headers in RAM (SPV), NOT full-chain disk storage; against the full-chain storage this paper measures, the burden is real but small per node ($925/yr bundled, storage component ~$167/yr). The claim is not directly falsified because it was about a different object</td></tr>
+<tr><td>&quot;storage should not be a problem&quot; (whitepaper §7, 2008)</td><td>Storage is negligible for node operation</td><td>SCCR ≈ 0.22–0.29; per-node lifetime storage liability ~$0.18/block; $925/yr node cost</td><td>⚠️ <strong>SCOPE-CAUTION</strong> — his claim covers headers in RAM (SPV), NOT full-chain disk storage; against the full-chain storage this paper measures, the burden is real but small per node ($925/yr bundled, storage component ~$167/yr). The claim is not directly falsified because it was about a different object</td></tr>
 <tr><td>&quot;nodes will have an incentive to receive and include all the transactions they can&quot; (email #13, 2008)</td><td>Fee incentive is sufficient to induce inclusion</td><td>Fee market clears blocks at ~2 sat/vB (live baseline); inclusion incentive works — the mechanism functions</td><td>✅ <strong>CONSISTENT</strong> — the fee market does clear inclusion; it is the <em>storage</em> leg that is unpriced, which is exactly the paper&#x27;s claim</td></tr>
 <tr><td>&quot;The threshold can easily be changed... keep it lower as a circuit breaker... limit the amount of wasted disk space&quot; (post 441, 2010)</td><td>Storage protection via quantity control, not price</td><td>The 1MB cap persisted into the Ordinals era; SegWit&#x27;s 4:1 discount changed effective capacity</td><td>✅ <strong>CONSISTENT</strong> — quantity control, not price, was the design&#x27;s storage-protection mechanism</td></tr>
 </table>
-<p><strong>Assessment:</strong> the falsifiable-claims table is genuinely strong and belongs in the</p>
-<p>framework paper (Paper 4) — it converts the &quot;Satoshi predicted it&quot; anecdote into</p>
-<p>testable hypotheses. The two live specimens (N-equilibrium → roadmap Q1; node</p>
-<p>count → census) are already the roadmap&#x27;s open questions, now anchored in the</p>
-<p>designer&#x27;s own predictions.</p>
+<p><strong>Assessment:</strong> the falsifiable-claims table is genuinely strong and belongs in the framework paper (Paper 4) — it converts the &quot;Satoshi predicted it&quot; anecdote into testable hypotheses. The two live specimens (N-equilibrium → roadmap Q1; node count → census) are already the roadmap&#x27;s open questions, now anchored in the designer&#x27;s own predictions.</p>
 <h3>5. The two insights, placed</h3>
 <ol>
 <li><strong>&quot;Satoshi predicted the self-correction mechanism&quot;</strong> (post 188: <em>&quot;It will reach an equilibrium where it&#x27;s not worth it for more nodes to join in&quot;</em>) — this is roadmap Q1 in the designer&#x27;s own words. The roadmap&#x27;s N-margin feedback loop (under-pricing → exit → N↓ → SCCR↑) is Satoshi&#x27;s predicted equilibrium. Cross-ref: <strong>roadmap.md §8 Q1</strong> (and working-paper §7.1 falsifier 6, which requires measured response functions to close the loop).</li>

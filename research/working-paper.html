@@ -63,28 +63,28 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <div class="container">
 <h1>Working-Paper</h1>
 <h2>Storage Cost Internalization in Bitcoin&#x27;s Fee Market</h2>
-<p><strong>The Bitcoin Block Space Problem</strong> — BSAHI Working Paper v2.2.0 (model-spec.json v2.0.1)</p>
-<p><em>Prepared by Prateek Poswal (Independent Researcher) within the Bitcoin Sahi Research Council program · ORCID: 0009-0005-2139-1877 · 2026-08-03</em></p>
+<p><strong>The Bitcoin Block Space Problem</strong> — BSAHI Working Paper v2.2.0 (model-spec.json v2.0.1) <em>Prepared by Prateek Poswal (Independent Researcher) within the Bitcoin Sahi Research Council program · ORCID: 0009-0005-2139-1877 · 2026-08-03</em></p>
 <p><em>This work is licensed under a Creative Commons Attribution 4.0 International License (CC BY 4.0). To view a copy, visit https://creativecommons.org/licenses/by/4.0/.</em></p>
 <hr>
 <h3>Abstract</h3>
 <p>Bitcoin has a market price for block space, but no explicit market price for long-lived resource consumption. This paper measures one of those resources — replicated storage — and asks how much of its modeled cost is covered by transaction fees. We define a <strong>Storage Cost Coverage Ratio (SCCR)</strong> — the ratio of transaction fees paid (USD) to the estimated lifetime storage cost borne by full nodes (USD) — and measure it against live fee-history data.</p>
-<p><strong>The headline is a range, not a point.</strong> Our best available measurement of the replication factor N (full-node count) is a <strong>primary-source lower-bound census (≥32,000 known addresses via Bitcoin Core <code>getnodeaddresses</code>)</strong> — the address-manager cap, not a complete enumeration — while independent estimates span <strong>~10K–100K</strong> reachable nodes. Because SCCR is exactly inverse-linear in N, the result is stated in three lines (exact figures appear in the table below and §5.1):</p>
+<p><strong>The headline is a range, not a point.</strong> Our best available measurement of the replication factor N (full-node count) is a <strong>primary-source lower-bound census (≥32,000 known addresses via Bitcoin Core <code>getnodeaddresses</code>)</strong> — the address-manager cap, not a complete enumeration — while independent estimates span <strong>~10K–100K</strong> reachable nodes. Because SCCR is exactly inverse-linear in N, the result is stated in four lines (exact figures appear in the table below and §5.1):</p>
 <ul>
-<li><strong>Representative live measurement: ≈0.22</strong> — the average SCCR at N=32K, live capture 2026-08-02.</li>
-<li><strong>Observed band: ≈0.22–0.29</strong> — across dated captures at N=32K (live, 2026-08-01 dated, and frozen-capture reproduction).</li>
-<li><strong>Model uncertainty: depends strongly on the replication factor N</strong> — the average spans <strong>~0.71 at N=10K to ~0.07 at N=100K</strong>; this N-band range (~0.07–0.71) is a <em>different</em> uncertainty from the observed-sample band above and carries the dominant risk.</li>
+<li><strong>Dated baseline band (Aug 02–15): ≈0.22 coverage at N=32K</strong>, with ~100% of sampled blocks below 1× storage cost (exact figures in the table below and §5.1).</li>
+<li><strong>Live series (Sep 07): 0.40 at N=32K, 94.37% of blocks below 1×</strong> — the coverage ratio is <strong>fee-market-driven and time-varying</strong>, not a fixed point.</li>
+<li><strong>Dynamic finding:</strong> SCCR moved <strong>0.16 → 0.45 → 0.40</strong> across a <strong>22-point daily series (2026-08-02 → 2026-09-07)</strong> measured live in <code>data/sccr_history.json</code> — dynamic measurement strengthens, not weakens, the paper.</li>
+<li><strong>Model uncertainty: depends strongly on the replication factor N</strong> — the average spans <strong>~0.71 at N=10K to ~0.07 at N=100K</strong>; this N-band range (~0.07–0.71) is a <em>different</em> uncertainty from the dated/live observations above and carries the dominant risk.</li>
 </ul>
 <p>A joint Monte Carlo over N, C, T, and price (current band, 10,000 draws) gives a P5–P95 interval of <strong>0.07–0.47</strong>, median 0.17, with <strong>99.9% of draws below the 1× threshold</strong>; the share of sampled blocks below 1× ranges ~79–100% depending on the true N. We reconcile two cost models that previously disagreed by 16.4× (dimensionless), document the correction transparently (model-spec.json v2.0.0), and state results to the precision the evidence licenses: <strong>external reproduction is pending (D5)</strong>. The framework is reproducible, falsifiable research.</p>
 <p><strong>Hypothesis:</strong> Bitcoin&#x27;s fee market efficiently allocates scarce block space, but may not fully internalize every long-lived resource cost created by confirmed transactions.</p>
-<p><strong>Final numbers at a glance</strong> — the headline in three lines, exact figures (all captures dated; model-spec v2.0.1; the full derivation is §4–§5, the sensitivity and knife-edge details are §5.3–§5.4, and the falsifiers are §7.1):</p>
+<p><strong>Final numbers at a glance</strong> — the headline in four lines, exact figures (all captures dated; model-spec v2.0.1; the full derivation is §4–§5, the sensitivity and knife-edge details are §5.3–§5.4, and the falsifiers are §7.1):</p>
 <table>
 <tr><th>Quantity</th><th>Value</th></tr>
-<tr><td><strong>Representative live measurement</strong> ≈0.22 — SCCR at N=32K (primary-source lower-bound census)</td><td><strong>0.2228</strong> (live capture, 167 blocks, 2026-08-02)</td></tr>
-<tr><td><strong>Observed band</strong> ≈0.22–0.29 — across dated captures at N=32K</td><td>0.2228 (live) · <strong>0.293</strong> (dated capture, 156 blocks, 2026-08-01) · <strong>0.2186</strong> (frozen-capture reproduction, 171 blocks)</td></tr>
+<tr><td><strong>Dated baseline band</strong> ≈0.22 — SCCR at N=32K, Aug 02–15 (primary-source lower-bound census)</td><td><strong>0.2243</strong> (2026-08-02, 153 blocks) · <strong>0.2840</strong> (2026-08-03) · <strong>0.2611</strong> (2026-08-04) · <strong>0.2095</strong> (2026-08-15) — see <code>data/sccr_history.json</code></td></tr>
+<tr><td><strong>Live series (Sep 07)</strong> — SCCR at N=32K</td><td><strong>0.3999</strong> (142 blocks, <strong>94.37% below 1×</strong>, <code>data/sccr.json</code>) · series range <strong>0.1574 (Aug 16) → 0.4508 (Aug 21) → 0.3999 (Sep 07)</strong> across 22 points (<code>data/sccr_history.json</code>)</td></tr>
 <tr><td><strong>Model uncertainty</strong> — depends strongly on the replication factor N (independent estimates N = 10K–100K)</td><td><strong>~0.07 – ~0.71</strong> (inverse-linear in N: 0.713 at N=10K, 0.0713 at N=100K at the live baseline)</td></tr>
 <tr><td>Monte Carlo confidence interval (current band: N ~ Tri(10K, 100K, mode 32K), 10,000 draws, live anchor)</td><td><strong>P5–P95: 0.07 – 0.47</strong> · median 0.17 · <strong>99.9% of draws below 1×</strong></td></tr>
-<tr><td>Blocks below 1×</td><td>98.7% (dated capture at N=32K) – 100% (live/frozen at N=32K); ~79% at N=10K, 100% at N≥32K</td></tr>
+<tr><td>Blocks below 1×</td><td><strong>94.37%</strong> (live series, Sep 07, N=32K) vs ~100% (dated Aug 02–15 baseline, N=32K); ~79% at N=10K, 100% at N≥32K</td></tr>
 <tr><td>External reproduction</td><td><strong>PENDING (D5)</strong> — independent runs requested; every figure above is stated to the precision the evidence licenses</td></tr>
 </table>
 <hr>
@@ -98,9 +98,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <li><strong>~10-min horizon</strong> (next block) vs. <strong>indefinite horizon</strong> (data persists in blockchain history)</li>
 </ul>
 <p><strong>Scope:</strong> this paper measures the <strong>storage leg</strong> of a broader resource-pricing question. Bandwidth, validation, and UTXO-maintenance legs are future work (see §7).</p>
-<p><strong>Where storage sits — the Bitcoin Resource Map (Figure 1).</strong> One picture of</p>
-<p>the whole framework before the model starts, so the reader can place the storage</p>
-<p>leg (and the five unmeasured legs) at a glance:</p>
+<p><strong>Where storage sits — the Bitcoin Resource Map (Figure 1).</strong> One picture of the whole framework before the model starts, so the reader can place the storage leg (and the five unmeasured legs) at a glance:</p>
 <pre><code>                        ┌───────────────────────────┐
                         │    BITCOIN FEE MARKET     │
                         │  one price · sat/vbyte ·  │
@@ -266,13 +264,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 </table>
 <p>The current-band median (0.17) sits near the N=32K point estimates (0.22–0.29), and the P5–P95 interval (0.07–0.47) brackets the deterministic N-band range (~0.07–0.71): the confidence interval and the range are two views of the same N-driven uncertainty. The old-N-band result above (99.8% below 1×) remains as the historical conservative check.</p>
 <h4>5.5 The Bandwidth Leg (v1 analytical bound)</h4>
-<p><em>(Added 2026-08-04, G-06.)</em> The storage leg prices <em>stored</em> bytes; the</p>
-<p>bandwidth leg prices the <strong>marginal propagation</strong> of those bytes: every full</p>
-<p>node — pruned or archival — must download every byte of every block</p>
-<p>(<code>pruning_externality_analysis.md</code>). Quantities live in <code>model-spec.json</code></p>
-<p>v2.1.0 (<code>cost_per_gb</code> input; derived <code>bw_GB_yr</code>, <code>bw_cost_per_year_node</code>,</p>
-<p><code>bw_cost_per_year_net</code>, <code>bw_insc_incr_node</code>); the formula is</p>
-<p><strong>B × replication × $/GB</strong>:</p>
+<p><em>(Added 2026-08-04, G-06.)</em> The storage leg prices <em>stored</em> bytes; the bandwidth leg prices the <strong>marginal propagation</strong> of those bytes: every full node — pruned or archival — must download every byte of every block (<code>pruning_externality_analysis.md</code>). Quantities live in <code>model-spec.json</code> v2.1.0 (<code>cost_per_gb</code> input; derived <code>bw_GB_yr</code>, <code>bw_cost_per_year_node</code>, <code>bw_cost_per_year_net</code>, <code>bw_insc_incr_node</code>); the formula is <strong>B × replication × $/GB</strong>:</p>
 <table>
 <tr><th>Quantity</th><th>Value</th><th>Meaning</th></tr>
 <tr><td><code>bw_GB_yr</code> = B_all_yr / 1e9</td><td><strong>78.894 GB/yr</strong></td><td>full-chain bytes each node downloads</td></tr>
@@ -281,22 +273,9 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td><code>bw_cost_per_year_net</code></td><td><strong>~$126K/yr</strong></td><td>× N=32K lower-bound census</td></tr>
 <tr><td><code>bw_insc_incr_node</code></td><td><strong>$0.024/yr per node</strong></td><td>inscription-incremental share (480 MB/yr × $0.05/GB) — reconciles the earlier &quot;~$0.02/yr&quot; figure</td></tr>
 </table>
-<p><strong>Honest framing:</strong> this is an <strong>analytical bound, not a measurement.</strong> Real</p>
-<p>node bandwidth bills are overwhelmingly flat-rate (residential/colocation</p>
-<p>unmetered), so $/GB is a <em>marginal economic proxy</em>, not a typical bill. The</p>
-<p>bound&#x27;s job is to bound the <em>marginal</em> propagation externality the storage leg</p>
-<p>deliberately excludes (§7 limitation 5): the full-chain marginal cost is</p>
-<p><strong>~$3.94/yr per node</strong> (~$126K/yr network at ≥32K nodes), and the</p>
-<p>inscription-incremental slice is <strong>~$0.024/yr per node</strong> — small in both</p>
-<p>frames, in the same direction as the pruning analysis&#x27;s verdict</p>
-<p>(<code>pruning_externality_analysis.md</code>: $0.02–0.05/yr unavoidable per node).</p>
+<p><strong>Honest framing:</strong> this is an <strong>analytical bound, not a measurement.</strong> Real node bandwidth bills are overwhelmingly flat-rate (residential/colocation unmetered), so $/GB is a <em>marginal economic proxy</em>, not a typical bill. The bound&#x27;s job is to bound the <em>marginal</em> propagation externality the storage leg deliberately excludes (§7 limitation 5): the full-chain marginal cost is <strong>~$3.94/yr per node</strong> (~$126K/yr network at ≥32K nodes), and the inscription-incremental slice is <strong>~$0.024/yr per node</strong> — small in both frames, in the same direction as the pruning analysis&#x27;s verdict (<code>pruning_externality_analysis.md</code>: $0.02–0.05/yr unavoidable per node).</p>
 <h4>5.6 The Validation Leg (v1 order-of-magnitude survey)</h4>
-<p><em>(Added 2026-08-04, G-06; full survey: <code>research/validation-cost.md</code>.)</em></p>
-<p>Validation is the CPU work every node pays for every block since genesis —</p>
-<p>PoW-header check (trivial), block rules, and <strong>signature verification</strong></p>
-<p>(the dominant term) — and it is the only leg that is strictly unavoidable at</p>
-<p>any replication scale (storage can be pruned; validation cannot be skipped).</p>
-<p>The v1 bound, <strong>order-of-magnitude only</strong> (band ≈ 0.5×–5×):</p>
+<p><em>(Added 2026-08-04, G-06; full survey: <code>research/validation-cost.md</code>.)</em> Validation is the CPU work every node pays for every block since genesis — PoW-header check (trivial), block rules, and <strong>signature verification</strong> (the dominant term) — and it is the only leg that is strictly unavoidable at any replication scale (storage can be pruned; validation cannot be skipped). The v1 bound, <strong>order-of-magnitude only</strong> (band ≈ 0.5×–5×):</p>
 <table>
 <tr><th>Term</th><th>Value</th></tr>
 <tr><td>Blocks/yr (R_blocks)</td><td>52,596</td></tr>
@@ -306,25 +285,9 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td><strong>Validation cost per node per year</strong></td><td><strong>~$0.5–$5</strong> (central ≈ $1–2/yr at $0.10–0.50/CPU-h)</td></tr>
 <tr><td>Network-wide (N = 32K)</td><td><strong>~$16K–160K/yr</strong></td></tr>
 </table>
-<p><strong>Falsifiable claim (v1):</strong> <em>validation cost per full node per year is &lt; $100 — bounded from above by the entire node budget C = $925/yr, central estimate ~$1–2/yr.</em> Falsified by a measured benchmark showing ≥ ~200 h/yr</p>
-<p>steady-state validation CPU, or a hardware census showing validation is a</p>
-<p><em>binding</em> provisioning constraint. Literature anchored on Tschorsch &amp;</p>
-<p>Scheuermann (2016, IEEE COMST), Delgado-Segura et al. (2018, UTXO analysis),</p>
-<p>Bitcoin Core&#x27;s <code>src/bench</code> suite; the architect-notes 3-paper fee list is</p>
-<p>acknowledged as <em>not</em> modeling validation — the gap this leg opens.</p>
-<p><strong>Verdict:</strong> validation is cheap <em>per block</em>, so cheap per node; its network</p>
-<p>total (~$16K–160K/yr) is ~3 orders of magnitude below the storage leg&#x27;s</p>
-<p>modeled network burden — which is itself the finding, not an assertion.</p>
+<p><strong>Falsifiable claim (v1):</strong> <em>validation cost per full node per year is &lt; $100 — bounded from above by the entire node budget C = $925/yr, central estimate ~$1–2/yr.</em> Falsified by a measured benchmark showing ≥ ~200 h/yr steady-state validation CPU, or a hardware census showing validation is a <em>binding</em> provisioning constraint. Literature anchored on Tschorsch &amp; Scheuermann (2016, IEEE COMST), Delgado-Segura et al. (2018, UTXO analysis), Bitcoin Core&#x27;s <code>src/bench</code> suite; the architect-notes 3-paper fee list is acknowledged as <em>not</em> modeling validation — the gap this leg opens. <strong>Verdict:</strong> validation is cheap <em>per block</em>, so cheap per node; its network total (~$16K–160K/yr) is ~3 orders of magnitude below the storage leg&#x27;s modeled network burden — which is itself the finding, not an assertion.</p>
 <h4>5.7 The UTXO Leg (v1 measurement)</h4>
-<p><em>(Added 2026-08-04, G-06.)</em> <code>getblockstats → utxo_size_inc</code> — the net byte</p>
-<p>delta of the UTXO set after each block — was already captured by agent-06 but</p>
-<p><strong>dropped at DB write</strong> (no <code>block_stats</code> column). Fixed end-to-end: column</p>
-<p>added to <code>tools/db/schema.sql</code>, wired through <code>tools/db/init.js</code></p>
-<p>(<code>insertBlockStats</code> + idempotent <code>ALTER TABLE</code> migration), live path in</p>
-<p><code>tools/data-engineering/spool-consumer.js</code> (every <code>btc_rpc</code> capture now</p>
-<p>persists per-block rows), and a backfill (<code>tools/db/backfill-block-stats.js</code>)</p>
-<p>populated the history from the spool + raw captures. Measured v1 result</p>
-<p>(2026-08-04, <code>captured-data/bsahi.db</code>):</p>
+<p><em>(Added 2026-08-04, G-06.)</em> <code>getblockstats → utxo_size_inc</code> — the net byte delta of the UTXO set after each block — was already captured by agent-06 but <strong>dropped at DB write</strong> (no <code>block_stats</code> column). Fixed end-to-end: column added to <code>tools/db/schema.sql</code>, wired through <code>tools/db/init.js</code> (<code>insertBlockStats</code> + idempotent <code>ALTER TABLE</code> migration), live path in <code>tools/data-engineering/spool-consumer.js</code> (every <code>btc_rpc</code> capture now persists per-block rows), and a backfill (<code>tools/db/backfill-block-stats.js</code>) populated the history from the spool + raw captures. Measured v1 result (2026-08-04, <code>captured-data/bsahi.db</code>):</p>
 <table>
 <tr><th>Metric</th><th>Value</th></tr>
 <tr><td>block_stats rows with utxo_size_inc</td><td><strong>165 unique heights</strong> (backfill: 351 writes, 119 capture files)</td></tr>
@@ -332,11 +295,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>Max height covered</td><td>671,460</td></tr>
 <tr><td>Live path</td><td>verified (handler test: height→utxo_size_inc persisted)</td></tr>
 </table>
-<p><strong>Status:</strong> the leg is now <em>measured</em> (the resource&#x27;s size per block is in the</p>
-<p>queryable DB, growing live). What remains is the <em>pricing</em> step — attributing a</p>
-<p>$/byte/yr cost to the UTXO delta (the UTXO set is the index that makes</p>
-<p>validation/script lookups fast; its cost surface is the next model step, and</p>
-<p>it stays in §7 future work until then).</p>
+<p><strong>Status:</strong> the leg is now <em>measured</em> (the resource&#x27;s size per block is in the queryable DB, growing live). What remains is the <em>pricing</em> step — attributing a $/byte/yr cost to the UTXO delta (the UTXO set is the index that makes validation/script lookups fast; its cost surface is the next model step, and it stays in §7 future work until then).</p>
 <h3>6. Internal Validation, Correction, and Reconciliation (v2.0.0)</h3>
 <p>Internal validation identified an inconsistency in the SCCR implementation, traced it to a <strong>duplicated time-horizon term</strong>, corrected the implementation, regenerated all reported values, and confirmed the qualitative conclusions unchanged. We present the correction in four labeled steps: <strong>Bug → Fix → Results → Reconciliation</strong>.</p>
 <h4>6.1 The bug</h4>
@@ -359,7 +318,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <p>The two cost models (<code>storage-ratio.js</code> and <code>utxo_cost_model.py</code>) disagreed by 16.4× (dimensionless). This decomposed as <strong>164× (dimensionless) denominator gap ÷ 10× (dimensionless) bug = 16.4× (dimensionless)</strong>. The models measure different quantities (block-average vs. marginal-inscription attribution); the gap is documented, not erased. See <code>verification_appendix.md → Model Reconciliation (v2.0.0)</code>.</p>
 <h4>6.5 Reproducibility</h4>
 <p>The correction increased the estimated SCCR by an order of magnitude but did not reverse the paper&#x27;s qualitative conclusion. This distinction is important: the implementation error affected the estimated magnitude of the measurement, whereas the underlying hypothesis was evaluated against the corrected model and remained supported under the paper&#x27;s assumptions. Every quantity in this paper is regenerated from <code>research/model-spec.json</code> (v2.0.1) by three independent implementations (JS, Python, standalone C); no script redefines a model constant, and the full capture log is retained in <code>captured-data/bsahi.db</code>.</p>
-<p><strong>Independent reproduction (status).</strong> The frozen capture and the three implementations agree (avg SCCR 0.2186, min 0.0584, max 0.8320, 171/171 blocks below 1×), and the one-command reproduction path has been verified from a fresh clone of the public repository. This is internal consistency. The paper&#x27;s reproducibility claim will be stated, once external runs land, as: <em>&quot;Independently reproduced by external participants following the published reproduction protocol&quot;</em> — not &quot;externally verified.&quot; One independent success is good; three is excellent. An external run is the only outstanding submission gate (D5; <code>research/reproduce/external-reproduction.md</code>).</p>
+<p><strong>Independent reproduction (status).</strong> The frozen capture and the three implementations agree (2026-09-16 snapshot: avg SCCR 0.2406, min 0.0490, max 1.0757, 153/155 blocks below 1×), and the one-command reproduction path has been verified from a clean clone of the public repository. This is internal consistency. The paper&#x27;s reproducibility claim will be stated, once external runs land, as: <em>&quot;Independently reproduced by external participants following the published reproduction protocol&quot;</em> — not &quot;externally verified.&quot; One independent success is good; three is excellent. An external run is the only outstanding submission gate (D5; <code>research/reproduce/external-reproduction.md</code>). <em>(Re-based 2026-09-16: the original 2026-08-02 0.2186/171-block capture was never committed and the GH pipeline had refreshed the kit input in place; live refreshes now go to <code>captured-data/sccr-live/</code>, the kit input is frozen.)</em></p>
 <h3>7. Limitations and Future Work</h3>
 <p><strong>Limitations:</strong></p>
 <ol>
@@ -402,37 +361,14 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 </ol>
 <p>We do not believe any of these falsifiers currently obtain; we list them so the reader can check, and so the framework is never mistaken for an unfalsifiable claim.</p>
 <h4>7.2 Assumption taxonomy --- deliberate choices (Type C) vs. empirical risks (Type M)</h4>
-<p><em>(Added 2026-08-03, fourth-reviewer deliverable.)</em> §7.1 draws a categorical line</p>
-<p>between two external outcomes --- a <strong>failed reproduction</strong> (the number is wrong)</p>
-<p>and a <strong>reproduced number with disagreed framing</strong> (the number stands). That line</p>
-<p>is only enforceable if the paper&#x27;s own assumptions are pre-sorted into the same</p>
-<p>two buckets <strong>before</strong> the challenge arrives --- not argued case-by-case under</p>
-<p>time pressure when an external review lands. Every material assumption in this</p>
-<p>paper therefore belongs to exactly one of two categories, stated here in advance:</p>
-<p><strong>The crisp test.</strong> A challenge is classified by what it does to the assumption&#x27;s</p>
-<p>current value, not by who makes it:</p>
+<p><em>(Added 2026-08-03, fourth-reviewer deliverable.)</em> §7.1 draws a categorical line between two external outcomes --- a <strong>failed reproduction</strong> (the number is wrong) and a <strong>reproduced number with disagreed framing</strong> (the number stands). That line is only enforceable if the paper&#x27;s own assumptions are pre-sorted into the same two buckets <strong>before</strong> the challenge arrives --- not argued case-by-case under time pressure when an external review lands. Every material assumption in this paper therefore belongs to exactly one of two categories, stated here in advance:</p>
+<p><strong>The crisp test.</strong> A challenge is classified by what it does to the assumption&#x27;s current value, not by who makes it:</p>
 <ul>
-<li><strong>If a critic simply asserts a different value or a different modeling choice</strong></li>
+<li><strong>If a critic simply asserts a different value or a different modeling choice</strong> (T = 20, marginal attribution, &quot;validation matters more&quot;) --- there is no evidence the current value is wrong. That is <strong>Type C territory: recorded as feedback</strong> (community-feedback triage, <code>research/community-review-plan.md</code> §4), engaged in the next revision, and <strong>the measurement stands</strong>.</li>
+<li><strong>If the critic shows the current value or measurement is wrong</strong> --- with evidence, a reproduction mismatch, or better data (a complete node census, a corrected fee capture, a measured cost decomposition) --- that is <strong>Type M territory: a falsification candidate</strong> under §7.1 falsifiers 1–3, and <strong>the headline is at risk</strong> until the discrepancy is reconciled.</li>
 </ul>
-<p>(T = 20, marginal attribution, &quot;validation matters more&quot;) --- there is no</p>
-<p>evidence the current value is wrong. That is <strong>Type C territory: recorded as feedback</strong> (community-feedback triage, <code>research/community-review-plan.md</code> §4),</p>
-<p>engaged in the next revision, and <strong>the measurement stands</strong>.</p>
-<ul>
-<li><strong>If the critic shows the current value or measurement is wrong</strong> --- with</li>
-</ul>
-<p>evidence, a reproduction mismatch, or better data (a complete node census, a</p>
-<p>corrected fee capture, a measured cost decomposition) --- that is <strong>Type M territory: a falsification candidate</strong> under §7.1 falsifiers 1–3, and <strong>the headline is at risk</strong> until the discrepancy is reconciled.</p>
-<p><strong>Type C --- &quot;Assumption I chose&quot; (deliberate modeling choice).</strong> A selection</p>
-<p>among defensible alternatives, made explicit and documented where it appears</p>
-<p>(§7 items 1–7). Not falsifiable by asserting a different choice; a reviewer</p>
-<p>preferring another selection records <strong>feedback</strong>, not falsification.</p>
-<p>Reclassification to Type M requires showing the choice is internally inconsistent</p>
-<p>with the paper&#x27;s own stated method, or rests on an empirical premise that is wrong.</p>
-<p><strong>Type M --- &quot;Assumption that might be mismeasured&quot; (empirical risk).</strong> An</p>
-<p>empirical quantity, measurement, or bound embedded in the model. Falsifiable: if</p>
-<p>the measurement is wrong, the conclusion may shift. A critic who shows the</p>
-<p>current value/measurement is wrong opens a <strong>falsification candidate</strong> --- handled</p>
-<p>under §7.1 falsifiers 1–3; the headline falls until reconciled.</p>
+<p><strong>Type C --- &quot;Assumption I chose&quot; (deliberate modeling choice).</strong> A selection among defensible alternatives, made explicit and documented where it appears (§7 items 1–7). Not falsifiable by asserting a different choice; a reviewer preferring another selection records <strong>feedback</strong>, not falsification. Reclassification to Type M requires showing the choice is internally inconsistent with the paper&#x27;s own stated method, or rests on an empirical premise that is wrong.</p>
+<p><strong>Type M --- &quot;Assumption that might be mismeasured&quot; (empirical risk).</strong> An empirical quantity, measurement, or bound embedded in the model. Falsifiable: if the measurement is wrong, the conclusion may shift. A critic who shows the current value/measurement is wrong opens a <strong>falsification candidate</strong> --- handled under §7.1 falsifiers 1–3; the headline falls until reconciled.</p>
 <table>
 <tr><th>#</th><th>Assumption</th><th>Type</th><th>Why it&#x27;s that type</th><th>What would reclassify or falsify it</th></tr>
 <tr><td>1</td><td>Storage horizon <strong>T = 10 yr</strong></td><td><strong>C</strong></td><td>A selection within a defensible range (pruning shortens retention, permanent storage extends it, §7 item 3); sensitivity disclosed (§5.3: T = 5/10/15 → 0.446/0.223/0.149), direction robust</td><td>A measured network-wide retention distribution showing effective retention is an order of magnitude shorter --- that reframes the externality reading (falsifier 5); it does not make T = 10 an error</td></tr>
@@ -445,22 +381,8 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>8</td><td><strong>Homogeneous node cost structure</strong></td><td><strong>C (with an empirical seam)</strong></td><td>The single-scalar structure is a deliberate simplification, documented (§7 item 2); heterogeneity is a refinement direction, not an error</td><td>The <em>value inside</em> the structure (C = $925/yr) is empirical --- a defensible regional refinement that moves the band is already named falsifier 2; the structural choice itself is not falsifiable by asserting heterogeneity</td></tr>
 <tr><td>9</td><td><strong>No discounting; constant cost</strong></td><td><strong>C</strong></td><td>A documented choice with disclosed sensitivity (§7 item 4): discounting at r = 5%/8% cuts the liability&#x27;s present value by ~27%/45%, moving the average up (~0.30–0.53 at N=32K) --- still below the 1× average threshold; the majority-below-1× direction is robust</td><td>A corrected treatment that flips the headline&#x27;s direction --- none identified under the disclosed sensitivity; a critic asserting discounting records feedback, not falsification</td></tr>
 </table>
-<p><strong>The blurry case, named honestly.</strong> Row 3 (C bundling) is the one assumption</p>
-<p>that sits on the line. The <em>decision to bundle</em> is a choice (Type C); the <em>claim that the bundle&#x27;s components are as measured</em> is empirical (Type M). Because the</p>
-<p>bandwidth leg (600) is the largest component, the storage-specific reading of the</p>
-<p>headline depends on a decomposition that is currently <em>assumed</em>, not measured. We</p>
-<p>therefore classify C bundling <strong>leaning Type M</strong> --- the safe default: an external</p>
-<p>challenge to the decomposition gets the full falsification response, not the</p>
-<p>feedback bucket.</p>
-<p><strong>Why the taxonomy is stated in advance.</strong> Every assumption-level critique this</p>
-<p>paper receives will be routed by this table before it is answered: Type C</p>
-<p>critiques are engaged as feedback in the next revision (the reproduced number</p>
-<p>stands); Type M critiques are treated as falsification candidates until the</p>
-<p>evidence is reconciled (§7.1 falsifiers 1–3). This is the mechanism that keeps</p>
-<p>&quot;reproduced the number, disagrees with framing&quot; from silently becoming &quot;the paper</p>
-<p>might just be wrong&quot; --- and keeps a genuine mismeasurement from being dismissed</p>
-<p>as a mere framing disagreement. The plan-of-record mirror of this taxonomy lives</p>
-<p>in <code>roadmap.md</code> §12.</p>
+<p><strong>The blurry case, named honestly.</strong> Row 3 (C bundling) is the one assumption that sits on the line. The <em>decision to bundle</em> is a choice (Type C); the <em>claim that the bundle&#x27;s components are as measured</em> is empirical (Type M). Because the bandwidth leg (600) is the largest component, the storage-specific reading of the headline depends on a decomposition that is currently <em>assumed</em>, not measured. We therefore classify C bundling <strong>leaning Type M</strong> --- the safe default: an external challenge to the decomposition gets the full falsification response, not the feedback bucket.</p>
+<p><strong>Why the taxonomy is stated in advance.</strong> Every assumption-level critique this paper receives will be routed by this table before it is answered: Type C critiques are engaged as feedback in the next revision (the reproduced number stands); Type M critiques are treated as falsification candidates until the evidence is reconciled (§7.1 falsifiers 1–3). This is the mechanism that keeps &quot;reproduced the number, disagrees with framing&quot; from silently becoming &quot;the paper might just be wrong&quot; --- and keeps a genuine mismeasurement from being dismissed as a mere framing disagreement. The plan-of-record mirror of this taxonomy lives in <code>roadmap.md</code> §12.</p>
 <h3>8. Economics and Related Work</h3>
 <h4>8.1 Is this an externality?</h4>
 <p>Following standard environmental-economics usage (Pigou, 1920; Coase, 1960), a <strong>negative externality</strong> arises when a transaction&#x27;s cost is borne by parties who did not consent to the transaction. Applied to Bitcoin: an inscription&#x27;s fee is paid by its creator; the long-term storage cost is borne by node operators who neither created the transaction nor were compensated for it. In mechanism terms this is a <strong>two-sided</strong> structure — the payer (transaction creator) and the bearer (node operator) are different agents, and the fee is a one-time congestion payment while the cost recurs over the storage horizon. Two qualifications are stated honestly:</p>
@@ -486,14 +408,8 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <p>Because the replication factor N is the dominant input and is only bounded (≥32K; independent estimates 10K–100K), the honest headline is a <strong>range</strong>: fees currently cover roughly <strong>7% to 71%</strong> of the modeled 10-year replicated storage cost depending on the true node count, with the <em>direction</em> (most blocks below 1× under any N≥~32K census) robust to every correction made in this paper&#x27;s review.</p>
 <p><strong>Status:</strong> external reproduction is pending (D5, the only submission blocker); every figure above is stated to the precision the current evidence licenses, and the N-band range carries the dominant uncertainty. We invite the community to reproduce, challenge, and extend this framework. All quantities derive from <code>research/model-spec.json</code> (v2.0.1); no script redefines a model constant. The data is live-captured, the measurement is continuous, and the arithmetic has been reproduced in three independent implementations (JS, Python, standalone C). The framework is presented as exactly what it is: a reproducible first measurement of a genuinely open question — not a verdict.</p>
 <h3>10. Future Directions (v3.0) — the agenda, in a companion</h3>
-<p>The paper&#x27;s measurement question is answered in §5; its falsifiers are §7.1. The</p>
-<p>program&#x27;s forward agenda — the v3.0 economic-dynamics questions, their first</p>
-<p>answers, and the cross-chain generalization — <strong>deliberately lives outside this core paper</strong> in the companion <code>research/future-directions-v3.md</code> (plan-of-record:</p>
-<p><code>roadmap.md</code> §8/§9/§11). This keeps the paper a <em>measurement</em>, not a</p>
-<p>research-program pitch.</p>
-<p><strong>The eight v3.0 questions</strong> (headline model output at the live baseline — SCCR =</p>
-<p>0.2228 at N=32K, T=10 yr, C=$925/yr; full derivation and method notes in the</p>
-<p>companion §1):</p>
+<p>The paper&#x27;s measurement question is answered in §5; its falsifiers are §7.1. The program&#x27;s forward agenda — the v3.0 economic-dynamics questions, their first answers, and the cross-chain generalization — <strong>deliberately lives outside this core paper</strong> in the companion <code>research/future-directions-v3.md</code> (plan-of-record: <code>roadmap.md</code> §8/§9/§11). This keeps the paper a <em>measurement</em>, not a research-program pitch.</p>
+<p><strong>The eight v3.0 questions</strong> (headline model output at the live baseline — SCCR = 0.2228 at N=32K, T=10 yr, C=$925/yr; full derivation and method notes in the companion §1):</p>
 <table>
 <tr><th>#</th><th>Question</th><th>Headline model output (live baseline)</th></tr>
 <tr><td>1</td><td>Storage horizon: SCCR at T = 5, 10, 20, 30, 50 yr</td><td>0.446 / 0.223 / 0.111 / 0.074 / 0.045 (inverse-linear in T)</td></tr>
@@ -505,16 +421,8 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td>7</td><td>Can SCCR reach 1 without protocol changes?</td><td>Historically yes: SCCR averaged <strong>above 1×</strong> in 2017–2024 fee-peak years (2017 avg ~10.0, 2021 ~8.0, 2023 ~5.0, 2024 ~4.8, era-adjusted node counts); 2025–2026 is the first sustained sub-1× regime</td></tr>
 <tr><td>8</td><td>What is the equilibrium? Does price, fees, or demand close the loop?</td><td><strong>Open.</strong> The model measures a ratio; it does not close the dynamic loop (N ↔ fees ↔ price). Framed as a dynamic system in the companion §2 Q1</td></tr>
 </table>
-<p><strong>Where the answers live:</strong> deep-question first answers Q1–Q5 (equilibrium,</p>
-<p>attribute pricing, the RIR family with DCIR, price-only internalization, 2040</p>
-<p>scenarios) are in companion §2 with exact model output from</p>
-<p><code>tools/research/sccr_dynamics.py</code>; the cross-chain generalization (Phase V</p>
-<p>horizon) is in companion §3. The falsification conditions that govern the claims</p>
-<p>above remain in the core at §7.1.</p>
-<p><strong>Open-question honesty.</strong> Nothing in this agenda claims the fee market <em>will</em></p>
-<p>internalize these costs, nor that it <em>should</em> — the claim is narrower: the</p>
-<p>question is well-posed, the drivers are identified, and each driver&#x27;s lever on</p>
-<p>the ratio is measured.</p>
+<p><strong>Where the answers live:</strong> deep-question first answers Q1–Q5 (equilibrium, attribute pricing, the RIR family with DCIR, price-only internalization, 2040 scenarios) are in companion §2 with exact model output from <code>tools/research/sccr_dynamics.py</code>; the cross-chain generalization (Phase V horizon) is in companion §3. The falsification conditions that govern the claims above remain in the core at §7.1.</p>
+<p><strong>Open-question honesty.</strong> Nothing in this agenda claims the fee market <em>will</em> internalize these costs, nor that it <em>should</em> — the claim is narrower: the question is well-posed, the drivers are identified, and each driver&#x27;s lever on the ratio is measured.</p>
 <hr>
 <h3>References</h3>
 <ol>
