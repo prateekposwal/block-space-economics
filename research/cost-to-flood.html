@@ -81,7 +81,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <tr><td><strong>P_year</strong> (fill every block)</td><td><strong>$17M–65M/yr</strong></td><td>~52,596 blocks × P_flood</td></tr>
 <tr><td><strong>C_node_imposed</strong> (10-yr node cost)</td><td><strong>~$197M</strong></td><td>one year of full-block flood × N=32K × T=10</td></tr>
 <tr><td><strong>Leverage ratio L</strong></td><td><strong>3.0×</strong></td><td>node cost imposed ÷ attacker cost paid</td></tr>
-<tr><td><strong>L_dust</strong> (storage leg)</td><td><strong>0.9×</strong></td><td>dust&#x27;s per-node storage cost is *less* than its fee</td></tr>
+<tr><td><strong>L_dust</strong> (storage leg)</td><td><strong>0.9×</strong></td><td>dust&#x27;s per-node storage cost is <em>less</em> than its fee</td></tr>
 <tr><td><strong>Boundedness</strong></td><td><strong>~52.6 GB/yr</strong></td><td>max vbytes the block-weight cap allows</td></tr>
 </table>
 <h3>The three results</h3>
@@ -90,7 +90,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <p>~$197M of 10-year storage cost on the network. The vulnerability is <strong>real and moderately leveraged</strong> — the attacker gets ~3× the cost they pay. Not the</p>
 <p>apocalypse, not harmless. A nation-state budget sustains this indefinitely.</p>
 <h4>2. Dust is a WEAK attack on storage (L_dust = 0.9×) — the counterintuitive result</h4>
-<p>The per-node lifetime storage cost of a dust UTXO is slightly *less* than the</p>
+<p>The per-node lifetime storage cost of a dust UTXO is slightly <em>less</em> than the</p>
 <p>fee that creates it (~$0.246 to mint, ~$0.229 imposed). <strong>Dust&#x27;s real threat is the validation/RAM leg, not storage</strong> — the UTXO set is an in-memory index every</p>
 <p>node must hold. This is exactly what the 4-resource model anticipated: the cost</p>
 <p>surfaces differ by leg.</p>
@@ -105,7 +105,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <p>max_vbytes/yr = (4,000,000 WU/block ÷ 4) × 52,596 blocks ≈ 52.6 GB/yr</p>
 <p>Block weight is a hard cap; the chain cannot grow faster than this in vbytes.</p>
 <p>UTXO growth is bounded by the number of outputs per block. The attack is</p>
-<p>therefore *quantitatively bounded but qualitatively harmful*: it cannot destroy</p>
+<p>therefore <em>quantitatively bounded but qualitatively harmful</em>: it cannot destroy</p>
 <p>the network, but it can price node operation up.</p>
 <h3>What this means (honest framing)</h3>
 <ul>
@@ -127,8 +127,7 @@ footer .links a:hover{color:var(--accent-ink)}</style>
 <p><strong>In progress / open:</strong> budget scenario table (nation-state budgets → node impact); dust-RAM</p>
 <p>leg measurement; decision: standalone vs fold into the working-paper §5.8.</p>
 <hr>
-<p><em>Bitcoin Sahi Research — Cost to Flood (attacker-side externality), v1 note</p>
-<p>(2026-08-10). Numbers verified against frozen capture + live mempool.space.</em></p>
+<p><em>Bitcoin Sahi Research — Cost to Flood (attacker-side externality), v1 note (2026-08-10). Numbers verified against frozen capture + live mempool.space.</em></p>
 <p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
 </div>
 <footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>

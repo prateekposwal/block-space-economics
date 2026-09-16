@@ -69,18 +69,7 @@ body.gated .container{display:none}</style>
 <h1>Whitepaper-Patterns</h1>
 <h2>The Bitcoin Whitepaper — 44-Pattern Analysis Note</h2>
 <p><strong>The &quot;cleared the blackboard&quot; lens: the master pattern, the pattern lattice, and verified anchors</strong></p>
-<p>*(Analysis note — NOT a submission artifact. Created 2026-08-03 by Prateek on</p>
-<p>Prateek&#x27;s request to combine the deep whitepaper analysis with the prior</p>
-<p>primary-source work. Every quote below was re-verified against the canonical</p>
-<p>Satoshi Nakamoto Institute (SNI) archive on 2026-08-03 — the whitepaper text</p>
-<p>(<code>nakamotoinstitute.org/bitcoin/</code>) and the BitcoinTalk forum archive</p>
-<p>(<code>satoshi.nakamotoinstitute.org/posts/</code>). Status labels: ✅ VERIFIED verbatim ·</p>
-<p>⚠️ VERIFIED with location/correction · ❌ NOT FOUND / MYTH · ⚪ ANALYSIS/JUDGMENT</p>
-<p>(no quote claim). The 44-pattern enumeration is the architect&#x27;s external</p>
-<p>analysis; only the patterns anchored to primary text below carry evidence</p>
-<p>labels — nothing here is asserted beyond its source. Companion to</p>
-<p><code>research/satoshi-primary-source-note.md</code> (storage/fees/node-equilibrium</p>
-<p>verification).)*</p>
+<p><em>Analysis note — NOT a submission artifact. Created 2026-08-03 by Prateek on Prateek&#x27;s request to combine the deep whitepaper analysis with the prior primary-source work. Every quote below was re-verified against the canonical Satoshi Nakamoto Institute (SNI) archive on 2026-08-03 — the whitepaper text (<code>nakamotoinstitute.org/bitcoin/</code>) and the BitcoinTalk forum archive (<code>satoshi.nakamotoinstitute.org/posts/</code>). Status labels: ✅ VERIFIED verbatim · ⚠️ VERIFIED with location/correction · ❌ NOT FOUND / MYTH · ⚪ ANALYSIS/JUDGMENT (no quote claim). The 44-pattern enumeration is the architect&#x27;s external analysis; only the patterns anchored to primary text below carry evidence labels — nothing here is asserted beyond its source. Companion to <code>research/satoshi-primary-source-note.md</code> (storage/fees/node-equilibrium verification).</em></p>
 <hr>
 <h3>1. The master pattern: engineered asymmetry</h3>
 <p><strong>⚪ ANALYSIS — the organizing claim of the lens.</strong> Every mechanism in Bitcoin</p>
@@ -88,11 +77,11 @@ body.gated .container{display:none}</style>
 <p>action is expensive. The whitepaper&#x27;s own text shows the pattern everywhere:</p>
 <table>
 <tr><th>Social problem</th><th>Re-expressed as</th><th>Whitepaper anchor</th></tr>
-<tr><td>Trust</td><td>Work</td><td>§4: *&quot;The average work required is exponential in the number of zero bits required and can be verified by executing a single hash&quot;* — produce expensive, verify cheap</td></tr>
-<tr><td>Identity</td><td>CPU</td><td>§4: *&quot;Proof-of-work is essentially one-CPU-one-vote&quot;*</td></tr>
-<tr><td>Agreement</td><td>Thermodynamics</td><td>§3/§4 timestamp server + PoW; §12: *&quot;They vote with their CPU power&quot;*</td></tr>
-<tr><td>Privacy</td><td>Key control</td><td>§10: *&quot;a new key pair should be used for each transaction&quot;*</td></tr>
-<tr><td>Order</td><td>Time</td><td>§2: *&quot;The only way to confirm the absence of a transaction is to be aware of all transactions&quot;*; §3 timestamps</td></tr>
+<tr><td>Trust</td><td>Work</td><td>§4: <em>&quot;The average work required is exponential in the number of zero bits required and can be verified by executing a single hash&quot;</em> — produce expensive, verify cheap</td></tr>
+<tr><td>Identity</td><td>CPU</td><td>§4: <em>&quot;Proof-of-work is essentially one-CPU-one-vote&quot;</em></td></tr>
+<tr><td>Agreement</td><td>Thermodynamics</td><td>§3/§4 timestamp server + PoW; §12: <em>&quot;They vote with their CPU power&quot;</em></td></tr>
+<tr><td>Privacy</td><td>Key control</td><td>§10: <em>&quot;a new key pair should be used for each transaction&quot;</em></td></tr>
+<tr><td>Order</td><td>Time</td><td>§2: <em>&quot;The only way to confirm the absence of a transaction is to be aware of all transactions&quot;</em>; §3 timestamps</td></tr>
 </table>
 <p><strong>Four primitives, exactly two per mechanism (⚪ ANALYSIS).</strong> The whitepaper</p>
 <p>names four primitives — <strong>HASH</strong> (SHA-256, §4), <strong>WORK</strong> (§4 PoW), <strong>KEY</strong></p>
@@ -108,19 +97,18 @@ body.gated .container{display:none}</style>
 <p>were checked against the canonical SNI archive on 2026-08-03:</p>
 <table>
 <tr><th>#</th><th>Claim</th><th>Verdict</th><th>Exact primary text (SNI canonical)</th></tr>
-<tr><td>a</td><td>Negative-fact line: &quot;The only way to confirm the absence of a transaction…&quot; appears in the whitepaper</td><td>✅ <strong>VERIFIED verbatim — §2</strong> (Transactions, double-spend framing)</td><td>*&quot;We need a way for the payee to know that the previous owners did not sign any earlier transactions. For our purposes, the earliest transaction is the one that counts… <strong>The only way to confirm the absence of a transaction is to be aware of all transactions.</strong>&quot;* The negative-fact reading is textually anchored: the public ledger exists because proving *absence* (of a prior spend) requires global awareness.</td></tr>
-<tr><td>b</td><td>&quot;There is never the need to extract a complete standalone copy&quot;</td><td>✅ <strong>VERIFIED verbatim — ⚠️ location: §9, not §7</strong></td><td>*&quot;It should be noted that fan-out, where a transaction depends on several transactions, and those transactions depend on many more, is not a problem here. <strong>There is never the need to extract a complete standalone copy of a transaction&#x27;s history.</strong>&quot;* It lives in §9 (Combining and Splitting Value), in the fan-out discussion — a better fit for &quot;no local ledger&quot; than the storage section; note the object is a *transaction&#x27;s* history, not the whole chain.</td></tr>
-<tr><td>c</td><td>&quot;Any needed rules and incentives can be enforced with this consensus mechanism&quot; is the whitepaper&#x27;s last line</td><td>✅ <strong>VERIFIED — final sentence of §12 (Conclusion)</strong></td><td>*&quot;They vote with their CPU power, expressing their acceptance of valid blocks by working on extending them and rejecting invalid blocks by refusing to work on them. <strong>Any needed rules and incentives can be enforced with this consensus mechanism.</strong>&quot;* Last sentence of the paper body before References.</td></tr>
-<tr><td>d</td><td>The whitepaper does NOT specify 21M / 1MB / halving; it says only &quot;a predetermined number of coins&quot;</td><td>✅ <strong>VERIFIED</strong></td><td>§6: *&quot;Once <strong>a predetermined number of coins</strong> have entered circulation, the incentive can transition entirely to transaction fees and be completely inflation free.&quot;* Full-text scan finds <strong>no</strong> &quot;21 million&quot;, no block-size cap, no &quot;halving&quot;. The only &quot;10 minutes&quot; is a supposition in §7&#x27;s 4.2MB/yr illustration, not a protocol parameter. Supply schedule + 1MB cap come from *code/forum* (BitcoinTalk posts 441/485, 2010 — see satoshi note §2), retroactively projected onto the whitepaper by secondary sources.</td></tr>
-<tr><td>e</td><td>Fresh-key ceremony line</td><td>✅ <strong>VERIFIED — two passages</strong></td><td>§10 (Privacy): *&quot;As an additional firewall, <strong>a new key pair should be used for each transaction</strong> to keep them from being linked to a common owner.&quot;* §11 (Calculations) — the interactive ceremony: *&quot;<strong>The receiver generates a new key pair and gives the public key to the sender shortly before signing. This prevents the sender from preparing a chain of blocks ahead of time</strong> by working on it continuously until he is lucky enough to get far enough ahead, then executing the transaction at that moment.&quot;*</td></tr>
-<tr><td>f</td><td>Anti-master-chain principle: Satoshi proposed separate chains sharing PoW — ancestor of merged mining/sidechains</td><td>✅ <strong>VERIFIED — BitcoinTalk thread &quot;BitDNS and Generalizing Bitcoin&quot;, Dec 9–11 2010 (SNI posts 532/535/537/539)</strong></td><td>Post 532: *&quot;I think it would be possible for BitDNS to be a completely separate network and separate block chain, yet <strong>share CPU power with Bitcoin</strong>. The only overlap is to make it so miners can search for proof-of-work for both networks simultaneously.&quot;* Post 535: *&quot;<strong>Piling every proof-of-work quorum system in the world into one dataset doesn&#x27;t scale.</strong> Bitcoin and BitDNS can be used separately… <strong>The networks need to have separate fates.</strong>&quot;* Post 539: *&quot;Independent networks/chains can <strong>share CPU power without sharing much else</strong>.&quot;* Post 537 (BSAHI-relevant): *&quot;It will be much easier if you can freely use all the space you need <strong>without worrying about paying fees for expensive space in Bitcoin&#x27;s chain</strong>.&quot;* Post 534 (bonus): Satoshi designs a fee-incentive-based transaction replacement — an RBF/CPFP ancestor: *&quot;every node bears witness to which transaction it saw first by working to put it into a block.&quot;*</td></tr>
+<tr><td>a</td><td>Negative-fact line: &quot;The only way to confirm the absence of a transaction…&quot; appears in the whitepaper</td><td>✅ <strong>VERIFIED verbatim — §2</strong> (Transactions, double-spend framing)</td><td><em>&quot;We need a way for the payee to know that the previous owners did not sign any earlier transactions. For our purposes, the earliest transaction is the one that counts… <strong>The only way to confirm the absence of a transaction is to be aware of all transactions.</strong>&quot;</em> The negative-fact reading is textually anchored: the public ledger exists because proving <em>absence</em> (of a prior spend) requires global awareness.</td></tr>
+<tr><td>b</td><td>&quot;There is never the need to extract a complete standalone copy&quot;</td><td>✅ <strong>VERIFIED verbatim — ⚠️ location: §9, not §7</strong></td><td><em>&quot;It should be noted that fan-out, where a transaction depends on several transactions, and those transactions depend on many more, is not a problem here. <strong>There is never the need to extract a complete standalone copy of a transaction&#x27;s history.</strong>&quot;</em> It lives in §9 (Combining and Splitting Value), in the fan-out discussion — a better fit for &quot;no local ledger&quot; than the storage section; note the object is a <em>transaction&#x27;s</em> history, not the whole chain.</td></tr>
+<tr><td>c</td><td>&quot;Any needed rules and incentives can be enforced with this consensus mechanism&quot; is the whitepaper&#x27;s last line</td><td>✅ <strong>VERIFIED — final sentence of §12 (Conclusion)</strong></td><td><em>&quot;They vote with their CPU power, expressing their acceptance of valid blocks by working on extending them and rejecting invalid blocks by refusing to work on them. <strong>Any needed rules and incentives can be enforced with this consensus mechanism.</strong>&quot;</em> Last sentence of the paper body before References.</td></tr>
+<tr><td>d</td><td>The whitepaper does NOT specify 21M / 1MB / halving; it says only &quot;a predetermined number of coins&quot;</td><td>✅ <strong>VERIFIED</strong></td><td>§6: <em>&quot;Once <strong>a predetermined number of coins</strong> have entered circulation, the incentive can transition entirely to transaction fees and be completely inflation free.&quot;</em> Full-text scan finds <strong>no</strong> &quot;21 million&quot;, no block-size cap, no &quot;halving&quot;. The only &quot;10 minutes&quot; is a supposition in §7&#x27;s 4.2MB/yr illustration, not a protocol parameter. Supply schedule + 1MB cap come from <em>code/forum</em> (BitcoinTalk posts 441/485, 2010 — see satoshi note §2), retroactively projected onto the whitepaper by secondary sources.</td></tr>
+<tr><td>e</td><td>Fresh-key ceremony line</td><td>✅ <strong>VERIFIED — two passages</strong></td><td>§10 (Privacy): <em>&quot;As an additional firewall, <strong>a new key pair should be used for each transaction</strong> to keep them from being linked to a common owner.&quot;</em> §11 (Calculations) — the interactive ceremony: <em>&quot;<strong>The receiver generates a new key pair and gives the public key to the sender shortly before signing. This prevents the sender from preparing a chain of blocks ahead of time</strong> by working on it continuously until he is lucky enough to get far enough ahead, then executing the transaction at that moment.&quot;</em></td></tr>
+<tr><td>f</td><td>Anti-master-chain principle: Satoshi proposed separate chains sharing PoW — ancestor of merged mining/sidechains</td><td>✅ <strong>VERIFIED — BitcoinTalk thread &quot;BitDNS and Generalizing Bitcoin&quot;, Dec 9–11 2010 (SNI posts 532/535/537/539)</strong></td><td>Post 532: <em>&quot;I think it would be possible for BitDNS to be a completely separate network and separate block chain, yet <strong>share CPU power with Bitcoin</strong>. The only overlap is to make it so miners can search for proof-of-work for both networks simultaneously.&quot;</em> Post 535: <em>&quot;<strong>Piling every proof-of-work quorum system in the world into one dataset doesn&#x27;t scale.</strong> Bitcoin and BitDNS can be used separately… <strong>The networks need to have separate fates.</strong>&quot;</em> Post 539: <em>&quot;Independent networks/chains can <strong>share CPU power without sharing much else</strong>.&quot;</em> Post 537 (BSAHI-relevant): <em>&quot;It will be much easier if you can freely use all the space you need <strong>without worrying about paying fees for expensive space in Bitcoin&#x27;s chain</strong>.&quot;</em> Post 534 (bonus): Satoshi designs a fee-incentive-based transaction replacement — an RBF/CPFP ancestor: <em>&quot;every node bears witness to which transaction it saw first by working to put it into a block.&quot;</em></td></tr>
 </table>
 <p><strong>Nuance on (f).</strong> The principle is better stated as <strong>&quot;share security, not data&quot;</strong> than &quot;share PoW but not a chain&quot;: Satoshi proposed separate chains</p>
-<p>(sharing *nothing* but CPU power) — the direct ancestor of <strong>merged mining</strong></p>
+<p>(sharing <em>nothing</em> but CPU power) — the direct ancestor of <strong>merged mining</strong></p>
 <p>(Namecoin, 2011, implemented exactly this) and the seed of the <strong>sidechain argument</strong> (post 537: a separate chain exists precisely to avoid the main</p>
 <p>chain&#x27;s block-space fees). No &quot;master chain&quot; was ever proposed — the</p>
-<p>whitepaper&#x27;s §12 is the opposite: *&quot;The network is robust in its unstructured</p>
-<p>simplicity.&quot;*</p>
+<p>whitepaper&#x27;s §12 is the opposite: <em>&quot;The network is robust in its unstructured simplicity.&quot;</em></p>
 <hr>
 <h3>3. The 44-pattern map (by category)</h3>
 <p><strong>⚪ The enumeration is the architect&#x27;s analysis (external write-up, not yet in this repo).</strong> Counts as given: mathematical/structural 16 · game-theoretic 6 ·</p>
@@ -136,15 +124,15 @@ body.gated .container{display:none}</style>
 <tr><td>Structural</td><td>End of local accounting</td><td>§9 ✅</td></tr>
 <tr><td>Structural</td><td>Anti-master-chain / share-security-not-data</td><td>BitDNS 532/535/539 ✅</td></tr>
 <tr><td>Structural</td><td>Minimal-state (designed-around storage)</td><td>§7 (see satoshi note) ✅</td></tr>
-<tr><td>Structural</td><td>Disposability (spent tx discard, pruning)</td><td>§7: *&quot;Once the latest transaction in a coin is buried under enough blocks, the spent transactions before it can be discarded&quot;* ✅</td></tr>
-<tr><td>Structural</td><td>Merkle compression</td><td>§7: *&quot;Old blocks can then be compacted by stubbing off branches of the tree&quot;* ✅</td></tr>
+<tr><td>Structural</td><td>Disposability (spent tx discard, pruning)</td><td>§7: <em>&quot;Once the latest transaction in a coin is buried under enough blocks, the spent transactions before it can be discarded&quot;</em> ✅</td></tr>
+<tr><td>Structural</td><td>Merkle compression</td><td>§7: <em>&quot;Old blocks can then be compacted by stubbing off branches of the tree&quot;</em> ✅</td></tr>
 <tr><td>Game-theoretic</td><td>Cost-induced security (&quot;he ought to find it more profitable to play by the rules&quot;)</td><td>§6 ✅</td></tr>
 <tr><td>Game-theoretic</td><td>The one interactive ceremony (fresh key before signing)</td><td>§11 ✅</td></tr>
 <tr><td>Game-theoretic</td><td>Honesty-by-incentive (not by proof)</td><td>§6 ⚠️ (see §4, #4)</td></tr>
 <tr><td>Economic</td><td>Fees as inclusion incentive, not storage price</td><td>§6; email #13 (satoshi note) ✅</td></tr>
 <tr><td>Economic</td><td>Quantity control, not price (block-size &quot;circuit breaker&quot;)</td><td>posts 441/485 (satoshi note) ✅</td></tr>
 <tr><td>Economic</td><td>Node-count equilibrium</td><td>post 188 (satoshi note) ✅</td></tr>
-<tr><td>Economic</td><td>Moore&#x27;s-law discounting</td><td>§7: *&quot;storage should not be a problem&quot;* (headers in RAM — satoshi note §2, row 2) ⚠️</td></tr>
+<tr><td>Economic</td><td>Moore&#x27;s-law discounting</td><td>§7: <em>&quot;storage should not be a problem&quot;</em> (headers in RAM — satoshi note §2, row 2) ⚠️</td></tr>
 <tr><td>Social</td><td>Trust substituted, not eliminated</td><td>Abstract/§6 ⚠️ (see §4, #3)</td></tr>
 <tr><td>Social</td><td>&quot;Predetermined number of coins&quot; — supply unspecified in paper</td><td>§6 ✅</td></tr>
 </table>
@@ -154,7 +142,7 @@ body.gated .container{display:none}</style>
 <li><strong>Bitcoin as a negative-fact dissemination machine</strong> — ✅ §2. The system&#x27;s</li>
 </ol>
 <p>core epistemic function is proving <strong>absence</strong>: the payee must know the coin</p>
-<p>was *not* previously spent, and the only way is to be aware of all</p>
+<p>was <em>not</em> previously spent, and the only way is to be aware of all</p>
 <p>transactions. Every node is a witness whose job is to know what did NOT</p>
 <p>happen — the double-spend defense is an absence-proof, and the whole ledger</p>
 <p>exists to make absence globally checkable.</p>
@@ -163,8 +151,7 @@ body.gated .container{display:none}</style>
 </ol>
 <p>design for auxiliary networks: separate chains, separate fates, <strong>shared CPU power only</strong>. The ancestor of merged mining (Namecoin) and the sidechain</p>
 <p>argument. <strong>BSAHI relevance:</strong> post 537 shows Satoshi explicitly routed</p>
-<p>data-heavy applications *off* the main chain to avoid *&quot;fees for expensive</p>
-<p>space in Bitcoin&#x27;s chain&quot;* — the main chain&#x27;s block space was expensive by</p>
+<p>data-heavy applications <em>off</em> the main chain to avoid <em>&quot;fees for expensive space in Bitcoin&#x27;s chain&quot;</em> — the main chain&#x27;s block space was expensive by</p>
 <p>design, and the intended home for data was other chains, not subsidized</p>
 <p>on-chain data (the 2023 Ordinals outcome).</p>
 <ol>
@@ -178,39 +165,35 @@ body.gated .container{display:none}</style>
 <li><strong>The one interactive ceremony</strong> — ✅ §11. The only interactive step in the</li>
 </ol>
 <p>protocol: the receiver generates a fresh key pair and hands the public key</p>
-<p>to the sender *shortly before signing*, preventing the sender from</p>
+<p>to the sender <em>shortly before signing</em>, preventing the sender from</p>
 <p>precomputing an alternate chain. The ancestor of payment-channel freshness</p>
 <p>(and of every &quot;fresh nonce/key&quot; rule in later protocols).</p>
 <h3>5. The famous-but-wrong patterns (4)</h3>
 <ol>
 <li><strong>&quot;The whitepaper specifies 21M / 1MB / halving&quot;</strong> — ❌ <strong>MYTH.</strong> The paper</li>
 </ol>
-<p>specifies only *&quot;a predetermined number of coins&quot;* (§6). The 21M supply and</p>
+<p>specifies only <em>&quot;a predetermined number of coins&quot;</em> (§6). The 21M supply and</p>
 <p>halving schedule come from the <strong>code</strong> (2009 release); the 1MB cap from</p>
 <p><strong>BitcoinTalk posts 441/485 (2010)</strong>. All three were retroactively projected</p>
 <p>onto the whitepaper by secondary sources. (Repo audit 2026-08-03: no BSAHI</p>
 <p>doc repeats this myth — verified clean.)</p>
 <ol>
-<li><strong>&quot;It&#x27;s about micropayments&quot;</strong> — ⚠️ <strong>PARTLY REALIZED.</strong> §1 *does* name</li>
+<li><strong>&quot;It&#x27;s about micropayments&quot;</strong> — ⚠️ <strong>PARTLY REALIZED.</strong> §1 <em>does</em> name</li>
 </ol>
-<p>*&quot;small casual transactions&quot;* as the cost-of-trust problem the paper solves,</p>
+<p><em>&quot;small casual transactions&quot;</em> as the cost-of-trust problem the paper solves,</p>
 <p>but the realized system became macro-settlement: the fee market priced small</p>
 <p>payments off-chain (Lightning), and §8 already thinks in settlement terms —</p>
-<p>*&quot;Businesses that receive frequent payments will probably still want to run</p>
-<p>their own nodes.&quot;* The whitepaper motivated micropayments; the mechanism</p>
+<p><em>&quot;Businesses that receive frequent payments will probably still want to run their own nodes.&quot;</em> The whitepaper motivated micropayments; the mechanism</p>
 <p>delivered settlement.</p>
 <ol>
 <li><strong>&quot;It eliminated trust&quot;</strong> — ⚠️ <strong>CORRECTED.</strong> Trust was <strong>substituted</strong>, not</li>
 </ol>
-<p>eliminated. Abstract: *&quot;The system is secure as long as honest nodes</p>
-<p>collectively control more CPU power than any cooperating group of attacker</p>
-<p>nodes&quot;* — majority-of-compute trust replaces institutional trust. §6&#x27;s</p>
-<p>attacker analysis likewise assumes the attacker&#x27;s wealth is *in the system*.</p>
+<p>eliminated. Abstract: <em>&quot;The system is secure as long as honest nodes collectively control more CPU power than any cooperating group of attacker nodes&quot;</em> — majority-of-compute trust replaces institutional trust. §6&#x27;s</p>
+<p>attacker analysis likewise assumes the attacker&#x27;s wealth is <em>in the system</em>.</p>
 <ol>
 <li><strong>&quot;§6&#x27;s honesty argument is a proof&quot;</strong> — ⚠️ <strong>CORRECTED.</strong> §6&#x27;s language is</li>
 </ol>
-<p>hedged: *&quot;He <strong>ought to</strong> find it more profitable to play by the rules…</p>
-<p>than to undermine the system and the validity of his own wealth.&quot;* An</p>
+<p>hedged: <em>&quot;He <strong>ought to</strong> find it more profitable to play by the rules… than to undermine the system and the validity of his own wealth.&quot;</em> An</p>
 <p>incentive heuristic, not a proof — it assumes attacker wealth in-system and</p>
 <p>rational self-interest. Selfish-mining (Eyal &amp; Sirer, 2014) demonstrated the</p>
 <p>edge the heuristic papered over.</p>
@@ -218,7 +201,7 @@ body.gated .container{display:none}</style>
 <h3>6. How the 7 BSAHI patterns descend from the deeper lattice</h3>
 <p><strong>⚪ ANALYSIS — parent mapping.</strong> BSAHI&#x27;s program (the canonical 7-angle agenda,</p>
 <p><code>research/angles.js</code>) studies the storage/fee-market <strong>cross-section</strong> of the</p>
-<p>full 44-pattern lattice: each BSAHI angle is a *child* of a deeper lattice</p>
+<p>full 44-pattern lattice: each BSAHI angle is a <em>child</em> of a deeper lattice</p>
 <p>pattern. The architect&#x27;s three mappings (marked ★) plus the repo-derived</p>
 <p>parents for the remaining angles:</p>
 <table>
@@ -231,18 +214,16 @@ body.gated .container{display:none}</style>
 <tr><td>Permanence vs congestion — the SCCR measurement (working-paper §5)</td><td>Who-pays (one-time payer vs long-lived bearer)</td><td>§9; §8.3 designer-intent paragraph</td></tr>
 <tr><td>Causal chain: fees → security → node cost (angles.js; roadmap §8 Q1)</td><td>Cost-induced security + node equilibrium</td><td>§6; post 188 ✅</td></tr>
 </table>
-<p><strong>Cross-section reading:</strong> SCCR is the lattice&#x27;s *storage column* made</p>
+<p><strong>Cross-section reading:</strong> SCCR is the lattice&#x27;s <em>storage column</em> made</p>
 <p>measurable — the fee market&#x27;s one price (congestion) measured against the</p>
 <p>recurring cost that the who-pays structure assigns to nodes. The framework</p>
 <p>paper&#x27;s Resource Coverage Matrix (roadmap §3/§4) is the lattice rendered as a</p>
 <p>measurement program.</p>
 <h3>7. The closing meta-pattern</h3>
-<p>✅ §12, last line: *&quot;Any needed rules and incentives can be enforced with this</p>
-<p>consensus mechanism.&quot;* The lens&#x27;s reading: <strong>the mechanism is the message</strong> —</p>
+<p>✅ §12, last line: <em>&quot;Any needed rules and incentives can be enforced with this consensus mechanism.&quot;</em> The lens&#x27;s reading: <strong>the mechanism is the message</strong> —</p>
 <p>the paper&#x27;s final sentence is not about the currency, it is about the</p>
-<p>enforcement substrate. ⚪ Framing: *&quot;Bitcoin is not a currency with a security</p>
-<p>model — it is a security model that issues a currency.&quot;* For this paper&#x27;s</p>
-<p>program the line matters directly: if *rules and incentives* are what the</p>
+<p>enforcement substrate. ⚪ Framing: <em>&quot;Bitcoin is not a currency with a security model — it is a security model that issues a currency.&quot;</em> For this paper&#x27;s</p>
+<p>program the line matters directly: if <em>rules and incentives</em> are what the</p>
 <p>mechanism enforces, then the fee market enforces exactly the incentives it was</p>
 <p>given (inclusion) — and measuring what it does <strong>not</strong> price (storage) is</p>
 <p>measuring the mechanism&#x27;s actual incentive surface, which is the SCCR program&#x27;s</p>
@@ -254,10 +235,9 @@ body.gated .container{display:none}</style>
 </ul>
 <p>BitDNS post 537 — Satoshi explicitly conceived of the main chain&#x27;s block</p>
 <p>space as expensive by design and directed data-heavy uses to separate chains</p>
-<p>(*&quot;without worrying about paying fees for expensive space in Bitcoin&#x27;s</p>
-<p>chain&quot;*). Same discipline as the existing paragraph (verified primary</p>
+<p>(<em>&quot;without worrying about paying fees for expensive space in Bitcoin&#x27;s chain&quot;</em>). Same discipline as the existing paragraph (verified primary</p>
 <p>source), and it strengthens the scoped reading: storage was never priced in</p>
-<p>the main chain because Satoshi&#x27;s design routed it *around* the main chain.</p>
+<p>the main chain because Satoshi&#x27;s design routed it <em>around</em> the main chain.</p>
 <ul>
 <li><strong>Cross-reference extended:</strong> §8.3 now points to this note alongside the</li>
 </ul>
@@ -294,11 +274,7 @@ body.gated .container{display:none}</style>
 <p>write-up must be transcribed and each remaining member checked against primary</p>
 <p>text (same discipline as §2). No unanchored pattern was asserted here.</p>
 <hr>
-<p>*Analysis note by Prateek, with analysis by TELOS, 2026-08-03. Companion to</p>
-<p><code>research/satoshi-primary-source-note.md</code>; feeds working-paper §8.3</p>
-<p>(designer-intent paragraph) and — if the full enumeration ever lands — Paper-4</p>
-<p>(framework paper) §10 falsifiers. Labeled analysis note, NOT a submission</p>
-<p>artifact.*</p>
+<p><em>Analysis note by Prateek, with analysis by TELOS, 2026-08-03. Companion to <code>research/satoshi-primary-source-note.md</code>; feeds working-paper §8.3 (designer-intent paragraph) and — if the full enumeration ever lands — Paper-4 (framework paper) §10 falsifiers. Labeled analysis note, NOT a submission artifact.</em></p>
 <p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
 </div>
 <footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>

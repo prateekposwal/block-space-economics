@@ -71,11 +71,11 @@ body.gated .container{display:none}</style>
 <p><strong>Status: STARTED (v1, 2026-08-04).</strong> This is an analytical bound plus a</p>
 <p>literature survey — NOT a measured benchmark. It answers the question the</p>
 <p>storage leg deliberately left open (§7 of the working paper): what does</p>
-<p>*validation* cost, as a distinct resource leg of the fee-internalization</p>
+<p><em>validation</em> cost, as a distinct resource leg of the fee-internalization</p>
 <p>framework? Confidence: <strong>order-of-magnitude only</strong> (uncertainty band ≈ 0.5×–5×).</p>
 <h3>1. What validation cost IS</h3>
 <p>Per full node, per block, validation is the CPU work of proving the block is</p>
-<p>*legitimate* before (and while) it is stored or pruned:</p>
+<p><em>legitimate</em> before (and while) it is stored or pruned:</p>
 <ol>
 <li><strong>Proof-of-work check</strong> — hash the 80-byte header below the target</li>
 </ol>
@@ -90,11 +90,11 @@ body.gated .container{display:none}</style>
 </ol>
 <p>(the dominant term: ECDSA / Schnorr checks per input), UTXO-set</p>
 <p>availability (no double-spend), fee arithmetic, standardness.</p>
-<p><strong>The structural property that makes validation special:</strong> it is the *only*</p>
+<p><strong>The structural property that makes validation special:</strong> it is the <em>only</em></p>
 <p>cost that is strictly unavoidable at any replication scale — every node pays it</p>
 <p>for every block since genesis, pruned or archival, and no node can &quot;skip&quot;</p>
 <p>validation and remain a full node. Storage can be pruned; bandwidth is one</p>
-<p>download per block; validation is CPU work *repeated N times* (once per node)</p>
+<p>download per block; validation is CPU work <em>repeated N times</em> (once per node)</p>
 <p>and is not amortizable below one full pass per block per node.</p>
 <h3>2. Rough analytical bound (order of magnitude)</h3>
 <table>
@@ -110,8 +110,8 @@ body.gated .container{display:none}</style>
 </table>
 <p><strong>Cross-check via initial sync.</strong> Full initial validation of ~1M blocks adds on</p>
 <p>the order of 6–24 h of CPU over an assumevalid-style sync on comparable</p>
-<p>hardware ⇒ 0.02–0.09 s/block *averaged* (I/O-bound, so a lower bound on CPU) —</p>
-<p>consistent with the 0.1–1 s/block estimate above for *steady-state* validation</p>
+<p>hardware ⇒ 0.02–0.09 s/block <em>averaged</em> (I/O-bound, so a lower bound on CPU) —</p>
+<p>consistent with the 0.1–1 s/block estimate above for <em>steady-state</em> validation</p>
 <p>with an in-RAM UTXO cache (steady state is CPU-bound, sync is I/O-bound; the</p>
 <p>two brackets straddle the true value).</p>
 <p><strong>Key quantities carried in the model:</strong> R_blocks (52,596) and N (≥32K) are</p>
@@ -119,54 +119,25 @@ body.gated .container{display:none}</style>
 <p>the same decomposition discipline as the bandwidth leg.</p>
 <h3>3. Reference literature</h3>
 <ul>
-<li><strong>Node-cost context:</strong> Tschorsch, F. &amp; Scheuermann, B., *Bitcoin and Beyond:</li>
+<li><strong>Node-cost context:</strong> Tschorsch, F. &amp; Scheuermann, B., <em>Bitcoin and Beyond: A Technical Survey on Decentralized Digital Currencies</em>, IEEE COMST 18(3), 2016 — surveys full-node validation/storage/bandwidth cost components and gives the classic per-node cost decomposition this bound refines.</li>
+<li><strong>UTXO/validation work context:</strong> Delgado-Segura, S. et al., <em>Analysis of the Bitcoin UTXO Set</em>, IACR ePrint 2018/569 — quantifies UTXO-set growth and per-transaction resource footprints that drive validation input checks.</li>
+<li><strong>Benchmark source:</strong> Bitcoin Core benchmark suite, <code>src/bench/</code> (<code>bench_bitcoin</code>: script/signature, block-assembly, mempool benchmarks) — the official, reproducible throughput numbers this bound leans on qualitatively. No specific Core benchmark version is pinned; the 10–30K sigs/s band spans modern single-threaded hardware.</li>
+<li><strong>Fee-market prior (the architect-notes 3-paper list):</strong> arXiv:2604.17183 (fee model), Ledger journal (fees, block size, auctions), Management Science (<em>StableFees</em>). <strong>None of the three models validation cost</strong> — that absence is exactly the gap this leg opens; they price inclusion, not resource burden.</li>
 </ul>
-<p>A Technical Survey on Decentralized Digital Currencies*, IEEE COMST 18(3),</p>
-<p>2016 — surveys full-node validation/storage/bandwidth cost components and</p>
-<p>gives the classic per-node cost decomposition this bound refines.</p>
-<ul>
-<li><strong>UTXO/validation work context:</strong> Delgado-Segura, S. et al., *Analysis of the</li>
-</ul>
-<p>Bitcoin UTXO Set*, IACR ePrint 2018/569 — quantifies UTXO-set growth and</p>
-<p>per-transaction resource footprints that drive validation input checks.</p>
-<ul>
-<li><strong>Benchmark source:</strong> Bitcoin Core benchmark suite, <code>src/bench/</code></li>
-</ul>
-<p>(<code>bench_bitcoin</code>: script/signature, block-assembly, mempool benchmarks) —</p>
-<p>the official, reproducible throughput numbers this bound leans on</p>
-<p>qualitatively. No specific Core benchmark version is pinned; the 10–30K</p>
-<p>sigs/s band spans modern single-threaded hardware.</p>
-<ul>
-<li><strong>Fee-market prior (the architect-notes 3-paper list):</strong> arXiv:2604.17183</li>
-</ul>
-<p>(fee model), Ledger journal (fees, block size, auctions), Management Science</p>
-<p>(*StableFees*). <strong>None of the three models validation cost</strong> — that absence</p>
-<p>is exactly the gap this leg opens; they price inclusion, not resource burden.</p>
 <h3>4. Uncertainty bands — explicit</h3>
 <ul>
-<li><strong>Order-of-magnitude only.</strong> The central ~$1–2/yr/node spans ~0.5×–5× on</li>
+<li><strong>Order-of-magnitude only.</strong> The central ~$1–2/yr/node spans ~0.5×–5× on signature-check throughput alone (hardware generation, OpenSSL vs libsecp256k1, Schnorr batching); initial-sync cross-checks widen the spread, they do not tighten it.</li>
+<li>The $/CPU-h amortization is a <strong>model artifact</strong>, not a bill: full nodes run continuously and their marginal electricity for a few hours of extra CPU is near zero for most operators. The bound is best read as <em>provisioning pressure</em> (hardware class and lifetime), which is how C enters the model.</li>
+<li>Network-wide numbers scale linearly in N and inherit the census caveat (≥32K known addresses, addrman-cap; true band 10K–100K).</li>
 </ul>
-<p>signature-check throughput alone (hardware generation, OpenSSL vs</p>
-<p>libsecp256k1, Schnorr batching); initial-sync cross-checks widen the spread,</p>
-<p>they do not tighten it.</p>
-<ul>
-<li>The $/CPU-h amortization is a <strong>model artifact</strong>, not a bill: full nodes run</li>
-</ul>
-<p>continuously and their marginal electricity for a few hours of extra CPU is</p>
-<p>near zero for most operators. The bound is best read as *provisioning</p>
-<p>pressure* (hardware class and lifetime), which is how C enters the model.</p>
-<ul>
-<li>Network-wide numbers scale linearly in N and inherit the census caveat</li>
-</ul>
-<p>(≥32K known addresses, addrman-cap; true band 10K–100K).</p>
 <h3>5. Falsifiable claim (v1)</h3>
 <blockquote><strong>&quot;Validation cost per full node per year is &lt; $100 — bounded from above by the entire node hardware+operating budget C = $925/yr (model-spec v2.1.0), with a central order-of-magnitude estimate of ~$1–2/yr per node.&quot;</strong></blockquote>
 <p>This claim is falsified if: (a) a measured benchmark shows steady-state</p>
 <p>validation CPU ≥ ~200 h/yr per node on reference hardware (⇒ ≥ $20–100/yr at</p>
 <p>the amortized rate — inside the $100 bound but outside the stated order of</p>
 <p>magnitude), or (b) a defensible full node census with per-node hardware data</p>
-<p>shows validation is a *binding* provisioning constraint (i.e., nodes are</p>
-<p>upgraded *because of* validation load, making the marginal cost the hardware</p>
+<p>shows validation is a <em>binding</em> provisioning constraint (i.e., nodes are</p>
+<p>upgraded <em>because of</em> validation load, making the marginal cost the hardware</p>
 <p>delta, not the CPU-hours — the <code>C</code>-decomposition caveat in §7.2 row 3 of the</p>
 <p>working paper). Both directions are checkable against Bitcoin Core benchmarks</p>
 <p>and a hardware census; until either lands, the bound stands as the v1 value.</p>
@@ -177,13 +148,13 @@ body.gated .container{display:none}</style>
 </ul>
 <p>the block subsidy — a different market entirely).</p>
 <ul>
-<li>It does <strong>not</strong> claim validation is economically significant *today*; it</li>
+<li>It does <strong>not</strong> claim validation is economically significant <em>today</em>; it</li>
 </ul>
 <p>claims the opposite order of magnitude: validation is cheap per node because</p>
-<p>it is *per-block cheap*, and its network total (~$16K–160K/yr at ≥32K nodes)</p>
+<p>it is <em>per-block cheap</em>, and its network total (~$16K–160K/yr at ≥32K nodes)</p>
 <p>is small relative to the storage leg&#x27;s network totals (L_net ≈ $5.6K per</p>
 <p>average block × 52,596 blocks/yr ≈ $297M/yr modeled). The leg exists so the</p>
-<p>framework can *show* this, not assert it.</p>
+<p>framework can <em>show</em> this, not assert it.</p>
 <p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
 </div>
 <footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>

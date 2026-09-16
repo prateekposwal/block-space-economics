@@ -57,8 +57,15 @@ def inline(s):
         return '\x00L%d\x00' % (len(tokens) - 1)
     s = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', link_repl, s)
     s = html.escape(s)
+    # F4: markdown-escaped asterisks (\*) render as literal asterisks —
+    #      protect them BEFORE italics so "80 bytes \* 6" stays numeric.
+    s = re.sub(r'\\\*', '\x00S\x00', s)
     s = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
+    # F5: single-line *emphasis* -> <em> (bold/code already became tags; a
+    #      span may legitimately wrap an inner <strong>/<code>, so allow < >)
     s = re.sub(r'`([^`]+)`', r'<code>\1</code>', s)
+    s = re.sub(r'(?<!\*)\*([^*\n]+?)\*(?!\*)', r'<em>\1</em>', s)
+    s = s.replace('\x00S\x00', '*')
     for idx, (text, url) in enumerate(tokens):
         s = s.replace('\x00L%d\x00' % idx, '<a href="' + html.escape(url) + '">' + html.escape(text) + '</a>')
     return s
@@ -92,9 +99,22 @@ def render_md(text):
             in_table = False
 
     def flush_lists():
-        nonlocal in_ul, in_ol
+        nonlocal in_ul, in_ol, li_buf, li_idx
+        if li_buf is not None:
+            out[li_idx] = '<li>' + inline(' '.join(li_buf)) + '</li>'
+            li_buf = None
         if in_ul: out.append('</ul>'); in_ul = False
         if in_ol: out.append('</ol>'); in_ol = False
+
+    para_buf = []
+    li_buf = None
+    li_idx = None
+
+    def flush_para():
+        nonlocal para_buf
+        if para_buf:
+            out.append('<p>' + inline(' '.join(para_buf)) + '</p>')
+            para_buf = []
 
     while i < len(lines):
         line = lines[i]
@@ -114,6 +134,7 @@ def render_md(text):
             i += 1
             continue
         if line.strip().startswith('|'):
+            flush_para()
             flush_lists()
             in_table = True
             table_buf.append(line)
@@ -122,33 +143,46 @@ def render_md(text):
         flush_table()
         s = line.strip()
         if not s:
+            flush_para()
             i += 1
             continue
         m = re.match(r'^(#{1,3})\s+(.*)', s)
         if m:
+            flush_para()
             # F2: flush open lists before block elements
             flush_lists()
             # Demote: page title is the H1, so md #->h2, ##->h3, ###->h4
             lvl = min(len(m.group(1)) + 1, 4)
             out.append('<h' + str(lvl) + '>' + inline(m.group(2)) + '</h' + str(lvl) + '>')
         elif s == '---':
+            flush_para()
             flush_lists()
             out.append('<hr>')
         elif s.startswith('> '):
+            flush_para()
             flush_lists()
             out.append('<blockquote>' + inline(s[2:]) + '</blockquote>')
         elif re.match(r'^(-|\*)\s+', s):
+            flush_para()
             if not in_ul: out.append('<ul>')
-            out.append('<li>' + inline(re.sub(r'^(-|\*)\s+', '', s)) + '</li>')
+            out.append('')
+            li_idx = len(out) - 1
+            li_buf = [re.sub(r'^(-|\*)\s+', '', s)]
             in_ul = True
         elif re.match(r'^\d+\.\s+', s):
+            flush_para()
             if not in_ol: out.append('<ol>')
-            out.append('<li>' + inline(re.sub(r'^\d+\.\s+', '', s)) + '</li>')
+            out.append('')
+            li_idx = len(out) - 1
+            li_buf = [re.sub(r'^\d+\.\s+', '', s)]
             in_ol = True
+        elif (in_ul or in_ol) and li_buf is not None and line[:1] in (' ', '\t') and s:
+            li_buf.append(s)
         else:
             flush_lists()
-            out.append('<p>' + inline(s) + '</p>')
+            para_buf.append(s)
         i += 1
+    flush_para()
     flush_table()
     flush_lists()
     if in_code:
