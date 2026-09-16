@@ -194,11 +194,83 @@ footer .links a:hover{color:var(--accent)}
 
   <!-- 2026-08-10 -->
   <div class="article">
-    <div class="date">August 10, 2026 · Today</div>
+    <div class="date">August 10, 2026</div>
     <h2><a href="/research/pruning_externality_analysis.html">Pruning Doesn't Escape the Cost — It Just Moves It</a></h2>
     <div class="excerpt">Pruned nodes still download and verify every block. Storage is avoidable; bandwidth and CPU are not. The pruning note answers the "just prune" objection: the unavoidable burden is real, though small today.</div>
     <div class="tags"><span class="tag measure">pruning</span><span class="tag foundation">externality</span></div>
     <a class="read" href="/research/pruning_externality_analysis.html">Read the analysis →</a>
+  </div>
+
+  <!-- 2026-08-11 -->
+  <div class="article">
+    <div class="date">August 11, 2026</div>
+    <h2><a href="/research/sccr-trend-note.html">The Externality Is Growing — SCCR Trend, Week of August 2026</a></h2>
+    <div class="excerpt">The Storage Cost Coverage Ratio is falling — from ~0.28 to 0.238 across the measured days. Fees are covering less of the modeled storage cost that confirmed data imposes. An early 4-point series with its uncertainty left visible: a directional signal from a young series, not a settled trend.</div>
+    <div class="tags"><span class="tag measure">sccr</span><span class="tag foundation">trend</span></div>
+    <a class="read" href="/research/sccr-trend-note.html">Read the trend →</a>
+  </div>
+
+  <!-- 2026-08-21 -->
+  <div class="article">
+    <div class="date">August 21, 2026</div>
+    <h2><a href="/research/regime-event-2026-08-21.html">Regime Event: SCCR Climbed 0.16 → 0.44 in Five Days</a></h2>
+    <div class="excerpt">Storage coverage nearly tripled in roughly four days — measured live on real blocks. The share of blocks below the full-coverage 1× threshold fell from 100% to 96.2%. It is the first sustained break above the ~0.22–0.29 baseline that defined the prior record.</div>
+    <div class="tags"><span class="tag measure">sccr</span><span class="tag attack">regime</span></div>
+    <a class="read" href="/research/regime-event-2026-08-21.html">Read the event →</a>
+  </div>
+
+  <!-- 2026-09-10 -->
+  <div class="article">
+    <div class="date">September 10, 2026</div>
+    <h2><a href="/bip110-case-study.html">BIP-110 After Lock-In: Verifying the Chronology</a></h2>
+    <div class="excerpt">Our first non-SCCR empirical governance observation. The mandatory-signaling window opened at height 961,632 (~July 20), locked in at 963,648 on August 23 00:48:47 UTC, and we snapshotted the post-lock-in state at height 966,270. The governance-boundary thesis, checked against the chain.</div>
+    <div class="tags"><span class="tag governance">governance</span><span class="tag measure">bip110</span></div>
+    <a class="read" href="/bip110-case-study.html">Read the case study →</a>
+  </div>
+
+  <!-- 2026-09-16 -->
+  <div class="article">
+    <div class="date">September 16, 2026</div>
+    <h2><a href="/research/historical-series-note.html">Difficulty and Congestion, 2009→2026: Two Series Frozen from Primary Sources</a></h2>
+    <div class="excerpt">We frosted two primary series: difficulty from 2009 (1,614 points) and mempool congestion from 2016 (1,498 points). Row 10 moves from grade B to A; row 3 to B*. The headline: 2024 was the congestion peak — 96.6% of days above 50K pending transactions.</div>
+    <div class="tags"><span class="tag history">history</span><span class="tag measure">congestion</span></div>
+    <a class="read" href="/research/historical-series-note.html">Read the series →</a>
+  </div>
+
+  <!-- 2026-09-16 -->
+  <div class="article">
+    <div class="date">September 16, 2026</div>
+    <h2><a href="/research/perblock-validation-note.html">Per-Block Validation: Checking the Era Aggregates Against Real Blocks</a></h2>
+    <div class="excerpt">The SCCR era legs are grade B — correct in aggregate, unverified per block. This strip samples actual blocks across 2010–2026 so the daily-derived fee and size legs can be checked against direct observation, and quantifies the SegWit-era size/weight divergence.</div>
+    <div class="tags"><span class="tag measure">validation</span><span class="tag foundation">method</span></div>
+    <a class="read" href="/research/perblock-validation-note.html">Read the validation →</a>
+  </div>
+
+  <!-- 2026-09-16 -->
+  <div class="article">
+    <div class="date">September 16, 2026</div>
+    <h2><a href="/research/production-cost-note.html">Production-Cost Ratio: What It Costs Miners to Produce a Block</a></h2>
+    <div class="excerpt">A new producing-side instrument: energy cost versus production value, per era. The ratio rose from 0.32 (2017) to 0.84 (2026), while fees covered 35.7% of production cost in 2017 but just 0.7% in 2026 — the block-space share of the mining economy, shrinking.</div>
+    <div class="tags"><span class="tag measure">mining</span><span class="tag foundation">4-resource</span></div>
+    <a class="read" href="/research/production-cost-note.html">Read the ratio →</a>
+  </div>
+
+  <!-- 2026-09-16 -->
+  <div class="article">
+    <div class="date">September 16, 2026</div>
+    <h2><a href="/research/utxo-series-reachability.html">The UTXO Count Nobody Publishes — What's Reachable, and What Isn't</a></h2>
+    <div class="excerpt">A continuous historical UTXO-count series would move row 6 from grade D to C. We probed every public source: none publishes an unspent-count series. We document what is reachable — 3.9B cumulative outputs, a 769 GB chain — and cross-check the VCI chain leg to within 2.7%.</div>
+    <div class="tags"><span class="tag measure">utxo</span><span class="tag foundation">reachability</span></div>
+    <a class="read" href="/research/utxo-series-reachability.html">Read the finding →</a>
+  </div>
+
+  <!-- 2026-09-16 -->
+  <div class="article">
+    <div class="date">September 16, 2026</div>
+    <h2><a href="/research/pool-hashrate-reachability.html">Pool Hashrate Ground Truth: Mostly Unreachable — Here's Exactly What Is</a></h2>
+    <div class="excerpt">Moving row 11 from C to B needs an independent per-pool hashrate source. Most pool APIs are DNS-blocked or token-gated; we record precisely what is and isn't reachable, and show the 7/7 top pools agree internally within ≤1.5σ across every window.</div>
+    <div class="tags"><span class="tag governance">pool attribution</span><span class="tag measure">reachability</span></div>
+    <a class="read" href="/research/pool-hashrate-reachability.html">Read the finding →</a>
   </div>
 
 </div>
