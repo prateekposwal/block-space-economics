@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mining energy cost vs production value by era: the ratio rose from 0.32 (2017) to 0.84 (2026) while fees fell from 35.7% to 0.7% of production cost.">
+<meta property="og:title" content="Methodology">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/methodology">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/methodology">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Methodology","item":"https://bitcoinsahi.com/research/methodology"}]}
+</script>
+<title>Methodology — How BSAHI Measures Bitcoin Resource Costs</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Methodology","name":"Methodology","url":"https://bitcoinsahi.com/research/methodology","mainEntityOfPage":"https://bitcoinsahi.com/research/methodology","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","datePublished":"2026-09-17","dateModified":"2026-09-17"}
+</script>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Methodology</h1>
+<p><strong>BSAHI — Bitcoin Resource Accounting.</strong> How every number in this program is obtained, graded, checked, and reproduced. <em>Version 1.0 · 2026-09-17 · Author: Prateek Poswal (Independent Researcher, ORCID 0009-0005-2139-1877)</em></p>
+<hr>
+<h2>1. Principle</h2>
+<p>A number may only be presented at the strength its evidence supports. This program therefore separates three <strong>layers</strong> and assigns every dataset a <strong>grade</strong>, and it treats a published correction as a normal output rather than a failure.</p>
+<h2>2. The three layers</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Layer</th><th>Definition</th><th>How to cite</th></tr>
+<tr><td><strong>Observed</strong></td><td>Read from a node, or from a frozen primary capture with a recorded unit and date</td><td>As a measurement, with its date</td></tr>
+<tr><td><strong>Reconstructed</strong></td><td>Derived by a stated procedure from anchors (interpolation, era means, attribution)</td><td>As the <em>procedure</em>, not as a measurement</td></tr>
+<tr><td><strong>Modelled</strong></td><td>Assumptions dominate; the output is a scenario</td><td>As a scenario, with assumptions</td></tr>
+</table>
+</div>
+<p>The authoritative classification of every published number is the <a href="/research/evidence-matrix">Evidence Matrix</a>. Nothing may be called Observed if it is Reconstructed or Modelled.</p>
+<h2>3. Grades</h2>
+<ul>
+<li><strong>A</strong> — direct primary measurement (node RPC, on-chain fact), dated.</li>
+<li><strong>B</strong> — frozen primary capture with a recorded unit and date (B* = with a documented gap).</li>
+<li><strong>C</strong> — model using documented assumptions; the direction is the claim, the level is not.</li>
+<li><strong>D</strong> — reconstruction by interpolation with no continuous source.</li>
+</ul>
+<h2>4. Instruments</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Instrument</th><th>Produces</th><th>Layer</th></tr>
+<tr><td><code>tools/research/sccr_live.py</code></td><td>SCCR daily reading</td><td>Observed</td></tr>
+<tr><td><code>tools/research/utxo_state_measure.py</code></td><td><code>gettxoutsetinfo</code> UTXO/state rows</td><td>Observed</td></tr>
+<tr><td><code>tools/research/perblock_validation.py</code></td><td>per-block spot samples</td><td>Observed</td></tr>
+<tr><td><code>tools/research/production_cost_ratio.py</code></td><td>producing-side cost scenarios</td><td>Modelled</td></tr>
+<tr><td><code>tools/research/verify_cost_index.py</code></td><td>verification-burden trend</td><td>Modelled</td></tr>
+<tr><td><code>tools/research/sccr_sensitivity.py</code></td><td>SCCR bands + CI + stress test</td><td>Modelled</td></tr>
+<tr><td><code>tools/research/integrity_audit.py</code></td><td>the standing checks (§7)</td><td>—</td></tr>
+<tr><td><code>tools/research/datasets_manifest.py</code></td><td>the versioned dataset index</td><td>—</td></tr>
+<tr><td><code>research/reproduce/</code></td><td>independent reproduction (JS/Python/C + notebook)</td><td>Observed</td></tr>
+</table>
+</div>
+<h2>5. Data sources</h2>
+<ul>
+<li><strong>First-party node</strong> — a Bitcoin Core node (pruned): <code>gettxoutsetinfo</code>, <code>getblockheader</code>, <code>getblockchaininfo</code>.</li>
+<li><strong>Public network endpoints</strong> — mempool.space (fees), blockstream esplora (block summaries), blockchain.info (historical daily series).</li>
+<li><strong>Frozen captures</strong> — every external series is captured once, stored under <code>captured-data/</code>, and read from disk thereafter, so a result can be recomputed offline and cannot silently drift.</li>
+</ul>
+<h2>6. Units and conventions</h2>
+<ul>
+<li>Hashrate series are <strong>TH/s</strong> unless labelled EH/s; derived EH/s = TH/s ÷ 10⁶.</li>
+<li>Byte quantities are <strong>bytes</strong>; GB is <strong>decimal</strong> (10⁹).</li>
+<li>Fees are <strong>satoshis</strong> in captures, <strong>BTC</strong> in daily series, <strong>USD</strong> only where a price is applied and stated.</li>
+<li>Block space is <strong>sat/vB</strong>; block weight is <strong>weight units (WU)</strong> with the 4 MWU ceiling.</li>
+<li>Every dataset that carries a unit records it in a <code>unit</code> field; the integrity audit asserts derived units agree with raw ones.</li>
+</ul>
+<h2>7. Standing integrity checks</h2>
+<p><code>tools/research/integrity_audit.py</code> runs on every change and exits non-zero on failure:</p>
+<ol>
+<li><strong>Heights/dates</strong> — every (height, timestamp) pair is monotonic; a height&#x27;s <em>chain</em> date is kept distinct from its <em>capture</em> time (they differ by years while a node is syncing).</li>
+<li><strong>Anchor consistency</strong> — known on-chain anchors match their heights.</li>
+<li><strong>Units</strong> — derived fields agree with raw ones (hashrate, power, GB decimal).</li>
+<li><strong>Provenance</strong> — each dataset records schema + generated_at + a source.</li>
+<li><strong>Layers</strong> — each research dataset is classified Observed/Reconstructed/Modelled.</li>
+</ol>
+<h2>8. Reproducibility</h2>
+<ul>
+<li><strong>SCCR</strong>: three independent implementations (JavaScript, Python, C) agree to &lt; 1e-6 on a frozen capture; <code>research/reproduce/cross_check.sh</code> prints the verdict; <code>reproduce_sccr.ipynb</code> walks through it.</li>
+<li><strong>Sensitivity/CI</strong>: <code>sccr_sensitivity.py</code> is deterministic (fixed seed).</li>
+<li><strong>Datasets</strong>: <code>data/datasets.json</code> is the versioned index with layer and grade.</li>
+</ul>
+<h2>9. Corrections policy</h2>
+<p>When a value is wrong, we publish the correction with its cause and regenerate every dependent value. Precedent: a <strong>10× time-horizon error</strong> in our own model was found, corrected, documented, and every value regenerated — the conclusion survived, and the correction is part of the record.</p>
+<h2>10. Known limitations</h2>
+<ul>
+<li>UTXO/state is <strong>Observed at one height only</strong>; the 2013-2026 series remains Reconstructed (grade D) until a node reaches the tip and the series accrues.</li>
+<li>Electricity price, ASIC efficiency, node throughput and operator wage remain assumptions (grade C/D).</li>
+<li>Per-block samples are a <strong>spot-check</strong>, not a survey.</li>
+<li>Field Core Web Vitals and search-console data are not yet instrumented.</li>
+</ul>
+<h2>11. Citing</h2>
+<p>Poswal, P. (2026). <em>Bitcoin Resource Accounting.</em> Bitcoin Sahi. ORCID 0009-0005-2139-1877. Data and code: CC BY 4.0.</p>
+<div class="datacard"><div class="kv">Data source: <code>data/integrity_audit.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>

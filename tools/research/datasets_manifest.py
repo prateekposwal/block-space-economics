@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+"""Datasets manifest (P4.2 / P3.3) — a versioned index of every published dataset.
+
+Scans data/*.json (plus the frozen primary series), and emits data/datasets.json
+with, for each dataset: schema, layer (observed/reconstructed/modelled), evidence
+grade, size, last-updated, a canonical download URL, and a one-line description.
+
+Layer/grade come from the Evidence Matrix classification held here; the integrity
+audit (tools/research/integrity_audit.py) is the source of truth for the checks.
+"""
+import datetime
+import glob
+import json
+import os
+
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+DATA = os.path.join(ROOT, "data")
+OUT = os.path.join(DATA, "datasets.json")
+
+# dataset -> (layer, grade, description)
+CATALOG = {
+    "sccr.json": ("observed", "B", "Latest Storage Cost Coverage Ratio reading (dated)"),
+    "sccr_history.json": ("observed", "B", "Daily SCCR series"),
+    "sccr_historical_series.json": ("reconstructed", "B/C", "Era-level SCCR reconstruction (daily aggregates -> era legs)"),
+    "sccr_sensitivity.json": ("modelled", "C", "SCCR sensitivity bands, bootstrap CI and stress test"),
+    "utxo_state_series.json": ("observed", "A", "gettxoutsetinfo measurements from a real node (one row per height)"),
+    "utxo_state_latest.json": ("observed", "A", "Latest observed UTXO/state measurement"),
+    "utxo_series.json": ("reconstructed", "D", "UTXO/state anchors + chain-size cross-check"),
+    "utxo_cost_ratio.json": ("reconstructed", "D", "Reconstructed UTXO state era table"),
+    "perblock_validation.json": ("observed", "B", "Per-block SPOT samples (weight/size/tx/fee) vs the era aggregates"),
+    "difficulty_series.json": ("observed", "A", "Bitcoin mining difficulty, 2009-present (frozen primary)"),
+    "mempool_congestion_series.json": ("observed", "B*", "Mempool congestion, 2016-present (frozen primary)"),
+    "production_cost_ratio.json": ("modelled", "C", "Producing-side energy cost vs production value, electricity scenarios"),
+    "verify_cost_index.json": ("modelled", "C", "Verification Cost Index - the verification-burden trend + graded components"),
+    "reproduction_verification.json": ("observed", "A", "JS=Python=C reproduction verification of the SCCR"),
+    "integrity_audit.json": ("observed", "A", "Integrity audit: heights/dates, units, provenance, layers"),
+    "node_census.json": ("observed", "B", "Full-node census (getnodeaddresses lower bound)"),
+    "bip110.json": ("observed", "A", "BIP-110 signaling state (GitHub Actions, mempool.space)"),
+    "mining_concentration.json": ("observed", "B", "Mining concentration (HHI/Gini/N_eff per window)"),
+    "pool_attribution_validation.json": ("observed", "C/B", "Pool attribution internal-coherence validation"),
+}
+
+EXTRA = {  # frozen primary captures (not under data/)
+    "captured-data/historical/blockchain.info/hash-rate.json": ("observed", "B", "Network hashrate, 2009-present (frozen; unit TH/s)"),
+    "captured-data/historical/blockchain.info/avg-block-size.json": ("observed", "B", "Average block size, 2009-present (frozen; unit MB)"),
+    "captured-data/historical/blockchain.info/miners-revenue.json": ("observed", "B", "Miners' revenue USD/day (frozen primary)"),
+    "captured-data/historical/blockchain.info/market-price.json": ("observed", "B", "Market price USD (frozen primary)"),
+}
+
+
+def describe(path):
+    try:
+        d = json.load(open(path))
+    except Exception:
+        return None
+    if not isinstance(d, dict):
+        return {"rows": len(d) if isinstance(d, list) else None}
+    out = {"keys": len(d)}
+    for k in ("generated_at", "date", "schema"):
+        if k in d:
+            out[k] = d[k]
+    for k in ("rows", "count", "earas", "eras", "points", "values"):
+        if k in d and isinstance(d[k], list):
+            out["rows"] = len(d[k])
+            break
+    return out
+
+
+def main():
+    items = []
+    for p in sorted(glob.glob(os.path.join(DATA, "*.json"))):
+        name = os.path.basename(p)
+        cat = CATALOG.get(name)
+        if not cat:
+            continue
+        layer, grade, desc = cat
+        st = os.stat(p)
+        meta = describe(p) or {}
+        items.append({
+            "name": name, "url": f"https://bitcoinsahi.com/data/{name}",
+            "path": os.path.relpath(p, ROOT),
+            "schema": meta.get("schema"), "layer": layer, "grade": grade,
+            "description": desc, "bytes": st.st_size,
+            "updated": meta.get("generated_at") or meta.get("date")
+            or datetime.datetime.fromtimestamp(st.st_mtime, datetime.timezone.utc).isoformat(),
+            "rows": meta.get("rows"),
+        })
+    for rel, (layer, grade, desc) in EXTRA.items():
+        p = os.path.join(ROOT, rel)
+        if not os.path.exists(p):
+            continue
+        st = os.stat(p)
+        items.append({"name": os.path.basename(rel), "url": f"https://bitcoinsahi.com/{rel}",
+                      "path": rel, "schema": None, "layer": layer, "grade": grade,
+                      "description": desc, "bytes": st.st_size,
+                      "updated": datetime.datetime.fromtimestamp(st.st_mtime, datetime.timezone.utc).isoformat(),
+                      "rows": (describe(p) or {}).get("rows")})
+    out = {
+        "schema": "bsahi.datasets/1",
+        "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "note": ("Versioned index of every published dataset. layer: observed | reconstructed | modelled. "
+                 "grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, "
+                 "D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py."),
+        "count": len(items),
+        "datasets": sorted(items, key=lambda x: x["name"]),
+    }
+    with open(OUT, "w") as f:
+        json.dump(out, f, indent=2)
+    print(f"wrote {os.path.relpath(OUT, ROOT)} — {len(items)} datasets")
+    for d in out["datasets"]:
+        print(f"  [{d['layer'][:5]:5}/{d['grade']:3}] {d['name']:38} {d['bytes']:>9,} B")
+
+
+if __name__ == "__main__":
+    main()
