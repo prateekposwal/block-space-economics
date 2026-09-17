@@ -144,6 +144,32 @@ After those, it is a single unattended command forever:
 The credential leaks through the environment/process table/history, and on macOS
 it wouldn't work anyway (no `ip`; `wg-quick` needs bash 4, system has 3.2).
 
+### Why a bare listener is NOT an option (measured 2026-09-18)
+
+The tempting "serverless sentinel" — a Python script listening on 8333 on a free
+sandbox — **cannot work, and would actively corrupt the census**:
+
+1. **No such platform exists.** Fly.io retired its free tier and now requires a
+   card on *every* org; Deno Deploy and Render are HTTP-only; Replit's TCP is
+   paid; Glitch shut down in 2025. There is no free, no-card, public raw-TCP host.
+2. **A listener is undiscoverable.** Bitcoin nodes only dial addresses learned via
+   `addr` gossip or the hardcoded DNS seeds. Measured: a real node advertising an
+   onion for ~1.5 h still had `connections_in=0`; a bare listener received nothing.
+   What *would* arrive is **port scanners** — not non-listening validators. Counting
+   them would be fabricated evidence.
+
+**The correct design is a *seeding* node, not a listener** —
+`tools/net/seed_sentinel.py`: connect out to DNS-seeded peers, complete the
+version/verack handshake, then advertise our own public address so peers add us to
+addrman. Only then does inbound appear, and every inbound peer is a genuine
+validator. **Verified against the live node**: handshake completes and Core returns
+a 29 KB `addr` message, i.e. it accepts the sentinel as a peer.
+
+The seeding sentinel still needs one thing a script cannot conjure: **a host whose
+public IP is reachable.** No-card routes to that: the home LAN port-forward, a
+GitHub Student Pack cloud credit, a virtual debit card for Oracle Always-Free (it
+never bills), or any always-on box on a non-CGNAT network.
+
 ### Option 3 — port-forward on a non-CGNAT network
 
 If the Mac is ever on the home LAN (`192.168.29.1`), forward TCP 8333 →
