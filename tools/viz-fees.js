@@ -14,6 +14,7 @@ var VIZ_Fees = (function() {
   var hasRealFee = false;
   var scrollOffset = 0;
   var bottomMargin = 90;
+  var vignette = null;   // built on resize, not per frame
 
   function init(canvasId) {
     canvas = document.getElementById(canvasId);
@@ -47,6 +48,7 @@ var VIZ_Fees = (function() {
     DATA_ENGINE.start();
     
     setInterval(function() { if (REDUCED_MOTION) return;
+      if (typeof document !== 'undefined' && document.hidden) return; // no accumulation while backgrounded
       var count = w < 480 ? 1 : w < 768 ? 2 : 3;
       var maxBarArea = h - bottomMargin;
       var speedMultiplier = 1 + (displayFee / 50) * 1.5;
@@ -71,7 +73,7 @@ var VIZ_Fees = (function() {
   }
 
   function resize() {
-    var dpr = window.devicePixelRatio || 1;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
     w = window.innerWidth;
     h = window.innerHeight;
     canvas.width = w * dpr;
@@ -80,6 +82,10 @@ var VIZ_Fees = (function() {
     canvas.style.height = h + 'px';
     ctx = canvas.getContext('2d');
     ctx.scale(dpr, dpr);
+    // vignette depends only on canvas size — create once here, not every frame
+    vignette = ctx.createRadialGradient(w/2, h/2, h*0.2, w/2, h/2, h*0.9);
+    vignette.addColorStop(0, 'rgba(0,0,0,0)');
+    vignette.addColorStop(1, 'rgba(0,0,0,0.4)');
   }
 
   function loop() {
@@ -187,12 +193,8 @@ var VIZ_Fees = (function() {
     ctx.fillStyle = 'rgba(255,255,255,' + Math.max(0.2, Math.min(0.6, narrativeOpacity)) + ')';
     ctx.fillText(narrative, w/2, counterY + Math.round(feeFontSize * 0.68 + (w < 480 ? 24 : 30)));
 
-    // Vignette
-    var grad = ctx.createRadialGradient(w/2, h/2, h*0.2, w/2, h/2, h*0.9);
-    grad.addColorStop(0, 'rgba(0,0,0,0)');
-    grad.addColorStop(1, 'rgba(0,0,0,0.4)');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, w, h);
+    // Vignette (cached gradient — created in resize(), not per frame)
+    if (vignette) { ctx.fillStyle = vignette; ctx.fillRect(0, 0, w, h); }
 
     if (!REDUCED_MOTION) requestAnimationFrame(loop);
   }
