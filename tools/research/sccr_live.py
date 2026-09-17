@@ -236,14 +236,27 @@ def main():
     with open(os.path.join(DATA_DIR, 'sccr_history.json'), 'w') as f:
         json.dump({'endpoint': '/data/sccr_history.json', 'count': len(history), 'payload': history}, f, indent=2)
 
-    # Re-stamp the committed static HTML so the day's numbers ship in the paint
-    # (crawler-visible), not just behind JS.
+    # Keep everything DERIVED from this reading in step, then re-stamp the
+    # committed HTML. Order matters: the derived JSONs must be written before
+    # the syncer substitutes its {{TABLE:...}} tokens, and bake runs last.
+    # Each step is best-effort (a failure never blocks the reading itself).
     try:
         import subprocess
+        chain = [
+            ('sccr_sensitivity.py', []),          # -> data/sccr_sensitivity.json
+            ('fee_allocation.py', []),            # -> data/fee_allocation.json
+            ('datasets_manifest.py', []),         # -> data/datasets.json
+        ]
+        for script, args in chain:
+            subprocess.run([sys.executable, os.path.join(REPO, 'tools', 'research', script)] + args,
+                           cwd=REPO, check=False, capture_output=True)
+        # {{TOKEN}} substitution for md-rendered pages, then id-stamping.
+        subprocess.run([sys.executable, os.path.join(REPO, 'tools', 'sync_research_pages.py')],
+                       cwd=REPO, check=False, capture_output=True)
         subprocess.run([sys.executable, os.path.join(REPO, 'tools', 'bake_sccr_html.py')],
                        cwd=REPO, check=False, capture_output=True)
     except Exception as e:
-        print('html bake failed:', e)
+        print('derived-data / html bake failed:', e)
 
     print('SCCR live: %.4f (%d blocks, %d below 1x) -> data/sccr*.json' % (avg, len(ratios), below))
     print('  history points: %d' % len(history))
