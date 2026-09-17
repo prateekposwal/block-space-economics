@@ -34,6 +34,9 @@ var LOG = path.join(os.homedir(), 'Library', 'Logs', 'bsahi-collectors.log');
 // slow instrument can otherwise block the whole cycle (observed: perblock can
 // run 20+ min against rate-limited public APIs, delaying the N source).
 var SCHEDULE = [
+  // Safety net: if the cloud SCCR tier stalls, produce a fresh reading locally.
+  // Inert whenever the committed sccr.json is < 2h old, so never a second writer.
+  { name: 'sccr_fallback',        script: 'tools/research/sccr_fallback.py',        args: [], every: 1800, timeoutS: 600 },
   { name: 'node_census',          script: 'tools/research/node_census_capture.py',   args: [], every: 86400, timeoutS: 1500 },
   { name: 'utxo_state_measure',   script: 'tools/research/utxo_state_measure.py',    args: [], every: 21600, timeoutS: 600 },
   { name: 'inbound_census',       script: 'tools/research/inbound_census.py',        args: [], every: 3600,  timeoutS: 300 },

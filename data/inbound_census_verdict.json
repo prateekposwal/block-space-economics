@@ -1,6 +1,7 @@
 {
   "schema": "bsahi.inbound-census-verdict/1",
-  "generated_at": "2026-09-17T23:03:37.018068+00:00",
+  "layer": "observed",
+  "generated_at": "2026-09-17T23:08:51.199194+00:00",
   "grade": "CONTAINED",
   "statement": "0 inbound reachable. Environment contains all inbound paths (clearnet: port closed (CGNAT / no forward); ipv6: probe failed: HTTP Error 403: Forbidden). This is the correct, unpoisoned value \u2014 not a measurement failure. The instrument (seed_sentinel.py + proxyproto_demux.py) is ready for any non-CGNAT host.",
   "concurrency_lower_bound": 0,

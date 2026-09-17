@@ -1,13 +1,13 @@
 {
   "schema": "bsahi.integrity-audit/1",
-  "generated_at": "2026-09-17T19:07:21.556125+00:00",
+  "generated_at": "2026-09-17T23:09:58.183761+00:00",
   "method": "tools/research/integrity_audit.py \u2014 checks heights/dates, units, provenance, layers",
   "findings": [
     {
       "check": "monotonicity",
       "source": "perblock_validation",
       "status": "PASS",
-      "detail": "178 pairs, 0 inversions"
+      "detail": "204 pairs, 0 inversions"
     },
     {
       "check": "monotonicity",
@@ -31,13 +31,19 @@
       "check": "provenance(schema+generated_at+source)",
       "source": "data/*.json",
       "status": "WARN",
-      "detail": "14 dataset(s) incomplete",
+      "detail": "15 dataset(s) incomplete",
       "missing": [
         {
           "file": "bip110.json",
           "schema": false,
           "generated_at": false,
           "source": true
+        },
+        {
+          "file": "inbound_census_verdict.json",
+          "schema": true,
+          "generated_at": true,
+          "source": false
         },
         {
           "file": "node_census.json",

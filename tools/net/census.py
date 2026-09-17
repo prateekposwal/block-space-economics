@@ -185,6 +185,7 @@ def main():
 
     verdict = {
         "schema": "bsahi.inbound-census-verdict/1",
+        "layer": "observed",
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "grade": grade,
         "statement": statement,

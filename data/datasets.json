@@ -1,6 +1,6 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-17T18:50:54.566162+00:00",
+  "generated_at": "2026-09-17T23:09:47.846618+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
   "count": 31,
   "datasets": [
@@ -12,8 +12,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Addrman churn \u2014 empirical address-pool staleness (first-party gossip sampler)",
-      "bytes": 1183,
-      "updated": "2026-09-17T17:38:57.756857+00:00",
+      "bytes": 1346,
+      "updated": "2026-09-17T20:05:37.972070+00:00",
       "rows": null
     },
     {
@@ -36,8 +36,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "BIP-110 signaling state (GitHub Actions, mempool.space)",
-      "bytes": 5338,
-      "updated": "2026-09-17T17:00:54.139399+00:00",
+      "bytes": 5337,
+      "updated": "2026-09-17T22:50:48.087559+00:00",
       "rows": null
     },
     {
@@ -61,7 +61,7 @@
       "grade": "C",
       "description": "Three claims on fee revenue per block + the subsidy crossover + temporal price-path scenarios",
       "bytes": 13924,
-      "updated": "2026-09-17T18:50:54.529875+00:00",
+      "updated": "2026-09-17T23:09:47.808354+00:00",
       "rows": null
     },
     {
@@ -80,12 +80,12 @@
       "name": "inbound_census.json",
       "url": "https://bitcoinsahi.com/data/inbound_census.json",
       "path": "data/inbound_census.json",
-      "schema": "bsahi.inbound-census/1",
+      "schema": "bsahi.inbound-census/2",
       "layer": "observed",
       "grade": "B",
       "description": "Inbound-peer census \u2014 first-party lower bound on non-listening nodes",
-      "bytes": 1762,
-      "updated": "2026-09-17T18:31:45.715526+00:00",
+      "bytes": 3017,
+      "updated": "2026-09-17T22:14:29.270919+00:00",
       "rows": null
     },
     {
@@ -96,8 +96,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
-      "bytes": 3404,
-      "updated": "2026-09-17T18:48:00.557450+00:00",
+      "bytes": 3558,
+      "updated": "2026-09-17T23:08:51.268851+00:00",
       "rows": null
     },
     {
@@ -145,7 +145,7 @@
       "grade": "B",
       "description": "Mining concentration (HHI/Gini/N_eff per window)",
       "bytes": 10460,
-      "updated": "2026-09-15T19:01:25.185570+00:00",
+      "updated": "2026-09-17T20:05:44.793397+00:00",
       "rows": null
     },
     {
@@ -169,7 +169,7 @@
       "grade": "B",
       "description": "Reachable-node crawl series (btcnodes)",
       "bytes": 429524,
-      "updated": "2026-09-15T19:17:13.263595+00:00",
+      "updated": "2026-09-17T20:04:44.171985+00:00",
       "rows": 3981
     },
     {
@@ -192,8 +192,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Per-block SPOT samples (weight/size/tx/fee) vs the era aggregates",
-      "bytes": 52450,
-      "updated": "2026-09-17T18:28:37.010628+00:00",
+      "bytes": 59294,
+      "updated": "2026-09-17T23:07:04.458492+00:00",
       "rows": null
     },
     {
@@ -252,8 +252,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Latest Storage Cost Coverage Ratio reading (dated)",
-      "bytes": 647,
-      "updated": "2026-09-17T18:08:15.437549+00:00",
+      "bytes": 648,
+      "updated": "2026-09-17T23:09:47.437108+00:00",
       "rows": null
     },
     {
@@ -276,8 +276,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Daily SCCR series",
-      "bytes": 4397,
-      "updated": "2026-09-17T18:08:15.439179+00:00",
+      "bytes": 4398,
+      "updated": "2026-09-17T23:09:47.438687+00:00",
       "rows": null
     },
     {
@@ -288,8 +288,8 @@
       "layer": "modelled",
       "grade": "C",
       "description": "SCCR sensitivity bands, bootstrap CI and stress test",
-      "bytes": 9347,
-      "updated": "2026-09-17T18:50:54.507602+00:00",
+      "bytes": 9345,
+      "updated": "2026-09-17T23:09:47.786396+00:00",
       "rows": null
     },
     {
@@ -300,8 +300,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "DNS-seed address census \u2014 a third independent view of the node population",
-      "bytes": 18051,
-      "updated": "2026-09-17T17:38:56.745556+00:00",
+      "bytes": 17011,
+      "updated": "2026-09-17T20:05:39.362874+00:00",
       "rows": null
     },
     {
@@ -336,8 +336,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Latest observed UTXO/state measurement",
-      "bytes": 812,
-      "updated": "2026-09-17T09:26:05.274728+00:00",
+      "bytes": 811,
+      "updated": "2026-09-17T20:05:37.204240+00:00",
       "rows": null
     },
     {
@@ -348,9 +348,9 @@
       "layer": "observed",
       "grade": "A",
       "description": "gettxoutsetinfo measurements from a real node (one row per height)",
-      "bytes": 2022,
-      "updated": "2026-09-17T09:26:05.274496+00:00",
-      "rows": 2
+      "bytes": 2927,
+      "updated": "2026-09-17T20:05:37.203354+00:00",
+      "rows": 3
     },
     {
       "name": "verification_population.json",
