@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-09-17T03:29:28.662Z",
+  "generated_at": "2026-09-17T04:02:12.423Z",
   "status": "DEGRADED",
   "issues": [
-    "ORCHESTRATOR: heartbeat 26510 min ago",
-    "CAPTURE: failure ratio 35% (last 24h) > 20%"
+    "ORCHESTRATOR: heartbeat 26542 min ago",
+    "CAPTURE: failure ratio 32% (last 24h) > 20%"
   ],
   "checks": {
     "spool": {
@@ -18,17 +18,17 @@
       "agent": "running"
     },
     "de_agent": {
-      "lastRunAgeMin": 34
+      "lastRunAgeMin": 6
     },
     "orchestrator": {
-      "heartbeatAgeMin": 26510,
+      "heartbeatAgeMin": 26542,
       "phase": "cycle-complete"
     },
     "capture": {
-      "failureRatioPct": 35,
+      "failureRatioPct": 32,
       "windowHours": 24,
       "windowTotal": 432,
-      "windowFailed": 153
+      "windowFailed": 139
     }
   }
 }
