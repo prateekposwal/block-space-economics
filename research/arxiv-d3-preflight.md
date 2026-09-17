@@ -59,18 +59,18 @@ submission timeline.
 | License | **CC BY 4.0** (arXiv license field — matches paper notice) |
 | Abstract | `research/arxiv-abstract-draft.md` Draft A (~1160 chars) or B (~700) |
 | Source | `research/working-paper.tex` (LaTeX preferred over PDF — D6) |
-| Comments | v2.2.0 · model-spec v2.1.0 · 171-block frozen capture · JS/Python/C reproduction kit: https://github.com/prateekposwal/block-space-economics/tree/main/research/reproduce |
+| Comments | model-spec v2.1.1 · SCCR 0.3219 (140 blocks, N=26,586) · 155-block frozen capture · pre-print tag `preprint-2026-09-18` · JS/Python/C reproduction kit: https://github.com/prateekposwal/block-space-economics/tree/main/research/reproduce |
 
 ## 4. Pre-upload checks (from the repo's own publication-plan §8)
 
 - [x] D1 identity (real name, ORCID now wired)
 - [x] D2 ORCID `0009-0005-2139-1877`
 - [x] D4 LICENSE ratified (MIT code + CC BY 4.0 paper)
-- [x] D6 LaTeX complete (compile pass still needed on a pdflatex machine)
+- [x] D6 LaTeX complete + **compiled** (Tectonic 0.17.0, 2026-09-18) -> research/working-paper.pdf
 - [x] D7 companion note (`archival-vs-pruned-note.md`) reviewed
 - [x] Abstract drafts (banded claims)
 - [ ] **D5 external reproduction** — the GATE (0xB10C reply / tier escalation / 21-day waiver)
-- [ ] LaTeX compile pass → verify the PDF renders (no pdflatex on this machine)
+- [x] **LaTeX compile pass — DONE 2026-09-18** (Tectonic 0.17.0, no TeX install needed): `research/working-paper.pdf` renders, 147 KiB
 - [ ] arXiv account created + endorsement obtained
 
 ## 5. DONE vs LEFT
@@ -85,7 +85,7 @@ all submission fields pre-filled; license ratified; ORCID wired.
 - [ ] Start a submission → get the endorsement request link
 - [ ] Send the endorsement request to Daniel Aronoff (established author, already
       in contacts) — one considered email, not mass outreach
-- [ ] Run the LaTeX compile pass on a machine with pdflatex (any available)
+- [x] LaTeX compile pass — done via Tectonic (`~/.bsahi/bin/tectonic -X compile research/working-paper.tex`)
 
 ---
 
