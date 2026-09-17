@@ -55,7 +55,7 @@ Non-listening, private and Tor-hidden validators cannot be audited. They are **e
 
 {{TABLE:unpublicised_curve}}
 
-**Literature bracket.** Erlay: Efficient Transaction Relay for Bitcoin (CCS'19 / arXiv:1905.10518) reports **private:public ≈ 9:1** for the network at the time. Applied to the measured public set (26,586) that implies a total of ~265,860. This is a **Grade D topology prior, not a measurement** — it brackets the externality and is never a revised N.
+**Literature bracket — a scenario, not a measurement.** Erlay: Efficient Transaction Relay for Bitcoin (CCS'19 / arXiv:1905.10518) reports **private:public ≈ 9:1** for the network at the time. Applied to the measured public set (26,586) that yields a **scenario** of ~265,860 — **not a measured node count** and not an established interval. It applies a 2019 topology assumption to today's observed reachable population; the public set has since grown ~4×, so the ratio has likely compressed. The [sensitivity note](/research/sccr-sensitivity) carries the scenario table and the estimator (`R = P·(i/o − 1)`) that would measure it.
 
 **Direction:** excluding hidden nodes makes `L_net` a **lower bound** and the SCCR an **upper bound**. The baseline is **conservative**.
 

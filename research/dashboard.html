@@ -144,7 +144,7 @@ Promise.allSettled([
       '/research/verification-population','the partition'); }
   if(fa && fa.current){ var fc=fa.current; add('Fee allocation (security vs storage)','modelled','C',['Security claim ${fc.claims_usd_per_block.security_energy_cost}/block \u00b7 fees cover '+fc.coverage_pct.security_by_fees_pct+'% of it','Subsidy covers energy until ~'+fa.crossovers.fees_must_cover_security_from_year],'/research/fee-allocation','the analysis'); }
   if(s) add('Storage Cost Coverage Ratio (SCCR)','observed','B',
-    ['<b>'+Number(s.avg_sccr).toFixed(4)+'</b> \u00b7 '+s.blocks+' blocks \u00b7 '+s.below_1x_pct+'% below 1\u00d7','N='+num(s.N,0)+' \u00b7 T='+s.T+'yr \u00b7 spec v'+s.spec_version+' \u00b7 '+s.date],
+    ['\u2264 <b>'+Number(s.avg_sccr).toFixed(4)+'</b> (upper bound) \u00b7 '+s.blocks+' blocks \u00b7 '+s.below_1x_pct+'% below 1\u00d7','N='+num(s.N,0)+' observed reachable \u00b7 non-listening nodes unobservable \u2192 true ratio lower \u00b7 spec v'+s.spec_version+' \u00b7 '+s.date],
     '/research/sccr-sensitivity','sensitivity & CIs');
   if(u && u.rows && u.rows.length){ var r=u.rows[u.rows.length-1];
     add('UTXO / chain state','observed','A',

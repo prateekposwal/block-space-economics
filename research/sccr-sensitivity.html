@@ -76,7 +76,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <h1>SCCR sensitivity, confidence intervals, and a stress test</h1>
 <p><strong>BSAHI — SCCR hardening (P2)</strong> <em>Refreshed: 2026-09-17 · Instrument: <code>tools/research/sccr_sensitivity.py</code></em></p>
 <h2>Headline</h2>
-<p>The current reading is <strong>SCCR 0.3624</strong> (2026-09-17, 139 blocks, N=26,586, T=10, C=$925). Across the assumption grid the index spans <strong>0.030 – 3.565</strong> (median 0.356), and stays <strong>below 1.0 in 22 of 27 combinations (81.5%)</strong> — it crosses only at the corner most favourable to coverage (high N, long T, high C).</p>
+<p>The current reading is <strong>SCCR ≤ 0.3624</strong> — an <strong>upper bound</strong>, for the reason below (2026-09-17, 139 blocks, N=26,586, T=10, C=$925). Across the assumption grid the index spans <strong>0.030 – 3.565</strong> (median 0.356), and stays <strong>below 1.0 in 22 of 27 combinations (81.5%)</strong> — it crosses only at the corner most favourable to coverage (high N, long T, high C).</p>
 <p><strong>The node count N dominates the uncertainty</strong> (10.0× across the tested range), so the honest statement is &quot;SCCR is below 1× across essentially all plausible assumptions, dominated by uncertainty in N&quot;.</p>
 <h2>Why the sensitivity is exact, not simulated</h2>
 <p>The SCCR is analytic in its assumptions:</p>
@@ -162,7 +162,38 @@ bash research/reproduce/cross_check.sh</code></pre>
 <tr><td>265,860</td><td>D</td><td>$46,756</td><td>0.0362</td><td>3.6%</td><td>10.00×</td></tr>
 </table>
 </div>
-<p><strong>Literature bracket.</strong> Erlay: Efficient Transaction Relay for Bitcoin (Naumenko, Maxwell, Wuille, Fedorova, Beschastnikh; CCS&#x27;19 / arXiv:1905.10518) reports <strong>private:public ≈ 9:1</strong> for the network at the time (6,000 public + 54,000 private). Applied to the measured public set (26,586) that implies a total population of ~265,860. This is a <strong>topology prior from 2019, not a measurement</strong> — Erlay&#x27;s &quot;private&quot; includes NAT/unreachable nodes, exactly the quantity this project cannot measure. It is reported as the <strong>upper end of the band, not a revised N</strong> (Grade D: a cited assumption used to bracket the externality, never to replace the Grade-B floor).</p>
+<p><strong>What the baseline means.</strong> <code>N = 26,586</code> is the <strong>observed reachable</strong> population. Because SCCR = fees ÷ (N × cost), any additional cost-bearing node (private, NAT&#x27;d, Tor-hidden) enlarges the denominator and <strong>lowers</strong> SCCR. The measured floor is therefore an <strong>upper bound</strong> — <code>SCCR ≤ 0.3624</code> — and the externality is a <strong>lower bound</strong>. This holds unconditionally: it requires only that non-listening nodes bear <em>some</em> positive cost, not that they match the per-node cost model.</p>
+<h3>Population scenarios — a band, not a measured total</h3>
+<p>The figures below are <strong>scenarios</strong>, and they are deliberately not presented as an established interval. <code>~265,860</code> is <em>not a measured Bitcoin node count</em>: it applies a <strong>historical 9:1 private-to-public topology assumption</strong> to today&#x27;s observed reachable population.</p>
+<div class="table-wrap">
+<table>
+<tr><th>Population</th><th>Evidence status</th><th>Role</th><th>What would move it</th></tr>
+<tr><td>---:</td><td>---</td><td>---</td><td>---</td></tr>
+<tr><td>26,586</td><td>Grade B — observed reachable (crawler)</td><td>Primary measured scenario</td><td>a larger independent crawl, or the first-party inbound measurement</td></tr>
+<tr><td>32,000</td><td>Grade C — deprecated addrman <em>address</em> sample</td><td>Historical correction</td><td>retired — addresses, not nodes</td></tr>
+<tr><td>50,000</td><td>Grade D — modelled</td><td>Sensitivity scenario</td><td>an independent reachable-node estimate</td></tr>
+<tr><td>80,000</td><td>Grade D — modelled</td><td>Sensitivity scenario</td><td>an independent reachable-node estimate</td></tr>
+<tr><td>100,000</td><td>Grade D — modelled</td><td>Sensitivity scenario</td><td>an independent reachable-node estimate</td></tr>
+<tr><td>150,000</td><td>Grade D — scenario (private:public ≈ 4.6:1)</td><td>Sensitivity scenario</td><td>the R = P·(i/o − 1) estimator</td></tr>
+<tr><td>200,000</td><td>Grade D — scenario (private:public ≈ 6.5:1)</td><td>Sensitivity scenario</td><td>the R = P·(i/o − 1) estimator</td></tr>
+<tr><td>265,860</td><td>Grade D — 2019-derived 9:1 assumption</td><td>Sensitivity scenario, <strong>not a measurement</strong></td><td>re-measure the private:public ratio; the estimator&#x27;s i-test below</td></tr>
+</table>
+</div>
+<blockquote><strong>The ~265,860 scenario is not a measured node count.</strong> It applies a historical (2019) 9:1 private-to-public topology assumption to today&#x27;s observed reachable population. BSAHI does not treat it as the current total-node count, and it does not revise the primary <code>N</code>. Erlay&#x27;s &quot;private&quot; is defined by connectivity (no inbound), which approximates — but is not identical to — this project&#x27;s unobservable quantity C.</blockquote>
+<p><strong>Literature source.</strong> Erlay: Efficient Transaction Relay for Bitcoin (Naumenko, Maxwell, Wuille, Fedorova, Beschastnikh; CCS&#x27;19 / arXiv:1905.10518) reports <strong>private:public ≈ 9:1</strong> for the network at the time (6,000 public + 54,000 private). It is a topology parameter from a simulation, not a census. Note the public set has since grown from ~6,000 to 26,586 — assuming private grew proportionally is <strong>unjustified</strong>, so if anything the ratio has likely compressed.</p>
+<h3>The open research question (and how to close it)</h3>
+<blockquote><strong>Can BSAHI empirically estimate the ratio between independently reachable/listening nodes and non-listening/private nodes — and does the historical 9:1 assumption still hold in 2026?</strong></blockquote>
+<p>The evidence ladder, with the rung that promotes each level:</p>
+<div class="table-wrap">
+<table>
+<tr><th>Rung</th><th>Estimate</th><th>Grade</th><th>How it is promoted</th></tr>
+<tr><td>1</td><td>Observed reachable <code>N = 26,586</code></td><td>B</td><td>— (measured)</td></tr>
+<tr><td>2</td><td>Historical prior (9:1)</td><td>D</td><td>cite only; never the headline</td></tr>
+<tr><td>3</td><td>Estimator <code>R = P·(i/o − 1)</code> from a reachable node</td><td>B–C</td><td>measure a typical node&#x27;s inbound count <code>i</code></td></tr>
+<tr><td>4</td><td>Cross-validated (crawler + addrman + inbound agree)</td><td>A</td><td>independent agreement</td></tr>
+</table>
+</div>
+<p>The estimator yields a <strong>falsifiable prediction</strong>: Erlay&#x27;s 9:1 is algebraically equivalent to a typical listening node holding <strong><code>i ≈ 80</code></strong> inbound connections (<code>R/P = i/o − 1</code> with <code>o = 8</code>). Measuring <code>i</code> either corroborates the 2019 ratio on 2026 data or shows the network has become far more listening-heavy (i ≈ 20–40 ⇒ ratio 1.5:1–4:1). See <code>research/private-population-estimator.md</code>.</p>
 <blockquote>The baseline infrastructure size (N = 26586) is a strict empirical floor. Because non-listening, private and Tor-hidden validating nodes cannot be audited with Grade B certainty, they are excluded from the primary index. However, because every hidden node independently bears the replication and validation burden, their exclusion means the true network-wide storage externality (L_net) is higher — and the localized fee coverage (SCCR) lower — than reported. The baseline is therefore conservative.</blockquote>
 <h2>What this does and does not claim</h2>
 <ul>

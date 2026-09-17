@@ -171,7 +171,7 @@ def bake():
         'sccr-trend': trend_txt,
         'sccr-blocks': fmt_n(blocks),
         'sccr-below': pct_txt + '%',
-        'sccr-note': ('Measured %s blocks on %s (model-spec v%s). Reproduce it: research/reproduce.' % (fmt_n(blocks), date or '—', spec or '—')),
+        'sccr-note': ('Measured %s blocks on %s (model-spec v%s). Upper bound — only listening nodes are observable; see research/sccr-sensitivity. Reproduce it: research/reproduce.' % (fmt_n(blocks), date or '—', spec or '—')),
     }
     changed = stamp(os.path.join(REPO, 'products', 'sccr-index.html'), idx_map) or changed
 

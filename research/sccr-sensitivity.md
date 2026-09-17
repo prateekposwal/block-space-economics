@@ -7,7 +7,7 @@
 
 ## Headline
 
-The current reading is **SCCR 0.3624** (2026-09-17, 139 blocks, N=26,586, T=10, C=$925).
+The current reading is **SCCR {{SCCR_UB}}** — an **upper bound**, for the reason below ({{SCCR_DATE}}, {{SCCR_BLOCKS}} blocks, N={{N}}, T={{T}}, C=${{C}}).
 Across the assumption grid the index spans **0.030 – 3.565** (median 0.356), and stays
 **below 1.0 in 22 of 27 combinations (81.5%)** — it crosses only at the corner most favourable to coverage (high N, long T, high C).
 
@@ -111,7 +111,32 @@ Baseline `N = 26,586` is **Grade B** (measured reachable). Unpublicised nodes ar
 | 200,000 | D | $35,174 | 0.0482 | 4.8% | 7.52× |
 | 265,860 | D | $46,756 | 0.0362 | 3.6% | 10.00× |
 
-**Literature bracket.** Erlay: Efficient Transaction Relay for Bitcoin (Naumenko, Maxwell, Wuille, Fedorova, Beschastnikh; CCS'19 / arXiv:1905.10518) reports **private:public ≈ 9:1** for the network at the time (6,000 public + 54,000 private). Applied to the measured public set (26,586) that implies a total population of ~265,860. This is a **topology prior from 2019, not a measurement** — Erlay's "private" includes NAT/unreachable nodes, exactly the quantity this project cannot measure. It is reported as the **upper end of the band, not a revised N** (Grade D: a cited assumption used to bracket the externality, never to replace the Grade-B floor).
+**What the baseline means.** `N = 26,586` is the **observed reachable** population. Because SCCR = fees ÷ (N × cost), any additional cost-bearing node (private, NAT'd, Tor-hidden) enlarges the denominator and **lowers** SCCR. The measured floor is therefore an **upper bound** — `SCCR ≤ 0.3624` — and the externality is a **lower bound**. This holds unconditionally: it requires only that non-listening nodes bear *some* positive cost, not that they match the per-node cost model.
+
+### Population scenarios — a band, not a measured total
+
+The figures below are **scenarios**, and they are deliberately not presented as an established interval. `~265,860` is *not a measured Bitcoin node count*: it applies a **historical 9:1 private-to-public topology assumption** to today's observed reachable population.
+
+{{TABLE:population_scenarios}}
+
+> **The ~265,860 scenario is not a measured node count.** It applies a historical (2019) 9:1 private-to-public topology assumption to today's observed reachable population. BSAHI does not treat it as the current total-node count, and it does not revise the primary `N`. Erlay's "private" is defined by connectivity (no inbound), which approximates — but is not identical to — this project's unobservable quantity C.
+
+**Literature source.** Erlay: Efficient Transaction Relay for Bitcoin (Naumenko, Maxwell, Wuille, Fedorova, Beschastnikh; CCS'19 / arXiv:1905.10518) reports **private:public ≈ 9:1** for the network at the time (6,000 public + 54,000 private). It is a topology parameter from a simulation, not a census. Note the public set has since grown from ~6,000 to 26,586 — assuming private grew proportionally is **unjustified**, so if anything the ratio has likely compressed.
+
+### The open research question (and how to close it)
+
+> **Can BSAHI empirically estimate the ratio between independently reachable/listening nodes and non-listening/private nodes — and does the historical 9:1 assumption still hold in 2026?**
+
+The evidence ladder, with the rung that promotes each level:
+
+| Rung | Estimate | Grade | How it is promoted |
+|---|---|---|---|
+| 1 | Observed reachable `N = 26,586` | B | — (measured) |
+| 2 | Historical prior (9:1) | D | cite only; never the headline |
+| 3 | Estimator `R = P·(i/o − 1)` from a reachable node | B–C | measure a typical node's inbound count `i` |
+| 4 | Cross-validated (crawler + addrman + inbound agree) | A | independent agreement |
+
+The estimator yields a **falsifiable prediction**: Erlay's 9:1 is algebraically equivalent to a typical listening node holding **`i ≈ 80`** inbound connections (`R/P = i/o − 1` with `o = 8`). Measuring `i` either corroborates the 2019 ratio on 2026 data or shows the network has become far more listening-heavy (i ≈ 20–40 ⇒ ratio 1.5:1–4:1). See `research/private-population-estimator.md`.
 
 > The baseline infrastructure size (N = 26586) is a strict empirical floor. Because non-listening, private and Tor-hidden validating nodes cannot be audited with Grade B certainty, they are excluded from the primary index. However, because every hidden node independently bears the replication and validation burden, their exclusion means the true network-wide storage externality (L_net) is higher — and the localized fee coverage (SCCR) lower — than reported. The baseline is therefore conservative.
 

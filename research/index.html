@@ -124,12 +124,14 @@ dynamics, and the permanent cost of data storage.</p>
 <figcaption style="color:var(--ink-2);font-size:.85rem;margin-top:12px">SCCR daily readings, 2026-08-02 to 2026-09-17 (N=26,586, T=10 yr, model-spec v2.1.1). Every reading is below 1.0 &mdash; fees do not cover the modeled 10-year storage cost. Latest: <strong id="sccr-hub-latest">0.3624</strong> on <span id="sccr-hub-date">2026-09-17</span>. Data: <a href="/data/sccr_history.json">/data/sccr_history.json</a>.</figcaption>
 </figure>
 
+<p style="margin:-6px 0 18px;color:var(--ink-2);font-size:.9rem"><strong>SCCR is an upper bound.</strong> N = 26,586 is the observed reachable population; non-listening/private nodes are unobservable, and counting them (they bear cost too) would lower the ratio. Population <em>scenarios</em> — 50K, 100K, and ~265.9K under a historical 9:1 assumption (not a measured count) — are shown in the <a href="/research/sccr-sensitivity">sensitivity note</a>.</p>
+
 <h2>Definitions</h2>
 <p class="rg">Self-contained definitions for the terms used across this library.</p>
 <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:0 0 18px">
 <dl style="margin:0;color:var(--ink-2);line-height:1.7">
 <dt style="color:var(--ink);font-weight:600;margin-top:12px">SCCR &mdash; Storage Cost Coverage Ratio</dt>
-<dd style="margin:2px 0 0">Transaction fees paid (USD) divided by the modeled 10-year storage cost borne by full nodes (USD) at a node count N. A ratio below 1.0 means fees do not cover the modeled cost of storing the data across the network.</dd>
+<dd style="margin:2px 0 0">Transaction fees paid (USD) divided by the modeled 10-year storage cost borne by full nodes (USD) at a node count N. A ratio below 1.0 means fees do not cover the modeled cost of storing the data across the network. Because only <em>listening</em> nodes are observable, the reported ratio is an <strong>upper bound</strong>: counting non-listening/private nodes would enlarge the denominator and lower it.</dd>
 <dt style="color:var(--ink);font-weight:600;margin-top:12px">N &mdash; node count</dt>
 <dd style="margin:2px 0 0">The number of full nodes bearing the storage cost. Primary source: a measured reachable validating-node count (btcnodes crawl, 2026-09-16); the canonical constant is <strong id="sccr-hub-n">26,586</strong>, a lower bound. An earlier addrman <em>address</em> sample (≥32,000 gossiped addresses) was never a node count.</dd>
 <dt style="color:var(--ink);font-weight:600;margin-top:12px">T &mdash; storage time horizon</dt>

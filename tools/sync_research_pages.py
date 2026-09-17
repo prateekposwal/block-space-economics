@@ -81,6 +81,7 @@ def _tokens():
     avg = s.get('avg_sccr')
     t = {
         'SCCR': _f(avg),
+        'SCCR_UB': ('≤ ' + _f(avg)) if isinstance(avg, (int, float)) else '—',
         'SCCR_PCT': ('%.1f' % (avg * 100)) if isinstance(avg, (int, float)) else '—',
         'SCCR_BELOW': str(s.get('below_1x_pct', '—')),
         'SCCR_BLOCKS': str(s.get('blocks', '—')),
@@ -142,6 +143,32 @@ def _table_fee_allocation(fa):
     ])
 
 
+def _table_scenarios(curve):
+    """Population scenarios: an evidence-status table, deliberately framed so a
+    derived scenario is never read as a measured node count."""
+    meta = {
+        26586: ('Grade B — observed reachable (crawler)', 'Primary measured scenario',
+                'a larger independent crawl, or the first-party inbound measurement'),
+        32000: ('Grade C — deprecated addrman *address* sample', 'Historical correction',
+                'retired — addresses, not nodes'),
+        50000: ('Grade D — modelled', 'Sensitivity scenario', 'an independent reachable-node estimate'),
+        80000: ('Grade D — modelled', 'Sensitivity scenario', 'an independent reachable-node estimate'),
+        100000: ('Grade D — modelled', 'Sensitivity scenario', 'an independent reachable-node estimate'),
+        150000: ('Grade D — scenario (private:public ≈ 4.6:1)', 'Sensitivity scenario',
+                 'the R = P·(i/o − 1) estimator'),
+        200000: ('Grade D — scenario (private:public ≈ 6.5:1)', 'Sensitivity scenario',
+                 'the R = P·(i/o − 1) estimator'),
+        265860: ('Grade D — 2019-derived 9:1 assumption', 'Sensitivity scenario, **not a measurement**',
+                 're-measure the private:public ratio; the estimator\'s i-test below'),
+    }
+    rows = ['| Population | Evidence status | Role | What would move it |',
+            '|---:|---|---|---|']
+    for c in curve:
+        m = meta.get(c['N'], ('Grade D — scenario', 'Sensitivity scenario', '—'))
+        rows.append('| %s | %s | %s | %s |' % (_comma(c['N']), m[0], m[1], m[2]))
+    return '\n'.join(rows)
+
+
 def _tables():
     sens = _load_json(os.path.join(REPO, 'data', 'sccr_sensitivity.json'))
     curve = (sens.get('unpublicised_node_sensitivity', {}) or {}).get('curve', [])
@@ -149,6 +176,7 @@ def _tables():
     return {
         'unpublicised_curve': lambda: _table_unpublicised(curve),
         'unpublicised_curve_wp': lambda: _table_unpublicised_wp(curve),
+        'population_scenarios': lambda: _table_scenarios(curve),
         'fee_allocation': lambda: _table_fee_allocation(fa),
     }
 
