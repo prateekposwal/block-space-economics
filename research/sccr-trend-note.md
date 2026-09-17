@@ -1,5 +1,7 @@
 # The Externality Is Growing — SCCR Trend, Week of Aug 2026
 
+<!-- seo-title: SCCR Trend: Bitcoin's Storage Externality Growing? -->
+
 **Status:** RESEARCH NOTE (2026-08-11) · **Program:** Bitcoin Resource Accounting
 **Companion:** `research/working-paper.md`, `research/cost-to-flood.md`
 **Source:** live SCCR measurements (model-spec v2.1.0, N=32K census)

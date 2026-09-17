@@ -1,5 +1,7 @@
 # Satoshi's Primary Sources — Verification Note
 
+<!-- seo-title: What Satoshi Said About Storage, Fees & Nodes -->
+
 **What Satoshi actually wrote about storage, fees, and node equilibrium**
 
 *(Analysis note — NOT a submission artifact. Created 2026-08-03 by Prateek on

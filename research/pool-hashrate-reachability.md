@@ -1,5 +1,7 @@
 # Pool Self-Reported Hashrate — Reachability Finding (build-or-document)
 
+<!-- seo-title: Pool Hashrate Reachability: What's Measurable -->
+
 **BSAHI — row 11 validation, Tier-2 item 1**
 *Produced: 2026-09-16*
 

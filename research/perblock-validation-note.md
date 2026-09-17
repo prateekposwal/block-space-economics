@@ -1,5 +1,7 @@
 # Per-block validation strip — rows 1 (fee market) + 4 (block/state size)
 
+<!-- seo-title: Per-Block Validation: Era Aggregates vs Real Blocks -->
+
 **Date:** 2026-09-16 (2025-2026 eras completed 2026-09-17) · **Instrument:** `tools/research/perblock_validation.py`
 **Output:** `data/perblock_validation.json`
 

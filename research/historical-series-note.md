@@ -1,5 +1,7 @@
 # Historical Series Extension: Difficulty + Mempool Congestion
 
+<!-- seo-title: Bitcoin Difficulty & Mempool Congestion, 2009-2026 -->
+
 **BSAHI — row 10 (mining hashrate level, historical A), row 3 (mempool pressure, historical B\*)**
 *Produced: 2026-09-16 · Instrument: `tools/research/historical_series_extension.py`*
 

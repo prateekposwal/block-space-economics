@@ -37,6 +37,13 @@ END_MARK = '<p style="margin-top:32px;">'
 DATACARD_MARK = '<div class="datacard"'
 
 
+def seo_title(md):
+    """Optional short SEO <title> from an HTML comment: <!-- seo-title: ... -->.
+    Used verbatim (no brand suffix) so it can be kept under ~60 characters."""
+    m = re.search(r'<!--\s*seo-title:\s*(.+?)\s*-->', md)
+    return m.group(1).strip() if m else None
+
+
 def _plain(title):
     """Plain-text title for <title>/og/breadcrumb (drop inline markdown)."""
     return html.unescape(re.sub(r'[*`]', '', title)).strip()
@@ -72,10 +79,12 @@ def sync(name):
     # <h1>, <title>, og:title, breadcrumb name -> the md title.
     h1 = grp.inline(title)
     plain = _plain(title)
+    seo = seo_title(md)
     text = re.sub(r'<h1>.*?</h1>',
                   lambda m: '<h1>' + h1 + '</h1>', text, count=1)
     text = re.sub(r'<title>.*?</title>',
-                  lambda m: '<title>' + html.escape(plain) + TITLE_SUFFIX + '</title>',
+                  (lambda m: '<title>' + html.escape(seo) + '</title>') if seo else
+                  (lambda m: '<title>' + html.escape(plain) + TITLE_SUFFIX + '</title>'),
                   text, count=1)
     text = re.sub(r'(<meta property="og:title" content=")[^"]*(")',
                   lambda m: m.group(1) + html.escape(plain, quote=True) + m.group(2),

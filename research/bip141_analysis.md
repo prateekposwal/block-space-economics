@@ -1,5 +1,7 @@
 # BIP-141 Segregated Witness: Relevance to State Economics
 
+<!-- seo-title: BIP-141 SegWit: Relevance to State Economics -->
+
 ## Source
 https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki
 

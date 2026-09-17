@@ -1,5 +1,7 @@
 # Cost to Flood — the attacker-side storage externality (v1)
 
+<!-- seo-title: Cost to Flood: Pricing an Attack on Bitcoin's Storage -->
+
 **Status:** v1 NOTE (2026-08-10) · **Program:** Bitcoin Resource Accounting
 **Companion:** `research/working-paper.md` (node-side SCCR v2.2.0), `research/cost-to-flood-plan.md`
 **Origin:** a reviewer's comment — "a nation state could flood your computer with garbage or put so much crap in UTXO that you can't run a node." We priced it.

@@ -1,5 +1,7 @@
 # The Bitcoin Whitepaper — 44-Pattern Analysis Note
 
+<!-- seo-title: The Bitcoin Whitepaper: 44 Engineered Patterns -->
+
 **The "cleared the blackboard" lens: the master pattern, the pattern lattice, and verified anchors**
 
 *(Analysis note — NOT a submission artifact. Created 2026-08-03 by Prateek on

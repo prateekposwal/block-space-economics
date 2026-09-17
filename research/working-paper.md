@@ -1,5 +1,7 @@
 # Storage Cost Internalization in Bitcoin's Fee Market
 
+<!-- seo-title: Storage Cost Internalization in Bitcoin's Fee Market -->
+
 **The Bitcoin Block Space Problem** — BSAHI Working Paper v2.2.0 (model-spec.json v2.0.1)
 *Prepared by Prateek Poswal (Independent Researcher) within the Bitcoin Sahi Research Council program · ORCID: 0009-0005-2139-1877 · 2026-08-03*
 

@@ -1,5 +1,7 @@
 # The Governance Boundary — BIP-110 as a live natural experiment (v1)
 
+<!-- seo-title: The Governance Boundary: BIP-110 as a Live Experiment -->
+
 **Status:** v1 NOTE (2026-08-10) · **Program:** Bitcoin Resource Accounting
 **Companion:** `research/working-paper.md`, `research/cost-to-flood.md`,
 `research/reply-vachagan.md`

@@ -1,5 +1,7 @@
 # UTXO Series — Reachability Finding (build-or-document)
 
+<!-- seo-title: UTXO Series Reachability: What's Public -->
+
 **BSAHI — row 6 (D historical), VCI state leg (row 7)**
 *Produced: 2026-09-16*
 

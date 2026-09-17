@@ -1,5 +1,7 @@
 # The Validation Leg — v1 (order-of-magnitude survey)
 
+<!-- seo-title: Bitcoin Validation Cost: Cheap Per Node -->
+
 **Status: STARTED (v1, 2026-08-04).** This is an analytical bound plus a
 literature survey — NOT a measured benchmark. It answers the question the
 storage leg deliberately left open (§7 of the working paper): what does

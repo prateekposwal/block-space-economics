@@ -1,5 +1,7 @@
 # Production-Cost Ratio — research note (Tier-1 item 4, aggregate leg)
 
+<!-- seo-title: Bitcoin Production-Cost Ratio: Miners vs Fees -->
+
 **BSAHI — producing-side instrument**
 *Produced: 2026-09-16*
 
