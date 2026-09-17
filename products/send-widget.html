@@ -125,7 +125,7 @@ body.gated .container{display:none}
 <p style="color:var(--muted);font-size:.9rem">Public on the free tier today. Join the beta for the full product + API.</p>
 </div>
 
-<footer>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy · <a href="/beta" style="color:var(--muted)">Beta</a></footer>
+<footer>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy · <a href="/beta" style="color:var(--muted)">Beta</a> · <a href="/about">About</a></footer>
 <script>
 fetch('/data/beta-status.json').then(function(r){return r.json()}).then(function(s){
   if(s){ document.getElementById('beta-count').textContent = s.registered || 0; document.getElementById('beta-open').textContent = s.open ? 'OPEN' : 'WAITLIST'; }
