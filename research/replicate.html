@@ -115,6 +115,23 @@ bash cross_check.sh          # JS = Python = C? prints the verdict</code></pre>
 </ul>
 <h2>How to send a result</h2>
 <p>Open an issue at <code>github.com/prateekposwal/block-space-economics</code> with: the artifact you ran, your inputs, your output, and your environment. Corrections are published in the <a href="/research/changelog">Research Changelog</a> with their cause — the project&#x27;s own 10× correction is precedent that this is the intended path, not an embarrassment.</p>
+<h2>Environmental baseline (what this node ran under)</h2>
+<p>The <strong>inbound census (D5)</strong> depends on the node being reachable so peers can dial it back. On the machine that produced this pre-print, that is <strong>impossible</strong>, and the reason is documented here so a future reproduction audit can compare like with like rather than treating it as a defect.</p>
+<p>Both networks available to the host are <strong>carrier-grade NAT (CGNAT)</strong>:</p>
+<pre><code># JioFiber home broadband — four stacked private hops beyond the gateway
+1  192.168.29.1          (the local router)
+2  10.37.32.1
+3  172.16.3.136
+4  192.168.161.80
+5  192.168.232.132
+6  192.168.232.163
+# the &quot;public&quot; 49.43.160.42 is the shared CGNAT egress, not a forwardable address</code></pre>
+<pre><code># mobile hotspot — symmetric NAT with multiple carrier egress IPs (STUN)
+local 0.0.0.0:58517 -&gt; stun.l.google.com   : 106.67.179.93:50402
+                    -&gt; stun.cloudflare.com : 106.67.185.45:50311</code></pre>
+<p>Every alternative reachability path was tested and closed: IPv4 port-forward (no forwardable address exists), UPnP / NAT-PMP (router advertises neither), IPv6 inbound (blocked — three independent external probers time out), STUN/ UDP hole-punching (symmetric NAT), free no-card sandboxes (none offers public raw TCP), Play-with-Docker (shut down, HTTP-only), ngrok TCP (card required on free plans), zrok (TCP sharing is private-only).</p>
+<p><strong>The inbound census is therefore frozen at <code>0</code></strong> (<code>max_concurrent: 0</code>, <code>distinct clearnet IPs: 0</code>) — the correct, unpoisoned value, not a measurement failure. A bare listener on 8333 would receive only port scanners, and counting those as validators would fabricate evidence, so it is explicitly not done.</p>
+<p><strong>To reproduce with a distinct-node result</strong> you need a host on a non-CGNAT connection. Run <code>python3 tools/net/census.py</code> — it reports <strong>DISTINCT</strong> (reachable inbound, real un-SNATed peer IPs), <strong>CONCURRENCY</strong> (Tor/loopback identity is hidden; a lower bound only), or <strong>CONTAINED</strong> (no inbound path, with the measured reason). Full write-up: <code>research/cgnat-containment-finding.md</code>.</p>
 <h2>The standard</h2>
 <ul>
 <li>Every number is classified <strong>Observed / Reconstructed / Modelled</strong> with a grade in the <a href="/research/evidence-matrix">Evidence Matrix</a>.</li>

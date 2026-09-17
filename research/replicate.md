@@ -78,6 +78,50 @@ inputs, your output, and your environment. Corrections are published in the
 [Research Changelog](/research/changelog) with their cause — the project's own
 10× correction is precedent that this is the intended path, not an embarrassment.
 
+## Environmental baseline (what this node ran under)
+
+The **inbound census (D5)** depends on the node being reachable so peers can dial
+it back. On the machine that produced this pre-print, that is **impossible**, and
+the reason is documented here so a future reproduction audit can compare like with
+like rather than treating it as a defect.
+
+Both networks available to the host are **carrier-grade NAT (CGNAT)**:
+
+```
+# JioFiber home broadband — four stacked private hops beyond the gateway
+1  192.168.29.1          (the local router)
+2  10.37.32.1
+3  172.16.3.136
+4  192.168.161.80
+5  192.168.232.132
+6  192.168.232.163
+# the "public" 49.43.160.42 is the shared CGNAT egress, not a forwardable address
+```
+
+```
+# mobile hotspot — symmetric NAT with multiple carrier egress IPs (STUN)
+local 0.0.0.0:58517 -> stun.l.google.com   : 106.67.179.93:50402
+                    -> stun.cloudflare.com : 106.67.185.45:50311
+```
+
+Every alternative reachability path was tested and closed: IPv4 port-forward (no
+forwardable address exists), UPnP / NAT-PMP (router advertises neither), IPv6
+inbound (blocked — three independent external probers time out), STUN/ UDP
+hole-punching (symmetric NAT), free no-card sandboxes (none offers public raw TCP),
+Play-with-Docker (shut down, HTTP-only), ngrok TCP (card required on free plans),
+zrok (TCP sharing is private-only).
+
+**The inbound census is therefore frozen at `0`** (`max_concurrent: 0`,
+`distinct clearnet IPs: 0`) — the correct, unpoisoned value, not a measurement
+failure. A bare listener on 8333 would receive only port scanners, and counting
+those as validators would fabricate evidence, so it is explicitly not done.
+
+**To reproduce with a distinct-node result** you need a host on a non-CGNAT
+connection. Run `python3 tools/net/census.py` — it reports **DISTINCT** (reachable
+inbound, real un-SNATed peer IPs), **CONCURRENCY** (Tor/loopback identity is hidden;
+a lower bound only), or **CONTAINED** (no inbound path, with the measured reason).
+Full write-up: `research/cgnat-containment-finding.md`.
+
 ## The standard
 
 - Every number is classified **Observed / Reconstructed / Modelled** with a grade
