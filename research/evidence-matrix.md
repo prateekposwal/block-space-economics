@@ -21,7 +21,7 @@ row here, that is a defect.
 
 | # | Metric | Value / reading (as published) | Layer | Source | Date | Grade |
 |---|---|---|---|---|---|---|
-| 1 | **SCCR (live)** | 0.3624 · 139 blocks · 98.56% below 1× · **N=26,586 (measured reachable validating nodes)** · T=10yr · spec 2.1.1 | Observed fee + measured N | `data/sccr.json` | 2026-09-17 | B |
+| 1 | **SCCR (live)** | {{SCCR}} · {{SCCR_BLOCKS}} blocks · {{SCCR_BELOW}}% below 1× · **N={{N}} (measured reachable validating nodes)** · T={{T}}yr · spec {{SCCR_SPEC}} | Observed fee + measured N | `data/sccr.json` | 2026-09-17 | B |
 | 2 | SCCR daily history | 36 daily readings | Observed | `data/sccr_history.json` | 2026-08-02 → 2026-09-16 | B |
 | 3 | SCCR historical (era reconstruction) | era-level SCCR, 2010-2026 | **Reconstructed** | `data/sccr_historical_series.json` (daily aggregates → era legs) | frozen 2026-09 | B/C |
 | 4 | Chain size (bytes to verify) | 789.45 GB (2026) | Observed | cumulative frozen `avg-block-size` (unit MB) | 2026 | B |

@@ -67,13 +67,33 @@ def stamp(path, mapping):
         html = f.read()
     orig = html
     for elem_id, text in mapping.items():
-        for tag in ('span', 'div', 'p'):
+        for tag in ('span', 'div', 'p', 'desc', 'strong', 'b', 'em'):
             pat = re.compile(r'(<%s[^>]*\bid="%s"[^>]*>)[^<]*(</%s>)' % (tag, re.escape(elem_id), tag))
             html, n = pat.subn(r'\g<1>%s\g<2>' % text, html)
             if n:
                 break
         if not n:
             print('  warn: id not found: %s in %s' % (elem_id, os.path.basename(path)))
+    if html == orig:
+        return False
+    with open(path, 'w') as f:
+        f.write(html)
+    return True
+
+
+def stamp_polyline(path, line_id, points):
+    """Regenerate an SVG <polyline id="..."> points attribute (e.g. the hub
+    chart) from the canonical history, so the chart tracks the series."""
+    if not os.path.exists(path):
+        return False
+    with open(path) as f:
+        html = f.read()
+    orig = html
+    pat = re.compile(r'(<polyline\b(?=[^>]*\bid="%s")[^>]*\bpoints=")[^"]*(")' % re.escape(line_id))
+    html, n = pat.subn(lambda m: m.group(1) + points + m.group(2), html)
+    if not n:
+        print('  warn: polyline id not found: %s in %s' % (line_id, os.path.basename(path)))
+        return False
     if html == orig:
         return False
     with open(path, 'w') as f:
@@ -110,6 +130,7 @@ def bake():
     maxv = d.get('max')
     n = d.get('N')
     t = d.get('T')
+    l_net = d.get('l_net_usd')
     census = d.get('census_date') or (d.get('census_captured_at') or '')[:10] or 'unknown date'
     gen = d.get('generated_at', '')
     gen_line = 'Updated ' + gen.replace('T', ' ').replace('Z', ' UTC').replace('+00:00', ' UTC')[:16] + ' (daily SCCR tracker)' if gen else '—'
@@ -153,6 +174,27 @@ def bake():
         'sccr-note': ('Measured %s blocks on %s (model-spec v%s). Reproduce it: research/reproduce.' % (fmt_n(blocks), date or '—', spec or '—')),
     }
     changed = stamp(os.path.join(REPO, 'products', 'sccr-index.html'), idx_map) or changed
+
+    # Research hub (research/index.html) — hand-written; its SCCR numbers and the
+    # chart polyline drift unless re-stamped, so they are baked here too.
+    hub_map = {
+        'sccr-hub-latest': fmt_ratio(avg),
+        'sccr-hub-date': date or '—',
+        'sccr-hub-n': fmt_n(n),
+        'sccr-hub-n2': fmt_n(n),
+        'sccr-hub-lnet': ('$' + format(l_net, ',.2f')) if isinstance(l_net, (int, float)) else '—',
+        'sccr-hub-spec': spec or '—',
+        'sccr-hub-desc-latest': fmt_ratio(avg),
+        'sccr-hub-desc-date': date or '—',
+    }
+    changed = stamp(os.path.join(REPO, 'research', 'index.html'), hub_map) or changed
+    if isinstance(hpts, list) and len(hpts) >= 2:
+        x0, x1, y0, y1 = 46.0, 744.0, 204.0, 42.3  # matches the hub viewBox 0 0 760 240
+        pts = ' '.join('%.1f,%.1f' % (x0 + i * (x1 - x0) / (len(hpts) - 1),
+                                      y0 - (y0 - y1) * h['avg_sccr'])
+                       for i, h in enumerate(hpts))
+        changed = stamp_polyline(os.path.join(REPO, 'research', 'index.html'),
+                                 'sccr-hub-line', pts) or changed
 
     rows = []
     if isinstance(hpts, list):

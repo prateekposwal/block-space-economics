@@ -9,11 +9,7 @@
 
 Bitcoin's transaction fees are the only long-run revenue. Today **almost none of the competing claims is actually paid by fees** — the block subsidy pays the security bill:
 
-| claim on fees (2026, per block) | USD/block | covered by fees today |
-|---|---:|---:|
-| **Security / production** (network energy cost to produce a block) | **$198,549** | **0.7%** (subsidy pays 107.0%) |
-| **Storage externality** (`L_net`, N=26,586, T=10yr) | **$4,676** | **36.2%** (the SCCR) |
-| Node operating cost (network-wide, one year) | $468 | 302.6% |
+{{TABLE:fee_allocation}}
 
 **Actual fee revenue: ~$1,415/block** (measured; frozen series) — against a **$198,549/block** production cost and a **$4,676/block** modeled storage cost (N=26,586). The subsidy ($212,517/block) is what keeps the security budget met today.
 

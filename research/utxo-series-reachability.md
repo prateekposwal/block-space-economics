@@ -40,7 +40,7 @@ historical D → C, and (b) hardens the VCI `utxo_state_gb` estimate table.
 **Build-or-document: DOCUMENTED.** Row 6 historical stays D; VCI state leg stays
 estimate-table. The pre-2016 continuous UTXO-count series requires one of:
 
-1. A **synced local Bitcoin Core node** (the ready path — the census node is
+1. A **synced local Bitcoin Core node** (the ready path — the measurement node is
    ~320K blocks behind; once synced, `gettxoutsetinfo` captures give a true
    primary series going forward, and per-block `nTx`-derived deltas cover the
    back-fill). This is the R5 node-sync decision, already deferred.

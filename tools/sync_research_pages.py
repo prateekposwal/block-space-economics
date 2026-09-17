@@ -14,6 +14,19 @@ This syncer instead rewrites, in place:
 Everything else in the file — style block, nav, footer, gate — is left
 byte-identical.
 
+Build-time tokens (so served numbers come from the canonical JSON, not a
+hand-typed snapshot that drifts after a re-base):
+
+    {{SCCR}} {{SCCR_PCT}} {{SCCR_BELOW}} {{SCCR_BLOCKS}} {{SCCR_DATE}}
+    {{SCCR_MIN}} {{SCCR_MAX}} {{SCCR_SPEC}}
+    {{N}} {{N_RAW}} {{N_DATE}} {{N_K}} {{L_NET}} {{L_NET_D}} {{T}} {{C}}
+    {{TABLE:unpublicised_curve}}      -> markdown table from sccr_sensitivity.json
+    {{TABLE:unpublicised_curve_wp}}   -> same, with the status + fee-coverage columns
+    {{TABLE:fee_allocation}}          -> the per-block claims table
+
+Scalars come from data/sccr.json + research/model-spec.json; unknown tokens are
+left verbatim with a warning on stderr.
+
 Run: python3 tools/sync_research_pages.py [page ...]
      (defaults to every research/*.md that has a served .html)
 """
@@ -37,6 +50,130 @@ END_MARK = '<p style="margin-top:32px;">'
 DATACARD_MARK = '<div class="datacard"'
 
 
+def _load_json(path):
+    try:
+        with open(path) as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _f(v, digits=4):
+    return ('%.*f' % (digits, v)) if isinstance(v, (int, float)) else '—'
+
+
+def _comma(v):
+    return format(int(round(v)), ',') if isinstance(v, (int, float)) else '—'
+
+
+def _tokens():
+    """Build-time substitutions so a served page's numbers come from the
+    canonical JSON, not from a hand-typed snapshot. Use `{{TOKEN}}` in a .md.
+
+    Source of truth: data/sccr.json (live reading) and research/model-spec.json
+    (the canonical N). Table blocks are expanded to markdown and rendered by
+    the normal pipeline, so they carry the same table-wrap styling."""
+    s = _load_json(os.path.join(REPO, 'data', 'sccr.json'))
+    spec = _load_json(os.path.join(REPO, 'research', 'model-spec.json'))
+    n = (spec.get('quantities', {}).get('N', {}) or {}).get('value') or s.get('N')
+    n_date = (spec.get('quantities', {}).get('N', {}) or {}).get('captured_at') or s.get('census_date')
+    l_net = s.get('l_net_usd')
+    avg = s.get('avg_sccr')
+    t = {
+        'SCCR': _f(avg),
+        'SCCR_PCT': ('%.1f' % (avg * 100)) if isinstance(avg, (int, float)) else '—',
+        'SCCR_BELOW': str(s.get('below_1x_pct', '—')),
+        'SCCR_BLOCKS': str(s.get('blocks', '—')),
+        'SCCR_DATE': s.get('date') or '—',
+        'SCCR_MIN': _f(s.get('min')),
+        'SCCR_MAX': _f(s.get('max')),
+        'SCCR_SPEC': s.get('spec_version') or (spec.get('version') or '—'),
+        'N': _comma(n),
+        'N_RAW': str(int(n)) if isinstance(n, (int, float)) else '—',
+        'N_DATE': (n_date or '—')[:10],
+        'N_K': ('%.1fK' % (n / 1000.0)) if isinstance(n, (int, float)) else '—',
+        'L_NET': _comma(l_net),
+        'L_NET_D': ('%.2f' % l_net) if isinstance(l_net, (int, float)) else '—',
+        'T': str(s.get('T', '—')),
+        'C': str(s.get('C', '—')),
+    }
+    return t
+
+
+def _table_unpublicised(curve):
+    rows = ['| N | L_net (USD/block) | SCCR | externality vs baseline |',
+            '|---:|---:|---:|---:|']
+    for i, c in enumerate(curve):
+        n_ = _comma(c['N']); ln = '$' + _comma(c['l_net_usd_per_block']); s_ = _f(c['sccr'], 4)
+        if i == 0:  # baseline / strict floor
+            n_, ln, s_ = '**%s**' % n_, ln, '**%s**' % s_
+        rows.append('| %s | %s | %s | %.2f× |' % (n_, ln, s_, c['externality_multiple_vs_baseline']))
+    return '\n'.join(rows)
+
+
+def _table_unpublicised_wp(curve):
+    rows = ['| N | status | L_net (USD/block) | SCCR | fee coverage | externality vs baseline |',
+            '|---:|---|---:|---:|---:|---:|']
+    for c in curve:
+        rows.append('| %s | %s · %s | $%s | %s | %s%% | %.2f× |' % (
+            _comma(c['N']), c['layer'], c['label'], _comma(c['l_net_usd_per_block']),
+            _f(c['sccr'], 4), c['fee_coverage_pct'], c['externality_multiple_vs_baseline']))
+    return '\n'.join(rows)
+
+
+def _table_fee_allocation(fa):
+    c = fa.get('current', {})
+    cl = c.get('claims_usd_per_block', {})
+    cov = c.get('coverage_pct', {})
+    rev = c.get('revenue_usd_per_block', {})
+    n = _tokens()['N']
+    sec = cl.get('security_energy_cost', 0)
+    stor = cl.get('storage_externality_L_net', 0)
+    opex = cl.get('network_node_opex_1yr_per_block', 0)
+    return '\n'.join([
+        '| claim on fees (2026, per block) | USD/block | covered by fees today |',
+        '|---|---:|---:|',
+        '| **Security / production** (network energy cost to produce a block) | **$%s** | **%s%%** (subsidy pays %s%%) |'
+        % (_comma(sec), cov.get('security_by_fees_pct', '—'), cov.get('security_by_subsidy_pct', '—')),
+        '| **Storage externality** (`L_net`, N=%s, T=%syr) | **$%s** | **%s%%** (the SCCR) |'
+        % (n, c.get('storage_horizon_years', 10), _comma(stor), cov.get('storage_by_fees_pct', '—')),
+        '| Node operating cost (network-wide, one year) | $%s | %s%% |'
+        % (_comma(opex), cov.get('network_node_opex_1yr_by_fees_pct', '—')),
+    ])
+
+
+def _tables():
+    sens = _load_json(os.path.join(REPO, 'data', 'sccr_sensitivity.json'))
+    curve = (sens.get('unpublicised_node_sensitivity', {}) or {}).get('curve', [])
+    fa = _load_json(os.path.join(REPO, 'data', 'fee_allocation.json'))
+    return {
+        'unpublicised_curve': lambda: _table_unpublicised(curve),
+        'unpublicised_curve_wp': lambda: _table_unpublicised_wp(curve),
+        'fee_allocation': lambda: _table_fee_allocation(fa),
+    }
+
+
+def apply_tokens(md):
+    """`{{SCALAR}}` -> value; `{{TABLE:name}}` -> generated markdown table."""
+    t = _tokens()
+    tables = _tables()
+
+    def sub(m):
+        key = m.group(1).strip()
+        if key.startswith('TABLE:'):
+            fn = tables.get(key[6:].strip())
+            if fn is None:
+                print('  warn: unknown table token: %s' % key, file=sys.stderr)
+                return m.group(0)
+            return fn()
+        if key not in t:
+            print('  warn: unknown token: %s' % key, file=sys.stderr)
+            return m.group(0)
+        return t[key]
+
+    return re.sub(r'\{\{\s*(.+?)\s*\}\}', sub, md)
+
+
 def seo_title(md):
     """Optional short SEO <title> from an HTML comment: <!-- seo-title: ... -->.
     Used verbatim (no brand suffix) so it can be kept under ~60 characters."""
@@ -56,6 +193,7 @@ def sync(name):
         return None
     with open(md_path) as f:
         md = f.read()
+    md = apply_tokens(md)
     title = grp.md_title(md)
     if not title:
         return None

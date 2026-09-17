@@ -110,18 +110,18 @@ dynamics, and the permanent cost of data storage.</p>
 <figure style="margin:24px 0;padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:12px">
 <svg viewBox="0 0 760 240" width="100%" height="auto" role="img" aria-labelledby="sccrTitle sccrDesc" style="display:block">
 <title id="sccrTitle">Storage Cost Coverage Ratio (SCCR), daily readings 2026-08-02 to 2026-09-17</title>
-<desc id="sccrDesc">Line chart of 37 daily SCCR readings at N=26,586 nodes and T=10 years. Every reading lies below the 1.0 full-coverage threshold; the latest is 0.3624 on 2026-09-17.</desc>
+<desc id="sccrDesc">Line chart of 37 daily SCCR readings at N=26,586 nodes and T=10 years. Every reading lies below the 1.0 full-coverage threshold; the latest is <span id="sccr-hub-desc-latest">0.3624</span> on <span id="sccr-hub-desc-date">2026-09-17</span>.</desc>
 <line x1="46" y1="204.0" x2="744" y2="204.0" stroke="var(--line)" stroke-width="1"/>
 <line x1="46" y1="123.1" x2="744" y2="123.1" stroke="var(--line)" stroke-width="1"/><line x1="46" y1="42.3" x2="744" y2="42.3" stroke="var(--line)" stroke-width="1"/>
 <line x1="46" y1="42.3" x2="744" y2="42.3" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="6 4"/>
 <text x="744" y="36.3" text-anchor="end" fill="var(--accent-ink)" font-size="12">1.0x = full coverage</text>
-<polyline points="46.0,160.4 65.4,148.7 84.8,153.2 104.2,155.1 123.6,152.4 142.9,155.2 162.3,157.7 181.7,163.2 201.1,173.4 220.5,168.4 239.9,160.6 259.3,142.0 278.7,125.0 298.1,116.3 317.4,121.9 336.8,126.2 356.2,126.2 375.6,155.6 395.0,167.7 414.4,159.2 433.8,148.4 453.2,146.0 472.6,145.7 491.9,145.1 511.3,146.3 530.7,166.9 550.1,154.3 569.5,149.7 588.9,131.6 608.3,147.0 627.7,151.4 647.1,165.0 666.4,167.4 685.8,155.3 705.2,156.2 724.6,149.7 744.0,145.4" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>
+<polyline id="sccr-hub-line" points="46.0,160.4 65.4,148.7 84.8,153.2 104.2,155.1 123.6,152.4 142.9,155.2 162.3,157.7 181.7,163.2 201.1,173.4 220.5,168.4 239.9,160.6 259.3,142.0 278.7,125.0 298.1,116.3 317.4,121.9 336.8,126.2 356.2,126.2 375.6,155.6 395.0,167.7 414.4,159.2 433.8,148.4 453.2,146.0 472.6,145.7 491.9,145.1 511.3,146.3 530.7,166.9 550.1,154.3 569.5,149.7 588.9,131.6 608.3,147.0 627.7,151.4 647.1,165.0 666.4,167.4 685.8,155.3 705.2,156.2 724.6,149.7 744.0,145.4" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>
 <text x="46" y="230" fill="var(--ink-3)" font-size="12">2026-08-02</text>
 <text x="744" y="230" text-anchor="end" fill="var(--ink-3)" font-size="12">2026-09-17</text>
 <text x="38" y="204.0" text-anchor="end" dominant-baseline="middle" fill="var(--ink-3)" font-size="12">0.0</text>
 <text x="38" y="42.3" text-anchor="end" dominant-baseline="middle" fill="var(--ink-3)" font-size="12">1.0</text>
 </svg>
-<figcaption style="color:var(--ink-2);font-size:.85rem;margin-top:12px">SCCR daily readings, 2026-08-02 to 2026-09-17 (N=26,586, T=10 yr, model-spec v2.1.1). Every reading is below 1.0 &mdash; fees do not cover the modeled 10-year storage cost. Latest: <strong>0.3624</strong> on 2026-09-17. Data: <a href="/data/sccr_history.json">/data/sccr_history.json</a>.</figcaption>
+<figcaption style="color:var(--ink-2);font-size:.85rem;margin-top:12px">SCCR daily readings, 2026-08-02 to 2026-09-17 (N=26,586, T=10 yr, model-spec v2.1.1). Every reading is below 1.0 &mdash; fees do not cover the modeled 10-year storage cost. Latest: <strong id="sccr-hub-latest">0.3624</strong> on <span id="sccr-hub-date">2026-09-17</span>. Data: <a href="/data/sccr_history.json">/data/sccr_history.json</a>.</figcaption>
 </figure>
 
 <h2>Definitions</h2>
@@ -131,11 +131,11 @@ dynamics, and the permanent cost of data storage.</p>
 <dt style="color:var(--ink);font-weight:600;margin-top:12px">SCCR &mdash; Storage Cost Coverage Ratio</dt>
 <dd style="margin:2px 0 0">Transaction fees paid (USD) divided by the modeled 10-year storage cost borne by full nodes (USD) at a node count N. A ratio below 1.0 means fees do not cover the modeled cost of storing the data across the network.</dd>
 <dt style="color:var(--ink);font-weight:600;margin-top:12px">N &mdash; node count</dt>
-<dd style="margin:2px 0 0">The number of full nodes bearing the storage cost. Primary source: a measured reachable validating-node count (btcnodes crawl, 2026-09-16); the canonical constant is <strong>26,586</strong>, a lower bound. An earlier addrman <em>address</em> sample (≥32,000 gossiped addresses) was never a node count.</dd>
+<dd style="margin:2px 0 0">The number of full nodes bearing the storage cost. Primary source: a measured reachable validating-node count (btcnodes crawl, 2026-09-16); the canonical constant is <strong id="sccr-hub-n">26,586</strong>, a lower bound. An earlier addrman <em>address</em> sample (≥32,000 gossiped addresses) was never a node count.</dd>
 <dt style="color:var(--ink);font-weight:600;margin-top:12px">T &mdash; storage time horizon</dt>
 <dd style="margin:2px 0 0">The assumed lifetime over which stored data is borne by nodes. T = 10 years.</dd>
 <dt style="color:var(--ink);font-weight:600;margin-top:12px">L_net &mdash; modeled network storage cost</dt>
-<dd style="margin:2px 0 0">The modeled per-block storage cost across the network, in USD. At N=26,586 and T=10 yr it is <strong>$4,675.65</strong> per block (model-spec v2.1.1).</dd>
+<dd style="margin:2px 0 0">The modeled per-block storage cost across the network, in USD. At N=<span id="sccr-hub-n2">26,586</span> and T=10 yr it is <strong id="sccr-hub-lnet">$4,675.65</strong> per block (model-spec v<span id="sccr-hub-spec">2.1.1</span>).</dd>
 </dl>
 </div>
 <h2>Data Confidence &amp; Calibration (2026-09)</h2><p class="rg">The dated, graded evidence under the thesis — historical series, per-block validation, pool hashrate, energy, and reachability transcripts. Grades in <code>data-confidence</code> matrix; live readouts below fetch the frozen endpoints.</p>
