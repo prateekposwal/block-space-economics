@@ -156,6 +156,16 @@ def main():
     # hash; muhash gives a verifiable commitment to the set.
     utxo = rpc(cfg, "gettxoutsetinfo", [args.hash])
 
+    # The block's own timestamp — distinct from measured_at. While the node is in
+    # IBD these differ by years (we can measure a 2021 height in 2026), and the
+    # distinction must never be blurred.
+    block_time = None
+    try:
+        hdr = rpc(cfg, "getblockheader", [utxo["bestblock"]])
+        block_time = datetime.datetime.fromtimestamp(hdr["time"], datetime.timezone.utc).isoformat()
+    except Exception:
+        pass
+
     # On-disk chainstate size (real bytes the node carries), when derivable.
     disk_bytes = None
     try:
@@ -170,6 +180,7 @@ def main():
         "schema": "bsahi.utxo-state/1",
         "layer": "observed",
         "measured_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "block_time": block_time,      # the chain date of this height (NOT the capture time)
         "height": height,
         "bestblock": utxo.get("bestblock"),
         "utxo_count": utxo.get("txouts"),

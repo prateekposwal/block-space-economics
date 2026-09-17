@@ -1,0 +1,128 @@
+{
+  "schema": "bsahi.integrity-audit/1",
+  "generated_at": "2026-09-17T03:48:12.420046+00:00",
+  "method": "tools/research/integrity_audit.py \u2014 checks heights/dates, units, provenance, layers",
+  "findings": [
+    {
+      "check": "monotonicity",
+      "source": "perblock_validation",
+      "status": "PASS",
+      "detail": "50 pairs, 0 inversions"
+    },
+    {
+      "check": "monotonicity",
+      "source": "utxo_state_latest",
+      "status": "PASS",
+      "detail": "1 pairs, 0 inversions"
+    },
+    {
+      "check": "anchor:chain_date",
+      "source": "utxo_state_latest",
+      "status": "INFO",
+      "detail": "height 671462 = 2021-02-25 (chain); captured 2026-09-17; block_time not recorded in this row (pre-dates the field)"
+    },
+    {
+      "check": "units:hashrate_ehs==ths/1e6 & power==ths*eff",
+      "source": "production_cost_ratio",
+      "status": "PASS",
+      "detail": "eras with mismatches: none"
+    },
+    {
+      "check": "units:chain size is decimal GB (1e9 bytes)",
+      "source": "verify_cost_index",
+      "status": "PASS",
+      "detail": "2026 chain_gb=789.45 (decimal GB)"
+    },
+    {
+      "check": "provenance(schema+generated_at+source)",
+      "source": "data/*.json",
+      "status": "WARN",
+      "detail": "12 dataset(s) incomplete",
+      "missing": [
+        {
+          "file": "bip110.json",
+          "schema": false,
+          "generated_at": false,
+          "source": true
+        },
+        {
+          "file": "node_census.json",
+          "schema": true,
+          "generated_at": false,
+          "source": true
+        },
+        {
+          "file": "perblock_validation.json",
+          "schema": true,
+          "generated_at": false,
+          "source": false
+        },
+        {
+          "file": "pool_attribution_validation.json",
+          "schema": true,
+          "generated_at": true,
+          "source": false
+        },
+        {
+          "file": "production_cost_ratio.json",
+          "schema": true,
+          "generated_at": true,
+          "source": false
+        },
+        {
+          "file": "sccr.json",
+          "schema": false,
+          "generated_at": true,
+          "source": false
+        },
+        {
+          "file": "sccr_historical_series.json",
+          "schema": true,
+          "generated_at": true,
+          "source": false
+        },
+        {
+          "file": "sccr_history.json",
+          "schema": false,
+          "generated_at": false,
+          "source": false
+        },
+        {
+          "file": "sccr_latest.json",
+          "schema": false,
+          "generated_at": false,
+          "source": false
+        },
+        {
+          "file": "utxo_series.json",
+          "schema": true,
+          "generated_at": true,
+          "source": false
+        },
+        {
+          "file": "utxo_state_latest.json",
+          "schema": true,
+          "generated_at": false,
+          "source": true
+        },
+        {
+          "file": "utxo_state_series.json",
+          "schema": true,
+          "generated_at": false,
+          "source": true
+        }
+      ]
+    },
+    {
+      "check": "layer field or explicit classification",
+      "source": "data/*.json",
+      "status": "PASS",
+      "detail": "all research datasets classified"
+    }
+  ],
+  "summary": {
+    "checks": 7,
+    "fail": 0,
+    "warn": 1
+  }
+}

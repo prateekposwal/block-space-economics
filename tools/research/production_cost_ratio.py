@@ -52,7 +52,7 @@ def era_mean(points, t0, t1):
     return statistics.mean(v) if v else None
 
 def main():
-    hr = load("hash-rate")          # EH/s
+    hr = load("hash-rate")          # blockchain.info hash-rate series: TH/s (unit field)
     rev = load("miners-revenue")    # USD/day
     txbf = load("transaction-fees") # BTC/day
     price = load("market-price")    # USD
@@ -61,15 +61,14 @@ def main():
     for yr in YEARS:
         t0 = datetime.datetime(yr, 1, 1, tzinfo=datetime.timezone.utc).timestamp()
         t1 = datetime.datetime(yr + 1, 1, 1, tzinfo=datetime.timezone.utc).timestamp() if yr < 2026 else (1 << 62)
-        hr_ehs = era_mean(hr, t0, t1)
+        hr_ths = era_mean(hr, t0, t1)   # TH/s (raw series unit)
         rev_day = era_mean(rev, t0, t1)
         fee_btc_day = era_mean(txbf, t0, t1)
         px = era_mean(price, t0, t1)
-        if hr_ehs is None or rev_day is None:
+        if hr_ths is None or rev_day is None:
             continue
         eff = ERA_EFF_J_PER_TH.get(yr, 20)
-        th_s = hr_ehs  # blockchain.info hash-rate series is TH/s (verified unit field)
-        power_w = th_s * eff  # watts
+        power_w = hr_ths * eff  # TH/s x J/TH = W (units cancel: (1e12 H/s) x (J/1e12 H) = J/s)
         power_gw = power_w / 1e9
         energy_kwh_day = power_w * 24 / 1000
         energy_cost_day = energy_kwh_day * ELECTRICITY_USD_PER_KWH
@@ -78,7 +77,8 @@ def main():
         fee_share_prod = (fee_usd_day / energy_cost_day) if (fee_usd_day and energy_cost_day) else None
         eras.append({
             "era": str(yr),
-            "hashrate_ehs": round(hr_ehs, 2),
+            "hashrate_ths": round(hr_ths, 2),                    # raw series unit
+            "hashrate_ehs": round(hr_ths / 1e6, 6),               # derived, for readability
             "asec_efficiency_j_per_th": eff,
             "power_gw": round(power_gw, 1),
             "energy_kwh_day": round(energy_kwh_day, 0),
@@ -134,7 +134,7 @@ def main():
 
     print(f"{'yr':6}{'EH/s':>8}{'GW':>7}{'kWh/day':>10}{'cost_$':>10}{'prod_rev_$':>12}{'cost/rev':>10}{'fees%prod':>10}")
     for e in eras:
-        print(f"{e['era']:6}{e['hashrate_ehs']:>8.0f}{e['power_gw']:>7.1f}{e['energy_kwh_day']:>10.0f}"
+        print(f"{e['era']:6}{e['hashrate_ehs']:>8.1f}{e['power_gw']:>7.1f}{e['energy_kwh_day']:>10.0f}"
               f"{e['energy_cost_usd_day']:>10.0f}{e['production_value_usd_day']:>12.0f}"
               f"{e['production_cost_ratio'] or 0:>10.3f}{e['fee_coverage_of_production_pct'] or 0:>10.3f}")
     print(f"\nWrote {OUT}")

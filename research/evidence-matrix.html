@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mining energy cost vs production value by era: the ratio rose from 0.32 (2017) to 0.84 (2026) while fees fell from 35.7% to 0.7% of production cost.">
+<meta property="og:title" content="Evidence Matrix">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/evidence-matrix">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/evidence-matrix">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Evidence Matrix","item":"https://bitcoinsahi.com/research/evidence-matrix"}]}
+</script>
+<title>Evidence Matrix — Observed, Reconstructed, Modelled</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Evidence Matrix","name":"Evidence Matrix","url":"https://bitcoinsahi.com/research/evidence-matrix","mainEntityOfPage":"https://bitcoinsahi.com/research/evidence-matrix","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","about":["Bitcoin","research integrity","data provenance"],"datePublished":"2026-09-17","dateModified":"2026-09-17"}
+</script>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Evidence Matrix</h1>
+<p><strong>BSAHI — every headline number, classified by how it was actually obtained.</strong> <em>Produced: 2026-09-17 · Checked by <code>tools/research/integrity_audit.py</code></em></p>
+<h2>The three layers</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Layer</th><th>Definition</th><th>What it means for a reader</th></tr>
+<tr><td><strong>Observed</strong></td><td>Read from a node, or from a frozen primary capture with a recorded date</td><td>Cite as measurement. Grade A/B.</td></tr>
+<tr><td><strong>Reconstructed</strong></td><td>Derived by a stated procedure from anchors (interpolation, era means, attribution)</td><td>Cite as <em>procedure</em>, not as a measurement. Grade C/D.</td></tr>
+<tr><td><strong>Modelled</strong></td><td>Assumptions dominate; the output is a scenario, not an observation</td><td>Cite as a scenario. Grade C.</td></tr>
+</table>
+</div>
+<p>Nothing in this project may be presented as Observed if it is Reconstructed or Modelled. The matrix is the enforcement: if a number appears anywhere without a row here, that is a defect.</p>
+<h2>Matrix</h2>
+<div class="table-wrap">
+<table>
+<tr><th>#</th><th>Metric</th><th>Value / reading (as published)</th><th>Layer</th><th>Source</th><th>Date</th><th>Grade</th></tr>
+<tr><td>1</td><td><strong>SCCR (live)</strong></td><td>0.2789 · 139 blocks · 99.28% below 1× · N=32K · T=10yr · spec 2.1.0</td><td>Observed</td><td><code>data/sccr.json</code> ← mempool.space 24h fee endpoint (GH Actions)</td><td>2026-09-16</td><td>B</td></tr>
+<tr><td>2</td><td>SCCR daily history</td><td>36 daily readings</td><td>Observed</td><td><code>data/sccr_history.json</code></td><td>2026-08-02 → 2026-09-16</td><td>B</td></tr>
+<tr><td>3</td><td>SCCR historical (era reconstruction)</td><td>era-level SCCR, 2010-2026</td><td><strong>Reconstructed</strong></td><td><code>data/sccr_historical_series.json</code> (daily aggregates → era legs)</td><td>frozen 2026-09</td><td>B/C</td></tr>
+<tr><td>4</td><td>Chain size (bytes to verify)</td><td>789.45 GB (2026)</td><td>Observed</td><td>cumulative frozen <code>avg-block-size</code> (unit MB)</td><td>2026</td><td>B</td></tr>
+<tr><td>5</td><td>UTXO / chain state</td><td>0.5 GB (2013) → 11 GB (2025/26), era table</td><td><strong>Reconstructed</strong></td><td>anchors + interpolation (no continuous source)</td><td>—</td><td><strong>D</strong></td></tr>
+<tr><td>6</td><td><strong>UTXO / chain state (observed)</strong></td><td>h671,462 · 72,234,156 UTXOs · 18,633,940 BTC · UTXO DB 4.39 GB</td><td><strong>Observed</strong></td><td><code>gettxoutsetinfo</code> from a real Bitcoin Core node (<code>utxo_state_measure.py</code>)</td><td>captured 2026-09-17</td><td><strong>A</strong></td></tr>
+<tr><td>7</td><td>Mining difficulty</td><td>127,450,789,715,844</td><td>Observed</td><td><code>data/difficulty_series.json</code> (frozen primary)</td><td>2026-09-13</td><td>A</td></tr>
+<tr><td>8</td><td>Mempool congestion</td><td>1,498 daily points, 2016-2026</td><td>Observed</td><td><code>data/mempool_congestion_series.json</code> (frozen primary)</td><td>2026</td><td>B*</td></tr>
+<tr><td>9</td><td>Per-block samples</td><td>3 blocks/era (2026: 2)</td><td>Observed (spot)</td><td><code>data/perblock_validation.json</code> (esplora + blockchain.info)</td><td>2026-09-16</td><td>B (spot-check, not a survey)</td></tr>
+<tr><td>10</td><td>Network hashrate</td><td>956 TH/s·10⁶ (≈956 EH/s)</td><td>Observed</td><td>frozen <code>hash-rate</code> series (unit <strong>TH/s</strong>)</td><td>2026</td><td>B</td></tr>
+<tr><td>11</td><td>Miners&#x27; revenue</td><td>41.4M USD/day</td><td>Observed</td><td>frozen <code>miners-revenue</code> series (unit USD)</td><td>2026</td><td>B</td></tr>
+<tr><td>12</td><td><strong>Production cost ratio</strong></td><td>reported across $0.03–$0.15/kWh</td><td><strong>Modelled</strong> (observed legs + assumed price/efficiency)</td><td><code>data/production_cost_ratio.json</code></td><td>2026-09-17</td><td>C</td></tr>
+<tr><td>13</td><td>Electricity price</td><td>$0.05/kWh (scenario $0.03–$0.15)</td><td><strong>Modelled</strong> (assumption)</td><td>documented assumption</td><td>—</td><td>C</td></tr>
+<tr><td>14</td><td>ASIC efficiency (network avg)</td><td>25 J/TH (2026), era table</td><td><strong>Modelled</strong> (estimate)</td><td>documented table</td><td>—</td><td>C</td></tr>
+<tr><td>15</td><td>Node census (N)</td><td>≥32,000 (lower bound)</td><td>Observed</td><td><code>getnodeaddresses</code> census (<code>data/node_census*.json</code>)</td><td>2026-08-02</td><td>B</td></tr>
+<tr><td>16</td><td>Pool attribution</td><td>7/7 pools coherent ≤1.5σ; network-total diff 2.34%</td><td>Observed</td><td><code>data/pool_attribution_validation.json</code></td><td>2026-09-15</td><td>C/B</td></tr>
+<tr><td>17</td><td>Mining concentration</td><td>HHI/Gini/N_eff per window</td><td>Observed</td><td><code>data/mining_concentration.json</code></td><td>2026-09-15</td><td>B</td></tr>
+<tr><td>18</td><td>BIP-110 signaling</td><td>lock-in h963,648 (2026-08-23 00:48:47 UTC); snapshot h966,270</td><td>Observed</td><td><code>data/bip110.json</code> (GH Actions) + blockstream.info</td><td>2026-09-09</td><td>A</td></tr>
+<tr><td>19</td><td>Fee history / block interval</td><td>95-point intraday series</td><td>Observed</td><td><code>data/fee_history.json</code>, <code>data/block_interval.json</code></td><td>2026-09-17</td><td>B</td></tr>
+<tr><td>20</td><td><strong>Verification Cost Index</strong></td><td>trend (headline): sync time flat, value-relative cost ~17× cheaper</td><td><strong>Modelled</strong></td><td><code>data/verify_cost_index.json</code></td><td>2026-09-17</td><td>C</td></tr>
+<tr><td>21</td><td>VCI chain leg</td><td>total bytes to verify</td><td>Observed</td><td>frozen <code>avg-block-size</code></td><td>2026</td><td>B</td></tr>
+<tr><td>22</td><td>VCI state leg</td><td>reconstructed UTXO table</td><td><strong>Reconstructed</strong></td><td>(falls back to row 5)</td><td>—</td><td>D</td></tr>
+<tr><td>23</td><td>VCI throughput</td><td>assumed commodity archive-sync</td><td><strong>Modelled</strong></td><td>documented table</td><td>—</td><td>C</td></tr>
+<tr><td>24</td><td>Node operator labour</td><td>$25/h, labour share</td><td><strong>Modelled</strong></td><td>documented assumption</td><td>—</td><td>D</td></tr>
+<tr><td>25</td><td>Cost-to-flood leverage</td><td>L ≈ 3.0× (dust 0.9×)</td><td><strong>Modelled</strong></td><td><code>research/cost-to-flood.md</code></td><td>2026-08-10</td><td>C</td></tr>
+<tr><td>26</td><td>Bandwidth bound</td><td>52.6 GB/yr</td><td>Modelled</td><td><code>data/bandwidth_bound.json</code></td><td>2026-08-04</td><td>C</td></tr>
+<tr><td>27</td><td>Pruning externality</td><td>download+verify unavoidable</td><td>Modelled</td><td><code>research/pruning_externality_analysis.md</code></td><td>2026-08-10</td><td>C</td></tr>
+</table>
+</div>
+<h2>Grades</h2>
+<ul>
+<li><strong>A</strong> — direct primary measurement (node RPC, on-chain fact), dated.</li>
+<li><strong>B</strong> — frozen primary capture with a recorded unit and date.</li>
+<li><strong>C</strong> — model/estimate with documented assumptions; direction is the claim.</li>
+<li><strong>D</strong> — reconstruction by interpolation with no continuous source.</li>
+<li><strong>*</strong> — B* = primary series with a documented gap (e.g. pre-2016 congestion).</li>
+</ul>
+<h2>Standing checks (run with the matrix)</h2>
+<p><code>tools/research/integrity_audit.py</code> re-checks, on every run:</p>
+<ol>
+<li><strong>Heights/dates monotonic</strong> — every (height, timestamp) pair increases together.</li>
+<li><strong>Anchors</strong> — a height&#x27;s <em>chain</em> date matches the known anchor; the <em>capture</em> time is recorded separately (they differ by years while the node is in IBD).</li>
+<li><strong>Units</strong> — derived unit fields agree with raw ones (<code>hashrate_ehs == hashrate_ths/1e6</code>; power <code>TH/s × J/TH = W</code>; GB is decimal <code>1e9</code>).</li>
+<li><strong>Provenance</strong> — each dataset carries schema + generated_at + a source.</li>
+<li><strong>Layers</strong> — each dataset is classified Observed / Reconstructed / Modelled.</li>
+</ol>
+<h2>Known open items (surfaced by the audit, not hidden)</h2>
+<ul>
+<li>UTXO state is <strong>Observed for one height only</strong>; the 2013-2026 series remains Reconstructed (grade D) until the node reaches the tip and the series accrues.</li>
+<li>Several auxiliary datasets still lack an explicit <code>layer</code> field (ops/health and a few research files); the matrix row is the interim classification.</li>
+<li>Electricity price, ASIC efficiency, wage and throughput remain assumptions.</li>
+</ul>
+<h2>How to use this page</h2>
+<p>Before publishing any number, find its row. If the layer is <strong>Observed</strong>, cite it with its date. If it is <strong>Reconstructed</strong> or <strong>Modelled</strong>, cite the <em>procedure</em> and the grade — never the level as if it were measured.</p>
+<div class="datacard"><div class="kv">Data source: <code>data/integrity_audit.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>
