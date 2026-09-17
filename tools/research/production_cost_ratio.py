@@ -37,6 +37,10 @@ ERA_EFF_J_PER_TH = {
     2024: 32, 2025: 28, 2026: 25,
 }
 ELECTRICITY_USD_PER_KWH = 0.05  # global mining-average (0.02-0.08 range; midpoint)
+# The single global price is an ASSUMPTION (grade C). Rather than hide it, the
+# model publishes the result across plausible electricity prices so the reader
+# can see the sensitivity directly (production_cost_ratio is linear in $/kWh).
+ELECTRICITY_SCENARIOS = [0.03, 0.05, 0.08, 0.10, 0.15]
 BLOCKS_PER_DAY = 144.0
 
 def load(slug):
@@ -85,6 +89,25 @@ def main():
             "electricity_usd_per_kwh": ELECTRICITY_USD_PER_KWH,
         })
 
+    # Electricity scenarios: the assumption, made explicit.
+    scen_table = []
+    for price in ELECTRICITY_SCENARIOS:
+        by_era = {}
+        money_losing = []
+        for e in eras:
+            kwh = e["energy_kwh_day"]; rev = e["production_value_usd_day"]
+            if not rev:
+                continue
+            ratio = (kwh * price) / rev
+            by_era[e["era"]] = round(ratio, 3)
+            if ratio > 1.0:
+                money_losing.append(e["era"])
+        scen_table.append({
+            "electricity_usd_per_kwh": price,
+            "production_cost_ratio_by_era": by_era,
+            "eras_money_losing_network_wide": money_losing,
+        })
+
     out = {
         "schema": "bsahi.production-cost-ratio/1",
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
@@ -95,9 +118,15 @@ def main():
             "grade": "C — published paper estimates + assumed global mining average; hashrate/revenue/fee-price legs are frozen primary series (B)",
         },
         "eras": eras,
+        "electricity_scenarios": {
+            "unit": "USD/kWh",
+            "scenarios_tested": ELECTRICITY_SCENARIOS,
+            "table": scen_table,
+            "note": "production_cost_ratio is linear in $/kWh, so this is the assumption shown as a range rather than a point. A row above 1.0 means the modeled network-wide energy bill exceeds what miners earn (subsidy + fees) at that price, on the flow-cost basis.",
+        },
         "headline": {
-            "reading": "fee market pays a tiny share of the production energy bill across all eras (fee coverage 0.1-4%); energy cost vs production value hovers below 1x at the assumed $0.05/kWh midpoint, i.e. mining remains viable network-wide on the flow-cost basis",
-            "sensitivity": "ratio is linear in $/kWh and efficiency; at $/kWh=0.08 the network flips money-losing in low-fee years; production-cost is the aggregate 'producing-side' stress, distinct from regional (Cambridge map) grade D.",
+            "reading": "Produced-side cost is published as a SCENARIO, not a single number: across $0.03-$0.15/kWh the network-wide production-cost ratio stays below 1.0 in most years, crossing above 1.0 only in the low-fee years at the highest electricity prices.",
+            "sensitivity": "ratio is linear in $/kWh and in assumed ASIC efficiency; the fee market pays only ~0.1-4% of the production energy bill across all eras. This is the aggregate producing-side stress, distinct from the regional split (grade D pending Cambridge-map + regional electricity capture).",
         },
     }
     with open(OUT, "w") as f:

@@ -13,10 +13,47 @@ transaction-fees BTC/day, market-price USD — all under `captured-data/historic
 Per era:
 
     power_GW        = hashrate_TH/s x network-average ASIC efficiency (J/TH)
-    energy_cost_$day = power_x_hours x electricity $/kWh (assumption = 0.05)
+    energy_cost_$day = power_x_hours x electricity $/kWh (assumption; scenario range shown below)
     production_value_$day = miners revenue (subsidy + fees)
     production_cost_ratio = energy_cost / production_value   (network viability)
     fee_coverage_of_production = fee_usd_day / energy_cost   (block-space's share)
+
+## Electricity scenarios — the assumption, made explicit
+
+The single global price of **$0.05/kWh** is an *assumption* (grade C), not a
+measurement. Rather than hide it behind one number, the model publishes the
+production-cost ratio across plausible electricity prices. The ratio is linear in
+$/kWh, so this is the assumption shown as a range:
+
+| era | $0.03/kWh | $0.05/kWh | $0.08/kWh | $0.10/kWh | $0.15/kWh |
+|---|---|---|---|---|---|
+| 2012 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| 2013 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+| 2014 | 0.01 | 0.03 | 0.04 | 0.05 | 0.07 |
+| 2015 | 0.09 | 0.15 | 0.23 | 0.29 | 0.44 |
+| 2016 | 0.27 | 0.45 | 0.73 | 0.91 | **1.36** |
+| 2017 | 0.19 | 0.32 | 0.51 | 0.64 | 0.96 |
+| 2018 | 0.27 | 0.44 | 0.71 | 0.88 | **1.33** |
+| 2019 | 0.33 | 0.56 | 0.89 | **1.11** | **1.67** |
+| 2020 | 0.44 | 0.73 | **1.18** | **1.47** | **2.20** |
+| 2021 | 0.12 | 0.20 | 0.33 | 0.41 | 0.61 |
+| 2022 | 0.27 | 0.45 | 0.72 | 0.91 | **1.36** |
+| 2023 | 0.36 | 0.59 | 0.95 | **1.19** | **1.78** |
+| 2024 | 0.36 | 0.59 | 0.95 | **1.19** | **1.78** |
+| 2025 | 0.40 | 0.66 | **1.06** | **1.32** | **1.99** |
+| 2026 | 0.50 | 0.84 | **1.34** | **1.68** | **2.52** |
+
+**Bold = above 1.0** (the modeled network-wide energy bill exceeds what miners earn —
+subsidy + fees — on the flow-cost basis). Years that cross the wall:
+
+- **$0.03/kWh:** none
+- **$0.05/kWh:** none
+- **$0.08/kWh:** 2020, 2025, 2026
+- **$0.10/kWh:** 2019, 2020, 2023, 2024, 2025, 2026
+- **$0.15/kWh:** 2016, 2018, 2019, 2020, 2022, 2023, 2024, 2025, 2026
+
+The point is not which price is "right" — it is that the producing-side stress is
+**visible as a function of a decision variable** instead of a hidden constant.
 
 ## First reading (2026-09-16)
 

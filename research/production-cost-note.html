@@ -77,7 +77,38 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <p><strong>BSAHI — producing-side instrument</strong> <em>Produced: 2026-09-16</em></p>
 <h2>The instrument</h2>
 <p><code>tools/research/production_cost_ratio.py</code> + <code>data/production_cost_ratio.json</code>. Deterministic from frozen daily series (hash-rate TH/s, miners-revenue USD/day, transaction-fees BTC/day, market-price USD — all under <code>captured-data/historical/</code>). Per era:</p>
-<p>power_GW        = hashrate_TH/s x network-average ASIC efficiency (J/TH) energy_cost_$day = power_x_hours x electricity $/kWh (assumption = 0.05) production_value_$day = miners revenue (subsidy + fees) production_cost_ratio = energy_cost / production_value   (network viability) fee_coverage_of_production = fee_usd_day / energy_cost   (block-space&#x27;s share)</p>
+<p>power_GW        = hashrate_TH/s x network-average ASIC efficiency (J/TH) energy_cost_$day = power_x_hours x electricity $/kWh (assumption; scenario range shown below) production_value_$day = miners revenue (subsidy + fees) production_cost_ratio = energy_cost / production_value   (network viability) fee_coverage_of_production = fee_usd_day / energy_cost   (block-space&#x27;s share)</p>
+<h2>Electricity scenarios — the assumption, made explicit</h2>
+<p>The single global price of <strong>$0.05/kWh</strong> is an <em>assumption</em> (grade C), not a measurement. Rather than hide it behind one number, the model publishes the production-cost ratio across plausible electricity prices. The ratio is linear in $/kWh, so this is the assumption shown as a range:</p>
+<div class="table-wrap">
+<table>
+<tr><th>era</th><th>$0.03/kWh</th><th>$0.05/kWh</th><th>$0.08/kWh</th><th>$0.10/kWh</th><th>$0.15/kWh</th></tr>
+<tr><td>2012</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+<tr><td>2013</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td><td>0.00</td></tr>
+<tr><td>2014</td><td>0.01</td><td>0.03</td><td>0.04</td><td>0.05</td><td>0.07</td></tr>
+<tr><td>2015</td><td>0.09</td><td>0.15</td><td>0.23</td><td>0.29</td><td>0.44</td></tr>
+<tr><td>2016</td><td>0.27</td><td>0.45</td><td>0.73</td><td>0.91</td><td><strong>1.36</strong></td></tr>
+<tr><td>2017</td><td>0.19</td><td>0.32</td><td>0.51</td><td>0.64</td><td>0.96</td></tr>
+<tr><td>2018</td><td>0.27</td><td>0.44</td><td>0.71</td><td>0.88</td><td><strong>1.33</strong></td></tr>
+<tr><td>2019</td><td>0.33</td><td>0.56</td><td>0.89</td><td><strong>1.11</strong></td><td><strong>1.67</strong></td></tr>
+<tr><td>2020</td><td>0.44</td><td>0.73</td><td><strong>1.18</strong></td><td><strong>1.47</strong></td><td><strong>2.20</strong></td></tr>
+<tr><td>2021</td><td>0.12</td><td>0.20</td><td>0.33</td><td>0.41</td><td>0.61</td></tr>
+<tr><td>2022</td><td>0.27</td><td>0.45</td><td>0.72</td><td>0.91</td><td><strong>1.36</strong></td></tr>
+<tr><td>2023</td><td>0.36</td><td>0.59</td><td>0.95</td><td><strong>1.19</strong></td><td><strong>1.78</strong></td></tr>
+<tr><td>2024</td><td>0.36</td><td>0.59</td><td>0.95</td><td><strong>1.19</strong></td><td><strong>1.78</strong></td></tr>
+<tr><td>2025</td><td>0.40</td><td>0.66</td><td><strong>1.06</strong></td><td><strong>1.32</strong></td><td><strong>1.99</strong></td></tr>
+<tr><td>2026</td><td>0.50</td><td>0.84</td><td><strong>1.34</strong></td><td><strong>1.68</strong></td><td><strong>2.52</strong></td></tr>
+</table>
+</div>
+<p><strong>Bold = above 1.0</strong> (the modeled network-wide energy bill exceeds what miners earn — subsidy + fees — on the flow-cost basis). Years that cross the wall:</p>
+<ul>
+<li><strong>$0.03/kWh:</strong> none</li>
+<li><strong>$0.05/kWh:</strong> none</li>
+<li><strong>$0.08/kWh:</strong> 2020, 2025, 2026</li>
+<li><strong>$0.10/kWh:</strong> 2019, 2020, 2023, 2024, 2025, 2026</li>
+<li><strong>$0.15/kWh:</strong> 2016, 2018, 2019, 2020, 2022, 2023, 2024, 2025, 2026</li>
+</ul>
+<p>The point is not which price is &quot;right&quot; — it is that the producing-side stress is <strong>visible as a function of a decision variable</strong> instead of a hidden constant.</p>
 <h2>First reading (2026-09-16)</h2>
 <div class="table-wrap">
 <table>
