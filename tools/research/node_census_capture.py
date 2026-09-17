@@ -100,7 +100,8 @@ def main():
         path = os.path.join(WB_CACHE, fn)
         raw = None
         if os.path.exists(path):
-            raw = json.load(path)
+            with open(path) as _fh:
+                raw = json.load(_fh)
         elif not offline:
             try:
                 b = _get(wb_url, timeout=60)

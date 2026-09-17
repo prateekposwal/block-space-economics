@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.bsahi.collectors</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/usr/local/bin/node</string>
+		<string>/Users/prateekposwal/block-space-economics/tools/agents/29-local-collectors.js</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>StartInterval</key>
+	<integer>900</integer>
+	<key>StandardErrorPath</key>
+	<string>/Users/prateekposwal/Library/Logs/bsahi-collectors.err.log</string>
+	<key>StandardOutPath</key>
+	<string>/Users/prateekposwal/Library/Logs/bsahi-collectors.out.log</string>
+	<key>WorkingDirectory</key>
+	<string>/Users/prateekposwal/block-space-economics</string>
+	<key>ProcessType</key>
+	<string>Background</string>
+</dict>
+</plist>
