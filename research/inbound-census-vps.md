@@ -104,6 +104,29 @@ and **SSH user** (`ubuntu@…`), plus the **OS** (the scripts assume Ubuntu/Debi
 with `apt`, `haproxy`, `sshd`). Everything else — ports (`8333` public, `9000`
 tunnel, `8344` demuxer) — is parameterised via `PORT`/`TUNNEL_PORT`/`DEMUX_PORT`.
 
+### Option 2b — routed IPv6 tunnel (NO VM, NO card, NO account approval)
+
+The cleanest path found: a free **WireGuard IPv6 tunnel broker** (e.g. Route64,
+AS212895 — free, automated, no contact/card) hands out a **routed /56 delivered
+over WireGuard**. Because the tunnel is *outbound*-established with persistent
+keepalive, it bypasses **both the CGNAT and the carrier's IPv6 firewall**, and
+because a routed prefix is not NATed, an inbound peer's own IPv6 source address
+reaches bitcoind **unaltered** — real distinct identities, no collapse.
+
+Built here with **no Homebrew and no sudo**:
+
+- `tools/net/wireguard-build.sh` -> `~/.bsahi/bin/{wireguard-go,wg}` (Go 1.23
+  tarball + wireguard-go + wireguard-tools; built and verified, v0.0.20250522).
+- `tools/net/route64-wg-up.sh` -> brings the tunnel up **without `wg-quick`**
+  (macOS bash is 3.2; wg-quick needs bash 4). Uses `wireguard-go` + `wg setconf`
+  + `ifconfig`/`route`. Needs `sudo` (creating the interface), which is the one
+  step no script can perform unattended.
+
+Flow: register at route64.org -> create an IPv6 tunnelbroker (WireGuard) ->
+download the .conf -> `sudo tools/net/route64-wg-up.sh ~/.bsahi/route64.conf
+<addr-from-/56>` -> bitcoind picks up the new interface address dynamically
+(**no restart, so the reindex survives**) -> IPv6 peers connect with native IPs.
+
 ### Option 3 — port-forward on a non-CGNAT network
 
 If the Mac is ever on the home LAN (`192.168.29.1`), forward TCP 8333 →
