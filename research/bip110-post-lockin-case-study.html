@@ -172,13 +172,13 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <hr>
 <h2>Observation 4: Economic Coordination</h2>
 <p><strong>Finding: Transaction economics show no anomalous disruption at lock-in, but the data gap is structural.</strong></p>
-<p>From <code>data/fee_history_blocks.json</code>, the fee data around the lock-in period shows normal fee dynamics: blocks with average fees ranging from 240,513 sats (~$78,449) and varying patterns. The SCCR (<code>data/sccr_latest.json</code>) shows avg_sccr = 0.371939 (0.37x coverage), with 95.62% of blocks below 1× storage cost.</p>
+<p>From <code>data/fee_history_blocks.json</code>, the fee data around the lock-in period shows normal fee dynamics: blocks with average fees ranging from 240,513 sats (~$78,449) and varying patterns. The SCCR (<code>data/sccr_latest.json</code>) showed avg_sccr = 0.371939 at the then-canonical N=32,000 (0.37x coverage; <strong>0.4477 re-based to the measured N=26,586</strong>), with 95.62% of blocks below 1× storage cost. This is a dated reading from the lock-in window, not the current headline.</p>
 <p>The key observation is <strong>what did NOT change</strong>: BIP-110&#x27;s consensus restrictions on data-bearing transactions did not produce an observable fee spike, block size anomaly, or transaction pattern shift in the data BSAHI captures. This is consistent with BIP-110&#x27;s design as a <em>temporary</em> (~1 year) restriction — the restricted transaction constructions may represent a small fraction of block space, and miners may have already adapted their transaction selection policies.</p>
-<p><strong>Comparison to SCCR context:</strong> The SCCR baseline (L_net = $5,627.80/block at N=32K) provides the economic frame. BIP-110&#x27;s activation did not visibly alter the fee-to-storage ratio or block space demand patterns in the observed data.</p>
+<p><strong>Comparison to SCCR context:</strong> The SCCR baseline (L_net = <strong>$4,675.65/block at N=26,586</strong>; the pre-re-base figure was $5,627.80 at N=32K) provides the economic frame. BIP-110&#x27;s activation did not visibly alter the fee-to-storage ratio or block space demand patterns in the observed data.</p>
 <p><strong>What BSAHI can measure:</strong></p>
 <ul>
 <li>Fee rates per block (normal range, no lock-in spike)</li>
-<li>SCCR ratio (0.37 at N=32K, post-lock-in)</li>
+<li>SCCR ratio (0.37 at the pre-re-base N=32K; <strong>0.4477 at N=26,586</strong>, post-lock-in)</li>
 <li>Block size distribution (normal)</li>
 <li>Transaction count distribution (normal)</li>
 </ul>
@@ -202,8 +202,8 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <tr><td>Block size at lock-in</td><td>1568900 bytes</td><td>Blockstream API</td><td>One-time</td></tr>
 <tr><td>Block weight at lock-in</td><td>3993884</td><td>Blockstream API</td><td>One-time</td></tr>
 <tr><td>Transaction count at lock-in</td><td>4370</td><td>Blockstream API</td><td>One-time</td></tr>
-<tr><td>SCCR (post-lock-in)</td><td>0.371939</td><td><code>data/sccr_latest.json</code></td><td>Continuous</td></tr>
-<tr><td>L_net (SCCR baseline)</td><td>$5,627.80/block</td><td><code>data/sccr_latest.json</code></td><td>Continuous</td></tr>
+<tr><td>SCCR (post-lock-in, dated)</td><td>0.4477 at N=26,586 (0.371939 pre-re-base N=32K)</td><td><code>data/sccr_latest.json</code></td><td>Dated reading</td></tr>
+<tr><td>L_net (SCCR baseline)</td><td>$4,675.65/block at N=26,586</td><td><code>data/sccr.json</code></td><td>Current</td></tr>
 <tr><td>Block interval range</td><td>10–1736s</td><td><code>data/block_interval.json</code></td><td>Continuous</td></tr>
 <tr><td>Node count (N)</td><td>26,586 (measured reachable; lower bound)</td><td><code>data/node_census_series.json</code></td><td>2026-09-16</td></tr>
 </table>

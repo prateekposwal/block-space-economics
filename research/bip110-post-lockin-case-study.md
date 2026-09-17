@@ -112,15 +112,15 @@ Post-lock-in daily data shows 55–161 blocks per day, consistent with normal Bi
 
 **Finding: Transaction economics show no anomalous disruption at lock-in, but the data gap is structural.**
 
-From `data/fee_history_blocks.json`, the fee data around the lock-in period shows normal fee dynamics: blocks with average fees ranging from 240,513 sats (~$78,449) and varying patterns. The SCCR (`data/sccr_latest.json`) shows avg_sccr = 0.371939 (0.37x coverage), with 95.62% of blocks below 1× storage cost.
+From `data/fee_history_blocks.json`, the fee data around the lock-in period shows normal fee dynamics: blocks with average fees ranging from 240,513 sats (~$78,449) and varying patterns. The SCCR (`data/sccr_latest.json`) showed avg_sccr = 0.371939 at the then-canonical N=32,000 (0.37x coverage; **0.4477 re-based to the measured N=26,586**), with 95.62% of blocks below 1× storage cost. This is a dated reading from the lock-in window, not the current headline.
 
 The key observation is **what did NOT change**: BIP-110's consensus restrictions on data-bearing transactions did not produce an observable fee spike, block size anomaly, or transaction pattern shift in the data BSAHI captures. This is consistent with BIP-110's design as a *temporary* (~1 year) restriction — the restricted transaction constructions may represent a small fraction of block space, and miners may have already adapted their transaction selection policies.
 
-**Comparison to SCCR context:** The SCCR baseline (L_net = $5,627.80/block at N=32K) provides the economic frame. BIP-110's activation did not visibly alter the fee-to-storage ratio or block space demand patterns in the observed data.
+**Comparison to SCCR context:** The SCCR baseline (L_net = **$4,675.65/block at N=26,586**; the pre-re-base figure was $5,627.80 at N=32K) provides the economic frame. BIP-110's activation did not visibly alter the fee-to-storage ratio or block space demand patterns in the observed data.
 
 **What BSAHI can measure:**
 - Fee rates per block (normal range, no lock-in spike)
-- SCCR ratio (0.37 at N=32K, post-lock-in)
+- SCCR ratio (0.37 at the pre-re-base N=32K; **0.4477 at N=26,586**, post-lock-in)
 - Block size distribution (normal)
 - Transaction count distribution (normal)
 
@@ -144,8 +144,8 @@ The key observation is **what did NOT change**: BIP-110's consensus restrictions
 | Block size at lock-in | 1568900 bytes | Blockstream API | One-time |
 | Block weight at lock-in | 3993884 | Blockstream API | One-time |
 | Transaction count at lock-in | 4370 | Blockstream API | One-time |
-| SCCR (post-lock-in) | 0.371939 | `data/sccr_latest.json` | Continuous |
-| L_net (SCCR baseline) | $5,627.80/block | `data/sccr_latest.json` | Continuous |
+| SCCR (post-lock-in, dated) | 0.4477 at N=26,586 (0.371939 pre-re-base N=32K) | `data/sccr_latest.json` | Dated reading |
+| L_net (SCCR baseline) | $4,675.65/block at N=26,586 | `data/sccr.json` | Current |
 | Block interval range | 10–1736s | `data/block_interval.json` | Continuous |
 | Node count (N) | 26,586 (measured reachable; lower bound) | `data/node_census_series.json` | 2026-09-16 |
 

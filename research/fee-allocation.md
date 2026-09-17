@@ -12,10 +12,10 @@ Bitcoin's transaction fees are the only long-run revenue. Today **almost none of
 | claim on fees (2026, per block) | USD/block | covered by fees today |
 |---|---:|---:|
 | **Security / production** (network energy cost to produce a block) | **$198,549** | **0.7%** (subsidy pays 107.0%) |
-| **Storage externality** (`L_net`, N=32K, T=10yr) | **$5,628** | **28.8%** (the SCCR) |
-| Node operating cost (network-wide, one year) | $563 | 251.4% |
+| **Storage externality** (`L_net`, N=26,586, T=10yr) | **$4,676** | **36.2%** (the SCCR) |
+| Node operating cost (network-wide, one year) | $468 | 302.6% |
 
-**Actual fee revenue: ~$1,415/block** (measured; frozen series) — against a **$198,549/block** production cost and a **$5,628/block** modeled storage cost. The subsidy ($212,517/block) is what keeps the security budget met today.
+**Actual fee revenue: ~$1,415/block** (measured; frozen series) — against a **$198,549/block** production cost and a **$4,676/block** modeled storage cost (N=26,586). The subsidy ($212,517/block) is what keeps the security budget met today.
 
 > **Miners are fee recipients; validators are cost bearers. That asymmetry is the externality.** Miners are a few dozen pools running nodes; the ~26,586 reachable (and the unobservable non-listening) nodes are the ones carrying the storage and validation burden, and they receive nothing.
 

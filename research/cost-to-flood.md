@@ -20,7 +20,7 @@ leverage ratio of the vulnerability, and it has never been measured.
 |---|---|---|
 | **P_flood** (fill one block) | **$329–1,231** | at fee floor (0.0052 BTC) vs avg (0.0195 BTC) |
 | **P_year** (fill every block) | **$17M–65M/yr** | ~52,596 blocks × P_flood |
-| **C_node_imposed** (10-yr node cost) | **~$197M** | one year of full-block flood × N=32K × T=10 |
+| **C_node_imposed** (10-yr node cost) | **~$237M** | one year of full-block flood × N=26,586 (measured reachable) × T=10; at the pre-re-base N=32K this was ~$197M |
 | **Leverage ratio L** | **3.0×** | node cost imposed ÷ attacker cost paid |
 | **L_dust** (storage leg) | **0.9×** | dust's per-node storage cost is *less* than its fee |
 | **Boundedness** | **~52.6 GB/yr** | max vbytes the block-weight cap allows |

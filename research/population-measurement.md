@@ -55,10 +55,15 @@ Non-listening, private and Tor-hidden validators cannot be audited. They are **e
 
 | N | L_net (USD/block) | SCCR | externality vs baseline |
 |---:|---:|---:|---:|
-| **26,586** (measured floor) | $4,676 | **0.347** | 1.00× |
-| 50,000 | $8,793 | 0.185 | 1.88× |
-| 80,000 | $14,070 | 0.115 | 3.01× |
-| 100,000 | $17,587 | 0.092 | 3.76× |
+| **26,586** (measured floor) | $4,676 | **0.3624** | 1.00× |
+| 50,000 | $8,793 | 0.1927 | 1.88× |
+| 80,000 | $14,070 | 0.1204 | 3.01× |
+| 100,000 | $17,587 | 0.0963 | 3.76× |
+| 150,000 | $26,380 | 0.0642 | 5.64× |
+| 200,000 | $35,174 | 0.0482 | 7.52× |
+| 265,860 (Erlay 9:1) | $46,756 | 0.0362 | 10.00× |
+
+**Literature bracket.** Erlay: Efficient Transaction Relay for Bitcoin (CCS'19 / arXiv:1905.10518) reports **private:public ≈ 9:1** for the network at the time. Applied to the measured public set (26,586) that implies a total of ~265,860. This is a **Grade D topology prior, not a measurement** — it brackets the externality and is never a revised N.
 
 **Direction:** excluding hidden nodes makes `L_net` a **lower bound** and the SCCR an **upper bound**. The baseline is **conservative**.
 

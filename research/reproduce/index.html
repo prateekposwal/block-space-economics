@@ -90,7 +90,7 @@ bash cross_check.sh   # all three must agree within 1e-6</code></pre>
 </ul>
 
 <h2>Reference result</h2>
-<p>From the frozen snapshot (<strong>2026-09-16, 155 blocks, heights 967,138&rarr;967,292, model-spec v2.1.0</strong>) the kit reproduces <strong>avg SCCR 0.2406</strong> (min 0.0490, max 1.0757), with <strong>153 of 155 blocks below 1&times;</strong> (98.7%). JavaScript, Python, and C agree to within 1e-6.</p>
+<p>From the frozen snapshot (<strong>2026-09-16, 155 blocks, heights 967,138&rarr;967,292, model-spec v2.1.1</strong>) the kit reproduces <strong>avg SCCR 0.289645</strong> (min 0.059036, max 1.294753), with <strong>152 of 155 blocks below 1&times;</strong> (98.1%). The whole series rescales by 32,000/26,586 = 1.2036&times; from the N re-base (see the <a href="/research/changelog">Changelog</a>); the kit reads N from <code>model-spec.json</code>, so a clone reproduces the current value with no edits. JavaScript, Python, and C agree to within 1e-6.</p>
 <p>This kit reads a frozen capture by design. The SCCR the live dashboard shows is refreshed daily by GitHub Actions and is available as a dated reading at <a href="/data/sccr.json">/data/sccr.json</a>.</p>
 
 <h2>Why it matters</h2>

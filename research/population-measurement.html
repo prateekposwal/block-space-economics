@@ -120,12 +120,16 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <table>
 <tr><th>N</th><th>L_net (USD/block)</th><th>SCCR</th><th>externality vs baseline</th></tr>
 <tr><td>---:</td><td>---:</td><td>---:</td><td>---:</td></tr>
-<tr><td><strong>26,586</strong> (measured floor)</td><td>$4,676</td><td><strong>0.347</strong></td><td>1.00×</td></tr>
-<tr><td>50,000</td><td>$8,793</td><td>0.185</td><td>1.88×</td></tr>
-<tr><td>80,000</td><td>$14,070</td><td>0.115</td><td>3.01×</td></tr>
-<tr><td>100,000</td><td>$17,587</td><td>0.092</td><td>3.76×</td></tr>
+<tr><td><strong>26,586</strong> (measured floor)</td><td>$4,676</td><td><strong>0.3624</strong></td><td>1.00×</td></tr>
+<tr><td>50,000</td><td>$8,793</td><td>0.1927</td><td>1.88×</td></tr>
+<tr><td>80,000</td><td>$14,070</td><td>0.1204</td><td>3.01×</td></tr>
+<tr><td>100,000</td><td>$17,587</td><td>0.0963</td><td>3.76×</td></tr>
+<tr><td>150,000</td><td>$26,380</td><td>0.0642</td><td>5.64×</td></tr>
+<tr><td>200,000</td><td>$35,174</td><td>0.0482</td><td>7.52×</td></tr>
+<tr><td>265,860 (Erlay 9:1)</td><td>$46,756</td><td>0.0362</td><td>10.00×</td></tr>
 </table>
 </div>
+<p><strong>Literature bracket.</strong> Erlay: Efficient Transaction Relay for Bitcoin (CCS&#x27;19 / arXiv:1905.10518) reports <strong>private:public ≈ 9:1</strong> for the network at the time. Applied to the measured public set (26,586) that implies a total of ~265,860. This is a <strong>Grade D topology prior, not a measurement</strong> — it brackets the externality and is never a revised N.</p>
 <p><strong>Direction:</strong> excluding hidden nodes makes <code>L_net</code> a <strong>lower bound</strong> and the SCCR an <strong>upper bound</strong>. The baseline is <strong>conservative</strong>.</p>
 <h2>First-party measurement of the hidden set</h2>
 <p>Two instruments aim at quantity C, which no crawler can see:</p>

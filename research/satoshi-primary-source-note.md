@@ -65,7 +65,7 @@ protocol price change, made for malleability, with a storage-relevant side effec
 subsidized marginal price (working-paper §5.2). The externality becomes measurable in
 the fee market.
 
-**Measured result:** SCCR ≈ 0.22–0.29 at N=32K; ~98.7–100% of blocks below 1×
+**Measured result:** SCCR ≈ 0.22–0.29 at the pre-re-base N=32K (≈0.27–0.35 re-based to the measured N=26,586); ~98.6–100% of blocks below 1×
 (working-paper §5).
 
 The chain supports the paper's framing: the fee market was never designed to price
@@ -84,7 +84,7 @@ this paper's measurements.
 | "I anticipate there will never be more than 100K nodes, probably less" (post 188, 2010) | N < 100K, probably less | Addrman sample ≥ 32,000 gossiped *addresses* (a lower bound on addresses, **not** a node count; the measured reachable node count is 26,586); independent estimates 10K–100K | ✅ **CONSISTENT** — the paper's N-band (10K–100K) brackets his ceiling; his claim is not falsified by the measurement, and his upper bound sits at the top of our uncertainty band |
 | "It will reach an equilibrium where it's not worth it for more nodes to join in" (post 188) | Node count self-limits via cost/benefit; N stabilizes | Roadmap Q1: the only endogenous negative feedback in the model is the N-margin loop; the model cannot yet close the loop | 🟡 **OPEN / NOT YET TESTED** — this is roadmap Q1 (equilibrium force); a measured N-response function would test it directly (roadmap §8 Q1) |
 | "The more burden it is to run a node, the fewer nodes there will be" (post 287) | ∂N/∂burden < 0 | C = $925/yr bundled node cost; SCCR ∝ 1/N | 🟡 **TESTABLE** — burden↔N elasticity is a roadmap Phase IV dynamic question |
-| "storage should not be a problem" (whitepaper §7, 2008) | Storage is negligible for node operation | SCCR ≈ 0.22–0.29; per-node lifetime storage liability ~$0.18/block; $925/yr node cost | ⚠️ **SCOPE-CAUTION** — his claim covers headers in RAM (SPV), NOT full-chain disk storage; against the full-chain storage this paper measures, the burden is real but small per node ($925/yr bundled, storage component ~$167/yr). The claim is not directly falsified because it was about a different object |
+| "storage should not be a problem" (whitepaper §7, 2008) | Storage is negligible for node operation | SCCR ≈ 0.27–0.35 at the measured N=26,586; per-node lifetime storage liability ~$0.18/block; $925/yr node cost | ⚠️ **SCOPE-CAUTION** — his claim covers headers in RAM (SPV), NOT full-chain disk storage; against the full-chain storage this paper measures, the burden is real but small per node ($925/yr bundled, storage component ~$167/yr). The claim is not directly falsified because it was about a different object |
 | "nodes will have an incentive to receive and include all the transactions they can" (email #13, 2008) | Fee incentive is sufficient to induce inclusion | Fee market clears blocks at ~2 sat/vB (live baseline); inclusion incentive works — the mechanism functions | ✅ **CONSISTENT** — the fee market does clear inclusion; it is the *storage* leg that is unpriced, which is exactly the paper's claim |
 | "The threshold can easily be changed... keep it lower as a circuit breaker... limit the amount of wasted disk space" (post 441, 2010) | Storage protection via quantity control, not price | The 1MB cap persisted into the Ordinals era; SegWit's 4:1 discount changed effective capacity | ✅ **CONSISTENT** — quantity control, not price, was the design's storage-protection mechanism |
 

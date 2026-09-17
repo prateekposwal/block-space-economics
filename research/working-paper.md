@@ -162,10 +162,10 @@ The inscription-externality branch uses a **marginal attribution**: `cb_insc = C
 
 ### 5.1 The Storage Cost Coverage Ratio
 
-Measured from live `fee_history` captures at N=32,000 — a **provisional** value retained for reproducibility. N is not directly observable: 32,000 is the address-manager sample (≥32K gossiped addresses, **not a node count**) and the measured reachable-node count is 26,586 (§5.4). The headline, in four lines (exact numbers in the tables below):
+Measured from live `fee_history` captures. **The current canonical reading is SCCR 0.3624** (2026-09-17, 139 blocks, N=26,586, model-spec v2.1.1). The figures below are the **pre-re-base record at N=32,000**, retained for reproducibility; because SCCR is inverse-linear in N, multiply any of them by **32,000/26,586 = 1.2036** for the current basis (see the re-base note above). N is not directly observable: 32,000 was the address-manager sample (≥32K gossiped addresses, **not a node count**) and the measured reachable-node count is 26,586 (§5.4). The headline, in four lines (exact numbers in the tables below):
 
-- **Dated baseline band (Aug 02–15): ≈0.22** at N=32K, with ~100% of sampled blocks below 1× storage cost.
-- **Live series (Sep 07): 0.40** at N=32K, **94.37% of blocks below 1×** — the coverage ratio is fee-market-driven and time-varying.
+- **Dated baseline band (Aug 02–15): ≈0.22** at N=32K (**≈0.27 at N=26,586**), with ~100% of sampled blocks below 1× storage cost.
+- **Live series (Sep 07): 0.40** at N=32K (**≈0.48 at N=26,586**), **94.37% of blocks below 1×** — the coverage ratio is fee-market-driven and time-varying.
 - **Dynamic finding:** SCCR moved **0.16 → 0.45 → 0.40** across a 22-point daily series (2026-08-02 → 2026-09-07).
 - **Model uncertainty: depends strongly on the replication factor N** — the true-N band (**~0.07–0.71**, §5.4) is a *different* uncertainty from the observed-sample band above
 
@@ -180,9 +180,9 @@ Two snapshots, dated explicitly:
 
 **Live re-measure (canonical, 2026-08-02):** the ratio moves with the fee market. The canonical re-measure recorded in `research/model-spec.json` v2.0.1 is **0.2252** (168 blocks, 2026-08-02); the 0.2228 above is the same capture window re-read at the time of writing (167 blocks). The 0.293 figure is the dated 2026-08-01 snapshot. The single source of truth is `research/model-spec.json` (v2.0.1, canonical); all surfaces must read the live value from `node tools/research/storage-ratio.js`, never a hardcoded figure. The v2.0.0 N=60K-era values (0.1719 / 0.1535) are superseded.
 
-**Fee-regime + node-count dependence:** the ratio tracks both the fee market and the replication factor. Under the earlier N=60K assumption the average was 0.156–0.172 (dimensionless) with 100% below 1×; at the provisional N=32K it rises to ~0.22–0.29 with ~98.7–100% below 1× (a few high-fee blocks exceed coverage in the dated capture). Because N is not directly observable and independent estimates span 10K–100K, the honest headline is the **N-band range: ~0.07–0.71** (inverse-linear in N, §5.4). The headline is a *distribution over time and parameters*, not a point.
+**Fee-regime + node-count dependence:** the ratio tracks both the fee market and the replication factor. Under the earlier N=60K assumption the average was 0.156–0.172 (dimensionless) with 100% below 1×; at the pre-re-base N=32K it rises to ~0.22–0.29 (~0.27–0.35 at N=26,586) with ~98.7–100% below 1× (a few high-fee blocks exceed coverage in the dated capture). Because N is not directly observable and independent estimates span 10K–100K, the honest headline is the **N-band range: ~0.07–0.71** (inverse-linear in N, §5.4). The headline is a *distribution over time and parameters*, not a point.
 
-**Interpretation:** transaction fees cover, on average, roughly **22–29%** of the estimated 10-year replicated storage cost of an average block across the measured reachable-node band. Most sampled blocks' fees remain below their estimated storage cost. **Point-in-time discipline:** every figure in this section is a dated, capture-specific measurement — the time-series is live and growing (daily SCCR tracker, `com.bsahi.sccr-tracker.plist`), and the paper deliberately reports snapshots rather than a stationary number. This is not a convenience but a consequence of the model: `cb(t) = C(t)/B_year(t)` is itself time-dependent (§4.1), so the ratio is a snapshot over its capture window by construction — block fullness, node costs, and fee levels all move between captures.
+**Interpretation:** transaction fees cover, on average, roughly **22–29%** at the pre-re-base N=32K (**~27–35% at N=26,586**) of the estimated 10-year replicated storage cost of an average block across the measured reachable-node band. Most sampled blocks' fees remain below their estimated storage cost. **Point-in-time discipline:** every figure in this section is a dated, capture-specific measurement — the time-series is live and growing (daily SCCR tracker, `com.bsahi.sccr-tracker.plist`), and the paper deliberately reports snapshots rather than a stationary number. This is not a convenience but a consequence of the model: `cb(t) = C(t)/B_year(t)` is itself time-dependent (§4.1), so the ratio is a snapshot over its capture window by construction — block fullness, node costs, and fee levels all move between captures.
 
 ### 5.2 The inscription externality (marginal branch)
 
@@ -285,11 +285,14 @@ The direction is therefore unambiguous: excluding unpublicised nodes makes the r
 
 | N | status | L_net (USD/block) | SCCR | fee coverage | externality vs baseline |
 |---:|---|---:|---:|---:|---:|
-| 26,586 | B · measured reachable validators (baseline / floor) | $4,676 | 0.3470 | 34.7% | 1.00× |
-| 32,000 | C · previous addrman address sample (deprecated as a node count) | $5,628 | 0.2883 | 28.8% | 1.20× |
-| 50,000 | D · estimate — lower end of the 50K–100K band | $8,793 | 0.1845 | 18.5% | 1.88× |
-| 80,000 | D · estimate — midpoint of the 50K–100K band | $14,070 | 0.1153 | 11.5% | 3.01× |
-| 100,000 | D · estimate — upper end of the 50K–100K band | $17,587 | 0.0923 | 9.2% | 3.76× |
+| 26,586 | B · measured reachable validators (baseline / floor) | $4,676 | 0.3624 | 36.2% | 1.00× |
+| 32,000 | C · previous addrman address sample (deprecated as a node count) | $5,628 | 0.3011 | 30.1% | 1.20× |
+| 50,000 | D · estimate — lower end of the 50K–100K band | $8,793 | 0.1927 | 19.3% | 1.88× |
+| 80,000 | D · estimate — midpoint of the 50K–100K band | $14,070 | 0.1204 | 12.0% | 3.01× |
+| 100,000 | D · estimate — upper end of the 50K–100K band | $17,587 | 0.0963 | 9.6% | 3.76× |
+| 150,000 | D · private:public ≈ 4.6:1 | $26,380 | 0.0642 | 6.4% | 5.64× |
+| 200,000 | D · private:public ≈ 6.5:1 | $35,174 | 0.0482 | 4.8% | 7.52× |
+| 265,860 | D · private:public ≈ 9:1 — Erlay (CCS'19) literature ratio | $46,756 | 0.0362 | 3.6% | 10.00× |
 
 **Paper defense (for peer review):**
 
