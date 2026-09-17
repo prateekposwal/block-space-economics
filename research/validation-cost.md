@@ -40,7 +40,7 @@ and is not amortizable below one full pass per block per node.
 | Validation CPU per year per node | **~1.5–15 h** | 52,596 blocks × 0.1–1 s |
 | Amortized compute cost | $0.10–0.50 / CPU-h | node budget C=$925/yr over ~9K h/yr, CPU share + electricity |
 | **Validation cost per node per year** | **~$0.5–$5** | 1.5–15 h × $0.10–0.50; central ≈ **$1–2/yr** |
-| Network-wide (N = 32K) | **~$16K–160K/yr** | × the ≥32K lower-bound census; central ~$32–64K/yr |
+| Network-wide (N = 32K) | **~$16K–160K/yr** | × the measured reachable node count (26,586; once 32,000); central ~$32–64K/yr |
 
 **Cross-check via initial sync.** Full initial validation of ~1M blocks adds on
 the order of 6–24 h of CPU over an assumevalid-style sync on comparable
@@ -82,7 +82,7 @@ the same decomposition discipline as the bandwidth leg.
   continuously and their marginal electricity for a few hours of extra CPU is
   near zero for most operators. The bound is best read as *provisioning
   pressure* (hardware class and lifetime), which is how C enters the model.
-- Network-wide numbers scale linearly in N and inherit the census caveat
+- Network-wide numbers scale linearly in N and inherit the node-count caveat
   (≥32K known addresses, addrman-cap; true band 10K–100K).
 
 ## 5. Falsifiable claim (v1)

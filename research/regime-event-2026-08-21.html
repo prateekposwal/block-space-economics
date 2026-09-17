@@ -55,13 +55,13 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 
 <main>
 <h1>Regime Event — SCCR 0.16 → 0.44: The Fee Market's Storage Coverage, Measured Live</h1>
-<p class="meta">Published 2026-08-21 · Source: live <code>/data/sccr_history.json</code> + <code>/data/sccr_latest.json</code> (spec v2.1.0, N=32K lower-bound census, T=10yr)</p>
+<p class="meta">Published 2026-08-21 · Source: live <code>/data/sccr_history.json</code> + <code>/data/sccr_latest.json</code> (spec v2.1.0; N=32,000 at the time of writing — since re-based to the measured reachable count 26,586, T=10yr)</p>
 
 <blockquote><strong>SCCR rose from ~0.16 to ~0.44 in roughly 4–5 days</strong> — the fee market's
 storage coverage doubled-then-nearly-tripled, measured live on real blocks.</blockquote>
 
-<p>"Storage Cost Coverage Ratio" = transaction fees ÷ modeled 10-year storage cost across the real
-32K-node census. Below 1.0 = fees do not cover what the data costs the network. It is a <strong>live,
+<p>"Storage Cost Coverage Ratio" = transaction fees ÷ modeled 10-year storage cost across the measured
+reachable node set (32,000 at the time of writing; re-based to 26,586 on 2026-09-17). Below 1.0 = fees do not cover what the data costs the network. It is a <strong>live,
 dated</strong> quantity — and it just moved sharply.</p>
 
 <h2>The measured series (last 8 points, from the live record)</h2>
@@ -92,7 +92,7 @@ unpriced-storage-externality thesis; today's reading is material evidence the ga
 <strong>fee-market-driven and time-varying</strong>, not a fixed constant.</li>
 <li>All figures reference the real record: <code>data/sccr_history.json</code> (14 points,
 08-02→08-21) and <code>data/sccr_latest.json</code> (avg 0.443333, below_1x 128/133 = 96.24%).</li>
-<li>Methodological honesty: N=32K is a <strong>lower-bound</strong> census (08-02); T=10yr is an
+<li>Methodological honesty: N is a measured reachable <strong>lower bound</strong> (the 32,000 figure at the time of writing was an addrman <em>address</em> sample, not a node count; re-based to 26,586 on 2026-09-17); T=10yr is an
 assumption; the ratio reflects fee pressure, not a change in storage physics.</li>
 </ul>
 

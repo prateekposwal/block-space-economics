@@ -4,7 +4,7 @@
 
 **Status:** RESEARCH NOTE (2026-08-11) · **Program:** Bitcoin Resource Accounting
 **Companion:** `research/working-paper.md`, `research/cost-to-flood.md`
-**Source:** live SCCR measurements (model-spec v2.1.0, N=32K census)
+**Source:** live SCCR measurements (model-spec v2.1.0; N=32,000 at the time of writing — since re-based to the measured reachable count of 26,586, ×1.2036)
 
 ---
 

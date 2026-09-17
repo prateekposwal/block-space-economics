@@ -375,7 +375,7 @@ DATA_ENGINE.onUpdate(function() {
   }
   $('settlement-txs').textContent = (totalTxCount || 0).toLocaleString();
   $('ln-capacity-val').textContent = ((ln.total_capacity || 0) / 100000000).toFixed(0) + ' BTC';
-  // Node count from getnodeaddresses census
+  // Node count: see data/node_census.json (addrman sample)
   $('settlement-nodes').textContent = (typeof ln.node_count === 'number') ? ln.node_count.toLocaleString() : '--';
   $('settlement-countries').textContent = (typeof ln.countries === 'number') ? ln.countries + '+' : '--';
 

@@ -131,7 +131,7 @@ dynamics, and the permanent cost of data storage.</p>
 <dt style="color:var(--ink);font-weight:600;margin-top:12px">SCCR &mdash; Storage Cost Coverage Ratio</dt>
 <dd style="margin:2px 0 0">Transaction fees paid (USD) divided by the modeled 10-year storage cost borne by full nodes (USD) at a node count N. A ratio below 1.0 means fees do not cover the modeled cost of storing the data across the network.</dd>
 <dt style="color:var(--ink);font-weight:600;margin-top:12px">N &mdash; node count</dt>
-<dd style="margin:2px 0 0">The number of full nodes bearing the storage cost. Primary source: a lower-bound census via Bitcoin Core <code>getnodeaddresses</code>; the canonical constant is 32,000.</dd>
+<dd style="margin:2px 0 0">The number of full nodes bearing the storage cost. Primary source: an addrman sample via Bitcoin Core <code>getnodeaddresses</code> (addresses, not nodes); the canonical constant is 32,000.</dd>
 <dt style="color:var(--ink);font-weight:600;margin-top:12px">T &mdash; storage time horizon</dt>
 <dd style="margin:2px 0 0">The assumed lifetime over which stored data is borne by nodes. T = 10 years.</dd>
 <dt style="color:var(--ink);font-weight:600;margin-top:12px">L_net &mdash; modeled network storage cost</dt>

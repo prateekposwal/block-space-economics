@@ -95,7 +95,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <tr><td>Validation CPU per year per node</td><td><strong>~1.5–15 h</strong></td><td>52,596 blocks × 0.1–1 s</td></tr>
 <tr><td>Amortized compute cost</td><td>$0.10–0.50 / CPU-h</td><td>node budget C=$925/yr over ~9K h/yr, CPU share + electricity</td></tr>
 <tr><td><strong>Validation cost per node per year</strong></td><td><strong>~$0.5–$5</strong></td><td>1.5–15 h × $0.10–0.50; central ≈ <strong>$1–2/yr</strong></td></tr>
-<tr><td>Network-wide (N = 32K)</td><td><strong>~$16K–160K/yr</strong></td><td>× the ≥32K lower-bound census; central ~$32–64K/yr</td></tr>
+<tr><td>Network-wide (N = 32K)</td><td><strong>~$16K–160K/yr</strong></td><td>× the measured reachable node count (26,586; once 32,000); central ~$32–64K/yr</td></tr>
 </table>
 </div>
 <p><strong>Cross-check via initial sync.</strong> Full initial validation of ~1M blocks adds on the order of 6–24 h of CPU over an assumevalid-style sync on comparable hardware ⇒ 0.02–0.09 s/block <em>averaged</em> (I/O-bound, so a lower bound on CPU) — consistent with the 0.1–1 s/block estimate above for <em>steady-state</em> validation with an in-RAM UTXO cache (steady state is CPU-bound, sync is I/O-bound; the two brackets straddle the true value).</p>
@@ -111,7 +111,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <ul>
 <li><strong>Order-of-magnitude only.</strong> The central ~$1–2/yr/node spans ~0.5×–5× on signature-check throughput alone (hardware generation, OpenSSL vs libsecp256k1, Schnorr batching); initial-sync cross-checks widen the spread, they do not tighten it.</li>
 <li>The $/CPU-h amortization is a <strong>model artifact</strong>, not a bill: full nodes run continuously and their marginal electricity for a few hours of extra CPU is near zero for most operators. The bound is best read as <em>provisioning pressure</em> (hardware class and lifetime), which is how C enters the model.</li>
-<li>Network-wide numbers scale linearly in N and inherit the census caveat (≥32K known addresses, addrman-cap; true band 10K–100K).</li>
+<li>Network-wide numbers scale linearly in N and inherit the node-count caveat (≥32K known addresses, addrman-cap; true band 10K–100K).</li>
 </ul>
 <h2>5. Falsifiable claim (v1)</h2>
 <blockquote><strong>&quot;Validation cost per full node per year is &lt; $100 — bounded from above by the entire node hardware+operating budget C = $925/yr (model-spec v2.1.0), with a central order-of-magnitude estimate of ~$1–2/yr per node.&quot;</strong></blockquote>

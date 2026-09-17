@@ -101,7 +101,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <h2>Verdict</h2>
 <p><strong>Build-or-document: DOCUMENTED.</strong> Row 6 historical stays D; VCI state leg stays estimate-table. The pre-2016 continuous UTXO-count series requires one of:</p>
 <ol>
-<li>A <strong>synced local Bitcoin Core node</strong> (the ready path — the census node is ~320K blocks behind; once synced, <code>gettxoutsetinfo</code> captures give a true primary series going forward, and per-block <code>nTx</code>-derived deltas cover the back-fill). This is the R5 node-sync decision, already deferred.</li>
+<li>A <strong>synced local Bitcoin Core node</strong> (the ready path — the measurement node is ~320K blocks behind; once synced, <code>gettxoutsetinfo</code> captures give a true primary series going forward, and per-block <code>nTx</code>-derived deltas cover the back-fill). This is the R5 node-sync decision, already deferred.</li>
 <li>A <strong>blockchair full block scan</strong> from a session/host tolerant of its rate limits (~10K requests), computing Σ(outputs − non-coinbase inputs) per block.</li>
 </ol>
 <p>No fabricated UTXO numbers exist in the repo.</p>

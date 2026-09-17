@@ -81,7 +81,7 @@ this paper's measurements.
 
 | Satoshi's claim (source) | What it predicts | Our data (working-paper) | Status |
 |---|---|---|---|
-| "I anticipate there will never be more than 100K nodes, probably less" (post 188, 2010) | N < 100K, probably less | Primary-source lower-bound census N ≥ 32,000 known addresses (addrman cap); independent estimates 10K–100K | ✅ **CONSISTENT** — the paper's N-band (10K–100K) brackets his ceiling; his claim is not falsified by the census, and his upper bound sits at the top of our uncertainty band |
+| "I anticipate there will never be more than 100K nodes, probably less" (post 188, 2010) | N < 100K, probably less | Addrman sample ≥ 32,000 gossiped *addresses* (a lower bound on addresses, **not** a node count; the measured reachable node count is 26,586); independent estimates 10K–100K | ✅ **CONSISTENT** — the paper's N-band (10K–100K) brackets his ceiling; his claim is not falsified by the measurement, and his upper bound sits at the top of our uncertainty band |
 | "It will reach an equilibrium where it's not worth it for more nodes to join in" (post 188) | Node count self-limits via cost/benefit; N stabilizes | Roadmap Q1: the only endogenous negative feedback in the model is the N-margin loop; the model cannot yet close the loop | 🟡 **OPEN / NOT YET TESTED** — this is roadmap Q1 (equilibrium force); a measured N-response function would test it directly (roadmap §8 Q1) |
 | "The more burden it is to run a node, the fewer nodes there will be" (post 287) | ∂N/∂burden < 0 | C = $925/yr bundled node cost; SCCR ∝ 1/N | 🟡 **TESTABLE** — burden↔N elasticity is a roadmap Phase IV dynamic question |
 | "storage should not be a problem" (whitepaper §7, 2008) | Storage is negligible for node operation | SCCR ≈ 0.22–0.29; per-node lifetime storage liability ~$0.18/block; $925/yr node cost | ⚠️ **SCOPE-CAUTION** — his claim covers headers in RAM (SPV), NOT full-chain disk storage; against the full-chain storage this paper measures, the burden is real but small per node ($925/yr bundled, storage component ~$167/yr). The claim is not directly falsified because it was about a different object |
@@ -104,8 +104,8 @@ designer's own predictions.
    response functions to close the loop).
 2. **"Topology-deviation artifact"** — the sub-1× SCCR partly measures deviation from
    design intent: Satoshi designed for a topology of few server-farm full nodes +
-   many SPV clients (posts 188/287), and the paper's census finds ≥32K reachable
-   nodes — a *more distributed* topology than the design assumed. Because SCCR ∝ 1/N,
+   many SPV clients (posts 188/287), and the paper's measurement finds ≥26,586
+   reachable nodes — a *more distributed* topology than the design assumed. Because SCCR ∝ 1/N,
    a more distributed topology *lowers* the measured coverage ratio for the same fee
    revenue: the ratio's sub-1× reading is partially an artifact of the network being
    more decentralized than Satoshi's "few server farms" intent. This is a real

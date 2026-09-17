@@ -147,7 +147,7 @@ The key observation is **what did NOT change**: BIP-110's consensus restrictions
 | SCCR (post-lock-in) | 0.371939 | `data/sccr_latest.json` | Continuous |
 | L_net (SCCR baseline) | $5,627.80/block | `data/sccr_latest.json` | Continuous |
 | Block interval range | 10–1736s | `data/block_interval.json` | Continuous |
-| Node census (N) | ≥32,000 | `data/node_census.json` | Stale (2026-08-02) |
+| Node count (N) | 26,586 (measured reachable; lower bound) | `data/node_census_series.json` | 2026-09-16 |
 
 ## Honest Data Gaps: What BSAHI Cannot Measure
 
