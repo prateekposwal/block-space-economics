@@ -136,6 +136,9 @@ def main():
         (50000, "D", "estimate — lower end of the 50K–100K band"),
         (80000, "D", "estimate — midpoint of the 50K–100K band"),
         (100000, "D", "estimate — upper end of the 50K–100K band"),
+        (150000, "D", "private:public ≈ 4.6:1 — below the literature ratio"),
+        (200000, "D", "private:public ≈ 6.5:1"),
+        (265860, "D", "private:public ≈ 9:1 — Erlay (CCS'19) literature ratio"),
     ]:
         ln = l_net(N, T0, C0)
         unpublicised.append({
@@ -169,6 +172,18 @@ def main():
             "direction": ("Excluding unpublicised nodes makes L_net a LOWER bound and the reported SCCR an UPPER bound — "
                           "the baseline is therefore CONSERVATIVE with respect to the externality."),
             "curve": unpublicised,
+            "literature_ratio": {
+                "source": "Erlay: Efficient Transaction Relay for Bitcoin (Naumenko, Maxwell, Wuille, "
+                          "Fedorova, Beschastnikh; CCS'19 / arXiv:1905.10518).",
+                "ratio": "private:public ≈ 9:1 — the paper's stated topology of the network at the time "
+                         "(6,000 public + 54,000 private).",
+                "implication": ("Applied to the measured reachable count (N_public = %d), the ratio implies a "
+                                "total population of ~10x the public set (~%d). This is a TOPOLOGY prior from "
+                                "2019, not a measurement, and Erlay's 'private' includes NAT/unreachable nodes — "
+                                "i.e. exactly the quantity this project cannot measure. It is reported as the "
+                                "upper end of the sensitivity band, not as a revised N." % (N0, N0 * 10)),
+                "defensibility": "Grade D (assumption). Cited to bracket the externality, never to replace the Grade-B floor.",
+            },
             "defense": ("The baseline infrastructure size (N = %d) is a strict empirical floor. Because non-listening, "
                         "private and Tor-hidden validating nodes cannot be audited with Grade B certainty, they are "
                         "excluded from the primary index. However, because every hidden node independently bears the "

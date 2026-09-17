@@ -74,9 +74,9 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <script src="/js/site-nav.js"></script>
 <div class="container">
 <h1>SCCR sensitivity, confidence intervals, and a stress test</h1>
-<p><strong>BSAHI — SCCR hardening (P2)</strong> <em>Produced: 2026-09-17 · Instrument: <code>tools/research/sccr_sensitivity.py</code></em></p>
+<p><strong>BSAHI — SCCR hardening (P2)</strong> <em>Refreshed: 2026-09-17 · Instrument: <code>tools/research/sccr_sensitivity.py</code></em></p>
 <h2>Headline</h2>
-<p>The current reading is <strong>SCCR 0.2883</strong> (2026-09-17, 140 blocks, N=32,000, T=10, C=$925). Across the assumption grid the index spans <strong>0.028 – 3.413</strong> (median 0.288), and stays <strong>below 1.0 in 22 of 27 combinations (81.5%)</strong> — it crosses only at the corner most favourable to coverage (high N, long T, high C).</p>
+<p>The current reading is <strong>SCCR 0.3624</strong> (2026-09-17, 139 blocks, N=26,586, T=10, C=$925). Across the assumption grid the index spans <strong>0.030 – 3.565</strong> (median 0.356), and stays <strong>below 1.0 in 22 of 27 combinations (81.5%)</strong> — it crosses only at the corner most favourable to coverage (high N, long T, high C).</p>
 <p><strong>The node count N dominates the uncertainty</strong> (10.0× across the tested range), so the honest statement is &quot;SCCR is below 1× across essentially all plausible assumptions, dominated by uncertainty in N&quot;.</p>
 <h2>Why the sensitivity is exact, not simulated</h2>
 <p>The SCCR is analytic in its assumptions:</p>
@@ -88,33 +88,33 @@ SCCR     = fee_USD_per_block / L_net</code></pre>
 <div class="table-wrap">
 <table>
 <tr><th>N (nodes)</th><th>T (yr)</th><th>C (USD)</th><th>L_net (USD/block)</th><th>SCCR</th><th>vs 1×</th></tr>
-<tr><td>10,000</td><td>5</td><td>$500</td><td>475</td><td><strong>3.413</strong></td><td><strong>above</strong></td></tr>
-<tr><td>10,000</td><td>5</td><td>$925</td><td>879</td><td><strong>1.845</strong></td><td><strong>above</strong></td></tr>
-<tr><td>10,000</td><td>5</td><td>$1500</td><td>1,426</td><td><strong>1.138</strong></td><td><strong>above</strong></td></tr>
-<tr><td>10,000</td><td>10</td><td>$500</td><td>951</td><td><strong>1.707</strong></td><td><strong>above</strong></td></tr>
-<tr><td>10,000</td><td>10</td><td>$925</td><td>1,759</td><td><strong>0.922</strong></td><td>below</td></tr>
-<tr><td>10,000</td><td>10</td><td>$1500</td><td>2,852</td><td><strong>0.569</strong></td><td>below</td></tr>
-<tr><td>10,000</td><td>20</td><td>$500</td><td>1,901</td><td><strong>0.853</strong></td><td>below</td></tr>
-<tr><td>10,000</td><td>20</td><td>$925</td><td>3,517</td><td><strong>0.461</strong></td><td>below</td></tr>
-<tr><td>10,000</td><td>20</td><td>$1500</td><td>5,704</td><td><strong>0.284</strong></td><td>below</td></tr>
-<tr><td>32,000</td><td>5</td><td>$500</td><td>1,521</td><td><strong>1.067</strong></td><td><strong>above</strong></td></tr>
-<tr><td>32,000</td><td>5</td><td>$925</td><td>2,814</td><td><strong>0.577</strong></td><td>below</td></tr>
-<tr><td>32,000</td><td>5</td><td>$1500</td><td>4,563</td><td><strong>0.355</strong></td><td>below</td></tr>
-<tr><td>32,000</td><td>10</td><td>$500</td><td>3,042</td><td><strong>0.533</strong></td><td>below</td></tr>
-<tr><td>32,000</td><td>10</td><td>$925</td><td>5,628</td><td><strong>0.288</strong></td><td>below</td></tr>
-<tr><td>32,000</td><td>10</td><td>$1500</td><td>9,126</td><td><strong>0.178</strong></td><td>below</td></tr>
-<tr><td>32,000</td><td>20</td><td>$500</td><td>6,084</td><td><strong>0.267</strong></td><td>below</td></tr>
-<tr><td>32,000</td><td>20</td><td>$925</td><td>11,256</td><td><strong>0.144</strong></td><td>below</td></tr>
-<tr><td>32,000</td><td>20</td><td>$1500</td><td>18,252</td><td><strong>0.089</strong></td><td>below</td></tr>
-<tr><td>100,000</td><td>5</td><td>$500</td><td>4,753</td><td><strong>0.341</strong></td><td>below</td></tr>
-<tr><td>100,000</td><td>5</td><td>$925</td><td>8,793</td><td><strong>0.184</strong></td><td>below</td></tr>
-<tr><td>100,000</td><td>5</td><td>$1500</td><td>14,260</td><td><strong>0.114</strong></td><td>below</td></tr>
-<tr><td>100,000</td><td>10</td><td>$500</td><td>9,506</td><td><strong>0.171</strong></td><td>below</td></tr>
-<tr><td>100,000</td><td>10</td><td>$925</td><td>17,587</td><td><strong>0.092</strong></td><td>below</td></tr>
-<tr><td>100,000</td><td>10</td><td>$1500</td><td>28,519</td><td><strong>0.057</strong></td><td>below</td></tr>
-<tr><td>100,000</td><td>20</td><td>$500</td><td>19,013</td><td><strong>0.085</strong></td><td>below</td></tr>
-<tr><td>100,000</td><td>20</td><td>$925</td><td>35,174</td><td><strong>0.046</strong></td><td>below</td></tr>
-<tr><td>100,000</td><td>20</td><td>$1500</td><td>57,039</td><td><strong>0.028</strong></td><td>below</td></tr>
+<tr><td>10,000</td><td>5</td><td>$500</td><td>475</td><td><strong>3.565</strong></td><td><strong>above</strong></td></tr>
+<tr><td>10,000</td><td>5</td><td>$925</td><td>879</td><td><strong>1.927</strong></td><td><strong>above</strong></td></tr>
+<tr><td>10,000</td><td>5</td><td>$1,500</td><td>1,426</td><td><strong>1.188</strong></td><td><strong>above</strong></td></tr>
+<tr><td>10,000</td><td>10</td><td>$500</td><td>951</td><td><strong>1.782</strong></td><td><strong>above</strong></td></tr>
+<tr><td>10,000</td><td>10</td><td>$925</td><td>1,759</td><td><strong>0.963</strong></td><td>below</td></tr>
+<tr><td>10,000</td><td>10</td><td>$1,500</td><td>2,852</td><td><strong>0.594</strong></td><td>below</td></tr>
+<tr><td>10,000</td><td>20</td><td>$500</td><td>1,901</td><td><strong>0.891</strong></td><td>below</td></tr>
+<tr><td>10,000</td><td>20</td><td>$925</td><td>3,517</td><td><strong>0.482</strong></td><td>below</td></tr>
+<tr><td>10,000</td><td>20</td><td>$1,500</td><td>5,704</td><td><strong>0.297</strong></td><td>below</td></tr>
+<tr><td>26,586</td><td>5</td><td>$500</td><td>1,264</td><td><strong>1.341</strong></td><td><strong>above</strong></td></tr>
+<tr><td>26,586</td><td>5</td><td>$925</td><td>2,338</td><td><strong>0.725</strong></td><td>below</td></tr>
+<tr><td>26,586</td><td>5</td><td>$1,500</td><td>3,791</td><td><strong>0.447</strong></td><td>below</td></tr>
+<tr><td>26,586</td><td>10</td><td>$500</td><td>2,527</td><td><strong>0.670</strong></td><td>below</td></tr>
+<tr><td>26,586</td><td>10</td><td>$925</td><td>4,676</td><td><strong>0.362</strong></td><td>below</td></tr>
+<tr><td>26,586</td><td>10</td><td>$1,500</td><td>7,582</td><td><strong>0.224</strong></td><td>below</td></tr>
+<tr><td>26,586</td><td>20</td><td>$500</td><td>5,055</td><td><strong>0.335</strong></td><td>below</td></tr>
+<tr><td>26,586</td><td>20</td><td>$925</td><td>9,351</td><td><strong>0.181</strong></td><td>below</td></tr>
+<tr><td>26,586</td><td>20</td><td>$1,500</td><td>15,164</td><td><strong>0.112</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>5</td><td>$500</td><td>4,753</td><td><strong>0.356</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>5</td><td>$925</td><td>8,793</td><td><strong>0.193</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>5</td><td>$1,500</td><td>14,260</td><td><strong>0.119</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>10</td><td>$500</td><td>9,506</td><td><strong>0.178</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>10</td><td>$925</td><td>17,587</td><td><strong>0.096</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>10</td><td>$1,500</td><td>28,519</td><td><strong>0.059</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>20</td><td>$500</td><td>19,013</td><td><strong>0.089</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>20</td><td>$925</td><td>35,174</td><td><strong>0.048</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>20</td><td>$1,500</td><td>57,039</td><td><strong>0.030</strong></td><td>below</td></tr>
 </table>
 </div>
 <h2>2. Distribution and confidence interval</h2>
@@ -122,22 +122,21 @@ SCCR     = fee_USD_per_block / L_net</code></pre>
 <div class="table-wrap">
 <table>
 <tr><th>statistic</th><th>value</th></tr>
-<tr><td>mean</td><td>0.2406</td></tr>
-<tr><td>median</td><td>0.1933</td></tr>
-<tr><td>IQR</td><td>0.1158 – 0.2954</td></tr>
-<tr><td>P5–P95</td><td>0.0687 – 0.5831</td></tr>
-<tr><td>min–max</td><td>0.0490 – 1.0757</td></tr>
-<tr><td><strong>bootstrap 95% CI for the mean</strong></td><td><strong>0.2131 – 0.2707</strong></td></tr>
+<tr><td>mean</td><td>0.2896</td></tr>
+<tr><td>median</td><td>0.2326</td></tr>
+<tr><td>IQR</td><td>0.1394 – 0.3555</td></tr>
+<tr><td>P5–P95</td><td>0.0827 – 0.7019</td></tr>
+<tr><td>min–max</td><td>0.0590 – 1.2948</td></tr>
+<tr><td><strong>bootstrap 95% CI for the mean</strong></td><td><strong>0.2565 – 0.3259</strong></td></tr>
 </table>
 </div>
-<p>legitimate CI for the mean of a real 155-block sample; NOT a claim about the population of all blocks. (bootstrap n=10000, seed 20260917).</p>
 <h2>3. Stress test — which assumption dominates</h2>
 <div class="table-wrap">
 <table>
 <tr><th>assumption</th><th>range tested</th><th>SCCR at low</th><th>SCCR at high</th><th>spread</th></tr>
-<tr><td>N</td><td>10,000–100,000</td><td>0.922</td><td>0.092</td><td><strong>10.0×</strong></td></tr>
-<tr><td>T</td><td>5–20</td><td>0.577</td><td>0.144</td><td><strong>4.0×</strong></td></tr>
-<tr><td>C</td><td>500–1,500</td><td>0.533</td><td>0.178</td><td><strong>3.0×</strong></td></tr>
+<tr><td>N</td><td>10,000–100,000</td><td>0.9634</td><td>0.0963</td><td><strong>10.0×</strong></td></tr>
+<tr><td>T</td><td>5–20</td><td>0.7248</td><td>0.1812</td><td><strong>4.0×</strong></td></tr>
+<tr><td>C</td><td>500–1,500</td><td>0.6704</td><td>0.2235</td><td><strong>3.0×</strong></td></tr>
 </table>
 </div>
 <p><strong>Verdict:</strong> SCCR is below 1.0 in 22/27 combinations; it crosses only at the most favourable-for-coverage corner (high N, long T, high C).</p>
@@ -153,13 +152,17 @@ bash research/reproduce/cross_check.sh</code></pre>
 <table>
 <tr><th>N</th><th>layer</th><th>L_net (USD/block)</th><th>SCCR</th><th>fee coverage</th><th>externality vs baseline</th></tr>
 <tr><td>---:</td><td>---</td><td>---:</td><td>---:</td><td>---:</td><td>---:</td></tr>
-<tr><td>26,586</td><td>B</td><td>$4,676</td><td>0.3470</td><td>34.7%</td><td>1.00×</td></tr>
-<tr><td>32,000</td><td>C</td><td>$5,628</td><td>0.2883</td><td>28.8%</td><td>1.20×</td></tr>
-<tr><td>50,000</td><td>D</td><td>$8,793</td><td>0.1845</td><td>18.5%</td><td>1.88×</td></tr>
-<tr><td>80,000</td><td>D</td><td>$14,070</td><td>0.1153</td><td>11.5%</td><td>3.01×</td></tr>
-<tr><td>100,000</td><td>D</td><td>$17,587</td><td>0.0923</td><td>9.2%</td><td>3.76×</td></tr>
+<tr><td>26,586</td><td>B</td><td>$4,676</td><td>0.3624</td><td>36.2%</td><td>1.00×</td></tr>
+<tr><td>32,000</td><td>C</td><td>$5,628</td><td>0.3011</td><td>30.1%</td><td>1.20×</td></tr>
+<tr><td>50,000</td><td>D</td><td>$8,793</td><td>0.1927</td><td>19.3%</td><td>1.88×</td></tr>
+<tr><td>80,000</td><td>D</td><td>$14,070</td><td>0.1204</td><td>12.0%</td><td>3.01×</td></tr>
+<tr><td>100,000</td><td>D</td><td>$17,587</td><td>0.0963</td><td>9.6%</td><td>3.76×</td></tr>
+<tr><td>150,000</td><td>D</td><td>$26,380</td><td>0.0642</td><td>6.4%</td><td>5.64×</td></tr>
+<tr><td>200,000</td><td>D</td><td>$35,174</td><td>0.0482</td><td>4.8%</td><td>7.52×</td></tr>
+<tr><td>265,860</td><td>D</td><td>$46,756</td><td>0.0362</td><td>3.6%</td><td>10.00×</td></tr>
 </table>
 </div>
+<p><strong>Literature bracket.</strong> Erlay: Efficient Transaction Relay for Bitcoin (Naumenko, Maxwell, Wuille, Fedorova, Beschastnikh; CCS&#x27;19 / arXiv:1905.10518) reports <strong>private:public ≈ 9:1</strong> for the network at the time (6,000 public + 54,000 private). Applied to the measured public set (26,586) that implies a total population of ~265,860. This is a <strong>topology prior from 2019, not a measurement</strong> — Erlay&#x27;s &quot;private&quot; includes NAT/unreachable nodes, exactly the quantity this project cannot measure. It is reported as the <strong>upper end of the band, not a revised N</strong> (Grade D: a cited assumption used to bracket the externality, never to replace the Grade-B floor).</p>
 <blockquote>The baseline infrastructure size (N = 26586) is a strict empirical floor. Because non-listening, private and Tor-hidden validating nodes cannot be audited with Grade B certainty, they are excluded from the primary index. However, because every hidden node independently bears the replication and validation burden, their exclusion means the true network-wide storage externality (L_net) is higher — and the localized fee coverage (SCCR) lower — than reported. The baseline is therefore conservative.</blockquote>
 <h2>What this does and does not claim</h2>
 <ul>

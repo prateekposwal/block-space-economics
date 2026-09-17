@@ -1,17 +1,17 @@
 {
   "schema": "bsahi.sccr-sensitivity/1",
   "layer": "modelled",
-  "generated_at": "2026-09-17T09:32:20.806648+00:00",
+  "generated_at": "2026-09-17T18:23:56.127245+00:00",
   "method": "tools/research/sccr_sensitivity.py \u2014 analytic sensitivity of the SCCR to its assumptions",
   "formula": "SCCR = fee_USD / L_net ; L_net = N x T x C / R_blocks ; R_blocks = 365.25 x 24 x 6",
   "reading": {
     "date": "2026-09-17",
-    "avg_sccr": 0.346988,
-    "blocks": 140,
+    "avg_sccr": 0.36238,
+    "blocks": 139,
     "N": 26586,
     "T": 10,
     "C": 925,
-    "implied_fee_usd_per_block": 1622.39
+    "implied_fee_usd_per_block": 1694.36
   },
   "assumption_grid": [
     {
@@ -19,195 +19,195 @@
       "T": 5,
       "C": 500,
       "l_net_usd": 475.3213,
-      "sccr": 3.4133
+      "sccr": 3.5647
     },
     {
       "N": 10000,
       "T": 5,
       "C": 925,
       "l_net_usd": 879.3444,
-      "sccr": 1.845
+      "sccr": 1.9268
     },
     {
       "N": 10000,
       "T": 5,
       "C": 1500,
       "l_net_usd": 1425.964,
-      "sccr": 1.1378
+      "sccr": 1.1882
     },
     {
       "N": 10000,
       "T": 10,
       "C": 500,
       "l_net_usd": 950.6426,
-      "sccr": 1.7066
+      "sccr": 1.7823
     },
     {
       "N": 10000,
       "T": 10,
       "C": 925,
       "l_net_usd": 1758.6889,
-      "sccr": 0.9225
+      "sccr": 0.9634
     },
     {
       "N": 10000,
       "T": 10,
       "C": 1500,
       "l_net_usd": 2851.9279,
-      "sccr": 0.5689
+      "sccr": 0.5941
     },
     {
       "N": 10000,
       "T": 20,
       "C": 500,
       "l_net_usd": 1901.2853,
-      "sccr": 0.8533
+      "sccr": 0.8912
     },
     {
       "N": 10000,
       "T": 20,
       "C": 925,
       "l_net_usd": 3517.3777,
-      "sccr": 0.4613
+      "sccr": 0.4817
     },
     {
       "N": 10000,
       "T": 20,
       "C": 1500,
       "l_net_usd": 5703.8558,
-      "sccr": 0.2844
+      "sccr": 0.2971
     },
     {
       "N": 26586,
       "T": 5,
       "C": 500,
       "l_net_usd": 1263.6893,
-      "sccr": 1.2839
+      "sccr": 1.3408
     },
     {
       "N": 26586,
       "T": 5,
       "C": 925,
       "l_net_usd": 2337.8251,
-      "sccr": 0.694
+      "sccr": 0.7248
     },
     {
       "N": 26586,
       "T": 5,
       "C": 1500,
       "l_net_usd": 3791.0678,
-      "sccr": 0.428
+      "sccr": 0.4469
     },
     {
       "N": 26586,
       "T": 10,
       "C": 500,
       "l_net_usd": 2527.3785,
-      "sccr": 0.6419
+      "sccr": 0.6704
     },
     {
       "N": 26586,
       "T": 10,
       "C": 925,
       "l_net_usd": 4675.6502,
-      "sccr": 0.347
+      "sccr": 0.3624
     },
     {
       "N": 26586,
       "T": 10,
       "C": 1500,
       "l_net_usd": 7582.1355,
-      "sccr": 0.214
+      "sccr": 0.2235
     },
     {
       "N": 26586,
       "T": 20,
       "C": 500,
       "l_net_usd": 5054.757,
-      "sccr": 0.321
+      "sccr": 0.3352
     },
     {
       "N": 26586,
       "T": 20,
       "C": 925,
       "l_net_usd": 9351.3005,
-      "sccr": 0.1735
+      "sccr": 0.1812
     },
     {
       "N": 26586,
       "T": 20,
       "C": 1500,
       "l_net_usd": 15164.271,
-      "sccr": 0.107
+      "sccr": 0.1117
     },
     {
       "N": 100000,
       "T": 5,
       "C": 500,
       "l_net_usd": 4753.2132,
-      "sccr": 0.3413
+      "sccr": 0.3565
     },
     {
       "N": 100000,
       "T": 5,
       "C": 925,
       "l_net_usd": 8793.4444,
-      "sccr": 0.1845
+      "sccr": 0.1927
     },
     {
       "N": 100000,
       "T": 5,
       "C": 1500,
       "l_net_usd": 14259.6395,
-      "sccr": 0.1138
+      "sccr": 0.1188
     },
     {
       "N": 100000,
       "T": 10,
       "C": 500,
       "l_net_usd": 9506.4263,
-      "sccr": 0.1707
+      "sccr": 0.1782
     },
     {
       "N": 100000,
       "T": 10,
       "C": 925,
       "l_net_usd": 17586.8887,
-      "sccr": 0.0923
+      "sccr": 0.0963
     },
     {
       "N": 100000,
       "T": 10,
       "C": 1500,
       "l_net_usd": 28519.279,
-      "sccr": 0.0569
+      "sccr": 0.0594
     },
     {
       "N": 100000,
       "T": 20,
       "C": 500,
       "l_net_usd": 19012.8527,
-      "sccr": 0.0853
+      "sccr": 0.0891
     },
     {
       "N": 100000,
       "T": 20,
       "C": 925,
       "l_net_usd": 35173.7775,
-      "sccr": 0.0461
+      "sccr": 0.0482
     },
     {
       "N": 100000,
       "T": 20,
       "C": 1500,
       "l_net_usd": 57038.5581,
-      "sccr": 0.0284
+      "sccr": 0.0297
     }
   ],
   "band_summary": {
-    "min": 0.0284,
-    "median": 0.3413,
-    "max": 3.4133,
+    "min": 0.0297,
+    "median": 0.3565,
+    "max": 3.5647,
     "combinations": 27,
     "combinations_below_1x": 22,
     "share_below_1x_pct": 81.5
@@ -223,8 +223,8 @@
         "layer": "B",
         "label": "measured reachable validators (baseline / floor)",
         "l_net_usd_per_block": 4675.65,
-        "sccr": 0.347,
-        "fee_coverage_pct": 34.7,
+        "sccr": 0.3624,
+        "fee_coverage_pct": 36.2,
         "externality_multiple_vs_baseline": 1.0
       },
       {
@@ -232,8 +232,8 @@
         "layer": "C",
         "label": "previous addrman address sample (deprecated as a node count)",
         "l_net_usd_per_block": 5627.8,
-        "sccr": 0.2883,
-        "fee_coverage_pct": 28.8,
+        "sccr": 0.3011,
+        "fee_coverage_pct": 30.1,
         "externality_multiple_vs_baseline": 1.204
       },
       {
@@ -241,8 +241,8 @@
         "layer": "D",
         "label": "estimate \u2014 lower end of the 50K\u2013100K band",
         "l_net_usd_per_block": 8793.44,
-        "sccr": 0.1845,
-        "fee_coverage_pct": 18.5,
+        "sccr": 0.1927,
+        "fee_coverage_pct": 19.3,
         "externality_multiple_vs_baseline": 1.881
       },
       {
@@ -250,8 +250,8 @@
         "layer": "D",
         "label": "estimate \u2014 midpoint of the 50K\u2013100K band",
         "l_net_usd_per_block": 14069.51,
-        "sccr": 0.1153,
-        "fee_coverage_pct": 11.5,
+        "sccr": 0.1204,
+        "fee_coverage_pct": 12.0,
         "externality_multiple_vs_baseline": 3.009
       },
       {
@@ -259,33 +259,66 @@
         "layer": "D",
         "label": "estimate \u2014 upper end of the 50K\u2013100K band",
         "l_net_usd_per_block": 17586.89,
-        "sccr": 0.0923,
-        "fee_coverage_pct": 9.2,
+        "sccr": 0.0963,
+        "fee_coverage_pct": 9.6,
         "externality_multiple_vs_baseline": 3.761
+      },
+      {
+        "N": 150000,
+        "layer": "D",
+        "label": "private:public \u2248 4.6:1 \u2014 below the literature ratio",
+        "l_net_usd_per_block": 26380.33,
+        "sccr": 0.0642,
+        "fee_coverage_pct": 6.4,
+        "externality_multiple_vs_baseline": 5.642
+      },
+      {
+        "N": 200000,
+        "layer": "D",
+        "label": "private:public \u2248 6.5:1",
+        "l_net_usd_per_block": 35173.78,
+        "sccr": 0.0482,
+        "fee_coverage_pct": 4.8,
+        "externality_multiple_vs_baseline": 7.523
+      },
+      {
+        "N": 265860,
+        "layer": "D",
+        "label": "private:public \u2248 9:1 \u2014 Erlay (CCS'19) literature ratio",
+        "l_net_usd_per_block": 46756.5,
+        "sccr": 0.0362,
+        "fee_coverage_pct": 3.6,
+        "externality_multiple_vs_baseline": 10.0
       }
     ],
+    "literature_ratio": {
+      "source": "Erlay: Efficient Transaction Relay for Bitcoin (Naumenko, Maxwell, Wuille, Fedorova, Beschastnikh; CCS'19 / arXiv:1905.10518).",
+      "ratio": "private:public \u2248 9:1 \u2014 the paper's stated topology of the network at the time (6,000 public + 54,000 private).",
+      "implication": "Applied to the measured reachable count (N_public = 26586), the ratio implies a total population of ~10x the public set (~265860). This is a TOPOLOGY prior from 2019, not a measurement, and Erlay's 'private' includes NAT/unreachable nodes \u2014 i.e. exactly the quantity this project cannot measure. It is reported as the upper end of the sensitivity band, not as a revised N.",
+      "defensibility": "Grade D (assumption). Cited to bracket the externality, never to replace the Grade-B floor."
+    },
     "defense": "The baseline infrastructure size (N = 26586) is a strict empirical floor. Because non-listening, private and Tor-hidden validating nodes cannot be audited with Grade B certainty, they are excluded from the primary index. However, because every hidden node independently bears the replication and validation burden, their exclusion means the true network-wide storage externality (L_net) is higher \u2014 and the localized fee coverage (SCCR) lower \u2014 than reported. The baseline is therefore conservative."
   },
   "distribution": {
     "source": "research/reproduce frozen capture (real per-block ratios)",
     "blocks": 155,
-    "mean": 0.240641,
-    "median": 0.193273,
+    "mean": 0.289645,
+    "median": 0.232631,
     "iqr": [
-      0.115849,
-      0.295375
+      0.139441,
+      0.355525
     ],
     "p5_p95": [
-      0.068676,
-      0.583136
+      0.082662,
+      0.701887
     ],
     "min_max": [
-      0.049048,
-      1.075697
+      0.059036,
+      1.294753
     ],
     "bootstrap_95ci_mean": [
-      0.213067,
-      0.270728
+      0.256457,
+      0.325859
     ],
     "bootstrap_n": 10000,
     "seed": 20260917,
@@ -300,8 +333,8 @@
           10000,
           100000
         ],
-        "sccr_at_low": 0.9225,
-        "sccr_at_high": 0.0923,
+        "sccr_at_low": 0.9634,
+        "sccr_at_high": 0.0963,
         "factor": 10.0
       },
       {
@@ -310,8 +343,8 @@
           5,
           20
         ],
-        "sccr_at_low": 0.694,
-        "sccr_at_high": 0.1735,
+        "sccr_at_low": 0.7248,
+        "sccr_at_high": 0.1812,
         "factor": 4.0
       },
       {
@@ -320,8 +353,8 @@
           500,
           1500
         ],
-        "sccr_at_low": 0.6419,
-        "sccr_at_high": 0.214,
+        "sccr_at_low": 0.6704,
+        "sccr_at_high": 0.2235,
         "factor": 3.0
       }
     ],
