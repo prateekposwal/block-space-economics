@@ -28,15 +28,19 @@ var STATE_DIR = path.join(os.homedir(), '.bsahi');
 var STATE = path.join(STATE_DIR, 'collector-state.json');
 var LOG = path.join(os.homedir(), 'Library', 'Logs', 'bsahi-collectors.log');
 
-// name -> { script, args, every (s) }
+// name -> { script, args, every (s), timeoutS }
+// ORDER MATTERS: they run sequentially and launchd will not start an overlapping
+// instance, so the critical instruments go first and the slowest goes last. A
+// slow instrument can otherwise block the whole cycle (observed: perblock can
+// run 20+ min against rate-limited public APIs, delaying the N source).
 var SCHEDULE = [
-  { name: 'inbound_census',       script: 'tools/research/inbound_census.py',        args: [], every: 3600 },
-  { name: 'perblock_validation',  script: 'tools/research/perblock_validation.py',   args: ['--samples', '12'], every: 1800 },
-  { name: 'addrman_churn',        script: 'tools/research/addrman_churn.py',         args: [], every: 43200 },
-  { name: 'seed_census',          script: 'tools/research/seed_census.py',           args: [], every: 43200 },
-  { name: 'utxo_state_measure',   script: 'tools/research/utxo_state_measure.py',    args: [], every: 21600 },
-  { name: 'node_census',          script: 'tools/research/node_census_capture.py',   args: [], every: 86400 },
-  { name: 'pool_concentration',   script: 'tools/research/pool_concentration.py',    args: [], every: 86400 }
+  { name: 'node_census',          script: 'tools/research/node_census_capture.py',   args: [], every: 86400, timeoutS: 1500 },
+  { name: 'utxo_state_measure',   script: 'tools/research/utxo_state_measure.py',    args: [], every: 21600, timeoutS: 600 },
+  { name: 'inbound_census',       script: 'tools/research/inbound_census.py',        args: [], every: 3600,  timeoutS: 300 },
+  { name: 'addrman_churn',        script: 'tools/research/addrman_churn.py',         args: [], every: 43200, timeoutS: 600 },
+  { name: 'seed_census',          script: 'tools/research/seed_census.py',           args: [], every: 43200, timeoutS: 600 },
+  { name: 'pool_concentration',   script: 'tools/research/pool_concentration.py',    args: [], every: 86400, timeoutS: 900 },
+  { name: 'perblock_validation',  script: 'tools/research/perblock_validation.py',   args: ['--samples', '12'], every: 1800, timeoutS: 900 }
 ];
 
 var TIMEOUT_MS = 30 * 60 * 1000;  // generous: a btcnodes crawl can be slow
@@ -73,7 +77,7 @@ function main() {
     var t0 = Date.now();
     try {
       cp.execFileSync('python3', [scriptPath].concat(job.args), {
-        cwd: REPO, timeout: TIMEOUT_MS, stdio: ['ignore', 'pipe', 'pipe']
+        cwd: REPO, timeout: (job.timeoutS || TIMEOUT_MS / 1000) * 1000, stdio: ['ignore', 'pipe', 'pipe']
       });
       var dt = ((Date.now() - t0) / 1000).toFixed(0);
       log(job.name + ': OK (' + dt + 's)');
