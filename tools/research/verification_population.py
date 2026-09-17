@@ -98,6 +98,48 @@ def main():
     plausible = [h for h in heights if h and h >= PLAUSIBLE_HEIGHT_MIN]
     garbage = len([h for h in heights if h is not None and h < PLAUSIBLE_HEIGHT_MIN])
 
+    # ── D1: observed activity partition of the REACHABLE set ──
+    # Only signals we can actually see on a crawled node: announced services,
+    # self-reported height vs tip, and host network (clearnet / Tor / I2P).
+    # This partitions the OBSERVED set; it says nothing about non-listening nodes.
+    tip_n = tip or 0
+    def is_synced(h):
+        return isinstance(h, int) and tip_n and h >= tip_n - 1000
+    tiers = {"t1_serving_synced": 0, "t2_serving_lagging": 0,
+             "t3_no_service_announced": 0, "t4_height_unreported": 0}
+    for r in recs:
+        svc = int(r.get("services") or 0)
+        serves = bool(svc & (NODE_NETWORK | NODE_NETWORK_LIMITED))
+        h = r.get("height")
+        if not isinstance(h, int):
+            tiers["t4_height_unreported"] += 1
+        elif not serves:
+            tiers["t3_no_service_announced"] += 1
+        elif is_synced(h):
+            tiers["t1_serving_synced"] += 1
+        else:
+            tiers["t2_serving_lagging"] += 1
+    partition = [
+        {"tier": "T1 serving + synced", "count": tiers["t1_serving_synced"],
+         "signal": "announces NODE_NETWORK or NODE_NETWORK_LIMITED AND height within 1000 of tip",
+         "grade": "B", "role": "full/pruned validating validator, actively serving"},
+        {"tier": "T2 serving + lagging", "count": tiers["t2_serving_lagging"],
+         "signal": "announces a service bit but height far below tip (catch-up / stale)",
+         "grade": "B", "role": "intermittent / catching-up validator"},
+        {"tier": "T3 no service announced", "count": tiers["t3_no_service_announced"],
+         "signal": "services == 0 (announces it can serve nothing)",
+         "grade": "B", "role": "reachable but announces no serving capability — consumer, not infrastructure"},
+        {"tier": "T4 height unreported", "count": tiers["t4_height_unreported"],
+         "signal": "no height in the crawl record",
+         "grade": "C", "role": "unclassifiable from this capture"},
+    ]
+    clearnet = n - tor - i2p
+    net_breakdown = [
+        {"network": "clearnet", "count": clearnet},
+        {"network": "Tor", "count": tor},
+        {"network": "I2P", "count": i2p},
+    ]
+
     out = {
         "schema": "bsahi.verification-population/1",
         "layer": "observed",
@@ -173,6 +215,21 @@ def main():
                 "implausible_height": garbage,
                 "caveat": "height is self-reported and frequently stale/garbage; used only as a sanity signal.",
             },
+        },
+        "activity_partition": {
+            "scope": ("This partitions the OBSERVED REACHABLE set (%d nodes) only. It is silent about "
+                      "non-listening/private nodes, which a crawl cannot see." % n),
+            "definition_caveat": ("Tier boundaries use announced service bits and self-reported height. "
+                                  "The NODE_NETWORK vs NODE_NETWORK_LIMITED archival/pruned interpretation is "
+                                  "UNVALIDATED against the installed Core release, so T1/T2 are grouped by "
+                                  "'serves' rather than split archival vs pruned."),
+            "tiers": partition,
+            "network_breakdown": net_breakdown,
+            "corrected_framing": [
+                "An address pool is NOT a node count: the ~241k candidate addresses are addresses (grade D), not live nodes.",
+                "Non-listening nodes are not '0% of transit': they still RELAY transactions to their outbound peers; they simply cannot serve inbound requests.",
+                "This partition is a lower-bound view of the validating set: hidden/private nodes are excluded and their exclusion makes every burden metric conservative.",
+            ],
         },
         "headline": {
             "observed": f"At least {series.get('latest_nodes'):,} independently reachable Bitcoin nodes were measured ({captured_at}); the address manager of one small node knew ≥{census.get('totalKnownAddresses'):,} gossiped addresses.",

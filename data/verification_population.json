@@ -261,6 +261,59 @@
       "caveat": "height is self-reported and frequently stale/garbage; used only as a sanity signal."
     }
   },
+  "activity_partition": {
+    "scope": "This partitions the OBSERVED REACHABLE set (26577 nodes) only. It is silent about non-listening/private nodes, which a crawl cannot see.",
+    "definition_caveat": "Tier boundaries use announced service bits and self-reported height. The NODE_NETWORK vs NODE_NETWORK_LIMITED archival/pruned interpretation is UNVALIDATED against the installed Core release, so T1/T2 are grouped by 'serves' rather than split archival vs pruned.",
+    "tiers": [
+      {
+        "tier": "T1 serving + synced",
+        "count": 23949,
+        "signal": "announces NODE_NETWORK or NODE_NETWORK_LIMITED AND height within 1000 of tip",
+        "grade": "B",
+        "role": "full/pruned validating validator, actively serving"
+      },
+      {
+        "tier": "T2 serving + lagging",
+        "count": 2081,
+        "signal": "announces a service bit but height far below tip (catch-up / stale)",
+        "grade": "B",
+        "role": "intermittent / catching-up validator"
+      },
+      {
+        "tier": "T3 no service announced",
+        "count": 547,
+        "signal": "services == 0 (announces it can serve nothing)",
+        "grade": "B",
+        "role": "reachable but announces no serving capability \u2014 consumer, not infrastructure"
+      },
+      {
+        "tier": "T4 height unreported",
+        "count": 0,
+        "signal": "no height in the crawl record",
+        "grade": "C",
+        "role": "unclassifiable from this capture"
+      }
+    ],
+    "network_breakdown": [
+      {
+        "network": "clearnet",
+        "count": 9601
+      },
+      {
+        "network": "Tor",
+        "count": 12745
+      },
+      {
+        "network": "I2P",
+        "count": 4231
+      }
+    ],
+    "corrected_framing": [
+      "An address pool is NOT a node count: the ~241k candidate addresses are addresses (grade D), not live nodes.",
+      "Non-listening nodes are not '0% of transit': they still RELAY transactions to their outbound peers; they simply cannot serve inbound requests.",
+      "This partition is a lower-bound view of the validating set: hidden/private nodes are excluded and their exclusion makes every burden metric conservative."
+    ]
+  },
   "headline": {
     "observed": "At least 26,586 independently reachable Bitcoin nodes were measured (2026-09-16); the address manager of one small node knew \u226532,000 gossiped addresses.",
     "unobservable": "The total node population \u2014 including non-listening and private nodes \u2014 is not observable; BSAHI measures the observable part and states the gap rather than filling it with an estimate.",

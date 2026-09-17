@@ -70,6 +70,28 @@ Four quantities are reported separately and **never conflated**:
 
 **Sync state** — 25,571 nodes reported a plausible height; 1,006 reported an implausible one (self-reported height is frequently stale). Chain tip at capture: 967176.
 
+
+## Activity partition of the observed reachable set (D1)
+
+Partitions the **26,577 observed reachable nodes** by what a crawl can actually see: announced service bits, self-reported height vs the chain tip, and host network.
+
+| tier | nodes | share | grade | role |
+|---|---:|---:|---|---|
+| **T1 serving + synced** | 23,949 | 90.1% | B | full/pruned validating validator, actively serving |
+| **T2 serving + lagging** | 2,081 | 7.8% | B | intermittent / catching-up validator |
+| **T3 no service announced** | 547 | 2.1% | B | reachable but announces no serving capability — consumer, not infrastructure |
+| **T4 height unreported** | 0 | 0.0% | C | unclassifiable from this capture |
+
+**Network:** clearnet 9,601 (36%) · Tor 12,745 (48%) · I2P 4,231 (16%). (Tor and I2P nodes *are* reachable to a crawler that speaks those transports — which is why IP geography is unresolved for ~64% of the set.)
+
+**Honest scope.** This partitions the **observed reachable set only**. It is silent about non-listening/private nodes, which no crawl can see. The `NODE_NETWORK` vs `NODE_NETWORK_LIMITED` archival/pruned interpretation is **unvalidated** against the installed Core release, so T1/T2 are grouped by "serves" rather than split archival vs pruned.
+
+## Corrected framing (D2)
+
+- An address pool is NOT a node count: the ~241k candidate addresses are addresses (grade D), not live nodes.
+- Non-listening nodes are not '0% of transit': they still RELAY transactions to their outbound peers; they simply cannot serve inbound requests.
+- This partition is a lower-bound view of the validating set: hidden/private nodes are excluded and their exclusion makes every burden metric conservative.
+
 ## The headline
 
 > **At least 26,586 independently reachable Bitcoin nodes were measured (2026-09-16); the address manager of one small node knew ≥32,000 gossiped addresses.** The total node population — including non-listening and private nodes — is not observable. BSAHI measures the observable part and states the gap rather than filling it with an estimate.

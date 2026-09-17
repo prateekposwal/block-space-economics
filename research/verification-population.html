@@ -138,6 +138,26 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <blockquote>GRADE C / UNVALIDATED — the mapping of NODE_NETWORK vs NODE_NETWORK_LIMITED to archival/pruned must be checked against the installed Core release before this is treated as a measured split</blockquote>
 <p><strong>Persistence — NOT measured.</strong> connected_since in this capture is effectively the CRAWLER&#x27;s session time (all values cluster under ~0.25 days), not node uptime. Node uptime/persistence is therefore NOT measured here and must not be published as such; it requires repeated per-node snapshots over time (same address observed across crawls).</p>
 <p><strong>Sync state</strong> — 25,571 nodes reported a plausible height; 1,006 reported an implausible one (self-reported height is frequently stale). Chain tip at capture: 967176.</p>
+<h2>Activity partition of the observed reachable set (D1)</h2>
+<p>Partitions the <strong>26,577 observed reachable nodes</strong> by what a crawl can actually see: announced service bits, self-reported height vs the chain tip, and host network.</p>
+<div class="table-wrap">
+<table>
+<tr><th>tier</th><th>nodes</th><th>share</th><th>grade</th><th>role</th></tr>
+<tr><td>---</td><td>---:</td><td>---:</td><td>---</td><td>---</td></tr>
+<tr><td><strong>T1 serving + synced</strong></td><td>23,949</td><td>90.1%</td><td>B</td><td>full/pruned validating validator, actively serving</td></tr>
+<tr><td><strong>T2 serving + lagging</strong></td><td>2,081</td><td>7.8%</td><td>B</td><td>intermittent / catching-up validator</td></tr>
+<tr><td><strong>T3 no service announced</strong></td><td>547</td><td>2.1%</td><td>B</td><td>reachable but announces no serving capability — consumer, not infrastructure</td></tr>
+<tr><td><strong>T4 height unreported</strong></td><td>0</td><td>0.0%</td><td>C</td><td>unclassifiable from this capture</td></tr>
+</table>
+</div>
+<p><strong>Network:</strong> clearnet 9,601 (36%) · Tor 12,745 (48%) · I2P 4,231 (16%). (Tor and I2P nodes <em>are</em> reachable to a crawler that speaks those transports — which is why IP geography is unresolved for ~64% of the set.)</p>
+<p><strong>Honest scope.</strong> This partitions the <strong>observed reachable set only</strong>. It is silent about non-listening/private nodes, which no crawl can see. The <code>NODE_NETWORK</code> vs <code>NODE_NETWORK_LIMITED</code> archival/pruned interpretation is <strong>unvalidated</strong> against the installed Core release, so T1/T2 are grouped by &quot;serves&quot; rather than split archival vs pruned.</p>
+<h2>Corrected framing (D2)</h2>
+<ul>
+<li>An address pool is NOT a node count: the ~241k candidate addresses are addresses (grade D), not live nodes.</li>
+<li>Non-listening nodes are not &#x27;0% of transit&#x27;: they still RELAY transactions to their outbound peers; they simply cannot serve inbound requests.</li>
+<li>This partition is a lower-bound view of the validating set: hidden/private nodes are excluded and their exclusion makes every burden metric conservative.</li>
+</ul>
 <h2>The headline</h2>
 <blockquote><strong>At least 26,586 independently reachable Bitcoin nodes were measured (2026-09-16); the address manager of one small node knew ≥32,000 gossiped addresses.</strong> The total node population — including non-listening and private nodes — is not observable. BSAHI measures the observable part and states the gap rather than filling it with an estimate.</blockquote>
 <p><strong>Grades:</strong> B for the reachable count; C for the address sample; D/unobservable for everything beyond..</p>

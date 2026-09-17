@@ -53,7 +53,7 @@ row here, that is a defect.
 | 27 | Pruning externality | download+verify unavoidable | Modelled | `research/pruning_externality_analysis.md` | 2026-08-10 | C |
 | 28 | **Fee allocation** — security vs storage claim | security $198,549/block; storage L_net $5,628/block; fees $1,415/block | Modelled | `data/fee_allocation.json` | 2026-09-17 | C |
 | 29 | Halving schedule (subsidy) | 3.125 → 0.78 (2032) → 0.049 (2048) BTC/block | Observed | arithmetic (210,000-block epochs) | — | A |
-
+| 30 | **Activity partition of reachable nodes** | T1 23,949 (90.1%) serving+synced · T2 2,081 (7.8%) lagging · T3 547 (2.1%) no service announced | Observed | `data/verification_population.json → activity_partition` | 2026-09-16 | B (T4 C) |
 ## Grades
 
 - **A** — direct primary measurement (node RPC, on-chain fact), dated.
