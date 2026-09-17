@@ -81,6 +81,21 @@ def main():
         }
     }
 
+    # Guard: tools/research/pool_concentration.py writes the canonical v2 file at
+    # this SAME path. This legacy v1 writer must never clobber it — doing so once
+    # silently replaced MEASURED pool-attribution data with a NOT-COMPUTABLE stub.
+    if os.path.exists(OUTPUT_PATH):
+        try:
+            with open(OUTPUT_PATH) as fh:
+                existing = json.load(fh)
+            if str(existing.get('schema', '')).endswith('/2'):
+                print(f"refusing to overwrite canonical {existing.get('schema')} at {OUTPUT_PATH} "
+                      f"— this is the legacy v1 writer; the canonical writer is "
+                      f"tools/research/pool_concentration.py")
+                return existing
+        except Exception:
+            pass
+
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, 'w') as f:
         json.dump(result, f, indent=2)

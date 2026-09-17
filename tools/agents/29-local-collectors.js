@@ -36,7 +36,7 @@ var SCHEDULE = [
   { name: 'seed_census',          script: 'tools/research/seed_census.py',           args: [], every: 43200 },
   { name: 'utxo_state_measure',   script: 'tools/research/utxo_state_measure.py',    args: [], every: 21600 },
   { name: 'node_census',          script: 'tools/research/node_census_capture.py',   args: [], every: 86400 },
-  { name: 'mining_concentration', script: 'tools/research/mining_concentration.py',  args: [], every: 86400 }
+  { name: 'pool_concentration',   script: 'tools/research/pool_concentration.py',    args: [], every: 86400 }
 ];
 
 var TIMEOUT_MS = 30 * 60 * 1000;  // generous: a btcnodes crawl can be slow
