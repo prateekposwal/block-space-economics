@@ -37,6 +37,7 @@ a{color:#D4933A}
 table{border-collapse:collapse;margin:14px 0;width:100%}
 .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
 code{overflow-wrap:anywhere}
+p,li,dd,blockquote{overflow-wrap:anywhere}
 th,td{border:1px solid #3A3228;padding:8px 12px;text-align:left;font-size:.9rem}
 th{background:#231F19;color:#EADCC8}
 blockquote{border-left:3px solid #F7931A;margin:14px 0;padding:4px 16px;color:#9B8B78;background:#1F1B16}
@@ -153,6 +154,11 @@ def render_md(text):
             continue
         flush_table()
         s = line.strip()
+        # Standalone HTML comments are metadata (e.g. <!-- seo-title: ... -->),
+        # not content — skipping them keeps them out of the rendered page.
+        if s.startswith('<!--') and s.endswith('-->'):
+            i += 1
+            continue
         if not s:
             flush_para()
             i += 1

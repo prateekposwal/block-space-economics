@@ -57,6 +57,8 @@ footer .links a:hover{color:var(--accent-ink)}
 
 .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
 code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
 </style>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,7 +75,6 @@ code{overflow-wrap:anywhere}
 <script src="/js/site-nav.js"></script>
 <div class="container">
 <h1>The Validation Leg — v1 (order-of-magnitude survey)</h1>
-<p>&lt;!-- seo-title: Bitcoin Validation Cost: Cheap Per Node --&gt;</p>
 <p><strong>Status: STARTED (v1, 2026-08-04).</strong> This is an analytical bound plus a literature survey — NOT a measured benchmark. It answers the question the storage leg deliberately left open (§7 of the working paper): what does <em>validation</em> cost, as a distinct resource leg of the fee-internalization framework? Confidence: <strong>order-of-magnitude only</strong> (uncertainty band ≈ 0.5×–5×).</p>
 <h2>1. What validation cost IS</h2>
 <p>Per full node, per block, validation is the CPU work of proving the block is <em>legitimate</em> before (and while) it is stored or pruned:</p>

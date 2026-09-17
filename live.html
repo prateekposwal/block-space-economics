@@ -656,17 +656,7 @@ document.querySelectorAll('.tab-btn').forEach(function(btn) {
     btn.classList.add('active');
     document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
     var id = btn.dataset.tab;
-    var resizers = {
-      send: ['VIZ_Send'], lightning: ['VIZ_Lightning'], exchange: ['VIZ_Exchange'],
-      node: ['VIZ_Node'], miner: ['VIZ_Miner'],
-      research: ['VIZ_Research', 'VIZ_BlockInterval', 'VIZ_Hashrate', 'VIZ_FeeHeatmap', 'VIZ_MempoolHist'],
-      developer: ['VIZ_Developer']
-    };
-    (resizers[id] || []).forEach(function(mn) {
-      window.setTimeout(function() {
-        try { var m = window[mn]; if (m && typeof m.resize === 'function') m.resize(); } catch (e) {}
-      }, 50);
-    });
+    initTabModules(id);
   });
 });
 
@@ -702,23 +692,44 @@ function safeInit(name, canvasId) {
   } catch (e) { console.error(name + ' init failed', e); }
 }
 
+// Modules live inside display:none tab panels. Initialising all of them made
+// ~10 hidden dashboards paint at 60fps. Initialise only the active panel and
+// lazily init the rest when their tab is first opened.
+var VIZ_TABS = {
+  send: ['VIZ_Send', 'VIZ_FeeHeatmap', 'VIZ_MempoolHist'],
+  lightning: ['VIZ_Lightning'],
+  exchange: ['VIZ_Exchange'],
+  node: ['VIZ_Node'],
+  miner: ['VIZ_Miner'],
+  research: ['VIZ_Research', 'VIZ_BlockInterval', 'VIZ_Hashrate'],
+  developer: ['VIZ_Developer']
+};
+var VIZ_INITED = {};
+function vizCanvasId(name) {
+  return 'viz-' + name.replace(/^VIZ_/, '').replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+}
+function initTabModules(tab) {
+  var list = VIZ_TABS[tab] || [];
+  for (var i = 0; i < list.length; i++) {
+    var mn = list[i];
+    if (!VIZ_INITED[mn]) { VIZ_INITED[mn] = true; safeInit(mn, vizCanvasId(mn)); }
+  }
+  // sizes are only known once the panel is displayed — resize on the next tick
+  setTimeout(function() {
+    for (var j = 0; j < list.length; j++) {
+      try { var m = window[list[j]]; if (m && typeof m.resize === 'function') m.resize(); } catch (e) {}
+    }
+  }, 60);
+}
+
 function bootLive() {
 // Defensive: DATA_ENGINE must never be able to halt the boot sequence.
 try {
   if (typeof DATA_ENGINE !== 'undefined') DATA_ENGINE.start();
 } catch (e) { console.error('DATA_ENGINE.start failed', e); }
 // Initialize every viz module defensively — one module failure must never halt the rest.
-safeInit('VIZ_Send', 'viz-send');
-safeInit('VIZ_Lightning', 'viz-lightning');
-safeInit('VIZ_Exchange', 'viz-exchange');
-safeInit('VIZ_Node', 'viz-node');
-safeInit('VIZ_Miner', 'viz-miner');
-safeInit('VIZ_Research', 'viz-research');
-safeInit('VIZ_BlockInterval', 'viz-block-interval');
-safeInit('VIZ_Hashrate', 'viz-hashrate');
-safeInit('VIZ_FeeHeatmap', 'viz-fee-heatmap');
-safeInit('VIZ_MempoolHist', 'viz-mempool-hist');
-safeInit('VIZ_Developer', 'viz-developer');
+var _activeTab = (document.querySelector('.tab-btn.active') || { dataset: {} }).dataset.tab || 'send';
+initTabModules(_activeTab);
 
 if (typeof DATA_ENGINE !== 'undefined') {
   DATA_ENGINE.onUpdate(function() {

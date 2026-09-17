@@ -60,6 +60,7 @@ a{color:var(--accent-ink)}
 table{border-collapse:collapse;margin:14px 0;width:100%}
 .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
 code{overflow-wrap:anywhere}
+p,li,dd,blockquote{overflow-wrap:anywhere}
 th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
 th{background:var(--surface);color:var(--ink)}
 blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}

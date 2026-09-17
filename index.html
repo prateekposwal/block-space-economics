@@ -98,7 +98,7 @@
       .legend-panel .l-item { font-size: 10px; }
       /* CTA floats above the nav dock so nothing overlaps. */
       .bottom-area { bottom: 200px; }
-      .bottom-area .cta { padding: 10px 20px; font-size: 14px; }
+      .bottom-area .cta { padding: 15px 24px; font-size: 15px; min-height: 44px; }
       .bottom-area .hint { font-size: 10px; }
     }
 
@@ -173,6 +173,13 @@
     @media (max-height:640px){
       #home-hero #dollar-context,#home-hero #narrative-frame{display:none}
     }
+    /* Short / landscape viewports: lift the H1 and hide the state-bar so the
+       canvas numeral has a clear band (mirrors the caption hiding below). */
+    @media (max-height:640px){
+      #headline{top:110px !important}
+      .state-bar{display:none}
+    }
+
   </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

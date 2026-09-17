@@ -162,8 +162,12 @@ var VIZ_Fees = (function() {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
-    var feeFontSize = Math.min(120, Math.max(48, w * 0.2));
-    var counterY = w < 480 ? h * 0.35 : h / 2 - 70;
+    // Short viewports (phones landscape, small phones) don't have room for the
+    // headline AND a 120px numeral — shrink it and centre it in the free band
+    // between the H1 (~110-158px) and the CTA, instead of behind the headline.
+    var short = h < 640;
+    var feeFontSize = short ? Math.min(64, Math.max(40, w * 0.16)) : Math.min(120, Math.max(48, w * 0.2));
+    var counterY = short ? h * 0.5 : (w < 480 ? h * 0.35 : h / 2 - 70);
 
     ctx.font = feeFontSize + 'px -apple-system, sans-serif';
     ctx.fillStyle = 'rgba(0,0,0,0.3)';
@@ -191,7 +195,11 @@ var VIZ_Fees = (function() {
     ctx.font = narrativeFontSize + ' -apple-system, sans-serif';
     var narrativeOpacity = 0.4 + Math.sin(t * 1.5) * 0.1;
     ctx.fillStyle = 'rgba(255,255,255,' + Math.max(0.2, Math.min(0.6, narrativeOpacity)) + ')';
-    ctx.fillText(narrative, w/2, counterY + Math.round(feeFontSize * 0.68 + (w < 480 ? 24 : 30)));
+    // Short viewports have no room for the rotating caption — drawing it there
+    // collides with the CTA button, so skip it (the DOM caption is hidden too).
+    if (!short) {
+      ctx.fillText(narrative, w/2, counterY + Math.round(feeFontSize * 0.68 + (w < 480 ? 24 : 30)));
+    }
 
     // Vignette (cached gradient — created in resize(), not per frame)
     if (vignette) { ctx.fillStyle = vignette; ctx.fillRect(0, 0, w, h); }

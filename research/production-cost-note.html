@@ -58,6 +58,8 @@ footer .links a:hover{color:var(--accent-ink)}
 .kv code{color:var(--accent-ink)}
 .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
 code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
 </style>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -72,7 +74,6 @@ code{overflow-wrap:anywhere}
 <script src="/js/site-nav.js"></script>
 <div class="container">
 <h1>Production-Cost Ratio — research note (Tier-1 item 4, aggregate leg)</h1>
-<p>&lt;!-- seo-title: Bitcoin Production-Cost Ratio: Miners vs Fees --&gt;</p>
 <p><strong>BSAHI — producing-side instrument</strong> <em>Produced: 2026-09-16</em></p>
 <h2>The instrument</h2>
 <p><code>tools/research/production_cost_ratio.py</code> + <code>data/production_cost_ratio.json</code>. Deterministic from frozen daily series (hash-rate TH/s, miners-revenue USD/day, transaction-fees BTC/day, market-price USD — all under <code>captured-data/historical/</code>). Per era:</p>

@@ -58,6 +58,8 @@ footer .links a:hover{color:var(--accent-ink)}
 .kv code{color:var(--accent-ink)}
 .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
 code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
 </style>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -72,7 +74,6 @@ code{overflow-wrap:anywhere}
 <script src="/js/site-nav.js"></script>
 <div class="container">
 <h1>Per-block validation strip — rows 1 (fee market) + 4 (block/state size)</h1>
-<p>&lt;!-- seo-title: Per-Block Validation: Era Aggregates vs Real Blocks --&gt;</p>
 <p><strong>Date:</strong> 2026-09-16 (2025-2026 eras completed 2026-09-17) · <strong>Instrument:</strong> <code>tools/research/perblock_validation.py</code> <strong>Output:</strong> <code>data/perblock_validation.json</code></p>
 <h2>Purpose</h2>
 <p>The SCCR historical reconstruction derives era-level fee and block-size legs from daily aggregates (<code>fee_btc_per_day</code>, <code>avg-block-size</code>, <code>blocks_per_day_est</code>). That derivation is grade B: correct in aggregate but unverified at the per-block level. This strip samples actual per-block measurements across 2010-2026 so the aggregate legs can be checked against direct observations, and so the SegWit-era size/weight divergence (a block/state-size boundary question, row 4) is quantified.</p>
