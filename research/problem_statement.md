@@ -1,5 +1,8 @@
 # The Bitcoin Block Space Problem: A Frame
 
+**Published:** 2026-07-31 · **Program:** Bitcoin Resource Accounting · **Author:** Prateek Poswal
+
+
 ## One Sentence
 
 **Bitcoin's fee market prices competition for inclusion in the next block, but it does not explicitly price the long-term resource costs of permanently recorded blockchain data.**

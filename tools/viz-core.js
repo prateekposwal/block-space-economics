@@ -13,6 +13,16 @@ var VIZ = (function() {
     return { el: el, ctx: ctx, w: w, h: h };
   }
 
+  // Only paint canvases that are actually on screen. /live runs ~13 painters at
+  // 50ms; most are below the fold, so gating the draw on intersection removes
+  // the majority of the main-thread work without changing what the user sees.
+  var _vis = {};
+  var _io = (typeof IntersectionObserver !== 'undefined')
+    ? new IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) _vis[entries[i].target.id] = entries[i].isIntersecting;
+      }, { rootMargin: '150px' })
+    : null;
+
   function start(id, drawFn, interval) {
     interval = interval || 50;
     _drawFns[id] = { fn: drawFn, interval: interval };
@@ -24,7 +34,10 @@ var VIZ = (function() {
       return;
     }
     if (anims[id]) clearInterval(anims[id]);
+    var _el = document.getElementById(id);
+    if (_el && _io) _io.observe(_el);
     anims[id] = setInterval(function() {
+      if (_vis[id] === false) return; // off-screen: skip the paint
       var el = document.getElementById(id);
       if (!el) return;
       var ctx = el.getContext('2d');

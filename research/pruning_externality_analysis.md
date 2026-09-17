@@ -1,5 +1,8 @@
 # The Two Questions — Answered
 
+**Published:** 2026-08-10 · **Program:** Bitcoin Resource Accounting · **Author:** Prateek Poswal
+
+
 ## Question 1: Do pruned nodes eliminate the externality?
 
 **Short answer:** No. Pruned nodes must still download and verify every block before pruning. The bandwidth + CPU cost of processing inscription data is unavoidable regardless of pruning mode.
