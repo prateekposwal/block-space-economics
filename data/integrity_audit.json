@@ -1,25 +1,19 @@
 {
   "schema": "bsahi.integrity-audit/1",
-  "generated_at": "2026-09-17T08:46:38.464440+00:00",
+  "generated_at": "2026-09-17T17:30:06.880213+00:00",
   "method": "tools/research/integrity_audit.py \u2014 checks heights/dates, units, provenance, layers",
   "findings": [
     {
       "check": "monotonicity",
       "source": "perblock_validation",
       "status": "PASS",
-      "detail": "24 pairs, 0 inversions"
+      "detail": "144 pairs, 0 inversions"
     },
     {
       "check": "monotonicity",
       "source": "utxo_state_latest",
       "status": "PASS",
       "detail": "1 pairs, 0 inversions"
-    },
-    {
-      "check": "anchor:chain_date",
-      "source": "utxo_state_latest",
-      "status": "INFO",
-      "detail": "height 671462 = 2021-02-25 (chain); captured 2026-09-17; block_time not recorded in this row (pre-dates the field)"
     },
     {
       "check": "units:hashrate_ehs==ths/1e6 & power==ths*eff",
@@ -133,7 +127,7 @@
     }
   ],
   "summary": {
-    "checks": 7,
+    "checks": 6,
     "fail": 0,
     "warn": 1
   }

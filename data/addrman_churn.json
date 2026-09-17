@@ -1,18 +1,18 @@
 {
   "schema": "bsahi.addrman-churn/1",
   "layer": "observed",
-  "generated_at": "2026-09-17T17:29:55.099313+00:00",
+  "generated_at": "2026-09-17T17:30:44.140768+00:00",
   "source": "Bitcoin Core getnodeaddresses 0 on the project's node (gossip sampler)",
   "method": "tools/research/addrman_churn.py \u2014 sample the addrman over time and measure persistence",
-  "latest_count": 34590,
-  "samples": 1,
-  "distinct_addresses_ever": 34590,
+  "latest_count": 34599,
+  "samples": 2,
+  "distinct_addresses_ever": 34604,
   "churn": {
-    "prev_count": 0,
-    "persisted": 0,
-    "new": 34590,
-    "gone": 0,
-    "persistence_rate_pct": null,
+    "prev_count": 34590,
+    "persisted": 34585,
+    "new": 14,
+    "gone": 5,
+    "persistence_rate_pct": 100.0,
     "note": "Persistence = share of the previous sample's addresses still present. Low persistence at a fixed interval = high address rotation (dynamic IPs, ephemeral wallets). Compare like-for-like intervals only."
   },
   "caveat": "A single node's addrman is a SAMPLE shaped by peer count and uptime; it is a lower bound on gossip-observed addresses and says nothing about nodes. Addresses != nodes."
