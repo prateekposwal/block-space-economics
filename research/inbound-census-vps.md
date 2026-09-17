@@ -170,6 +170,35 @@ public IP is reachable.** No-card routes to that: the home LAN port-forward, a
 GitHub Student Pack cloud credit, a virtual debit card for Oracle Always-Free (it
 never bills), or any always-on box on a non-CGNAT network.
 
+### Why STUN / UDP hole-punching cannot work here (measured 2026-09-18)
+
+Ran a correct RFC-5389 STUN probe (`tools/net/stun_probe.py`) from behind this
+link. The same local UDP socket mapped to **different external endpoints per
+destination**:
+
+```
+local 0.0.0.0:58517  ->  stun.l.google.com   : 106.67.179.93:50402
+                     ->  stun.cloudflare.com : 106.67.185.45:50311
+```
+
+Different **IP** *and* different **port** for the same socket = a **symmetric NAT
+with multiple carrier egress addresses**. Consequences:
+
+1. **An advertised external endpoint is a dead end.** A Bitcoin peer dialling the
+   address we learned from STUN arrives as a *new flow* to a *different* mapping
+   (or a different egress IP) and is dropped by the carrier NAT. This is exactly
+   why WebRTC falls back to **TURN relays** on symmetric NAT — and a relay SNATs,
+   which destroys peer identity.
+2. **Hole-punching needs both ends to coordinate.** It works when two peers
+   exchange mappings through a rendezvous and fire simultaneously. Bitcoin nodes
+   do not participate in any rendezvous; they simply dial an address from addrman.
+3. **STUN is UDP; Bitcoin P2P is TCP.** The UDP mapping STUN reports is unrelated
+   to the TCP path bitcoind needs.
+
+So STUN/hole-punching is not a route to the census — the carrier NAT is symmetric,
+the protocol is wrong, and there is no coordinating peer. Only a **real public
+host** (or a SNAT relay, which loses identity) works.
+
 ### Option 3 — port-forward on a non-CGNAT network
 
 If the Mac is ever on the home LAN (`192.168.29.1`), forward TCP 8333 →
