@@ -1,11 +1,11 @@
 {
   "schema": "bsahi.addrman-churn/1",
   "layer": "observed",
-  "generated_at": "2026-09-17T17:38:57.756857+00:00",
+  "generated_at": "2026-09-17T20:05:37.972070+00:00",
   "source": "Bitcoin Core getnodeaddresses 0 on the project's node (gossip sampler)",
   "method": "tools/research/addrman_churn.py \u2014 sample the addrman over time and measure persistence",
-  "latest_count": 34633,
-  "samples": 3,
+  "latest_count": 36125,
+  "samples": 5,
   "history": [
     {
       "at": "2026-09-17T17:29:55.099313+00:00",
@@ -18,14 +18,22 @@
     {
       "at": "2026-09-17T17:38:57.756857+00:00",
       "count": 34633
+    },
+    {
+      "at": "2026-09-17T20:02:19.100886+00:00",
+      "count": 36115
+    },
+    {
+      "at": "2026-09-17T20:05:37.972070+00:00",
+      "count": 36125
     }
   ],
-  "distinct_addresses_ever": 34648,
+  "distinct_addresses_ever": 36236,
   "churn": {
-    "prev_count": 34599,
-    "persisted": 34589,
-    "new": 44,
-    "gone": 10,
+    "prev_count": 36115,
+    "persisted": 36112,
+    "new": 13,
+    "gone": 3,
     "persistence_rate_pct": 100.0,
     "note": "Persistence = share of the previous sample's addresses still present. Low persistence at a fixed interval = high address rotation (dynamic IPs, ephemeral wallets). Compare like-for-like intervals only."
   },

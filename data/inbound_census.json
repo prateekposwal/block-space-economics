@@ -1,17 +1,17 @@
 {
   "schema": "bsahi.inbound-census/1",
   "layer": "observed",
-  "generated_at": "2026-09-17T19:46:40.730771+00:00",
+  "generated_at": "2026-09-17T20:05:37.641088+00:00",
   "source": "Bitcoin Core getpeerinfo on the project's listening node",
   "method": "tools/research/inbound_census.py \u2014 count distinct peers that dial in",
   "latest": {
-    "at": "2026-09-17T19:46:40.730771+00:00",
+    "at": "2026-09-17T20:05:37.641088+00:00",
     "connections_in": 0,
     "inbound_count": 0,
     "inbound_addrs": [],
     "connection_type_breakdown": {}
   },
-  "samples": 6,
+  "samples": 7,
   "history": [
     {
       "at": "2026-09-17T17:29:55.332181+00:00",
@@ -42,6 +42,11 @@
       "at": "2026-09-17T19:46:40.730771+00:00",
       "inbound_count": 0,
       "connections_in": 0
+    },
+    {
+      "at": "2026-09-17T20:05:37.641088+00:00",
+      "inbound_count": 0,
+      "connections_in": 0
     }
   ],
   "distinct_inbound_addresses_ever": 0,
@@ -55,5 +60,5 @@
     "listen": "1",
     "reachability": "port-forward for clearnet, or Tor for onion inbound"
   },
-  "headline": "0 distinct nodes have dialled in across 6 sample(s); latest inbound connections: 0"
+  "headline": "0 distinct nodes have dialled in across 7 sample(s); latest inbound connections: 0"
 }
