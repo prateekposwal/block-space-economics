@@ -40,7 +40,11 @@ var SCHEDULE = [
   { name: 'addrman_churn',        script: 'tools/research/addrman_churn.py',         args: [], every: 43200, timeoutS: 600 },
   { name: 'seed_census',          script: 'tools/research/seed_census.py',           args: [], every: 43200, timeoutS: 600 },
   { name: 'pool_concentration',   script: 'tools/research/pool_concentration.py',    args: [], every: 86400, timeoutS: 900 },
-  { name: 'perblock_validation',  script: 'tools/research/perblock_validation.py',   args: ['--samples', '12'], every: 1800, timeoutS: 900 }
+  { name: 'perblock_validation',  script: 'tools/research/perblock_validation.py',   args: ['--samples', '12'], every: 1800, timeoutS: 900 },
+  // Clearnet distinct-IP census from a public-IP VPS (see
+  // research/inbound-census-vps.md). Inert until ~/.bsahi/vps-census.conf exists.
+  { name: 'vps_census_pull', cmd: ['bash', 'tools/net/vps_census_pull.sh'], every: 3600,
+    requires: path.join(os.homedir(), '.bsahi', 'vps-census.conf') }
 ];
 
 var TIMEOUT_MS = 30 * 60 * 1000;  // generous: a btcnodes crawl can be slow
@@ -70,13 +74,20 @@ function main() {
   SCHEDULE.forEach(function (job) {
     var last = state[job.name] && state[job.name].last_run_epoch;
     if (last && (now - last) < job.every) return;   // not due
+    if (job.requires && !fs.existsSync(job.requires)) return;   // not configured yet
 
-    var scriptPath = path.join(REPO, job.script);
-    if (!fs.existsSync(scriptPath)) { log(job.name + ': script missing, skipped'); return; }
+    var argv;
+    if (job.cmd) {
+      argv = job.cmd.slice();
+    } else {
+      var scriptPath = path.join(REPO, job.script);
+      if (!fs.existsSync(scriptPath)) { log(job.name + ': script missing, skipped'); return; }
+      argv = ['python3', scriptPath].concat(job.args);
+    }
 
     var t0 = Date.now();
     try {
-      cp.execFileSync('python3', [scriptPath].concat(job.args), {
+      cp.execFileSync(argv[0], argv.slice(1), {
         cwd: REPO, timeout: (job.timeoutS || TIMEOUT_MS / 1000) * 1000, stdio: ['ignore', 'pipe', 'pipe']
       });
       var dt = ((Date.now() - t0) / 1000).toFixed(0);
