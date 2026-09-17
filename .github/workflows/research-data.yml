@@ -71,12 +71,21 @@ jobs:
         run: |
           git config user.name "bsahi-research-bot"
           git config user.email "research@bitcoinsahi.com"
+          # SCCR ownership: this workflow (public 24h fee endpoint -> sccr_live.py
+          # --frozen) is the single writer of the SCCR and everything derived from
+          # it. The local com.bsahi.sccr-tracker launchd job is Disabled by design —
+          # two writers of sccr.json would race. sccr_live.py now also runs the
+          # derived chain (sensitivity / fee_allocation / datasets_manifest),
+          # the {{TOKEN}} page sync, and the HTML bake, so all of those are staged
+          # here too.
           git add data/bip110.json data/bip110_daily.json data/hashrate.json \
                   data/block_interval.json data/mempool_fee_histogram.json \
                   data/fee_history_blocks.json data/adoption.json \
                   data/sccr.json data/sccr_latest.json data/sccr_history.json \
+                  data/sccr_sensitivity.json data/fee_allocation.json data/datasets.json \
                   research/reproduce/input/fee_history_capture.json \
-                  research/reproduce/input/fee_history_capture.meta.json
+                  research/reproduce/input/fee_history_capture.meta.json \
+                  learn.html story.html products/sccr-index.html research/*.html
           git diff --cached --quiet || git commit -m "chore: research data $(date -u '+%Y-%m-%d %H:%M UTC')"
           # Conflict-safe sync: retry the merge, never swallow a failure.
           # A failed rebase previously shipped conflict markers into data/.
@@ -84,18 +93,27 @@ jobs:
             if git pull --rebase origin main 2>/dev/null; then break; fi
             echo "pull/rebase attempt $i failed — restoring, will retry"
             git rebase --abort 2>/dev/null || git merge --abort 2>/dev/null || true
-            git checkout --theirs data/ 2>/dev/null || git checkout HEAD -- data/ 2>/dev/null || true
+            git checkout --theirs data/ learn.html story.html products/sccr-index.html research/*.html 2>/dev/null || git checkout HEAD -- data/ 2>/dev/null || true
             sleep 5
           done
           # Fail closed: never push invalid JSON (re-validate after sync) —
           # single canonical gate (json.parse + conflict markers), shared by
           # every data-committing path.
           python3 tools/validate_data_json.py
+          # SCCR ownership: this workflow (public 24h fee endpoint -> sccr_live.py
+          # --frozen) is the single writer of the SCCR and everything derived from
+          # it. The local com.bsahi.sccr-tracker launchd job is Disabled by design —
+          # two writers of sccr.json would race. sccr_live.py now also runs the
+          # derived chain (sensitivity / fee_allocation / datasets_manifest),
+          # the {{TOKEN}} page sync, and the HTML bake, so all of those are staged
+          # here too.
           git add data/bip110.json data/bip110_daily.json data/hashrate.json \
                   data/block_interval.json data/mempool_fee_histogram.json \
                   data/fee_history_blocks.json data/adoption.json \
                   data/sccr.json data/sccr_latest.json data/sccr_history.json \
+                  data/sccr_sensitivity.json data/fee_allocation.json data/datasets.json \
                   research/reproduce/input/fee_history_capture.json \
-                  research/reproduce/input/fee_history_capture.meta.json
+                  research/reproduce/input/fee_history_capture.meta.json \
+                  learn.html story.html products/sccr-index.html research/*.html
           git diff --cached --quiet || git commit -m "chore: research data $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push

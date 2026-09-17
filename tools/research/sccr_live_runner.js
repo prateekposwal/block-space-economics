@@ -1,6 +1,13 @@
 #!/usr/bin/env node
 // BSAHI — sccr_live.py launchd runner (2026-08-14)
 //
+// STATUS (2026-09-17): the com.bsahi.sccr-tracker job that invokes this is
+// DISABLED by design. The SCCR is owned by GitHub Actions
+// (.github/workflows/research-data.yml, every 30 min: public 24h fee endpoint
+// -> sccr_live.py --frozen), which is Mac-independent. This runner would be a
+// SECOND writer of data/sccr.json. Do not re-enable without retiring the cloud
+// writer first. Kept for local/manual use.
+//
 // WHY THIS WRAPPER EXISTS (U2 fix):
 //   The com.bsahi.sccr-tracker plist originally spawned /usr/bin/python3
 //   directly. In the launchd context that is TCC-denied (Errno 1 Operation
