@@ -1,6 +1,6 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-17T08:46:38.362610+00:00",
+  "generated_at": "2026-09-17T09:19:42.707037+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
   "count": 27,
   "datasets": [
@@ -47,9 +47,9 @@
       "schema": "bsahi.fee-allocation/1",
       "layer": "modelled",
       "grade": "C",
-      "description": "Three claims on fee revenue (security/storage/node opex) per block + the subsidy crossover",
-      "bytes": 4001,
-      "updated": "2026-09-17T08:46:38.329263+00:00",
+      "description": "Three claims on fee revenue per block + the subsidy crossover + temporal price-path scenarios",
+      "bytes": 13924,
+      "updated": "2026-09-17T09:19:24.291305+00:00",
       "rows": null
     },
     {
@@ -73,7 +73,7 @@
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
       "bytes": 3647,
-      "updated": "2026-09-17T08:31:59.207042+00:00",
+      "updated": "2026-09-17T08:46:38.464440+00:00",
       "rows": null
     },
     {
@@ -168,8 +168,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Per-block SPOT samples (weight/size/tx/fee) vs the era aggregates",
-      "bytes": 12292,
-      "updated": "2026-09-17T08:35:50.744600+00:00",
+      "bytes": 18481,
+      "updated": "2026-09-17T09:16:50.430410+00:00",
       "rows": null
     },
     {
@@ -216,7 +216,7 @@
       "layer": "observed",
       "grade": "B",
       "description": "Latest Storage Cost Coverage Ratio reading (dated)",
-      "bytes": 780,
+      "bytes": 977,
       "updated": "2026-09-17T04:08:27.738961+00:00",
       "rows": null
     },
@@ -228,8 +228,8 @@
       "layer": "reconstructed",
       "grade": "B/C",
       "description": "Era-level SCCR reconstruction (daily aggregates -> era legs)",
-      "bytes": 10213,
-      "updated": "2026-09-15T19:19:58.054178+00:00",
+      "bytes": 10229,
+      "updated": "2026-09-17T09:15:59.513506+00:00",
       "rows": 14
     },
     {
@@ -240,8 +240,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Daily SCCR series",
-      "bytes": 4397,
-      "updated": "2026-09-17T05:14:35.398745+00:00",
+      "bytes": 4399,
+      "updated": "2026-09-17T09:14:53.556876+00:00",
       "rows": null
     },
     {
@@ -252,8 +252,8 @@
       "layer": "modelled",
       "grade": "C",
       "description": "SCCR sensitivity bands, bootstrap CI and stress test",
-      "bytes": 5116,
-      "updated": "2026-09-17T04:23:26.818855+00:00",
+      "bytes": 5105,
+      "updated": "2026-09-17T09:15:59.891699+00:00",
       "rows": null
     },
     {

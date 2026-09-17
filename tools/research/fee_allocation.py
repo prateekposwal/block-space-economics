@@ -110,6 +110,47 @@ def main():
             fee_cover_year = row["year"]
             break
 
+    # ── Temporal expansion (Phase C2): the fee requirement per halving epoch ──
+    # Price PATHS are scenarios (grade C). The subsidy halving is arithmetic (A).
+    # The insight to encode: if price doubles each epoch, the USD subsidy is
+    # ~constant, because the halving cancels the appreciation — so the nominal
+    # security protection plateaus and CANNOT be relied on to grow.
+    def path_rows(path):
+        rows = []
+        for r in subsidy_schedule():
+            y, sub = r["year"], r["subsidy_btc"]
+            if y not in path and y > max(path):
+                # continue the last growth rate after the specified points
+                yrs = sorted(path)
+                g = (path[yrs[-1]] / path[yrs[-2]]) ** (1.0 / (yrs[-1] - yrs[-2])) if len(yrs) > 1 else 1.0
+                price_y = path[yrs[-1]] * (g ** (y - yrs[-1]))
+            else:
+                price_y = path.get(y, path[max(path)])
+            subsidy_usd = sub * price_y
+            deficit = max(0.0, energy_usd_block - subsidy_usd)
+            rows.append({
+                "year": y, "subsidy_btc": sub, "price_usd": round(price_y, 0),
+                "subsidy_usd_per_block": round(subsidy_usd, 0),
+                "production_deficit_usd_per_block": round(deficit, 0),
+                "storage_claim_usd_per_block": round(storage_block, 0),
+                "total_fee_needed_usd_per_block": round(deficit + storage_block, 0),
+                "subsidy_covers_energy": subsidy_usd >= energy_usd_block,
+            })
+        return rows
+
+    paths = {
+        "bsahi_specified": {2024: 50000, 2028: 78000, 2032: 150000, 2036: 300000},
+        "flat_current_price": {y: (price or 68000) for y in (2024, 2028, 2032, 2036)},
+        "double_each_epoch": {},
+    }
+    # build double-each-epoch from the current price
+    p0 = price or 68000
+    paths["double_each_epoch"] = {2024 + 4 * i: p0 * (2 ** i) for i in range(10)}
+
+    temporal = {name: path_rows(path)[: (6 if name == "bsahi_specified" else 10)] for name, path in paths.items()}
+    spec_rows = temporal["bsahi_specified"]
+    plateau = [r["subsidy_usd_per_block"] for r in spec_rows if r["year"] >= 2032]
+
     out = {
         "schema": "bsahi.fee-allocation/1",
         "layer": "modelled",
@@ -157,6 +198,17 @@ def main():
             f"is still paying the security bill. Under a flat price the subsidy alone stops covering energy around "
             f"{fee_cover_year}."
         ) if price else "insufficient recent price/fee data",
+        "temporal": {
+            "layer": "modelled",
+            "grade": "C — price paths are scenarios; the halving is arithmetic",
+            "paths": temporal,
+            "invariant": ("If price doubles each halving epoch, the USD subsidy is ~constant "
+                          f"(observed plateau ~${plateau[0]:,.0f}/block across the specified path), because the "
+                          "halving cancels the appreciation. Nominal security protection therefore does not "
+                          "grow with an appreciating price on this path — the fee requirement rises on schedule "
+                          "regardless."),
+            "note": "production_deficit = max(0, energy_cost - subsidy_usd). total_fee_needed adds the modeled storage claim.",
+        },
         "caveat": ("Miners are fee RECIPIENTS and validators are cost BEARERS — that asymmetry is the externality. "
                    "The 241k/218k address figures are addresses, not nodes, and are not used here."),
     }
