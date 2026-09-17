@@ -190,9 +190,11 @@ fetch('/data/utxo_state_series.json').then(function(r){return r.json();}).then(f
   ]));
 }).catch(function(){});
 fetch('/data/verify_cost_index.json').then(function(r){return r.json();}).then(function(d){
-  var h=d.headline_readings||{};
+  var h=d.headline||{}, cf=d.confidence||{};
   document.getElementById('calib-readout').appendChild(card('Verification Cost Index (row 7, prototype)',[
-    '<span style="color:var(--ink)">'+h.verification_time_days_stayed_flat+'</span> — sync-time reading; '+h.satoshi_claim_reading
+    '<b>Headline: '+h.metric+'</b> — '+h.top_line,
+    'Evidence grade: <span style="color:var(--warn)">'+(cf.overall_grade||'?')+'</span>; components graded individually (storage B, state D, throughput C, labour D). The absolute dollar level is scenario-limited and is <b>not</b> the headline.',
+    '<a href="/research/verification-cost-index">Read the verification-burden note →</a>'
   ]));
 }).catch(function(){});
 </script>

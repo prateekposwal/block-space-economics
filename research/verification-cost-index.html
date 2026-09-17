@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mining energy cost vs production value by era: the ratio rose from 0.32 (2017) to 0.84 (2026) while fees fell from 35.7% to 0.7% of production cost.">
+<meta property="og:title" content="Verification Cost Index — the verification-burden trend">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/verification-cost-index">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/verification-cost-index">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Verification Cost Index","item":"https://bitcoinsahi.com/research/verification-cost-index"}]}
+</script>
+<title>Verification Cost Index: the Verification-Burden Trend</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Verification Cost Index \u2014 the verification-burden trend","name":"Verification Cost Index \u2014 the verification-burden trend","url":"https://bitcoinsahi.com/research/verification-cost-index","mainEntityOfPage":"https://bitcoinsahi.com/research/verification-cost-index","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","about":["Bitcoin","verification","node burden"],"datePublished":"2026-09-17","dateModified":"2026-09-17"}
+</script>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Verification Cost Index — the verification-burden trend</h1>
+<p><strong>BSAHI — verification-side instrument (prototype)</strong> <em>Produced: 2026-09-17 · Instrument: <code>tools/research/verify_cost_index.py</code></em></p>
+<h2>Headline</h2>
+<p><strong>Verification burden trend.</strong> Under this scenario, independent verification did NOT get materially harder across 2013-2026: sync time stayed roughly flat (~1-2 days) while the cost relative to the value verified collapsed ~17x.</p>
+<p>Absolute dollar figures are scenario-limited: node throughput is assumed, wage/income is held constant, and UTXO state is reconstructed. The trend is the claim; the level is not.</p>
+<p>The absolute dollar figure is deliberately <strong>not</strong> the headline. The index asks Satoshi&#x27;s node-burden question — does verification cost grow faster than the value of what is verified? — and the answer that survives the assumptions is about <strong>direction</strong>, not level.</p>
+<h2>Components (secondary)</h2>
+<div class="table-wrap">
+<table>
+<tr><th>component</th><th>role</th><th>basis</th><th>grade</th></tr>
+<tr><td>chain storage</td><td>must be downloaded and kept</td><td>cumulative frozen avg-block-size series</td><td>B</td></tr>
+<tr><td>UTXO / chain state</td><td>must be held in memory/DB to validate</td><td>reconstructed era table (anchors + interpolation); observed gettxoutsetinfo layer now being measured</td><td>D</td></tr>
+<tr><td>bandwidth / sync throughput</td><td>sets sync time</td><td>assumed commodity archive-sync table (era-scaled)</td><td>C</td></tr>
+<tr><td>sync time</td><td>the time burden</td><td>derived: chain size / assumed throughput</td><td>C</td></tr>
+<tr><td>hardware</td><td>capex to verify</td><td>not modeled in this leg</td><td>—</td></tr>
+<tr><td>electricity</td><td>energy to verify</td><td>see the production-cost note (scenario model)</td><td>C</td></tr>
+<tr><td>operator labour</td><td>human cost</td><td>assumed wage ($25/h) and time share</td><td>D</td></tr>
+</table>
+</div>
+<h2>Per-era readings</h2>
+<div class="table-wrap">
+<table>
+<tr><th>era</th><th>chain GB</th><th>total GB</th><th>sync days</th><th>sync cost $ (scenario)</th><th>VCI ppm of annual value</th><th>affordability % of monthly income</th></tr>
+<tr><td>2013</td><td>13.47</td><td>13.97</td><td>0.93</td><td>558.69</td><td>1.615</td><td>13.967</td></tr>
+<tr><td>2014</td><td>27.67</td><td>28.37</td><td>0.95</td><td>567.38</td><td>0.575</td><td>14.185</td></tr>
+<tr><td>2015</td><td>55.51</td><td>56.51</td><td>1.13</td><td>678.1</td><td>1.591</td><td>16.952</td></tr>
+<tr><td>2016</td><td>99.37</td><td>101.07</td><td>1.44</td><td>866.35</td><td>1.474</td><td>21.659</td></tr>
+<tr><td>2017</td><td>150.67</td><td>153.17</td><td>1.7</td><td>1021.16</td><td>0.296</td><td>25.529</td></tr>
+<tr><td>2018</td><td>202.19</td><td>205.39</td><td>1.87</td><td>1120.3</td><td>0.203</td><td>28.007</td></tr>
+<tr><td>2019</td><td>261.75</td><td>265.75</td><td>1.9</td><td>1138.91</td><td>0.216</td><td>28.473</td></tr>
+<tr><td>2020</td><td>327.03</td><td>332.03</td><td>1.84</td><td>1106.78</td><td>0.22</td><td>27.669</td></tr>
+<tr><td>2021</td><td>395.78</td><td>401.78</td><td>1.83</td><td>1095.76</td><td>0.065</td><td>27.394</td></tr>
+<tr><td>2022</td><td>463.71</td><td>470.71</td><td>1.81</td><td>1086.25</td><td>0.113</td><td>27.156</td></tr>
+<tr><td>2023</td><td>555.7</td><td>564.7</td><td>1.88</td><td>1129.41</td><td>0.106</td><td>28.235</td></tr>
+<tr><td>2024</td><td>645.74</td><td>655.74</td><td>1.93</td><td>1157.19</td><td>0.077</td><td>28.93</td></tr>
+<tr><td>2025</td><td>729.64</td><td>740.64</td><td>1.95</td><td>1169.44</td><td>0.067</td><td>29.236</td></tr>
+<tr><td>2026</td><td>789.45</td><td>800.45</td><td>2.0</td><td>1200.67</td><td>0.096</td><td>30.017</td></tr>
+</table>
+</div>
+<h2>Confidence</h2>
+<ul>
+<li><strong>Overall grade: C.</strong> Evidence grade C: the trend is robust to the assumptions (it is the SHAPE), but the absolute ratios are scenario-limited and are NOT the headline.</li>
+<li><strong>Measured:</strong> chain size (frozen daily series); value verified (miners revenue, frozen series).</li>
+<li><strong>Assumed:</strong> node throughput; UTXO/state size (reconstructed); wage/income; operator time share.</li>
+<li><strong>What would move it:</strong> capture real IBD benchmarks (sync wall-clock on commodity hardware); swap the reconstructed UTXO table for the observed series as it accumulates; measured hardware/energy/labour costs rather than assumptions.</li>
+</ul>
+<h2>Method (brief)</h2>
+<p>Verification time = total bytes to verify (chain + state) ÷ an assumed era-scaled commodity throughput. Verifiable value = miners&#x27; revenue (frozen daily series). The index reports verification cost as parts-per-million of one year of the value verified, plus affordability as a share of a fixed monthly income. Full assumptions in the data file.</p>
+<h2>Roadmap to a harder metric</h2>
+<ol>
+<li>Capture real IBD benchmarks (wall-clock sync on commodity hardware) instead of assuming throughput.</li>
+<li>Swap the reconstructed UTXO/state table for the <strong>observed</strong> series as <code>utxo_state_measure.py</code> accumulates rows.</li>
+<li>Replace assumed wage/energy with measured values.</li>
+</ol>
+<div class="datacard"><div class="kv">Data source: <code>data/verify_cost_index.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>

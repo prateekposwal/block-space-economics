@@ -133,6 +133,47 @@ def main():
             "satoshi_claim_reading": "On time-cost, node burden stayed FLAT (Satoshi's bigger-farms prediction did not materialize as runaway sync time). On value-relative cost, independent verification became far MORE affordable. The verification-access boundary was not crossed on cost grounds in 2013-2026 under this scenario.",
             "sensitivity": "Result scales linearly in the throughput assumption; lower per-era throughput raises both the flat time curve and the affordability rise. No IBD-benchmark or real UTXO series is captured yet — grade C live, D historical.",
         },
+        # ── Presentation: trend-first, components second, confidence always ──
+        # The absolute dollar level is scenario-limited (throughput is assumed,
+        # wages/income held constant, UTXO state reconstructed). The defensible
+        # claim is the SHAPE, so the trend is the headline and the level is not.
+        "headline": {
+            "metric": "Verification burden trend",
+            "top_line": ("Under this scenario, independent verification did NOT get materially "
+                         "harder across 2013-2026: sync time stayed roughly flat (~1-2 days) "
+                         "while the cost relative to the value verified collapsed ~%.0fx."
+                         % ((vci_2013 / vci_2026) if vci_2026 else 0)),
+            "why_trend_not_dollars": ("Absolute dollar figures are scenario-limited: node throughput "
+                                      "is assumed, wage/income is held constant, and UTXO state is "
+                                      "reconstructed. The trend is the claim; the level is not."),
+        },
+        "components": [
+            {"component": "chain storage", "role": "must be downloaded and kept",
+             "basis": "cumulative frozen avg-block-size series", "grade": "B"},
+            {"component": "UTXO / chain state", "role": "must be held in memory/DB to validate",
+             "basis": "reconstructed era table (anchors + interpolation); observed gettxoutsetinfo layer now being measured",
+             "grade": "D"},
+            {"component": "bandwidth / sync throughput", "role": "sets sync time",
+             "basis": "assumed commodity archive-sync table (era-scaled)", "grade": "C"},
+            {"component": "sync time", "role": "the time burden",
+             "basis": "derived: chain size / assumed throughput", "grade": "C"},
+            {"component": "hardware", "role": "capex to verify",
+             "basis": "not modeled in this leg", "grade": "—"},
+            {"component": "electricity", "role": "energy to verify",
+             "basis": "see the production-cost note (scenario model)", "grade": "C"},
+            {"component": "operator labour", "role": "human cost",
+             "basis": "assumed wage ($25/h) and time share", "grade": "D"},
+        ],
+        "confidence": {
+            "overall_grade": "C",
+            "measured": ["chain size (frozen daily series)", "value verified (miners revenue, frozen series)"],
+            "assumed": ["node throughput", "UTXO/state size (reconstructed)", "wage/income", "operator time share"],
+            "what_would_move_it": ["capture real IBD benchmarks (sync wall-clock on commodity hardware)",
+                                   "swap the reconstructed UTXO table for the observed series as it accumulates",
+                                   "measured hardware/energy/labour costs rather than assumptions"],
+            "statement": ("Evidence grade C: the trend is robust to the assumptions (it is the SHAPE), "
+                          "but the absolute ratios are scenario-limited and are NOT the headline."),
+        },
         "inputs": ["captured-data/historical/blockchain.info/avg-block-size.json",
                    "captured-data/historical/blockchain.info/miners-revenue.json"],
         "eras": eras,
