@@ -39,7 +39,9 @@ B_BLOCK = 1_500_000          # bytes/block assumption used by the kit (model-spe
 # Assumption ranges. N and C are the two with real evidence behind the range:
 # N: independent node-count estimates span ~10K-100K (our census is a >=32K lower bound);
 # C: full-node annualized cost ~$500-1500 (hardware + power + bandwidth).
-GRID_N = [10_000, 32_000, 100_000]
+# Centre the grid on the MEASURED reachable-node count (model-spec N), with
+# the 10K-100K estimate band around it.
+GRID_N = sorted({10_000, 100_000, json.load(open(os.path.join(ROOT, "research", "model-spec.json")))["quantities"]["N"]["value"]})
 GRID_T = [5, 10, 20]
 GRID_C = [500, 925, 1500]
 SEED = 20260917

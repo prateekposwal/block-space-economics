@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.fee-allocation/1",
   "layer": "modelled",
-  "generated_at": "2026-09-17T08:46:38.329263+00:00",
+  "generated_at": "2026-09-17T09:15:06.832857+00:00",
   "method": "tools/research/fee_allocation.py \u2014 three claims on fee revenue, per block, and the subsidy crossover. Subsidy arithmetic is exact; prices/energy are a scenario.",
   "current": {
     "year": 2026,
@@ -9,8 +9,8 @@
     "subsidy_btc": 3.125,
     "claims_usd_per_block": {
       "security_energy_cost": 198549.0,
-      "storage_externality_L_net": 5628.0,
-      "network_node_opex_1yr_per_block": 562.78
+      "storage_externality_L_net": 4676.0,
+      "network_node_opex_1yr_per_block": 467.57
     },
     "revenue_usd_per_block": {
       "subsidy": 212517.0,
@@ -21,8 +21,8 @@
     "coverage_pct": {
       "security_by_subsidy_pct": 107.0,
       "security_by_fees_pct": 0.7,
-      "storage_by_fees_pct": 28.8,
-      "network_node_opex_1yr_by_fees_pct": 251.4
+      "storage_by_fees_pct": 34.7,
+      "network_node_opex_1yr_by_fees_pct": 302.6
     }
   },
   "halving_schedule": [
@@ -68,7 +68,7 @@
     }
   ],
   "crossovers": {
-    "combined_claim_usd_per_block": 204177.0,
+    "combined_claim_usd_per_block": 203225.0,
     "fees_must_cover_security_from_year": 2028,
     "scenarios": [
       {
@@ -100,6 +100,6 @@
     "fee revenue": "B (frozen series: transaction-fees BTC/day x market price)",
     "multi-decade projection": "C (scenario)"
   },
-  "headline": "Fees must eventually fund both security and the storage/verification burden; today they fund almost neither. At ~$68,005/BTC the 2026 fee revenue is ~$1,415/block against a ~$198,549/block energy cost to produce a block and a ~$5,628/block modeled 10-year storage cost \u2014 so fees cover 0.7% of production and 28.8% of storage, while the subsidy (107.0% of energy cost) is still paying the security bill. Under a flat price the subsidy alone stops covering energy around 2028.",
+  "headline": "Fees must eventually fund both security and the storage/verification burden; today they fund almost neither. At ~$68,005/BTC the 2026 fee revenue is ~$1,415/block against a ~$198,549/block energy cost to produce a block and a ~$4,676/block modeled 10-year storage cost \u2014 so fees cover 0.7% of production and 34.7% of storage, while the subsidy (107.0% of energy cost) is still paying the security bill. Under a flat price the subsidy alone stops covering energy around 2028.",
   "caveat": "Miners are fee RECIPIENTS and validators are cost BEARERS \u2014 that asymmetry is the externality. The 241k/218k address figures are addresses, not nodes, and are not used here."
 }

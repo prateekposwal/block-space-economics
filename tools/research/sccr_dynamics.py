@@ -49,7 +49,14 @@ def load_spec():
 # fee_sats_per_block implied by 0.2228 at P=$63K: fee_USD = 0.2228*L_net;
 # sats = fee_USD / P * 1e8.  ~1.99 sat/vB at the 1M-vB block-weight limit.
 BASE_P = 63000.0
-BASE_FEE_SATS = 0.2228 * (925.0 * 10.0 * 32000.0 / 52596.0) / 63000.0 * 1e8
+# N from model-spec.json (single source of truth; re-based 2026-09-17)
+def _spec_n():
+    import os as _os, json as _json
+    _r = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+    return _json.load(open(_os.path.join(_r, 'research', 'model-spec.json')))['quantities']['N']['value']
+_SPEC_N = _spec_n()
+
+BASE_FEE_SATS = 0.2228 * (925.0 * 10.0 * _SPEC_N / 52596.0) / 63000.0 * 1e8
 BASE_SCCR = 0.2228
 
 # frozen-capture cross-check (reproduce.py --json, 171 blocks)
@@ -75,7 +82,7 @@ def scenario(tag, label, P, fee_mult, N_mult, C_mult, T=10.0, R=52596.0,
     canonical C=925, N=32000. Returns dict + computed SCCR."""
     fs = fee_sats if fee_sats is not None else BASE_FEE_SATS * fee_mult
     C = 925.0 * C_mult
-    N = 32000.0 * N_mult
+    N = _SPEC_N * N_mult
     return {
         'tag': tag, 'label': label,
         'P_usd': P, 'fee_mult': fee_mult, 'fee_sats_per_block': fs,

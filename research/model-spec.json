@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.model-spec/1",
   "file": "research/model-spec.json",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "supersedes": "research/methodology.json v1.0.0",
   "date": "2026-08-04",
   "status": "canonical",
@@ -34,15 +34,14 @@
     },
     "N": {
       "symbol": "N",
-      "name": "full-node replication factor",
+      "name": "full-node replication factor (validating nodes bearing storage cost)",
       "units": "nodes",
       "kind": "input",
-      "value": 32000,
-      "canonicalSource": "agent-25 node-census: `getnodeaddresses 32000` on a local Bitcoin Core node returned 32,000 addresses (2026-08-02). 32,000 was the REQUESTED ceiling and it was returned in full, so the node's address manager held AT LEAST 32,000 gossiped addresses. This is a lower bound on ADDRESSES SEEN IN ADDR GOSSIP, not a count of nodes and not a bound on reachable nodes. Measured reachable-node count: 26,586 (btcnodes scan, 2026-09-16). See data/verification_population.json.",
-      "captured_at": "2026-08-02T19:05:03.982Z",
-      "census_date": "2026-08-02",
-      "note": "SUPERSEDED AS A NODE COUNT (2026-09-17). The value 32,000 is retained only so existing results remain reproducible; it must not be described as a node count or as 'N >= 32K nodes'. The address manager is a sample shaped by peer count and uptime (this node: 8 peers, ~hours), so it is a lower bound on a non-node quantity. SCCR is inverse-linear in N; N 32K -> 26.6K moves the headline ~+20%. Phase C re-bases N on the observability model (see /research/verification-population).",
-      "deprecated_as_node_count": true,
+      "value": 26586,
+      "canonicalSource": "MEASURED reachable validating-node count: 26,586 (btcnodes reachable-node crawl, 2026-09-16; data/node_census_series.json). Validating nodes bear the storage cost; miners (a few dozen pools) are separate fee recipients and are not counted here. Non-listening/private nodes are not remotely observable, so this is a measured LOWER bound on validating nodes \u2014 a larger N would lower the SCCR.",
+      "captured_at": "2026-09-16",
+      "census_date": "2026-09-16",
+      "note": "Re-based 2026-09-17 from the previous 32,000 (an addrman ADDRESS sample at the request ceiling, never a node count) to the measured reachable validating-node count. SCCR is inverse-linear in N, so the headline rises by 32000/26586 = 1.2036x (+20.4%). N is a lower bound (non-listening nodes are invisible); the true validating set is larger, which would lower the SCCR. See /research/verification-population.",
       "superseded_by": "data/verification_population.json"
     },
     "T": {

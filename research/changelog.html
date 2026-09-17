@@ -75,6 +75,14 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <div class="container">
 <h1>Research Changelog</h1>
 <p>Dated changes to BSAHI&#x27;s measurements, grades, and methods. Corrections are recorded here with their cause. Newest first.</p>
+<h2>2026-09-17 — Phase C: N re-based to the measured validating-node count</h2>
+<ul>
+<li><strong>N: 32,000 -&gt; 26,586</strong> (measured reachable validating-node count, btcnodes 2026-09-16). The previous 32,000 was an address-manager sample at the request ceiling, never a node count.</li>
+<li>SCCR is inverse-linear in N, so <strong>every SCCR value rises by 32000/26586 = 1.2036x (+20.4%)</strong>: the live headline moves <strong>0.2883 -&gt; 0.347</strong>; <code>L_net</code> 5,627.80 -&gt; <strong>4,675.65</strong> USD/block.</li>
+<li>Regenerated: <code>sccr.json</code>, <code>sccr_latest.json</code>, <code>sccr_history.json</code> (37 points, exact rescale), <code>sccr_historical_series.json</code>, <code>sccr_sensitivity.json</code>, <code>fee_allocation.json</code>. Re-based the working paper&#x27;s headline figures and labelled §5.4 as the pre-re-base record.</li>
+<li>Root-cause fix: <code>sccr_historical_reconstruct.py</code>, <code>sccr_dynamics.py</code> and <code>sccr_sensitivity.py</code> now <strong>read N from <code>model-spec.json</code></strong> instead of hardcoding 32,000 — single source of truth.</li>
+<li>N remains a <strong>lower bound</strong> (non-listening nodes are unobservable); a larger N would lower the SCCR. Spec version 2.1.0 -&gt; <strong>2.1.1</strong>.</li>
+</ul>
 <h2>2026-09-17 — Fee allocation &amp; security budget (Phase C2)</h2>
 <ul>
 <li>New instrument <code>tools/research/fee_allocation.py</code> -&gt; <code>data/fee_allocation.json</code>: the three claims on fee revenue, per block, and the subsidy crossover. 2026: security/production claim <strong>$198,549/block</strong> (fees cover 0.7%, subsidy 107%), storage externality <strong>$5,628/block</strong> (fees cover 28.8% = the SCCR), fee revenue <strong>$1,415/block</strong>. At the current price the subsidy alone stops covering the network energy cost of production around <strong>2028</strong>.</li>

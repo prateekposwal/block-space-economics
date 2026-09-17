@@ -28,7 +28,14 @@ OUT = os.path.join(ROOT, "data", "sccr_historical_series.json")
 C_USD = 925.0
 T_YRS = 10.0
 R_BLOCKS = 52596.0
-N_PRINCIPAL = 32000
+# Single source of truth: N from model-spec.json (re-based 2026-09-17 to the
+# measured reachable validating-node count).
+def _spec_n():
+    import os as _os, json as _json
+    _root = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+    return _json.load(open(_os.path.join(_root, "research", "model-spec.json")))["quantities"]["N"]["value"]
+
+N_PRINCIPAL = _spec_n()
 
 # Era-adjusted node approximation table — NOT repo measurements.
 # Anchored to the Q7 reverse-engineering (8k/2017, 15k/2023) and the general

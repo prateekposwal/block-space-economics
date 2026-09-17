@@ -5,6 +5,24 @@
 Dated changes to BSAHI's measurements, grades, and methods. Corrections are
 recorded here with their cause. Newest first.
 
+## 2026-09-17 — Phase C: N re-based to the measured validating-node count
+
+- **N: 32,000 -> 26,586** (measured reachable validating-node count, btcnodes
+  2026-09-16). The previous 32,000 was an address-manager sample at the request
+  ceiling, never a node count.
+- SCCR is inverse-linear in N, so **every SCCR value rises by 32000/26586 =
+  1.2036x (+20.4%)**: the live headline moves **0.2883 -> 0.347**; `L_net`
+  5,627.80 -> **4,675.65** USD/block.
+- Regenerated: `sccr.json`, `sccr_latest.json`, `sccr_history.json` (37 points,
+  exact rescale), `sccr_historical_series.json`, `sccr_sensitivity.json`,
+  `fee_allocation.json`. Re-based the working paper's headline figures and
+  labelled §5.4 as the pre-re-base record.
+- Root-cause fix: `sccr_historical_reconstruct.py`, `sccr_dynamics.py` and
+  `sccr_sensitivity.py` now **read N from `model-spec.json`** instead of
+  hardcoding 32,000 — single source of truth.
+- N remains a **lower bound** (non-listening nodes are unobservable); a larger N
+  would lower the SCCR. Spec version 2.1.0 -> **2.1.1**.
+
 ## 2026-09-17 — Fee allocation & security budget (Phase C2)
 
 - New instrument `tools/research/fee_allocation.py` -> `data/fee_allocation.json`:
