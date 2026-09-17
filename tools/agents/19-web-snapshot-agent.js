@@ -318,6 +318,17 @@ async function runAsync() {
       console.error('snapshot data validation failed — NOT committing:', (e.message || ''));
       return snapshot;
     }
+    // Bake the static HTML surfaces (SCCR cards, the dashboard card set, the hub
+    // chart) from the data/ we are about to commit, so a no-JS / crawler snapshot
+    // is at most one cycle old. The population (hourly), per-block (30 min) and
+    // UTXO (6 h) supervisors write between the daily sccr-tracker runs, so without
+    // this the baked fallback could lag the data by up to a day. Best-effort:
+    // bake_sccr_html.py is deterministic from data/, so a failure never blocks.
+    try {
+      require('child_process').execFileSync('python3', [path.join(REPO, 'tools', 'bake_sccr_html.py')], { cwd: REPO, stdio: 'inherit' });
+    } catch (e) {
+      console.error('html bake failed (non-fatal, continuing):', e.message);
+    }
     try {
       // SSH keepalives for github.com — this 8GB box's slow loose-store
       // enumeration used to idle-timeout mid-fetch/mid-push (early EOF,
@@ -326,14 +337,14 @@ async function runAsync() {
       // would apply to the first command only.
       var syncCmd = "export GIT_SSH_COMMAND='ssh -o ServerAliveInterval=15 -o ServerAliveCountMax=4'; ";
       // Stage + commit data/ only when something actually changed (existing behavior).
-      syncCmd += 'git add data/ && git diff --cached --quiet || (git -c user.name="bsahi-snapshot-bot" -c user.email="snapshot@bitcoinsahi.com" commit -m "chore: public snapshot ' + new Date().toISOString().slice(0, 16) + '"); ';
+      syncCmd += 'git add data/ && git add learn.html story.html products/sccr-index.html research/index.html research/dashboard.html 2>/dev/null; git diff --cached --quiet || (git -c user.name="bsahi-snapshot-bot" -c user.email="snapshot@bitcoinsahi.com" commit -m "chore: public snapshot ' + new Date().toISOString().slice(0, 16) + '"); ';
       // Conflict-safe sync: pull/rebase, and on conflict RESOLVE the rebase in-place
       // (keep our freshly-regenerated data via --ours, then continue) — never reset
       // --hard, never abort into a conflicted state, never swallow a failure.
       // Runs EVERY cycle (not only when data/ changed) so a drifted origin is
       // fast-forwarded/replayed before the retry push — keeps the push
       // non-force and fast-forward-only.
-      syncCmd += '(git pull --rebase --autostash origin main 2>/dev/null && echo pull-ok) || { echo "pull conflict — resolving in place"; git checkout --ours data/ 2>/dev/null; git add data/; git -c user.name="bsahi-snapshot-bot" -c user.email="snapshot@bitcoinsahi.com" -c core.editor=true commit --no-edit --allow-empty -m "chore: resolve snapshot conflict ' + new Date().toISOString().slice(0, 16) + '" 2>/dev/null; git rebase --continue 2>/dev/null || git commit --no-edit 2>/dev/null; }; ';
+      syncCmd += '(git pull --rebase --autostash origin main 2>/dev/null && echo pull-ok) || { echo "pull conflict — resolving in place"; git checkout --ours data/ learn.html story.html products/sccr-index.html research/index.html research/dashboard.html 2>/dev/null; git add data/ learn.html story.html products/sccr-index.html research/index.html research/dashboard.html 2>/dev/null; git -c user.name="bsahi-snapshot-bot" -c user.email="snapshot@bitcoinsahi.com" -c core.editor=true commit --no-edit --allow-empty -m "chore: resolve snapshot conflict ' + new Date().toISOString().slice(0, 16) + '" 2>/dev/null; git rebase --continue 2>/dev/null || git commit --no-edit 2>/dev/null; }; ';
       // Explicit refspec push (never force). Runs EVERY cycle so a previously
       // failed push is RETRIED even when data/ is unchanged. A push failure is
       // non-fatal: logged, local commits kept, next cycle retries them — the
