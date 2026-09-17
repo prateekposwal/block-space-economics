@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="No public source publishes a continuous historical UTXO-count series. What is reachable (3.9B cumulative outputs, a 769 GB chain) and the chain-leg cross-check.">
+<meta property="og:title" content="UTXO State Measurement — Observed vs Reconstructed">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/utxo-state-measurement">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/utxo-state-measurement">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"UTXO State Measurement","item":"https://bitcoinsahi.com/research/utxo-state-measurement"}]}
+</script>
+<title>UTXO State: Observed, Reconstructed, and Current</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"UTXO State Measurement \u2014 Observed vs Reconstructed","name":"UTXO State Measurement \u2014 Observed vs Reconstructed","url":"https://bitcoinsahi.com/research/utxo-state-measurement","mainEntityOfPage":"https://bitcoinsahi.com/research/utxo-state-measurement","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","about":["Bitcoin","UTXO set","chain state","verification burden"],"datePublished":"2026-09-17","dateModified":"2026-09-17"}
+</script>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>UTXO State Measurement — Observed vs Reconstructed</h1>
+<p><strong>Program:</strong> Bitcoin Resource Accounting (BSAHI) · <strong>Priority #1: UTXO/chain state</strong> <strong>Instrument:</strong> <code>tools/research/utxo_state_measure.py</code> (Bitcoin Core RPC)</p>
+<hr>
+<h2>Why this note exists</h2>
+<p>The UTXO set is part of the real verification burden every full node carries. Until now the project published an <strong>era estimate table</strong> (0.5 GB → 11 GB across 2013–2026) derived from anchors and interpolation — honest, but still a reconstruction. This note separates three things that must not be mixed, and adds the first <strong>observed</strong> measurements from a real Bitcoin Core node.</p>
+<h2>The three layers (do not mix them)</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Layer</th><th>What it is</th><th>Source</th><th>Grade</th></tr>
+<tr><td><strong>Observed</strong></td><td><code>gettxoutsetinfo</code> from a real node, at a specific height</td><td>Bitcoin Core RPC</td><td><strong>A</strong> (where measured)</td></tr>
+<tr><td><strong>Reconstructed</strong></td><td>The 2013–2026 era estimate table used by the VCI</td><td>anchors + interpolation</td><td><strong>D</strong></td></tr>
+<tr><td><strong>Current / live</strong></td><td>The newest observed row</td><td>latest measurement</td><td><strong>A</strong> (dated)</td></tr>
+</table>
+</div>
+<p>The reconstructed table is not wrong — it is <em>unverified</em>. The observed layer does not replace it; it grades it where measurements exist, and it is the only layer that can ever be cited as a measurement.</p>
+<h2>The instrument</h2>
+<p><code>tools/research/utxo_state_measure.py</code> reads RPC credentials from <code>bitcoin.conf</code>, calls <code>getblockchaininfo</code> + <code>gettxoutsetinfo</code>, and appends one row per height to an <strong>append-only</strong> store:</p>
+<pre><code>Bitcoin Core node (gettxoutsetinfo)
+        ↓
+data/utxo_state_series.jsonl     (append-only, one row per height; corrections are new rows)
+data/utxo_state_latest.json      (most recent observed row)
+data/utxo_state_series.json      (site-readable array + summary)
+captured-data/utxo-state/        (raw RPC responses, for audit)</code></pre>
+<p>Each row records: <code>height</code>, <code>bestblock</code>, <code>utxo_count</code>, <code>total_amount_btc</code>, <code>disk_size_bytes</code> (the node&#x27;s own UTXO DB size), <code>chainstate_disk_bytes</code>, <code>bogosize_bytes</code>, <code>utxo_hash</code> (muhash), <code>verificationprogress</code>, <code>initialblockdownload</code>, and <code>measured_at</code>. It is idempotent by height, so it can be run by hand, by cron, or by launchd without duplicating rows.</p>
+<h2>First observed measurement</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Height</th><th>UTXOs</th><th>Total BTC</th><th>UTXO DB size</th><th>Node state</th></tr>
+<tr><td>671,462</td><td>72,234,156</td><td>18,633,940</td><td>4.39 GB</td><td>IBD (progress 0.41)</td></tr>
+</table>
+</div>
+<p>This is a genuine <code>gettxoutsetinfo</code> result from a real node — the first <strong>observed</strong> UTXO/state datum in the project. It is recorded at its height, not presented as &quot;current&quot;: the node was still in initial block download when it was captured.</p>
+<h2>The blocker (stated plainly)</h2>
+<p>The node cannot currently reach the chain tip: <strong>the volume is out of disk</strong> (<code>No space left on device</code>, 604 MiB free), and Bitcoin Core shut down mid-sync while flushing its chainstate. The last complete session had reached height 672,083 (2021-02-25). Reaching the tip — and therefore a <em>current</em> measurement — requires free disk space for the chainstate (~4.4 GB at 2021, growing) plus the pruned block store.</p>
+<p>The pipeline is finished and proven; what it needs is disk.</p>
+<h2>Reproduce / operate</h2>
+<pre><code>python3 tools/research/utxo_state_measure.py            # measure now (skips a known height)
+python3 tools/research/utxo_state_measure.py --force    # re-record the current height
+python3 tools/research/utxo_state_measure.py --hash none # fastest (no muhash commitment)</code></pre>
+<p>To build the series automatically, run it on a timer (launchd/cron) while the node is up; each run appends at most one row, and the series grows as the node advances.</p>
+<h2>Roadmap</h2>
+<ol>
+<li>Free disk space; let the node reach the tip → first <strong>current</strong> measurement.</li>
+<li>Capture daily at a fixed hour → a true observed <strong>time series</strong> whose growth is the state burden, measured rather than modeled.</li>
+<li>Grade the reconstructed era table against observed rows as they accumulate, and narrow the D as evidence arrives.</li>
+<li>Add regional/state-size detail (per-output-type) once the series is stable.</li>
+</ol>
+<h2>Grades</h2>
+<ul>
+<li><strong>Observed UTXO/state:</strong> A (direct measurement; single row today).</li>
+<li><strong>Reconstructed era table:</strong> D — unchanged, and now explicitly labelled as reconstruction rather than measurement.</li>
+<li><strong>Cross-check:</strong> the VCI chain-size leg remains validated to 2.7% against blockchair&#x27;s direct <code>blockchain_size</code> (see the reachability note).</li>
+</ul>
+<div class="datacard"><div class="kv">Data source: <code>data/utxo_state_series.json + verify_cost_index.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>
