@@ -85,6 +85,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <tr><td><strong>Production-cost scenarios</strong></td><td>minutes</td><td><code>tools/research/production_cost_ratio.py</code></td></tr>
 <tr><td><strong>Verification-burden trend</strong></td><td>minutes</td><td><code>tools/research/verify_cost_index.py</code></td></tr>
 <tr><td><strong>SCCR sensitivity / CI</strong></td><td>seconds</td><td><code>tools/research/sccr_sensitivity.py</code></td></tr>
+<tr><td><strong>Node population (N)</strong></td><td>minutes, with a synced node</td><td><code>tools/research/verification_population.py</code>, <code>seed_census.py</code>, <code>addrman_churn.py</code></td></tr>
 </table>
 </div>
 <h2>Quickstart: reproduce the SCCR</h2>
@@ -92,7 +93,19 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 cd block-space-economics/research/reproduce
 python3 reproduce_sccr.py --input input/fee_history_capture.json
 bash cross_check.sh          # JS = Python = C? prints the verdict</code></pre>
-<p>Expected: <strong>avg SCCR 0.2406</strong> (min 0.0490, max 1.0757, 153/155 below 1×), with the three implementations agreeing to &lt; 1e-6. If you do <strong>not</strong> get that, we want to know — that is the useful result.</p>
+<p>Expected: <strong>avg SCCR 0.289645</strong> (min 0.059036, max 1.294753, 152/155 below 1×), with the three implementations agreeing to &lt; 1e-6. If you do <strong>not</strong> get that, we want to know — that is the useful result.</p>
+<blockquote>The frozen-capture average is <code>0.240641 × (32000 / 26586)</code> — the whole series</blockquote>
+<blockquote>rescales by the N re-base of 2026-09-17 (see the <a href="/research/CHANGELOG">Changelog</a>).</blockquote>
+<blockquote>The kit reads <code>N</code> from <code>research/model-spec.json</code>, so a clone reproduces the</blockquote>
+<blockquote>current value with no edits.</blockquote>
+<h2>Reproduce the node population (N)</h2>
+<p>The canonical <code>N</code> is a <strong>measured reachable-node count</strong>, not a census — see <a href="/research/population-measurement">the population note</a> and <a href="/research/verification-population">verification-population</a>. Reproduce it:</p>
+<ul>
+<li><strong>Reachable count (this is <code>N</code>):</strong> the btcnodes reachable-node crawl is the source of record; <code>data/node_census_series.json</code> carries the snapshots and <code>research/model-spec.json → quantities.N</code> the canonical value and date.</li>
+<li><strong>First-party instruments (independent views, each with its own caveat):</strong> <code>verification_population.py</code> (the observed/unobservable split), <code>seed_census.py</code> (DNS-seed visible addresses), <code>addrman_churn.py</code> (address-pool persistence), <code>inbound_census.py</code> (a lower bound on <em>non-listening</em> nodes — requires the node to serve inbound connections).</li>
+<li><strong>What to check:</strong> that every instrument reports a <strong>lower bound</strong> and states what it does <em>not</em> measure. Addresses ≠ nodes; a reachable crawl is silent about non-listening/private nodes. If a published number implies we enumerated the population, that is a defect — report it.</li>
+</ul>
+<p>The dated, hashed state of this thread is pinned in <code>data/population_snapshot.json</code> (rebuilt by <code>tools/research/population_snapshot.py</code>).</p>
 <h2>What would falsify the claims</h2>
 <ul>
 <li>An SCCR materially different from the published value on the same frozen input.</li>

@@ -1,13 +1,13 @@
 {
   "schema": "bsahi.integrity-audit/1",
-  "generated_at": "2026-09-17T17:30:06.880213+00:00",
+  "generated_at": "2026-09-17T18:08:29.414938+00:00",
   "method": "tools/research/integrity_audit.py \u2014 checks heights/dates, units, provenance, layers",
   "findings": [
     {
       "check": "monotonicity",
       "source": "perblock_validation",
       "status": "PASS",
-      "detail": "144 pairs, 0 inversions"
+      "detail": "154 pairs, 0 inversions"
     },
     {
       "check": "monotonicity",
@@ -67,7 +67,7 @@
           "file": "reproduction_verification.json",
           "schema": true,
           "generated_at": false,
-          "source": false
+          "source": true
         },
         {
           "file": "sccr.json",

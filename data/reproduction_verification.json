@@ -1,40 +1,41 @@
 {
   "schema": "bsahi.reproduction-verification/1",
   "layer": "observed",
-  "verified_at": "2026-09-17T03:52:49.609393+00:00",
+  "verified_at": "2026-09-17T18:06:05.169828+00:00",
   "what": "Independent reproduction of the SCCR from the frozen capture, three implementations",
   "capture": "research/reproduce/input/fee_history_capture.json",
-  "model_spec": "v2.1.0",
+  "model_spec": "v2.1.1",
   "implementations": {
     "js": {
       "blocks": 155,
-      "avg_sccr": 0.240641,
-      "min": 0.049048,
-      "max": 1.075697,
-      "below_1x": 153
+      "avg_sccr": 0.289645,
+      "min": 0.059036,
+      "max": 1.294753,
+      "below_1x": 152
     },
     "python": {
       "blocks": 155,
-      "avg_sccr": 0.240641,
-      "min": 0.049048,
-      "max": 1.075697,
-      "below_1x": 153
+      "avg_sccr": 0.289645,
+      "min": 0.059036,
+      "max": 1.294753,
+      "below_1x": 152
     },
     "c": {
       "blocks": 155,
-      "avg_sccr": 0.240641,
-      "min": 0.049048,
-      "max": 1.075697,
-      "below_1x": 153
+      "avg_sccr": 0.289645,
+      "min": 0.059036,
+      "max": 1.294753,
+      "below_1x": 152
     }
   },
   "agreement": {
     "heights_matched": 155,
     "heights_missing": 0,
-    "max_abs_per_block_diff": 4.9e-07,
-    "max_abs_diff_height": 967193
+    "max_abs_per_block_diff": 5e-07,
+    "max_abs_diff_height": 967199
   },
   "verdict": "ALL THREE IMPLEMENTATIONS AGREE",
   "reproduce_cmd": "bash research/reproduce/cross_check.sh",
-  "tool": "research/reproduce/cross_check.sh + reproduce_sccr.{py,c} + JS"
+  "tool": "research/reproduce/cross_check.sh + reproduce_sccr.{py,c} + JS",
+  "note": "Re-verified 2026-09-17 after the N re-base (32,000 -> 26,586). The C parser had read a stale top-level `census` block; that duplicate was removed, so all three now read quantities.N. The frozen-capture average moved 0.240641 -> 0.289645 (= x32000/26586)."
 }

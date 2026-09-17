@@ -5,14 +5,7 @@
   "supersedes": "research/methodology.json v1.0.0",
   "date": "2026-08-04",
   "status": "canonical",
-  "census": {
-    "N": 32000,
-    "captured_at": "2026-08-02T19:05:03.982Z",
-    "census_date": "2026-08-02",
-    "source": "Bitcoin Core getnodeaddresses (local node, RPC max 32000; addrman saturation lower bound)",
-    "lower_bound": true,
-    "note": "Snapshot-of-record: N is a documented, DATED constant. The LOCAL Mac node-census agent (tools/agents/25-node-census.js, run by the DE server) is the only census writer \u2014 it refreshes data/node_census.json whenever Core is reachable; GitHub Actions never needs the census. sccr_live.py reads this block for the as-of date and surfaces staleness (>30 days) honestly in the sccr.json notes."
-  },
+  "note": "N has ONE definition: quantities.N. The former top-level `census` block (N=32000, an addrman ADDRESS sample) was removed on 2026-09-17 — it was a stale duplicate that naive parsers read instead of quantities.N (it broke the C leg of research/reproduce/cross_check.sh). Provenance now lives on quantities.N.captured_at / census_date.",
   "quantities": {
     "C": {
       "symbol": "C",

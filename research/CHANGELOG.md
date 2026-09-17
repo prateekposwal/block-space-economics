@@ -5,6 +5,27 @@
 Dated changes to BSAHI's measurements, grades, and methods. Corrections are
 recorded here with their cause. Newest first.
 
+## 2026-09-17 — Population thread: versioned snapshot + N single-source fix
+
+- New `tools/research/population_snapshot.py` -> `data/population_snapshot.json`:
+  a dated, SHA-256-hashed pin of the population-observability workstream (N and
+  its provenance, the three quantities, the observed activity partition, and every
+  contributing dataset). Drift in any slow-moving input is now detectable; the
+  three re-sampled instruments are flagged as expected to move.
+- **Defect found and fixed — a duplicate N in the single source of truth.** The
+  legacy top-level `census` block in `research/model-spec.json` still carried the
+  superseded `N=32000`, so the C leg of `research/reproduce/cross_check.sh` read
+  32,000 while JS/Python read `quantities.N = 26586`: the published three-way
+  reproduction **failed** (0.2406 vs 0.2896). Root cause, not symptom — the stale
+  duplicate was removed so N has exactly one surface (`quantities.N`), and
+  `sccr_live.py` reads the N provenance from there (falling back to the
+  reachable-node series, then the legacy addrman mirror). Cross-check now returns
+  **ALL THREE IMPLEMENTATIONS AGREE**.
+- Regenerated `data/reproduction_verification.json`: frozen-capture average
+  **0.240641 -> 0.289645** (= x32000/26586), 155/155 heights matched, max
+  per-block diff 5e-7, spec v2.1.1. `research/replicate.md` expected-value
+  corrected and extended with the population-replication method.
+
 ## 2026-09-17 — Phase C: N re-based to the measured validating-node count
 
 - **N: 32,000 -> 26,586** (measured reachable validating-node count, btcnodes

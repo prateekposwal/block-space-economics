@@ -42,6 +42,7 @@ CATALOG = {
     "addrman_churn.json": ("observed", "B", "Addrman churn — empirical address-pool staleness (first-party gossip sampler)"),
     "inbound_census.json": ("observed", "B", "Inbound-peer census — first-party lower bound on non-listening nodes"),
     "verification_population.json": ("observed", "B", "Verification Population Observatory: observable node population + what is unobservable"),
+    "population_snapshot.json": ("observed", "B", "Dated, hashed snapshot of the population-observability workstream (N, provenance, partition, component hashes)"),
     "bip110.json": ("observed", "A", "BIP-110 signaling state (GitHub Actions, mempool.space)"),
     "mining_concentration.json": ("observed", "B", "Mining concentration (HHI/Gini/N_eff per window)"),
     "pool_attribution_validation.json": ("observed", "C/B", "Pool attribution internal-coherence validation"),

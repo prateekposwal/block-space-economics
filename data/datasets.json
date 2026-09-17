@@ -1,8 +1,8 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-17T17:30:06.845858+00:00",
+  "generated_at": "2026-09-17T18:07:03.274601+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
-  "count": 30,
+  "count": 31,
   "datasets": [
     {
       "name": "addrman_churn.json",
@@ -12,8 +12,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Addrman churn \u2014 empirical address-pool staleness (first-party gossip sampler)",
-      "bytes": 911,
-      "updated": "2026-09-17T17:29:55.099313+00:00",
+      "bytes": 1183,
+      "updated": "2026-09-17T17:38:57.756857+00:00",
       "rows": null
     },
     {
@@ -84,8 +84,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Inbound-peer census \u2014 first-party lower bound on non-listening nodes",
-      "bytes": 1291,
-      "updated": "2026-09-17T17:29:55.332181+00:00",
+      "bytes": 1649,
+      "updated": "2026-09-17T17:38:58.002425+00:00",
       "rows": null
     },
     {
@@ -96,8 +96,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
-      "bytes": 3647,
-      "updated": "2026-09-17T08:46:38.464440+00:00",
+      "bytes": 3405,
+      "updated": "2026-09-17T17:30:06.880213+00:00",
       "rows": null
     },
     {
@@ -192,8 +192,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Per-block SPOT samples (weight/size/tx/fee) vs the era aggregates",
-      "bytes": 43520,
-      "updated": "2026-09-17T17:11:43.096891+00:00",
+      "bytes": 46153,
+      "updated": "2026-09-17T18:00:11.526612+00:00",
       "rows": null
     },
     {
@@ -206,6 +206,18 @@
       "description": "Pool attribution internal-coherence validation",
       "bytes": 1600,
       "updated": "2026-09-15T22:28:25.900114+00:00",
+      "rows": null
+    },
+    {
+      "name": "population_snapshot.json",
+      "url": "https://bitcoinsahi.com/data/population_snapshot.json",
+      "path": "data/population_snapshot.json",
+      "schema": "bsahi.population-snapshot/1",
+      "layer": "observed",
+      "grade": "B",
+      "description": "Dated, hashed snapshot of the population-observability workstream (N, provenance, partition, component hashes)",
+      "bytes": 3926,
+      "updated": "2026-09-17T18:06:34.695288+00:00",
       "rows": null
     },
     {
@@ -228,8 +240,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "JS=Python=C reproduction verification of the SCCR",
-      "bytes": 1089,
-      "updated": "2026-09-17T03:52:49.610343+00:00",
+      "bytes": 1354,
+      "updated": "2026-09-17T18:06:05.170955+00:00",
       "rows": null
     },
     {
@@ -288,8 +300,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "DNS-seed address census \u2014 a third independent view of the node population",
-      "bytes": 17604,
-      "updated": "2026-09-17T17:28:51.549044+00:00",
+      "bytes": 18051,
+      "updated": "2026-09-17T17:38:56.745556+00:00",
       "rows": null
     },
     {

@@ -75,6 +75,12 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <div class="container">
 <h1>Research Changelog</h1>
 <p>Dated changes to BSAHI&#x27;s measurements, grades, and methods. Corrections are recorded here with their cause. Newest first.</p>
+<h2>2026-09-17 — Population thread: versioned snapshot + N single-source fix</h2>
+<ul>
+<li>New <code>tools/research/population_snapshot.py</code> -&gt; <code>data/population_snapshot.json</code>: a dated, SHA-256-hashed pin of the population-observability workstream (N and its provenance, the three quantities, the observed activity partition, and every contributing dataset). Drift in any slow-moving input is now detectable; the three re-sampled instruments are flagged as expected to move.</li>
+<li><strong>Defect found and fixed — a duplicate N in the single source of truth.</strong> The legacy top-level <code>census</code> block in <code>research/model-spec.json</code> still carried the superseded <code>N=32000</code>, so the C leg of <code>research/reproduce/cross_check.sh</code> read 32,000 while JS/Python read <code>quantities.N = 26586</code>: the published three-way reproduction <strong>failed</strong> (0.2406 vs 0.2896). Root cause, not symptom — the stale duplicate was removed so N has exactly one surface (<code>quantities.N</code>), and <code>sccr_live.py</code> reads the N provenance from there (falling back to the reachable-node series, then the legacy addrman mirror). Cross-check now returns <strong>ALL THREE IMPLEMENTATIONS AGREE</strong>.</li>
+<li>Regenerated <code>data/reproduction_verification.json</code>: frozen-capture average <strong>0.240641 -&gt; 0.289645</strong> (= x32000/26586), 155/155 heights matched, max per-block diff 5e-7, spec v2.1.1. <code>research/replicate.md</code> expected-value corrected and extended with the population-replication method.</li>
+</ul>
 <h2>2026-09-17 — Phase C: N re-based to the measured validating-node count</h2>
 <ul>
 <li><strong>N: 32,000 -&gt; 26,586</strong> (measured reachable validating-node count, btcnodes 2026-09-16). The previous 32,000 was an address-manager sample at the request ceiling, never a node count.</li>

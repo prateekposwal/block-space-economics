@@ -36,13 +36,12 @@ def load_spec():
     with open(SPEC_PATH) as f:
         spec = json.load(f)
     q = spec['quantities']
-    # Census provenance: the committed, dated N constant. Preferred surface is
-    # the top-level `census` block; the N quantity itself also carries
-    # captured_at/census_date for self-containment (backward compat: N.value
-    # is unchanged).
-    census = spec.get('census') or {}
-    captured_at = census.get('captured_at') or q['N'].get('captured_at')
-    census_date = census.get('census_date') or q['N'].get('census_date')
+    # Census provenance: the committed, dated N constant. N has ONE surface —
+    # quantities.N — which carries captured_at/census_date for self-containment.
+    # (The former top-level `census` block was removed 2026-09-17: a stale
+    # duplicate (N=32000) that naive parsers read instead of quantities.N.)
+    captured_at = q['N'].get('captured_at')
+    census_date = q['N'].get('census_date')
     return {
         'C': q['C']['value'], 'N': q['N']['value'], 'T': q['T']['value'],
         'B_block': q['B_block']['value'], 'version': spec['version'],
@@ -52,32 +51,39 @@ def load_spec():
 
 
 def load_census_captured_at():
-    """Best available census capture timestamp.
+    """Best available capture timestamp for the canonical N.
 
-    Preference order (documented dated constant):
-      1. data/node_census.json (the committed census mirror the LOCAL Mac
-         node-census agent refreshes whenever Core is reachable)
-      2. research/model-spec.json census block / N quantity (committed
-         snapshot-of-record)
-    Returns an ISO-8601 string or None. GH never runs the census; it reads
+    Preference order (the date the node count was measured):
+      1. research/model-spec.json quantities.N.captured_at — the
+         snapshot-of-record for the canonical N (a measured reachable-node
+         count since the 2026-09-17 re-base)
+      2. data/node_census_series.json generated_at — the reachable-node crawl
+      3. data/node_census.json captured_at — legacy addrman ADDRESS sample
+         (not a node count; last-resort date only)
+    Returns an ISO-8601 string or None. GH never runs the crawler; it reads
     whichever of these is committed."""
+    try:
+        with open(SPEC_PATH) as f:
+            spec = json.load(f)
+        cap = spec.get('quantities', {}).get('N', {}).get('captured_at')
+        if cap:
+            return cap
+    except Exception:
+        pass
+    series = os.path.join(DATA_DIR, 'node_census_series.json')
+    try:
+        if os.path.exists(series):
+            d = json.load(open(series))
+            if d.get('generated_at'):
+                return d['generated_at']
+    except Exception:
+        pass
     mirror = os.path.join(DATA_DIR, 'node_census.json')
     try:
         if os.path.exists(mirror):
             d = json.load(open(mirror))
             if d.get('captured_at'):
                 return d['captured_at']
-    except Exception:
-        pass
-    try:
-        with open(SPEC_PATH) as f:
-            spec = json.load(f)
-        census = spec.get('census') or {}
-        if census.get('captured_at'):
-            return census['captured_at']
-        q = spec.get('quantities', {})
-        if q.get('N', {}).get('captured_at'):
-            return q['N']['captured_at']
     except Exception:
         pass
     return None
@@ -98,22 +104,28 @@ def census_status():
         return day, False
     try:
         from datetime import datetime as _dt
-        age_days = (_dt.now(timezone.utc) - _dt.fromisoformat(cap.replace('Z', '+00:00'))).days
+        c = cap.replace('Z', '+00:00')
+        if 'T' not in c and ' ' not in c:      # date-only "2026-09-16" -> midnight UTC
+            c += 'T00:00:00+00:00'
+        dt = _dt.fromisoformat(c)
+        if dt.tzinfo is None:                  # naive -> assume UTC (never fake-fresh)
+            dt = dt.replace(tzinfo=timezone.utc)
+        age_days = (_dt.now(timezone.utc) - dt).days
     except Exception:
         age_days = CENSUS_STALE_DAYS + 1  # unparseable date -> surface as stale, never fake-fresh
     return day, age_days > CENSUS_STALE_DAYS
 
 
 def census_note():
-    """Build the dated census phrase + staleness honesty note."""
+    """Build the dated N-provenance phrase + staleness honesty note."""
     day, stale = census_status()
-    base = ('N=32K primary-source lower-bound census as of %s via Bitcoin Core getnodeaddresses'
-            % (day if day else 'unknown date'))
+    base = ('N=26,586 measured reachable validating nodes as of %s '
+            '(btcnodes reachable-node crawl; addresses != nodes)' % (day if day else 'unknown date'))
     if not load_census_captured_at():
-        return base + ' (census date not committed)'
+        return base + ' (N provenance date not committed)'
     if stale:
-        base += ('; census stale — last measured %s; N is a lower-bound constant (Mac census '
-                 'offline — GH reads the committed dated constant)' % day)
+        base += ('; N measurement is stale — last measured %s; N is a lower-bound constant '
+                 '(non-listening nodes are unobservable; a larger N lowers the SCCR)' % day)
     return base
 
 
