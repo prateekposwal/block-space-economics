@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mining energy cost vs production value by era: the ratio rose from 0.32 (2017) to 0.84 (2026) while fees fell from 35.7% to 0.7% of production cost.">
+<meta property="og:title" content="Fee allocation and the security budget">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/fee-allocation">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/fee-allocation">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Fee Allocation","item":"https://bitcoinsahi.com/research/fee-allocation"}]}
+</script>
+<title>Fee Allocation: Security vs Storage — Who Pays</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Fee allocation and the security budget","name":"Fee allocation and the security budget","url":"https://bitcoinsahi.com/research/fee-allocation","mainEntityOfPage":"https://bitcoinsahi.com/research/fee-allocation","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","about":["Bitcoin","fees","security budget","storage cost"],"datePublished":"2026-09-17","dateModified":"2026-09-17"}
+</script>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Fee allocation and the security budget</h1>
+<p><strong>BSAHI — where Bitcoin&#x27;s fee revenue must eventually go.</strong> <em>Produced: 2026-09-17 · Instrument: <code>tools/research/fee_allocation.py</code></em></p>
+<h2>The two claims on one revenue stream</h2>
+<p>Bitcoin&#x27;s transaction fees are the only long-run revenue. Today <strong>almost none of the competing claims is actually paid by fees</strong> — the block subsidy pays the security bill:</p>
+<div class="table-wrap">
+<table>
+<tr><th>claim on fees (2026, per block)</th><th>USD/block</th><th>covered by fees today</th></tr>
+<tr><td>---</td><td>---:</td><td>---:</td></tr>
+<tr><td><strong>Security / production</strong> (network energy cost to produce a block)</td><td><strong>$198,549</strong></td><td><strong>0.7%</strong> (subsidy pays 107.0%)</td></tr>
+<tr><td><strong>Storage externality</strong> (<code>L_net</code>, N=32K, T=10yr)</td><td><strong>$5,628</strong></td><td><strong>28.8%</strong> (the SCCR)</td></tr>
+<tr><td>Node operating cost (network-wide, one year)</td><td>$563</td><td>251.4%</td></tr>
+</table>
+</div>
+<p><strong>Actual fee revenue: ~$1,415/block</strong> (measured; frozen series) — against a <strong>$198,549/block</strong> production cost and a <strong>$5,628/block</strong> modeled storage cost. The subsidy ($212,517/block) is what keeps the security budget met today.</p>
+<blockquote><strong>Miners are fee recipients; validators are cost bearers. That asymmetry is the externality.</strong> Miners are a few dozen pools running nodes; the ~26,586 reachable (and the unobservable non-listening) nodes are the ones carrying the storage and validation burden, and they receive nothing.</blockquote>
+<h2>The halving clock</h2>
+<p>Subsidy halves every ~210,000 blocks. Only this arithmetic is exact:</p>
+<div class="table-wrap">
+<table>
+<tr><th>year</th><th>subsidy (BTC/block)</th><th>USD at the current price</th></tr>
+<tr><td>---:</td><td>---:</td><td>---:</td></tr>
+<tr><td>2024</td><td>3.12500000</td><td>$212,517</td></tr>
+<tr><td>2028</td><td>1.56250000</td><td>$106,258</td></tr>
+<tr><td>2032</td><td>0.78125000</td><td>$53,129</td></tr>
+<tr><td>2036</td><td>0.39062500</td><td>$26,565</td></tr>
+<tr><td>2040</td><td>0.19531250</td><td>$13,282</td></tr>
+<tr><td>2048</td><td>0.04882812</td><td>$3,321</td></tr>
+<tr><td>2076</td><td>0.00038147</td><td>$26</td></tr>
+<tr><td>2100</td><td>0.00000596</td><td>$0</td></tr>
+</table>
+</div>
+<h2>When fees must take over</h2>
+<p>The subsidy alone stops covering the current network-wide energy cost of production in:</p>
+<div class="table-wrap">
+<table>
+<tr><th>assumed price</th><th>subsidy covers energy until</th></tr>
+<tr><td>---</td><td>---:</td></tr>
+<tr><td>$50,000</td><td>2024</td></tr>
+<tr><td>$78,000</td><td>2028</td></tr>
+<tr><td>$150,000</td><td>2032</td></tr>
+<tr><td>$300,000</td><td>2036</td></tr>
+</table>
+</div>
+<p>At the current price that crossover is <strong>2028</strong> — after which fees must fund security, and, if the storage externality is to be internalized, roughly <strong>$204,177/block</strong> more on top.</p>
+<h2>Grades</h2>
+<div class="table-wrap">
+<table>
+<tr><th>leg</th><th>layer</th><th>grade</th></tr>
+<tr><td>Halving schedule</td><td>observed</td><td>A (arithmetic)</td></tr>
+<tr><td>Energy cost / <code>L_net</code> / node opex</td><td>modelled</td><td>C (documented assumptions on measured legs)</td></tr>
+<tr><td>Fee revenue</td><td>observed</td><td>B (frozen series: fees BTC/day × price)</td></tr>
+<tr><td>Multi-decade projection</td><td>modelled</td><td>C (scenario, not a forecast)</td></tr>
+</table>
+</div>
+<h2>Caveats</h2>
+<ul>
+<li>The multi-decade table is a <strong>scenario</strong>, not a forecast: only the subsidy halving is deterministic. Prices, energy prices, ASIC efficiency and the price of block space all move.</li>
+<li><strong><code>N</code> is provisional</strong> (an address sample, not a node count) — see the <a href="/research/verification-population">Verification Population Observatory</a>. Re-basing N moves the storage claim linearly.</li>
+<li>The 241k/218k &quot;node&quot; figures are <strong>addresses</strong>, not nodes, and are not used here.</li>
+<li>Fees are network-wide revenue; node costs are network-wide costs. Single-node figures are not compared to network fees.</li>
+</ul>
+<h2>Why this matters</h2>
+<p>The SCCR asks whether fees cover the <em>storage</em> externality. The security budget asks whether fees cover <em>hashing</em>. Both are claims on the same fee stream, and the subsidy is currently masking both. As the subsidy falls, the two claims compete — and that is a research question worth owning.</p>
+<p>Data: <a href="/data/fee_allocation.json">`/data/fee_allocation.json`</a> · Related: <a href="/research/sccr-sensitivity">SCCR sensitivity</a> · <a href="/research/production-cost-note">Production cost</a> · <a href="/research/evidence-matrix">Evidence Matrix</a></p>
+<div class="datacard"><div class="kv">Data source: <code>data/fee_allocation.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>

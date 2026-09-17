@@ -75,6 +75,12 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <div class="container">
 <h1>Research Changelog</h1>
 <p>Dated changes to BSAHI&#x27;s measurements, grades, and methods. Corrections are recorded here with their cause. Newest first.</p>
+<h2>2026-09-17 — Fee allocation &amp; security budget (Phase C2)</h2>
+<ul>
+<li>New instrument <code>tools/research/fee_allocation.py</code> -&gt; <code>data/fee_allocation.json</code>: the three claims on fee revenue, per block, and the subsidy crossover. 2026: security/production claim <strong>$198,549/block</strong> (fees cover 0.7%, subsidy 107%), storage externality <strong>$5,628/block</strong> (fees cover 28.8% = the SCCR), fee revenue <strong>$1,415/block</strong>. At the current price the subsidy alone stops covering the network energy cost of production around <strong>2028</strong>.</li>
+<li>Published at <code>/research/fee-allocation</code>; added to the dataset index, the hub, the dashboard and the sitemap.</li>
+<li>Clarified the role split: <strong>miners are fee recipients; validators are cost bearers</strong> — that asymmetry is the externality. <code>N</code> remains the validating set.</li>
+</ul>
 <h2>2026-09-17 — node-count semantics correction</h2>
 <ul>
 <li><strong>Incorrect framing removed.</strong> The paper described <code>getnodeaddresses</code> returning <strong>32,000</strong> as a <em>lower bound on reachable nodes</em>. It is not: <code>getnodeaddresses 32000</code> returns addresses from the node&#x27;s <strong>address manager</strong> (learned via <strong>addr gossip</strong>) and 32,000 was the <em>requested ceiling</em>, returned in full. It is a lower bound on <strong>gossiped addresses</strong> — a set including stale/unreachable entries, sized by peer count and uptime — <strong>not</strong> a node count and <strong>not</strong> a bound on reachable nodes. Corrected in <code>model-spec.json</code>, <code>node_census.json</code>, the census agent, and the working paper (§5.4 and all dependent rows).</li>

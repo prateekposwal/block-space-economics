@@ -51,6 +51,8 @@ row here, that is a defect.
 | 25 | Cost-to-flood leverage | L ≈ 3.0× (dust 0.9×) | **Modelled** | `research/cost-to-flood.md` | 2026-08-10 | C |
 | 26 | Bandwidth bound | 52.6 GB/yr | Modelled | `data/bandwidth_bound.json` | 2026-08-04 | C |
 | 27 | Pruning externality | download+verify unavoidable | Modelled | `research/pruning_externality_analysis.md` | 2026-08-10 | C |
+| 28 | **Fee allocation** — security vs storage claim | security $198,549/block; storage L_net $5,628/block; fees $1,415/block | Modelled | `data/fee_allocation.json` | 2026-09-17 | C |
+| 29 | Halving schedule (subsidy) | 3.125 → 0.78 (2032) → 0.049 (2048) BTC/block | Observed | arithmetic (210,000-block epochs) | — | A |
 
 ## Grades
 

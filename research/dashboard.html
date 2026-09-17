@@ -87,6 +87,7 @@ function add(){ host.appendChild(card.apply(null, arguments)); }
 function err(){ host.appendChild(card('Data','observed','\u2014',['Could not load an endpoint.'],'/data/','datasets')); }
 
 Promise.allSettled([
+  fetch('/data/fee_allocation.json').then(function(r){return r.json();}),
   fetch('/data/verification_population.json').then(function(r){return r.json();}),
   fetch('/data/sccr.json').then(function(r){return r.json();}),
   fetch('/data/utxo_state_series.json').then(function(r){return r.json();}),
@@ -97,10 +98,12 @@ Promise.allSettled([
   fetch('/data/mempool_congestion_series.json').then(function(r){return r.json();})
 ]).then(function(res){
   function ok(i){ return res[i].status==='fulfilled' ? res[i].value : null; }
-  var vp=ok(7);
-  var s=ok(0), u=ok(1), pb=ok(2), pc=ok(3), vci=ok(4), dif=ok(5), mem=ok(6);
+  // order must match the fetch list above (fee_allocation, verification_population, sccr, ...)
+  var fa=ok(0), vp=ok(1);
+  var s=ok(2), u=ok(3), pb=ok(4), pc=ok(5), vci=ok(6), dif=ok(7), mem=ok(8);
   if(vp && vp.quantities){ var vpq=vp.quantities, vpc=vp.composition;
     add('Verification population','observed','B',['<b>'+num(vpq.B_reachable_nodes.value,0)+'</b> reachable nodes measured','gossip-observed addresses \u2265'+num(vpq.A_gossip_addresses.value,0)+' (not a node count) \u00b7 '+(vpc?Math.round(vpc.network.tor/vpc.nodes_in_capture*100):'?')+'% Tor/I2P'],'/research/verification-population','the observatory'); }
+  if(fa && fa.current){ var fc=fa.current; add('Fee allocation (security vs storage)','modelled','C',['Security claim ${fc.claims_usd_per_block.security_energy_cost}/block \u00b7 fees cover '+fc.coverage_pct.security_by_fees_pct+'% of it','Subsidy covers energy until ~'+fa.crossovers.fees_must_cover_security_from_year],'/research/fee-allocation','the analysis'); }
   if(s) add('Storage Cost Coverage Ratio (SCCR)','observed','B',
     ['<b>'+Number(s.avg_sccr).toFixed(4)+'</b> \u00b7 '+s.blocks+' blocks \u00b7 '+s.below_1x_pct+'% below 1\u00d7','N='+num(s.N,0)+' \u00b7 T='+s.T+'yr \u00b7 spec v'+s.spec_version+' \u00b7 '+s.date],
     '/research/sccr-sensitivity','sensitivity & CIs');

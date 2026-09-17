@@ -5,6 +5,19 @@
 Dated changes to BSAHI's measurements, grades, and methods. Corrections are
 recorded here with their cause. Newest first.
 
+## 2026-09-17 — Fee allocation & security budget (Phase C2)
+
+- New instrument `tools/research/fee_allocation.py` -> `data/fee_allocation.json`:
+  the three claims on fee revenue, per block, and the subsidy crossover. 2026:
+  security/production claim **$198,549/block** (fees cover 0.7%, subsidy 107%),
+  storage externality **$5,628/block** (fees cover 28.8% = the SCCR), fee revenue
+  **$1,415/block**. At the current price the subsidy alone stops covering the
+  network energy cost of production around **2028**.
+- Published at `/research/fee-allocation`; added to the dataset index, the hub,
+  the dashboard and the sitemap.
+- Clarified the role split: **miners are fee recipients; validators are cost
+  bearers** — that asymmetry is the externality. `N` remains the validating set.
+
 ## 2026-09-17 — node-count semantics correction
 
 - **Incorrect framing removed.** The paper described `getnodeaddresses` returning

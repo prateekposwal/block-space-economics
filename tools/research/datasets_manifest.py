@@ -31,6 +31,7 @@ CATALOG = {
     "difficulty_series.json": ("observed", "A", "Bitcoin mining difficulty, 2009-present (frozen primary)"),
     "mempool_congestion_series.json": ("observed", "B*", "Mempool congestion, 2016-present (frozen primary)"),
     "production_cost_ratio.json": ("modelled", "C", "Producing-side energy cost vs production value, electricity scenarios"),
+    "fee_allocation.json": ("modelled", "C", "Three claims on fee revenue (security/storage/node opex) per block + the subsidy crossover"),
     "verify_cost_index.json": ("modelled", "C", "Verification Cost Index - the verification-burden trend + graded components"),
     "reproduction_verification.json": ("observed", "A", "JS=Python=C reproduction verification of the SCCR"),
     "integrity_audit.json": ("observed", "A", "Integrity audit: heights/dates, units, provenance, layers"),
