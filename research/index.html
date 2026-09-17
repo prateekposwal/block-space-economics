@@ -147,7 +147,7 @@ function card(title, rows){var c=el('div','datacard');c.appendChild(el('div','',
 fetch('/data/difficulty_series.json').then(function(r){return r.json();}).then(function(d){
   var h=d.latest_difficulty/1e12;
   document.getElementById('calib-readout').appendChild(card('Mining Difficulty (row 10, historical A)',[
-    '<span style="color:var(--ink)">'+h.toFixed(2)+'T</span> — latest difficulty, '+d.period[0]+' → '+d.period[1]+' ('+d.n_points+' frozen points)'
+    '<span style="color:var(--ink)">'+h.toFixed(2)+'T</span> — latest point; frozen primary, '+d.period[0]+' → '+d.period[1]+' ('+d.n_points+' points)'
   ]));
 }).catch(function(){});
 fetch('/data/mempool_congestion_series.json').then(function(r){return r.json();}).then(function(d){

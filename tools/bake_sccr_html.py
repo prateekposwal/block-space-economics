@@ -272,12 +272,14 @@ def dashboard_cards():
 
     pts = dif.get('points') or []
     if pts:
+        period = dif.get('period') or []
         out.append(_card('Mining difficulty', 'observed', 'A', [
             '<b>%s</b>' % _num(dif.get('latest_difficulty') or pts[-1].get('y'), 0),
-            'latest difficulty \u00b7 %s points' % _num(dif.get('n_points'), 0)], '/data/difficulty_series.json', 'data'))
+            'frozen primary \u00b7 through %s \u00b7 %s points'
+            % (period[1] if len(period) > 1 else '', _num(dif.get('n_points'), 0))], '/data/difficulty_series.json', 'data'))
 
     if mem:
-        out.append(_card('Mempool congestion', 'observed', 'B*', ['2016\u20132026 frozen series', 'Early series; pre-2016 is reconstruction-only.'],
+        out.append(_card('Mempool congestion', 'observed', 'B*', ['Frozen primary \u00b7 2016\u20132026', 'pre-2016 is reconstruction-only (chart starts 2016-06).'],
                          '/data/mempool_congestion_series.json', 'data'))
 
     return ''.join(out)
