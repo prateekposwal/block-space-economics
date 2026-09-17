@@ -79,6 +79,31 @@ scanners and health checks never pollute the count.
 peer arrives from the relay's IP — the same identity collapse as Tor, without
 Tor's properties. Only the PROXY-protocol hop preserves the source address.
 
+### One-command deploy
+
+```bash
+# 1. (optional) create an Oracle Cloud Always-Free relay VM + open 8333
+tools/net/oci-census-vm.sh                 # prints ubuntu@<public-ip>
+
+# 2. deploy everything and verify, in one shot
+tools/net/relay-deploy.sh ubuntu@<public-ip>
+
+# 3. independently confirm from outside + read the recovered IPs
+tools/net/relay-verify.sh <public-ip>
+```
+
+`relay-deploy.sh` copies the entry-point config, installs HAProxy, starts the
+reverse tunnel and the demuxer, then self-tests by opening a magic-prefixed
+connection to the public port and confirming a new record lands in
+`data/proxy_inbound.jsonl` with the real source IP.
+
+### What to provide
+
+To finalise the connection parameters for a given host: the **public IP / hostname**
+and **SSH user** (`ubuntu@…`), plus the **OS** (the scripts assume Ubuntu/Debian
+with `apt`, `haproxy`, `sshd`). Everything else — ports (`8333` public, `9000`
+tunnel, `8344` demuxer) — is parameterised via `PORT`/`TUNNEL_PORT`/`DEMUX_PORT`.
+
 ### Option 3 — port-forward on a non-CGNAT network
 
 If the Mac is ever on the home LAN (`192.168.29.1`), forward TCP 8333 →
