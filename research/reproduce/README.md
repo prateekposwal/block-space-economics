@@ -125,3 +125,7 @@ date, reproducer (anonymous ok), language, their numbers, and any discrepancy.
 
 *Bitcoin Sahi Research — Reproduction Kit for the Storage Cost Coverage Ratio
 (working-paper v2.2.0, model-spec v2.1.0), 2026-08-02.*
+
+## Last verification (2026-09-17)
+
+Ran `cross_check.sh`: **JS = Python = C**, 155/155 heights matched, max per-block difference **4.9e-7**, avg SCCR **0.2406** (min 0.0490, max 1.0757, 153/155 below 1×). Machine-readable record: `data/reproduction_verification.json`.

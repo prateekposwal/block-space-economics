@@ -1,0 +1,40 @@
+{
+  "schema": "bsahi.reproduction-verification/1",
+  "layer": "observed",
+  "verified_at": "2026-09-17T03:52:49.609393+00:00",
+  "what": "Independent reproduction of the SCCR from the frozen capture, three implementations",
+  "capture": "research/reproduce/input/fee_history_capture.json",
+  "model_spec": "v2.1.0",
+  "implementations": {
+    "js": {
+      "blocks": 155,
+      "avg_sccr": 0.240641,
+      "min": 0.049048,
+      "max": 1.075697,
+      "below_1x": 153
+    },
+    "python": {
+      "blocks": 155,
+      "avg_sccr": 0.240641,
+      "min": 0.049048,
+      "max": 1.075697,
+      "below_1x": 153
+    },
+    "c": {
+      "blocks": 155,
+      "avg_sccr": 0.240641,
+      "min": 0.049048,
+      "max": 1.075697,
+      "below_1x": 153
+    }
+  },
+  "agreement": {
+    "heights_matched": 155,
+    "heights_missing": 0,
+    "max_abs_per_block_diff": 4.9e-07,
+    "max_abs_diff_height": 967193
+  },
+  "verdict": "ALL THREE IMPLEMENTATIONS AGREE",
+  "reproduce_cmd": "bash research/reproduce/cross_check.sh",
+  "tool": "research/reproduce/cross_check.sh + reproduce_sccr.{py,c} + JS"
+}
