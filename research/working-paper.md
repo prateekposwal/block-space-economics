@@ -379,6 +379,39 @@ $/byte/yr cost to the UTXO delta (the UTXO set is the index that makes
 validation/script lookups fast; its cost surface is the next model step, and
 it stays in §7 future work until then).
 
+### 5.8 Population and observability
+
+N is the single dominant input to this paper, and it **cannot be counted**. Rather than assert a number, we publish the views and their biases (full method: `/research/population-measurement`).
+
+**Roles.** Miners (a few dozen pools) produce blocks and receive fees; validating nodes bear the storage and validation cost and receive nothing. `N` is the **validating** set; the two are never merged.
+
+**Four quantities, never conflated.** (A) gossip-observed *addresses* — observed, grade C; (B) reachable *nodes* — observed, grade B; (C) non-listening/private nodes — **unobservable**, grade D; (D) total population — **not observable**. An address pool is not a node count: the ~241k "public nodes" figure widely quoted is an *address* population.
+
+**Three independent views** (mechanism and grade):
+
+| view | mechanism | size | grade |
+|---|---|---|---|
+| crawler | connect to reachable nodes | **26,586** nodes | B |
+| DNS seeds | resolve the bootstrap seeds | **269** addresses | B |
+| our addrman | `getnodeaddresses 0` | **34,633** addresses | C |
+
+The three differ by an order of magnitude because they measure **different objects** — connectable nodes versus addresses, the latter accumulating stale, rotating and ephemeral entries. The disagreement *is* the uncertainty. (Note also that an exact `getnodeaddresses 0` returned more addresses than an earlier request ceiling of 32,000 had, which is why the ceiling figure was retired.)
+
+**Partition of the observed reachable set.** By announced service bits, self-reported height versus tip, and host network:
+
+| tier | nodes | share | grade |
+|---|---:|---:|---|
+| T1 serving + synced | 23,949 | 90.1% | B |
+| T2 serving + lagging | 2,081 | 7.8% | B |
+| T3 no service announced | 547 | 2.1% | B |
+| T4 height unreported | 0 | 0.0% | C |
+
+~64% of the reachable set resolves to no country because ~half are Tor/I2P.
+
+**Direction of the error.** Non-listening nodes are excluded from the index. Because every one of them still bears the replication and validation burden, their exclusion makes the network-wide externality `L_net` a **lower bound** and the SCCR an **upper bound** — the baseline is **conservative**. The unpublicised-node band (N = 50K/80K/100K → SCCR 0.18/0.12/0.09) is published alongside every headline figure (§5.4.1).
+
+**First-party instruments aimed at the unobservable set.** A listening node counts the peers that **dial in** (`inbound_census.py`) — every inbound peer is, by that act, a node not serving inbound itself, i.e. direct evidence of a non-listening node; and sampling the address manager over time (`addrman_churn.py`) measures address **persistence**, turning "stale IP" from an assertion into a rate. Both are lower bounds, stated as such.
+
 ## 6. Internal Validation, Correction, and Reconciliation (v2.0.0)
 
 Internal validation identified an inconsistency in the SCCR implementation, traced it to a **duplicated time-horizon term**, corrected the implementation, regenerated all reported values, and confirmed the qualitative conclusions unchanged. We present the correction in four labeled steps: **Bug → Fix → Results → Reconciliation**.

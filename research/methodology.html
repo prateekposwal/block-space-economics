@@ -148,6 +148,32 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <li>Per-block samples are a <strong>spot-check</strong>, not a survey.</li>
 <li>Field Core Web Vitals and search-console data are not yet instrumented.</li>
 </ul>
+<h2>12. Population and observability</h2>
+<p>Bitcoin&#x27;s node population cannot be counted. Every attempt measures a partial view with its own bias, so this program publishes the <strong>views and their mechanisms</strong>, not a single confident number.</p>
+<p><strong>The role axis first.</strong> Miners (a few dozen pools) <em>produce</em> blocks and <em>receive</em> fees; validating nodes <em>bear</em> the storage and validation cost and receive nothing. BSAHI&#x27;s <code>N</code> is the <strong>validating</strong> set. The two must never be merged.</p>
+<p><strong>Four quantities, never conflated:</strong></p>
+<div class="table-wrap">
+<table>
+<tr><th>#</th><th>quantity</th><th>layer</th><th>grade</th></tr>
+<tr><td>A</td><td>gossip-observed <strong>addresses</strong> (addrman)</td><td>observed</td><td>C</td></tr>
+<tr><td>B</td><td>reachable <strong>nodes</strong> (a crawler can connect)</td><td>observed</td><td>B</td></tr>
+<tr><td>C</td><td>non-listening / private nodes</td><td>unobservable</td><td>D</td></tr>
+<tr><td>D</td><td>total population</td><td>not observable</td><td>—</td></tr>
+</table>
+</div>
+<p><strong>Four instruments (first-party):</strong></p>
+<div class="table-wrap">
+<table>
+<tr><th>instrument</th><th>measures</th><th>cadence</th></tr>
+<tr><td><code>verification_population.py</code></td><td>reachable-node composition + activity partition</td><td>on capture</td></tr>
+<tr><td><code>seed_census.py</code></td><td>DNS-seed visible <strong>addresses</strong> (third view)</td><td>12 h</td></tr>
+<tr><td><code>addrman_churn.py</code></td><td>address <strong>persistence</strong> over time (staleness, measured)</td><td>12 h</td></tr>
+<tr><td><code>inbound_census.py</code></td><td>distinct peers that <strong>dial in</strong> = evidence of non-listening nodes</td><td>1 h</td></tr>
+</table>
+</div>
+<p><strong>The direction of the error is stated, not hidden.</strong> Non-listening nodes are excluded from the index, so the reported network-wide storage externality (<code>L_net</code>) is a <strong>lower bound</strong> and the reported SCCR an <strong>upper bound</strong>; the baseline is conservative. The unpublicised-node band (N = 50K/80K/100K) is published alongside every SCCR figure.</p>
+<p><strong>Exact requests only.</strong> <code>getnodeaddresses 32000</code> was a request <em>ceiling</em> that truncated the set; the instruments now use <code>getnodeaddresses 0</code> (all known addresses). The first exact measurement returned <strong>more</strong> addresses than the ceiling had — which is why the ceiling figure was retired.</p>
+<p>See <a href="/research/population-measurement">Measuring the verification population</a> and the <a href="/research/evidence-matrix">Evidence Matrix</a>.</p>
 <h2>11. Citing</h2>
 <p>Poswal, P. (2026). <em>Bitcoin Resource Accounting.</em> Bitcoin Sahi. ORCID 0009-0005-2139-1877. Data and code: CC BY 4.0.</p>
 <div class="datacard"><div class="kv">Data source: <code>data/integrity_audit.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>

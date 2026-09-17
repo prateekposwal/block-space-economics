@@ -79,6 +79,7 @@ def main():
         "method": "tools/research/addrman_churn.py — sample the addrman over time and measure persistence",
         "latest_count": len(cur),
         "samples": len(rows),
+        "history": [{"at": r["at"], "count": r["count"]} for r in rows[-60:]],
         "distinct_addresses_ever": len(all_ids),
         "churn": {
             "prev_count": len(prev), "persisted": len(persisted),

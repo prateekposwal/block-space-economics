@@ -351,6 +351,34 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 </table>
 </div>
 <p><strong>Status:</strong> the leg is now <em>measured</em> (the resource&#x27;s size per block is in the queryable DB, growing live). What remains is the <em>pricing</em> step — attributing a $/byte/yr cost to the UTXO delta (the UTXO set is the index that makes validation/script lookups fast; its cost surface is the next model step, and it stays in §7 future work until then).</p>
+<h3>5.8 Population and observability</h3>
+<p>N is the single dominant input to this paper, and it <strong>cannot be counted</strong>. Rather than assert a number, we publish the views and their biases (full method: <code>/research/population-measurement</code>).</p>
+<p><strong>Roles.</strong> Miners (a few dozen pools) produce blocks and receive fees; validating nodes bear the storage and validation cost and receive nothing. <code>N</code> is the <strong>validating</strong> set; the two are never merged.</p>
+<p><strong>Four quantities, never conflated.</strong> (A) gossip-observed <em>addresses</em> — observed, grade C; (B) reachable <em>nodes</em> — observed, grade B; (C) non-listening/private nodes — <strong>unobservable</strong>, grade D; (D) total population — <strong>not observable</strong>. An address pool is not a node count: the ~241k &quot;public nodes&quot; figure widely quoted is an <em>address</em> population.</p>
+<p><strong>Three independent views</strong> (mechanism and grade):</p>
+<div class="table-wrap">
+<table>
+<tr><th>view</th><th>mechanism</th><th>size</th><th>grade</th></tr>
+<tr><td>crawler</td><td>connect to reachable nodes</td><td><strong>26,586</strong> nodes</td><td>B</td></tr>
+<tr><td>DNS seeds</td><td>resolve the bootstrap seeds</td><td><strong>269</strong> addresses</td><td>B</td></tr>
+<tr><td>our addrman</td><td><code>getnodeaddresses 0</code></td><td><strong>34,633</strong> addresses</td><td>C</td></tr>
+</table>
+</div>
+<p>The three differ by an order of magnitude because they measure <strong>different objects</strong> — connectable nodes versus addresses, the latter accumulating stale, rotating and ephemeral entries. The disagreement <em>is</em> the uncertainty. (Note also that an exact <code>getnodeaddresses 0</code> returned more addresses than an earlier request ceiling of 32,000 had, which is why the ceiling figure was retired.)</p>
+<p><strong>Partition of the observed reachable set.</strong> By announced service bits, self-reported height versus tip, and host network:</p>
+<div class="table-wrap">
+<table>
+<tr><th>tier</th><th>nodes</th><th>share</th><th>grade</th></tr>
+<tr><td>---</td><td>---:</td><td>---:</td><td>---</td></tr>
+<tr><td>T1 serving + synced</td><td>23,949</td><td>90.1%</td><td>B</td></tr>
+<tr><td>T2 serving + lagging</td><td>2,081</td><td>7.8%</td><td>B</td></tr>
+<tr><td>T3 no service announced</td><td>547</td><td>2.1%</td><td>B</td></tr>
+<tr><td>T4 height unreported</td><td>0</td><td>0.0%</td><td>C</td></tr>
+</table>
+</div>
+<p>~64% of the reachable set resolves to no country because ~half are Tor/I2P.</p>
+<p><strong>Direction of the error.</strong> Non-listening nodes are excluded from the index. Because every one of them still bears the replication and validation burden, their exclusion makes the network-wide externality <code>L_net</code> a <strong>lower bound</strong> and the SCCR an <strong>upper bound</strong> — the baseline is <strong>conservative</strong>. The unpublicised-node band (N = 50K/80K/100K → SCCR 0.18/0.12/0.09) is published alongside every headline figure (§5.4.1).</p>
+<p><strong>First-party instruments aimed at the unobservable set.</strong> A listening node counts the peers that <strong>dial in</strong> (<code>inbound_census.py</code>) — every inbound peer is, by that act, a node not serving inbound itself, i.e. direct evidence of a non-listening node; and sampling the address manager over time (<code>addrman_churn.py</code>) measures address <strong>persistence</strong>, turning &quot;stale IP&quot; from an assertion into a rate. Both are lower bounds, stated as such.</p>
 <h2>6. Internal Validation, Correction, and Reconciliation (v2.0.0)</h2>
 <p>Internal validation identified an inconsistency in the SCCR implementation, traced it to a <strong>duplicated time-horizon term</strong>, corrected the implementation, regenerated all reported values, and confirmed the qualitative conclusions unchanged. We present the correction in four labeled steps: <strong>Bug → Fix → Results → Reconciliation</strong>.</p>
 <h3>6.1 The bug</h3>

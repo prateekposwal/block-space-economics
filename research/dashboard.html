@@ -121,6 +121,22 @@ Promise.allSettled([
     if(ic){ vl.push('Inbound (non-listening peers): <b>'+num(ic.latest.inbound_count,0)+'</b> now \u00b7 '+num(ic.distinct_inbound_addresses_ever,0)+' ever'); }
     add('Three views of the node population','observed','B',vl,'/research/population-measurement','the method');
   }
+  if(sc || ac || ic){
+    var c=document.createElement('div'); c.className='card';
+    function spark(hist, key, color){
+      if(!hist || hist.length<1) return '<span style="color:var(--muted)">no samples yet</span>';
+      var vals=hist.map(function(x){return x[key];});
+      var mx=Math.max.apply(null,vals), mn=Math.min.apply(null,vals), W=120,H=28;
+      var pts=vals.map(function(v,i){ var x=vals.length<2?W/2:(W*i/(vals.length-1)); var y=H-2-(H-4)*((v-mn)/((mx-mn)||1)); return x.toFixed(1)+','+y.toFixed(1);}).join(' ');
+      return '<svg viewBox="0 0 '+W+' '+H+'" width="120" height="28" aria-hidden="true"><polyline points="'+pts+'" fill="none" stroke="'+color+'" stroke-width="2"/></svg>';
+    }
+    var html='<div class="ch"><span class="ct">Population series</span><span class="badge observed">observed</span></div>';
+    if(sc) html+='<div class="ln">DNS seeds: <b>'+num(sc.latest.union_size,0)+'</b> addresses '+spark(sc.history,'union_size','#60A5FA')+'</div>';
+    if(ac) html+='<div class="ln">Addrman: <b>'+num(ac.latest_count,0)+'</b> addresses '+spark(ac.history,'count','#F7931A')+'</div>';
+    if(ic) html+='<div class="ln">Inbound peers: <b>'+num(ic.latest.inbound_count,0)+'</b> now \u00b7 '+num(ic.distinct_inbound_addresses_ever,0)+' ever '+spark(ic.history,'inbound_count','#4ADE80')+'</div>';
+    html+='<a class="more" href="/research/population-measurement">the method \u2192</a>';
+    c.innerHTML=html; document.getElementById('cards').appendChild(c);
+  }
   if(vp && vp.activity_partition){ var t=vp.activity_partition.tiers, nn=vp.composition.nodes_in_capture;
     add('Activity partition (observed reachable set)','observed','B',
       t.filter(function(x){return x.count>0;}).map(function(x){return x.tier+': <b>'+num(x.count,0)+'</b> ('+Math.round(100*x.count/nn)+'%)';})

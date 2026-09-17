@@ -103,6 +103,48 @@ survived, and the correction is part of the record.
 - Per-block samples are a **spot-check**, not a survey.
 - Field Core Web Vitals and search-console data are not yet instrumented.
 
+## 12. Population and observability
+
+Bitcoin's node population cannot be counted. Every attempt measures a partial
+view with its own bias, so this program publishes the **views and their
+mechanisms**, not a single confident number.
+
+**The role axis first.** Miners (a few dozen pools) *produce* blocks and *receive*
+fees; validating nodes *bear* the storage and validation cost and receive nothing.
+BSAHI's `N` is the **validating** set. The two must never be merged.
+
+**Four quantities, never conflated:**
+
+| # | quantity | layer | grade |
+|---|---|---|---|
+| A | gossip-observed **addresses** (addrman) | observed | C |
+| B | reachable **nodes** (a crawler can connect) | observed | B |
+| C | non-listening / private nodes | unobservable | D |
+| D | total population | not observable | — |
+
+**Four instruments (first-party):**
+
+| instrument | measures | cadence |
+|---|---|---|
+| `verification_population.py` | reachable-node composition + activity partition | on capture |
+| `seed_census.py` | DNS-seed visible **addresses** (third view) | 12 h |
+| `addrman_churn.py` | address **persistence** over time (staleness, measured) | 12 h |
+| `inbound_census.py` | distinct peers that **dial in** = evidence of non-listening nodes | 1 h |
+
+**The direction of the error is stated, not hidden.** Non-listening nodes are
+excluded from the index, so the reported network-wide storage externality
+(`L_net`) is a **lower bound** and the reported SCCR an **upper bound**; the
+baseline is conservative. The unpublicised-node band (N = 50K/80K/100K) is
+published alongside every SCCR figure.
+
+**Exact requests only.** `getnodeaddresses 32000` was a request *ceiling* that
+truncated the set; the instruments now use `getnodeaddresses 0` (all known
+addresses). The first exact measurement returned **more** addresses than the
+ceiling had — which is why the ceiling figure was retired.
+
+See [Measuring the verification population](/research/population-measurement) and
+the [Evidence Matrix](/research/evidence-matrix).
+
 ## 11. Citing
 
 Poswal, P. (2026). *Bitcoin Resource Accounting.* Bitcoin Sahi. ORCID

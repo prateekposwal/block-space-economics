@@ -62,6 +62,8 @@ def main():
         "method": "tools/research/inbound_census.py — count distinct peers that dial in",
         "latest": rec,
         "samples": len(rows),
+        "history": [{"at": r["at"], "inbound_count": r.get("inbound_count", 0),
+                     "connections_in": r.get("connections_in")} for r in rows[-120:]],
         "distinct_inbound_addresses_ever": len(ever),
         "interpretation": {
             "what_it_measures": ("Nodes that opened a connection to us. A node that dials out is, by that act, "

@@ -93,6 +93,7 @@ def main():
         "source": "Bitcoin Core DNS seeds (hardcoded bootstrap list)",
         "latest": sample,
         "samples": len(rows),
+        "history": [{"at": r["at"], "union_size": len(r.get("union", []))} for r in rows[-60:]],
         "distinct_addresses_ever": len(first_seen),
         "persistence": {
             "prev_sample_size": len(prev), "cur_sample_size": len(cur),
