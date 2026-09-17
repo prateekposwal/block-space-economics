@@ -1,0 +1,276 @@
+{
+  "schema": "bsahi.sccr-sensitivity/1",
+  "layer": "modelled",
+  "generated_at": "2026-09-17T04:23:26.818855+00:00",
+  "method": "tools/research/sccr_sensitivity.py \u2014 analytic sensitivity of the SCCR to its assumptions",
+  "formula": "SCCR = fee_USD / L_net ; L_net = N x T x C / R_blocks ; R_blocks = 365.25 x 24 x 6",
+  "reading": {
+    "date": "2026-09-17",
+    "avg_sccr": 0.288282,
+    "blocks": 140,
+    "N": 32000,
+    "T": 10,
+    "C": 925,
+    "implied_fee_usd_per_block": 1622.39
+  },
+  "assumption_grid": [
+    {
+      "N": 10000,
+      "T": 5,
+      "C": 500,
+      "l_net_usd": 475.3213,
+      "sccr": 3.4133
+    },
+    {
+      "N": 10000,
+      "T": 5,
+      "C": 925,
+      "l_net_usd": 879.3444,
+      "sccr": 1.845
+    },
+    {
+      "N": 10000,
+      "T": 5,
+      "C": 1500,
+      "l_net_usd": 1425.964,
+      "sccr": 1.1378
+    },
+    {
+      "N": 10000,
+      "T": 10,
+      "C": 500,
+      "l_net_usd": 950.6426,
+      "sccr": 1.7066
+    },
+    {
+      "N": 10000,
+      "T": 10,
+      "C": 925,
+      "l_net_usd": 1758.6889,
+      "sccr": 0.9225
+    },
+    {
+      "N": 10000,
+      "T": 10,
+      "C": 1500,
+      "l_net_usd": 2851.9279,
+      "sccr": 0.5689
+    },
+    {
+      "N": 10000,
+      "T": 20,
+      "C": 500,
+      "l_net_usd": 1901.2853,
+      "sccr": 0.8533
+    },
+    {
+      "N": 10000,
+      "T": 20,
+      "C": 925,
+      "l_net_usd": 3517.3777,
+      "sccr": 0.4613
+    },
+    {
+      "N": 10000,
+      "T": 20,
+      "C": 1500,
+      "l_net_usd": 5703.8558,
+      "sccr": 0.2844
+    },
+    {
+      "N": 32000,
+      "T": 5,
+      "C": 500,
+      "l_net_usd": 1521.0282,
+      "sccr": 1.0666
+    },
+    {
+      "N": 32000,
+      "T": 5,
+      "C": 925,
+      "l_net_usd": 2813.9022,
+      "sccr": 0.5766
+    },
+    {
+      "N": 32000,
+      "T": 5,
+      "C": 1500,
+      "l_net_usd": 4563.0846,
+      "sccr": 0.3555
+    },
+    {
+      "N": 32000,
+      "T": 10,
+      "C": 500,
+      "l_net_usd": 3042.0564,
+      "sccr": 0.5333
+    },
+    {
+      "N": 32000,
+      "T": 10,
+      "C": 925,
+      "l_net_usd": 5627.8044,
+      "sccr": 0.2883
+    },
+    {
+      "N": 32000,
+      "T": 10,
+      "C": 1500,
+      "l_net_usd": 9126.1693,
+      "sccr": 0.1778
+    },
+    {
+      "N": 32000,
+      "T": 20,
+      "C": 500,
+      "l_net_usd": 6084.1129,
+      "sccr": 0.2667
+    },
+    {
+      "N": 32000,
+      "T": 20,
+      "C": 925,
+      "l_net_usd": 11255.6088,
+      "sccr": 0.1441
+    },
+    {
+      "N": 32000,
+      "T": 20,
+      "C": 1500,
+      "l_net_usd": 18252.3386,
+      "sccr": 0.0889
+    },
+    {
+      "N": 100000,
+      "T": 5,
+      "C": 500,
+      "l_net_usd": 4753.2132,
+      "sccr": 0.3413
+    },
+    {
+      "N": 100000,
+      "T": 5,
+      "C": 925,
+      "l_net_usd": 8793.4444,
+      "sccr": 0.1845
+    },
+    {
+      "N": 100000,
+      "T": 5,
+      "C": 1500,
+      "l_net_usd": 14259.6395,
+      "sccr": 0.1138
+    },
+    {
+      "N": 100000,
+      "T": 10,
+      "C": 500,
+      "l_net_usd": 9506.4263,
+      "sccr": 0.1707
+    },
+    {
+      "N": 100000,
+      "T": 10,
+      "C": 925,
+      "l_net_usd": 17586.8887,
+      "sccr": 0.0923
+    },
+    {
+      "N": 100000,
+      "T": 10,
+      "C": 1500,
+      "l_net_usd": 28519.279,
+      "sccr": 0.0569
+    },
+    {
+      "N": 100000,
+      "T": 20,
+      "C": 500,
+      "l_net_usd": 19012.8527,
+      "sccr": 0.0853
+    },
+    {
+      "N": 100000,
+      "T": 20,
+      "C": 925,
+      "l_net_usd": 35173.7775,
+      "sccr": 0.0461
+    },
+    {
+      "N": 100000,
+      "T": 20,
+      "C": 1500,
+      "l_net_usd": 57038.5581,
+      "sccr": 0.0284
+    }
+  ],
+  "band_summary": {
+    "min": 0.0284,
+    "median": 0.2883,
+    "max": 3.4133,
+    "combinations": 27,
+    "combinations_below_1x": 22,
+    "share_below_1x_pct": 81.5
+  },
+  "distribution": {
+    "source": "research/reproduce frozen capture (real per-block ratios)",
+    "blocks": 155,
+    "mean": 0.240641,
+    "median": 0.193273,
+    "iqr": [
+      0.115849,
+      0.295375
+    ],
+    "p5_p95": [
+      0.068676,
+      0.583136
+    ],
+    "min_max": [
+      0.049048,
+      1.075697
+    ],
+    "bootstrap_95ci_mean": [
+      0.213067,
+      0.270728
+    ],
+    "bootstrap_n": 10000,
+    "seed": 20260917,
+    "note": "legitimate CI for the mean of a real 155-block sample; NOT a claim about the population of all blocks."
+  },
+  "stress_test": {
+    "dominant_assumption": "N",
+    "by_assumption": [
+      {
+        "assumption": "N",
+        "range": [
+          10000,
+          100000
+        ],
+        "sccr_at_low": 0.9225,
+        "sccr_at_high": 0.0923,
+        "factor": 10.0
+      },
+      {
+        "assumption": "T",
+        "range": [
+          5,
+          20
+        ],
+        "sccr_at_low": 0.5766,
+        "sccr_at_high": 0.1441,
+        "factor": 4.0
+      },
+      {
+        "assumption": "C",
+        "range": [
+          500,
+          1500
+        ],
+        "sccr_at_low": 0.5333,
+        "sccr_at_high": 0.1778,
+        "factor": 3.0
+      }
+    ],
+    "verdict": "SCCR is below 1.0 in 22/27 combinations; it crosses only at the most favourable-for-coverage corner (high N, long T, high C)"
+  }
+}

@@ -167,13 +167,19 @@ def find_block_le(ts_target):
             hi = mid - 1
     return best
 
-def era_samples(year, n_targets=3):
-    """Sample heights/times spread across the era, with one mid-era fee block."""
-    days = [1, 158, 335]  # ~Jan 1, Jun 8, Dec 1 (era-relative)
+N_SAMPLES = 12   # default targets per era (was 3) — increase for a real distribution
+
+def era_samples(year, n_targets=N_SAMPLES):
+    """Heights/times spread evenly across the era. n_targets controls sample size;
+    the 2026 era is truncated to the part of the year that has actually elapsed."""
+    n = max(1, int(n_targets))
+    last_day = 250 if year == 2026 else 350     # 2026 ~65% elapsed at capture time
+    if n == 1:
+        days = [1]
+    else:
+        days = sorted({1 + round((last_day - 1) * i / (n - 1)) for i in range(n)})
     samples = []
     for d in days:
-        if year == 2026 and d > 200:
-            continue
         t = datetime.datetime(year, 1, 1, tzinfo=UTC) + datetime.timedelta(days=d - 1)
         b = find_block_le(int(t.timestamp()))
         samples.append(b)
@@ -185,6 +191,10 @@ def main():
     from_year = 2010
     if "--from" in sys.argv:
         from_year = int(sys.argv[sys.argv.index("--from") + 1])
+    n_samples = N_SAMPLES
+    if "--samples" in sys.argv:
+        n_samples = int(sys.argv[sys.argv.index("--samples") + 1])
+    resample = "--resample" in sys.argv
     eras_sccr = {}
     with open(os.path.join(ROOT, "data", "sccr_historical_series.json")) as f:
         for e in json.load(f)["eras"]:
@@ -204,13 +214,16 @@ def main():
     out.setdefault("_rows", [])
     rows = out["_rows"]
     done = {r["era"] for r in rows}
+    if resample and from_year <= 2010:
+        rows = []            # rebuild the whole strip at the new sample size
+        done = set()
     first_year = from_year
-    if str(from_year) in done:
+    if not resample and str(from_year) in done:
         first_year = max(int(x) for x in done) + 1
 
     for year in range(first_year, 2027):
         print(f"era {year} ...", flush=True)
-        samples = era_samples(year)
+        samples = era_samples(year, n_samples)
         mid = samples[len(samples) // 2]
         rb = rawblock_raw(mid["hash"])
         fee_sat = rb.get("fee")

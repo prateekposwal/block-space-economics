@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mining energy cost vs production value by era: the ratio rose from 0.32 (2017) to 0.84 (2026) while fees fell from 35.7% to 0.7% of production cost.">
+<meta property="og:title" content="SCCR sensitivity, confidence intervals, and a stress test">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/sccr-sensitivity">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/sccr-sensitivity">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"SCCR Sensitivity","item":"https://bitcoinsahi.com/research/sccr-sensitivity"}]}
+</script>
+<title>SCCR Sensitivity Bands and Confidence Intervals</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"SCCR sensitivity, confidence intervals, and a stress test","name":"SCCR sensitivity, confidence intervals, and a stress test","url":"https://bitcoinsahi.com/research/sccr-sensitivity","mainEntityOfPage":"https://bitcoinsahi.com/research/sccr-sensitivity","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","about":["Bitcoin","SCCR","sensitivity analysis"],"datePublished":"2026-09-17","dateModified":"2026-09-17"}
+</script>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>SCCR sensitivity, confidence intervals, and a stress test</h1>
+<p><strong>BSAHI — SCCR hardening (P2)</strong> <em>Produced: 2026-09-17 · Instrument: <code>tools/research/sccr_sensitivity.py</code></em></p>
+<h2>Headline</h2>
+<p>The current reading is <strong>SCCR 0.2883</strong> (2026-09-17, 140 blocks, N=32,000, T=10, C=$925). Across the assumption grid the index spans <strong>0.028 – 3.413</strong> (median 0.288), and stays <strong>below 1.0 in 22 of 27 combinations (81.5%)</strong> — it crosses only at the corner most favourable to coverage (high N, long T, high C).</p>
+<p><strong>The node count N dominates the uncertainty</strong> (10.0× across the tested range), so the honest statement is &quot;SCCR is below 1× across essentially all plausible assumptions, dominated by uncertainty in N&quot;.</p>
+<h2>Why the sensitivity is exact, not simulated</h2>
+<p>The SCCR is analytic in its assumptions:</p>
+<pre><code>R_blocks = 365.25 × 24 × 6               (blocks/year)
+L_net    = N × T × C / R_blocks           (USD/block)
+SCCR     = fee_USD_per_block / L_net</code></pre>
+<p>So SCCR is <strong>inverse-linear in N, T and C</strong>, and linear in the fee. The bands are exact for the stated ranges; no Monte-Carlo approximation is needed for the <em>grid</em>. (A bootstrap is used only for the <em>distribution</em> CI below, where it is the right tool.)</p>
+<h2>1. Assumption grid (N × T × C)</h2>
+<div class="table-wrap">
+<table>
+<tr><th>N (nodes)</th><th>T (yr)</th><th>C (USD)</th><th>L_net (USD/block)</th><th>SCCR</th><th>vs 1×</th></tr>
+<tr><td>10,000</td><td>5</td><td>$500</td><td>475</td><td><strong>3.413</strong></td><td><strong>above</strong></td></tr>
+<tr><td>10,000</td><td>5</td><td>$925</td><td>879</td><td><strong>1.845</strong></td><td><strong>above</strong></td></tr>
+<tr><td>10,000</td><td>5</td><td>$1500</td><td>1,426</td><td><strong>1.138</strong></td><td><strong>above</strong></td></tr>
+<tr><td>10,000</td><td>10</td><td>$500</td><td>951</td><td><strong>1.707</strong></td><td><strong>above</strong></td></tr>
+<tr><td>10,000</td><td>10</td><td>$925</td><td>1,759</td><td><strong>0.922</strong></td><td>below</td></tr>
+<tr><td>10,000</td><td>10</td><td>$1500</td><td>2,852</td><td><strong>0.569</strong></td><td>below</td></tr>
+<tr><td>10,000</td><td>20</td><td>$500</td><td>1,901</td><td><strong>0.853</strong></td><td>below</td></tr>
+<tr><td>10,000</td><td>20</td><td>$925</td><td>3,517</td><td><strong>0.461</strong></td><td>below</td></tr>
+<tr><td>10,000</td><td>20</td><td>$1500</td><td>5,704</td><td><strong>0.284</strong></td><td>below</td></tr>
+<tr><td>32,000</td><td>5</td><td>$500</td><td>1,521</td><td><strong>1.067</strong></td><td><strong>above</strong></td></tr>
+<tr><td>32,000</td><td>5</td><td>$925</td><td>2,814</td><td><strong>0.577</strong></td><td>below</td></tr>
+<tr><td>32,000</td><td>5</td><td>$1500</td><td>4,563</td><td><strong>0.355</strong></td><td>below</td></tr>
+<tr><td>32,000</td><td>10</td><td>$500</td><td>3,042</td><td><strong>0.533</strong></td><td>below</td></tr>
+<tr><td>32,000</td><td>10</td><td>$925</td><td>5,628</td><td><strong>0.288</strong></td><td>below</td></tr>
+<tr><td>32,000</td><td>10</td><td>$1500</td><td>9,126</td><td><strong>0.178</strong></td><td>below</td></tr>
+<tr><td>32,000</td><td>20</td><td>$500</td><td>6,084</td><td><strong>0.267</strong></td><td>below</td></tr>
+<tr><td>32,000</td><td>20</td><td>$925</td><td>11,256</td><td><strong>0.144</strong></td><td>below</td></tr>
+<tr><td>32,000</td><td>20</td><td>$1500</td><td>18,252</td><td><strong>0.089</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>5</td><td>$500</td><td>4,753</td><td><strong>0.341</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>5</td><td>$925</td><td>8,793</td><td><strong>0.184</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>5</td><td>$1500</td><td>14,260</td><td><strong>0.114</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>10</td><td>$500</td><td>9,506</td><td><strong>0.171</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>10</td><td>$925</td><td>17,587</td><td><strong>0.092</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>10</td><td>$1500</td><td>28,519</td><td><strong>0.057</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>20</td><td>$500</td><td>19,013</td><td><strong>0.085</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>20</td><td>$925</td><td>35,174</td><td><strong>0.046</strong></td><td>below</td></tr>
+<tr><td>100,000</td><td>20</td><td>$1500</td><td>57,039</td><td><strong>0.028</strong></td><td>below</td></tr>
+</table>
+</div>
+<h2>2. Distribution and confidence interval</h2>
+<p>From the frozen reproduction capture — <strong>155 real blocks</strong> (not a model):</p>
+<div class="table-wrap">
+<table>
+<tr><th>statistic</th><th>value</th></tr>
+<tr><td>mean</td><td>0.2406</td></tr>
+<tr><td>median</td><td>0.1933</td></tr>
+<tr><td>IQR</td><td>0.1158 – 0.2954</td></tr>
+<tr><td>P5–P95</td><td>0.0687 – 0.5831</td></tr>
+<tr><td>min–max</td><td>0.0490 – 1.0757</td></tr>
+<tr><td><strong>bootstrap 95% CI for the mean</strong></td><td><strong>0.2131 – 0.2707</strong></td></tr>
+</table>
+</div>
+<p>legitimate CI for the mean of a real 155-block sample; NOT a claim about the population of all blocks. (bootstrap n=10000, seed 20260917).</p>
+<h2>3. Stress test — which assumption dominates</h2>
+<div class="table-wrap">
+<table>
+<tr><th>assumption</th><th>range tested</th><th>SCCR at low</th><th>SCCR at high</th><th>spread</th></tr>
+<tr><td>N</td><td>10,000–100,000</td><td>0.922</td><td>0.092</td><td><strong>10.0×</strong></td></tr>
+<tr><td>T</td><td>5–20</td><td>0.577</td><td>0.144</td><td><strong>4.0×</strong></td></tr>
+<tr><td>C</td><td>500–1,500</td><td>0.533</td><td>0.178</td><td><strong>3.0×</strong></td></tr>
+</table>
+</div>
+<p><strong>Verdict:</strong> SCCR is below 1.0 in 22/27 combinations; it crosses only at the most favourable-for-coverage corner (high N, long T, high C).</p>
+<h2>Reproduction (copy-paste)</h2>
+<pre><code># the full sensitivity + CI + stress test, deterministic
+python3 tools/research/sccr_sensitivity.py
+# the per-block reproduction that feeds the distribution (JS = Python = C)
+bash research/reproduce/cross_check.sh</code></pre>
+<p>The script reads <code>data/sccr.json</code> (the dated reading) and the frozen kit output, so both the grid and the CI are reproducible from the repository alone.</p>
+<h2>What this does and does not claim</h2>
+<ul>
+<li><strong>Does:</strong> quantify exactly how the index moves with each assumption; give a legitimate CI for the mean of the measured per-block sample.</li>
+<li><strong>Does not:</strong> describe the population of all blocks (the CI is for the sample mean), or claim an SCCR point estimate independent of N — N is the dominant unknown, and that is stated, not hidden.</li>
+</ul>
+<div class="datacard"><div class="kv">Data source: <code>data/sccr_sensitivity.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>
