@@ -45,11 +45,46 @@ D5 evidence — and is stable across the Mac changing networks.
 
 Cost: a free-tier VM is sufficient; a pruned node needs ~2 GB.
 
-### Option 2 — port-forward on a non-CGNAT network
+### Option 2 — PROXY-protocol relay: keep the node on the Mac, borrow only an address
+
+Preferred when the Mac already has the chainstate (it does): the public host only
+**relays**, it does not run a node, so nothing needs to sync there.
+
+```
+peers -> [entry: HAProxy :8333 send-proxy-v2] -> [ssh -R tunnel] -> [Mac demuxer :8344] -> bitcoind :8333
+                     (public IP)                                    (recovers the REAL src IP)
+```
+
+- `tools/net/entrypoint-haproxy.cfg` / `entrypoint-setup.sh` — the public entry
+  point (HAProxy, `send-proxy-v2`).
+- `tools/net/tunnel-up.sh` — Mac side: reverse tunnel + the demuxer.
+- `tools/net/proxyproto_demux.py` — parses PROXY v1/v2, records the true source
+  IP, strips the header, forwards to bitcoind. Bitcoin Core cannot parse PROXY
+  headers on 8333, which is exactly why this demuxer exists.
+
+**Tested (2026-09-18), real output** — v1 and v2, IPv4 and IPv6, with the
+non-Bitcoin filter working:
+
+```
+src_ip=203.0.113.5      bitcoin_peer=True     (PROXY v1)
+src_ip=2001:db8::9      bitcoin_peer=True     (PROXY v2, IPv6)
+src_ip=198.51.100.7     bitcoin_peer=False    (scanner, filtered by network magic)
+```
+
+The real-peer filter is cheap and stateless: a connection counts only if the
+first 4 bytes it sends are the Bitcoin network magic (`f9beb4d9`), so port
+scanners and health checks never pollute the count.
+
+**Why not a plain proxy / ngrok / `ssh -R` on their own:** they SNAT, so every
+peer arrives from the relay's IP — the same identity collapse as Tor, without
+Tor's properties. Only the PROXY-protocol hop preserves the source address.
+
+### Option 3 — port-forward on a non-CGNAT network
 
 If the Mac is ever on the home LAN (`192.168.29.1`), forward TCP 8333 →
 `192.168.29.211` there. (The hour-long bash against CGNAT above is why this only
 works on that network.)
+
 
 ### Not a substitute
 
