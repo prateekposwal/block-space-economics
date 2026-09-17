@@ -162,7 +162,7 @@ fetch('/data/mempool_congestion_series.json').then(function(r){return r.json();}
 }).catch(function(){});
 fetch('/data/perblock_validation.json').then(function(r){return r.json();}).then(function(d){
   var rows=(d.era_rows||[]); var done=rows.length; var avg=rows.reduce(function(a,x){return a+x.mean_weight_wu;},0)/(done||1);
-  var c=card('Per-Block Validation (rows 1+4)',[
+  var c=card('Per-Block Spot Validation (rows 1+4)',[
     '<span style="color:var(--ink)">'+(done||'—')+' eras sampled</span> (2010–'+(rows.length?rows[rows.length-1].era:'—')+'); mean sampled weight '+Math.round(avg/1000)+' kWU; fee legs confirm per-block fees are noisy vs era means (documented).'
   ]);
   var t=el('table');t.innerHTML='<tr><th>Era</th><th>Samples</th><th>Weight kWU</th><th>Size MB</th><th>Tx</th></tr>';
@@ -200,7 +200,7 @@ fetch('/data/verify_cost_index.json').then(function(r){return r.json();}).then(f
 </script>
 <ul class="rlist">
 <li><a href="/research/historical-series-note">Difficulty &amp; Congestion Series</a> <div class="rd">Frozen difficulty 2009→2026 (row 10 → A) and per-era mempool congestion 2016→2026 (row 3 → B*). 2024 was the congestion peak.</div></li>
-<li><a href="/research/perblock-validation-note">Per-Block Validation Strip</a> <div class="rd">2010-2026 per-block samples (weight/size/tx/fee) cross-checking the SCCR reconstruction legs — and confirming single-block fees are noise vs era means.</div></li>
+<li><a href="/research/perblock-validation-note">Per-Block Spot Validation</a> <div class="rd">2010-2026 per-block SPOT samples (weight/size/tx/fee) cross-checking the SCCR reconstruction legs — and confirming single-block fees are noise vs era means.</div></li>
 <li><a href="/research/utxo-state-measurement">UTXO State Measurement</a> <div class="rd">Observed gettxoutsetinfo vs the reconstructed era table — the three layers (observed / reconstructed / current), graded.</div></li><li><a href="/research/utxo-series-reachability">UTXO Series Reachability</a> <div class="rd">Why a continuous historical UTXO-count series is not obtainable from this environment — sources probed, completion paths recorded, chain-leg cross-check 2.7%.</div></li>
 <li><a href="/research/production-cost-note">Production Cost Ratio</a> <div class="rd">2026 mining energy ≈ 84% of revenue at <code>$0.05/kWh</code>; fees ≈ 0.7% of the energy bill. Aggregate leg C.</div></li>
 <li><a href="/research/pool-hashrate-reachability">Pool Hashrate Reachability</a> <div class="rd">Pool self-reported hashrate is unreachable from this environment (DNS-blocked / token-gated) — attribution validated internally 7/7, network-total 2.34%.</div></li>

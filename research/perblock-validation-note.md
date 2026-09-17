@@ -1,6 +1,6 @@
-# Per-block validation strip — rows 1 (fee market) + 4 (block/state size)
+# Per-block spot validation — rows 1 (fee market) + 4 (block/state size)
 
-<!-- seo-title: Per-Block Validation: Era Aggregates vs Real Blocks -->
+<!-- seo-title: Per-Block Spot Validation: Eras vs Real Blocks -->
 
 **Date:** 2026-09-16 (2025-2026 eras completed 2026-09-17) · **Instrument:** `tools/research/perblock_validation.py`
 **Output:** `data/perblock_validation.json`
@@ -13,6 +13,22 @@ That derivation is grade B: correct in aggregate but unverified at the per-block
 level. This strip samples actual per-block measurements across 2010-2026 so the
 aggregate legs can be checked against direct observations, and so the SegWit-era
 size/weight divergence (a block/state-size boundary question, row 4) is quantified.
+
+## Scope and caveat — this is a spot-check, not a survey
+
+Each era is sampled at **three blocks** (2026: **two**). That is a *spot-check*
+against the daily-aggregate reconstruction — it is **not** a statistical
+characterization of the era. Nothing here supports a claim like "this is the
+average behavior of 2026": a two- or three-block sample cannot describe a year of
+~52,600 blocks.
+
+What the sample *can* do, and does:
+
+- confirm the aggregate legs are the right order of magnitude (they are), and
+- expose the shape that a mean hides — e.g. single-block fees are heavy-tailed
+  around an era mean, and post-SegWit `weight ≈ 4x size` is visible.
+
+Read every per-era number below as "one measured block", never as "the era".
 
 ## Sources (this environment)
 

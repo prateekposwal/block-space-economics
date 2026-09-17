@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Per-block samples across 2010-2026 validating the SCCR era aggregates, plus the SegWit size/weight divergence. Single-block fees are noise vs era means.">
-<meta property="og:title" content="Per-block validation strip — rows 1 (fee market) + 4 (block/state size)">
+<meta property="og:title" content="Per-block spot validation — rows 1 (fee market) + 4 (block/state size)">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://bitcoinsahi.com/research/perblock-validation-note">
 <meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
@@ -14,7 +14,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Per-block validation strip \u2014 rows 1 (fee market) + 4 (block/state size)","item":"https://bitcoinsahi.com/research/perblock-validation-note"}]}
 </script>
-<title>Per-Block Validation: Era Aggregates vs Real Blocks</title>
+<title>Per-Block Spot Validation: Eras vs Real Blocks</title>
 <style>:root{
   --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
   --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
@@ -73,10 +73,18 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <body>
 <script src="/js/site-nav.js"></script>
 <div class="container">
-<h1>Per-block validation strip — rows 1 (fee market) + 4 (block/state size)</h1>
+<h1>Per-block spot validation — rows 1 (fee market) + 4 (block/state size)</h1>
 <p><strong>Date:</strong> 2026-09-16 (2025-2026 eras completed 2026-09-17) · <strong>Instrument:</strong> <code>tools/research/perblock_validation.py</code> <strong>Output:</strong> <code>data/perblock_validation.json</code></p>
 <h2>Purpose</h2>
 <p>The SCCR historical reconstruction derives era-level fee and block-size legs from daily aggregates (<code>fee_btc_per_day</code>, <code>avg-block-size</code>, <code>blocks_per_day_est</code>). That derivation is grade B: correct in aggregate but unverified at the per-block level. This strip samples actual per-block measurements across 2010-2026 so the aggregate legs can be checked against direct observations, and so the SegWit-era size/weight divergence (a block/state-size boundary question, row 4) is quantified.</p>
+<h2>Scope and caveat — this is a spot-check, not a survey</h2>
+<p>Each era is sampled at <strong>three blocks</strong> (2026: <strong>two</strong>). That is a <em>spot-check</em> against the daily-aggregate reconstruction — it is <strong>not</strong> a statistical characterization of the era. Nothing here supports a claim like &quot;this is the average behavior of 2026&quot;: a two- or three-block sample cannot describe a year of ~52,600 blocks.</p>
+<p>What the sample <em>can</em> do, and does:</p>
+<ul>
+<li>confirm the aggregate legs are the right order of magnitude (they are), and</li>
+<li>expose the shape that a mean hides — e.g. single-block fees are heavy-tailed around an era mean, and post-SegWit <code>weight ≈ 4x size</code> is visible.</li>
+</ul>
+<p>Read every per-era number below as &quot;one measured block&quot;, never as &quot;the era&quot;.</p>
 <h2>Sources (this environment)</h2>
 <div class="table-wrap">
 <table>
