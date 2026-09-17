@@ -1,5 +1,4 @@
 var VIZ = (function() {
-  var anims = {};
   var _drawFns = {};  // module-local registry — never self-reference VIZ inside the IIFE
   var REDUCED = (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
@@ -23,28 +22,58 @@ var VIZ = (function() {
       }, { rootMargin: '150px' })
     : null;
 
+  // ONE rAF loop drives every canvas. /live used to create a setInterval per
+  // painter (13 timers); a single loop that paints each canvas only when its
+  // interval has elapsed — and only when it is on screen — removes that timer
+  // churn and lets the browser coalesce all paints into one frame.
+  var _rafId = null;
+  var _running = false;
+  var _last = {};   // id -> last paint timestamp
+
+  function _tick(now) {
+    if (!_running) return;
+    var ids = Object.keys(_drawFns);
+    for (var i = 0; i < ids.length; i++) {
+      var id = ids[i], e = _drawFns[id];
+      if (!e) continue;
+      if (_vis[id] === false) continue;                       // off-screen
+      if (now - (_last[id] || 0) < e.interval) continue;       // not due yet
+      _last[id] = now;
+      var el = document.getElementById(id);
+      if (!el) continue;
+      var ctx = el.getContext('2d');
+      var w = el.width = el.clientWidth || window.innerWidth;
+      var h = el.height = el.clientHeight || window.innerHeight;
+      try { e.fn(ctx, w, h, now / 1000); } catch (err) {}
+    }
+    _rafId = requestAnimationFrame(_tick);
+  }
+
+  function _ensureLoop() {
+    if (_running || typeof requestAnimationFrame === 'undefined') return;
+    _running = true;
+    _rafId = requestAnimationFrame(_tick);
+  }
+
+  function _stopLoop() {
+    _running = false;
+    if (_rafId && typeof cancelAnimationFrame !== 'undefined') cancelAnimationFrame(_rafId);
+    _rafId = null;
+  }
+
   function start(id, drawFn, interval) {
     interval = interval || 50;
     _drawFns[id] = { fn: drawFn, interval: interval };
     if (REDUCED) { // render one static frame, don't loop
       try {
-        var el = document.getElementById(id);
-        if (el) drawFn(el.getContext('2d'), el.width, el.height, Date.now() / 1000);
+        var el0 = document.getElementById(id);
+        if (el0) drawFn(el0.getContext('2d'), el0.width, el0.height, Date.now() / 1000);
       } catch (e) {}
       return;
     }
-    if (anims[id]) clearInterval(anims[id]);
     var _el = document.getElementById(id);
     if (_el && _io) _io.observe(_el);
-    anims[id] = setInterval(function() {
-      if (_vis[id] === false) return; // off-screen: skip the paint
-      var el = document.getElementById(id);
-      if (!el) return;
-      var ctx = el.getContext('2d');
-      var w = el.width = el.clientWidth || window.innerWidth;
-      var h = el.height = el.clientHeight || window.innerHeight;
-      try { drawFn(ctx, w, h, Date.now() / 1000); } catch(e) {}
-    }, interval);
+    _ensureLoop();
   }
 
   function responsiveSize(canvas, maxHeight) {
@@ -87,18 +116,8 @@ var VIZ = (function() {
     ctx.closePath();
   }
 
-  function pauseAll() {
-    Object.keys(anims).forEach(function(id) {
-      if (anims[id]) clearInterval(anims[id]);
-    });
-  }
-
-  function resumeAll() {
-    Object.keys(_drawFns).forEach(function(id) {
-      var entry = _drawFns[id];
-      if (entry) start(id, entry.fn, entry.interval);
-    });
-  }
+  function pauseAll() { _stopLoop(); }
+  function resumeAll() { if (!REDUCED) _ensureLoop(); }
 
   function register(id, fn, interval) {
     _drawFns[id] = { fn: fn, interval: interval || 50 };
