@@ -1,60 +1,81 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-17T05:12:22.713008+00:00",
+  "generated_at": "2026-09-17T08:15:18.194Z",
   "freshness_min": 0,
-  "payload_ts": "2026-09-17T05:12:20.925263+00:00",
-  "fees_ts": "2026-09-17T05:12:20.925263+00:00",
-  "price_ts": "2026-09-17T05:12:20.925263+00:00",
-  "height_ts": "2026-09-17T05:12:20.925263+00:00",
-  "mempool_ts": "2026-09-17T05:12:20.925263+00:00",
-  "lightning_ts": "2026-09-17T05:12:20.925263+00:00",
+  "payload_ts": "2026-09-17T08:15:05.787Z",
+  "fees_ts": "2026-09-17T08:15:05.787Z",
+  "price_ts": "2026-09-17T08:15:06.955Z",
+  "height_ts": "2026-09-17T08:15:09.350Z",
+  "mempool_ts": "2026-09-17T08:15:16.893Z",
+  "lightning_ts": "2026-09-17T08:15:18.193Z",
   "fees": {
-    "fastestFee": 3,
+    "fastestFee": 1,
     "halfHourFee": 1,
     "hourFee": 1,
     "economyFee": 1,
     "minimumFee": 1
   },
-  "btc_price": 76450,
-  "block_height": 967370,
-  "mempool_tx": 78902,
+  "btc_price": 76388,
+  "block_height": 967384,
+  "mempool_tx": 76149,
   "lightning": {
     "latest": {
-      "id": 118870,
-      "added": "2026-05-22T00:00:00.000Z",
-      "channel_count": 41080,
-      "node_count": 17438,
-      "total_capacity": 489826757734,
-      "tor_nodes": 8975,
-      "clearnet_nodes": 4696,
-      "unannounced_nodes": 2000,
-      "avg_capacity": 11923728,
-      "avg_fee_rate": 817,
-      "avg_base_fee_mtokens": 880,
-      "med_capacity": 2100000,
+      "id": 121797,
+      "added": "2026-09-17T00:00:00.000Z",
+      "channel_count": 31716,
+      "node_count": 16120,
+      "total_capacity": 373366520780,
+      "tor_nodes": 7906,
+      "clearnet_nodes": 4602,
+      "unannounced_nodes": 2014,
+      "avg_capacity": 11772182,
+      "avg_fee_rate": 811,
+      "avg_base_fee_mtokens": 925,
+      "med_capacity": 2012801,
       "med_fee_rate": 100,
-      "med_base_fee_mtokens": 100,
-      "clearnet_tor_nodes": 1767
+      "med_base_fee_mtokens": 750,
+      "clearnet_tor_nodes": 1598
+    },
+    "previous": {
+      "id": 120819,
+      "added": "2026-09-10T00:00:00.000Z",
+      "channel_count": 32005,
+      "node_count": 16167,
+      "total_capacity": 374350714440,
+      "tor_nodes": 7920,
+      "clearnet_nodes": 4602,
+      "unannounced_nodes": 2034,
+      "avg_capacity": 11696632,
+      "avg_fee_rate": 828,
+      "avg_base_fee_mtokens": 889,
+      "med_capacity": 2010237,
+      "med_fee_rate": 100,
+      "med_base_fee_mtokens": 420,
+      "clearnet_tor_nodes": 1611
     }
   },
   "forecast": [
     {
       "day_offset": 1,
-      "predicted_fastest_fee": 2.2,
+      "predicted_fastest_fee": 1.8,
       "trend": "stable"
     },
     {
       "day_offset": 2,
-      "predicted_fastest_fee": 2.2,
+      "predicted_fastest_fee": 1.8,
       "trend": "stable"
     },
     {
       "day_offset": 3,
-      "predicted_fastest_fee": 2.2,
+      "predicted_fastest_fee": 1.7,
       "trend": "stable"
     }
   ],
-  "alerts": [],
+  "alerts": [
+    "🛡 SPOOL: stale sources: bip110_signal,block_interval",
+    "🛡 ORCHESTRATOR: heartbeat 26792 min ago",
+    "🛡 CAPTURE: failure ratio 31% (last 24h) > 20%"
+  ],
   "history": [
     {
       "date": "2026-08-19",
@@ -435,6 +456,10 @@
     {
       "date": "2026-09-17",
       "fastestFee": 3
+    },
+    {
+      "date": "2026-09-17",
+      "fastestFee": 1
     },
     {
       "date": "2026-09-17",
