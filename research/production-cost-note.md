@@ -52,6 +52,17 @@ subsidy + fees — on the flow-cost basis). Years that cross the wall:
 - **$0.10/kWh:** 2019, 2020, 2023, 2024, 2025, 2026
 - **$0.15/kWh:** 2016, 2018, 2019, 2020, 2022, 2023, 2024, 2025, 2026
 
+
+**Scenario archetypes** (each price is a kind of operation, not just a number):
+
+- **$0.03/kWh** — stranded / curtailed hydro or flare-gas (best case)
+- **$0.05/kWh** — global mining-average midpoint (baseline assumption)
+- **$0.08/kWh** — industrial power, mid-cost region
+- **$0.10/kWh** — industrial power, higher-cost region
+- **$0.15/kWh** — retail / high-cost grid (worst case)
+
+These are documented estimates (grade C). The regional cost stack — electricity source, ASIC efficiency, cooling, facility overhead, curtailment, uptime, financing/capex — remains grade D and would **replace** the price archetype rather than multiply it.
+
 The point is not which price is "right" — it is that the producing-side stress is
 **visible as a function of a decision variable** instead of a hidden constant.
 

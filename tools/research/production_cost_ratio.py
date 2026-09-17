@@ -41,6 +41,17 @@ ELECTRICITY_USD_PER_KWH = 0.05  # global mining-average (0.02-0.08 range; midpoi
 # model publishes the result across plausible electricity prices so the reader
 # can see the sensitivity directly (production_cost_ratio is linear in $/kWh).
 ELECTRICITY_SCENARIOS = [0.03, 0.05, 0.08, 0.10, 0.15]
+# Each scenario is a *named archetype*, not just a number, so the reader knows
+# what kind of operation it represents. These are documented estimates (grade C);
+# the regional decomposition (source, cooling, curtailment, uptime, capex) is the
+# grade-D step that would replace them.
+ELECTRICITY_SCENARIO_LABELS = {
+    0.03: "stranded / curtailed hydro or flare-gas (best case)",
+    0.05: "global mining-average midpoint (baseline assumption)",
+    0.08: "industrial power, mid-cost region",
+    0.10: "industrial power, higher-cost region",
+    0.15: "retail / high-cost grid (worst case)",
+}
 BLOCKS_PER_DAY = 144.0
 
 def load(slug):
@@ -104,6 +115,7 @@ def main():
                 money_losing.append(e["era"])
         scen_table.append({
             "electricity_usd_per_kwh": price,
+            "archetype": ELECTRICITY_SCENARIO_LABELS.get(price, ""),
             "production_cost_ratio_by_era": by_era,
             "eras_money_losing_network_wide": money_losing,
         })
@@ -118,6 +130,16 @@ def main():
             "grade": "C — published paper estimates + assumed global mining average; hashrate/revenue/fee-price legs are frozen primary series (B)",
         },
         "eras": eras,
+        "electricity_assumptions": {
+            "grade": "C — documented estimates, not measured per-facility costs",
+            "note": ("Scenario prices are archetypes (stranded/curtailed, global midpoint, "
+                     "industrial mid/high-cost, retail). Regional reality — electricity source, "
+                     "ASIC efficiency, cooling overhead, facility overhead, curtailment, uptime, "
+                     "financing/capex — remains grade D and would replace the price archetype "
+                     "with a per-region cost stack."),
+            "what_would_move_it": ("Cambridge CBECI regional map; utility tariff schedules by "
+                                   "region; facility cooling/uptime disclosures; curtailment data."),
+        },
         "electricity_scenarios": {
             "unit": "USD/kWh",
             "scenarios_tested": ELECTRICITY_SCENARIOS,

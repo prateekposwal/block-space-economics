@@ -1,6 +1,6 @@
 {
   "schema": "bsahi.production-cost-ratio/1",
-  "generated_at": "2026-09-17T03:45:44.666090+00:00",
+  "generated_at": "2026-09-17T03:48:55.035832+00:00",
   "status": "AGGREGATE (network-wide) \u2014 producing-side instrument; regional split NOT included (grade D until Cambridge-map + regional electricity capture)",
   "assumptions": {
     "asec_efficiency_j_per_th_by_era": {
@@ -220,6 +220,11 @@
       "electricity_usd_per_kwh": 0.05
     }
   ],
+  "electricity_assumptions": {
+    "grade": "C \u2014 documented estimates, not measured per-facility costs",
+    "note": "Scenario prices are archetypes (stranded/curtailed, global midpoint, industrial mid/high-cost, retail). Regional reality \u2014 electricity source, ASIC efficiency, cooling overhead, facility overhead, curtailment, uptime, financing/capex \u2014 remains grade D and would replace the price archetype with a per-region cost stack.",
+    "what_would_move_it": "Cambridge CBECI regional map; utility tariff schedules by region; facility cooling/uptime disclosures; curtailment data."
+  },
   "electricity_scenarios": {
     "unit": "USD/kWh",
     "scenarios_tested": [
@@ -232,6 +237,7 @@
     "table": [
       {
         "electricity_usd_per_kwh": 0.03,
+        "archetype": "stranded / curtailed hydro or flare-gas (best case)",
         "production_cost_ratio_by_era": {
           "2012": 0.0,
           "2013": 0.001,
@@ -253,6 +259,7 @@
       },
       {
         "electricity_usd_per_kwh": 0.05,
+        "archetype": "global mining-average midpoint (baseline assumption)",
         "production_cost_ratio_by_era": {
           "2012": 0.0,
           "2013": 0.001,
@@ -274,6 +281,7 @@
       },
       {
         "electricity_usd_per_kwh": 0.08,
+        "archetype": "industrial power, mid-cost region",
         "production_cost_ratio_by_era": {
           "2012": 0.001,
           "2013": 0.002,
@@ -299,6 +307,7 @@
       },
       {
         "electricity_usd_per_kwh": 0.1,
+        "archetype": "industrial power, higher-cost region",
         "production_cost_ratio_by_era": {
           "2012": 0.001,
           "2013": 0.003,
@@ -327,6 +336,7 @@
       },
       {
         "electricity_usd_per_kwh": 0.15,
+        "archetype": "retail / high-cost grid (worst case)",
         "production_cost_ratio_by_era": {
           "2012": 0.001,
           "2013": 0.004,
