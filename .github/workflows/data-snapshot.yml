@@ -46,7 +46,7 @@ jobs:
         run: |
           git config user.name "bsahi-snapshot-bot"
           git config user.email "snapshot@bitcoinsahi.com"
-          git add data/
+          git add data/ learn.html story.html products/sccr-index.html research/index.html research/dashboard.html
           git diff --cached --quiet || git commit -m "chore: public snapshot $(date -u '+%Y-%m-%d %H:%M UTC')"
           # Conflict-safe sync: retry the merge, never swallow a failure.
           # A failed rebase previously shipped conflict markers into data/.
@@ -60,6 +60,6 @@ jobs:
           # Fail closed: never push invalid JSON (re-validate after sync) —
           # single canonical gate, same as the pre-commit Validate step.
           python3 tools/validate_data_json.py
-          git add data/
+          git add data/ learn.html story.html products/sccr-index.html research/index.html research/dashboard.html
           git diff --cached --quiet || git commit -m "chore: public snapshot $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push
