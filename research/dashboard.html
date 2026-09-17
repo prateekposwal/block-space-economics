@@ -66,6 +66,10 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
 <p class="sub">Live metric cards, each linking to its evidence. Every number is classified <b>observed</b> / <b>reconstructed</b> / <b>modelled</b> with a grade — see the <a href="/research/evidence-matrix">Evidence Matrix</a>.</p>
 <div id="cards" class="cards"><div class="card">Loading…</div></div>
 
+<h2>The security-budget invariant</h2>
+<p>Subsidy ceiling vs production deficit and the total required fee, per halving epoch.</p>
+<div id="fee-chart" style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px"></div>
+
 <h2>Timeline</h2>
 <div id="timeline" class="timeline"></div>
 
@@ -124,6 +128,48 @@ Promise.allSettled([
   if(!host.children.length) err();
 }).catch(function(){ host.innerHTML=''; err(); });
 
+fetch('/data/fee_allocation.json').then(function(r){return r.json();}).then(function(d){
+  var rows=(d.temporal&&d.temporal.paths&&d.temporal.paths.bsahi_specified)||[];
+  if(rows.length<2) return;
+  var host=document.getElementById('fee-chart'); if(!host) return;
+  var W=880,H=300,padL=64,padR=16,padT=18,padB=40;
+  var years=rows.map(function(r){return r.year;});
+  var maxV=Math.max.apply(null, rows.map(function(r){return Math.max(r.subsidy_usd_per_block,r.production_deficit_usd_per_block,r.total_fee_needed_usd_per_block);}));
+  var ymax=maxV*1.1;
+  var X=function(i){return padL+(W-padL-padR)*i/(rows.length-1);};
+  var Y=function(v){return padT+(H-padT-padB)*(1-v/ymax);};
+  function line(key,color,dash,fill){
+    var pts=rows.map(function(r,i){return X(i).toFixed(1)+','+Y(r[key]).toFixed(1);}).join(' ');
+    var s='';
+    if(fill){ s+='<polygon points="'+pts+' '+X(rows.length-1).toFixed(1)+','+Y(0).toFixed(1)+' '+X(0).toFixed(1)+','+Y(0).toFixed(1)+'" fill="rgba(39,174,96,0.06)"/>'; }
+    s+='<polyline points="'+pts+'" fill="none" stroke="'+color+'" stroke-width="'+(fill?3:2)+'"'+(dash?' stroke-dasharray="6 4"':'')+'/>';
+    return s;
+  }
+  var svg='<svg viewBox="0 0 '+W+' '+H+'" width="100%" height="auto" role="img" aria-labelledby="fcT fcD" style="display:block">'
+    +'<title id="fcT">The security-budget invariant: subsidy ceiling vs production deficit and the total required fee, per halving epoch</title>'
+    +'<desc id="fcD">Line chart 2024 to 2036+. The USD subsidy per block (doubling price path) plateaus at about $117,188 because the halving cancels the appreciation, while the production deficit and the total required fee (deficit plus the storage claim) keep rising.</desc>';
+  // gridlines
+  [0,0.25,0.5,0.75,1].forEach(function(f){
+    var v=ymax*f, y=Y(v);
+    svg+='<line x1="'+padL+'" y1="'+y.toFixed(1)+'" x2="'+(W-padR)+'" y2="'+y.toFixed(1)+'" stroke="var(--line)" stroke-width="1"/>';
+    svg+='<text x="'+(padL-8)+'" y="'+y.toFixed(1)+'" text-anchor="end" dominant-baseline="middle" fill="var(--ink-3)" font-size="11">$'+Math.round(v/1000)+'k</text>';
+  });
+  svg+=line('subsidy_usd_per_block','#F2A900',true,false);
+  svg+=line('production_deficit_usd_per_block','#EB5757',false,false);
+  svg+=line('total_fee_needed_usd_per_block','#27AE60',false,true);
+  years.forEach(function(y,i){ svg+='<text x="'+X(i).toFixed(1)+'" y="'+(H-14)+'" text-anchor="middle" fill="var(--ink-3)" font-size="11">'+y+'</text>'; });
+  svg+='</svg>';
+  host.innerHTML=svg;
+  host.insertAdjacentHTML('afterend',
+    '<div style="font-size:.8rem;color:var(--muted);margin-top:10px">'
+    +'<span style="color:#F2A900">▬</span> USD subsidy/block (doubling path) &nbsp; '
+    +'<span style="color:#EB5757">▬</span> production security deficit &nbsp; '
+    +'<span style="color:#27AE60">▬</span> total required fee (deficit + storage claim). '
+    +'The gold line <b>plateaus at ~$117,188</b> — the halving cancels the appreciation, so the subsidy does not grow. '
+    +'Data: <a href="/data/fee_allocation.json">fee_allocation.json</a> · <a href="/research/fee-allocation">the analysis</a>.</div>');
+}).catch(function(){});
+
+
 // Timeline (mirrors the changelog so a crawler sees the dates without JS)
 var TL=[['2026-09-17','Integrity audit + Evidence Matrix; UTXO pipeline; SCCR sensitivity & CI; methodology paper.','/research/evidence-matrix'],
         ['2026-09-16','Historical difficulty + congestion series; production-cost scenarios; per-block spot validation.','/research/historical-series-note'],
@@ -135,16 +181,18 @@ TL.forEach(function(x){ var d=document.createElement('div'); d.className='tl';
   d.innerHTML='<span class="d">'+x[0]+'</span> <span class="t">'+x[1]+'</span> <a href="'+x[2]+'">\u2192</a>'; tl.appendChild(d); });
 </script>
 <style>
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+#fee-chart{overflow-x:auto;max-width:100%}
+#fee-chart svg{max-width:100%;height:auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;max-width:100%;min-width:0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;min-width:0;overflow-wrap:anywhere}
 .card .ch{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
 .card .ct{font-weight:700;color:var(--fg)}
 .badge{border-radius:10px;padding:2px 8px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
 .badge.observed{color:#4ADE80;border:1px solid #2b5}.badge.reconstructed{color:#FBBF24;border:1px solid #a83}.badge.modelled{color:#60A5FA;border:1px solid #359}
 .card .g{font-size:.7rem;color:var(--muted);margin-left:auto}
-.card .ln{font-size:.88rem;color:var(--muted);margin-bottom:4px}
+.card .ln{font-size:.88rem;color:var(--muted);margin-bottom:4px;overflow-wrap:anywhere}
 .card .more{display:inline-block;margin-top:8px;font-size:.82rem;color:var(--accent);text-decoration:none}
-.tl{padding:8px 0;border-bottom:1px solid var(--border);font-size:.9rem;color:var(--muted)}
+.tl{padding:8px 0;border-bottom:1px solid var(--border);font-size:.9rem;color:var(--muted);overflow-wrap:anywhere}
 .tl .d{font-family:var(--mono);color:var(--fg);margin-right:10px}
 .tl a{color:var(--accent);text-decoration:none}
 </style>
