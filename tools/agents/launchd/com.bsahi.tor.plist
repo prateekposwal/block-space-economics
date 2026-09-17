@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.bsahi.tor</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/usr/local/bin/node</string>
+		<string>/Users/prateekposwal/block-space-economics/tools/net/tor_runner.js</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>KeepAlive</key>
+	<true/>
+	<key>StandardErrorPath</key>
+	<string>/Users/prateekposwal/Library/Logs/bsahi-tor.err.log</string>
+	<key>StandardOutPath</key>
+	<string>/Users/prateekposwal/Library/Logs/bsahi-tor.out.log</string>
+	<key>WorkingDirectory</key>
+	<string>/Users/prateekposwal/block-space-economics</string>
+	<key>ProcessType</key>
+	<string>Background</string>
+</dict>
+</plist>
