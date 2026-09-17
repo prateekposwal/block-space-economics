@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mining energy cost vs production value by era: the ratio rose from 0.32 (2017) to 0.84 (2026) while fees fell from 35.7% to 0.7% of production cost.">
+<meta property="og:title" content="Measuring the verification population">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/population-measurement">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/population-measurement">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Measuring the Verification Population","item":"https://bitcoinsahi.com/research/population-measurement"}]}
+</script>
+<title>Measuring the Bitcoin Verification Population — Three Views</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Measuring the verification population","name":"Measuring the verification population","url":"https://bitcoinsahi.com/research/population-measurement","mainEntityOfPage":"https://bitcoinsahi.com/research/population-measurement","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","about":["Bitcoin","node population","measurement","observability"],"datePublished":"2026-09-17","dateModified":"2026-09-17"}
+</script>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Measuring the verification population</h1>
+<p><strong>BSAHI — how we measure a population that cannot be counted.</strong> <em>Produced: 2026-09-17 · Instruments: <code>verification_population.py</code>, <code>seed_census.py</code>, <code>addrman_churn.py</code>, <code>inbound_census.py</code></em></p>
+<h2>The reframe</h2>
+<p>Not <em>&quot;how many Bitcoin nodes are there?&quot;</em> — the total population is <strong>not observable</strong> — but:</p>
+<blockquote><strong>&quot;How large is the independently reachable verification population, what is its composition, and what can we say about the part we cannot see?&quot;</strong></blockquote>
+<p>Four quantities are reported separately and <strong>never conflated</strong>:</p>
+<div class="table-wrap">
+<table>
+<tr><th>#</th><th>quantity</th><th>what it is</th><th>layer</th><th>grade</th></tr>
+<tr><td>A</td><td><strong>gossip-observed addresses</strong></td><td>addresses peers have gossiped (addrman) — not nodes</td><td>observed</td><td>C</td></tr>
+<tr><td>B</td><td><strong>reachable nodes</strong></td><td>nodes that accept a connection from a crawler</td><td>observed</td><td>B</td></tr>
+<tr><td>C</td><td><strong>non-listening / private nodes</strong></td><td>never appear in a crawl; evidence only via inbound peers</td><td>unobservable</td><td>D</td></tr>
+<tr><td>D</td><td><strong>total population</strong></td><td>not observable by any method</td><td>—</td><td>—</td></tr>
+</table>
+</div>
+<h2>Three independent views (triangulation)</h2>
+<p>We now measure the same neighbourhood three different ways, from three different mechanisms. Their disagreement is the uncertainty, and it is published rather than hidden.</p>
+<div class="table-wrap">
+<table>
+<tr><th>view</th><th>mechanism</th><th>size</th><th>what it sees</th><th>grade</th></tr>
+<tr><td><strong>Crawler</strong></td><td>connect to reachable nodes</td><td><strong>26,586</strong> nodes</td><td>nodes that accept inbound</td><td>B</td></tr>
+<tr><td><strong>DNS seeds</strong></td><td>resolve the bootstrap seeds</td><td><strong>264</strong> addresses (8 seeds)</td><td>addresses the seeds recently served</td><td>B</td></tr>
+<tr><td><strong>Our node&#x27;s addrman</strong></td><td><code>getnodeaddresses 0</code></td><td><strong>34,599</strong> addresses</td><td>gossip our peers sent us</td><td>C</td></tr>
+</table>
+</div>
+<p><strong>What agrees:</strong> the crawler and the subtree it can reach are stable and internally coherent; the seed and addrman views overlap the crawler&#x27;s address space.</p>
+<p><strong>What disagrees, and why it matters:</strong> the three counts differ by an order of magnitude because they measure <strong>different objects</strong> — connectable <em>nodes</em> ({reach:,}) versus <em>addresses</em> ({seedunion:,}, {addr:,}) — and addresses accumulate stale, rotating and ephemeral entries. Reporting any one of them as &quot;the number of Bitcoin nodes&quot; is the error this page exists to prevent.</p>
+<blockquote><strong>The address-manager number is a lower bound on gossip-observed addresses, not a node count.</strong> First measurement with an <em>exact</em> request (<code>getnodeaddresses 0</code>) returned <strong>34,599</strong> addresses — more than the 32,000 that an earlier request ceiling reported, which is exactly why the ceiling figure was retired.</blockquote>
+<h2>The observable part, partitioned</h2>
+<p>Partitioning the <strong>26,577 reachable nodes</strong> by signals a crawl can see:</p>
+<div class="table-wrap">
+<table>
+<tr><th>tier</th><th>nodes</th><th>share</th><th>grade</th><th>role</th></tr>
+<tr><td>---</td><td>---:</td><td>---:</td><td>---</td><td>---</td></tr>
+<tr><td><strong>T1 serving + synced</strong></td><td>23,949</td><td>90.1%</td><td>B</td><td>full/pruned validating validator, actively serving</td></tr>
+<tr><td><strong>T2 serving + lagging</strong></td><td>2,081</td><td>7.8%</td><td>B</td><td>intermittent / catching-up validator</td></tr>
+<tr><td><strong>T3 no service announced</strong></td><td>547</td><td>2.1%</td><td>B</td><td>reachable but announces no serving capability — consumer, not infrastructure</td></tr>
+<tr><td><strong>T4 height unreported</strong></td><td>0</td><td>0.0%</td><td>C</td><td>unclassifiable from this capture</td></tr>
+</table>
+</div>
+<p><strong>Network:</strong> clearnet 9,601 (36%) · Tor 12,745 (48%) · I2P 4,231 (16%). Tor and I2P are reachable to a crawler that speaks those transports, which is why IP geography is unresolved for ~64% of the set.</p>
+<h2>The unobservable part — and the direction of the error</h2>
+<p>Non-listening, private and Tor-hidden validators cannot be audited. They are <strong>excluded from the index</strong> and reported as an explicit sensitivity band, because excluding them does not remove their cost:</p>
+<div class="table-wrap">
+<table>
+<tr><th>N</th><th>L_net (USD/block)</th><th>SCCR</th><th>externality vs baseline</th></tr>
+<tr><td>---:</td><td>---:</td><td>---:</td><td>---:</td></tr>
+<tr><td><strong>26,586</strong> (measured floor)</td><td>$4,676</td><td><strong>0.347</strong></td><td>1.00×</td></tr>
+<tr><td>50,000</td><td>$8,793</td><td>0.185</td><td>1.88×</td></tr>
+<tr><td>80,000</td><td>$14,070</td><td>0.115</td><td>3.01×</td></tr>
+<tr><td>100,000</td><td>$17,587</td><td>0.092</td><td>3.76×</td></tr>
+</table>
+</div>
+<p><strong>Direction:</strong> excluding hidden nodes makes <code>L_net</code> a <strong>lower bound</strong> and the SCCR an <strong>upper bound</strong>. The baseline is <strong>conservative</strong>.</p>
+<h2>First-party measurement of the hidden set</h2>
+<p>Two instruments aim at quantity C, which no crawler can see:</p>
+<ul>
+<li><strong>Inbound census</strong> (<code>inbound_census.py</code>) — a listening node counts the peers that <strong>dial in</strong>. Every inbound peer is, by that act, a node not serving inbound itself: first-party evidence of a non-listening node. Current: <strong>0</strong> inbound, <strong>0</strong> distinct ever. This needs reachability (port-forward or Tor) to yield data; it is the highest-value measurement available to this project.</li>
+<li><strong>Addrman churn</strong> (<code>addrman_churn.py</code>) — sampling the address manager over time measures <strong>address persistence</strong> (2 samples so far (persistence rate 100.0%)), turning &quot;zombie IPs&quot; from an assertion into a measured rotation rate.</li>
+</ul>
+<h2>What would strengthen this</h2>
+<ol>
+<li><strong>Reachability for the node</strong> (port-forward or Tor) → the inbound census produces a genuine lower bound on non-listening nodes.</li>
+<li><strong>Time</strong> — churn and seed views need repeated samples; the &quot;missing&quot; numbers accrue automatically.</li>
+<li><strong>A healthy node</strong> — it is currently reindexing after a disk-full chainstate corruption.</li>
+</ol>
+<h2>Grades</h2>
+<div class="table-wrap">
+<table>
+<tr><th>leg</th><th>layer</th><th>grade</th></tr>
+<tr><td>reachable nodes (crawler)</td><td>observed</td><td>B</td></tr>
+<tr><td>gossip-observed addresses (addrman)</td><td>observed</td><td>C</td></tr>
+<tr><td>seed-visible addresses</td><td>observed</td><td>B</td></tr>
+<tr><td>activity partition of the reachable set</td><td>observed</td><td>B (T4 C)</td></tr>
+<tr><td>non-listening / total population</td><td>unobservable</td><td>D / —</td></tr>
+<tr><td>inbound census</td><td>observed</td><td>B (once reachable)</td></tr>
+</table>
+</div>
+<h2>Why this is the honest method</h2>
+<p>A census of Bitcoin&#x27;s node population does not exist. What exists is a set of partial views with different biases. BSAHI publishes the views, the mechanisms behind them, the direction of their error, and the gap — instead of collapsing them into one confident number.</p>
+<p>Data: <a href="/data/verification_population.json">`verification_population.json`</a> · <a href="/data/seed_census.json">`seed_census.json`</a> · <a href="/data/addrman_churn.json">`addrman_churn.json`</a> · <a href="/data/inbound_census.json">`inbound_census.json`</a> · <a href="/research/methodology">Methodology</a> · <a href="/research/evidence-matrix">Evidence Matrix</a></p>
+<div class="datacard"><div class="kv">Data source: <code>data/verification_population.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>

@@ -99,14 +99,28 @@ Promise.allSettled([
   fetch('/data/production_cost_ratio.json').then(function(r){return r.json();}),
   fetch('/data/verify_cost_index.json').then(function(r){return r.json();}),
   fetch('/data/difficulty_series.json').then(function(r){return r.json();}),
-  fetch('/data/mempool_congestion_series.json').then(function(r){return r.json();})
+  fetch('/data/mempool_congestion_series.json').then(function(r){return r.json();}),
+  fetch('/data/seed_census.json').then(function(r){return r.json();}),
+  fetch('/data/addrman_churn.json').then(function(r){return r.json();}),
+  fetch('/data/inbound_census.json').then(function(r){return r.json();})
 ]).then(function(res){
   function ok(i){ return res[i].status==='fulfilled' ? res[i].value : null; }
   // order must match the fetch list above (fee_allocation, verification_population, sccr, ...)
   var fa=ok(0), vp=ok(1);
   var s=ok(2), u=ok(3), pb=ok(4), pc=ok(5), vci=ok(6), dif=ok(7), mem=ok(8);
+  var sc=ok(9), ac=ok(10), ic=ok(11);
   if(vp && vp.quantities){ var vpq=vp.quantities, vpc=vp.composition;
     add('Verification population','observed','B',['<b>'+num(vpq.B_reachable_nodes.value,0)+'</b> reachable nodes measured','gossip-observed addresses \u2265'+num(vpq.A_gossip_addresses.value,0)+' (not a node count) \u00b7 '+(vpc?Math.round(vpc.network.tor/vpc.nodes_in_capture*100):'?')+'% Tor/I2P'],'/research/verification-population','the observatory'); }
+  if(sc && ac){
+    var vl=[];
+    vl.push('Crawler (reachable nodes): <b>'+((vp&&vp.quantities)?num(vp.quantities.B_reachable_nodes.value,0):'\u2014')+'</b>');
+    vl.push('DNS seeds: <b>'+num(sc.latest.union_size,0)+'</b> addresses');
+    var aline='Our addrman: <b>'+num(ac.latest_count,0)+'</b> addresses';
+    if(ac.churn && ac.churn.persistence_rate_pct!=null){ aline += ' \u00b7 persistence '+ac.churn.persistence_rate_pct+' percent'; }
+    vl.push(aline);
+    if(ic){ vl.push('Inbound (non-listening peers): <b>'+num(ic.latest.inbound_count,0)+'</b> now \u00b7 '+num(ic.distinct_inbound_addresses_ever,0)+' ever'); }
+    add('Three views of the node population','observed','B',vl,'/research/population-measurement','the method');
+  }
   if(vp && vp.activity_partition){ var t=vp.activity_partition.tiers, nn=vp.composition.nodes_in_capture;
     add('Activity partition (observed reachable set)','observed','B',
       t.filter(function(x){return x.count>0;}).map(function(x){return x.tier+': <b>'+num(x.count,0)+'</b> ('+Math.round(100*x.count/nn)+'%)';})
