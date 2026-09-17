@@ -117,6 +117,50 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 </table>
 </div>
 <p>At the current price that crossover is <strong>2028</strong> — after which fees must fund security, and, if the storage externality is to be internalized, roughly <strong>$204,177/block</strong> more on top.</p>
+<h2>Temporal expansion — the fee requirement per halving epoch</h2>
+<p>Price paths are <strong>scenarios</strong> (grade C); the halving is arithmetic (grade A).</p>
+<h3>Specified price path (aggressive appreciation)</h3>
+<div class="table-wrap">
+<table>
+<tr><th>year</th><th>price</th><th>subsidy USD/block</th><th>production deficit</th><th>storage claim</th><th><strong>total fee needed</strong></th></tr>
+<tr><td>---:</td><td>---:</td><td>---:</td><td>---:</td><td>---:</td><td>---:</td></tr>
+<tr><td>2024</td><td>$50,000</td><td>$156,250</td><td>$42,299</td><td>$4,676</td><td><strong>$46,975</strong></td></tr>
+<tr><td>2028</td><td>$78,000</td><td>$121,875</td><td>$76,674</td><td>$4,676</td><td><strong>$81,350</strong></td></tr>
+<tr><td>2032</td><td>$150,000</td><td>$117,188</td><td>$81,362</td><td>$4,676</td><td><strong>$86,038</strong></td></tr>
+<tr><td>2036</td><td>$300,000</td><td>$117,188</td><td>$81,362</td><td>$4,676</td><td><strong>$86,038</strong></td></tr>
+<tr><td>2040</td><td>$600,000</td><td>$117,187</td><td>$81,362</td><td>$4,676</td><td><strong>$86,038</strong></td></tr>
+<tr><td>2044</td><td>$1,200,000</td><td>$117,187</td><td>$81,362</td><td>$4,676</td><td><strong>$86,038</strong></td></tr>
+</table>
+</div>
+<p><strong>The structural invariant:</strong> when the price <strong>doubles each epoch</strong>, the USD subsidy is <strong>constant</strong> — the halving cancels the appreciation. On this path the nominal security protection <strong>plateaus at ~$117,188/block</strong> and does not grow again. The security-budget cliff is therefore a <strong>protocol invariant</strong>, not a pricing problem: no amount of fiat appreciation on a doubling path raises the subsidy above the plateau, while the production deficit and the storage claim are set by costs and by schedule.</p>
+<h3>Flat-price path (no appreciation)</h3>
+<div class="table-wrap">
+<table>
+<tr><th>year</th><th>price</th><th>subsidy USD/block</th><th>production deficit</th><th>storage claim</th><th><strong>total fee needed</strong></th></tr>
+<tr><td>---:</td><td>---:</td><td>---:</td><td>---:</td><td>---:</td><td>---:</td></tr>
+<tr><td>2024</td><td>$68,005</td><td>$212,517</td><td>$0</td><td>$4,676</td><td><strong>$4,676</strong></td></tr>
+<tr><td>2028</td><td>$68,005</td><td>$106,258</td><td>$92,291</td><td>$4,676</td><td><strong>$96,967</strong></td></tr>
+<tr><td>2032</td><td>$68,005</td><td>$53,129</td><td>$145,420</td><td>$4,676</td><td><strong>$150,096</strong></td></tr>
+<tr><td>2036</td><td>$68,005</td><td>$26,565</td><td>$171,985</td><td>$4,676</td><td><strong>$176,660</strong></td></tr>
+<tr><td>2040</td><td>$68,005</td><td>$13,282</td><td>$185,267</td><td>$4,676</td><td><strong>$189,943</strong></td></tr>
+<tr><td>2044</td><td>$68,005</td><td>$6,641</td><td>$191,908</td><td>$4,676</td><td><strong>$196,584</strong></td></tr>
+</table>
+</div>
+<p>Under a flat price the crossover arrives sooner and hardens, because the subsidy and the protection fall together.</p>
+<h3>Doubling-each-epoch from today</h3>
+<div class="table-wrap">
+<table>
+<tr><th>year</th><th>price</th><th>subsidy USD/block</th><th>production deficit</th><th>storage claim</th><th><strong>total fee needed</strong></th></tr>
+<tr><td>---:</td><td>---:</td><td>---:</td><td>---:</td><td>---:</td><td>---:</td></tr>
+<tr><td>2024</td><td>$68,005</td><td>$212,517</td><td>$0</td><td>$4,676</td><td><strong>$4,676</strong></td></tr>
+<tr><td>2028</td><td>$136,011</td><td>$212,517</td><td>$0</td><td>$4,676</td><td><strong>$4,676</strong></td></tr>
+<tr><td>2032</td><td>$272,022</td><td>$212,517</td><td>$0</td><td>$4,676</td><td><strong>$4,676</strong></td></tr>
+<tr><td>2036</td><td>$544,043</td><td>$212,517</td><td>$0</td><td>$4,676</td><td><strong>$4,676</strong></td></tr>
+<tr><td>2040</td><td>$1,088,086</td><td>$212,517</td><td>$0</td><td>$4,676</td><td><strong>$4,676</strong></td></tr>
+<tr><td>2044</td><td>$2,176,172</td><td>$212,517</td><td>$0</td><td>$4,676</td><td><strong>$4,676</strong></td></tr>
+</table>
+</div>
+<p>Machine-readable: <code>data/fee_allocation.json</code> → <code>temporal.paths</code> (per path, per epoch).</p>
 <h2>Grades</h2>
 <div class="table-wrap">
 <table>

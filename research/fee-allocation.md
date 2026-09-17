@@ -47,6 +47,50 @@ The subsidy alone stops covering the current network-wide energy cost of product
 
 At the current price that crossover is **2028** — after which fees must fund security, and, if the storage externality is to be internalized, roughly **$204,177/block** more on top.
 
+
+## Temporal expansion — the fee requirement per halving epoch
+
+Price paths are **scenarios** (grade C); the halving is arithmetic (grade A).
+
+### Specified price path (aggressive appreciation)
+
+| year | price | subsidy USD/block | production deficit | storage claim | **total fee needed** |
+|---:|---:|---:|---:|---:|---:|
+| 2024 | $50,000 | $156,250 | $42,299 | $4,676 | **$46,975** |
+| 2028 | $78,000 | $121,875 | $76,674 | $4,676 | **$81,350** |
+| 2032 | $150,000 | $117,188 | $81,362 | $4,676 | **$86,038** |
+| 2036 | $300,000 | $117,188 | $81,362 | $4,676 | **$86,038** |
+| 2040 | $600,000 | $117,187 | $81,362 | $4,676 | **$86,038** |
+| 2044 | $1,200,000 | $117,187 | $81,362 | $4,676 | **$86,038** |
+
+**The structural invariant:** when the price **doubles each epoch**, the USD subsidy is **constant** — the halving cancels the appreciation. On this path the nominal security protection **plateaus at ~$117,188/block** and does not grow again. The security-budget cliff is therefore a **protocol invariant**, not a pricing problem: no amount of fiat appreciation on a doubling path raises the subsidy above the plateau, while the production deficit and the storage claim are set by costs and by schedule.
+
+### Flat-price path (no appreciation)
+
+| year | price | subsidy USD/block | production deficit | storage claim | **total fee needed** |
+|---:|---:|---:|---:|---:|---:|
+| 2024 | $68,005 | $212,517 | $0 | $4,676 | **$4,676** |
+| 2028 | $68,005 | $106,258 | $92,291 | $4,676 | **$96,967** |
+| 2032 | $68,005 | $53,129 | $145,420 | $4,676 | **$150,096** |
+| 2036 | $68,005 | $26,565 | $171,985 | $4,676 | **$176,660** |
+| 2040 | $68,005 | $13,282 | $185,267 | $4,676 | **$189,943** |
+| 2044 | $68,005 | $6,641 | $191,908 | $4,676 | **$196,584** |
+
+Under a flat price the crossover arrives sooner and hardens, because the subsidy and the protection fall together.
+
+### Doubling-each-epoch from today
+
+| year | price | subsidy USD/block | production deficit | storage claim | **total fee needed** |
+|---:|---:|---:|---:|---:|---:|
+| 2024 | $68,005 | $212,517 | $0 | $4,676 | **$4,676** |
+| 2028 | $136,011 | $212,517 | $0 | $4,676 | **$4,676** |
+| 2032 | $272,022 | $212,517 | $0 | $4,676 | **$4,676** |
+| 2036 | $544,043 | $212,517 | $0 | $4,676 | **$4,676** |
+| 2040 | $1,088,086 | $212,517 | $0 | $4,676 | **$4,676** |
+| 2044 | $2,176,172 | $212,517 | $0 | $4,676 | **$4,676** |
+
+Machine-readable: `data/fee_allocation.json` → `temporal.paths` (per path, per epoch).
+
 ## Grades
 
 | leg | layer | grade |
