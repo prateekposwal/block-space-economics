@@ -1,39 +1,39 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-17T08:48:22.603Z",
+  "generated_at": "2026-09-17T09:30:57.485Z",
   "freshness_min": 0,
-  "payload_ts": "2026-09-17T08:48:10.633Z",
-  "fees_ts": "2026-09-17T08:48:10.633Z",
-  "price_ts": "2026-09-17T08:48:11.401Z",
-  "height_ts": "2026-09-17T08:48:12.626Z",
-  "mempool_ts": "2026-09-17T08:48:21.352Z",
-  "lightning_ts": "2026-09-17T08:48:22.601Z",
+  "payload_ts": "2026-09-17T09:30:43.435Z",
+  "fees_ts": "2026-09-17T09:30:43.435Z",
+  "price_ts": "2026-09-17T09:30:44.199Z",
+  "height_ts": "2026-09-17T09:30:46.980Z",
+  "mempool_ts": "2026-09-17T09:30:56.501Z",
+  "lightning_ts": "2026-09-17T09:30:57.484Z",
   "fees": {
-    "fastestFee": 3,
-    "halfHourFee": 3,
-    "hourFee": 3,
-    "economyFee": 2,
+    "fastestFee": 1,
+    "halfHourFee": 1,
+    "hourFee": 1,
+    "economyFee": 1,
     "minimumFee": 1
   },
-  "btc_price": 76463,
-  "block_height": 967386,
-  "mempool_tx": 76301,
+  "btc_price": 76616,
+  "block_height": 967391,
+  "mempool_tx": 75206,
   "lightning": {
     "latest": {
       "id": 121797,
       "added": "2026-09-17T00:00:00.000Z",
-      "channel_count": 31717,
-      "node_count": 16120,
-      "total_capacity": 373376520780,
-      "tor_nodes": 7906,
+      "channel_count": 31719,
+      "node_count": 16122,
+      "total_capacity": 373242191627,
+      "tor_nodes": 7908,
       "clearnet_nodes": 4603,
       "unannounced_nodes": 2013,
-      "avg_capacity": 11772126,
-      "avg_fee_rate": 811,
-      "avg_base_fee_mtokens": 925,
-      "med_capacity": 2012801,
+      "avg_capacity": 11767149,
+      "avg_fee_rate": 812,
+      "avg_base_fee_mtokens": 926,
+      "med_capacity": 2011915,
       "med_fee_rate": 100,
-      "med_base_fee_mtokens": 750,
+      "med_base_fee_mtokens": 764,
       "clearnet_tor_nodes": 1598
     },
     "previous": {
@@ -67,14 +67,12 @@
     },
     {
       "day_offset": 3,
-      "predicted_fastest_fee": 1.7,
+      "predicted_fastest_fee": 1.8,
       "trend": "stable"
     }
   ],
   "alerts": [
-    "🛡 SPOOL: stale sources: bip110_signal,block_interval",
-    "🛡 ORCHESTRATOR: heartbeat 26824 min ago",
-    "🛡 CAPTURE: failure ratio 33% (last 24h) > 20%"
+    "⚡ economyFee: 0.0 sat/vB — below 1 threshold at high BTC price"
   ],
   "history": [
     {
@@ -464,6 +462,10 @@
     {
       "date": "2026-09-17",
       "fastestFee": 1
+    },
+    {
+      "date": "2026-09-17",
+      "fastestFee": 2
     }
   ],
   "totalPosts": 0
