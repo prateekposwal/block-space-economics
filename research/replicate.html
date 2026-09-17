@@ -95,7 +95,7 @@ python3 reproduce_sccr.py --input input/fee_history_capture.json
 bash cross_check.sh          # JS = Python = C? prints the verdict</code></pre>
 <p>Expected: <strong>avg SCCR 0.289645</strong> (min 0.059036, max 1.294753, 152/155 below 1×), with the three implementations agreeing to &lt; 1e-6. If you do <strong>not</strong> get that, we want to know — that is the useful result.</p>
 <blockquote>The frozen-capture average is <code>0.240641 × (32000 / 26586)</code> — the whole series</blockquote>
-<blockquote>rescales by the N re-base of 2026-09-17 (see the <a href="/research/CHANGELOG">Changelog</a>).</blockquote>
+<blockquote>rescales by the N re-base of 2026-09-17 (see the <a href="/research/changelog">Changelog</a>).</blockquote>
 <blockquote>The kit reads <code>N</code> from <code>research/model-spec.json</code>, so a clone reproduces the</blockquote>
 <blockquote>current value with no edits.</blockquote>
 <h2>Reproduce the node population (N)</h2>
@@ -114,7 +114,7 @@ bash cross_check.sh          # JS = Python = C? prints the verdict</code></pre>
 <li>A fee-market episode in which fees cover storage at a materially higher rate than the published series, sustained.</li>
 </ul>
 <h2>How to send a result</h2>
-<p>Open an issue at <code>github.com/prateekposwal/block-space-economics</code> with: the artifact you ran, your inputs, your output, and your environment. Corrections are published in the <a href="/research/CHANGELOG">Research Changelog</a> with their cause — the project&#x27;s own 10× correction is precedent that this is the intended path, not an embarrassment.</p>
+<p>Open an issue at <code>github.com/prateekposwal/block-space-economics</code> with: the artifact you ran, your inputs, your output, and your environment. Corrections are published in the <a href="/research/changelog">Research Changelog</a> with their cause — the project&#x27;s own 10× correction is precedent that this is the intended path, not an embarrassment.</p>
 <h2>The standard</h2>
 <ul>
 <li>Every number is classified <strong>Observed / Reconstructed / Modelled</strong> with a grade in the <a href="/research/evidence-matrix">Evidence Matrix</a>.</li>

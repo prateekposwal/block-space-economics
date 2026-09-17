@@ -33,7 +33,7 @@ three implementations agreeing to < 1e-6. If you do **not** get that, we want to
 know — that is the useful result.
 
 > The frozen-capture average is `0.240641 × (32000 / 26586)` — the whole series
-> rescales by the N re-base of 2026-09-17 (see the [Changelog](/research/CHANGELOG)).
+> rescales by the N re-base of 2026-09-17 (see the [Changelog](/research/changelog)).
 > The kit reads `N` from `research/model-spec.json`, so a clone reproduces the
 > current value with no edits.
 
@@ -75,7 +75,7 @@ The dated, hashed state of this thread is pinned in
 Open an issue at
 `github.com/prateekposwal/block-space-economics` with: the artifact you ran, your
 inputs, your output, and your environment. Corrections are published in the
-[Research Changelog](/research/CHANGELOG) with their cause — the project's own
+[Research Changelog](/research/changelog) with their cause — the project's own
 10× correction is precedent that this is the intended path, not an embarrassment.
 
 ## The standard
