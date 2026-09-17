@@ -13,11 +13,12 @@
   "networkVersion": 270100,
   "connections": 8,
   "captured_at": "2026-08-02T19:05:03.982Z",
-  "source": "Bitcoin Core getnodeaddresses (local node, RPC max 32000; addrman saturation lower bound)",
+  "source": "Bitcoin Core getnodeaddresses (local node). NOTE: 32,000 was the requested ceiling and was returned in full -> lower bound on ADDRESSES SEEN IN ADDR GOSSIP, not a node count.",
   "lower_bound": true,
-  "note": "PRIMARY-SOURCE lower-bound census: the node knows AT LEAST N addresses (addrman caps at 32,000). Written by the LOCAL Mac node-census agent (tools/agents/25-node-census.js, run by the DE server). GitHub Actions never needs the census \u2014 it reads the committed dated constant.",
+  "note": "getnodeaddresses 32000 returned 32,000 (the request ceiling) -> the addrman held >=32,000 gossiped addresses. This is NOT a node census and NOT a lower bound on reachable nodes; the address set includes stale/unreachable addresses and its size depends on peer count and uptime. Measured reachable nodes: 26,586 (btcnodes, 2026-09-16). Corrected 2026-09-17; see data/verification_population.json.",
   "live_capture_tried": false,
   "live_capture_reason": "Bitcoin Core RPC not reachable (127.0.0.1:8332); bitcoind not running",
   "staleness_days": 39,
-  "captured_at_iso": "2026-08-02T19:05:03.982Z"
+  "captured_at_iso": "2026-08-02T19:05:03.982Z",
+  "quantity_class": "gossip-observed addresses (not nodes)"
 }

@@ -21,7 +21,7 @@ row here, that is a defect.
 
 | # | Metric | Value / reading (as published) | Layer | Source | Date | Grade |
 |---|---|---|---|---|---|---|
-| 1 | **SCCR (live)** | 0.2789 · 139 blocks · 99.28% below 1× · N=32K · T=10yr · spec 2.1.0 | Observed | `data/sccr.json` ← mempool.space 24h fee endpoint (GH Actions) | 2026-09-16 | B |
+| 1 | **SCCR (live)** | 0.2883 · 140 blocks · 99.29% below 1× · **N=32K (provisional — an address sample, not a node count)** · T=10yr · spec 2.1.0 | Observed fee + modelled N | `data/sccr.json` ← mempool.space 24h fee endpoint (GH Actions) | 2026-09-17 | B/C |
 | 2 | SCCR daily history | 36 daily readings | Observed | `data/sccr_history.json` | 2026-08-02 → 2026-09-16 | B |
 | 3 | SCCR historical (era reconstruction) | era-level SCCR, 2010-2026 | **Reconstructed** | `data/sccr_historical_series.json` (daily aggregates → era legs) | frozen 2026-09 | B/C |
 | 4 | Chain size (bytes to verify) | 789.45 GB (2026) | Observed | cumulative frozen `avg-block-size` (unit MB) | 2026 | B |
@@ -35,7 +35,10 @@ row here, that is a defect.
 | 12 | **Production cost ratio** | reported across $0.03–$0.15/kWh | **Modelled** (observed legs + assumed price/efficiency) | `data/production_cost_ratio.json` | 2026-09-17 | C |
 | 13 | Electricity price | $0.05/kWh (scenario $0.03–$0.15) | **Modelled** (assumption) | documented assumption | — | C |
 | 14 | ASIC efficiency (network avg) | 25 J/TH (2026), era table | **Modelled** (estimate) | documented table | — | C |
-| 15 | Node census (N) | ≥32,000 (lower bound) | Observed | `getnodeaddresses` census (`data/node_census*.json`) | 2026-08-02 | B |
+| 15a | **Gossip-observed addresses** (addrman) | ≥32,000 learned addresses (request ceiling, returned in full) | Observed | `getnodeaddresses 32000` (`data/node_census.json`) — **addresses, not nodes** | 2026-08-02 | C |
+| 15b | **Reachable nodes** | **26,586** | Observed | btcnodes reachable-node crawl (`data/node_census_series.json`, 3,981 snapshots) | 2026-09-16 | B |
+| 15c | Non-listening / private nodes | **unobservable** remotely (evidence only via inbound peers: `-netinfo`) | — | — | — | D |
+| 15d | Total node population | **not observable** | — | — | — | — |
 | 16 | Pool attribution | 7/7 pools coherent ≤1.5σ; network-total diff 2.34% | Observed | `data/pool_attribution_validation.json` | 2026-09-15 | C/B |
 | 17 | Mining concentration | HHI/Gini/N_eff per window | Observed | `data/mining_concentration.json` | 2026-09-15 | B |
 | 18 | BIP-110 signaling | lock-in h963,648 (2026-08-23 00:48:47 UTC); snapshot h966,270 | Observed | `data/bip110.json` (GH Actions) + blockstream.info | 2026-09-09 | A |

@@ -5,59 +5,319 @@
   "supersedes": "research/methodology.json v1.0.0",
   "date": "2026-08-04",
   "status": "canonical",
-  "census": { "N": 32000, "captured_at": "2026-08-02T19:05:03.982Z", "census_date": "2026-08-02",
+  "census": {
+    "N": 32000,
+    "captured_at": "2026-08-02T19:05:03.982Z",
+    "census_date": "2026-08-02",
     "source": "Bitcoin Core getnodeaddresses (local node, RPC max 32000; addrman saturation lower bound)",
     "lower_bound": true,
-    "note": "Snapshot-of-record: N is a documented, DATED constant. The LOCAL Mac node-census agent (tools/agents/25-node-census.js, run by the DE server) is the only census writer — it refreshes data/node_census.json whenever Core is reachable; GitHub Actions never needs the census. sccr_live.py reads this block for the as-of date and surfaces staleness (>30 days) honestly in the sccr.json notes." },
-  "quantities": {
-    "C":        { "symbol": "C", "name": "annual node operating cost", "units": "USD/year", "kind": "input", "value": 925, "canonicalSource": "research/verification_appendix.md (166.67+600+157.68=924.35, rounded to 925)", "note": "Python model exact component sum is 924.35; 925 is the pinned canonical value." },
-    "C_insc":   { "symbol": "C_insc", "name": "annual node operating cost (python-exact component sum)", "units": "USD/year", "kind": "input", "value": 924.35, "canonicalSource": "166.67 + 600 + 157.68 (component sum); C=925 is the pinned rounded canonical", "note": "Used ONLY by the marginal inscription branch so cb_insc and L_insc reproduce the python model's historic values exactly." },
-    "N":        { "symbol": "N", "name": "full-node replication factor", "units": "nodes", "kind": "input", "value": 32000,
-                  "canonicalSource": "PRIMARY-SOURCE census via agent-25 (node-census): getnodeaddresses on a live Bitcoin Core node returned 32,000 known addresses on 2026-08-02 (RPC max; addrman saturates at the cap). Matches independent reachable-node band 10K-100K; BSAHI earlier marketing used ~27.8K. SCCR is inversely proportional to N: avg inverts at N~10.3K, 100%-below-1x claim inverts at N~49K.",
-                  "captured_at": "2026-08-02T19:05:03.982Z",
-                  "census_date": "2026-08-02",
-                  "note": "N=32,000 is a lower bound (the node knows AT LEAST 32K addresses; addrman caps at 32,000). The true reachable set is >= 32K. The 100%-below-1x claim holds at N<=49K; N=32K is safely inside that. See working-paper.md 5.4." },
-    "T":        { "symbol": "T", "name": "storage horizon", "units": "years", "kind": "input", "value": 10, "canonicalSource": "research/verification_appendix.md Open Q3 (assumption)" },
-    "B_block":  { "symbol": "B_block", "name": "average block size", "units": "bytes", "kind": "input", "value": 1500000, "canonicalSource": "captured-data block_stats / spool fees (1.5MB approximation)" },
-    "I_bytes":  { "symbol": "I_bytes", "name": "avg inscription UTXO footprint", "units": "bytes", "kind": "input", "value": 400, "canonicalSource": "research/verification_appendix.md section 4 (envelope estimate)" },
-    "I_rate":   { "symbol": "I_rate", "name": "inscription issuance rate", "units": "inscriptions/month", "kind": "input", "value": 100000, "canonicalSource": "research/verification_appendix.md section 5 (Dune/Ordinals avg)" },
-    "R_blocks": { "symbol": "R_blocks", "name": "blocks per year", "units": "blocks/year", "kind": "derived", "formula": "365.25 * 24 * 6", "value": 52596 },
-    "B_all_yr": { "symbol": "B_all_yr", "name": "total block bytes per year", "units": "bytes/year", "kind": "derived", "formula": "B_block * R_blocks", "value": 7.8894e10 },
-    "B_insc_yr":{ "symbol": "B_insc_yr", "name": "inscription bytes per year", "units": "bytes/year", "kind": "derived", "formula": "I_bytes * I_rate * 12", "value": 4.8e8 },
-    "cb":       { "symbol": "cb", "name": "cost per byte per year (block-average, CANONICAL)", "units": "USD/(byte*year)", "kind": "derived", "formula": "C / B_all_yr", "value": 1.17246e-8, "note": "Horizon-free by design. T enters ONLY via L. Replaces methodology.json v1.0.0's /T-bugged formula." },
-    "cb_insc":  { "symbol": "cb_insc", "name": "cost per byte per year (marginal inscription attribution)", "units": "USD/(byte*year)", "kind": "derived", "formula": "C_insc / B_insc_yr", "value": 1.92573e-6, "note": "Secondary attribution for the inscription-externality branch. cb_insc/cb = 164.25x ≈ B_all_yr/B_insc_yr = 164.36x — the reconciliation table's denominator gap (164x)." },
-    "L":        { "symbol": "L", "name": "lifetime storage cost per node, one average block", "units": "USD/block", "kind": "derived", "formula": "cb * B_block * T", "value": 0.175869 },
-    "L_net":    { "symbol": "L_net", "name": "lifetime network storage cost, one average block", "units": "USD/block", "kind": "derived", "formula": "L * N", "value": 5627.808, "note": "Recomputed at N=32,000 (primary-source lower-bound census: ≥32,000 known addresses via Bitcoin Core getnodeaddresses). Stored value 10552.1 was N=60K-era and is superseded. derive-model.js verifies this each run." },
-    "L_insc":   { "symbol": "L_insc", "name": "lifetime storage cost per inscription", "units": "USD/inscription", "kind": "derived", "formula": "cb_insc * I_bytes * T", "value": 0.00770292 },
-    "SCCR":     { "symbol": "SCCR", "name": "storage cost coverage ratio", "units": "dimensionless", "kind": "derived", "formula": "fee_USD / L_net", "value": "band 0.12-0.30 over capture log at N=32,000; headline live re-measure 0.2252 (2026-08-02, 168 blocks); v2.0.0 N=60K-era values (0.1719/0.1535) superseded — N is the primary-source lower-bound census at 32K (≥32,000 known addresses via Bitcoin Core getnodeaddresses)", "note": "Structural property: SCCR is invariant to B_block (cb ∝ 1/B, L ∝ B). Knife-edge in N and BTC price: avg inverts at N~10.3K/BTC~$366K; 100%-below-1x inverts at N~49K/BTC~$77K." },
-    "cost_per_gb": { "symbol": "cost_per_gb", "name": "retail bandwidth cost assumption", "units": "USD/GB", "kind": "input", "value": 0.05,
-      "canonicalSource": "research/pruning_externality_analysis.md ('typical bandwidth costs ~$0.05/GB'); cross-check: AWS S3 egress ~$0.09/GB, Hetzner ~$0.011/GB (1TB included), consumer flat-rate ~ unmetered - $0.05/GB is a mid-range retail proxy for MARGINAL propagation cost, NOT a typical node bill.",
-      "note": "LEG 2 (bandwidth) v1 - analytical bound, not a measurement. See working-paper.md 5.5." },
-    "bw_GB_yr":  { "symbol": "bw_GB_yr", "name": "total block bytes per year (GB)", "units": "GB/year", "kind": "derived", "formula": "B_all_yr / 1e9", "value": 78.894,
-      "note": "7.8894e10 bytes/yr / 1e9 = 78.894 GB/yr - every full node (pruned or archival) must download this." },
-    "bw_cost_per_year_node": { "symbol": "bw_cost_per_year_node", "name": "marginal full-chain bandwidth propagation cost per node per year", "units": "USD/(node*year)", "kind": "derived", "formula": "B_all_yr * cost_per_gb / 1e9", "value": 3.9447,
-      "note": "LEG 2 v1 bound: 78.894 GB/yr x $0.05/GB = $3.94/yr/node. Marginal cost of propagating one more block to one more node (full chain). Real node bills are mostly flat-rate/unmetered, so this is an upper-bound economic proxy, not a measured bill." },
-    "bw_cost_per_year_net": { "symbol": "bw_cost_per_year_net", "name": "marginal full-chain bandwidth propagation cost, network (N nodes)", "units": "USD/year", "kind": "derived", "formula": "bw_cost_per_year_node * N", "value": 126230.4,
-      "note": "At N=32,000 (primary-source lower-bound census): $3.9447 x 32,000 = ~$126K/yr network-wide marginal propagation. Inscription-incremental share: bw_insc_incr_node." },
-    "bw_insc_incr_node": { "symbol": "bw_insc_incr_node", "name": "marginal inscription-incremental bandwidth cost per node per year", "units": "USD/(node*year)", "kind": "derived", "formula": "B_insc_yr * cost_per_gb / 1e9", "value": 0.024,
-      "note": "LEG 2 v1: 480 MB/yr of inscription data x $0.05/GB = $0.024/yr/node - reconciles pruning_externality_analysis.md '~$0.02/yr incremental' at 3 sig figs." }
+    "note": "Snapshot-of-record: N is a documented, DATED constant. The LOCAL Mac node-census agent (tools/agents/25-node-census.js, run by the DE server) is the only census writer \u2014 it refreshes data/node_census.json whenever Core is reachable; GitHub Actions never needs the census. sccr_live.py reads this block for the as-of date and surfaces staleness (>30 days) honestly in the sccr.json notes."
   },
-  "assumptions": ["60K node count is estimate", "homogeneous node costs", "10-yr archival horizon", "block size averaged", "bandwidth leg v1 = analytical marginal-propagation bound (cost_per_gb=$0.05/GB retail proxy; real node bills mostly flat-rate) - not a measurement"],
-  "derived": { "singleEvaluator": "tools/research/derive-model.js", "note": "Formulas live in this file; derive-model.js is the ONLY place formulas are evaluated; scripts import values." },
+  "quantities": {
+    "C": {
+      "symbol": "C",
+      "name": "annual node operating cost",
+      "units": "USD/year",
+      "kind": "input",
+      "value": 925,
+      "canonicalSource": "research/verification_appendix.md (166.67+600+157.68=924.35, rounded to 925)",
+      "note": "Python model exact component sum is 924.35; 925 is the pinned canonical value."
+    },
+    "C_insc": {
+      "symbol": "C_insc",
+      "name": "annual node operating cost (python-exact component sum)",
+      "units": "USD/year",
+      "kind": "input",
+      "value": 924.35,
+      "canonicalSource": "166.67 + 600 + 157.68 (component sum); C=925 is the pinned rounded canonical",
+      "note": "Used ONLY by the marginal inscription branch so cb_insc and L_insc reproduce the python model's historic values exactly."
+    },
+    "N": {
+      "symbol": "N",
+      "name": "full-node replication factor",
+      "units": "nodes",
+      "kind": "input",
+      "value": 32000,
+      "canonicalSource": "agent-25 node-census: `getnodeaddresses 32000` on a local Bitcoin Core node returned 32,000 addresses (2026-08-02). 32,000 was the REQUESTED ceiling and it was returned in full, so the node's address manager held AT LEAST 32,000 gossiped addresses. This is a lower bound on ADDRESSES SEEN IN ADDR GOSSIP, not a count of nodes and not a bound on reachable nodes. Measured reachable-node count: 26,586 (btcnodes scan, 2026-09-16). See data/verification_population.json.",
+      "captured_at": "2026-08-02T19:05:03.982Z",
+      "census_date": "2026-08-02",
+      "note": "SUPERSEDED AS A NODE COUNT (2026-09-17). The value 32,000 is retained only so existing results remain reproducible; it must not be described as a node count or as 'N >= 32K nodes'. The address manager is a sample shaped by peer count and uptime (this node: 8 peers, ~hours), so it is a lower bound on a non-node quantity. SCCR is inverse-linear in N; N 32K -> 26.6K moves the headline ~+20%. Phase C re-bases N on the observability model (see /research/verification-population).",
+      "deprecated_as_node_count": true,
+      "superseded_by": "data/verification_population.json"
+    },
+    "T": {
+      "symbol": "T",
+      "name": "storage horizon",
+      "units": "years",
+      "kind": "input",
+      "value": 10,
+      "canonicalSource": "research/verification_appendix.md Open Q3 (assumption)"
+    },
+    "B_block": {
+      "symbol": "B_block",
+      "name": "average block size",
+      "units": "bytes",
+      "kind": "input",
+      "value": 1500000,
+      "canonicalSource": "captured-data block_stats / spool fees (1.5MB approximation)"
+    },
+    "I_bytes": {
+      "symbol": "I_bytes",
+      "name": "avg inscription UTXO footprint",
+      "units": "bytes",
+      "kind": "input",
+      "value": 400,
+      "canonicalSource": "research/verification_appendix.md section 4 (envelope estimate)"
+    },
+    "I_rate": {
+      "symbol": "I_rate",
+      "name": "inscription issuance rate",
+      "units": "inscriptions/month",
+      "kind": "input",
+      "value": 100000,
+      "canonicalSource": "research/verification_appendix.md section 5 (Dune/Ordinals avg)"
+    },
+    "R_blocks": {
+      "symbol": "R_blocks",
+      "name": "blocks per year",
+      "units": "blocks/year",
+      "kind": "derived",
+      "formula": "365.25 * 24 * 6",
+      "value": 52596
+    },
+    "B_all_yr": {
+      "symbol": "B_all_yr",
+      "name": "total block bytes per year",
+      "units": "bytes/year",
+      "kind": "derived",
+      "formula": "B_block * R_blocks",
+      "value": 78894000000.0
+    },
+    "B_insc_yr": {
+      "symbol": "B_insc_yr",
+      "name": "inscription bytes per year",
+      "units": "bytes/year",
+      "kind": "derived",
+      "formula": "I_bytes * I_rate * 12",
+      "value": 480000000.0
+    },
+    "cb": {
+      "symbol": "cb",
+      "name": "cost per byte per year (block-average, CANONICAL)",
+      "units": "USD/(byte*year)",
+      "kind": "derived",
+      "formula": "C / B_all_yr",
+      "value": 1.17246e-08,
+      "note": "Horizon-free by design. T enters ONLY via L. Replaces methodology.json v1.0.0's /T-bugged formula."
+    },
+    "cb_insc": {
+      "symbol": "cb_insc",
+      "name": "cost per byte per year (marginal inscription attribution)",
+      "units": "USD/(byte*year)",
+      "kind": "derived",
+      "formula": "C_insc / B_insc_yr",
+      "value": 1.92573e-06,
+      "note": "Secondary attribution for the inscription-externality branch. cb_insc/cb = 164.25x \u2248 B_all_yr/B_insc_yr = 164.36x \u2014 the reconciliation table's denominator gap (164x)."
+    },
+    "L": {
+      "symbol": "L",
+      "name": "lifetime storage cost per node, one average block",
+      "units": "USD/block",
+      "kind": "derived",
+      "formula": "cb * B_block * T",
+      "value": 0.175869
+    },
+    "L_net": {
+      "symbol": "L_net",
+      "name": "lifetime network storage cost, one average block",
+      "units": "USD/block",
+      "kind": "derived",
+      "formula": "L * N",
+      "value": 5627.808,
+      "note": "Recomputed at N=32,000 (primary-source lower-bound census: \u226532,000 known addresses via Bitcoin Core getnodeaddresses). Stored value 10552.1 was N=60K-era and is superseded. derive-model.js verifies this each run."
+    },
+    "L_insc": {
+      "symbol": "L_insc",
+      "name": "lifetime storage cost per inscription",
+      "units": "USD/inscription",
+      "kind": "derived",
+      "formula": "cb_insc * I_bytes * T",
+      "value": 0.00770292
+    },
+    "SCCR": {
+      "symbol": "SCCR",
+      "name": "storage cost coverage ratio",
+      "units": "dimensionless",
+      "kind": "derived",
+      "formula": "fee_USD / L_net",
+      "value": "band 0.12-0.30 over capture log at N=32,000; headline live re-measure 0.2252 (2026-08-02, 168 blocks); v2.0.0 N=60K-era values (0.1719/0.1535) superseded \u2014 N is the primary-source lower-bound census at 32K (\u226532,000 known addresses via Bitcoin Core getnodeaddresses)",
+      "note": "Structural property: SCCR is invariant to B_block (cb \u221d 1/B, L \u221d B). Knife-edge in N and BTC price: avg inverts at N~10.3K/BTC~$366K; 100%-below-1x inverts at N~49K/BTC~$77K."
+    },
+    "cost_per_gb": {
+      "symbol": "cost_per_gb",
+      "name": "retail bandwidth cost assumption",
+      "units": "USD/GB",
+      "kind": "input",
+      "value": 0.05,
+      "canonicalSource": "research/pruning_externality_analysis.md ('typical bandwidth costs ~$0.05/GB'); cross-check: AWS S3 egress ~$0.09/GB, Hetzner ~$0.011/GB (1TB included), consumer flat-rate ~ unmetered - $0.05/GB is a mid-range retail proxy for MARGINAL propagation cost, NOT a typical node bill.",
+      "note": "LEG 2 (bandwidth) v1 - analytical bound, not a measurement. See working-paper.md 5.5."
+    },
+    "bw_GB_yr": {
+      "symbol": "bw_GB_yr",
+      "name": "total block bytes per year (GB)",
+      "units": "GB/year",
+      "kind": "derived",
+      "formula": "B_all_yr / 1e9",
+      "value": 78.894,
+      "note": "7.8894e10 bytes/yr / 1e9 = 78.894 GB/yr - every full node (pruned or archival) must download this."
+    },
+    "bw_cost_per_year_node": {
+      "symbol": "bw_cost_per_year_node",
+      "name": "marginal full-chain bandwidth propagation cost per node per year",
+      "units": "USD/(node*year)",
+      "kind": "derived",
+      "formula": "B_all_yr * cost_per_gb / 1e9",
+      "value": 3.9447,
+      "note": "LEG 2 v1 bound: 78.894 GB/yr x $0.05/GB = $3.94/yr/node. Marginal cost of propagating one more block to one more node (full chain). Real node bills are mostly flat-rate/unmetered, so this is an upper-bound economic proxy, not a measured bill."
+    },
+    "bw_cost_per_year_net": {
+      "symbol": "bw_cost_per_year_net",
+      "name": "marginal full-chain bandwidth propagation cost, network (N nodes)",
+      "units": "USD/year",
+      "kind": "derived",
+      "formula": "bw_cost_per_year_node * N",
+      "value": 126230.4,
+      "note": "At N=32,000 (primary-source lower-bound census): $3.9447 x 32,000 = ~$126K/yr network-wide marginal propagation. Inscription-incremental share: bw_insc_incr_node."
+    },
+    "bw_insc_incr_node": {
+      "symbol": "bw_insc_incr_node",
+      "name": "marginal inscription-incremental bandwidth cost per node per year",
+      "units": "USD/(node*year)",
+      "kind": "derived",
+      "formula": "B_insc_yr * cost_per_gb / 1e9",
+      "value": 0.024,
+      "note": "LEG 2 v1: 480 MB/yr of inscription data x $0.05/GB = $0.024/yr/node - reconciles pruning_externality_analysis.md '~$0.02/yr incremental' at 3 sig figs."
+    }
+  },
+  "assumptions": [
+    "60K node count is estimate",
+    "homogeneous node costs",
+    "10-yr archival horizon",
+    "block size averaged",
+    "bandwidth leg v1 = analytical marginal-propagation bound (cost_per_gb=$0.05/GB retail proxy; real node bills mostly flat-rate) - not a measurement"
+  ],
+  "derived": {
+    "singleEvaluator": "tools/research/derive-model.js",
+    "note": "Formulas live in this file; derive-model.js is the ONLY place formulas are evaluated; scripts import values."
+  },
   "changelog": [
-    { "version": "2.1.0", "date": "2026-08-04", "change": "Bandwidth leg v1 (G-06): cost_per_gb input + derived bw_GB_yr, bw_cost_per_year_node ($3.94/yr/node), bw_cost_per_year_net (~$126K/yr @N=32K), bw_insc_incr_node ($0.024/yr/node); UTXO leg wired (block_stats.utxo_size_inc live + backfill); validation leg v1 doc (research/validation-cost.md)." },
-    { "version": "2.0.1", "date": "2026-08-02", "change": "Adversarial-review corrections: N=60K reclassified as assumption (midpoint of 10K-100K census band, NOT a census) with knife-edge thresholds documented; SCCR value reported as band 0.121-0.218 over capture log; BTC price documented as dominant omitted sensitivity driver; externality corrected to new-10yr-liabilities/yr (~$924 steady-state) not 'annual'; related-work acknowledges arXiv:2103.05866 (Liu et al. 2021) as closest prior on fee-vs-storage externality." },
-    { "version": "2.0.0", "date": "2026-08-02", "change": "Canonical spec. Removed duplicated time-horizon term (cb is horizon-free; T applies only via L). Pins C=925 (python exact 924.35). Documents block-average vs marginal cb variants. Supersedes methodology.json v1.0.0." }
+    {
+      "version": "2.1.0",
+      "date": "2026-08-04",
+      "change": "Bandwidth leg v1 (G-06): cost_per_gb input + derived bw_GB_yr, bw_cost_per_year_node ($3.94/yr/node), bw_cost_per_year_net (~$126K/yr @N=32K), bw_insc_incr_node ($0.024/yr/node); UTXO leg wired (block_stats.utxo_size_inc live + backfill); validation leg v1 doc (research/validation-cost.md)."
+    },
+    {
+      "version": "2.0.1",
+      "date": "2026-08-02",
+      "change": "Adversarial-review corrections: N=60K reclassified as assumption (midpoint of 10K-100K census band, NOT a census) with knife-edge thresholds documented; SCCR value reported as band 0.121-0.218 over capture log; BTC price documented as dominant omitted sensitivity driver; externality corrected to new-10yr-liabilities/yr (~$924 steady-state) not 'annual'; related-work acknowledges arXiv:2103.05866 (Liu et al. 2021) as closest prior on fee-vs-storage externality."
+    },
+    {
+      "version": "2.0.0",
+      "date": "2026-08-02",
+      "change": "Canonical spec. Removed duplicated time-horizon term (cb is horizon-free; T applies only via L). Pins C=925 (python exact 924.35). Documents block-average vs marginal cb variants. Supersedes methodology.json v1.0.0."
+    }
   ],
   "consumers": {
-    "tools/research/storage-ratio.js": { "import": "require('../../research/model-spec.json')", "uses": ["C","N","T","B_block","cb","L","L_net"] },
-    "research/utxo_cost_model.py": { "import": "json.load spec", "uses": ["C","C_insc","I_bytes","I_rate","cb_insc","L_insc","T"] },
-    "research/sensitivity.py": { "import": "json.load spec", "uses": ["C","I_bytes","I_rate","T"] },
-    "research/monte_carlo.py": { "import": "json.load spec", "uses": ["C","I_bytes","I_rate","T"] },
-    "research/generate_chart_social.py": { "import": "json.load spec", "uses": ["L_insc","C"] },
-    "research/generate_charts.py": { "import": "json.load spec", "uses": ["L_insc"] },
-    "learn.html / embed.html / bridge/*": { "import": "serve values via agent-15 metrics", "uses": ["SCCR","L_insc"] },
-    "research/backtest.py": { "import": "json.load spec (2023 historical scenario overrides canonical inputs for validation only)", "uses": ["C","I_bytes","I_rate","T","cb_insc"], "note": "Historical backtest leg — 2023-era params are intentional overrides, not canonical." },
-    "tools/research/derive-model.js": { "import": "require('../../research/model-spec.json')", "uses": ["R_blocks","B_all_yr","B_insc_yr","cb","cb_insc","L","L_net","L_insc","cost_per_gb","bw_GB_yr","bw_cost_per_year_node","bw_cost_per_year_net","bw_insc_incr_node"] }
+    "tools/research/storage-ratio.js": {
+      "import": "require('../../research/model-spec.json')",
+      "uses": [
+        "C",
+        "N",
+        "T",
+        "B_block",
+        "cb",
+        "L",
+        "L_net"
+      ]
+    },
+    "research/utxo_cost_model.py": {
+      "import": "json.load spec",
+      "uses": [
+        "C",
+        "C_insc",
+        "I_bytes",
+        "I_rate",
+        "cb_insc",
+        "L_insc",
+        "T"
+      ]
+    },
+    "research/sensitivity.py": {
+      "import": "json.load spec",
+      "uses": [
+        "C",
+        "I_bytes",
+        "I_rate",
+        "T"
+      ]
+    },
+    "research/monte_carlo.py": {
+      "import": "json.load spec",
+      "uses": [
+        "C",
+        "I_bytes",
+        "I_rate",
+        "T"
+      ]
+    },
+    "research/generate_chart_social.py": {
+      "import": "json.load spec",
+      "uses": [
+        "L_insc",
+        "C"
+      ]
+    },
+    "research/generate_charts.py": {
+      "import": "json.load spec",
+      "uses": [
+        "L_insc"
+      ]
+    },
+    "learn.html / embed.html / bridge/*": {
+      "import": "serve values via agent-15 metrics",
+      "uses": [
+        "SCCR",
+        "L_insc"
+      ]
+    },
+    "research/backtest.py": {
+      "import": "json.load spec (2023 historical scenario overrides canonical inputs for validation only)",
+      "uses": [
+        "C",
+        "I_bytes",
+        "I_rate",
+        "T",
+        "cb_insc"
+      ],
+      "note": "Historical backtest leg \u2014 2023-era params are intentional overrides, not canonical."
+    },
+    "tools/research/derive-model.js": {
+      "import": "require('../../research/model-spec.json')",
+      "uses": [
+        "R_blocks",
+        "B_all_yr",
+        "B_insc_yr",
+        "cb",
+        "cb_insc",
+        "L",
+        "L_net",
+        "L_insc",
+        "cost_per_gb",
+        "bw_GB_yr",
+        "bw_cost_per_year_node",
+        "bw_cost_per_year_net",
+        "bw_insc_incr_node"
+      ]
+    }
   }
 }

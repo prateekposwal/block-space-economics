@@ -1,0 +1,269 @@
+{
+  "schema": "bsahi.verification-population/1",
+  "layer": "observed",
+  "captured_at": "2026-09-16",
+  "source": "btcnodes reachable-node crawl (per-node capture) + local addrman sample",
+  "model": "Four quantities, never conflated: (A) gossip-observed ADDRESSES, (B) reachable NODES, (C) non-listening/private (unobservable), (D) total population (unobservable).",
+  "quantities": {
+    "A_gossip_addresses": {
+      "layer": "observed",
+      "grade": "C",
+      "value": 32000,
+      "what": "addresses the local node learned via addr gossip (addrman), lower bound at the request ceiling",
+      "not": "NOT a node count and NOT a bound on reachable nodes; sample shaped by peer count and uptime",
+      "source": "getnodeaddresses 32000, data/node_census.json",
+      "captured_at": "2026-08-02T19:05:03.982Z"
+    },
+    "B_reachable_nodes": {
+      "layer": "observed",
+      "grade": "B",
+      "value": 26586,
+      "snapshots": 3981,
+      "period": [
+        "2026-05-08",
+        "2026-09-15"
+      ],
+      "source": "btcnodes reachable-node crawl"
+    },
+    "C_non_listening": {
+      "layer": "unobservable",
+      "grade": "D",
+      "value": null,
+      "note": "remote scans cannot see non-listening nodes; the only direct evidence is inbound peers on our own node (bitcoin-cli -netinfo)."
+    },
+    "D_total_population": {
+      "layer": "unobservable",
+      "grade": null,
+      "value": null,
+      "note": "total node population is not observable by any method; independent estimates span ~10K\u2013100K reachable and an unknown multiple for non-listening."
+    }
+  },
+  "composition": {
+    "nodes_in_capture": 26577,
+    "software": {
+      "bitcoin_core": 25968,
+      "share": 0.9771,
+      "top_user_agents": [
+        [
+          "/Satoshi:31.1.0/",
+          6129
+        ],
+        [
+          "/Satoshi:31.0.0/",
+          2162
+        ],
+        [
+          "/Satoshi:29.3.0/",
+          1656
+        ],
+        [
+          "/Satoshi:29.3.0/Knots:20260507/",
+          1342
+        ],
+        [
+          "/Satoshi:27.0.0/",
+          1286
+        ],
+        [
+          "/Satoshi:29.2.0/",
+          1170
+        ],
+        [
+          "/Satoshi:28.1.0/",
+          1119
+        ],
+        [
+          "/Satoshi:26.0.0/",
+          892
+        ]
+      ],
+      "caveat": "user_agent is self-declared, not verified"
+    },
+    "service_bits": {
+      "raw_histogram": [
+        [
+          "3081",
+          8690
+        ],
+        [
+          "3145",
+          6429
+        ],
+        [
+          "3080",
+          1740
+        ],
+        [
+          "1033",
+          1715
+        ],
+        [
+          "1037",
+          1439
+        ],
+        [
+          "3085",
+          1263
+        ],
+        [
+          "3077",
+          859
+        ],
+        [
+          "0",
+          540
+        ],
+        [
+          "268438537",
+          527
+        ],
+        [
+          "3144",
+          495
+        ],
+        [
+          "134220873",
+          490
+        ],
+        [
+          "3149",
+          452
+        ]
+      ],
+      "node_network_set": 23017,
+      "node_network_limited_set": 25999,
+      "split_status": "GRADE C / UNVALIDATED \u2014 the mapping of NODE_NETWORK vs NODE_NETWORK_LIMITED to archival/pruned must be checked against the installed Core release before this is treated as a measured split"
+    },
+    "geography": {
+      "top_countries": [
+        [
+          "n/a",
+          16973
+        ],
+        [
+          "United States",
+          3320
+        ],
+        [
+          "Germany",
+          1563
+        ],
+        [
+          "France",
+          640
+        ],
+        [
+          "Canada",
+          426
+        ],
+        [
+          "Netherlands",
+          375
+        ],
+        [
+          "Finland",
+          352
+        ],
+        [
+          "United Kingdom",
+          310
+        ],
+        [
+          "Australia",
+          199
+        ],
+        [
+          "Switzerland",
+          190
+        ],
+        [
+          "Singapore",
+          152
+        ],
+        [
+          "Russian Federation",
+          145
+        ]
+      ],
+      "unresolved_country": 16973,
+      "caveat": "IP-based; VPN/Tor/proxies distort. Not a user-population measure."
+    },
+    "network": {
+      "top_organizations": [
+        [
+          "Tor network",
+          12733
+        ],
+        [
+          "I2P network",
+          4231
+        ],
+        [
+          "Akamai Connected Cloud",
+          898
+        ],
+        [
+          "Hetzner Online GmbH",
+          889
+        ],
+        [
+          "PONYNET",
+          468
+        ],
+        [
+          "OVH SAS",
+          389
+        ],
+        [
+          "GOOGLE-CLOUD-PLATFORM",
+          340
+        ],
+        [
+          "AMAZON-02",
+          286
+        ],
+        [
+          "COMCAST-7922",
+          238
+        ],
+        [
+          "ATT-INTERNET4",
+          206
+        ],
+        [
+          "DIGITALOCEAN-ASN",
+          198
+        ],
+        [
+          "Deutsche Telekom AG",
+          184
+        ]
+      ],
+      "tor": 12745,
+      "i2p": 4231,
+      "caveat": "ASN/organisation describes hosting, not operators."
+    },
+    "persistence": {
+      "status": "NOT MEASURED (connected_since == crawl session)",
+      "n_with_connected_since": 26577,
+      "median_connected_days": 0.197,
+      "p10_p90_days": [
+        0.193,
+        0.216
+      ],
+      "caveat": "connected_since in this capture is effectively the CRAWLER's session time (all values cluster under ~0.25 days), not node uptime. Node uptime/persistence is therefore NOT measured here and must not be published as such; it requires repeated per-node snapshots over time (same address observed across crawls)."
+    },
+    "sync_state": {
+      "chain_tip_at_capture": 967176,
+      "n_reported_height": 26577,
+      "plausible_height": 25571,
+      "implausible_height": 1006,
+      "caveat": "height is self-reported and frequently stale/garbage; used only as a sanity signal."
+    }
+  },
+  "headline": {
+    "observed": "At least 26,586 independently reachable Bitcoin nodes were measured (2026-09-16); the address manager of one small node knew \u226532,000 gossiped addresses.",
+    "unobservable": "The total node population \u2014 including non-listening and private nodes \u2014 is not observable; BSAHI measures the observable part and states the gap rather than filling it with an estimate.",
+    "grade": "B for the reachable count; C for the address sample; D/unobservable for everything beyond."
+  }
+}

@@ -5,7 +5,26 @@
 Dated changes to BSAHI's measurements, grades, and methods. Corrections are
 recorded here with their cause. Newest first.
 
-## 2026-09-17
+## 2026-09-17 — node-count semantics correction
+
+- **Incorrect framing removed.** The paper described `getnodeaddresses` returning
+  **32,000** as a *lower bound on reachable nodes*. It is not: `getnodeaddresses
+  32000` returns addresses from the node's **address manager** (learned via **addr
+  gossip**) and 32,000 was the *requested ceiling*, returned in full. It is a lower
+  bound on **gossiped addresses** — a set including stale/unreachable entries,
+  sized by peer count and uptime — **not** a node count and **not** a bound on
+  reachable nodes. Corrected in `model-spec.json`, `node_census.json`, the census
+  agent, and the working paper (§5.4 and all dependent rows).
+- **Measured reachable nodes: 26,586** (btcnodes crawl, 2026-09-16) — reported
+  separately from the address sample.
+- **Census tool switched to `getnodeaddresses 0`** (returns *all* known addresses,
+  per Core docs) so the addrman size is exact rather than truncated at the request
+  ceiling.
+- **`N = 32,000` marked provisional / deprecated as a node count**; the SCCR value
+  is unchanged pending Phase C (re-basing N on the observability model). N 32K ->
+  26.6K would move the headline ~+20%; the direction is unchanged.
+- New `data/verification_population.json` and `/research/verification-population`.
+
 
 - **Integrity audit added** (`tools/research/integrity_audit.py`): heights/dates
   monotonicity, anchor consistency, unit agreement, provenance, layer

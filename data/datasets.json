@@ -1,8 +1,8 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-17T04:35:04.753113+00:00",
+  "generated_at": "2026-09-17T08:31:59.174660+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
-  "count": 23,
+  "count": 26,
   "datasets": [
     {
       "name": "avg-block-size.json",
@@ -24,8 +24,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "BIP-110 signaling state (GitHub Actions, mempool.space)",
-      "bytes": 5338,
-      "updated": "2026-09-17T00:49:22.646688+00:00",
+      "bytes": 5336,
+      "updated": "2026-09-17T08:15:22.713888+00:00",
       "rows": null
     },
     {
@@ -60,8 +60,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
-      "bytes": 3334,
-      "updated": "2026-09-17T03:48:12.420046+00:00",
+      "bytes": 3719,
+      "updated": "2026-09-17T08:31:07.375072+00:00",
       "rows": null
     },
     {
@@ -118,10 +118,34 @@
       "path": "data/node_census.json",
       "schema": "bsahi.node-census/1",
       "layer": "observed",
+      "grade": "C",
+      "description": "Address-manager sample: gossiped ADDRESSES (not nodes)",
+      "bytes": 1202,
+      "updated": "2026-09-17T08:22:07.914435+00:00",
+      "rows": null
+    },
+    {
+      "name": "node_census_series.json",
+      "url": "https://bitcoinsahi.com/data/node_census_series.json",
+      "path": "data/node_census_series.json",
+      "schema": "bsahi.node-census-series/1",
+      "layer": "observed",
       "grade": "B",
-      "description": "Full-node census (getnodeaddresses lower bound)",
-      "bytes": 939,
-      "updated": "2026-09-15T04:59:13.796692+00:00",
+      "description": "Reachable-node crawl series (btcnodes)",
+      "bytes": 429524,
+      "updated": "2026-09-15T19:17:13.263595+00:00",
+      "rows": 3981
+    },
+    {
+      "name": "node_version_distribution.json",
+      "url": "https://bitcoinsahi.com/data/node_version_distribution.json",
+      "path": "data/node_version_distribution.json",
+      "schema": "bsahi.node-version-distribution/1",
+      "layer": "observed",
+      "grade": "B",
+      "description": "Node software + service-bit distribution (self-declared)",
+      "bytes": 1449,
+      "updated": "2026-09-15T19:33:09.448977+00:00",
       "rows": null
     },
     {
@@ -133,7 +157,7 @@
       "grade": "B",
       "description": "Per-block SPOT samples (weight/size/tx/fee) vs the era aggregates",
       "bytes": 9224,
-      "updated": "2026-09-17T04:33:23.193773+00:00",
+      "updated": "2026-09-17T08:16:35.388196+00:00",
       "rows": null
     },
     {
@@ -180,7 +204,7 @@
       "layer": "observed",
       "grade": "B",
       "description": "Latest Storage Cost Coverage Ratio reading (dated)",
-      "bytes": 779,
+      "bytes": 780,
       "updated": "2026-09-17T04:08:27.738961+00:00",
       "rows": null
     },
@@ -204,8 +228,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Daily SCCR series",
-      "bytes": 4396,
-      "updated": "2026-09-17T04:08:27.742414+00:00",
+      "bytes": 4397,
+      "updated": "2026-09-17T05:14:35.398745+00:00",
       "rows": null
     },
     {
@@ -267,6 +291,18 @@
       "bytes": 1116,
       "updated": "2026-09-17T02:36:06.085020+00:00",
       "rows": 1
+    },
+    {
+      "name": "verification_population.json",
+      "url": "https://bitcoinsahi.com/data/verification_population.json",
+      "path": "data/verification_population.json",
+      "schema": "bsahi.verification-population/1",
+      "layer": "observed",
+      "grade": "B",
+      "description": "Verification Population Observatory: observable node population + what is unobservable",
+      "bytes": 6529,
+      "updated": "2026-09-17T08:31:59.125577+00:00",
+      "rows": null
     },
     {
       "name": "verify_cost_index.json",

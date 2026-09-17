@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mining energy cost vs production value by era: the ratio rose from 0.32 (2017) to 0.84 (2026) while fees fell from 35.7% to 0.7% of production cost.">
+<meta property="og:title" content="Verification Population Observatory">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/verification-population">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/verification-population">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Verification Population","item":"https://bitcoinsahi.com/research/verification-population"}]}
+</script>
+<title>Verification Population Observatory — Observable Bitcoin Nodes</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Verification Population Observatory","name":"Verification Population Observatory","url":"https://bitcoinsahi.com/research/verification-population","mainEntityOfPage":"https://bitcoinsahi.com/research/verification-population","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","about":["Bitcoin","nodes","verification","observability"],"datePublished":"2026-09-17","dateModified":"2026-09-17"}
+</script>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Verification Population Observatory</h1>
+<p><strong>BSAHI — what is observable about Bitcoin&#x27;s verification population, and what is not.</strong> <em>Captured 2026-09-16 · Instrument: <code>tools/research/verification_population.py</code></em></p>
+<h2>The question, reframed</h2>
+<p>Not <em>&quot;how many Bitcoin nodes are there?&quot;</em> — the total population is <strong>not observable</strong> — but <em>&quot;how large is the independently reachable verification population, and what can we observe about it?&quot;</em></p>
+<p>Four quantities are reported separately and <strong>never conflated</strong>:</p>
+<div class="table-wrap">
+<table>
+<tr><th>quantity</th><th>layer</th><th>grade</th><th>value</th></tr>
+<tr><td>A. Gossip-observed <strong>addresses</strong> (addrman)</td><td>observed</td><td>C</td><td>≥32,000 (request ceiling, returned in full)</td></tr>
+<tr><td>B. Reachable <strong>nodes</strong></td><td>observed</td><td>B</td><td><strong>26,586</strong></td></tr>
+<tr><td>C. Non-listening / private nodes</td><td>unobservable</td><td>D</td><td>— (evidence only via inbound peers)</td></tr>
+<tr><td>D. Total population</td><td>unobservable</td><td>—</td><td>—</td></tr>
+</table>
+</div>
+<p><strong>A is not a node count.</strong> <code>getnodeaddresses 32000</code> returns addresses from one node&#x27;s address manager (learned via addr gossip); the set includes stale/unreachable entries and its size depends on peer count and uptime. The measured reachable-node count is B.</p>
+<h2>Composition of the reachable set (26,577 nodes)</h2>
+<p><strong>Software</strong> — Bitcoin Core is 97.7% of reachable nodes (self-declared user agents):</p>
+<div class="table-wrap">
+<table>
+<tr><th>user agent</th><th>nodes</th></tr>
+<tr><td><code>/Satoshi:31.1.0/</code></td><td>6,129</td></tr>
+<tr><td><code>/Satoshi:31.0.0/</code></td><td>2,162</td></tr>
+<tr><td><code>/Satoshi:29.3.0/</code></td><td>1,656</td></tr>
+<tr><td><code>/Satoshi:29.3.0/Knots:20260507/</code></td><td>1,342</td></tr>
+<tr><td><code>/Satoshi:27.0.0/</code></td><td>1,286</td></tr>
+<tr><td><code>/Satoshi:29.2.0/</code></td><td>1,170</td></tr>
+<tr><td><code>/Satoshi:28.1.0/</code></td><td>1,119</td></tr>
+<tr><td><code>/Satoshi:26.0.0/</code></td><td>892</td></tr>
+</table>
+</div>
+<p><strong>Networks</strong> — a large share of the &quot;reachable&quot; set is anonymity networks, which is why IP geography is unresolved for 64% of nodes:</p>
+<div class="table-wrap">
+<table>
+<tr><th>organisation</th><th>nodes</th></tr>
+<tr><td>Tor network</td><td>12,733</td></tr>
+<tr><td>I2P network</td><td>4,231</td></tr>
+<tr><td>Akamai Connected Cloud</td><td>898</td></tr>
+<tr><td>Hetzner Online GmbH</td><td>889</td></tr>
+<tr><td>PONYNET</td><td>468</td></tr>
+<tr><td>OVH SAS</td><td>389</td></tr>
+<tr><td>GOOGLE-CLOUD-PLATFORM</td><td>340</td></tr>
+<tr><td>AMAZON-02</td><td>286</td></tr>
+</table>
+</div>
+<ul>
+<li>Tor: <strong>12,745</strong> (48%) · I2P: <strong>4,231</strong> (16%)</li>
+<li>Geography (resolved only):   n/a   16,973   United States   3,320   Germany   1,563   France   640   Canada…</li>
+</ul>
+<p><strong>Service bits (raw)</strong> — published as a raw histogram; the archival/pruned mapping is <strong>unvalidated</strong>:</p>
+<div class="table-wrap">
+<table>
+<tr><th>services bitmask</th><th>nodes</th></tr>
+<tr><td>3081</td><td>8,690</td></tr>
+<tr><td>3145</td><td>6,429</td></tr>
+<tr><td>3080</td><td>1,740</td></tr>
+<tr><td>1033</td><td>1,715</td></tr>
+<tr><td>1037</td><td>1,439</td></tr>
+<tr><td>3085</td><td>1,263</td></tr>
+<tr><td>3077</td><td>859</td></tr>
+<tr><td>0</td><td>540</td></tr>
+</table>
+</div>
+<blockquote>GRADE C / UNVALIDATED — the mapping of NODE_NETWORK vs NODE_NETWORK_LIMITED to archival/pruned must be checked against the installed Core release before this is treated as a measured split</blockquote>
+<p><strong>Persistence — NOT measured.</strong> connected_since in this capture is effectively the CRAWLER&#x27;s session time (all values cluster under ~0.25 days), not node uptime. Node uptime/persistence is therefore NOT measured here and must not be published as such; it requires repeated per-node snapshots over time (same address observed across crawls).</p>
+<p><strong>Sync state</strong> — 25,571 nodes reported a plausible height; 1,006 reported an implausible one (self-reported height is frequently stale). Chain tip at capture: 967176.</p>
+<h2>The headline</h2>
+<blockquote><strong>At least 26,586 independently reachable Bitcoin nodes were measured (2026-09-16); the address manager of one small node knew ≥32,000 gossiped addresses.</strong> The total node population — including non-listening and private nodes — is not observable. BSAHI measures the observable part and states the gap rather than filling it with an estimate.</blockquote>
+<p><strong>Grades:</strong> B for the reachable count; C for the address sample; D/unobservable for everything beyond..</p>
+<h2>Method and limits</h2>
+<ul>
+<li>Reachable set and composition from a reachable-node crawl capture; address sample from a local node&#x27;s <code>getnodeaddresses</code>.</li>
+<li><code>user_agent</code> is self-declared; ASN/organisation describes hosting, not operators; geography is IP-based and distorted by VPN/Tor/proxies.</li>
+<li>The reachable set is a <strong>sample</strong> shaped by the crawl; non-listening nodes are invisible to it.</li>
+<li>Node count is one of the dominant inputs to the SCCR — see <a href="/research/sccr-sensitivity">SCCR sensitivity</a> and the <a href="/research/evidence-matrix">Evidence Matrix</a>.</li>
+</ul>
+<p>Data: <a href="/data/verification_population.json">`/data/verification_population.json`</a> · Method: <a href="/research/methodology">Methodology</a> · Replicate: <a href="/research/replicate">Replication invite</a></p>
+<div class="datacard"><div class="kv">Data source: <code>data/verification_population.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>

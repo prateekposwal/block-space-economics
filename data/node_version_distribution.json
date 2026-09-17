@@ -36,5 +36,5 @@
     "268438537": 527,
     "3144": 495
   },
-  "note": "user_agent is self-declared, not verified. Pruned-vs-archival is NOT observable here (see pruned-split-measurement-scope.md)."
+  "note": "user_agent is self-declared, not verified. Pruned-vs-archival is NOT observable here (see pruned-split-measurement-scope.md). SERVICE-BIT CAVEAT: NODE_NETWORK vs NODE_NETWORK_LIMITED semantics must be validated against the installed Core release before any pruned/archival split is published; the observed distribution (97.7% carry NODE_NETWORK_LIMITED, 0% carry NODE_NETWORK without it) is contradictory under a naive reading. The observatory reports the raw service-bit histogram only."
 }

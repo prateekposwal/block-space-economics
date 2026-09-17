@@ -89,7 +89,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <div class="table-wrap">
 <table>
 <tr><th>#</th><th>Metric</th><th>Value / reading (as published)</th><th>Layer</th><th>Source</th><th>Date</th><th>Grade</th></tr>
-<tr><td>1</td><td><strong>SCCR (live)</strong></td><td>0.2789 · 139 blocks · 99.28% below 1× · N=32K · T=10yr · spec 2.1.0</td><td>Observed</td><td><code>data/sccr.json</code> ← mempool.space 24h fee endpoint (GH Actions)</td><td>2026-09-16</td><td>B</td></tr>
+<tr><td>1</td><td><strong>SCCR (live)</strong></td><td>0.2883 · 140 blocks · 99.29% below 1× · <strong>N=32K (provisional — an address sample, not a node count)</strong> · T=10yr · spec 2.1.0</td><td>Observed fee + modelled N</td><td><code>data/sccr.json</code> ← mempool.space 24h fee endpoint (GH Actions)</td><td>2026-09-17</td><td>B/C</td></tr>
 <tr><td>2</td><td>SCCR daily history</td><td>36 daily readings</td><td>Observed</td><td><code>data/sccr_history.json</code></td><td>2026-08-02 → 2026-09-16</td><td>B</td></tr>
 <tr><td>3</td><td>SCCR historical (era reconstruction)</td><td>era-level SCCR, 2010-2026</td><td><strong>Reconstructed</strong></td><td><code>data/sccr_historical_series.json</code> (daily aggregates → era legs)</td><td>frozen 2026-09</td><td>B/C</td></tr>
 <tr><td>4</td><td>Chain size (bytes to verify)</td><td>789.45 GB (2026)</td><td>Observed</td><td>cumulative frozen <code>avg-block-size</code> (unit MB)</td><td>2026</td><td>B</td></tr>
@@ -103,7 +103,10 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <tr><td>12</td><td><strong>Production cost ratio</strong></td><td>reported across $0.03–$0.15/kWh</td><td><strong>Modelled</strong> (observed legs + assumed price/efficiency)</td><td><code>data/production_cost_ratio.json</code></td><td>2026-09-17</td><td>C</td></tr>
 <tr><td>13</td><td>Electricity price</td><td>$0.05/kWh (scenario $0.03–$0.15)</td><td><strong>Modelled</strong> (assumption)</td><td>documented assumption</td><td>—</td><td>C</td></tr>
 <tr><td>14</td><td>ASIC efficiency (network avg)</td><td>25 J/TH (2026), era table</td><td><strong>Modelled</strong> (estimate)</td><td>documented table</td><td>—</td><td>C</td></tr>
-<tr><td>15</td><td>Node census (N)</td><td>≥32,000 (lower bound)</td><td>Observed</td><td><code>getnodeaddresses</code> census (<code>data/node_census*.json</code>)</td><td>2026-08-02</td><td>B</td></tr>
+<tr><td>15a</td><td><strong>Gossip-observed addresses</strong> (addrman)</td><td>≥32,000 learned addresses (request ceiling, returned in full)</td><td>Observed</td><td><code>getnodeaddresses 32000</code> (<code>data/node_census.json</code>) — <strong>addresses, not nodes</strong></td><td>2026-08-02</td><td>C</td></tr>
+<tr><td>15b</td><td><strong>Reachable nodes</strong></td><td><strong>26,586</strong></td><td>Observed</td><td>btcnodes reachable-node crawl (<code>data/node_census_series.json</code>, 3,981 snapshots)</td><td>2026-09-16</td><td>B</td></tr>
+<tr><td>15c</td><td>Non-listening / private nodes</td><td><strong>unobservable</strong> remotely (evidence only via inbound peers: <code>-netinfo</code>)</td><td>—</td><td>—</td><td>—</td><td>D</td></tr>
+<tr><td>15d</td><td>Total node population</td><td><strong>not observable</strong></td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
 <tr><td>16</td><td>Pool attribution</td><td>7/7 pools coherent ≤1.5σ; network-total diff 2.34%</td><td>Observed</td><td><code>data/pool_attribution_validation.json</code></td><td>2026-09-15</td><td>C/B</td></tr>
 <tr><td>17</td><td>Mining concentration</td><td>HHI/Gini/N_eff per window</td><td>Observed</td><td><code>data/mining_concentration.json</code></td><td>2026-09-15</td><td>B</td></tr>
 <tr><td>18</td><td>BIP-110 signaling</td><td>lock-in h963,648 (2026-08-23 00:48:47 UTC); snapshot h966,270</td><td>Observed</td><td><code>data/bip110.json</code> (GH Actions) + blockstream.info</td><td>2026-09-09</td><td>A</td></tr>

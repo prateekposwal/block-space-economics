@@ -34,9 +34,9 @@ function writeCensusMirror(out) {
     networkVersion: out.networkVersion,
     connections: out.connections,
     captured_at: out.observedAt,
-    source: 'Bitcoin Core getnodeaddresses (local node, RPC max 32000; addrman saturation lower bound)',
+    source: 'Bitcoin Core getnodeaddresses 0 (exact addrman size) — gossiped addresses, NOT a node count',
     lower_bound: true,
-    note: 'PRIMARY-SOURCE lower-bound census: the node knows AT LEAST N addresses (addrman caps at 32,000). Written by the LOCAL Mac node-census agent (tools/agents/25-node-census.js, run by the DE server). GitHub Actions never needs the census — it reads the committed dated constant.'
+    note: 'Addrman sample (gossip-observed ADDRESSES, not nodes): shaped by peer count and uptime, so a lower bound on the address set only. Not a node census; see data/verification_population.json. Written by the LOCAL Mac node-census agent (tools/agents/25-node-census.js).'
   }, null, 2) + '\n';
   var changed = true;
   if (fs.existsSync(p)) {
@@ -58,9 +58,11 @@ async function run() {
   var out = { ok: false, totalKnownAddresses: 0, liveConnections: 0, inbound: 0, outbound: 0, observedAt: new Date().toISOString() };
 
   // Real census: how many node addresses does a live Core node know about?
-  // Note: RPC max is 32,000 but the address DB may return fewer; some builds error
+  // count=0 = all known addresses; some builds may cap the response
   // on large requests — fall back to 10,000 (verified working on this node).
-  var addrs = rpc('getnodeaddresses', '32000');
+  // count=0 returns ALL known addresses (Bitcoin Core docs) — the exact addrman
+  // size. Requesting 32000 previously truncated the set at the request ceiling.
+  var addrs = rpc('getnodeaddresses', '0');
   if ((!addrs || !Array.isArray(addrs)) ) {
     addrs = rpc('getnodeaddresses', '10000');
   }

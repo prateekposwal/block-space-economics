@@ -75,8 +75,13 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <div class="container">
 <h1>Research Changelog</h1>
 <p>Dated changes to BSAHI&#x27;s measurements, grades, and methods. Corrections are recorded here with their cause. Newest first.</p>
-<h2>2026-09-17</h2>
+<h2>2026-09-17 — node-count semantics correction</h2>
 <ul>
+<li><strong>Incorrect framing removed.</strong> The paper described <code>getnodeaddresses</code> returning <strong>32,000</strong> as a <em>lower bound on reachable nodes</em>. It is not: <code>getnodeaddresses 32000</code> returns addresses from the node&#x27;s <strong>address manager</strong> (learned via <strong>addr gossip</strong>) and 32,000 was the <em>requested ceiling</em>, returned in full. It is a lower bound on <strong>gossiped addresses</strong> — a set including stale/unreachable entries, sized by peer count and uptime — <strong>not</strong> a node count and <strong>not</strong> a bound on reachable nodes. Corrected in <code>model-spec.json</code>, <code>node_census.json</code>, the census agent, and the working paper (§5.4 and all dependent rows).</li>
+<li><strong>Measured reachable nodes: 26,586</strong> (btcnodes crawl, 2026-09-16) — reported separately from the address sample.</li>
+<li><strong>Census tool switched to <code>getnodeaddresses 0</code></strong> (returns <em>all</em> known addresses, per Core docs) so the addrman size is exact rather than truncated at the request ceiling.</li>
+<li><strong><code>N = 32,000</code> marked provisional / deprecated as a node count</strong>; the SCCR value is unchanged pending Phase C (re-basing N on the observability model). N 32K -&gt; 26.6K would move the headline ~+20%; the direction is unchanged.</li>
+<li>New <code>data/verification_population.json</code> and <code>/research/verification-population</code>.</li>
 <li><strong>Integrity audit added</strong> (<code>tools/research/integrity_audit.py</code>): heights/dates monotonicity, anchor consistency, unit agreement, provenance, layer classification. Runs as a gate.</li>
 <li><strong>Units correction (Observed→corrected):</strong> <code>production_cost_ratio.py</code> stored the hash-rate series (unit <strong>TH/s</strong>) under the field <code>hashrate_ehs</code> — a 10⁶ mislabel. The power calculation was correct; the label was not. Now stores <code>hashrate_ths</code> and a derived <code>hashrate_ehs</code>, and the audit asserts the relation.</li>
 <li><strong>Evidence Matrix published</strong> (<code>/research/evidence-matrix</code>): 27 headline numbers classified Observed / Reconstructed / Modelled with source, date and grade.</li>
