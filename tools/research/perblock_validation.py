@@ -36,7 +36,7 @@ def esplora(path):
         else:
             return v
     last = None
-    for attempt in range(6):
+    for attempt in range(10):
         try:
             s = socket.create_connection(("blockstream.info", 443), timeout=25)
             ctx = ssl.create_default_context()
@@ -69,7 +69,7 @@ def esplora(path):
         except Exception as e:
             last = e
             if "429" in str(e) or "Too Many" in str(e):
-                time.sleep(90)
+                time.sleep(120)   # esplora ~400-500/hr; back off hard
             elif "block-height" in str(e) and "error" in str(e):
                 time.sleep(60)
             else:
@@ -181,7 +181,14 @@ def era_samples(year, n_targets=N_SAMPLES):
     samples = []
     for d in days:
         t = datetime.datetime(year, 1, 1, tzinfo=UTC) + datetime.timedelta(days=d - 1)
-        b = find_block_le(int(t.timestamp()))
+        try:
+            b = find_block_le(int(t.timestamp()))
+        except Exception as e:
+            # Rate-limited / transient: skip this target rather than failing the
+            # whole run. A smaller n for an era is recorded honestly (n_samples).
+            print(f"  [skip] {year} day {d}: {str(e)[:60]}", flush=True)
+            time.sleep(30)
+            continue
         samples.append(b)
         time.sleep(0.1)
     return samples
@@ -215,8 +222,8 @@ def main():
     rows = out["_rows"]
     done = {r["era"] for r in rows}
     if resample and from_year <= 2010:
-        rows = []            # rebuild the whole strip at the new sample size
-        done = set()
+        rows.clear()         # mutate in place — `rows` aliases out["_rows"], so a
+        done.clear()         # rebind would detach the appends from the checkpoint
     first_year = from_year
     if not resample and str(from_year) in done:
         first_year = max(int(x) for x in done) + 1
