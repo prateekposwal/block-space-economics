@@ -144,12 +144,29 @@
     #home-hero #genesis-strip,#home-hero #dollar-context,
     #home-hero #narrative-frame,#home-hero #metrics-ticker{position:absolute}
     #home-content{position:relative;z-index:60;background:var(--bg);border-top:1px solid var(--line);padding:56px 24px 72px;min-height:100vh}
-    #home-content .wrap{max-width:760px;margin:0 auto}
-    #home-content h2{font-family:var(--disp);color:var(--ink);font-size:1.5rem;margin:30px 0 10px}
-    #home-content h2:first-child{margin-top:0}
-    #home-content p,#home-content li{color:var(--ink-2);line-height:1.8}
-    #home-content a{color:var(--accent-ink)}
-    #home-content ul{padding-left:22px}
+    .home-wrap{max-width:1000px;margin:0 auto}
+    .home-kicker{font-size:.75rem;font-weight:700;color:var(--ink-3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+    .home-title{font-family:var(--disp);font-size:clamp(1.5rem,3vw,2rem);font-weight:600;letter-spacing:-.02em;margin-bottom:14px;color:var(--ink)}
+    .home-title span{color:var(--accent)}
+    .home-lede{color:var(--ink-2);font-size:1rem;line-height:1.8;margin-bottom:10px;max-width:780px}
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:16px;margin:28px 0 4px}
+    .stat-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 16px;text-align:center}
+    .stat-card .stat-num{font-size:1.7rem;font-weight:600;color:var(--ink);font-family:var(--mono);font-variant-numeric:tabular-nums}
+    .stat-card .stat-lbl{font-size:.78rem;color:var(--ink-3);margin-top:6px}
+    .bsahi-section{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:40px;margin:28px 0}
+    .bsahi-section h2{font-family:var(--disp);font-size:clamp(1.3rem,2.5vw,1.7rem);font-weight:600;margin-bottom:14px;color:var(--ink)}
+    .bsahi-section h2 span{color:var(--accent)}
+    .bsahi-section p{font-size:1rem;color:var(--ink-2);line-height:1.8;margin-bottom:14px}
+    .bsahi-section ul{color:var(--ink-2);padding-left:20px;margin:0}
+    .bsahi-section li{margin-bottom:10px;line-height:1.7}
+    .bsahi-section li strong{color:var(--ink)}
+    .highlight{background:color-mix(in srgb,var(--accent) 8%,transparent);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:16px 0;color:var(--ink);font-weight:500}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+    .cta-row .btn{display:inline-block;padding:12px 20px;border-radius:10px;font-weight:600;text-decoration:none;font-size:.95rem;font-family:var(--ui)}
+    .cta-row .btn-primary{background:var(--accent);color:var(--bg)}
+    .cta-row .btn-ghost{border:1px solid var(--line);color:var(--ink)}
+    .cta-row .btn-ghost:hover{border-color:var(--accent);color:var(--accent-ink)}
+    @media(max-width:600px){.bsahi-section{padding:24px}#home-content{padding:40px 16px 56px}.stat-card .stat-num{font-size:1.4rem}}
     /* Short / landscape viewports: the auto-fading captions collide with the H1.
        Hide them (decorative; /live shows the same data) so the H1, CTA and
        ticker stay readable. */
@@ -226,21 +243,39 @@
   </div><!-- /#home-hero -->
 
   <section id="home-content">
-    <div class="wrap">
-      <h2>Bitcoin block space, live</h2>
-      <p>Bitcoin Sahi is an autonomous research engine measuring Bitcoin&rsquo;s fee market, mempool, and block space in real time. Every bar above is one Bitcoin block &mdash; the floating particles are transactions waiting in the mempool.</p>
-      <p>Live right now: the fastest and economy fee in satoshis per virtual byte (sat/vB), how many transactions are waiting to be confirmed, and the current block height. A one-vbyte economy-rate transaction costs a fraction of a US cent &mdash; or more, when fee pressure rises.</p>
+    <div class="home-wrap">
+      <div class="home-kicker">Bitcoin Sahi &middot; Bitcoin Resource Accounting</div>
+      <h2 class="home-title">Bitcoin block space, <span>live</span></h2>
+      <p class="home-lede">An autonomous research engine measuring Bitcoin&rsquo;s fee market, mempool, and block space in real time. Every bar above is one Bitcoin block &mdash; the floating particles are transactions waiting in the mempool.</p>
 
-      <h2>Live network state</h2>
-      <ul>
-        <li><strong>Fees</strong> &mdash; fastest and economy rates in sat/vB, and what a typical transaction costs in dollars.</li>
-        <li><strong>Mempool</strong> &mdash; how many transactions are competing for the next block.</li>
-        <li><strong>Block height</strong> &mdash; the current tip of the chain; each bar in the skyline is one block from the last 24 hours.</li>
-      </ul>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-num" id="vs-fastest">--</div><div class="stat-lbl">Fastest fee &middot; sat/vB</div></div>
+        <div class="stat-card"><div class="stat-num" id="vs-economy">--</div><div class="stat-lbl">Economy fee &middot; sat/vB</div></div>
+        <div class="stat-card"><div class="stat-num" id="vs-mempool">--</div><div class="stat-lbl">Transactions in mempool</div></div>
+        <div class="stat-card"><div class="stat-num" id="vs-height">--</div><div class="stat-lbl">Block height</div></div>
+      </div>
 
-      <h2>Latest research</h2>
-      <p><strong>Bitcoin Resource Accounting</strong> &mdash; open research on the long-lived resources Bitcoin consumes (replicated storage, UTXO state, validation, relay, bandwidth) and how much of each cost the fee market internalizes. Storage &mdash; the <strong>Storage Cost Coverage Ratio (SCCR)</strong> &mdash; is Metric #1, measured and reproducible.</p>
-      <p><a href="/learn">Read the research &rarr;</a> &middot; <a href="/live">Should I send now? &rarr;</a> &middot; <a href="/articles.html">Research archive &rarr;</a> &middot; <a href="/about">About</a></p>
+      <div class="bsahi-section">
+        <h2>Live <span>network state</span></h2>
+        <ul>
+          <li><strong>Fees</strong> &mdash; fastest and economy rates in sat/vB, and what a typical transaction costs in dollars.</li>
+          <li><strong>Mempool</strong> &mdash; how many transactions are competing for the next block.</li>
+          <li><strong>Block height</strong> &mdash; the current tip of the chain; each bar in the skyline is one block from the last 24 hours.</li>
+        </ul>
+        <p style="margin-top:14px">A one-vbyte economy-rate transaction costs a fraction of a US cent &mdash; or more, when fee pressure rises.</p>
+      </div>
+
+      <div class="bsahi-section">
+        <h2>Latest <span>research</span></h2>
+        <p><strong>Bitcoin Resource Accounting</strong> &mdash; open research on the long-lived resources Bitcoin consumes (replicated storage, UTXO state, validation, relay, bandwidth) and how much of each cost the fee market internalizes.</p>
+        <div class="highlight">Storage &mdash; the <strong>Storage Cost Coverage Ratio (SCCR)</strong> &mdash; is Metric #1: measured live, reproducible, and published as a dated reading.</div>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="/learn">Read the research &rarr;</a>
+          <a class="btn btn-ghost" href="/live">Should I send now? &rarr;</a>
+          <a class="btn btn-ghost" href="/articles.html">Research archive</a>
+          <a class="btn btn-ghost" href="/about">About</a>
+        </div>
+      </div>
     </div>
   </section>
 
