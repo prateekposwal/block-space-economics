@@ -1,17 +1,19 @@
 {
-  "schema": "bsahi.inbound-census/1",
+  "schema": "bsahi.inbound-census/2",
   "layer": "observed",
-  "generated_at": "2026-09-17T20:26:39.406245+00:00",
+  "generated_at": "2026-09-17T21:07:07.208957+00:00",
   "source": "Bitcoin Core getpeerinfo on the project's listening node",
-  "method": "tools/research/inbound_census.py \u2014 count distinct peers that dial in",
+  "method": "tools/research/inbound_census.py \u2014 count peers that dial in (identity = IP, port stripped)",
   "latest": {
-    "at": "2026-09-17T20:26:39.406245+00:00",
+    "at": "2026-09-17T21:07:07.208957+00:00",
     "connections_in": 0,
     "inbound_count": 0,
-    "inbound_addrs": [],
+    "inbound_ips": [],
+    "identity_hidden": false,
+    "identity_hidden_ips": [],
     "connection_type_breakdown": {}
   },
-  "samples": 8,
+  "samples": 10,
   "history": [
     {
       "at": "2026-09-17T17:29:55.332181+00:00",
@@ -52,18 +54,31 @@
       "at": "2026-09-17T20:26:39.406245+00:00",
       "inbound_count": 0,
       "connections_in": 0
+    },
+    {
+      "at": "2026-09-17T21:06:18.921404+00:00",
+      "inbound_count": 0,
+      "connections_in": 0
+    },
+    {
+      "at": "2026-09-17T21:07:07.208957+00:00",
+      "inbound_count": 0,
+      "connections_in": 0
     }
   ],
   "distinct_inbound_addresses_ever": 0,
+  "max_concurrent_inbound": 0,
+  "identity_hidden_ever": false,
   "interpretation": {
     "what_it_measures": "Nodes that opened a connection to us. A node that dials out is, by that act, not serving inbound connections to the crawler \u2014 i.e. a non-listening / private node.",
-    "what_it_is": "A first-party LOWER bound on the non-listening nodes that reach this node over time.",
+    "clearnet_bound": "`max_concurrent_inbound` is a first-party LOWER bound on non-listening nodes: N simultaneous inbound peers means at least N such nodes exist.",
+    "tor_limitation": "Over Tor every peer appears as 127.0.0.1, so distinct-node identity is NOT observable \u2014 only the concurrency bound. Distinct-node counting requires a clearnet port-forward.",
     "what_it_is_not": "Not a population count. It is bounded by our slots, uptime, reachability (port-forward/Tor) and the churn of who happens to dial us."
   },
   "requirements": {
     "maxconnections": "must exceed the outbound count so inbound slots exist",
     "listen": "1",
-    "reachability": "port-forward for clearnet, or Tor for onion inbound"
+    "reachability": "port-forward for clearnet distinct-node counting; Tor gives a concurrency bound only"
   },
-  "headline": "0 distinct nodes have dialled in across 8 sample(s); latest inbound connections: 0"
+  "headline": "0 inbound peers observed across 10 sample(s); the node accepts connections but is not yet being dialled"
 }

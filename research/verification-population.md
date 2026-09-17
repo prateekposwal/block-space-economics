@@ -92,6 +92,33 @@ Partitions the **26,577 observed reachable nodes** by what a crawl can actually 
 - Non-listening nodes are not '0% of transit': they still RELAY transactions to their outbound peers; they simply cannot serve inbound requests.
 - This partition is a lower-bound view of the validating set: hidden/private nodes are excluded and their exclusion makes every burden metric conservative.
 
+## The first-party inbound test (D5) — and its identity limit
+
+`tools/research/inbound_census.py` counts the nodes that **dial us** — each inbound
+peer is, by that act, a node not serving inbound to a crawler (a non-listening /
+NAT'd / private node). Two controlled experiments were run on 2026-09-18 to test
+whether the Tor route can produce distinct-node evidence:
+
+| experiment | result |
+|---|---|
+| A **separate Tor client** connects to the node's onion service | ✅ connected; node logged `INBOUND: 1` |
+| A **real bitcoind** dials in over the onion | ✅ full P2P handshake (`/Satoshi:27.1.0/`) |
+
+**Both were recorded by Core as `127.0.0.1`.** Tor's hidden-service forwarding
+hides the origin, so every onion peer looks like loopback. The consequence:
+
+- **Tor inbound supports only a _concurrency_ lower bound** — N simultaneous
+  inbound peers means at least N non-listening nodes exist.
+- **Distinct-node counting requires a clearnet port-forward**, where Core sees
+  distinct source IPs. Tor is not a substitute for it.
+
+The instrument was corrected accordingly (`bsahi.inbound-census/2`): identity is
+the peer **IP with the ephemeral port stripped** — which also fixes an overcount in
+v1, where `addr` included the source port so every reconnect looked like a new
+node — and loopback peers are flagged `identity_hidden` rather than counted.
+`max_concurrent_inbound` is the usable first-party lower bound; it remains a lower
+bound, never a population count.
+
 ## The headline
 
 > **At least 26,586 independently reachable Bitcoin nodes were measured (2026-09-16); the address manager of one small node knew ≥32,000 gossiped addresses.** The total node population — including non-listening and private nodes — is not observable. BSAHI measures the observable part and states the gap rather than filling it with an estimate.
