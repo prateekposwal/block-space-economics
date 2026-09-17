@@ -82,6 +82,7 @@ function main() {
       var dt = ((Date.now() - t0) / 1000).toFixed(0);
       log(job.name + ': OK (' + dt + 's)');
       state[job.name] = { last_run_epoch: now, last_ok_epoch: now, last_status: 'ok', last_s: Number(dt) };
+      writeState(state);   // persist per job: a slow LAST job must not lose the rest
       ran++;
     } catch (e) {
       var dtf = ((Date.now() - t0) / 1000).toFixed(0);
@@ -90,6 +91,7 @@ function main() {
       // Record the attempt so a hard-failing job retries on its normal cadence,
       // not every 15 min.
       state[job.name] = { last_run_epoch: now, last_ok_epoch: (state[job.name] || {}).last_ok_epoch || null, last_status: 'failed', last_s: Number(dtf) };
+      writeState(state);
       failed++;
     }
   });
