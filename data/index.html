@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mining energy cost vs production value by era: the ratio rose from 0.32 (2017) to 0.84 (2026) while fees fell from 35.7% to 0.7% of production cost.">
+<meta property="og:title" content="Datasets">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/data/">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/data/">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"DataCatalog","name":"Bitcoin Sahi datasets","url":"https://bitcoinsahi.com/data/","license":"https://creativecommons.org/licenses/by/4.0/","publisher":{"@id":"https://bitcoinsahi.com/#organization"}}
+</script>
+<title>Datasets — Bitcoin Sahi</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Datasets</h1>
+<p>Every dataset this project publishes, with its <b>layer</b> (observed / reconstructed / modelled) and <b>evidence grade</b>. All data is CC BY 4.0. The machine-readable index is <a href="/data/datasets.json">/data/datasets.json</a>.</p>
+<div class="datacard"><div class="kv">Layer tells you <em>how</em> a number was obtained; grade tells you how much weight it carries. See the <a href="/research/evidence-matrix">Evidence Matrix</a> and <a href="/research/methodology">Methodology</a>.</div></div>
+<table id="ds"><thead><tr><th>dataset</th><th>layer</th><th>grade</th><th>rows</th><th>size</th><th>updated</th><th>download</th></tr></thead><tbody><tr><td colspan="7">Loading…</td></tr></tbody></table>
+<script>
+fetch('/data/datasets.json').then(function(r){return r.json();}).then(function(d){
+  var tb=document.querySelector('#ds tbody'); tb.innerHTML='';
+  d.datasets.forEach(function(x){
+    var tr=document.createElement('tr');
+    var upd=(x.updated||'').slice(0,10);
+    tr.innerHTML='<td>'+x.name+'</td><td><span class="layer '+x.layer+'">'+x.layer+'</span></td><td>'+x.grade+'</td>'
+      +'<td>'+(x.rows!=null?x.rows:'\u2014')+'</td><td>'+(x.bytes/1024).toFixed(0)+' KB</td><td>'+upd+'</td>'
+      +'<td><a href="'+x.url+'">JSON \u2193</a></td>';
+    tb.appendChild(tr);
+  });
+}).catch(function(){document.querySelector('#ds tbody').innerHTML='<tr><td colspan="7">Could not load the dataset index.</td></tr>';});
+</script>
+<style>
+#ds{width:100%;border-collapse:collapse;margin-top:18px;font-size:.88rem}
+#ds th,#ds td{border:1px solid var(--line);padding:8px 10px;text-align:left}
+#ds th{background:var(--surface);color:var(--ink)}
+#ds td{color:var(--ink-2)}
+.layer{border-radius:10px;padding:2px 8px;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.layer.observed{color:#4ADE80;border:1px solid #2b5}
+.layer.reconstructed{color:#FBBF24;border:1px solid #a83}
+.layer.modelled{color:#60A5FA;border:1px solid #359}
+@media(max-width:600px){#ds{font-size:.78rem}#ds th,#ds td{padding:5px 6px}}
+</style>
+<h2>Conventions</h2>
+<ul>
+<li><b>observed</b> — read from a node or a frozen primary capture with a recorded unit and date.</li>
+<li><b>reconstructed</b> — derived by a stated procedure from anchors (interpolation, era means).</li>
+<li><b>modelled</b> — assumptions dominate; the output is a scenario.</li>
+<li>Grades: <b>A</b> direct measurement · <b>B</b> frozen primary (B* with a documented gap) · <b>C</b> model/assumptions · <b>D</b> interpolation, no continuous source.</li>
+</ul>
+<p>Rebuilt by <code>tools/research/datasets_manifest.py</code>.</p>
+<p style="margin-top:24px;"><a href="/research">← Research</a> · <a href="/research/evidence-matrix">Evidence Matrix</a> · <a href="/research/methodology">Methodology</a></p>
+</div>
+<footer>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy · <a href="/about">About</a> · <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a></footer>
+</body>
+</html>
