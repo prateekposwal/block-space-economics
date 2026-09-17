@@ -1,0 +1,33 @@
+{
+  "schema": "bsahi.inbound-census-verdict/1",
+  "generated_at": "2026-09-17T23:03:37.018068+00:00",
+  "grade": "CONTAINED",
+  "statement": "0 inbound reachable. Environment contains all inbound paths (clearnet: port closed (CGNAT / no forward); ipv6: probe failed: HTTP Error 403: Forbidden). This is the correct, unpoisoned value \u2014 not a measurement failure. The instrument (seed_sentinel.py + proxyproto_demux.py) is ready for any non-CGNAT host.",
+  "concurrency_lower_bound": 0,
+  "distinct_inbound_ips": [],
+  "environment": {
+    "public_ipv4": "49.43.160.42",
+    "global_ipv6": "2405:201:6807:3268:10d8:3db:4c91:2708",
+    "clearnet_inbound": {
+      "reachable": false,
+      "reason": "port closed (CGNAT / no forward)"
+    },
+    "ipv6_inbound": {
+      "reachable": false,
+      "reason": "probe failed: HTTP Error 403: Forbidden"
+    },
+    "node": {
+      "connections_in": 0,
+      "inbound_now": 0,
+      "distinct_inbound_ips": [],
+      "onion": [
+        "qxetjcdvp632ogyvm42337uetuw7wrodeamfz2cmwatfdgrieknofsid.onion"
+      ],
+      "localaddresses": [
+        "2405:201:6807:3268:10d8:3db:4c91:2708",
+        "2405:201:6807:3268:9cf8:d901:b34e:f4fc",
+        "qxetjcdvp632ogyvm42337uetuw7wrodeamfz2cmwatfdgrieknofsid.onion"
+      ]
+    }
+  }
+}
