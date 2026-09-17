@@ -2,6 +2,8 @@
 
 **Published:** 2026-07-31 · **Program:** Bitcoin Resource Accounting · **Author:** Prateek Poswal
 
+*A one-page framing of the research question. The definition, measurement, and results are in the [working paper](/research/working-paper.html); the reproducible method is in the [verification appendix](/research/verification_appendix.html).*
+
 
 ## One Sentence
 

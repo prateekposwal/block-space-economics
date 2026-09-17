@@ -22,7 +22,7 @@
     { href: '/fork-tracker', label: 'Fork Tracker' },
     { href: '/research', label: 'Research' },
     { href: '/articles.html', label: 'Articles' },
-    { href: '/about', label: 'About' },
+    { href: '/about.html', label: 'About' },
     { href: '/beta.html', label: 'Beta' }
   ];
   var CSS_URL = '/css/site-nav.css';
