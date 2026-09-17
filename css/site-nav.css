@@ -47,6 +47,22 @@
   font-family: var(--ui);
 }
 .site-nav-links a:hover { color: var(--ink); background: var(--surface-muted); }
+.site-nav-toggle {
+  display: none;                /* desktop: the links are inline, no button */
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.site-nav-toggle:hover { background: var(--surface-muted); }
 .site-nav-links a.active {
   color: var(--accent-ink);
   background: color-mix(in srgb, var(--accent) 14%, transparent);
@@ -103,25 +119,39 @@
 
 @media (max-width: 600px) {
   .site-nav-inner {
+    position: relative;          /* anchor for the dropdown panel */
     flex-wrap: nowrap;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     min-height: 56px;
     padding: 6px 12px;
   }
+  .site-nav-toggle { display: inline-flex; margin-left: auto; }
+  /* Links become a tappable dropdown instead of an unlabelled scroll strip. */
   .site-nav-links {
-    order: initial;
-    flex: 1 1 0;
-    width: auto;
-    min-width: 0;
-    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
     flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
     gap: 2px;
+    padding: 8px 12px 12px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.4);
   }
-  .site-nav-links::-webkit-scrollbar { display: none; }
-  .site-nav-links a { flex: 0 0 auto; padding: 7px 11px; font-size: 0.78rem; white-space: nowrap; }
+  .site-nav-links.open { display: flex; }
+  .site-nav-links a {
+    display: flex;
+    align-items: center;
+    min-height: 48px;            /* tap target */
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+  .site-nav .brand { min-height: 44px; }   /* tap target */
   #chip { margin-left: 0; max-width: 118px; overflow: hidden; }
   .nav-tabs { padding: 4px 12px 8px; }
 }

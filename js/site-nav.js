@@ -86,7 +86,22 @@
     if (!inner.querySelector('.site-nav-links')) {
       inner.insertAdjacentHTML('afterbegin',
         '<a class="brand" href="/"><span class="bi">⬡</span> BSAHI</a>' +
-        '<nav class="site-nav-links" aria-label="Primary">' + buildLinks() + '</nav>');
+        '<button class="site-nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav-links">☰</button>' +
+        '<nav class="site-nav-links" id="site-nav-links" aria-label="Primary">' + buildLinks() + '</nav>');
+    }
+
+    // Mobile hamburger: toggle the links panel. Desktop never shows the button.
+    var toggle = inner.querySelector('.site-nav-toggle');
+    var linksPanel = inner.querySelector('#site-nav-links');
+    if (toggle && linksPanel && !toggle.getAttribute('data-wired')) {
+      toggle.setAttribute('data-wired', '1');
+      var setOpen = function (open) {
+        linksPanel.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
+      toggle.addEventListener('click', function () { setOpen(!linksPanel.classList.contains('open')); });
+      linksPanel.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('a')) setOpen(false); });
+      global.document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
     }
 
     adoptChip(inner);
