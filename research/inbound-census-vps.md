@@ -127,6 +127,23 @@ download the .conf -> `sudo tools/net/route64-wg-up.sh ~/.bsahi/route64.conf
 <addr-from-/56>` -> bitcoind picks up the new interface address dynamically
 (**no restart, so the reindex survives**) -> IPv6 peers connect with native IPs.
 
+**Irreducible steps (honest accounting).** Exactly two things cannot be
+automated, both one-time:
+
+1. **Route64 signup** — needs *your* email; no script can receive the
+   confirmation mail. ~2 min, no card.
+2. **One-time sudoers unlock** — creating a network interface requires root on
+   macOS (the OS refuses otherwise). Run **once**, ever:
+   `sudo tools/net/bshai-net-unlock.sh`. It installs a rule scoped to *one*
+   auditable script (`tools/net/tunnel-root.sh`), NOT to `ifconfig`/`route`/`wg`.
+
+After those, it is a single unattended command forever:
+`tools/net/route64-up.sh ~/.bsahi/route64.conf <addr-from-/56>`.
+
+**Rejected pattern:** piping a stored password via `sudo -S` (env-var token).
+The credential leaks through the environment/process table/history, and on macOS
+it wouldn't work anyway (no `ip`; `wg-quick` needs bash 4, system has 3.2).
+
 ### Option 3 — port-forward on a non-CGNAT network
 
 If the Mac is ever on the home LAN (`192.168.29.1`), forward TCP 8333 →
