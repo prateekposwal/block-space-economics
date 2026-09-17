@@ -73,3 +73,15 @@ number, which is precisely the kind of evidence this project refuses to publish.
 
 The moment any of those exists, `inbound_census.py` starts collecting distinct
 native-source validator IPs with zero further engineering.
+
+## Decision (2026-09-18)
+
+The clearnet census is **frozen at 0** and the repository tagged for pre-print.
+Rationale: `0` is the measured, unpoisoned result, and a non-CGNAT host was not
+available (no card, no static-IP contract, no extra machine). The instrument is
+complete and reversible — `tools/net/deploy_sentinel_remote.sh user@public-ip`
+deploys and verifies the seeding sentinel on any public-IP host in one command,
+after which `census.py` reports DISTINCT with no further work.
+
+The Tor layer remains active and will report a CONCURRENCY lower bound if peers
+dial the onion; `census.py` grades it explicitly as a bound, never a node count.

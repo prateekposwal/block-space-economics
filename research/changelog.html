@@ -74,6 +74,13 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <script src="/js/site-nav.js"></script>
 <div class="container">
 <h1>Research Changelog</h1>
+<h2>2026-09-18 — SCCR self-heal + D5 freeze for pre-print</h2>
+<ul>
+<li><strong>SCCR pipeline was silently stalled.</strong> The cloud tier (<code>research-data.yml</code>) had not published since 2026-09-17 11:12 and the local tracker is disabled by design, so the headline sat at a manual run&#x27;s value. Added <code>tools/research/sccr_fallback.py</code>: if the committed <code>data/sccr.json</code> is older than 2 h, it re-derives from the local capture DB; otherwise it is inert (never a second writer). Wired into <code>com.bsahi.collectors</code>. Refreshed 0.36238/139 -&gt; <strong>0.321889/140</strong>, with <code>fee_allocation</code> and <code>sccr_sensitivity</code> following.</li>
+<li><strong>D5 clearnet census frozen at 0</strong> with a measured rationale (<code>research/cgnat-containment-finding.md</code>): both available networks are CGNAT (mobile: symmetric, multi-egress; JioFiber: four stacked private hops). Every alternative path was tested and closed (port-forward, UPnP, NAT-PMP, IPv6, Tor identity, STUN/hole-punch, free sandboxes, Play-with-Docker, ngrok, zrok).</li>
+<li>New <code>tools/net/census.py</code> — unified, environment-adaptive census emitting DISTINCT / CONCURRENCY / CONTAINED with the strongest honest bound.</li>
+<li>New <code>tools/net/deploy_sentinel_remote.sh</code> — one-command deploy of the seeding sentinel to any public-IP host, for the moment one exists.</li>
+</ul>
 <p>Dated changes to BSAHI&#x27;s measurements, grades, and methods. Corrections are recorded here with their cause. Newest first.</p>
 <h2>2026-09-17 — SCCR ownership resolved: the cloud is the single writer</h2>
 <ul>

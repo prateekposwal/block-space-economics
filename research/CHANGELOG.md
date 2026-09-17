@@ -2,6 +2,26 @@
 
 # Research Changelog
 
+## 2026-09-18 — SCCR self-heal + D5 freeze for pre-print
+
+- **SCCR pipeline was silently stalled.** The cloud tier (`research-data.yml`) had
+  not published since 2026-09-17 11:12 and the local tracker is disabled by design,
+  so the headline sat at a manual run's value. Added
+  `tools/research/sccr_fallback.py`: if the committed `data/sccr.json` is older than
+  2 h, it re-derives from the local capture DB; otherwise it is inert (never a
+  second writer). Wired into `com.bsahi.collectors`. Refreshed 0.36238/139 ->
+  **0.321889/140**, with `fee_allocation` and `sccr_sensitivity` following.
+- **D5 clearnet census frozen at 0** with a measured rationale
+  (`research/cgnat-containment-finding.md`): both available networks are CGNAT
+  (mobile: symmetric, multi-egress; JioFiber: four stacked private hops). Every
+  alternative path was tested and closed (port-forward, UPnP, NAT-PMP, IPv6, Tor
+  identity, STUN/hole-punch, free sandboxes, Play-with-Docker, ngrok, zrok).
+- New `tools/net/census.py` — unified, environment-adaptive census emitting
+  DISTINCT / CONCURRENCY / CONTAINED with the strongest honest bound.
+- New `tools/net/deploy_sentinel_remote.sh` — one-command deploy of the seeding
+  sentinel to any public-IP host, for the moment one exists.
+
+
 Dated changes to BSAHI's measurements, grades, and methods. Corrections are
 recorded here with their cause. Newest first.
 
