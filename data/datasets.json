@@ -1,9 +1,21 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-17T09:19:42.707037+00:00",
+  "generated_at": "2026-09-17T17:30:06.845858+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
-  "count": 27,
+  "count": 30,
   "datasets": [
+    {
+      "name": "addrman_churn.json",
+      "url": "https://bitcoinsahi.com/data/addrman_churn.json",
+      "path": "data/addrman_churn.json",
+      "schema": "bsahi.addrman-churn/1",
+      "layer": "observed",
+      "grade": "B",
+      "description": "Addrman churn \u2014 empirical address-pool staleness (first-party gossip sampler)",
+      "bytes": 911,
+      "updated": "2026-09-17T17:29:55.099313+00:00",
+      "rows": null
+    },
     {
       "name": "avg-block-size.json",
       "url": "https://bitcoinsahi.com/captured-data/historical/blockchain.info/avg-block-size.json",
@@ -24,8 +36,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "BIP-110 signaling state (GitHub Actions, mempool.space)",
-      "bytes": 5336,
-      "updated": "2026-09-17T08:15:22.713888+00:00",
+      "bytes": 5338,
+      "updated": "2026-09-17T17:00:54.139399+00:00",
       "rows": null
     },
     {
@@ -63,6 +75,18 @@
       "bytes": 64282,
       "updated": "2026-09-15T18:00:32.155534+00:00",
       "rows": 1614
+    },
+    {
+      "name": "inbound_census.json",
+      "url": "https://bitcoinsahi.com/data/inbound_census.json",
+      "path": "data/inbound_census.json",
+      "schema": "bsahi.inbound-census/1",
+      "layer": "observed",
+      "grade": "B",
+      "description": "Inbound-peer census \u2014 first-party lower bound on non-listening nodes",
+      "bytes": 1291,
+      "updated": "2026-09-17T17:29:55.332181+00:00",
+      "rows": null
     },
     {
       "name": "integrity_audit.json",
@@ -168,8 +192,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Per-block SPOT samples (weight/size/tx/fee) vs the era aggregates",
-      "bytes": 18481,
-      "updated": "2026-09-17T09:16:50.430410+00:00",
+      "bytes": 43520,
+      "updated": "2026-09-17T17:11:43.096891+00:00",
       "rows": null
     },
     {
@@ -216,8 +240,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Latest Storage Cost Coverage Ratio reading (dated)",
-      "bytes": 977,
-      "updated": "2026-09-17T04:08:27.738961+00:00",
+      "bytes": 780,
+      "updated": "2026-09-17T11:12:53.716817+00:00",
       "rows": null
     },
     {
@@ -241,7 +265,7 @@
       "grade": "B",
       "description": "Daily SCCR series",
       "bytes": 4399,
-      "updated": "2026-09-17T09:14:53.556876+00:00",
+      "updated": "2026-09-17T14:09:33.564048+00:00",
       "rows": null
     },
     {
@@ -252,8 +276,20 @@
       "layer": "modelled",
       "grade": "C",
       "description": "SCCR sensitivity bands, bootstrap CI and stress test",
-      "bytes": 5105,
-      "updated": "2026-09-17T09:15:59.891699+00:00",
+      "bytes": 7664,
+      "updated": "2026-09-17T09:32:20.806648+00:00",
+      "rows": null
+    },
+    {
+      "name": "seed_census.json",
+      "url": "https://bitcoinsahi.com/data/seed_census.json",
+      "path": "data/seed_census.json",
+      "schema": "bsahi.seed-census/1",
+      "layer": "observed",
+      "grade": "B",
+      "description": "DNS-seed address census \u2014 a third independent view of the node population",
+      "bytes": 17604,
+      "updated": "2026-09-17T17:28:51.549044+00:00",
       "rows": null
     },
     {
@@ -288,8 +324,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Latest observed UTXO/state measurement",
-      "bytes": 767,
-      "updated": "2026-09-17T02:35:25.335305+00:00",
+      "bytes": 812,
+      "updated": "2026-09-17T09:26:05.274728+00:00",
       "rows": null
     },
     {
@@ -300,9 +336,9 @@
       "layer": "observed",
       "grade": "A",
       "description": "gettxoutsetinfo measurements from a real node (one row per height)",
-      "bytes": 1116,
-      "updated": "2026-09-17T02:36:06.085020+00:00",
-      "rows": 1
+      "bytes": 2022,
+      "updated": "2026-09-17T09:26:05.274496+00:00",
+      "rows": 2
     },
     {
       "name": "verification_population.json",
@@ -312,8 +348,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Verification Population Observatory: observable node population + what is unobservable",
-      "bytes": 6529,
-      "updated": "2026-09-17T08:31:59.125577+00:00",
+      "bytes": 8711,
+      "updated": "2026-09-17T17:24:01.547800+00:00",
       "rows": null
     },
     {

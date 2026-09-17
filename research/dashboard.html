@@ -107,6 +107,11 @@ Promise.allSettled([
   var s=ok(2), u=ok(3), pb=ok(4), pc=ok(5), vci=ok(6), dif=ok(7), mem=ok(8);
   if(vp && vp.quantities){ var vpq=vp.quantities, vpc=vp.composition;
     add('Verification population','observed','B',['<b>'+num(vpq.B_reachable_nodes.value,0)+'</b> reachable nodes measured','gossip-observed addresses \u2265'+num(vpq.A_gossip_addresses.value,0)+' (not a node count) \u00b7 '+(vpc?Math.round(vpc.network.tor/vpc.nodes_in_capture*100):'?')+'% Tor/I2P'],'/research/verification-population','the observatory'); }
+  if(vp && vp.activity_partition){ var t=vp.activity_partition.tiers, nn=vp.composition.nodes_in_capture;
+    add('Activity partition (observed reachable set)','observed','B',
+      t.filter(function(x){return x.count>0;}).map(function(x){return x.tier+': <b>'+num(x.count,0)+'</b> ('+Math.round(100*x.count/nn)+'%)';})
+        .concat(['Silent about non-listening nodes; NODE_NETWORK/LIMITED split unvalidated.']),
+      '/research/verification-population','the partition'); }
   if(fa && fa.current){ var fc=fa.current; add('Fee allocation (security vs storage)','modelled','C',['Security claim ${fc.claims_usd_per_block.security_energy_cost}/block \u00b7 fees cover '+fc.coverage_pct.security_by_fees_pct+'% of it','Subsidy covers energy until ~'+fa.crossovers.fees_must_cover_security_from_year],'/research/fee-allocation','the analysis'); }
   if(s) add('Storage Cost Coverage Ratio (SCCR)','observed','B',
     ['<b>'+Number(s.avg_sccr).toFixed(4)+'</b> \u00b7 '+s.blocks+' blocks \u00b7 '+s.below_1x_pct+'% below 1\u00d7','N='+num(s.N,0)+' \u00b7 T='+s.T+'yr \u00b7 spec v'+s.spec_version+' \u00b7 '+s.date],

@@ -1,0 +1,27 @@
+{
+  "schema": "bsahi.inbound-census/1",
+  "layer": "observed",
+  "generated_at": "2026-09-17T17:29:55.332181+00:00",
+  "source": "Bitcoin Core getpeerinfo on the project's listening node",
+  "method": "tools/research/inbound_census.py \u2014 count distinct peers that dial in",
+  "latest": {
+    "at": "2026-09-17T17:29:55.332181+00:00",
+    "connections_in": 0,
+    "inbound_count": 0,
+    "inbound_addrs": [],
+    "connection_type_breakdown": {}
+  },
+  "samples": 1,
+  "distinct_inbound_addresses_ever": 0,
+  "interpretation": {
+    "what_it_measures": "Nodes that opened a connection to us. A node that dials out is, by that act, not serving inbound connections to the crawler \u2014 i.e. a non-listening / private node.",
+    "what_it_is": "A first-party LOWER bound on the non-listening nodes that reach this node over time.",
+    "what_it_is_not": "Not a population count. It is bounded by our slots, uptime, reachability (port-forward/Tor) and the churn of who happens to dial us."
+  },
+  "requirements": {
+    "maxconnections": "must exceed the outbound count so inbound slots exist",
+    "listen": "1",
+    "reachability": "port-forward for clearnet, or Tor for onion inbound"
+  },
+  "headline": "0 distinct nodes have dialled in across 1 sample(s); latest inbound connections: 0"
+}
