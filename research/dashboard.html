@@ -64,7 +64,12 @@ footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-si
 <div class="container">
 <h1>Research Dashboard</h1>
 <p class="sub">Live metric cards, each linking to its evidence. Every number is classified <b>observed</b> / <b>reconstructed</b> / <b>modelled</b> with a grade — see the <a href="/research/evidence-matrix">Evidence Matrix</a>.</p>
-<div id="cards" class="cards"><div class="card">Loading…</div></div>
+<div id="cards" class="cards"><div class="card">
+<div class="ch"><span class="ct">Storage Cost Coverage Ratio (SCCR)</span><span class="badge observed">observed</span><span class="g">grade B</span></div>
+<div class="ln">&#8804; <b id="dash-sccr-avg">0.3624</b> (upper bound) &#183; <span id="dash-sccr-blocks">139</span> blocks &#183; <span id="dash-sccr-below">98.56</span>% below 1&#215;</div>
+<div class="ln">N=<span id="dash-sccr-n">26,586</span> observed reachable &#183; non-listening nodes unobservable &#8594; true ratio lower &#183; spec v<span id="dash-sccr-spec">2.1.1</span> &#183; <span id="dash-sccr-date">2026-09-17</span></div>
+<a class="more" href="/research/sccr-sensitivity">sensitivity &amp; CIs &#8594;</a>
+</div></div>
 
 <h2>The security-budget invariant</h2>
 <p>Subsidy ceiling vs production deficit and the total required fee, per halving epoch.</p>

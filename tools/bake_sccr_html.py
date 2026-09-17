@@ -188,6 +188,19 @@ def bake():
         'sccr-hub-desc-date': date or '—',
     }
     changed = stamp(os.path.join(REPO, 'research', 'index.html'), hub_map) or changed
+
+    # Dashboard (research/dashboard.html): a static, crawlable SCCR fallback card.
+    # The page's JS clears #cards and re-renders the live card set on load, so
+    # this markup is the no-JS / crawler first paint (was "Loading…").
+    dash_map = {
+        'dash-sccr-avg': fmt_ratio(avg),
+        'dash-sccr-blocks': fmt_n(blocks),
+        'dash-sccr-below': pct_txt,
+        'dash-sccr-n': fmt_n(n),
+        'dash-sccr-spec': spec or '—',
+        'dash-sccr-date': date or '—',
+    }
+    changed = stamp(os.path.join(REPO, 'research', 'dashboard.html'), dash_map) or changed
     if isinstance(hpts, list) and len(hpts) >= 2:
         x0, x1, y0, y1 = 46.0, 744.0, 204.0, 42.3  # matches the hub viewBox 0 0 760 240
         pts = ' '.join('%.1f,%.1f' % (x0 + i * (x1 - x0) / (len(hpts) - 1),
