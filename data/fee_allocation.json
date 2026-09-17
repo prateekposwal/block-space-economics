@@ -1,0 +1,105 @@
+{
+  "schema": "bsahi.fee-allocation/1",
+  "layer": "modelled",
+  "generated_at": "2026-09-17T08:46:38.329263+00:00",
+  "method": "tools/research/fee_allocation.py \u2014 three claims on fee revenue, per block, and the subsidy crossover. Subsidy arithmetic is exact; prices/energy are a scenario.",
+  "current": {
+    "year": 2026,
+    "price_usd": 68005.38,
+    "subsidy_btc": 3.125,
+    "claims_usd_per_block": {
+      "security_energy_cost": 198549.0,
+      "storage_externality_L_net": 5628.0,
+      "network_node_opex_1yr_per_block": 562.78
+    },
+    "revenue_usd_per_block": {
+      "subsidy": 212517.0,
+      "fees_measured": 1415.0,
+      "fees_implied_by_sccr": 1622.0,
+      "production_value_total": 236830.0
+    },
+    "coverage_pct": {
+      "security_by_subsidy_pct": 107.0,
+      "security_by_fees_pct": 0.7,
+      "storage_by_fees_pct": 28.8,
+      "network_node_opex_1yr_by_fees_pct": 251.4
+    }
+  },
+  "halving_schedule": [
+    {
+      "year": 2024,
+      "subsidy_btc": 3.125,
+      "subsidy_usd_per_block_at_current_price": 212517.0
+    },
+    {
+      "year": 2028,
+      "subsidy_btc": 1.5625,
+      "subsidy_usd_per_block_at_current_price": 106258.0
+    },
+    {
+      "year": 2032,
+      "subsidy_btc": 0.78125,
+      "subsidy_usd_per_block_at_current_price": 53129.0
+    },
+    {
+      "year": 2036,
+      "subsidy_btc": 0.390625,
+      "subsidy_usd_per_block_at_current_price": 26565.0
+    },
+    {
+      "year": 2040,
+      "subsidy_btc": 0.1953125,
+      "subsidy_usd_per_block_at_current_price": 13282.0
+    },
+    {
+      "year": 2048,
+      "subsidy_btc": 0.048828125,
+      "subsidy_usd_per_block_at_current_price": 3321.0
+    },
+    {
+      "year": 2076,
+      "subsidy_btc": 0.0003814697265625,
+      "subsidy_usd_per_block_at_current_price": 26.0
+    },
+    {
+      "year": 2100,
+      "subsidy_btc": 5.9604644775390625e-06,
+      "subsidy_usd_per_block_at_current_price": 0.0
+    }
+  ],
+  "crossovers": {
+    "combined_claim_usd_per_block": 204177.0,
+    "fees_must_cover_security_from_year": 2028,
+    "scenarios": [
+      {
+        "price_usd": 50000,
+        "subsidy_covers_energy_until_year": 2024,
+        "note": "year the block subsidy alone falls below the current network-wide energy cost of production (flat-energy scenario)"
+      },
+      {
+        "price_usd": 78000,
+        "subsidy_covers_energy_until_year": 2028,
+        "note": "year the block subsidy alone falls below the current network-wide energy cost of production (flat-energy scenario)"
+      },
+      {
+        "price_usd": 150000,
+        "subsidy_covers_energy_until_year": 2032,
+        "note": "year the block subsidy alone falls below the current network-wide energy cost of production (flat-energy scenario)"
+      },
+      {
+        "price_usd": 300000,
+        "subsidy_covers_energy_until_year": 2036,
+        "note": "year the block subsidy alone falls below the current network-wide energy cost of production (flat-energy scenario)"
+      }
+    ],
+    "class": "C \u2014 scenario, not a forecast"
+  },
+  "grades": {
+    "halving schedule": "A (arithmetic)",
+    "energy cost / storage L_net / node opex": "C (documented assumptions on measured legs)",
+    "fee revenue": "B (frozen series: transaction-fees BTC/day x market price)",
+    "multi-decade projection": "C (scenario)"
+  },
+  "headline": "Fees must eventually fund both security and the storage/verification burden; today they fund almost neither. At ~$68,005/BTC the 2026 fee revenue is ~$1,415/block against a ~$198,549/block energy cost to produce a block and a ~$5,628/block modeled 10-year storage cost \u2014 so fees cover 0.7% of production and 28.8% of storage, while the subsidy (107.0% of energy cost) is still paying the security bill. Under a flat price the subsidy alone stops covering energy around 2028.",
+  "caveat": "Miners are fee RECIPIENTS and validators are cost BEARERS \u2014 that asymmetry is the externality. The 241k/218k address figures are addresses, not nodes, and are not used here."
+}

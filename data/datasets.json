@@ -1,8 +1,8 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-17T08:31:59.174660+00:00",
+  "generated_at": "2026-09-17T08:46:38.362610+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
-  "count": 26,
+  "count": 27,
   "datasets": [
     {
       "name": "avg-block-size.json",
@@ -41,6 +41,18 @@
       "rows": 1614
     },
     {
+      "name": "fee_allocation.json",
+      "url": "https://bitcoinsahi.com/data/fee_allocation.json",
+      "path": "data/fee_allocation.json",
+      "schema": "bsahi.fee-allocation/1",
+      "layer": "modelled",
+      "grade": "C",
+      "description": "Three claims on fee revenue (security/storage/node opex) per block + the subsidy crossover",
+      "bytes": 4001,
+      "updated": "2026-09-17T08:46:38.329263+00:00",
+      "rows": null
+    },
+    {
       "name": "hash-rate.json",
       "url": "https://bitcoinsahi.com/captured-data/historical/blockchain.info/hash-rate.json",
       "path": "captured-data/historical/blockchain.info/hash-rate.json",
@@ -60,8 +72,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
-      "bytes": 3719,
-      "updated": "2026-09-17T08:31:07.375072+00:00",
+      "bytes": 3647,
+      "updated": "2026-09-17T08:31:59.207042+00:00",
       "rows": null
     },
     {
@@ -156,8 +168,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Per-block SPOT samples (weight/size/tx/fee) vs the era aggregates",
-      "bytes": 9224,
-      "updated": "2026-09-17T08:16:35.388196+00:00",
+      "bytes": 12292,
+      "updated": "2026-09-17T08:35:50.744600+00:00",
       "rows": null
     },
     {
