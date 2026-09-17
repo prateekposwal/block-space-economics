@@ -15,7 +15,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"The Externality Is Growing \u2014 SCCR Trend, Week of Aug 2026","item":"https://bitcoinsahi.com/research/sccr-trend-note.html"}]}
 </script>
-<title>SCCR Trend: Bitcoin&#x27;s Storage Externality Growing?</title>
+<title>The Externality Is Growing — SCCR Trend, Week of Aug 2026 — BSAHI Research</title>
 <style>
 :root{
   --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
@@ -75,7 +75,7 @@ code{overflow-wrap:anywhere}
 <h1>The Externality Is Growing — SCCR Trend, Week of Aug 2026</h1>
 <p><strong>Status:</strong> RESEARCH NOTE (2026-08-11) · <strong>Program:</strong> Bitcoin Resource Accounting <strong>Companion:</strong> <code>research/working-paper.md</code>, <code>research/cost-to-flood.md</code> <strong>Source:</strong> live SCCR measurements (model-spec v2.1.0, N=32K census)</p>
 <hr>
-<h3>The finding</h3>
+<h2>The finding</h2>
 <p>The Storage Cost Coverage Ratio, as measured on the canonical daily feed (<code>data/sccr_history.json</code>), is <strong>falling</strong> — from ~0.28 to <strong>0.238</strong> across the measured days. Transaction fees are covering less of the modeled storage cost that confirmed data imposes on the network.</p>
 <div class="table-wrap">
 <table>
@@ -87,7 +87,7 @@ code{overflow-wrap:anywhere}
 </table>
 </div>
 <p><strong>Caveat — early series, small n.</strong> This is a <strong>4-point series over a 9-day span with a data gap Aug 5–9</strong> (the daily tracker was installed mid-series). The ~35% relative swing (0.28 → 0.24) is a <em>directional signal from a young series</em>, not a settled trend. We publish it as a live measurement with its uncertainty visible — the method and code are public so anyone can reproduce every digit. As the daily tracker accumulates clean points, the trendline will firm up.</p>
-<h3>Why this matters</h3>
+<h2>Why this matters</h2>
 <p>The SCCR is the ratio of fees paid to the estimated 10-year storage cost. When it falls, the <strong>unpriced externality is growing</strong> — each block&#x27;s data costs the network more relative to what the fee market pays for it.</p>
 <p>This is the direction the paper&#x27;s thesis predicts in a <strong>cooling fee market</strong>:</p>
 <ul>
@@ -96,11 +96,11 @@ code{overflow-wrap:anywhere}
 <li>So the ratio drops — the gap between &quot;what the fee pays&quot; and &quot;what the data costs&quot; widens</li>
 </ul>
 <p>This is also the <strong>attacker-side implication</strong> from <code>cost-to-flood.md</code>: in a low-fee regime, flooding the chain gets <em>cheaper per byte</em> while the storage it imposes stays the same — the leverage ratio <strong>rises</strong> as fees fall.</p>
-<h3>Not a defect — a measurement</h3>
+<h2>Not a defect — a measurement</h2>
 <p>We are not claiming this is broken. The SCCR is a measurement of a pricing gap; a falling value is the model working as intended — <strong>tracking the growing unpriced residue</strong> that the paper exists to quantify. The trend is the contribution: the externality is <em>not static</em>, it moves with the fee market, and right now it is moving away from coverage.</p>
-<h3>Open question this raises</h3>
+<h2>Open question this raises</h2>
 <p>If fees keep falling and the ratio keeps dropping, at what point does the unpriced storage cost become a <em>binding</em> constraint on node operation? The paper&#x27;s §5.4 knife-edge (the strong claim inverts at N≈49K or BTC≈$77K) and <code>cost-to-flood.md</code> (leverage 3.0×) bracket this — the falling trend moves <em>along</em> those bounds.</p>
-<h3>Status</h3>
+<h2>Status</h2>
 <p><strong>Published:</strong> this note, with live measurements taken every day. <strong>In progress:</strong> promotion to a research headline (Data Story / Articles) once the series firms up; the daily capture keeps running automatically.</p>
 <hr>
 <p><em>Bitcoin Sahi Research — The Externality Is Growing (SCCR trend note), 2026-08-11.</em></p>

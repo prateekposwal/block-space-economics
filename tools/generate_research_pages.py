@@ -163,7 +163,8 @@ def render_md(text):
             # F2: flush open lists before block elements
             flush_lists()
             # Demote: page title is the H1, so md #->h2, ##->h3, ###->h4
-            lvl = min(len(m.group(1)) + 1, 4)
+            lvl = min(len(m.group(1)), 4)  # #->h1 (title, stripped), ##->h2, ###->h3
+            lvl = max(lvl, 1)
             out.append('<h' + str(lvl) + '>' + inline(m.group(2)) + '</h' + str(lvl) + '>')
         elif s == '---':
             flush_para()
@@ -217,7 +218,7 @@ def render_md_body(text):
     body = render_md(text)
     title = md_title(text)
     if title:
-        dup = '<h2>' + inline(title) + '</h2>\n'
+        dup = '<h1>' + inline(title) + '</h1>\n'
         if body.startswith(dup):
             body = body[len(dup):]
     return body

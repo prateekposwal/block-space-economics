@@ -76,7 +76,7 @@ code{overflow-wrap:anywhere}
 <div class="container">
 <h1>History of Bitcoin — Research Note</h1>
 <p>A block-space-economics reading of Bitcoin&#x27;s history. Every episode below is selected for what it teaches about the pricing of block space, congestion, and permanence — the axes BSAHI studies.</p>
-<h3>Origins: the cypherpunk prehistory</h3>
+<h2>Origins: the cypherpunk prehistory</h2>
 <ul>
 <li><strong>David Chaum, DigiCash/ecash (1989)</strong> — issuer-based blind-signature cash; anonymous but centralized. Failed commercially (&quot;no banks wanted to sign on&quot;). Lesson: centralized issuance killed ecash; Bitcoin&#x27;s permissionless replicated state is what created the storage commons.</li>
 <li><strong>Dwork &amp; Naor, &quot;Pricing via Processing&quot; (1992)</strong> — computational puzzles as a price on resource use; the seed of proof-of-work.</li>
@@ -85,18 +85,18 @@ code{overflow-wrap:anywhere}
 <li><strong>Nick Szabo, bit gold (1998/2005)</strong> — chained PoW as collectible scarcity; closest direct ancestor.</li>
 <li><strong>Hal Finney, RPOW (2004)</strong> — reusable PoW tokens.</li>
 </ul>
-<h3>Launch (2008-2009)</h3>
+<h2>Launch (2008-2009)</h2>
 <ul>
 <li><strong>Oct 31 2008</strong> — whitepaper posted to the cryptography mailing list.</li>
 <li><strong>Jan 3 2009</strong> — genesis block (50 BTC) embeds the Times headline: &quot;Chancellor on brink of second bailout for banks.&quot;</li>
 <li><strong>Jan 12 2009</strong> — Hal Finney receives the first transaction (10 BTC).</li>
 </ul>
-<h3>Early market (2010-2012)</h3>
+<h2>Early market (2010-2012)</h2>
 <ul>
 <li><strong>May 22 2010 — Pizza Day</strong>: 10,000 BTC ≈ $41 for two pizzas; first price ~$0.004.</li>
 <li><strong>Nov 28 2012 — Halving #1</strong> (block 210,000): subsidy 50 → 25.</li>
 </ul>
-<h3>The scaling debate → the forks (2015-2017) — the battle over block space</h3>
+<h2>The scaling debate → the forks (2015-2017) — the battle over block space</h2>
 <p>The single most important episode for BSAHI: the 1 MB block-size cap (a 2010 anti-DoS guardrail) became the first political economy of block space.</p>
 <ul>
 <li><strong>Big-block camp</strong> (XT 8MB, Classic 2MB, Unlimited no-limit): block space isn&#x27;t scarce; raise the cap and the fee market vanishes.</li>
@@ -108,7 +108,7 @@ code{overflow-wrap:anywhere}
 <li><strong>Nov 15 2018 — Bitcoin SV splits</strong> BCH (128 MB blocks) — the fork of a fork.</li>
 </ul>
 <p>Three chains, three answers to &quot;how big should a block be.&quot;</p>
-<h3>The halvings (subsidy → fee transition)</h3>
+<h2>The halvings (subsidy → fee transition)</h2>
 <div class="table-wrap">
 <table>
 <tr><th>Halving</th><th>Block</th><th>Date</th><th>Subsidy</th></tr>
@@ -120,20 +120,20 @@ code{overflow-wrap:anywhere}
 </table>
 </div>
 <p>#4 is the first halving where fees (inscriptions/Runes-driven) are a material share of miner revenue — the subsidy→fee transition becomes visible in real time.</p>
-<h3>2021: Taproot, El Salvador, the $69K bull run</h3>
+<h2>2021: Taproot, El Salvador, the $69K bull run</h2>
 <ul>
 <li><strong>Taproot activates Nov 14 2021 (block 709,632)</strong> — BIP 340 Schnorr, BIP 341 Taproot (MAST), BIP 342 Tapscript. Lowered per-input cost; enabled complex contracts; made future data-bearing outputs cheaper — which mattered once Ordinals arrived.</li>
 <li><strong>El Salvador: BTC legal tender Sept 7 2021</strong> — the first national test.</li>
 <li>Cycle ATH ~$69K (Nov 2021); 2022 crash via Terra/3AC/FTX.</li>
 </ul>
-<h3>2023-2025: Ordinals, ETFs, Halving #4, six figures</h3>
+<h2>2023-2025: Ordinals, ETFs, Halving #4, six figures</h2>
 <ul>
 <li><strong>Jan 2023 — Ordinals go live</strong> (Casey Rodarmor): inscriptions embed data via <code>OP_FALSE OP_IF ... OP_ENDIF</code> in witness data, exploiting the 4× SegWit weight discount. BRC-20 (Mar 2023), Runes at the halving (Apr 2024). The storage externality becomes measurable in the fee market.</li>
 <li><strong>Jan 10 2024 — SEC approves 11 spot ETFs.</strong> Demand-side institutional gateway that does not touch on-chain fees.</li>
 <li><strong>Apr 20 2024 — Halving #4</strong> at block 840,000.</li>
 <li><strong>Dec 5 2024 — price crosses $100,000.</strong></li>
 </ul>
-<h3>New research angles for BSAHI</h3>
+<h2>New research angles for BSAHI</h2>
 <ol>
 <li><strong>SegWit discount as history (F2)</strong> — a dated narrative: 2017 malleability decision → 2023 inscriptions. The history IS the argument.</li>
 <li><strong>Block-size limits as political economy</strong> — a &quot;who said what&quot; timeline (XT/Classic/Unlimited/NYA/UASF) framed as competing claims about whether block space is priced resource or free utility.</li>

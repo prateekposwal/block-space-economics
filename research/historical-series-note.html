@@ -14,7 +14,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Historical Series Extension: Difficulty + Mempool Congestion","item":"https://bitcoinsahi.com/research/historical-series-note.html"}]}
 </script>
-<title>Bitcoin Difficulty &amp; Mempool Congestion, 2009-2026</title>
+<title>Historical Series Extension: Difficulty + Mempool Congestion — BSAHI Research</title>
 <style>:root{
   --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
   --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
@@ -73,7 +73,7 @@ code{overflow-wrap:anywhere}
 <div class="container">
 <h1>Historical Series Extension: Difficulty + Mempool Congestion</h1>
 <p><strong>BSAHI — row 10 (mining hashrate level, historical A), row 3 (mempool pressure, historical B*)</strong> <em>Produced: 2026-09-16 · Instrument: <code>tools/research/historical_series_extension.py</code></em></p>
-<h3>What was frozen</h3>
+<h2>What was frozen</h2>
 <p>Two primary series from the blockchain.info charts family (same deterministic capture path as the existing frozen daily aggregates under <code>captured-data/historical/blockchain.info/</code>):</p>
 <div class="table-wrap">
 <table>
@@ -84,12 +84,12 @@ code{overflow-wrap:anywhere}
 </table>
 </div>
 <p>Difficulty latest reading: <strong>127,450,789,715,844</strong> (2026-09-13).</p>
-<h3>Grade impact</h3>
+<h2>Grade impact</h2>
 <ul>
 <li><strong>Row 10 (mining hashrate):</strong> historical B → <strong>A</strong>. Difficulty and the frozen hash-rate TH/s series both now cover 2009→2026 from primary sources; the two sides (target vs effort) cross-check each other.</li>
 <li><strong>Row 3 (mempool pressure):</strong> historical B → <strong>B*</strong>. The 2016-2026 congestion record is now a primary frozen series with per-era reads. Pre-2016-06 episodes remain reconstruction-only (the chart starts then).</li>
 </ul>
-<h3>Congestion reads by era (2016-2026)</h3>
+<h2>Congestion reads by era (2016-2026)</h2>
 <div class="table-wrap">
 <table>
 <tr><th>Era</th><th>Mean pending txs</th><th>Peak</th><th>Peak date</th><th>Days &gt;50k</th><th>Days &gt;100k</th><th>Days &gt;200k</th><th>Regime</th></tr>
@@ -108,7 +108,7 @@ code{overflow-wrap:anywhere}
 </div>
 <p><strong>Headline:</strong> 2024 was the congestion peak (96.6% of days over 50K pending txs, 72.6% over 100K); 2023 the Ordinals year (58.2% over 50K, 18.5% over 200K, peak 283,139); 2022 the empty year (0 days over 50K). Pending-mempool tx counts stay well under the 2017-era backlogs&#x27; <em>share</em> of activity, but the <em>duration</em> of sustained congestion in 2023-24 exceeded 2017.</p>
 <p>Latest live read (2026-09-15): mempool count 34,687 pending txs, mempool size ~13.3 MB pending.</p>
-<h3>Reproducibility</h3>
+<h2>Reproducibility</h2>
 <p>Deterministic: raw series frozen at <code>captured-data/historical/blockchain.info/ charts/{difficulty,mempool-count,mempool-size}.json</code>; the aggregate instrument reads only the frozen files and writes <code>data/difficulty_series.json</code> + <code>data/mempool_congestion_series.json</code>. Re-runnable offline after the freeze.</p>
 <div class="datacard"><div class="kv">Data source: <code>data/difficulty_series.json + mempool_congestion_series.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
 <p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>

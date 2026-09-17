@@ -76,14 +76,14 @@ code{overflow-wrap:anywhere}
 <h1>BSAHI — &quot;Should I Send Now?&quot; Widget (product)</h1>
 <p><strong>Status:</strong> LIVE (2026-08-11) · <strong>Product:</strong> the freemium wedge of the data/API business <strong>Widget URL:</strong> <code>https://bitcoinsahi.com/widget-send.html</code> <strong>Data API:</strong> <code>https://bitcoinsahi.com/tools/live_data.json</code> (public, refresh every 60s)</p>
 <hr>
-<h3>What it is</h3>
+<h2>What it is</h2>
 <p>A self-contained, iframe-embeddable widget that tells a user <strong>whether to send Bitcoin now</strong> — based on live mempool conditions from our Bitcoin Core node. It computes a fee-weather verdict (Sunny → Storm) and shows the cost of a typical transaction.</p>
-<h3>Embed it (one line)</h3>
+<h2>Embed it (one line)</h2>
 <pre><code>&lt;iframe src=&quot;https://bitcoinsahi.com/widget-send.html&quot;
         width=&quot;360&quot; height=&quot;280&quot; style=&quot;border:1px solid #30363D;border-radius:12px&quot;
         loading=&quot;lazy&quot; title=&quot;Should I send Bitcoin now? — BSAHI&quot;&gt;&lt;/iframe&gt;</code></pre>
 <p>Dark theme by default; auto-refreshes every 60s; no dependencies.</p>
-<h3>The data API (freemium — free today)</h3>
+<h2>The data API (freemium — free today)</h2>
 <p><code>GET https://bitcoinsahi.com/tools/live_data.json</code></p>
 <pre><code>{
   &quot;timestamp&quot;: &quot;...&quot;,
@@ -95,14 +95,14 @@ code{overflow-wrap:anywhere}
   &quot;utxo_set&quot;: { &quot;...&quot;: &quot;...&quot; }
 }</code></pre>
 <p>Free tier: the current snapshot, refreshed hourly. Developer tier ($50/mo, planned): history, projections, custom verdict rules. Enterprise tier ($500/mo, planned): real-time webhooks, dedicated support.</p>
-<h3>Why wallets/exchanges want it</h3>
+<h2>Why wallets/exchanges want it</h2>
 <ul>
 <li><strong>Tells users <em>when</em> to transact</strong> — saves them fee dollars, which is the #1 UX ask of any wallet.</li>
 <li><strong>One-line embed</strong> — no SDK, no auth on the free tier.</li>
 <li><strong>Data is real</strong>: from a self-hosted Bitcoin Core node + mempool.space, not a scraped feed. 20+ endpoints, 26 sources, 10,000+ captures.</li>
 <li><strong>Whitelabel-ready</strong>: the verdict logic is pure CSS/JS — recolor to any brand.</li>
 </ul>
-<h3>Freemium → paid path</h3>
+<h2>Freemium → paid path</h2>
 <div class="table-wrap">
 <table>
 <tr><th>Tier</th><th>Price</th><th>What you get</th></tr>
@@ -111,7 +111,7 @@ code{overflow-wrap:anywhere}
 <tr><td>Enterprise</td><td>$500/mo</td><td>Real-time webhooks, SLA, dedicated support, white-label</td></tr>
 </table>
 </div>
-<h3>Next (productization follow-ups)</h3>
+<h2>Next (productization follow-ups)</h2>
 <ul>
 <li>[x] Widget page live + verdict logic extracted from live.html</li>
 <li>[ ] Iframe embed docs on the site (learn.html or a /developers page)</li>

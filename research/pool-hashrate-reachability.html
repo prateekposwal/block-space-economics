@@ -14,7 +14,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Pool Self-Reported Hashrate \u2014 Reachability Finding (build-or-document)","item":"https://bitcoinsahi.com/research/pool-hashrate-reachability.html"}]}
 </script>
-<title>Pool Hashrate Reachability: What&#x27;s Measurable</title>
+<title>Pool Self-Reported Hashrate — Reachability Finding (build-or-document) — BSAHI Research</title>
 <style>:root{
   --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
   --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
@@ -73,9 +73,9 @@ code{overflow-wrap:anywhere}
 <div class="container">
 <h1>Pool Self-Reported Hashrate — Reachability Finding (build-or-document)</h1>
 <p><strong>BSAHI — row 11 validation, Tier-2 item 1</strong> <em>Produced: 2026-09-16</em></p>
-<h3>Claim tested</h3>
+<h2>Claim tested</h2>
 <p>The row-11 C→B move requires an INDEPENDENT ground truth for per-pool hashrate, ideally pools&#x27; own reported hashrate. This note records what is reachable from this environment and what is not, so the grade move is evidence-based.</p>
-<h3>Reachability canvas (probed 2026-09-16)</h3>
+<h2>Reachability canvas (probed 2026-09-16)</h2>
 <div class="table-wrap">
 <table>
 <tr><th>Source</th><th>What it would give</th><th>Result</th></tr>
@@ -90,22 +90,22 @@ code{overflow-wrap:anywhere}
 <tr><td>api.blockchair.com/bitcoin/stats</td><td>independent network hashrate</td><td><strong>REACHABLE, works</strong> (1013.7 EH/s, H/s field)</td></tr>
 </table>
 </div>
-<h3>What the reachable evidence does prove</h3>
+<h2>What the reachable evidence does prove</h2>
 <p><code>tools/research/pool_attribution_validation.py</code> + <code>data/pool_attribution_validation.json</code>:</p>
 <ol>
 <li><strong>Internal coherence: 7/7 top pools.</strong> Each pool&#x27;s share across the 24h/3d/1w/1y windows agrees within ≤1.5σ (Poisson counting sigma per window). No pool is an attribution outlier. The measured shares are not a fluke of one window.</li>
 <li><strong>Network-total cross-check: 2.34%.</strong> blockchair <code>hashrate_24h</code> (1013.7 EH/s, an independent node-based estimate) vs mempool.space <code>lastEstimatedHashrate</code> (1037.7 EH/s). Two independent implementations agree on the network total that the producing-side instrument depends on.</li>
 </ol>
-<h3>What it does NOT prove (and why the grade stays C live)</h3>
+<h2>What it does NOT prove (and why the grade stays C live)</h2>
 <p>Self-reported per-pool hashrate is the definitive ground truth for row 11, and it is <strong>not reachable here</strong> (DNS-blocked / token-gated / SPA / client-side — canvas above). Without it, per-pool shares rest on block-tag attribution that is internally coherent and network-consistent but not yet corroborated against pools&#x27; own numbers.</p>
-<h3>Path to close (C → B live)</h3>
+<h2>Path to close (C → B live)</h2>
 <ol>
 <li>Re-run the pool probes from a host where <code>via.btc.com</code> / <code>pool.btc.com</code> / <code>public-data.binance.org</code> resolve (VPN/proxy or cloud worker), OR</li>
 <li>Register for the F2Pool public API token and Binance Pool public stats, OR</li>
 <li>Fetch pool-reported hashrate from miningpoolstats&#x27; per-pool detail pages when its API is stable (<code>api.miningpoolstats.stream</code>).</li>
 </ol>
 <p>Then compute per-pool <code>reported_share / block_share</code> ratios and record them.</p>
-<h3>Verdict</h3>
+<h2>Verdict</h2>
 <p><strong>Build-or-document: DOCUMENTED.</strong> Row 11 stays C live until pool self-reported hashrate is captured; the evidence earned (internal coherence + network-total cross-check) is recorded in <code>data/pool_attribution_validation.json</code>. No fabricated pool-reported numbers exist.</p>
 <div class="datacard"><div class="kv">Data source: <code>data/pool_attribution_validation.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
 <p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>

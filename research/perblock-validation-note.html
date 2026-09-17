@@ -14,7 +14,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Per-block validation strip \u2014 rows 1 (fee market) + 4 (block/state size)","item":"https://bitcoinsahi.com/research/perblock-validation-note.html"}]}
 </script>
-<title>Per-Block Validation: Era Aggregates vs Real Blocks</title>
+<title>Per-block validation strip — rows 1 (fee market) + 4 (block/state size) — BSAHI Research</title>
 <style>:root{
   --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
   --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
@@ -73,9 +73,9 @@ code{overflow-wrap:anywhere}
 <div class="container">
 <h1>Per-block validation strip — rows 1 (fee market) + 4 (block/state size)</h1>
 <p><strong>Date:</strong> 2026-09-16 (2025-2026 eras completed 2026-09-17) · <strong>Instrument:</strong> <code>tools/research/perblock_validation.py</code> <strong>Output:</strong> <code>data/perblock_validation.json</code></p>
-<h3>Purpose</h3>
+<h2>Purpose</h2>
 <p>The SCCR historical reconstruction derives era-level fee and block-size legs from daily aggregates (<code>fee_btc_per_day</code>, <code>avg-block-size</code>, <code>blocks_per_day_est</code>). That derivation is grade B: correct in aggregate but unverified at the per-block level. This strip samples actual per-block measurements across 2010-2026 so the aggregate legs can be checked against direct observations, and so the SegWit-era size/weight divergence (a block/state-size boundary question, row 4) is quantified.</p>
-<h3>Sources (this environment)</h3>
+<h2>Sources (this environment)</h2>
 <div class="table-wrap">
 <table>
 <tr><th>Source</th><th>Endpoint</th><th>Gives</th><th>Status</th></tr>
@@ -88,16 +88,16 @@ code{overflow-wrap:anywhere}
 <li>mempool.space <code>/api/v1/block/height/:h</code> (has <code>feeTotal</code>) <strong>times out</strong> from here for historical heights; esplora&#x27;s block object has no fee field. blockchain.info rawblock carries the block-level <code>fee</code>, so fees were sampled there.</li>
 <li>blockchair <code>/bitcoin/blocks</code> remains <strong>HTTP 430</strong> (rate-limited) for the continuous per-block scan — unchanged since <code>utxo-series-reachability.md</code>.</li>
 </ul>
-<h3>Method</h3>
+<h2>Method</h2>
 <p>For each era 2010-2026, three target days (~Jan 1, ~Jun, ~Dec) are converted to a block height by binary search over the main chain (greatest height with <code>timestamp &lt;= target</code>), via esplora. For each sampled height the block summary is cached; the mid-era sample additionally gets a rawblock fetch for the block-level <code>fee</code>. <code>fee_btc</code> (sample) is compared to the era&#x27;s reconstruction reference <code>fee_btc_per_day / blocks_per_day_est</code>.</p>
 <p>Rate-limit handling: per-request retries with 90 s backoff on 429; per-era checkpointing so a quota-limited run resumes exactly where it stopped.</p>
-<h3>Findings (table complete through 2026)</h3>
+<h2>Findings (table complete through 2026)</h2>
 <ul>
 <li><strong>Row 4 — size/weight:</strong> early eras (2010-2013) sample 0-32 kWU blocks; the chain runs near-full 3993 kWU from ~2018 onward. Mean sample size 0.75 MB (2017) → 1.6-2.0 MB (2023-26) against a weight ceiling of 4 MWU — the SegWit divergence is visible: post-2017 <code>weight ≈ 4× size</code>, pre-SegWit <code>weight ≈ 4× size</code> holds except deflationary 2015-16 blocks. Ordinals/Runes-era tx counts confirm congestion: 2023 sampled 2,924 txs/block, 2024 4,246 txs/block (vs ~1,400-1,700 in 2021-22), and the recent eras stay near-full — 2025 1.95 MB / 2,373 txs, 2026 1.68 MB / 5,522 txs (the highest sampled tx density).</li>
 <li><strong>Row 1 — fee leg:</strong> single-block fee samples are <strong>highly noisy</strong> vs an era annual mean, and the dispersion is itself the finding: 2017 spike 2.36× (4.194 vs 1.774 BTC/block), 2018 0.06× (0.031 vs 0.484), 2022 0.02× (0.002 vs 0.102). Per-block fees cluster around fee events, not the annual mean — the aggregation hides a heavy-tailed per-block distribution. The daily-aggregate leg (B) is therefore the right grade for era means; per-block <em>reconstruction</em> (B→A) is genuinely a different object and stays blocked (see verdict). The cooling fee market is visible at block level in the tail: 2025 lands near parity (1.05×, 0.035 vs 0.033) while 2026 falls to 0.31× (0.006 vs 0.019).</li>
 <li><strong>Grades:</strong> row 1 historical stays <strong>B</strong>, row 4 historical stays <strong>B</strong> — each now carries a per-block validation strip (documented sampling bound) instead of an unverified daily-aggregate derivation. Not A: a 3-block-per-era sample is a check, not a reconstruction.</li>
 </ul>
-<h3>Reachability verdict</h3>
+<h2>Reachability verdict</h2>
 <p>Full per-block reconstruction (B→A for rows 1, 4) is <strong>DOCUMENTED</strong> as blocked on a bulk continuous source: blockchair 430, mempool block-endpoint timeout, esplora no-fee. Two real completion paths: a synced local node (same R5 gate), or blockchair from a rate-limit-tolerant host.</p>
 <div class="datacard"><div class="kv">Data source: <code>data/perblock_validation.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
 <p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>

@@ -72,7 +72,7 @@ code{overflow-wrap:anywhere}
 <script src="/js/site-nav.js"></script>
 <div class="container">
 <h1>The Two Questions — Answered</h1>
-<h3>Question 1: Do pruned nodes eliminate the externality?</h3>
+<h2>Question 1: Do pruned nodes eliminate the externality?</h2>
 <p><strong>Short answer:</strong> No. Pruned nodes must still download and verify every block before pruning. The bandwidth + CPU cost of processing inscription data is unavoidable regardless of pruning mode.</p>
 <p><strong>The breakdown per node type:</strong></p>
 <div class="table-wrap">
@@ -85,7 +85,7 @@ code{overflow-wrap:anywhere}
 </table>
 </div>
 <p><strong>Key finding:</strong> Pruning avoids ~70% of storage overhead (disk I/O, space), but the node still pays 100% of bandwidth + CPU to download and validate every inscription before deciding to keep or discard it. At a hobbyist scale ($416/yr), the unavoidable inscription burden is ~<strong>$0.18/yr per node</strong>.</p>
-<h3>Question 2: Does download+verify before pruning create an unavoidable cost?</h3>
+<h2>Question 2: Does download+verify before pruning create an unavoidable cost?</h2>
 <p><strong>Short answer:</strong> Yes. Every Bitcoin full node — pruned or archival — must download every byte of every block and verify every signature. Inscription data cannot be skipped during validation.</p>
 <p><strong>The math:</strong></p>
 <ul>
@@ -101,7 +101,7 @@ code{overflow-wrap:anywhere}
 <li>CPU: negligible for 400-byte inscriptions (fractions of a cent)</li>
 <li><strong>Total unavoidable: ~$0.02–$0.05/yr per node</strong> — truly negligible</li>
 </ul>
-<h3>Verdict</h3>
+<h2>Verdict</h2>
 <p>The externality exists <strong>theoretically</strong> but is <strong>not economically significant</strong> at current volumes.</p>
 <div class="table-wrap">
 <table>

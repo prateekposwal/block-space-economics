@@ -15,7 +15,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"The Bitcoin Whitepaper \u2014 44-Pattern Analysis Note","item":"https://bitcoinsahi.com/research/whitepaper-patterns.html"}]}
 </script>
-<title>The Bitcoin Whitepaper: 44 Engineered Patterns</title>
+<title>The Bitcoin Whitepaper — 44-Pattern Analysis Note — BSAHI Research</title>
 <style>
 :root{
   --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
@@ -76,7 +76,7 @@ code{overflow-wrap:anywhere}
 <p><strong>The &quot;cleared the blackboard&quot; lens: the master pattern, the pattern lattice, and verified anchors</strong></p>
 <p><em>(Analysis note — NOT a submission artifact. Created 2026-08-03 by Prateek on Prateek&#x27;s request to combine the deep whitepaper analysis with the prior primary-source work. Every quote below was re-verified against the canonical Satoshi Nakamoto Institute (SNI) archive on 2026-08-03 — the whitepaper text (<code>nakamotoinstitute.org/bitcoin/</code>) and the BitcoinTalk forum archive (<code>satoshi.nakamotoinstitute.org/posts/</code>). Status labels: ✅ VERIFIED verbatim · ⚠️ VERIFIED with location/correction · ❌ NOT FOUND / MYTH · ⚪ ANALYSIS/JUDGMENT (no quote claim). The 44-pattern enumeration is the architect&#x27;s external analysis; only the patterns anchored to primary text below carry evidence labels — nothing here is asserted beyond its source. Companion to <code>research/satoshi-primary-source-note.md</code> (storage/fees/node-equilibrium verification).)</em></p>
 <hr>
-<h3>1. The master pattern: engineered asymmetry</h3>
+<h2>1. The master pattern: engineered asymmetry</h2>
 <p><strong>⚪ ANALYSIS — the organizing claim of the lens.</strong> Every mechanism in Bitcoin manufactures a <strong>cost asymmetry</strong> so that correct action is cheap and incorrect action is expensive. The whitepaper&#x27;s own text shows the pattern everywhere:</p>
 <div class="table-wrap">
 <table>
@@ -90,7 +90,7 @@ code{overflow-wrap:anywhere}
 </div>
 <p><strong>Four primitives, exactly two per mechanism (⚪ ANALYSIS).</strong> The whitepaper names four primitives — <strong>HASH</strong> (SHA-256, §4), <strong>WORK</strong> (§4 PoW), <strong>KEY</strong> (§2/§10/§11 digital signatures), <strong>CHAIN</strong> (§3 timestamp chain) — and every mechanism in the paper composes exactly two: PoW = HASH+WORK; signatures = KEY+HASH; the ledger = WORK+CHAIN; the timestamp = HASH+CHAIN. The claims &quot;no fifth primitive&quot; and &quot;exactly two compose&quot; are structural claims about the lens, not quoted text — labeled as analysis; the four primitives themselves are named in the paper.</p>
 <hr>
-<h3>2. Verification table — the six checkable claims</h3>
+<h2>2. Verification table — the six checkable claims</h2>
 <p>The lens makes six factual claims about the whitepaper/forum record. All six were checked against the canonical SNI archive on 2026-08-03:</p>
 <div class="table-wrap">
 <table>
@@ -105,7 +105,7 @@ code{overflow-wrap:anywhere}
 </div>
 <p><strong>Nuance on (f).</strong> The principle is better stated as <strong>&quot;share security, not data&quot;</strong> than &quot;share PoW but not a chain&quot;: Satoshi proposed separate chains (sharing <em>nothing</em> but CPU power) — the direct ancestor of <strong>merged mining</strong> (Namecoin, 2011, implemented exactly this) and the seed of the <strong>sidechain argument</strong> (post 537: a separate chain exists precisely to avoid the main chain&#x27;s block-space fees). No &quot;master chain&quot; was ever proposed — the whitepaper&#x27;s §12 is the opposite: <em>&quot;The network is robust in its unstructured simplicity.&quot;</em></p>
 <hr>
-<h3>3. The 44-pattern map (by category)</h3>
+<h2>3. The 44-pattern map (by category)</h2>
 <p><strong>⚪ The enumeration is the architect&#x27;s analysis (external write-up, not yet in this repo).</strong> Counts as given: mathematical/structural 16 · game-theoretic 6 · cryptographic 7 · economic 7 · social/philosophical 8 = 44. The members that survive verification with primary anchors are listed below; the full 44-item list is <strong>outstanding</strong> (needs the architect&#x27;s original transcription before any further pattern enters the record — see §9 ledger).</p>
 <div class="table-wrap">
 <table>
@@ -130,14 +130,14 @@ code{overflow-wrap:anywhere}
 </table>
 </div>
 <hr>
-<h3>4. The &quot;nobody talks about&quot; patterns (4)</h3>
+<h2>4. The &quot;nobody talks about&quot; patterns (4)</h2>
 <ol>
 <li><strong>Bitcoin as a negative-fact dissemination machine</strong> — ✅ §2. The system&#x27;s core epistemic function is proving <strong>absence</strong>: the payee must know the coin was <em>not</em> previously spent, and the only way is to be aware of all transactions. Every node is a witness whose job is to know what did NOT happen — the double-spend defense is an absence-proof, and the whole ledger exists to make absence globally checkable.</li>
 <li><strong>Anti-master-chain principle</strong> — ✅ BitDNS thread (Dec 2010). Satoshi&#x27;s design for auxiliary networks: separate chains, separate fates, <strong>shared CPU power only</strong>. The ancestor of merged mining (Namecoin) and the sidechain argument. <strong>BSAHI relevance:</strong> post 537 shows Satoshi explicitly routed data-heavy applications <em>off</em> the main chain to avoid <em>&quot;fees for expensive space in Bitcoin&#x27;s chain&quot;</em> — the main chain&#x27;s block space was expensive by design, and the intended home for data was other chains, not subsidized on-chain data (the 2023 Ordinals outcome).</li>
 <li><strong>End of local accounting</strong> — ✅ §9. In a UTXO model, no participant ever needs to extract a complete standalone copy of a transaction&#x27;s history to verify it — the first accounting system with no local ledger. The ledger is a public, referential structure; &quot;audit&quot; became a network property, not a local artifact.</li>
 <li><strong>The one interactive ceremony</strong> — ✅ §11. The only interactive step in the protocol: the receiver generates a fresh key pair and hands the public key to the sender <em>shortly before signing</em>, preventing the sender from precomputing an alternate chain. The ancestor of payment-channel freshness (and of every &quot;fresh nonce/key&quot; rule in later protocols).</li>
 </ol>
-<h3>5. The famous-but-wrong patterns (4)</h3>
+<h2>5. The famous-but-wrong patterns (4)</h2>
 <ol>
 <li><strong>&quot;The whitepaper specifies 21M / 1MB / halving&quot;</strong> — ❌ <strong>MYTH.</strong> The paper specifies only <em>&quot;a predetermined number of coins&quot;</em> (§6). The 21M supply and halving schedule come from the <strong>code</strong> (2009 release); the 1MB cap from <strong>BitcoinTalk posts 441/485 (2010)</strong>. All three were retroactively projected onto the whitepaper by secondary sources. (Repo audit 2026-08-03: no BSAHI doc repeats this myth — verified clean.)</li>
 <li><strong>&quot;It&#x27;s about micropayments&quot;</strong> — ⚠️ <strong>PARTLY REALIZED.</strong> §1 <em>does</em> name <em>&quot;small casual transactions&quot;</em> as the cost-of-trust problem the paper solves, but the realized system became macro-settlement: the fee market priced small payments off-chain (Lightning), and §8 already thinks in settlement terms — <em>&quot;Businesses that receive frequent payments will probably still want to run their own nodes.&quot;</em> The whitepaper motivated micropayments; the mechanism delivered settlement.</li>
@@ -145,7 +145,7 @@ code{overflow-wrap:anywhere}
 <li><strong>&quot;§6&#x27;s honesty argument is a proof&quot;</strong> — ⚠️ <strong>CORRECTED.</strong> §6&#x27;s language is hedged: <em>&quot;He <strong>ought to</strong> find it more profitable to play by the rules… than to undermine the system and the validity of his own wealth.&quot;</em> An incentive heuristic, not a proof — it assumes attacker wealth in-system and rational self-interest. Selfish-mining (Eyal &amp; Sirer, 2014) demonstrated the edge the heuristic papered over.</li>
 </ol>
 <hr>
-<h3>6. How the 7 BSAHI patterns descend from the deeper lattice</h3>
+<h2>6. How the 7 BSAHI patterns descend from the deeper lattice</h2>
 <p><strong>⚪ ANALYSIS — parent mapping.</strong> BSAHI&#x27;s program (the canonical 7-angle agenda, <code>research/angles.js</code>) studies the storage/fee-market <strong>cross-section</strong> of the full 44-pattern lattice: each BSAHI angle is a <em>child</em> of a deeper lattice pattern. The architect&#x27;s three mappings (marked ★) plus the repo-derived parents for the remaining angles:</p>
 <div class="table-wrap">
 <table>
@@ -160,10 +160,10 @@ code{overflow-wrap:anywhere}
 </table>
 </div>
 <p><strong>Cross-section reading:</strong> SCCR is the lattice&#x27;s <em>storage column</em> made measurable — the fee market&#x27;s one price (congestion) measured against the recurring cost that the who-pays structure assigns to nodes. The framework paper&#x27;s Resource Coverage Matrix (roadmap §3/§4) is the lattice rendered as a measurement program.</p>
-<h3>7. The closing meta-pattern</h3>
+<h2>7. The closing meta-pattern</h2>
 <p>✅ §12, last line: <em>&quot;Any needed rules and incentives can be enforced with this consensus mechanism.&quot;</em> The lens&#x27;s reading: <strong>the mechanism is the message</strong> — the paper&#x27;s final sentence is not about the currency, it is about the enforcement substrate. ⚪ Framing: <em>&quot;Bitcoin is not a currency with a security model — it is a security model that issues a currency.&quot;</em> For this paper&#x27;s program the line matters directly: if <em>rules and incentives</em> are what the mechanism enforces, then the fee market enforces exactly the incentives it was given (inclusion) — and measuring what it does <strong>not</strong> price (storage) is measuring the mechanism&#x27;s actual incentive surface, which is the SCCR program&#x27;s framing (§8.3).</p>
 <hr>
-<h3>8. Connection to the paper (light touch, applied)</h3>
+<h2>8. Connection to the paper (light touch, applied)</h2>
 <ul>
 <li><strong>Applied to §8.3 (designer-intent paragraph):</strong> one sentence added citing BitDNS post 537 — Satoshi explicitly conceived of the main chain&#x27;s block space as expensive by design and directed data-heavy uses to separate chains (<em>&quot;without worrying about paying fees for expensive space in Bitcoin&#x27;s chain&quot;</em>). Same discipline as the existing paragraph (verified primary source), and it strengthens the scoped reading: storage was never priced in the main chain because Satoshi&#x27;s design routed it <em>around</em> the main chain.</li>
 <li><strong>Cross-reference extended:</strong> §8.3 now points to this note alongside the satoshi note.</li>
@@ -171,13 +171,13 @@ code{overflow-wrap:anywhere}
 <li><strong>Efficient-markets rebuttal (§8.3):</strong> the master pattern supports the existing &quot;scoped&quot; reading — the single price is one asymmetry among several (quantity controls, off-chain routing); no text change needed beyond the post-537 sentence.</li>
 </ul>
 <hr>
-<h3>9. Sources (canonical, fetched 2026-08-03)</h3>
+<h2>9. Sources (canonical, fetched 2026-08-03)</h2>
 <ul>
 <li>Whitepaper (full text): https://nakamotoinstitute.org/bitcoin/ (§2/§4/§6/§7/§9/§10/§11/§12)</li>
 <li>BitcoinTalk, &quot;BitDNS and Generalizing Bitcoin&quot; (thread Nov 2010; Satoshi&#x27;s replies Dec 9–11, 2010): SNI posts 532, 534, 535, 537, 539 — https://satoshi.nakamotoinstitute.org/posts/bitcointalk/{532,534,535,537,539}/</li>
 <li>Prior verification (storage/fees/node-equilibrium): <code>research/satoshi-primary-source-note.md</code></li>
 </ul>
-<h3>10. Evidence ledger &amp; status</h3>
+<h2>10. Evidence ledger &amp; status</h2>
 <p><strong>Verified (2026-08-03):</strong> six checkable claims verified against SNI canonical text (2 location-corrections: b → §9, and note a → §2); four nobody-talks-about patterns anchored; four famous-but-wrong patterns anchored (21M/1MB/halving myth confirmed NOT in whitepaper, §6 &quot;predetermined number of coins&quot; confirmed, repo audit clean); BSAHI-7 parent mapping written (3 architect mappings ★ + 4 repo-derived, all labeled analysis); closing meta-pattern anchored to §12 last line; §8.3 light touch applied + cross-ref.</p>
 <p><strong>Outstanding:</strong> the full 44-item enumeration is <strong>not</strong> in this repo — only the counts (16/6/7/7/8) and the anchored members above. Before any further pattern enters BSAHI surfaces, the architect&#x27;s original 44-pattern write-up must be transcribed and each remaining member checked against primary text (same discipline as §2). No unanchored pattern was asserted here.</p>
 <hr>

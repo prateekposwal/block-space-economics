@@ -14,7 +14,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Production-Cost Ratio \u2014 research note (Tier-1 item 4, aggregate leg)","item":"https://bitcoinsahi.com/research/production-cost-note.html"}]}
 </script>
-<title>Bitcoin Production-Cost Ratio: Miners vs Fees</title>
+<title>Production-Cost Ratio — research note (Tier-1 item 4, aggregate leg) — BSAHI Research</title>
 <style>:root{
   --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
   --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
@@ -73,10 +73,10 @@ code{overflow-wrap:anywhere}
 <div class="container">
 <h1>Production-Cost Ratio — research note (Tier-1 item 4, aggregate leg)</h1>
 <p><strong>BSAHI — producing-side instrument</strong> <em>Produced: 2026-09-16</em></p>
-<h3>The instrument</h3>
+<h2>The instrument</h2>
 <p><code>tools/research/production_cost_ratio.py</code> + <code>data/production_cost_ratio.json</code>. Deterministic from frozen daily series (hash-rate TH/s, miners-revenue USD/day, transaction-fees BTC/day, market-price USD — all under <code>captured-data/historical/</code>). Per era:</p>
 <p>power_GW        = hashrate_TH/s x network-average ASIC efficiency (J/TH) energy_cost_$day = power_x_hours x electricity $/kWh (assumption = 0.05) production_value_$day = miners revenue (subsidy + fees) production_cost_ratio = energy_cost / production_value   (network viability) fee_coverage_of_production = fee_usd_day / energy_cost   (block-space&#x27;s share)</p>
-<h3>First reading (2026-09-16)</h3>
+<h2>First reading (2026-09-16)</h2>
 <div class="table-wrap">
 <table>
 <tr><th>era</th><th>EH/s</th><th>GW</th><th>energyⱼₖ (kWh/day)</th><th>cost $/day</th><th>prod value $/day</th><th>cost/value</th><th>fee % of prod. cost</th></tr>
@@ -90,19 +90,19 @@ code{overflow-wrap:anywhere}
 </table>
 </div>
 <p>Total is in the CBECI-consistent ballpark (2017 ≈ 22 TWh/yr, 2026 ≈ 209 TWh/yr; efficiency table is a documented estimate, grade C).</p>
-<h3>Reading</h3>
+<h2>Reading</h2>
 <ul>
 <li><strong>2026: energy cost ≈ 84% of miner revenue at $0.05/kWh.</strong> Near the flow-cost viability wall; at $0.06/kWh the network&#x27;s aggregate energy bill would exceed its revenue. This is the producing-side stress (boundary class E) in its strongest form yet — a cost squeeze, not a fee shortage symptom.</li>
 <li><strong>Block-space fees pay 0.7% of the energy cost that produces the blocks they live in</strong> (2026). The fee market internalizes ≈ nothing of the physical production cost. (2012-2017 fee coverage looks high only because the estimated energy bills were tiny — grade-C baseline effect.)</li>
 <li>The trend is rising: cost/value went 0.32 (2017) → 0.56 (2019) → 0.73 (2020) → 0.59-0.66 (2023-25) → 0.84 (2026). Pressure is concentrated in subsidy-halving years as subsidy steps down against a growing energy bill.</li>
 </ul>
-<h3>Honesty block</h3>
+<h2>Honesty block</h2>
 <ul>
 <li><strong>Efficiency ($/kWh, J/TH) are documented assumptions, not measurements (grade C).</strong> The ratio is linear in both. The hashrate + revenue + fee + price legs are frozen primary series (grade B).</li>
 <li><strong>Aggregate only — regional split NOT included.</strong> The Cambridge-mining-map / regional-electricity capture that row 13 names is still grade D. This closes the &quot;producing side has no instrument&quot; gap, not the regional-granularity gap.</li>
 <li>No number above is the regional production cost; do not read the two as the same thing.</li>
 </ul>
-<h3>Next step for this row</h3>
+<h2>Next step for this row</h2>
 <p>Regional share capture (Cambridge map or pool-country attribution) + regional electricity series (EIA/IEA) → row 13 D → B. Aggregate stays C (assumption-bound) until a measured network-average efficiency series is captured.</p>
 <div class="datacard"><div class="kv">Data source: <code>data/production_cost_ratio.json</code> — deterministic, frozen-input instrument; re-runnable offline.</div></div>
 <p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>

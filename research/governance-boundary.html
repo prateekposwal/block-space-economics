@@ -15,7 +15,7 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"The Governance Boundary \u2014 BIP-110 as a live natural experiment (v1)","item":"https://bitcoinsahi.com/research/governance-boundary.html"}]}
 </script>
-<title>The Governance Boundary: BIP-110 as a Live Experiment</title>
+<title>The Governance Boundary — BIP-110 as a live natural experiment (v1) — BSAHI Research</title>
 <style>
 :root{
   --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
@@ -77,7 +77,7 @@ code{overflow-wrap:anywhere}
 <h1>The Governance Boundary — BIP-110 as a live natural experiment (v1)</h1>
 <p><strong>Status:</strong> v1 NOTE (2026-08-10) · <strong>Program:</strong> Bitcoin Resource Accounting <strong>Companion:</strong> <code>research/working-paper.md</code>, <code>research/cost-to-flood.md</code>, <code>research/reply-vachagan.md</code> <strong>Origin:</strong> the observation that Bitcoin&#x27;s governance is not &quot;who wins&quot; but <em>who can change the valid-state transition rules, under what coordination threshold, and what happens when constituencies disagree.</em></p>
 <hr>
-<h3>The frame</h3>
+<h2>The frame</h2>
 <p>Four common claims are each half-right:</p>
 <div class="table-wrap">
 <table>
@@ -89,7 +89,7 @@ code{overflow-wrap:anywhere}
 </table>
 </div>
 <p>The real question is <strong>measurable</strong>, not philosophical: who can change Bitcoin&#x27;s valid-state transition rules, under what coordination threshold, and what happens when constituencies disagree? BIP-110 is a live, parameterized experiment in exactly this boundary.</p>
-<h3>BIP-110 — the parameterization (verified from BIP text)</h3>
+<h2>BIP-110 — the parameterization (verified from BIP text)</h2>
 <div class="table-wrap">
 <table>
 <tr><th>Parameter</th><th>Value</th><th>What it means for the boundary</th></tr>
@@ -102,7 +102,7 @@ code{overflow-wrap:anywhere}
 </table>
 </div>
 <p>Every parameter is a falsifiable claim about <em>who decides</em>. That is a natural experiment with its entire parameterization public in advance — a first for Bitcoin.</p>
-<h3>LIVE observation (2026-08-10, agent-26 capture)</h3>
+<h2>LIVE observation (2026-08-10, agent-26 capture)</h2>
 <div class="table-wrap">
 <table>
 <tr><th>Metric</th><th>Value</th></tr>
@@ -113,16 +113,16 @@ code{overflow-wrap:anywhere}
 </table>
 </div>
 <p><strong>First data point:</strong> inside the mandatory window, miners are <strong>not</strong> signaling bit 4 — yet the deployment is designed to lock in regardless at height 963648, because the enforcement clause is carried by node software, not pools. Whether this holds, and what happens at the disagreement point, is the observation the window captures.</p>
-<h3>The three measurable components (the GBI)</h3>
+<h2>The three measurable components (the GBI)</h2>
 <ol>
 <li><strong>Threshold parameters per deployment</strong> — documented, comparable (55% vs 95% vs BIP-8 LOT). The parameterization <em>is</em> the boundary&#x27;s public specification.</li>
 <li><strong>Enforcement behavior</strong> — signaling compliance during windows, blocks rejected, client-version adoption. Partially observable; BIP-110 capture records the signaling side.</li>
 <li><strong>Disagreement outcomes</strong> — split / compliance / failure. Observable after the fact; one is live now.</li>
 </ol>
 <p><strong>Data-gap (honest):</strong> the <em>economic majority</em> constituency (exchanges, custodians, merchants, Lightning hubs) — whose acceptance ratifies a chain — is <strong>not measured</strong>. This is the one undefined quantity in the frame, and a necessary future data source for a full governance-boundary index.</p>
-<h3>Calibration: the 2017 precedent</h3>
+<h2>Calibration: the 2017 precedent</h2>
 <p>BIP-148 (SegWit UASF) is the historical case: a 95%-threshold soft fork that was set to enforce via flag-day, miners pre-emptively complied (BIP-91), and SegWit activated August 2017 without a split. The <em>threat of enforcement</em> changed miner behavior — which is exactly what BIP-110&#x27;s mandatory window is testing again.</p>
-<h3>Status</h3>
+<h2>Status</h2>
 <p><strong>Published:</strong> the governance frame; BIP-110 parameters verified against the BIP text; live capture running (in-window, 0% signaling, lock-in ~Aug 23); 2017 SegWit calibration identified.</p>
 <p><strong>In progress / open:</strong> post-window analysis (what actually happens at the agreement point after lock-in ~Aug 23); an economic-majority data source; the full governance-boundary index.</p>
 <hr>

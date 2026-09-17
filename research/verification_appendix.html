@@ -72,8 +72,8 @@ code{overflow-wrap:anywhere}
 <script src="/js/site-nav.js"></script>
 <div class="container">
 <h1>Verification Appendix — UTXO Cost Model</h1>
-<h3>Parameter Sources &amp; Methodology</h3>
-<h4>1. Hardware Cost: $500/3yr ($167/yr)</h4>
+<h2>Parameter Sources &amp; Methodology</h2>
+<h3>1. Hardware Cost: $500/3yr ($167/yr)</h3>
 <p><strong>Sources:</strong></p>
 <ul>
 <li><a href="https://bitcoin.org/en/full-node#minimum-requirements">Bitcoin.org Full Node Requirements</a> — 2GB RAM, 7GB free disk</li>
@@ -89,7 +89,7 @@ code{overflow-wrap:anywhere}
 <li>$500/3yr allows for SSD replacement and accounts for higher-spec machines</li>
 <li>After 3 years, hardware needs replacement (SSD wear from constant writes)</li>
 </ul>
-<h4>2. Bandwidth: $50/mo ($600/yr)</h4>
+<h3>2. Bandwidth: $50/mo ($600/yr)</h3>
 <p><strong>Sources:</strong></p>
 <ul>
 <li><a href="https://bitcoin.org/en/full-node#minimum-requirements">Bitcoin.org Full Node Requirements</a>: <em>&quot;200 gigabytes upload or more a month&quot;</em></li>
@@ -104,7 +104,7 @@ code{overflow-wrap:anywhere}
 <li>Some ISPs charge overage fees above 1TB — node usage (220 GB) is well within typical caps</li>
 <li>Could reduce to ~$30/mo with lower-tier plans or $70/mo for business-grade</li>
 </ul>
-<h4>3. Electricity: $158/yr</h4>
+<h3>3. Electricity: $158/yr</h3>
 <p><strong>Sources:</strong></p>
 <ul>
 <li><a href="https://www.eia.gov/electricity/monthly/">US EIA Average Electricity Price</a> — $0.125/kWh residential (2024)</li>
@@ -121,7 +121,7 @@ code{overflow-wrap:anywhere}
 <li>Global average electricity cost varies widely ($0.05-$0.40/kWh)</li>
 <li>Our $0.12/kWh is close to US residential average</li>
 </ul>
-<h4>4. Inscription Size: 400 bytes UTXO data</h4>
+<h3>4. Inscription Size: 400 bytes UTXO data</h3>
 <p><strong>Sources:</strong></p>
 <ul>
 <li><a href="https://docs.ordinals.com/">Ordinals Theory</a> — inscription data encoding</li>
@@ -139,7 +139,7 @@ code{overflow-wrap:anywhere}
 <li>400 bytes in witness = 400 WU = 100 vbytes (75% discount vs 1,600 WU in non-witness)</li>
 <li><strong>Verification:</strong> Run <code>research/verify_inscriptions.py</code> to decode recent inscription txs</li>
 </ul>
-<h4>5. Inscription Volume: 100K/month</h4>
+<h3>5. Inscription Volume: 100K/month</h3>
 <p><strong>Sources:</strong></p>
 <ul>
 <li><a href="https://dune.com/dataalways/ordinals">Dune Analytics: Ordinals Dashboard</a> — daily inscription counts</li>
@@ -155,8 +155,8 @@ code{overflow-wrap:anywhere}
 <li><strong>Verification:</strong> Run <code>research/fetch_inscription_stats.py</code> to pull live data</li>
 </ul>
 <hr>
-<h3>Verification Scripts</h3>
-<h4>Script 1: Fetch Real Inscription Stats</h4>
+<h2>Verification Scripts</h2>
+<h3>Script 1: Fetch Real Inscription Stats</h3>
 <pre><code># research/fetch_inscription_stats.py
 &quot;&quot;&quot;Fetch live inscription data from public APIs.&quot;&quot;&quot;
 import json
@@ -229,7 +229,7 @@ def main():
 
 if __name__ == &quot;__main__&quot;:
     main()</code></pre>
-<h4>Script 2: Verify Single Inscription Transaction</h4>
+<h3>Script 2: Verify Single Inscription Transaction</h3>
 <pre><code># research/verify_inscription_size.py
 &quot;&quot;&quot;Decode a single inscription tx to measure witness vs non-witness bytes.&quot;&quot;&quot;
 import json
@@ -286,7 +286,7 @@ if __name__ == &quot;__main__&quot;:
     else:
         main()</code></pre>
 <hr>
-<h3>Sensitivity Analysis</h3>
+<h2>Sensitivity Analysis</h2>
 <div class="table-wrap">
 <table>
 <tr><th>Parameter</th><th>Low Estimate</th><th>Base Estimate</th><th>High Estimate</th><th>Impact on Cost/Byte</th></tr>
@@ -300,7 +300,7 @@ if __name__ == &quot;__main__&quot;:
 </div>
 <p><strong>Key finding:</strong> Even at the most conservative estimates (lowest hardware, lowest bandwidth, most efficient node), the cost per byte per year is within ~2× of the base estimate. The conclusion — that storage cost is orders of magnitude below current fees — is robust.</p>
 <hr>
-<h3>How to Reproduce Every Number</h3>
+<h2>How to Reproduce Every Number</h2>
 <pre><code># 1. Run the cost model
 python3 research/utxo_cost_model.py
 
@@ -316,7 +316,7 @@ python3 research/verify_inscription_size.py &lt;txid&gt;
 # 5. Compare with live fee market
 #    curl https://mempool.space/api/v1/fees/recommended</code></pre>
 <hr>
-<h3>Open Verification Questions</h3>
+<h2>Open Verification Questions</h2>
 <ol>
 <li><strong>What fraction of nodes use high-power vs low-power hardware?</strong> — Bitnodes.io surveys could tell us. Currently assume 150W average. If 80% run on mini PCs (60W), the annual node cost drops to ~$700/yr.</li>
 <li><strong>What is the actual UTXO set contribution per inscription?</strong> — Some inscriptions create multiple UTXOs. The envelope may be 400 bytes but the total UTXO footprint could be larger. Need to analyze a sample.</li>
@@ -324,7 +324,7 @@ python3 research/verify_inscription_size.py &lt;txid&gt;
 <li><strong>How many node operators are there?</strong> — Estimates range from 10,000 to 100,000 reachable nodes. The aggregate storage cost is $9.24K/yr. Per node: $0.09 to $0.92/yr. Is this economically significant?</li>
 </ol>
 <hr>
-<h3>Model Reconciliation (v2.0.0)</h3>
+<h2>Model Reconciliation (v2.0.0)</h2>
 <div class="table-wrap">
 <table>
 <tr><th>Aspect</th><th>storage-ratio.js (SCCR)</th><th>utxo_cost_model.py (inscription externality)</th></tr>
@@ -340,7 +340,7 @@ python3 research/verify_inscription_size.py &lt;txid&gt;
 <p><strong>Decomposition:</strong> the observed 16.4× gap between the two models = 164× denominator gap ÷ 10× time-horizon bug.</p>
 <p><strong>Verdict:</strong> Finding 1 is primarily intentional-but-unexplained differing denominators (164×), partially masked by the 10× bug; Finding 2 is a confirmed 10× dimensional error (cb inflated ×10, ratio deflated ×10).</p>
 <hr>
-<h3>Reproducibility</h3>
+<h2>Reproducibility</h2>
 <blockquote><strong>Internal validation note (v2.0.0).</strong> Internal validation identified an inconsistency in the Storage Cost Coverage Ratio implementation, traced it to a duplicated time-horizon term, corrected the implementation, regenerated all reported values, and confirmed the qualitative conclusions unchanged. Specifically, methodology.json v1.0.0 and tools/research/storage-ratio.js applied the storage horizon T twice — once dividing the denominator of cost-per-byte-per-year (<code>nodeCostPerYear / (avgBlockSizeBytes × blocksPerYear / yearsOfStorage)</code>) and again in the lifetime-cost product (<code>bytes × cb × years</code>). This inflated modeled storage cost — and deflated the coverage ratio — by exactly 10×. The canonical definition of cb is horizon-free (<code>cb = C / bytes-per-year</code>); T enters only through <code>L = cb × B × T</code>. After the correction, the per-node lifetime storage cost of an average block falls from $1.76 to $0.176, the network figure from $105.5K to $10.6K, and the average coverage ratio rises from 0.0172 to 0.1719 (canonical capture, 2026-08-01; 0.121–0.218 across the full capture log). All sampled blocks remain below the 1.0 threshold, so the direction of the finding — transaction fees do not cover the estimated storage externality — is unchanged. A second discrepancy, the 16.4× gap between the two cost models, was traced to intentionally different attribution denominators (block-average vs inscription-marginal byte counts; denominator ratio 164×), not to the time-horizon bug; it is documented in the Model Reconciliation table. All quantities in this paper are regenerated from research/model-spec.json; no script redefines a model constant. The correction increased the estimated SCCR by an order of magnitude but did not reverse the paper&#x27;s qualitative conclusion. This distinction is important: the implementation error affected the estimated magnitude of the measurement, whereas the underlying hypothesis was evaluated against the corrected model and remained supported under the paper&#x27;s assumptions (working paper §6.5).</blockquote>
 <p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
 </div>

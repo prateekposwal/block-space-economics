@@ -74,12 +74,12 @@ code{overflow-wrap:anywhere}
 <h1>UTXO Storage Cost Model — Research Note</h1>
 <p><strong>Project:</strong> Bitcoin Priority Oracle <strong>Phase:</strong> R2 — UTXO Cost Function <strong>Date:</strong> 2026-07-28</p>
 <hr>
-<h3>Summary</h3>
+<h2>Summary</h2>
 <p>The Bitcoin fee market prices <strong>congestion</strong> (inclusion in the next block) but not <strong>permanence</strong> (lifetime storage in every full node&#x27;s blockchain history). This note quantifies the gap.</p>
 <p>A full Bitcoin node costs approximately <strong>$925/year</strong> to operate (hardware depreciation + bandwidth + electricity). At the current inscription rate of ~100K/month, each average 400-byte inscription adds ~0.45 GB/year of UTXO growth across the network. The modeled storage cost is <strong>≈1.93e-6 $/byte/year</strong> (1.925729e-6, marginal inscription attribution) — or roughly <strong>$0.0077 per inscription over a 10-year lifetime</strong>.</p>
 <p>Current inscription fees ($5–50) are 650–6,500× above the modeled storage cost, but they are a <strong>one-time congestion payment</strong>, not a recurring storage payment.</p>
 <hr>
-<h3>Cost Model Formula</h3>
+<h2>Cost Model Formula</h2>
 <pre><code>NodeCostPerYear = HW_depreciation + Bandwidth_annual + Electricity_annual
 
 CostPerBytePerYear = NodeCostPerYear / (UTXO_bytes_added_per_year)
@@ -93,7 +93,7 @@ InscriptionStorageCost = CostPerBytePerYear * inscription_bytes * assumed_lifeti
 <li><code>UTXO_bytes_added_per_year = 400 bytes × 100,000 inscriptions × 12 = 480,000,000 bytes</code></li>
 </ul>
 <hr>
-<h3>Key Numbers</h3>
+<h2>Key Numbers</h2>
 <div class="table-wrap">
 <table>
 <tr><th>Metric</th><th>Value</th></tr>
@@ -109,7 +109,7 @@ InscriptionStorageCost = CostPerBytePerYear * inscription_bytes * assumed_lifeti
 </table>
 </div>
 <hr>
-<h3>SegWit Weight Formula Impact</h3>
+<h2>SegWit Weight Formula Impact</h2>
 <p>BIP-141 defines block weight as:</p>
 <pre><code>block_weight = base_size × 3 + total_size ≤ 4,000,000</code></pre>
 <p>This means:</p>
@@ -125,7 +125,7 @@ InscriptionStorageCost = CostPerBytePerYear * inscription_bytes * assumed_lifeti
 <li><strong>A data-conscious relay policy</strong> would need to account for the full byte cost, not the discounted vbyte cost, when assessing state impact.</li>
 </ol>
 <hr>
-<h3>Fee Market Comparison</h3>
+<h2>Fee Market Comparison</h2>
 <div class="table-wrap">
 <table>
 <tr><th></th><th>Congestion pricing (current market)</th><th>Storage cost (modeled)</th></tr>
@@ -138,7 +138,7 @@ InscriptionStorageCost = CostPerBytePerYear * inscription_bytes * assumed_lifeti
 </div>
 <p><strong>Key observation:</strong> The current fee market is functioning well for congestion, but there is no mechanism for storage cost recovery. Even if the absolute numbers are small today, the externality scales with inscription volume. At 10× current rates (1M inscriptions/mo), the annual storage externality reaches ~$92K/yr across the network.</p>
 <hr>
-<h3>Open Questions</h3>
+<h2>Open Questions</h2>
 <ol>
 <li><strong>Is the externality economically significant?</strong> At current volumes, the modeled storage cost per inscription is small ($0.0077 over 10yr). But UTXO set growth compounds, and nodes are not compensated for carrying historical state.</li>
 <li><strong>Do node operators run pruned nodes?</strong> If most nodes prune, they don&#x27;t bear the full UTXO set cost. However, archival nodes and miners validating new blocks do carry the full set. The distribution matters.</li>
