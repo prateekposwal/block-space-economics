@@ -37,7 +37,7 @@ row here, that is a defect.
 | 14 | ASIC efficiency (network avg) | 25 J/TH (2026), era table | **Modelled** (estimate) | documented table | — | C |
 | 15a | **Gossip-observed addresses** (addrman) | ≥32,000 learned addresses (request ceiling, returned in full) | Observed | `getnodeaddresses 32000` (`data/node_census.json`) — **addresses, not nodes** | 2026-08-02 | C |
 | 15b | **Reachable nodes** (canonical `N` since 2026-09-17) | **26,586** | Observed | btcnodes reachable-node crawl (`data/node_census_series.json`, 3,981 snapshots) | 2026-09-16 | B |
-| 15c | Non-listening / private nodes | **unobservable** remotely (evidence only via inbound peers: `-netinfo`) | — | — | — | D |
+| 15c | Non-listening / private nodes | **unobservable** remotely (evidence only via inbound peers: `-netinfo`); treated as an explicit **sensitivity band** at N=50K/80K/100K (SCCR 0.18/0.12/0.09) | — | `data/sccr_sensitivity.json → unpublicised_node_sensitivity` | 2026-09-17 | D |
 | 15d | Total node population | **not observable** | — | — | — | — |
 | 16 | Pool attribution | 7/7 pools coherent ≤1.5σ; network-total diff 2.34% | Observed | `data/pool_attribution_validation.json` | 2026-09-15 | C/B |
 | 17 | Mining concentration | HHI/Gini/N_eff per window | Observed | `data/mining_concentration.json` | 2026-09-15 | B |

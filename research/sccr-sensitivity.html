@@ -147,6 +147,20 @@ python3 tools/research/sccr_sensitivity.py
 # the per-block reproduction that feeds the distribution (JS = Python = C)
 bash research/reproduce/cross_check.sh</code></pre>
 <p>The script reads <code>data/sccr.json</code> (the dated reading) and the frozen kit output, so both the grid and the CI are reproducible from the repository alone.</p>
+<h2>Unpublicised-node sensitivity (baseline = strict floor)</h2>
+<p>Baseline <code>N = 26,586</code> is <strong>Grade B</strong> (measured reachable). Unpublicised nodes are <strong>Grade D</strong> and excluded from the index; they are shown here as an explicit band. Excluding them makes <code>L_net</code> a lower bound and the SCCR an upper bound — the baseline is <strong>conservative</strong>.</p>
+<div class="table-wrap">
+<table>
+<tr><th>N</th><th>layer</th><th>L_net (USD/block)</th><th>SCCR</th><th>fee coverage</th><th>externality vs baseline</th></tr>
+<tr><td>---:</td><td>---</td><td>---:</td><td>---:</td><td>---:</td><td>---:</td></tr>
+<tr><td>26,586</td><td>B</td><td>$4,676</td><td>0.3470</td><td>34.7%</td><td>1.00×</td></tr>
+<tr><td>32,000</td><td>C</td><td>$5,628</td><td>0.2883</td><td>28.8%</td><td>1.20×</td></tr>
+<tr><td>50,000</td><td>D</td><td>$8,793</td><td>0.1845</td><td>18.5%</td><td>1.88×</td></tr>
+<tr><td>80,000</td><td>D</td><td>$14,070</td><td>0.1153</td><td>11.5%</td><td>3.01×</td></tr>
+<tr><td>100,000</td><td>D</td><td>$17,587</td><td>0.0923</td><td>9.2%</td><td>3.76×</td></tr>
+</table>
+</div>
+<blockquote>The baseline infrastructure size (N = 26586) is a strict empirical floor. Because non-listening, private and Tor-hidden validating nodes cannot be audited with Grade B certainty, they are excluded from the primary index. However, because every hidden node independently bears the replication and validation burden, their exclusion means the true network-wide storage externality (L_net) is higher — and the localized fee coverage (SCCR) lower — than reported. The baseline is therefore conservative.</blockquote>
 <h2>What this does and does not claim</h2>
 <ul>
 <li><strong>Does:</strong> quantify exactly how the index moves with each assumption; give a legitimate CI for the mean of the measured per-block sample.</li>

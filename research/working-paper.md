@@ -277,6 +277,25 @@ The median is below the deterministic point estimate because the node-count dist
 The current-band median (0.17) sits near the N=32K point estimates (0.22–0.29), and the P5–P95 interval (0.07–0.47) brackets the deterministic N-band range (~0.07–0.71): the confidence interval and the range are two views of the same N-driven uncertainty. The old-N-band result above (99.8% below 1×) remains as the historical conservative check.
 
 
+### 5.4.1 Unpublicised nodes: why the baseline is conservative
+
+N = 26,586 is a **measured reachable** count. Non-listening, private, and Tor-hidden validating nodes cannot be crawled or handshaked, so they cannot be audited with Grade B certainty — and they are therefore **excluded from the primary index**. But each of them still buys storage, draws power, and independently validates. Excluding them does not remove their cost; it removes it from our *numerator* of observability while leaving it in the network.
+
+The direction is therefore unambiguous: excluding unpublicised nodes makes the reported network-wide storage externality (`L_net`) a **lower bound** and the reported `SCCR` an **upper bound**. The baseline is **conservative**.
+
+| N | status | L_net (USD/block) | SCCR | fee coverage | externality vs baseline |
+|---:|---|---:|---:|---:|---:|
+| 26,586 | B · measured reachable validators (baseline / floor) | $4,676 | 0.3470 | 34.7% | 1.00× |
+| 32,000 | C · previous addrman address sample (deprecated as a node count) | $5,628 | 0.2883 | 28.8% | 1.20× |
+| 50,000 | D · estimate — lower end of the 50K–100K band | $8,793 | 0.1845 | 18.5% | 1.88× |
+| 80,000 | D · estimate — midpoint of the 50K–100K band | $14,070 | 0.1153 | 11.5% | 3.01× |
+| 100,000 | D · estimate — upper end of the 50K–100K band | $17,587 | 0.0923 | 9.2% | 3.76× |
+
+**Paper defense (for peer review):**
+
+> "The baseline infrastructure size (N = 26586) is a strict empirical floor. Because non-listening, private and Tor-hidden validating nodes cannot be audited with Grade B certainty, they are excluded from the primary index. However, because every hidden node independently bears the replication and validation burden, their exclusion means the true network-wide storage externality (L_net) is higher — and the localized fee coverage (SCCR) lower — than reported. The baseline is therefore conservative."
+
+No core state variable is changed: `model-spec.json` keeps N = 26,586, and the sensitivity band is published alongside it so a reader can see the decay of the storage claim as N rises. 
 ### 5.5 The Bandwidth Leg (v1 analytical bound)
 
 *(Added 2026-08-04, G-06.)* The storage leg prices *stored* bytes; the

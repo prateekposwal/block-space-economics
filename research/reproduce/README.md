@@ -129,3 +129,17 @@ date, reproducer (anonymous ok), language, their numbers, and any discrepancy.
 ## Last verification (2026-09-17)
 
 Ran `cross_check.sh`: **JS = Python = C**, 155/155 heights matched, max per-block difference **4.9e-7**, avg SCCR **0.2406** (min 0.0490, max 1.0757, 153/155 below 1×). Machine-readable record: `data/reproduction_verification.json`.
+
+## Unpublicised-node sensitivity (baseline = strict floor)
+
+Baseline `N = 26,586` is **Grade B** (measured reachable). Unpublicised nodes are **Grade D** and excluded from the index; they are shown here as an explicit band. Excluding them makes `L_net` a lower bound and the SCCR an upper bound — the baseline is **conservative**.
+
+| N | layer | L_net (USD/block) | SCCR | fee coverage | externality vs baseline |
+|---:|---|---:|---:|---:|---:|
+| 26,586 | B | $4,676 | 0.3470 | 34.7% | 1.00× |
+| 32,000 | C | $5,628 | 0.2883 | 28.8% | 1.20× |
+| 50,000 | D | $8,793 | 0.1845 | 18.5% | 1.88× |
+| 80,000 | D | $14,070 | 0.1153 | 11.5% | 3.01× |
+| 100,000 | D | $17,587 | 0.0923 | 9.2% | 3.76× |
+
+> The baseline infrastructure size (N = 26586) is a strict empirical floor. Because non-listening, private and Tor-hidden validating nodes cannot be audited with Grade B certainty, they are excluded from the primary index. However, because every hidden node independently bears the replication and validation burden, their exclusion means the true network-wide storage externality (L_net) is higher — and the localized fee coverage (SCCR) lower — than reported. The baseline is therefore conservative.

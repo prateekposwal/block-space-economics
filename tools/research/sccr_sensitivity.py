@@ -123,6 +123,29 @@ def main():
                     "factor": round(s_lo / s_hi, 2) if s_hi else None})
     dom.sort(key=lambda d: -(d["factor"] or 0))
 
+    # ── Unpublicised-node sensitivity (baseline = strict Grade B floor) ──
+    # Non-listening / private / Tor-hidden validators cannot be audited with
+    # Grade B certainty, so they are EXCLUDED from the primary index. But each one
+    # still bears the replication + validation burden, so excluding them makes the
+    # reported externality a LOWER bound and the reported SCCR an UPPER bound.
+    # This table makes that direction explicit rather than implicit.
+    unpublicised = []
+    for N, layer, label in [
+        (N0, "B", "measured reachable validators (baseline / floor)"),
+        (32000, "C", "previous addrman address sample (deprecated as a node count)"),
+        (50000, "D", "estimate — lower end of the 50K–100K band"),
+        (80000, "D", "estimate — midpoint of the 50K–100K band"),
+        (100000, "D", "estimate — upper end of the 50K–100K band"),
+    ]:
+        ln = l_net(N, T0, C0)
+        unpublicised.append({
+            "N": N, "layer": layer, "label": label,
+            "l_net_usd_per_block": round(ln, 2),
+            "sccr": round(fee_usd / ln, 4),
+            "fee_coverage_pct": round(100 * fee_usd / ln, 1),
+            "externality_multiple_vs_baseline": round(ln / l_net(N0, T0, C0), 3),
+        })
+
     out = {
         "schema": "bsahi.sccr-sensitivity/1",
         "layer": "modelled",
@@ -136,6 +159,22 @@ def main():
             "min": round(vals[0], 4), "median": round(statistics.median(vals), 4), "max": round(vals[-1], 4),
             "combinations": len(grid), "combinations_below_1x": len(below),
             "share_below_1x_pct": round(100 * len(below) / len(grid), 1),
+        },
+        "unpublicised_node_sensitivity": {
+            "baseline_N": N0,
+            "baseline_layer": "B — measured reachable validating nodes (strict empirical floor)",
+            "treatment": ("Baseline is anchored strictly to the measured reachable count. "
+                          "Non-listening/private/Tor-hidden nodes cannot be audited with Grade B certainty and are "
+                          "EXCLUDED from the primary index; they are reported here as an explicit sensitivity band."),
+            "direction": ("Excluding unpublicised nodes makes L_net a LOWER bound and the reported SCCR an UPPER bound — "
+                          "the baseline is therefore CONSERVATIVE with respect to the externality."),
+            "curve": unpublicised,
+            "defense": ("The baseline infrastructure size (N = %d) is a strict empirical floor. Because non-listening, "
+                        "private and Tor-hidden validating nodes cannot be audited with Grade B certainty, they are "
+                        "excluded from the primary index. However, because every hidden node independently bears the "
+                        "replication and validation burden, their exclusion means the true network-wide storage "
+                        "externality (L_net) is higher — and the localized fee coverage (SCCR) lower — than reported. "
+                        "The baseline is therefore conservative." % N0),
         },
         "distribution": dist,
         "stress_test": {"dominant_assumption": dom[0]["assumption"] if dom else None,

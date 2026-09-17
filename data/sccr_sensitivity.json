@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.sccr-sensitivity/1",
   "layer": "modelled",
-  "generated_at": "2026-09-17T09:15:59.891699+00:00",
+  "generated_at": "2026-09-17T09:32:20.806648+00:00",
   "method": "tools/research/sccr_sensitivity.py \u2014 analytic sensitivity of the SCCR to its assumptions",
   "formula": "SCCR = fee_USD / L_net ; L_net = N x T x C / R_blocks ; R_blocks = 365.25 x 24 x 6",
   "reading": {
@@ -211,6 +211,60 @@
     "combinations": 27,
     "combinations_below_1x": 22,
     "share_below_1x_pct": 81.5
+  },
+  "unpublicised_node_sensitivity": {
+    "baseline_N": 26586,
+    "baseline_layer": "B \u2014 measured reachable validating nodes (strict empirical floor)",
+    "treatment": "Baseline is anchored strictly to the measured reachable count. Non-listening/private/Tor-hidden nodes cannot be audited with Grade B certainty and are EXCLUDED from the primary index; they are reported here as an explicit sensitivity band.",
+    "direction": "Excluding unpublicised nodes makes L_net a LOWER bound and the reported SCCR an UPPER bound \u2014 the baseline is therefore CONSERVATIVE with respect to the externality.",
+    "curve": [
+      {
+        "N": 26586,
+        "layer": "B",
+        "label": "measured reachable validators (baseline / floor)",
+        "l_net_usd_per_block": 4675.65,
+        "sccr": 0.347,
+        "fee_coverage_pct": 34.7,
+        "externality_multiple_vs_baseline": 1.0
+      },
+      {
+        "N": 32000,
+        "layer": "C",
+        "label": "previous addrman address sample (deprecated as a node count)",
+        "l_net_usd_per_block": 5627.8,
+        "sccr": 0.2883,
+        "fee_coverage_pct": 28.8,
+        "externality_multiple_vs_baseline": 1.204
+      },
+      {
+        "N": 50000,
+        "layer": "D",
+        "label": "estimate \u2014 lower end of the 50K\u2013100K band",
+        "l_net_usd_per_block": 8793.44,
+        "sccr": 0.1845,
+        "fee_coverage_pct": 18.5,
+        "externality_multiple_vs_baseline": 1.881
+      },
+      {
+        "N": 80000,
+        "layer": "D",
+        "label": "estimate \u2014 midpoint of the 50K\u2013100K band",
+        "l_net_usd_per_block": 14069.51,
+        "sccr": 0.1153,
+        "fee_coverage_pct": 11.5,
+        "externality_multiple_vs_baseline": 3.009
+      },
+      {
+        "N": 100000,
+        "layer": "D",
+        "label": "estimate \u2014 upper end of the 50K\u2013100K band",
+        "l_net_usd_per_block": 17586.89,
+        "sccr": 0.0923,
+        "fee_coverage_pct": 9.2,
+        "externality_multiple_vs_baseline": 3.761
+      }
+    ],
+    "defense": "The baseline infrastructure size (N = 26586) is a strict empirical floor. Because non-listening, private and Tor-hidden validating nodes cannot be audited with Grade B certainty, they are excluded from the primary index. However, because every hidden node independently bears the replication and validation burden, their exclusion means the true network-wide storage externality (L_net) is higher \u2014 and the localized fee coverage (SCCR) lower \u2014 than reported. The baseline is therefore conservative."
   },
   "distribution": {
     "source": "research/reproduce frozen capture (real per-block ratios)",
