@@ -6,9 +6,13 @@
 // exec; the same pattern as tools/research/sccr_live_runner.js exists for.
 // It also must be ad-hoc codesigned (the bundle ships unsigned).
 //
-// Publishes an onion HiddenService that forwards to 127.0.0.1:8333, giving the
-// node inbound peers with NO router port-forward (verified: Core accepts
-// loopback inbound). Tor runs in the foreground; launchd KeepAlive supervises.
+// We run ONLY SocksPort + ControlPort. bitcoind (-listenonion=1, the default)
+// detects the control port, creates its OWN onion (key persisted at
+// <datadir>/onion_v3_private_key), advertises it in localaddresses, and Tor
+// forwards inbound to 127.0.0.1:8333. This gives the node inbound peers with
+// NO router port-forward and NO bitcoind restart. Verified: Core accepts
+// loopback inbound (direct test -> connections_in=1).
+// Tor runs in the foreground; launchd KeepAlive supervises.
 var cp = require('child_process');
 var TOR = '/Users/prateekposwal/.bsahi/tor/tor/tor';
 var CONF = '/Users/prateekposwal/.bsahi/tor/torrc';
