@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description" content="The Bitcoin Block Space Problem — BSAHI Working Paper v2.2.0 (model-spec.json v2.0.1) Bitcoin block space economics research from BSAHI — live fee, mempool, and">
+<meta property="og:title" content="SCCR Reproduction Kit">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/working-paper">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/working-paper">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"SCCR Reproduction Kit","item":"https://bitcoinsahi.com/research/reproduce/"}]}
+</script>
+<title>SCCR Reproduction Kit — BSAHI Research</title>
+<style>
+:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+</style>
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","name":"SCCR Reproduction Kit","url":"https://bitcoinsahi.com/research/reproduce/","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en"}
+</script>
+</head>
+<body>
+
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>SCCR Reproduction Kit</h1>
+<p><strong>Reproduce the Storage Cost Coverage Ratio (SCCR) yourself</strong> — in about 15 minutes, from a frozen input capture, with three independent implementations that agree to the last decimal.</p>
+
+<h2>Quickstart</h2>
+<pre><code>python3 reproduce_sccr.py --input input/fee_history_capture.json
+cc reproduce_sccr.c -o reproduce_sccr &amp;&amp; ./reproduce_sccr
+bash cross_check.sh   # all three must agree within 1e-6</code></pre>
+
+<h2>What's in the kit</h2>
+<ul>
+<li><a href="/research/reproduce/external-reproduction">External reproduction, step by step</a> — the full instructions, inputs, and expected outputs.</li>
+<li><a href="README.md">README</a> — kit overview, method, and provenance.</li>
+<li><a href="reproduce_sccr.py">reproduce_sccr.py</a> — Python implementation.</li>
+<li><a href="reproduce_sccr.c">reproduce_sccr.c</a> — standalone C implementation (no dependencies).</li>
+<li><a href="cross_check.sh">cross_check.sh</a> — cross-checks the implementations.</li>
+<li><a href="input/fee_history_capture.json">input/fee_history_capture.json</a> — the frozen input capture.</li>
+</ul>
+
+<h2>Reference result</h2>
+<p>From the frozen snapshot (<strong>2026-09-16, 155 blocks, heights 967,138&rarr;967,292, model-spec v2.1.0</strong>) the kit reproduces <strong>avg SCCR 0.2406</strong> (min 0.0490, max 1.0757), with <strong>153 of 155 blocks below 1&times;</strong> (98.7%). JavaScript, Python, and C agree to within 1e-6.</p>
+<p>This kit reads a frozen capture by design. The SCCR the live dashboard shows is refreshed daily by GitHub Actions and is available as a dated reading at <a href="/data/sccr.json">/data/sccr.json</a>.</p>
+
+<h2>Why it matters</h2>
+<p>The measurement is only as good as its reproducibility. Anyone can re-derive the number from the same inputs and check it against the published result — that is the standard this research holds itself to.</p>
+
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>

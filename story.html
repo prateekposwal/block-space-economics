@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="The Bitcoin data story: how the fee market, mempool, and the cost of permanence fit together — told with live measurements from an autonomous research engine.">
 <meta property="og:title" content="BSAHI — The Data Story">
-<meta property="og:url" content="https://bitcoinsahi.com/story.html">
+<meta property="og:url" content="https://bitcoinsahi.com/story">
 <meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://bitcoinsahi.com/story.html">
+<link rel="canonical" href="https://bitcoinsahi.com/story">
 <title>BSAHI — The Data Story</title>
 <style>
 
@@ -109,7 +109,7 @@ footer .links a:hover{color:var(--accent)}
   </div>
   <canvas id="bip-canvas" width="1000" height="220"></canvas>
   <div class="legend"><span><span class="sw" style="background:var(--bg)"></span>non-signaling block</span><span><span class="sw" style="background:var(--accent)"></span>signaling block</span><span><span class="sw" style="background:var(--red)"></span>window boundary</span><span><span class="sw" style="background:var(--blue)"></span>lock-in height</span></div>
-  <div class="callout"><b>The story:</b> a soft fork whose activation doesn't need miners — the enforcement clause is carried by node software. If signaling stays low but lock-in happens anyway, that's the governance boundary made visible: <b>miners can refuse, but they can't stop it.</b> Details: <a href="/research/governance-boundary.html" style="color:var(--accent)">governance-boundary note →</a></div>
+  <div class="callout"><b>The story:</b> a soft fork whose activation doesn't need miners — the enforcement clause is carried by node software. If signaling stays low but lock-in happens anyway, that's the governance boundary made visible: <b>miners can refuse, but they can't stop it.</b> Details: <a href="/research/governance-boundary" style="color:var(--accent)">governance-boundary note →</a></div>
   <div class="callout" style="border-left-color:var(--blue)"><b>The correction:</b> <b>UASF/URSF are coordination mechanisms — not proof that miners control Bitcoin.</b> A flag-day or a user-resisted fork is a way for node operators to coordinate enforcement, not evidence of who holds power. And miner concentration is a <b>real attack surface</b> — but it doesn't automatically equal protocol control. BIP-110 is the live test of exactly this: the 55% threshold and the mandatory window are coordination parameters, and the outcome tells us who actually moves the valid-state transition boundary.</div>
 </div>
 
@@ -126,7 +126,7 @@ footer .links a:hover{color:var(--accent)}
   <canvas id="sccr-canvas" width="1000" height="240"></canvas>
   <div class="legend"><span><span class="sw" style="background:var(--accent)"></span>average SCCR per day</span><span><span class="sw" style="background:var(--red)"></span>the 1.0 line (full coverage)</span></div>
   <div class="provenance" id="sccr-provenance" style="font-size:.78rem;color:var(--muted);margin-top:8px;line-height:1.5">Measurement provenance loading…</div>
-  <div class="callout"><b>The story (live, dated):</b> fees now cover <b id="sccr-coverage-story">…</b> of what permanently-stored data costs full nodes — and that coverage is a moving target. Read the latest reading at <a href="/research/regime-event-2026-08-21.html" style="color:var(--accent)">regime event →</a> and the model at <a href="/research/working-paper.html" style="color:var(--accent)">working-paper →</a><br><span id="sccr-freshness" style="font-size:.72rem;color:var(--muted)">freshness label loading…</span></div>
+  <div class="callout"><b>The story (live, dated):</b> fees now cover <b id="sccr-coverage-story">…</b> of what permanently-stored data costs full nodes — and that coverage is a moving target. Read the latest reading at <a href="/research/regime-event-2026-08-21" style="color:var(--accent)">regime event →</a> and the model at <a href="/research/working-paper" style="color:var(--accent)">working-paper →</a><br><span id="sccr-freshness" style="font-size:.72rem;color:var(--muted)">freshness label loading…</span></div>
 </div>
 
 <!-- 3. COST TO FLOOD -->
@@ -142,7 +142,7 @@ footer .links a:hover{color:var(--accent)}
   </div>
   <canvas id="leverage-canvas" width="1000" height="200"></canvas>
   <div class="legend"><span><span class="sw" style="background:var(--blue)"></span>attacker pays</span><span><span class="sw" style="background:var(--accent)"></span>network bears (10-yr)</span><span><span class="sw" style="background:var(--red)"></span>leverage gap</span></div>
-  <div class="callout"><b>The story:</b> a nation-state budget makes flooding cheap, and every byte imposed outlives the fee that placed it. Dust's real threat isn't storage — it's RAM. Details: <a href="/research/cost-to-flood.html" style="color:var(--accent)">cost-to-flood note →</a></div>
+  <div class="callout"><b>The story:</b> a nation-state budget makes flooding cheap, and every byte imposed outlives the fee that placed it. Dust's real threat isn't storage — it's RAM. Details: <a href="/research/cost-to-flood" style="color:var(--accent)">cost-to-flood note →</a></div>
 </div>
 
 <!-- 4. FOUR RESOURCE LEGS -->
@@ -152,12 +152,12 @@ footer .links a:hover{color:var(--accent)}
   <p class="sub">Storage, bandwidth, validation, UTXO — each is a different cost. The heatmap shows where the burden concentrates.</p>
   <canvas id="legs-canvas" width="1000" height="260"></canvas>
   <div class="legend"><span>cost per node per year (log scale)</span></div>
-  <div class="callout"><b>The story:</b> storage dominates the modeled burden; bandwidth and validation are analytically bounded and small today; UTXO is now measured live (~29.9 KB/block net growth). Each leg is a different attack surface. <a href="/research/validation-cost.html" style="color:var(--accent)">validation →</a></div>
+  <div class="callout"><b>The story:</b> storage dominates the modeled burden; bandwidth and validation are analytically bounded and small today; UTXO is now measured live (~29.9 KB/block net growth). Each leg is a different attack surface. <a href="/research/validation-cost" style="color:var(--accent)">validation →</a></div>
 </div>
 
 </div>
 
-<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/story.html">Data Story</a><a href="/articles.html">Articles</a><a href="/beta.html">Beta</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/story">Data Story</a><a href="/articles">Articles</a><a href="/beta">Beta</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
 
 <script>
 // ─── helpers ───

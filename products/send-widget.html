@@ -9,10 +9,10 @@
 <meta name="keywords" content="bitcoin send widget, fee widget, bitcoin fees, wallet widget, bitcoin api">
 <meta property="og:title" content="BSAHI — Send Widget (beta)">
 <meta property="og:description" content="Tell users when to send Bitcoin. Live fee verdict, one-line embed, free beta.">
-<meta property="og:url" content="https://bitcoinsahi.com/products/send-widget.html">
+<meta property="og:url" content="https://bitcoinsahi.com/products/send-widget">
 <meta property="og:type" content="product">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://bitcoinsahi.com/products/send-widget.html">
+<link rel="canonical" href="https://bitcoinsahi.com/products/send-widget">
 <script src="/js/beta-gate.js" defer></script>
 <title>BSAHI Send Widget — Should I Send Now? (beta)</title>
 <style>
@@ -78,8 +78,8 @@ body.gated .container{display:none}
   <h1>Should I Send Bitcoin Now?</h1>
   <p>An embeddable widget that tells your users <strong>when</strong> to transact — a live verdict from mempool conditions, computed from a self-hosted Bitcoin Core node. The #1 UX question every wallet user asks, answered in one line.</p>
   <div class="cta-row">
-    <a href="/beta.html" class="btn btn-primary">Join the free beta →</a>
-    <a href="/widget-send.html" class="btn btn-outline">Try the live widget</a>
+    <a href="/beta" class="btn btn-primary">Join the free beta →</a>
+    <a href="/widget-send" class="btn btn-outline">Try the live widget</a>
   </div>
 </div>
 
@@ -118,14 +118,14 @@ body.gated .container{display:none}
 </div>
 
 <h2 style="color:var(--fg)">Embed it now</h2>
-<pre>&lt;iframe src="https://bitcoinsahi.com/widget-send.html"
+<pre>&lt;iframe src="https://bitcoinsahi.com/widget-send"
         width="360" height="280"
         style="border:1px solid #30363D;border-radius:12px"
         loading="lazy" title="Should I send Bitcoin now? — BSAHI"&gt;&lt;/iframe&gt;</pre>
 <p style="color:var(--muted);font-size:.9rem">Public on the free tier today. Join the beta for the full product + API.</p>
 </div>
 
-<footer>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy · <a href="/beta.html" style="color:var(--muted)">Beta</a></footer>
+<footer>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy · <a href="/beta" style="color:var(--muted)">Beta</a></footer>
 <script>
 fetch('/data/beta-status.json').then(function(r){return r.json()}).then(function(s){
   if(s){ document.getElementById('beta-count').textContent = s.registered || 0; document.getElementById('beta-open').textContent = s.open ? 'OPEN' : 'WAITLIST'; }
