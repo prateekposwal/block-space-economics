@@ -1,16 +1,15 @@
 {
-  "generated_at": "2026-09-18T00:09:07.548Z",
+  "generated_at": "2026-09-18T00:39:16.876Z",
   "status": "DEGRADED",
   "issues": [
-    "SPOOL: accounting/dead issue",
-    "ORCHESTRATOR: heartbeat 27749 min ago",
+    "ORCHESTRATOR: heartbeat 27779 min ago",
     "CAPTURE: failure ratio 32% (last 24h) > 20%"
   ],
   "checks": {
     "spool": {
       "accountingOk": true,
-      "pending": 15,
-      "dead": 1,
+      "pending": 0,
+      "dead": 0,
       "stale": 0
     },
     "de_server": {
@@ -19,16 +18,16 @@
       "agent": "running"
     },
     "de_agent": {
-      "lastRunAgeMin": 59
+      "lastRunAgeMin": 17
     },
     "orchestrator": {
-      "heartbeatAgeMin": 27749,
+      "heartbeatAgeMin": 27779,
       "phase": "cycle-complete"
     },
     "capture": {
       "failureRatioPct": 32,
       "windowHours": 24,
-      "windowTotal": 395,
+      "windowTotal": 396,
       "windowFailed": 127
     }
   }
