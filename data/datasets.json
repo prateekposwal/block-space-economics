@@ -1,8 +1,8 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-18T19:47:50.172742+00:00",
+  "generated_at": "2026-09-18T19:56:32.979458+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
-  "count": 40,
+  "count": 42,
   "datasets": [
     {
       "name": "addrman_churn.json",
@@ -133,7 +133,7 @@
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
       "bytes": 1548,
-      "updated": "2026-09-18T19:45:43.947847+00:00",
+      "updated": "2026-09-18T19:47:50.262595+00:00",
       "rows": null
     },
     {
@@ -293,6 +293,18 @@
       "rows": null
     },
     {
+      "name": "pool_infrastructure.json",
+      "url": "https://bitcoinsahi.com/data/pool_infrastructure.json",
+      "path": "data/pool_infrastructure.json",
+      "schema": "bsahi.pool-infrastructure/1",
+      "layer": "observed",
+      "grade": "B",
+      "description": "Public pool stratum endpoints: CDN-fronting + RTT (shows why pool-IP geo cannot locate mining)",
+      "bytes": 6784,
+      "updated": "2026-09-18T19:56:11.092611+00:00",
+      "rows": null
+    },
+    {
       "name": "population_snapshot.json",
       "url": "https://bitcoinsahi.com/data/population_snapshot.json",
       "path": "data/population_snapshot.json",
@@ -302,6 +314,18 @@
       "description": "Dated, hashed snapshot of the population-observability workstream (N, provenance, partition, component hashes)",
       "bytes": 4138,
       "updated": "2026-09-17T18:08:29.368052+00:00",
+      "rows": null
+    },
+    {
+      "name": "price_index.json",
+      "url": "https://bitcoinsahi.com/data/price_index.json",
+      "path": "data/price_index.json",
+      "schema": "bsahi.price-index/1",
+      "layer": "observed",
+      "grade": "A",
+      "description": "Robust multi-venue BTC/USD reference rate (median + MAD outlier rejection, full provenance)",
+      "bytes": 903,
+      "updated": "2026-09-18T19:53:19.584327+00:00",
       "rows": null
     },
     {

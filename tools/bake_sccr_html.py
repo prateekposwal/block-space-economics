@@ -195,6 +195,8 @@ def dashboard_cards():
     vc = L('validation_cost.json')
     ncr = L('node_crawl.json')
     pcd = L('propagation_cdf.json')
+    px = L('price_index.json')
+    pinf = L('pool_infrastructure.json')
     out = []
 
     cur = fa.get('current') or {}
@@ -344,6 +346,21 @@ def dashboard_cards():
             'CBECI mining map is a Firebase SPA \u2014 imported from its Download CSV.',
             'Status: %s \u2014 drop a CSV in captured-data/cbeci/.' % (mg.get('status') or 'missing')],
             '/data/mining_geography.json', 'data'))
+
+    if px.get('median_usd'):
+        out.append(_card('BTC/USD (robust median)', 'observed', 'A', [
+            '<b>$%s</b> from %s independent venues \u00b7 dispersion %s%%'
+            % (_num(px.get('median_usd'), 2), px.get('sources_ok'), px.get('dispersion_pct')),
+            'Median + MAD outlier rejection \u00b7 single-source dependency removed'],
+            '/data/price_index.json', 'data'))
+
+    if pinf:
+        out.append(_card('Pool infrastructure', 'observed', 'B', [
+            '%s/%s pool addresses are CDN-fronted \u00b7 %s pools probed'
+            % (_num(pinf.get('fronted_by_cdn'), 0), _num(pinf.get('addresses_geolocated'), 0),
+               _num(pinf.get('pools_probed'), 0)),
+            'Measured why pool-IP geolocation cannot locate mining.'],
+            '/data/pool_infrastructure.json', 'data'))
 
     if pcd:
         if pcd.get('status') == 'OK':

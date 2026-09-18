@@ -59,6 +59,10 @@ var SCHEDULE = [
   // Re-apply offline geo/ASN to the newest crawl (no dialing) so data/node_crawl.json
   // always carries country/ASN even if the crawl ran without the geo DB.
   { name: 'node_crawl_enrich',    script: 'tools/net/node_crawler.py',               args: ['--enrich-raw', 'latest'], every: 3600, timeoutS: 180 },
+  // Self-hosted robust BTC/USD reference rate (median across independent venues).
+  { name: 'price_index',          script: 'tools/research/price_index.py',           args: [], every: 900, timeoutS: 120 },
+  // Mining-geography reachability evidence: pool stratum endpoints + CDN fronting.
+  { name: 'pool_infrastructure',  script: 'tools/net/pool_infrastructure.py',        args: [], every: 86400, timeoutS: 300 },
   // Clearnet distinct-IP census from a public-IP VPS (see
   // research/inbound-census-vps.md). Inert until ~/.bsahi/vps-census.conf exists.
   { name: 'vps_census_pull', cmd: ['bash', 'tools/net/vps_census_pull.sh'], every: 3600,
