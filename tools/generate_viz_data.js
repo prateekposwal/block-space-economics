@@ -173,7 +173,7 @@ function buildFeeHistoryBlocks() {
         usd: typeof b.USD === 'number' ? b.USD : null,
         // REAL sat/vB: avgFees (sats/block) / 4M vbytes per block — the genuine
         // unit conversion, same constant the client fee heatmap uses.
-        feeRate: (typeof b.avgFees === 'number' && b.avgFees > 0) ? Math.round(b.avgFees / 4000000 * 1000) / 1000 : null
+        feeRate: (typeof b.avgFees === 'number' && b.avgFees > 0) ? Math.round(b.avgFees / 1000000 * 1000) / 1000 : null
       };
     });
   });
@@ -351,7 +351,7 @@ function buildAdoption() {
 }
 
 /* ── 7. Lightning network history (nodes/channels/capacity) ─────────────── */
-var BLOCK_VBYTES = 4000000; // consensus vbytes per block — used for REAL fee-rate conversion
+var BLOCK_VBYTES = 1000000; // vBYTES per block (4M weight / 4). Was 4000000 (weight) -> 4x low.
 
 function buildLightningHistory() {
   var records = readSpool('lightning');

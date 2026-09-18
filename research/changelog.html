@@ -74,6 +74,20 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <script src="/js/site-nav.js"></script>
 <div class="container">
 <h1>Research Changelog</h1>
+<h2>2026-09-18 — Accuracy sweep: fee-rate units, N-derivation, stale metadata</h2>
+<p>Verified defects fixed (each reproduced against live data before and after):</p>
+<ul>
+<li><strong>Fee-rate unit error (4x).</strong> <code>viz-fees.js</code>, <code>viz-send.js</code>, <code>viz-research.js</code>, <code>generate_viz_data.js</code> and <code>data-engine.js</code> divided block fees by <strong>4,000,000</strong> (the consensus WEIGHT limit) instead of <strong>1,000,000</strong> vBYTES. Block 967352 read <strong>0.37 sat/vB</strong> instead of the true <strong>1.486</strong>. All fee-rate conversions now use vBYTES; the weight-limit uses of 4,000,000 are unchanged and correct.</li>
+<li><strong>model-spec self-contradiction.</strong> <code>quantities.N</code> was re-based to 26,586 while <code>L_net</code> still held the N=32,000 value (5627.808) and <code>bw_cost_per_year_net</code> held 126230.4 — a consumer trusting them computed SCCR ~17% low. Both are now DERIVED from <code>quantities.N</code> (L_net = 4675.653, bw_net = 104873.8) and the SCCR descriptive value no longer hardcodes a point.</li>
+<li><strong>New drift assertion</strong> in <code>integrity_audit.py</code>: recomputes every N-derived value from <code>quantities.N</code> and FAILs on drift (demonstrated firing).</li>
+<li><strong>llms.txt</strong> told AI crawlers &quot;N = 32,000, model-spec v2.1.0&quot; (~20% low). Now N = 26,586 (lower bound) · v2.1.1, and states SCCR is an upper bound.</li>
+<li><strong>Missing-price rule unified</strong> across JS/Python/C: a block with no price is SKIPPED (never fabricated). JS previously defaulted to 64000, Python to 0. Frozen-capture reproduction unchanged (155/155, ALL THREE AGREE).</li>
+<li><strong>Working-paper date/N mislabels.</strong> The 0.4813 / 142-blocks / 94.37% figures are <strong>Aug 24</strong>, not Sep 07 (true Sep 07 = 0.307344, 138 blocks, 100% below); the quoted series range was also stale N=32,000-era. Corrected in five places.</li>
+<li><strong>sccr_history is sparse, not contiguous.</strong> Labelled as such in the writer and the committed file (one snapshot per day a run occurred; gaps are real).</li>
+<li><strong>Homepage skyline caption</strong> said &quot;last 24h&quot; over a 97-point sample spanning ~29 days (7 distinct days). Captions corrected.</li>
+<li><strong>Hardcoded fallback</strong> <code>d.N || 32000</code> in the SCCR calculator -&gt; 26,586.</li>
+<li><strong>Pipeline (ops-health DEGRADED):</strong> the 30% capture-failure ratio was a transient DNS storm (<code>getaddrinfo ENOTFOUND</code>) during a network switch, not broken endpoints — it is self-clearing (30% / 24h -&gt; 10% / 12h -&gt; 0% / last 2h). The separate orchestrator-heartbeat alert refers to the engagement orchestrator, which is not launchd-scheduled (dormant, not stalled).</li>
+</ul>
 <h2>2026-09-18 — SCCR self-heal + D5 freeze for pre-print</h2>
 <ul>
 <li><strong>SCCR pipeline was silently stalled.</strong> The cloud tier (<code>research-data.yml</code>) had not published since 2026-09-17 11:12 and the local tracker is disabled by design, so the headline sat at a manual run&#x27;s value. Added <code>tools/research/sccr_fallback.py</code>: if the committed <code>data/sccr.json</code> is older than 2 h, it re-derives from the local capture DB; otherwise it is inert (never a second writer). Wired into <code>com.bsahi.collectors</code>. Refreshed 0.36238/139 -&gt; <strong>0.321889/140</strong>, with <code>fee_allocation</code> and <code>sccr_sensitivity</code> following.</li>

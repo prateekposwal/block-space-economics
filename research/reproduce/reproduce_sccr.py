@@ -45,8 +45,10 @@ def compute(cfg, capture):
     results = []
     for entry in capture:
         fee_sats = entry.get('avgFees', 0)
-        usd = entry.get('USD') or 0
-        if not fee_sats:
+        usd = entry.get('USD')
+        # Missing price -> the fee leg is uncomputable; SKIP (never fabricate a
+        # price). Matches the C implementation and storage-ratio.js. Was `or 0`.
+        if not fee_sats or not usd:
             continue
         fee_usd = (fee_sats / 1e8) * usd
         results.append({

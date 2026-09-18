@@ -2,6 +2,42 @@
 
 # Research Changelog
 
+## 2026-09-18 — Accuracy sweep: fee-rate units, N-derivation, stale metadata
+
+Verified defects fixed (each reproduced against live data before and after):
+
+- **Fee-rate unit error (4x).** `viz-fees.js`, `viz-send.js`, `viz-research.js`,
+  `generate_viz_data.js` and `data-engine.js` divided block fees by **4,000,000**
+  (the consensus WEIGHT limit) instead of **1,000,000** vBYTES. Block 967352 read
+  **0.37 sat/vB** instead of the true **1.486**. All fee-rate conversions now use
+  vBYTES; the weight-limit uses of 4,000,000 are unchanged and correct.
+- **model-spec self-contradiction.** `quantities.N` was re-based to 26,586 while
+  `L_net` still held the N=32,000 value (5627.808) and `bw_cost_per_year_net` held
+  126230.4 — a consumer trusting them computed SCCR ~17% low. Both are now DERIVED
+  from `quantities.N` (L_net = 4675.653, bw_net = 104873.8) and the SCCR
+  descriptive value no longer hardcodes a point.
+- **New drift assertion** in `integrity_audit.py`: recomputes every N-derived value
+  from `quantities.N` and FAILs on drift (demonstrated firing).
+- **llms.txt** told AI crawlers "N = 32,000, model-spec v2.1.0" (~20% low). Now
+  N = 26,586 (lower bound) · v2.1.1, and states SCCR is an upper bound.
+- **Missing-price rule unified** across JS/Python/C: a block with no price is
+  SKIPPED (never fabricated). JS previously defaulted to 64000, Python to 0.
+  Frozen-capture reproduction unchanged (155/155, ALL THREE AGREE).
+- **Working-paper date/N mislabels.** The 0.4813 / 142-blocks / 94.37% figures are
+  **Aug 24**, not Sep 07 (true Sep 07 = 0.307344, 138 blocks, 100% below); the
+  quoted series range was also stale N=32,000-era. Corrected in five places.
+- **sccr_history is sparse, not contiguous.** Labelled as such in the writer and
+  the committed file (one snapshot per day a run occurred; gaps are real).
+- **Homepage skyline caption** said "last 24h" over a 97-point sample spanning
+  ~29 days (7 distinct days). Captions corrected.
+- **Hardcoded fallback** `d.N || 32000` in the SCCR calculator -> 26,586.
+- **Pipeline (ops-health DEGRADED):** the 30% capture-failure ratio was a transient
+  DNS storm (`getaddrinfo ENOTFOUND`) during a network switch, not broken
+  endpoints — it is self-clearing (30% / 24h -> 10% / 12h -> 0% / last 2h). The
+  separate orchestrator-heartbeat alert refers to the engagement orchestrator,
+  which is not launchd-scheduled (dormant, not stalled).
+
+
 ## 2026-09-18 — SCCR self-heal + D5 freeze for pre-print
 
 - **SCCR pipeline was silently stalled.** The cloud tier (`research-data.yml`) had

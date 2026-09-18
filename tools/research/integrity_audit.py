@@ -194,8 +194,48 @@ def audit_layers():
     return findings
 
 
+def audit_model_spec():
+    """Assert every N-derived value in model-spec.json is consistent with
+    quantities.N — the single source of truth.
+
+    Motivated by a real defect: quantities.N was re-based to 26,586 while
+    L_net still held the N=32,000 value (5627.808) and bw_cost_per_year_net held
+    126230.4. A consumer trusting those computed SCCR ~17% low. This is a FAIL
+    (not a WARN): a self-contradicting canonical spec is a correctness bug.
+    """
+    findings = []
+    p = os.path.join(ROOT, "research", "model-spec.json")
+    spec = load(p)
+    if not isinstance(spec, dict):
+        return [{"check": "model-spec N-derivation", "source": "research/model-spec.json",
+                 "status": "FAIL", "detail": "model-spec.json unreadable"}]
+    q = spec.get("quantities", {})
+    try:
+        N = float(q["N"]["value"])
+        L = float(q["L"]["value"])
+        bw_node = float(q["bw_cost_per_year_node"]["value"])
+        checks = [
+            ("L_net", L * N, float(q["L_net"]["value"]), 0.05),
+            ("bw_cost_per_year_net", bw_node * N, float(q["bw_cost_per_year_net"]["value"]), 0.5),
+        ]
+    except Exception as e:
+        return [{"check": "model-spec N-derivation", "source": "research/model-spec.json",
+                 "status": "FAIL", "detail": f"cannot read quantities: {str(e)[:60]}"}]
+    drift = []
+    for name, expect, got, tol in checks:
+        if abs(expect - got) > tol:
+            drift.append(f"{name}={got} but N*...={expect:.3f}")
+    findings.append({
+        "check": "model-spec N-derivation (quantities.N is the single source of truth)",
+        "source": "research/model-spec.json", "status": "PASS" if not drift else "FAIL",
+        "detail": ("all N-derived values match quantities.N=%g" % N) if not drift
+                  else "DRIFT: " + "; ".join(drift)})
+    return findings
+
+
 def main():
-    findings = audit_heights() + audit_units() + audit_provenance() + audit_layers()
+    findings = (audit_heights() + audit_units() + audit_provenance() + audit_layers()
+                + audit_model_spec())
     fails = [f for f in findings if f["status"] == "FAIL"]
     out = {
         "schema": "bsahi.integrity-audit/1",

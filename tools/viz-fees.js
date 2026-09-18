@@ -6,7 +6,8 @@ var VIZ_Fees = (function() {
   var canvas, ctx, w = 0, h = 0;
   var bars = [];
   var particles = [];
-  var BLOCK_VBYTES = 4000000; // consensus vbytes per block — REAL sat/vB conversion
+  var BLOCK_VBYTES = 1000000; // vBYTES per block (4M weight / 4) — REAL sat/vB conversion.
+  // Was 4000000 (the WEIGHT limit): that understated every fee rate 4x.
   // Seeds at 0 (2026-08-14 honesty fix: was a fabricated 3 sat/vB) — rendered
   // neutral until a REAL fee arrives, never a plausible default.
   var displayFee = 0;
@@ -33,7 +34,7 @@ var VIZ_Fees = (function() {
 
       for (var i = 0; i < Math.min(data.length, 144); i++) {
         var entry = data[data.length - 1 - i];
-        // REAL sat/vB: normalized feeRate when present, else avgFees ÷ 4M vbytes.
+        // REAL sat/vB: normalized feeRate when present, else avgFees ÷ BLOCK_VBYTES (1M vB).
         var feeRate = (typeof entry.feeRate === 'number' && entry.feeRate > 0) ? entry.feeRate
           : (typeof entry.avgFeeRate === 'number' && entry.avgFeeRate > 0) ? entry.avgFeeRate
           : (typeof entry.avgFees === 'number' && entry.avgFees > 0) ? entry.avgFees / BLOCK_VBYTES : 0;

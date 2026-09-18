@@ -38,8 +38,7 @@ function bitcoinCli(method, params) {
 }
 
 function computeRatio(txFeeSats, txBytes, replicationFactor, costPerBytePerYear, years, btcPriceUsd) {
-  if (!txFeeSats || !txBytes || txBytes === 0) return null;
-  btcPriceUsd = btcPriceUsd || 64000;
+  if (!txFeeSats || !txBytes || txBytes === 0 || !btcPriceUsd) return null;   // never fabricate a price
   // T enters ONLY here (model-spec.json v2.0.0); cb is horizon-free.
   var storageCostPerNode = txBytes * costPerBytePerYear * years;
   var totalNetworkCostUsd = storageCostPerNode * replicationFactor;
@@ -71,7 +70,8 @@ function computeFromFeeHistory(cfg) {
     for (var i = 0; i < data.length; i++) {
       var entry = data[i];
       var avgFees = entry.avgFees || 0;
-      var btcPrice = entry.USD || 64000;
+      var btcPrice = entry.USD;
+      if (!btcPrice) continue;   // missing price -> uncomputable; skip (was || 64000)
       var ratio = computeRatio(avgFees, cfg.avgBlockSizeBytes, replicationFactor, costPerBytePerYear, cfg.yearsOfStorage, btcPrice);
       if (ratio) {
         results.push({

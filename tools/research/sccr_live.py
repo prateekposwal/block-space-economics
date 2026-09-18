@@ -234,7 +234,11 @@ def main():
     with open(os.path.join(DATA_DIR, 'sccr_latest.json'), 'w') as f:
         json.dump({'endpoint': '/data/sccr_latest.json', 'payload': latest}, f, indent=2)
     with open(os.path.join(DATA_DIR, 'sccr_history.json'), 'w') as f:
-        json.dump({'endpoint': '/data/sccr_history.json', 'count': len(history), 'payload': history}, f, indent=2)
+        json.dump({'endpoint': '/data/sccr_history.json', 'count': len(history),
+                   'sampling': ('one dated snapshot per DAY a run occurred. The series is NOT contiguous: '
+                                'a missing date means no run that day, so gaps are real, not zero-fee days. '
+                                'Do not plot as a continuous time series without labelling the gaps.'),
+                   'payload': history}, f, indent=2)
 
     # Keep everything DERIVED from this reading in step, then re-stamp the
     # committed HTML. Order matters: the derived JSONs must be written before

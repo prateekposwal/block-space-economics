@@ -213,12 +213,13 @@ var DATA_ENGINE = (function () {
       case 'fee_history':
         // Keep the raw entries but expose the REAL sat/vB conversion: the API
         // returns avgFees (sats per block) and every block is 4M vbytes, so
-        // feeRate = avgFees / 4000000 is the genuine unit conversion — not a
+        // feeRate = avgFees / 1000000 is the genuine unit conversion (vBYTES per
+        // block = 4M weight / 4; the old /4000000 used the WEIGHT limit -> 4x low) — not a
         // fabricated number (same constant the fee heatmap uses).
         DATA.fee_history = (Array.isArray(raw) ? raw : []).map(function (b) {
           var out = b || {};
           if (typeof out.feeRate !== 'number' && typeof out.avgFees === 'number' && out.avgFees > 0) {
-            out = Object.assign({}, out, { feeRate: out.avgFees / 4000000 });
+            out = Object.assign({}, out, { feeRate: out.avgFees / 1000000 });
           }
           return out;
         });

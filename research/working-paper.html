@@ -83,8 +83,8 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <blockquote><strong>Re-based 2026-09-17 (v2.1.1).</strong> N was 32,000 — an address-manager <em>sample</em> at the request ceiling, never a node count. It is now the <strong>measured reachable validating-node count of 26,586</strong> (btcnodes crawl, 2026-09-16). Because SCCR is inverse-linear in N, every SCCR figure in this paper is multiplied by <strong>32,000/26,586 = 1.2036x (+20.4%)</strong>. The value 32,000 is not retained; where older figures appear below they carry this factor. N remains a <strong>lower bound</strong> (non-listening nodes are unobservable), so the true SCCR is if anything lower.</blockquote>
 <ul>
 <li><strong>Dated baseline band (Aug 02–15): ≈0.26 coverage at N=26,586</strong>, with ~100% of sampled blocks below 1× storage cost (exact figures in the table below and §5.1).</li>
-<li><strong>Live series (Sep 07): 0.48 at N=26,586, 94.37% of blocks below 1×</strong> — the coverage ratio is <strong>fee-market-driven and time-varying</strong>, not a fixed point.</li>
-<li><strong>Dynamic finding:</strong> SCCR moved <strong>0.19 → 0.54 → 0.48</strong> across a <strong>22-point daily series (2026-08-02 → 2026-09-07)</strong> measured live in <code>data/sccr_history.json</code> — dynamic measurement strengthens, not weakens, the paper.</li>
+<li><strong>Live series (Aug 24): 0.4813 at N=26,586, 94.37% of blocks below 1×</strong>; the true <strong>Sep 07 reading is 0.307344 (138 blocks, 100% below 1×)</strong> — the coverage ratio is <strong>fee-market-driven and time-varying</strong>, not a fixed point.</li>
+<li><strong>Dynamic finding:</strong> SCCR moved <strong>0.1895 (Aug 16) → 0.5427 (Aug 21) → 0.3073 (Sep 07)</strong> across a growing daily series (<strong>2026-08-02 → 2026-09-18, 38 points</strong>) measured live in <code>data/sccr_history.json</code> — dynamic measurement strengthens, not weakens, the paper.</li>
 <li><strong>Model uncertainty: depends strongly on the replication factor N</strong> — the average spans <strong>~0.86 at N=10K to ~0.09 at N=100K</strong>; this N-band range (~0.09–0.86) is a <em>different</em> uncertainty from the dated/live observations above and carries the dominant risk.</li>
 </ul>
 <p>A joint Monte Carlo over N, C, T, and price (current band, 10,000 draws) gives a P5–P95 interval of <strong>0.07–0.47</strong>, median 0.17, with <strong>99.9% of draws below the 1× threshold</strong>; the share of sampled blocks below 1× ranges ~79–100% depending on the true N. We reconcile two cost models that previously disagreed by 16.4× (dimensionless), document the correction transparently (model-spec.json v2.0.0), and state results to the precision the evidence licenses: <strong>external reproduction is pending (D5)</strong>. The framework is reproducible, falsifiable research.</p>
@@ -94,10 +94,10 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <table>
 <tr><th>Quantity</th><th>Value</th></tr>
 <tr><td><strong>Dated baseline band</strong> ≈0.22 — SCCR at N=26,586, Aug 02–15</td><td><strong>0.2700</strong> (2026-08-02, 153 blocks) · <strong>0.3418</strong> (2026-08-03) · <strong>0.3143</strong> (2026-08-04) · <strong>0.2522</strong> (2026-08-15) — see <code>data/sccr_history.json</code></td></tr>
-<tr><td><strong>Live series (Sep 07)</strong> — SCCR at N=26,586</td><td><strong>0.4813</strong> (142 blocks, <strong>94.37% below 1×</strong>, <code>data/sccr.json</code>) · series range <strong>0.1574 (Aug 16) → 0.4508 (Aug 21) → 0.3999 (Sep 07)</strong> across 22 points (<code>data/sccr_history.json</code>)</td></tr>
+<tr><td><strong>Live series (Aug 24)</strong> — SCCR at N=26,586</td><td><strong>0.4813</strong> (142 blocks, <strong>94.37% below 1×</strong>) · <strong>Sep 07 = 0.307344</strong> (138 blocks, 100% below) · series range <strong>0.1895 (Aug 16) → 0.5427 (Aug 21) → 0.3073 (Sep 07)</strong> across 38 points (<code>data/sccr_history.json</code>)</td></tr>
 <tr><td><strong>Model uncertainty</strong> — depends strongly on the replication factor N (independent estimates N = 10K–100K)</td><td><strong>~0.09 – ~0.86</strong> (inverse-linear in N: 0.858 at N=10K, 0.0858 at N=100K at the live baseline)</td></tr>
 <tr><td>Monte Carlo confidence interval (current band: N ~ Tri(10K, 100K, mode 26,586), 10,000 draws, live anchor)</td><td><strong>P5–P95: 0.084 – 0.566</strong> · median 0.205 · <strong>99.9% of draws below 1×</strong></td></tr>
-<tr><td>Blocks below 1×</td><td><strong>94.37%</strong> (live series, Sep 07, N=32K) vs ~100% (dated Aug 02–15 baseline, N=32K); ~79% at N=10K, 100% at N≥32K <em>(N provisional)</em></td></tr>
+<tr><td>Blocks below 1×</td><td><strong>94.37%</strong> (live series, <strong>Aug 24, N=26,586</strong>) vs ~100% (dated Aug 02–15 baseline, N=26,586); ~79% at N=10K, 100% at N≥32K</td></tr>
 <tr><td>External reproduction</td><td><strong>PENDING (D5)</strong> — independent runs requested; every figure above is stated to the precision the evidence licenses</td></tr>
 </table>
 </div>
@@ -192,10 +192,10 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <p><strong>Why average, not marginal?</strong> <code>cb</code> is an <em>average</em> (accounting) attribution: total node cost divided by total bytes. The 164× (dimensionless) marginal branch (<code>cb_insc</code>) attributes the same cost to inscription bytes only — a <em>marginal</em> (optimization) view. Both are valid; they answer different questions. Average cost is the right tool for <strong>accounting</strong> — &quot;what share of the network&#x27;s modeled hosting bill does the fee market cover?&quot; — which is this paper&#x27;s question. Marginal cost is the right tool for <strong>optimization</strong> — &quot;what does one more byte cost the network?&quot; — which is the inscription-externality branch&#x27;s question. The paper uses the average for its headline (accounting) and documents the marginal variant explicitly (the 164× marginal-inscription branch above), rather than burying the choice. A future marginal-attribution study would be a legitimate companion, not a correction.</p>
 <h2>5. Findings</h2>
 <h3>5.1 The Storage Cost Coverage Ratio</h3>
-<p>Measured from live <code>fee_history</code> captures. <strong>The current canonical reading is SCCR 0.3219</strong> (2026-09-17, 140 blocks, N=26,586, model-spec v2.1.1). The figures below are the <strong>pre-re-base record at N=32,000</strong>, retained for reproducibility; because SCCR is inverse-linear in N, multiply any of them by <strong>32,000/26,586 = 1.2036</strong> for the current basis (see the re-base note above). N is not directly observable: 32,000 was the address-manager sample (≥32K gossiped addresses, <strong>not a node count</strong>) and the measured reachable-node count is 26,586 (§5.4). The headline, in four lines (exact numbers in the tables below):</p>
+<p>Measured from live <code>fee_history</code> captures. <strong>The current canonical reading is SCCR 0.3301</strong> (2026-09-18, 135 blocks, N=26,586, model-spec v2.1.1). The figures below are the <strong>pre-re-base record at N=32,000</strong>, retained for reproducibility; because SCCR is inverse-linear in N, multiply any of them by <strong>32,000/26,586 = 1.2036</strong> for the current basis (see the re-base note above). N is not directly observable: 32,000 was the address-manager sample (≥32K gossiped addresses, <strong>not a node count</strong>) and the measured reachable-node count is 26,586 (§5.4). The headline, in four lines (exact numbers in the tables below):</p>
 <ul>
 <li><strong>Dated baseline band (Aug 02–15): ≈0.22</strong> at N=32K (<strong>≈0.27 at N=26,586</strong>), with ~100% of sampled blocks below 1× storage cost.</li>
-<li><strong>Live series (Sep 07): 0.40</strong> at N=32K (<strong>≈0.48 at N=26,586</strong>), <strong>94.37% of blocks below 1×</strong> — the coverage ratio is fee-market-driven and time-varying.</li>
+<li><strong>Live series (Aug 24): 0.4813</strong> at N=26,586, <strong>94.37% of blocks below 1×</strong> (true <strong>Sep 07 = 0.307344</strong>, 100% below) — the coverage ratio is fee-market-driven and time-varying.</li>
 <li><strong>Dynamic finding:</strong> SCCR moved <strong>0.16 → 0.45 → 0.40</strong> across a 22-point daily series (2026-08-02 → 2026-09-07).</li>
 <li><strong>Model uncertainty: depends strongly on the replication factor N</strong> — the true-N band (<strong>~0.07–0.71</strong>, §5.4) is a <em>different</em> uncertainty from the observed-sample band above</li>
 </ul>
@@ -302,14 +302,14 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <table>
 <tr><th>N</th><th>status</th><th>L_net (USD/block)</th><th>SCCR</th><th>fee coverage</th><th>externality vs baseline</th></tr>
 <tr><td>---:</td><td>---</td><td>---:</td><td>---:</td><td>---:</td><td>---:</td></tr>
-<tr><td>26,586</td><td>B · measured reachable validators (baseline / floor)</td><td>$4,676</td><td>0.3219</td><td>32.2%</td><td>1.00×</td></tr>
-<tr><td>32,000</td><td>C · previous addrman address sample (deprecated as a node count)</td><td>$5,628</td><td>0.2674</td><td>26.7%</td><td>1.20×</td></tr>
-<tr><td>50,000</td><td>D · estimate — lower end of the 50K–100K band</td><td>$8,793</td><td>0.1712</td><td>17.1%</td><td>1.88×</td></tr>
-<tr><td>80,000</td><td>D · estimate — midpoint of the 50K–100K band</td><td>$14,070</td><td>0.1070</td><td>10.7%</td><td>3.01×</td></tr>
-<tr><td>100,000</td><td>D · estimate — upper end of the 50K–100K band</td><td>$17,587</td><td>0.0856</td><td>8.6%</td><td>3.76×</td></tr>
-<tr><td>150,000</td><td>D · private:public ≈ 4.6:1 — below the literature ratio</td><td>$26,380</td><td>0.0571</td><td>5.7%</td><td>5.64×</td></tr>
-<tr><td>200,000</td><td>D · private:public ≈ 6.5:1</td><td>$35,174</td><td>0.0428</td><td>4.3%</td><td>7.52×</td></tr>
-<tr><td>265,860</td><td>D · private:public ≈ 9:1 — Erlay (CCS&#x27;19) literature ratio</td><td>$46,756</td><td>0.0322</td><td>3.2%</td><td>10.00×</td></tr>
+<tr><td>26,586</td><td>B · measured reachable validators (baseline / floor)</td><td>$4,676</td><td>0.3301</td><td>33.0%</td><td>1.00×</td></tr>
+<tr><td>32,000</td><td>C · previous addrman address sample (deprecated as a node count)</td><td>$5,628</td><td>0.2743</td><td>27.4%</td><td>1.20×</td></tr>
+<tr><td>50,000</td><td>D · estimate — lower end of the 50K–100K band</td><td>$8,793</td><td>0.1755</td><td>17.6%</td><td>1.88×</td></tr>
+<tr><td>80,000</td><td>D · estimate — midpoint of the 50K–100K band</td><td>$14,070</td><td>0.1097</td><td>11.0%</td><td>3.01×</td></tr>
+<tr><td>100,000</td><td>D · estimate — upper end of the 50K–100K band</td><td>$17,587</td><td>0.0878</td><td>8.8%</td><td>3.76×</td></tr>
+<tr><td>150,000</td><td>D · private:public ≈ 4.6:1 — below the literature ratio</td><td>$26,380</td><td>0.0585</td><td>5.9%</td><td>5.64×</td></tr>
+<tr><td>200,000</td><td>D · private:public ≈ 6.5:1</td><td>$35,174</td><td>0.0439</td><td>4.4%</td><td>7.52×</td></tr>
+<tr><td>265,860</td><td>D · private:public ≈ 9:1 — Erlay (CCS&#x27;19) literature ratio</td><td>$46,756</td><td>0.0330</td><td>3.3%</td><td>10.00×</td></tr>
 </table>
 </div>
 <p><strong>Paper defense (for peer review):</strong></p>

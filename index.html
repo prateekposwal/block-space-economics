@@ -230,12 +230,12 @@
     <div class="l-item"><span class="l-dot" style="background:var(--warn);"></span> Moderate fee</div>
     <div class="l-item"><span class="l-dot" style="background:var(--err);"></span> High fee — congested</div>
     <div class="l-item"><span style="color:rgba(255,255,255,0.4);font-size:14px;">◌</span> Floating particles = mempool transactions waiting</div>
-    <div class="l-item"><span style="color:rgba(255,255,255,0.4);font-size:14px;">⬜</span> Each bar = one Bitcoin block (last 24h)</div>
+    <div class="l-item"><span style="color:rgba(255,255,255,0.4);font-size:14px;">⬜</span> Each bar = a sampled Bitcoin block from recent history (not a contiguous 24h)</div>
   </div>
 
     <div class="bottom-area">
       <a href="/live" class="cta">Should I send now?</a>
-      <div class="hint" style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:8px;">Each bar is one Bitcoin block — the skyline is the last 24h</div>
+      <div class="hint" style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:8px;">Each bar is a sampled Bitcoin block — the skyline covers recent history, not a contiguous 24h</div>
     </div>
 
   <div id="genesis-strip"><canvas id="genesis-canvas"></canvas></div>
@@ -267,7 +267,7 @@
         <ul>
           <li><strong>Fees</strong> &mdash; fastest and economy rates in sat/vB, and what a typical transaction costs in dollars.</li>
           <li><strong>Mempool</strong> &mdash; how many transactions are competing for the next block.</li>
-          <li><strong>Block height</strong> &mdash; the current tip of the chain; each bar in the skyline is one block from the last 24 hours.</li>
+          <li><strong>Block height</strong> &mdash; the current tip of the chain; each bar in the skyline is a sampled recent block (the series is sparse, not a contiguous 24h).</li>
         </ul>
         <p style="margin-top:14px">A one-vbyte economy-rate transaction costs a fraction of a US cent &mdash; or more, when fee pressure rises.</p>
       </div>
@@ -572,7 +572,7 @@
 
     var narrativeMessages = [
       'Each bar is one Bitcoin block — mined every ~10 minutes',
-      '144 blocks = last 24 hours of Bitcoin',
+      'Each bar is a sampled recent block — the series is sparse, not a contiguous 24h',
       'Green bars = low fees. Red bars = congestion.',
       'Floating particles = transactions waiting in mempool',
       'Fee rate determines how fast your tx confirms',

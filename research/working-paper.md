@@ -18,8 +18,8 @@ Bitcoin has a market price for block space, but no explicit market price for lon
 > **Re-based 2026-09-17 (v2.1.1).** N was 32,000 — an address-manager *sample* at the request ceiling, never a node count. It is now the **measured reachable validating-node count of 26,586** (btcnodes crawl, 2026-09-16). Because SCCR is inverse-linear in N, every SCCR figure in this paper is multiplied by **32,000/26,586 = 1.2036x (+20.4%)**. The value 32,000 is not retained; where older figures appear below they carry this factor. N remains a **lower bound** (non-listening nodes are unobservable), so the true SCCR is if anything lower.
 
 - **Dated baseline band (Aug 02–15): ≈0.26 coverage at N=26,586**, with ~100% of sampled blocks below 1× storage cost (exact figures in the table below and §5.1).
-- **Live series (Sep 07): 0.48 at N=26,586, 94.37% of blocks below 1×** — the coverage ratio is **fee-market-driven and time-varying**, not a fixed point.
-- **Dynamic finding:** SCCR moved **0.19 → 0.54 → 0.48** across a **22-point daily series (2026-08-02 → 2026-09-07)** measured live in `data/sccr_history.json` — dynamic measurement strengthens, not weakens, the paper.
+- **Live series (Aug 24): 0.4813 at N=26,586, 94.37% of blocks below 1×**; the true **Sep 07 reading is 0.307344 (138 blocks, 100% below 1×)** — the coverage ratio is **fee-market-driven and time-varying**, not a fixed point.
+- **Dynamic finding:** SCCR moved **0.1895 (Aug 16) → 0.5427 (Aug 21) → 0.3073 (Sep 07)** across a growing daily series (**2026-08-02 → 2026-09-18, 38 points**) measured live in `data/sccr_history.json` — dynamic measurement strengthens, not weakens, the paper.
 - **Model uncertainty: depends strongly on the replication factor N** — the average spans **~0.86 at N=10K to ~0.09 at N=100K**; this N-band range (~0.09–0.86) is a *different* uncertainty from the dated/live observations above and carries the dominant risk.
 
 A joint Monte Carlo over N, C, T, and price (current band, 10,000 draws) gives a P5–P95 interval of **0.07–0.47**, median 0.17, with **99.9% of draws below the 1× threshold**; the share of sampled blocks below 1× ranges ~79–100% depending on the true N. We reconcile two cost models that previously disagreed by 16.4× (dimensionless), document the correction transparently (model-spec.json v2.0.0), and state results to the precision the evidence licenses: **external reproduction is pending (D5)**. The framework is reproducible, falsifiable research.
@@ -31,10 +31,10 @@ A joint Monte Carlo over N, C, T, and price (current band, 10,000 draws) gives a
 | Quantity | Value |
 |---|---|
 | **Dated baseline band** ≈0.22 — SCCR at N=26,586, Aug 02–15 | **0.2700** (2026-08-02, 153 blocks) · **0.3418** (2026-08-03) · **0.3143** (2026-08-04) · **0.2522** (2026-08-15) — see `data/sccr_history.json` |
-| **Live series (Sep 07)** — SCCR at N=26,586 | **0.4813** (142 blocks, **94.37% below 1×**, `data/sccr.json`) · series range **0.1574 (Aug 16) → 0.4508 (Aug 21) → 0.3999 (Sep 07)** across 22 points (`data/sccr_history.json`) |
+| **Live series (Aug 24)** — SCCR at N=26,586 | **0.4813** (142 blocks, **94.37% below 1×**) · **Sep 07 = 0.307344** (138 blocks, 100% below) · series range **0.1895 (Aug 16) → 0.5427 (Aug 21) → 0.3073 (Sep 07)** across 38 points (`data/sccr_history.json`) |
 | **Model uncertainty** — depends strongly on the replication factor N (independent estimates N = 10K–100K) | **~0.09 – ~0.86** (inverse-linear in N: 0.858 at N=10K, 0.0858 at N=100K at the live baseline) |
 | Monte Carlo confidence interval (current band: N ~ Tri(10K, 100K, mode 26,586), 10,000 draws, live anchor) | **P5–P95: 0.084 – 0.566** · median 0.205 · **99.9% of draws below 1×** |
-| Blocks below 1× | **94.37%** (live series, Sep 07, N=32K) vs ~100% (dated Aug 02–15 baseline, N=32K); ~79% at N=10K, 100% at N≥32K *(N provisional)* |
+| Blocks below 1× | **94.37%** (live series, **Aug 24, N=26,586**) vs ~100% (dated Aug 02–15 baseline, N=26,586); ~79% at N=10K, 100% at N≥32K |
 | External reproduction | **PENDING (D5)** — independent runs requested; every figure above is stated to the precision the evidence licenses |
 
 ---
@@ -165,7 +165,7 @@ The inscription-externality branch uses a **marginal attribution**: `cb_insc = C
 Measured from live `fee_history` captures. **The current canonical reading is SCCR {{SCCR}}** ({{SCCR_DATE}}, {{SCCR_BLOCKS}} blocks, N={{N}}, model-spec v{{SCCR_SPEC}}). The figures below are the **pre-re-base record at N=32,000**, retained for reproducibility; because SCCR is inverse-linear in N, multiply any of them by **32,000/26,586 = 1.2036** for the current basis (see the re-base note above). N is not directly observable: 32,000 was the address-manager sample (≥32K gossiped addresses, **not a node count**) and the measured reachable-node count is 26,586 (§5.4). The headline, in four lines (exact numbers in the tables below):
 
 - **Dated baseline band (Aug 02–15): ≈0.22** at N=32K (**≈0.27 at N=26,586**), with ~100% of sampled blocks below 1× storage cost.
-- **Live series (Sep 07): 0.40** at N=32K (**≈0.48 at N=26,586**), **94.37% of blocks below 1×** — the coverage ratio is fee-market-driven and time-varying.
+- **Live series (Aug 24): 0.4813** at N=26,586, **94.37% of blocks below 1×** (true **Sep 07 = 0.307344**, 100% below) — the coverage ratio is fee-market-driven and time-varying.
 - **Dynamic finding:** SCCR moved **0.16 → 0.45 → 0.40** across a 22-point daily series (2026-08-02 → 2026-09-07).
 - **Model uncertainty: depends strongly on the replication factor N** — the true-N band (**~0.07–0.71**, §5.4) is a *different* uncertainty from the observed-sample band above
 

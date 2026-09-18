@@ -5,7 +5,7 @@
   "supersedes": "research/methodology.json v1.0.0",
   "date": "2026-08-04",
   "status": "canonical",
-  "note": "N has ONE definition: quantities.N. The former top-level `census` block (N=32000, an addrman ADDRESS sample) was removed on 2026-09-17 — it was a stale duplicate that naive parsers read instead of quantities.N (it broke the C leg of research/reproduce/cross_check.sh). Provenance now lives on quantities.N.captured_at / census_date.",
+  "note": "N has ONE definition: quantities.N. The former top-level `census` block (N=32000, an addrman ADDRESS sample) was removed on 2026-09-17 \u2014 it was a stale duplicate that naive parsers read instead of quantities.N (it broke the C leg of research/reproduce/cross_check.sh). Provenance now lives on quantities.N.captured_at / census_date.",
   "quantities": {
     "C": {
       "symbol": "C",
@@ -125,8 +125,8 @@
       "units": "USD/block",
       "kind": "derived",
       "formula": "L * N",
-      "value": 5627.808,
-      "note": "Recomputed at N=32,000 (primary-source lower-bound census: \u226532,000 known addresses via Bitcoin Core getnodeaddresses). Stored value 10552.1 was N=60K-era and is superseded. derive-model.js verifies this each run."
+      "value": 4675.653,
+      "note": "DERIVED from quantities.N (single source of truth): L_net = L*N = 0.175869*26586 = 4675.653 USD/block. The previous 5627.808 was the N=32,000 value and contradicted quantities.N=26586 (consumers trusting it computed SCCR ~17% low). integrity_audit.py asserts this on every run."
     },
     "L_insc": {
       "symbol": "L_insc",
@@ -142,8 +142,8 @@
       "units": "dimensionless",
       "kind": "derived",
       "formula": "fee_USD / L_net",
-      "value": "band 0.12-0.30 over capture log at N=32,000; headline live re-measure 0.2252 (2026-08-02, 168 blocks); v2.0.0 N=60K-era values (0.1719/0.1535) superseded \u2014 N is the primary-source lower-bound census at 32K (\u226532,000 known addresses via Bitcoin Core getnodeaddresses)",
-      "note": "Structural property: SCCR is invariant to B_block (cb \u221d 1/B, L \u221d B). Knife-edge in N and BTC price: avg inverts at N~10.3K/BTC~$366K; 100%-below-1x inverts at N~49K/BTC~$77K."
+      "value": "band over the capture log; value is inverse-linear in N and the live reading is in data/sccr.json (single writer). N = 26586 measured reachable validating nodes (lower bound).",
+      "note": "Computed as fee_USD / L_net with L_net derived from quantities.N=26586. Never hardcode a point value here; read data/sccr.json."
     },
     "cost_per_gb": {
       "symbol": "cost_per_gb",
@@ -178,8 +178,8 @@
       "units": "USD/year",
       "kind": "derived",
       "formula": "bw_cost_per_year_node * N",
-      "value": 126230.4,
-      "note": "At N=32,000 (primary-source lower-bound census): $3.9447 x 32,000 = ~$126K/yr network-wide marginal propagation. Inscription-incremental share: bw_insc_incr_node."
+      "value": 104873.8,
+      "note": "DERIVED from quantities.N: bw_node*N = 3.9447*26586 = 104873.8 USD/yr. Previous 126230.4 was the N=32,000 value."
     },
     "bw_insc_incr_node": {
       "symbol": "bw_insc_incr_node",

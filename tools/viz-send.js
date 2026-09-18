@@ -11,7 +11,7 @@ var VIZ_Send = (function() {
   var btcPrice = 0;
   var hoverIdx = -1;
   var mouseX = 0, mouseY = 0;
-  var BLOCK_VBYTES = 4000000; // consensus vbytes per block — REAL sat/vB conversion
+  var BLOCK_VBYTES = 1000000; // vBYTES per block (4M weight / 4). Was 4000000 (weight) -> 4x low.
 
   function isMobile() { return w < 480; }
 

@@ -17,7 +17,7 @@ var VIZ_Research = (() => {
   let stacked = false;
   // consensus vbytes per block — REAL sat/vB conversion (same named constant
   // viz-fees.js uses; validate.js C2 flags inline literals like /4000000).
-  var BLOCK_VBYTES = 4000000;
+  var BLOCK_VBYTES = 1000000;   // vBYTES per block (4M weight / 4), not the weight limit
   // feeSpread = REAL fee-ratio multipliers computed from live fees in onUpdate.
   // Seeds as null — a missing capture must render '--', never a fake 3x/1.5x.
   let feeSpread = null;
