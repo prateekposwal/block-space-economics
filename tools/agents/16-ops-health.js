@@ -32,6 +32,15 @@ function ageMinutes(ts) {
   return Math.round((Date.now() - t) / 60000);
 }
 
+function withTimeout(promise, ms, label) {
+  // A probe that never settles would freeze the whole 15-min loop (observed:
+  // the daemon went silent for hours). Race every unbounded probe against a
+  // hard timeout so one bad call can never stall the monitor.
+  return Promise.race([promise, new Promise(function(resolve) {
+    setTimeout(function() { log((label || 'probe') + ': TIMEOUT after ' + ms + 'ms'); resolve(null); }, ms);
+  })]);
+}
+
 function httpGet(url, timeout) {
   return new Promise(function(resolve) {
     try {
@@ -95,9 +104,10 @@ function check() {
   var checks = {};
   return Promise.all([
     // spool
-    require('../data-engineering/spool.js').init().then(function(s) { return s.stats(); }).catch(function(e) { return null; }),
+    withTimeout(require('../data-engineering/spool.js').init().then(function(s) { return s.stats(); }),
+                20000, 'spool.init').catch(function(e) { return null; }),
     // de server (http on localhost)
-    httpGet('http://localhost:3456/health', 5000),
+    httpGet('http://127.0.0.1:3456/health', 5000),   // 127.0.0.1, not localhost: the DE server binds IPv4 and 'localhost' can resolve ::1 first
     // capture failure ratio (from mirror cycle files — the honest ledger)
     Promise.resolve(captureFailureRatio(DB_ERROR_WINDOW_HOURS))
   ]).then(function(results) {
@@ -169,8 +179,17 @@ function check() {
 }
 
 function start() {
-  check().catch(function(e) { log('check error: ' + e.message); });
-  setInterval(function() { check().catch(function(e) { log('check error: ' + e.message); }); }, CHECK_INTERVAL_MS);
+  // Overall watchdog: check() must never hang the loop. If it exceeds 4 min we
+  // log and move on; the next interval retries.
+  function run() {
+    var p = check().catch(function(e) { log('check error: ' + e.message); });
+    var wd = new Promise(function(resolve) {
+      setTimeout(function() { log('WATCHDOG: check() exceeded 240s - loop continues'); resolve(); }, 240000);
+    });
+    Promise.race([p, wd]).then(function() {});
+  }
+  run();
+  setInterval(run, CHECK_INTERVAL_MS);
 }
 
 if (require.main === module) { start(); }
