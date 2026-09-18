@@ -45,6 +45,7 @@ CATALOG = {
     "peer_relay.json": ("observed", "B", "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)"),
     "validation_cost.json": ("observed", "A", "Measured node-side validation cost per era from a full -reindex (first-party, no API)"),
     "node_crawl.json": ("observed", "A", "First-party reachable-node census by P2P handshake crawl (network class, client mix, sync)"),
+    "propagation_cdf.json": ("observed", "A", "First-party block-relay propagation CDF (per-peer deltas, clearnet vs overlay, BIP152 HB)"),
     "node_version_distribution.json": ("observed", "B", "Node software + service-bit distribution (self-declared)"),
     "seed_census.json": ("observed", "B", "DNS-seed address census — a third independent view of the node population"),
     "addrman_churn.json": ("observed", "B", "Addrman churn — empirical address-pool staleness (first-party gossip sampler)"),

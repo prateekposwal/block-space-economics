@@ -27,6 +27,7 @@ WHAT THIS IS / IS NOT
 Writes captured-data/blocks/peer_relay.jsonl (append) + data/peer_relay.json.
 """
 import argparse
+import collections
 import datetime
 import json
 import os
@@ -35,6 +36,7 @@ import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(ROOT, "data", "peer_relay.json")
+CDF_OUT = os.path.join(ROOT, "data", "propagation_cdf.json")
 LOG_DIR = os.path.join(ROOT, "captured-data", "blocks")
 LOG = os.path.join(LOG_DIR, "peer_relay.jsonl")
 CLI = os.path.join(os.path.expanduser("~"), ".local", "bin", "bitcoin-cli")
@@ -86,6 +88,8 @@ def sample_block(best, height, window_s):
                 "network": p.get("network"), "class": net_class(p.get("network")),
                 "inbound": p.get("inbound"), "connection_type": p.get("connection_type"),
                 "last_block": lb, "subver": p.get("subver"),
+                "bip152_hb_to": p.get("bip152_hb_to"),      # we requested them as a HB peer
+                "bip152_hb_from": p.get("bip152_hb_from"),  # they requested us as a HB peer
             })
     cands.sort(key=lambda c: c["last_block"])
     first_ts = cands[0]["last_block"] if cands else None
@@ -122,6 +126,78 @@ def load_rows(kind):
     return rows
 
 
+def _cdf(deltas, cap=60):
+    """[[t_seconds, cumulative_pct], ...] for every whole second up to min(max,cap)."""
+    if not deltas:
+        return []
+    ds = sorted(deltas)
+    n = len(ds)
+    out, i = [], 0
+    for t in range(0, min(ds[-1], cap) + 1):
+        while i < n and ds[i] <= t:
+            i += 1
+        out.append([t, round(100 * i / n, 2)])
+    return out
+
+
+def build_cdf(blocks):
+    """Propagation CDF from first-party per-peer last_block deltas.
+
+    Each block's peers are measured RELATIVE to the earliest last_block among our
+    own peers for that block, so this is a within-node relay curve, not a global
+    one. Split by network class (clearnet vs overlay) and by BIP152 high-bandwidth
+    membership.
+    """
+    all_d, by_cls, hb_d, nonhb_d = [], collections.defaultdict(list), [], []
+    wins, firsts, peers = collections.Counter(), collections.Counter(), set()
+    for b in blocks:
+        cands = b.get("candidates") or []
+        if not cands:
+            continue
+        base = min(c["last_block"] for c in cands)
+        for c in cands:
+            d = c["last_block"] - base
+            cls = c.get("class") or "unknown"
+            hb = bool(c.get("bip152_hb_to") or c.get("bip152_hb_from"))
+            all_d.append(d)
+            by_cls[cls].append(d)
+            (hb_d if hb else nonhb_d).append(d)
+            if c.get("addr"):
+                peers.add(c["addr"])
+        for f in (b.get("first_seen") or []):
+            wins[(f.get("addr"), f.get("class"))] += 1
+        firsts[b.get("first_class") or "unknown"] += 1
+
+    total = len(all_d)
+    doc = {
+        "schema": "bsahi.propagation-cdf/1",
+        "layer": "observed",
+        "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "source": ("first-party getpeerinfo last_block deltas per block "
+                   "(tools/research/block_first_seen.py)"),
+        "status": "OK" if total else "AWAITING_SYNCED_RELAY",
+        "blocks_observed": sum(1 for b in blocks if b.get("candidates")),
+        "peer_sightings": total,
+        "distinct_peers": len(peers),
+        "delta_cdf": _cdf(all_d),
+        "by_class_cdf": {k: _cdf(v) for k, v in by_cls.items()},
+        "high_bandwidth": {
+            "hb_sightings": len(hb_d), "hb_cdf": _cdf(hb_d),
+            "non_hb_sightings": len(nonhb_d), "non_hb_cdf": _cdf(nonhb_d),
+        },
+        "first_seen_counts": dict(firsts),
+        "top_first_seen_peers": [[a, c, n] for (a, c), n in wins.most_common(10)],
+        "note": ("FIRST-PARTY: deltas are relative to the earliest last_block among "
+                 "OUR peers for that block — a within-node relay curve, not a global "
+                 "propagation measurement. getpeerinfo timestamps are second-granular, "
+                 "so ties are a set, not a single winner."),
+    }
+    if not total:
+        doc["note"] = ("Structure is valid but empty: no synced-relay blocks yet "
+                       "(node still reindexing). Fills automatically once IBD clears.")
+    return doc
+
+
 def build():
     blocks = load_rows("block")
     comps = load_rows("composition")
@@ -147,6 +223,8 @@ def build():
     }
     with open(OUT, "w") as f:
         json.dump(doc, f, indent=2)
+    with open(CDF_OUT, "w") as f:
+        json.dump(build_cdf(blocks), f, indent=2)
     return doc
 
 

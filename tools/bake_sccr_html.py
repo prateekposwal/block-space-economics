@@ -194,6 +194,7 @@ def dashboard_cards():
     prl, cr = L('peer_relay.json'), L('contribution_ratio.json')
     vc = L('validation_cost.json')
     ncr = L('node_crawl.json')
+    pcd = L('propagation_cdf.json')
     out = []
 
     cur = fa.get('current') or {}
@@ -343,6 +344,23 @@ def dashboard_cards():
             'CBECI mining map is a Firebase SPA \u2014 imported from its Download CSV.',
             'Status: %s \u2014 drop a CSV in captured-data/cbeci/.' % (mg.get('status') or 'missing')],
             '/data/mining_geography.json', 'data'))
+
+    if pcd:
+        if pcd.get('status') == 'OK':
+            cdf = pcd.get('delta_cdf') or []
+            med = next((t for t, p in cdf if p >= 50), None)
+            cls = pcd.get('by_class_cdf') or {}
+            out.append(_card('Relay propagation CDF', 'observed', 'A', [
+                '%s blocks \u00b7 %s peer sightings \u00b7 median delta %ss'
+                % (_num(pcd.get('blocks_observed'), 0), _num(pcd.get('peer_sightings'), 0), _num(med, 0)),
+                'Split: %s \u00b7 BIP152 high-bandwidth tracked'
+                % ' + '.join('%s %s' % (k, _num(len(v), 0)) for k, v in cls.items())],
+                '/data/propagation_cdf.json', 'data'))
+        else:
+            out.append(_card('Relay propagation CDF', 'observed', 'A', [
+                'Awaiting synced relay (node still reindexing)',
+                'Will capture per-peer deltas, clearnet vs overlay, BIP152 high-bandwidth.'],
+                '/data/propagation_cdf.json', 'data'))
 
     if ncr.get('reachable'):
         sa = ncr.get('services') or {}

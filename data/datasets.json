@@ -1,8 +1,8 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-18T19:42:39.983324+00:00",
+  "generated_at": "2026-09-18T19:47:50.172742+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
-  "count": 39,
+  "count": 40,
   "datasets": [
     {
       "name": "addrman_churn.json",
@@ -133,7 +133,7 @@
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
       "bytes": 1548,
-      "updated": "2026-09-18T19:39:10.309944+00:00",
+      "updated": "2026-09-18T19:45:43.947847+00:00",
       "rows": null
     },
     {
@@ -228,8 +228,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "First-party reachable-node census by P2P handshake crawl (network class, client mix, sync)",
-      "bytes": 2869,
-      "updated": "2026-09-18T19:42:19.605800+00:00",
+      "bytes": 4545,
+      "updated": "2026-09-18T19:45:43.717074+00:00",
       "rows": null
     },
     {
@@ -265,7 +265,7 @@
       "grade": "B",
       "description": "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)",
       "bytes": 891,
-      "updated": "2026-09-18T19:30:01.941794+00:00",
+      "updated": "2026-09-18T19:47:36.834844+00:00",
       "rows": null
     },
     {
@@ -277,7 +277,7 @@
       "grade": "B",
       "description": "Per-block SPOT samples (weight/size/tx/fee) vs the era aggregates",
       "bytes": 59502,
-      "updated": "2026-09-18T19:14:57.695250+00:00",
+      "updated": "2026-09-18T19:45:14.845020+00:00",
       "rows": null
     },
     {
@@ -315,6 +315,18 @@
       "bytes": 12023,
       "updated": "2026-09-17T03:48:55.035832+00:00",
       "rows": 15
+    },
+    {
+      "name": "propagation_cdf.json",
+      "url": "https://bitcoinsahi.com/data/propagation_cdf.json",
+      "path": "data/propagation_cdf.json",
+      "schema": "bsahi.propagation-cdf/1",
+      "layer": "observed",
+      "grade": "A",
+      "description": "First-party block-relay propagation CDF (per-peer deltas, clearnet vs overlay, BIP152 HB)",
+      "bytes": 675,
+      "updated": "2026-09-18T19:47:36.835660+00:00",
+      "rows": null
     },
     {
       "name": "reproduction_verification.json",
@@ -444,8 +456,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Measured node-side validation cost per era from a full -reindex (first-party, no API)",
-      "bytes": 4989,
-      "updated": "2026-09-18T19:38:48.542180+00:00",
+      "bytes": 5162,
+      "updated": "2026-09-18T19:45:26.981278+00:00",
       "rows": null
     },
     {
