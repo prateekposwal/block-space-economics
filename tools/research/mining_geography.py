@@ -1,39 +1,47 @@
 #!/usr/bin/env python3
 """Mining geography — where hashrate lives (population-geography Phase 3).
 
-Source of truth: Cambridge CBECI Mining Map (ccaf.io/cbnsi/cbeci/mining_map).
-It is a WASM SPA backed by Firebase; there is no stable public JSON endpoint, so
-this tool does NOT scrape it. Instead it imports the CSV the map's own "Download"
-button produces, from captured-data/cbeci/*.csv (long OR wide format), and emits
-a normalised country/region hashrate-share table.
+Automatic source ladder (first that succeeds wins):
 
-To refresh the source: open https://ccaf.io/cbnsi/cbeci/mining_map , click
-Download, and drop the file in captured-data/cbeci/.
+  1. CBECI mining-map CSV in captured-data/cbeci/*.csv  (PREFERRED)
+     Cambridge CCAF, monthly, the reference dataset. NOTE: the CBECI site is a
+     Firebase SPA whose API (api.ccaf.io / ccaf.io/cbeci/api) is reCAPTCHA-gated,
+     so we do NOT scrape it — this reads the file the map's own Download button
+     produces, if the operator drops one in.
 
-Honest boundaries (from the CBECI methodology):
-  * monthly, usually 1-3 month publication lag
-  * extrapolated from a POOL SAMPLE that has covered ~32-38% of network hashrate
-    since the map launched (Sep 2019) — it is an ESTIMATE, not a census
-  * regional (province) breakdown exists only for China and the US
-  * licence: CC BY-NC-SA 4.0 — attribution + link required
-Writes data/mining_geography.json (status SOURCE_UNAVAILABLE if no CSV present).
+  2. Hashrate Index (Luxor) Global Hashrate Heatmap  (AUTOMATIC)
+     Public quarterly blog post, no auth: country market share + EH/s. This is
+     what makes the dataset self-updating when no CBECI CSV is present.
+
+  3. otherwise status SOURCE_UNAVAILABLE.
+
+BOTH are ESTIMATES, never censuses:
+  * CBECI: pool sample covering ~32-38% of network hashrate; monthly; 1-3 mo lag.
+  * Hashrate Index: quarterly, own (Luxor) methodology; publishes the top ~10.
+Attribution is required for either. Writes data/mining_geography.json.
 """
 import csv
 import datetime
 import glob
 import json
 import os
+import re
+import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 OUT = os.path.join(ROOT, "data", "mining_geography.json")
 SRC_DIR = os.path.join(ROOT, "captured-data", "cbeci")
-DOWNLOAD_URL = "https://ccaf.io/cbnsi/cbeci/mining_map"
+HI_CACHE = os.path.join(ROOT, "captured-data", "hashrateindex")
+CBECI_URL = "https://ccaf.io/cbnsi/cbeci/mining_map"
+HI_URL = "https://hashrateindex.com/blog/global-hashrate-heatmap-update-q%d-%d/"
+UA = {"User-Agent": "bitcoinsahi-research/1.0 (+https://bitcoinsahi.com)"}
 
 COUNTRY_KEYS = ("country", "countries", "country_name", "jurisdiction")
 DATE_KEYS = ("date", "period", "month", "timestamp", "year_month", "yyyymm")
 SHARE_KEYS = ("share", "hashrate", "hash_rate", "percentage", "percent", "value", "hashrate_share")
 
 
+# ---------------------------------------------------------------- CBECI CSV
 def _col(headers, keys):
     for i, h in enumerate(headers):
         hl = (h or "").strip().lower().replace(" ", "_")
@@ -62,33 +70,26 @@ def parse_csv(path):
     if len(rows) < 2:
         return None
     header = rows[0]
-    ci = _col(header, COUNTRY_KEYS)
-    di = _col(header, DATE_KEYS)
-    si = _col(header, SHARE_KEYS)
+    ci, di, si = _col(header, COUNTRY_KEYS), _col(header, DATE_KEYS), _col(header, SHARE_KEYS)
     if ci is None:
         return None
-
-    # long format
     if si is not None:
-        latest_date, out = None, {}
+        latest, out = None, {}
         for r in rows[1:]:
             if ci >= len(r) or si >= len(r):
                 continue
-            country = (r[ci] or "").strip()
-            val = _num(r[si])
+            country, val = (r[ci] or "").strip(), _num(r[si])
             if not country or val is None:
                 continue
             d = (r[di] or "").strip() if (di is not None and di < len(r)) else ""
             if d:
-                if latest_date is None or d > latest_date:
-                    latest_date, out = d, {country: val}
-                elif d == latest_date:
+                if latest is None or d > latest:
+                    latest, out = d, {country: val}
+                elif d == latest:
                     out[country] = val
             else:
                 out[country] = val
-        return {"format": "long", "period": latest_date, "shares": out}
-
-    # wide format: pick the latest date-like column
+        return {"source_kind": "cbeci_csv", "period": latest, "shares": out}
     date_cols = [(i, h) for i, h in enumerate(header) if _looks_like_date(h)]
     if not date_cols:
         return None
@@ -97,65 +98,142 @@ def parse_csv(path):
     for r in rows[1:]:
         if ci >= len(r) or li >= len(r):
             continue
-        country = (r[ci] or "").strip()
-        val = _num(r[li])
+        country, val = (r[ci] or "").strip(), _num(r[li])
         if country and val is not None:
             out[country] = val
-    return {"format": "wide", "period": lh, "shares": out}
+    return {"source_kind": "cbeci_csv", "period": lh, "shares": out}
 
 
+# ---------------------------------------------------- Hashrate Index (open HTML)
+def _quarters(n=6):
+    now = datetime.datetime.now(datetime.timezone.utc)
+    y, q = now.year, (now.month - 1) // 3 + 1
+    out = []
+    for _ in range(n):
+        out.append((q, y))
+        q -= 1
+        if q == 0:
+            q, y = 4, y - 1
+    return out
+
+
+def parse_hi(html):
+    """Pull the 'Top N Countries by Market Share (Qx YYYY)' list out of the post."""
+    m = re.search(r"Top\s+\d+\s+Countries\s+by\s+Market\s+Share\s*\(([^)]+)\)", html)
+    period = m.group(1).strip() if m else None
+    txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
+    seg = txt[txt.find(m.group(0)):txt.find(m.group(0)) + 2000] if m else txt
+    rows = re.findall(
+        r"([A-Z][A-Za-z\.'&\- ]{2,40}?)\s*[\u2014\u2013-]\s*([0-9]{1,2}(?:\.[0-9]+)?)%\s*"
+        r"\(~?\s*([0-9][0-9,\.]*)\s*EH/s\)", seg)
+    shares, ehs = {}, {}
+    for country, pct, e in rows:
+        c = country.strip()
+        shares[c] = float(pct)
+        ehs[c] = float(e.replace(",", ""))
+    if not shares:
+        return None
+    return {"source_kind": "hashrateindex_html", "period": period or "latest quarter",
+            "shares": shares, "hashrate_ehs": ehs}
+
+
+def fetch_hi():
+    os.makedirs(HI_CACHE, exist_ok=True)
+    for q, y in _quarters(6):
+        url = HI_URL % (q, y)
+        cache = os.path.join(HI_CACHE, "q%d-%d.html" % (q, y))
+        html = None
+        if os.path.exists(cache) and (datetime.datetime.now().timestamp()
+                                      - os.path.getmtime(cache)) / 86400 < 30:
+            html = open(cache, encoding="utf-8", errors="replace").read()
+        else:
+            try:
+                req = urllib.request.Request(url, headers=UA)
+                with urllib.request.urlopen(req, timeout=45) as r:
+                    if r.status != 200:
+                        continue
+                    html = r.read().decode("utf-8", "replace")
+                open(cache, "w", encoding="utf-8").write(html)
+            except Exception:
+                continue
+        p = parse_hi(html)
+        if p:
+            p["url"] = url
+            return p
+    return None
+
+
+# ---------------------------------------------------------------------- main
 def main():
     os.makedirs(SRC_DIR, exist_ok=True)
-    files = sorted(glob.glob(os.path.join(SRC_DIR, "*.csv")))
-    parsed, used = None, None
-    for p in files:
+    parsed = None
+    for path in sorted(glob.glob(os.path.join(SRC_DIR, "*.csv"))):
         try:
-            r = parse_csv(p)
+            r = parse_csv(path)
         except Exception:
             r = None
         if r and r.get("shares"):
-            parsed, used = r, p
+            r["url"] = CBECI_URL
+            r["file"] = os.path.basename(path)
+            parsed = r
             break
+    if not parsed:
+        parsed = fetch_hi()
 
     if not parsed:
         doc = {
-            "schema": "bsahi.mining-geography/1",
-            "layer": "modelled",
+            "schema": "bsahi.mining-geography/1", "layer": "modelled",
             "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-            "source": "Cambridge CBECI Mining Map (manual CSV import)",
-            "status": "SOURCE_UNAVAILABLE",
-            "download_url": DOWNLOAD_URL,
-            "note": ("No CSV found in captured-data/cbeci/. The CBECI mining map is a "
-                     "Firebase-backed SPA with no stable public JSON endpoint, so the "
-                     "data is imported from the map's own Download button. Monthly, "
-                     "~32-38% pool sample, 1-3 month lag. CC BY-NC-SA 4.0."),
+            "source": "CBECI mining map (csv) / Hashrate Index heatmap (html)",
+            "status": "SOURCE_UNAVAILABLE", "download_url": CBECI_URL, "alt_url": HI_URL % tuple(_quarters(1)[0]),
+            "note": ("No CBECI CSV present and the Hashrate Index heatmap could not be "
+                     "parsed. Both are ESTIMATES. CBECI is reCAPTCHA-gated and is not "
+                     "scraped; drop its Download CSV in captured-data/cbeci/."),
         }
     else:
         shares = parsed["shares"]
-        tot = sum(v for v in shares.values() if v > 0) or 1.0
-        table = sorted(([c, round(v, 3), round(100.0 * v / tot, 2)] for c, v in shares.items()),
-                       key=lambda x: -x[1])
+        vals = [v for v in shares.values() if v > 0]
+        # Values may be fractions (0.367) or already-percent (36.7). Scale only,
+        # never renormalise: these are shares of GLOBAL hashrate, and the source
+        # often lists only the top N, so the tail must stay un-inflated.
+        scale = 100.0 if (vals and max(vals) <= 1.0) else 1.0
+        ehs = parsed.get("hashrate_ehs") or {}
+        kind = parsed["source_kind"]
+        rows = sorted(({"country": c, "share_pct": round(v * scale, 2),
+                        "hashrate_ehs": ehs.get(c)} for c, v in shares.items() if v > 0),
+                      key=lambda x: -x["share_pct"])
+        coverage = round(sum(r["share_pct"] for r in rows), 2)
+        if kind == "cbeci_csv":
+            attribution = ("Cambridge CBECI Mining Map (CC BY-NC-SA 4.0) — attribute "
+                           "Cambridge CCAF and link ccaf.io/cbnsi/cbeci. Monthly; "
+                           "~32-38% pool sample; 1-3 month lag.")
+        else:
+            attribution = ("Hashrate Index (Luxor) Global Hashrate Heatmap — attribute "
+                           "Hashrate Index and link hashrateindex.com. Quarterly; top "
+                           "countries only; Luxor's own methodology.")
         doc = {
-            "schema": "bsahi.mining-geography/1",
-            "layer": "modelled",
+            "schema": "bsahi.mining-geography/1", "layer": "modelled",
             "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-            "source": "Cambridge CBECI Mining Map (manual CSV import): " + os.path.basename(used),
-            "status": "OK",
-            "period": parsed.get("period"),
-            "format": parsed.get("format"),
-            "country_share": [{"country": c, "share": s, "share_pct": p} for c, s, p in table],
-            "note": ("ESTIMATE, not a census: CBECI extrapolates from a pool sample that "
-                     "has covered ~32-38% of network hashrate since 2019; monthly with a "
-                     "1-3 month lag; regional detail only for China and the US. "
-                     "CC BY-NC-SA 4.0 — attribute Cambridge CCAF and link ccaf.io/cbnsi/cbeci."),
+            "source": ("%s: %s" % (kind, parsed.get("file") or parsed.get("url"))),
+            "source_kind": kind, "source_url": parsed.get("url"),
+            "status": "OK", "period": parsed.get("period"),
+            "country_share": rows,
+            "listed_coverage_pct": coverage,
+            "coverage_note": ("share_pct is of GLOBAL hashrate as published; the "
+                              "listed countries cover %s%% — the unlisted tail is NOT "
+                              "redistributed." % coverage),
+            "note": "ESTIMATE, not a census. " + attribution,
         }
     with open(OUT, "w") as f:
         json.dump(doc, f, indent=2)
     if doc["status"] == "OK":
-        print("mining-geography: %s period=%s countries=%d -> %s"
-              % (doc["status"], doc["period"], len(doc["country_share"]), OUT))
+        print("mining-geography: %s period=%s countries=%d source=%s -> %s"
+              % (doc["status"], doc["period"], len(doc["country_share"]),
+                 doc.get("source_kind"), OUT))
+        print("  top: " + ", ".join("%s %s%%" % (r["country"], r["share_pct"])
+                                    for r in doc["country_share"][:5]))
     else:
-        print("mining-geography: SOURCE_UNAVAILABLE (drop a CBECI CSV in captured-data/cbeci/) -> %s" % OUT)
+        print("mining-geography: SOURCE_UNAVAILABLE -> %s" % OUT)
 
 
 if __name__ == "__main__":

@@ -40,7 +40,7 @@ CATALOG = {
     "node_census_series.json": ("observed", "B", "Reachable-node crawl series (btcnodes)"),
     "node_geography.json": ("observed", "B", "Reachable-node network class (clearnet/Tor/I2P) + coarse geographic spread (btcnodes aggregates)"),
     "block_propagation.json": ("observed", "C", "Per-block relay: announcing-node counts + propagation stats (btcnodes inv sampler)"),
-    "mining_geography.json": ("modelled", "C/D", "Mining hashrate share by country/region (CBECI mining map — estimate, monthly)"),
+    "mining_geography.json": ("modelled", "C/D", "Mining hashrate share by country (auto: Hashrate Index quarterly heatmap; CBECI CSV preferred if present)"),
     "contribution_ratio.json": ("modelled", "C", "Three-axis contribution join: verification population | block relay | block production"),
     "peer_relay.json": ("observed", "B", "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)"),
     "node_version_distribution.json": ("observed", "B", "Node software + service-bit distribution (self-declared)"),

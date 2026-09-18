@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.contribution-ratio/1",
   "layer": "modelled",
-  "generated_at": "2026-09-18T19:17:43.317116+00:00",
+  "generated_at": "2026-09-18T19:26:18.987389+00:00",
   "source": "join of node_geography.json + block_propagation.json + mining_geography.json + verification_population.json + pool_attribution_validation.json",
   "caveat": "These are THREE populations, not one. A single 'public vs private contribution ratio on blocks' is not defined: blocks are PRODUCED by miners, RELAYED by nodes (public and private alike), and the private/non-listening node share is unobservable. Read the axes separately.",
   "axis_1_verification_population": {
@@ -38,9 +38,51 @@
     "not_the_producer": "announcing peers != the miner that produced the block"
   },
   "axis_3_block_production": {
-    "available": false,
-    "reason": "SOURCE_UNAVAILABLE",
-    "download_url": "https://ccaf.io/cbnsi/cbeci/mining_map",
+    "available": true,
+    "grade": "C/D (CBECI estimate, ~32-38% pool sample)",
+    "period": "Q3 2026",
+    "top_countries": [
+      [
+        "United States",
+        36.7
+      ],
+      [
+        "Russia",
+        17.2
+      ],
+      [
+        "China",
+        12.2
+      ],
+      [
+        "Paraguay",
+        4.7
+      ],
+      [
+        "United Arab Emirates",
+        3.0
+      ],
+      [
+        "Oman",
+        2.8
+      ],
+      [
+        "Canada",
+        2.6
+      ],
+      [
+        "Ethiopia",
+        2.4
+      ],
+      [
+        "Indonesia",
+        1.8
+      ],
+      [
+        "Norway",
+        1.7
+      ]
+    ],
     "pool_attribution_status": "Validation vs reachable independent evidence; self-reported pool hashrate UNAVAILABLE (documented) -- see research/pool-hashrate-reachability.md",
     "network_hashrate_ehs": 1013.7
   }

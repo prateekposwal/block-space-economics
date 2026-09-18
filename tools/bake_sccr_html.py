@@ -313,9 +313,14 @@ def dashboard_cards():
 
     if mg.get('status') == 'OK':
         rows = mg.get('country_share') or []
+        src_lbl = ('CBECI estimate (~32\u201338%% pool sample)'
+                   if mg.get('source_kind') == 'cbeci_csv'
+                   else 'Hashrate Index (Luxor) \u00b7 quarterly, top countries')
         out.append(_card('Mining geography', 'modelled', 'C/D', [
-            'Hashrate share by country \u00b7 %s \u00b7 CBECI estimate (~32\u201338%% pool sample)' % (mg.get('period') or ''),
-            'Top: %s' % ', '.join('%s %s%%' % (r.get('country'), r.get('share_pct')) for r in rows[:3])],
+            'Hashrate share by country \u00b7 %s \u00b7 %s' % (mg.get('period') or '', src_lbl),
+            'Top: %s \u00b7 listed covers %s%% of global' % (
+                ', '.join('%s %s%%' % (r.get('country'), r.get('share_pct')) for r in rows[:3]),
+                mg.get('listed_coverage_pct', '\u2014'))],
             '/data/mining_geography.json', 'data'))
     else:
         out.append(_card('Mining geography', 'modelled', 'C/D', [

@@ -1,9 +1,65 @@
 {
   "schema": "bsahi.mining-geography/1",
   "layer": "modelled",
-  "generated_at": "2026-09-18T19:17:55.156213+00:00",
-  "source": "Cambridge CBECI Mining Map (manual CSV import)",
-  "status": "SOURCE_UNAVAILABLE",
-  "download_url": "https://ccaf.io/cbnsi/cbeci/mining_map",
-  "note": "No CSV found in captured-data/cbeci/. The CBECI mining map is a Firebase-backed SPA with no stable public JSON endpoint, so the data is imported from the map's own Download button. Monthly, ~32-38% pool sample, 1-3 month lag. CC BY-NC-SA 4.0."
+  "generated_at": "2026-09-18T19:26:08.141193+00:00",
+  "source": "hashrateindex_html: https://hashrateindex.com/blog/global-hashrate-heatmap-update-q3-2026/",
+  "source_kind": "hashrateindex_html",
+  "source_url": "https://hashrateindex.com/blog/global-hashrate-heatmap-update-q3-2026/",
+  "status": "OK",
+  "period": "Q3 2026",
+  "country_share": [
+    {
+      "country": "United States",
+      "share_pct": 36.7,
+      "hashrate_ehs": 345.0
+    },
+    {
+      "country": "Russia",
+      "share_pct": 17.2,
+      "hashrate_ehs": 162.0
+    },
+    {
+      "country": "China",
+      "share_pct": 12.2,
+      "hashrate_ehs": 115.0
+    },
+    {
+      "country": "Paraguay",
+      "share_pct": 4.7,
+      "hashrate_ehs": 44.0
+    },
+    {
+      "country": "United Arab Emirates",
+      "share_pct": 3.0,
+      "hashrate_ehs": 28.0
+    },
+    {
+      "country": "Oman",
+      "share_pct": 2.8,
+      "hashrate_ehs": 26.0
+    },
+    {
+      "country": "Canada",
+      "share_pct": 2.6,
+      "hashrate_ehs": 24.0
+    },
+    {
+      "country": "Ethiopia",
+      "share_pct": 2.4,
+      "hashrate_ehs": 23.0
+    },
+    {
+      "country": "Indonesia",
+      "share_pct": 1.8,
+      "hashrate_ehs": 17.0
+    },
+    {
+      "country": "Norway",
+      "share_pct": 1.7,
+      "hashrate_ehs": 16.0
+    }
+  ],
+  "listed_coverage_pct": 85.1,
+  "coverage_note": "share_pct is of GLOBAL hashrate as published; the listed countries cover 85.1% \u2014 the unlisted tail is NOT redistributed.",
+  "note": "ESTIMATE, not a census. Hashrate Index (Luxor) Global Hashrate Heatmap \u2014 attribute Hashrate Index and link hashrateindex.com. Quarterly; top countries only; Luxor's own methodology."
 }
