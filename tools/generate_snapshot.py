@@ -124,11 +124,18 @@ def build_snapshot():
     # the whole payload stale while fees/price/height/mempool are fresh.
     field_ts = [ts for ts in (fees_ts, price_ts, height_ts, mempool_ts) if ts]
     payload_ts = min(field_ts) if field_ts else None
+    # freshness_min = age of the OLDEST payload field, in minutes (was hardcoded 0,
+    # which falsely claimed everything was fresh).
+    try:
+        freshness_min = int((datetime.now(timezone.utc) - datetime.fromisoformat(
+            payload_ts.replace('Z', '+00:00'))).total_seconds() / 60) if payload_ts else None
+    except Exception:
+        freshness_min = None
 
     snapshot = {
         "schema_version": 1,
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "freshness_min": 0,
+        "freshness_min": freshness_min,
         "payload_ts": payload_ts,
         "fees_ts": fees_ts,
         "price_ts": price_ts,

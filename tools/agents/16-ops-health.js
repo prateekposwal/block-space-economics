@@ -120,8 +120,18 @@ function check() {
 
     var hb = loadJson(path.join(REPO, 'captured-data', 'orchestrator-heartbeat.json'), null);
     var hbAge = hb ? ageMinutes(hb.at) : null;
-    checks.orchestrator = { heartbeatAgeMin: hbAge, phase: hb ? hb.phase : null };
-    if (hbAge !== null && hbAge > 60) issues.push('ORCHESTRATOR: heartbeat ' + hbAge + ' min ago');
+    // Only alert if the orchestrator is actually SCHEDULED (a launchd job exists).
+    // Otherwise a dormant-but-intentionally-unscheduled component would report the
+    // whole pipeline DEGRADED forever (observed: 19.3 days).
+    var orchScheduled = false;
+    try {
+      orchScheduled = fs.readdirSync(path.join(require('os').homedir(), 'Library', 'LaunchAgents'))
+        .some(function (f) { return /orchestrator/i.test(f); });
+    } catch (e) {}
+    checks.orchestrator = { heartbeatAgeMin: hbAge, phase: hb ? hb.phase : null, scheduled: orchScheduled };
+    if (orchScheduled && hbAge !== null && hbAge > 60) {
+      issues.push('ORCHESTRATOR: heartbeat ' + hbAge + ' min ago');
+    }
 
     var winRatio = captureHealth && captureHealth.total > 0 ? Math.round(captureHealth.failed / captureHealth.total * 100) : 0;
     checks.capture = captureHealth ? { failureRatioPct: winRatio, windowHours: captureHealth.windowHours, windowTotal: captureHealth.total, windowFailed: captureHealth.failed } : { error: 'mirror scan failed' };

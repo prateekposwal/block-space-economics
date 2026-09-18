@@ -192,7 +192,7 @@
     }
   },
   "assumptions": [
-    "60K node count is estimate",
+    "N = 26,586 is the MEASURED reachable validating-node count (a LOWER bound; non-listening/private nodes are unobservable). The earlier 32K was an addrman ADDRESS sample, and 60K was an estimate - both retired.",
     "homogeneous node costs",
     "10-yr archival horizon",
     "block size averaged",
@@ -203,6 +203,11 @@
     "note": "Formulas live in this file; derive-model.js is the ONLY place formulas are evaluated; scripts import values."
   },
   "changelog": [
+    {
+      "version": "2.1.1",
+      "date": "2026-09-17",
+      "change": "N re-based 32,000 -> 26586 (measured reachable validating nodes); every N-derived value (L_net, bw_cost_per_year_net) is now DERIVED from quantities.N and asserted by integrity_audit.py. The stale 60K/32K assumptions were retired."
+    },
     {
       "version": "2.1.0",
       "date": "2026-08-04",

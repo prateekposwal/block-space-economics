@@ -155,7 +155,11 @@ fetch('/data/sccr.json').then(function(r){return r.json();}).then(function(d){
   base=d;
   fee = d.avg_sccr * d.l_net_usd;
   el('baseDate').textContent = d.date;
-  el('n').value = d.N || 26586;   // canonical measured reachable count (was the retired 32000) el('t').value = d.T || 10; el('c').value = d.C || 925; el('f').value = 1;
+  // canonical measured reachable count (was the retired 32000)
+  el('n').value = d.N || 26586;
+  el('t').value = d.T || 10;
+  el('c').value = d.C || 925;
+  el('f').value = 1;
   ['n','t','c','f'].forEach(function(id){ el(id).addEventListener('input', compute); });
   compute();
 }).catch(function(){ el('verdict').textContent = 'could not load /data/sccr.json'; });

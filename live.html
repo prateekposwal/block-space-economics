@@ -1013,7 +1013,7 @@ if (typeof DATA_ENGINE !== 'undefined') {
   // same named constant the fee heatmap uses). Read THAT field, not
   // `avgFeeRate` (never set) — an empty array here was why the fee story
   // rendered 0 samples / Infinity even when 148 real samples existed.
-  var BLOCK_WEIGHT_VBYTES = 4000000;   // 4M vbytes per block (fee rate = sats / vbytes)
+  var BLOCK_WEIGHT_VBYTES = 1000000;   // vBYTES per block (4M weight / 4); was 4000000 -> 4x low
   var feeArr = [];
   for (var ri = 0; ri < fh.length; ri++) {
     var h = fh[ri];

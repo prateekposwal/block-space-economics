@@ -15,7 +15,7 @@ var VIZ_FeeHeatmap = (function () {
     { label: '1–2', test: function (r) { return r >= 1; } },
     { label: '< 1', test: function (r) { return r >= 0; } }
   ];
-  var BLOCK_WEIGHT_VBYTES = 4000000;   // 4M vbytes per block (fee rate = sats / vbytes)
+  var BLOCK_WEIGHT_VBYTES = 1000000;   // vBYTES per block (4M weight / 4); was 4000000 -> 4x low
 
   var canvas = null, ctx = null, w = 0, h = 0, dpr = 1;
   var grid = null;        // [24][7] counts

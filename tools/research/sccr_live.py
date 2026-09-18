@@ -154,8 +154,10 @@ def compute(cfg, capture):
     heights = []
     for e in capture:
         fee_sats = e.get('avgFees') or 0
-        usd = e.get('USD') or 0
-        if not fee_sats:
+        usd = e.get('USD')
+        # Missing price -> fee leg uncomputable; SKIP (never default to 0, which
+        # would understate the ratio). Unified with the reproduce kit + C.
+        if not fee_sats or not usd:
             continue
         fee_usd = (fee_sats / 1e8) * usd
         ratios.append(fee_usd / l_net)
@@ -201,6 +203,7 @@ def main():
     day = now.strftime('%Y-%m-%d')
 
     latest = {
+        'schema': 'bsahi.sccr/1',
         'date': day,
         'generated_at': now.isoformat(),
         'spec_version': cfg['version'],
@@ -232,9 +235,9 @@ def main():
     with open(os.path.join(DATA_DIR, 'sccr.json'), 'w') as f:
         json.dump(latest, f, indent=2)
     with open(os.path.join(DATA_DIR, 'sccr_latest.json'), 'w') as f:
-        json.dump({'endpoint': '/data/sccr_latest.json', 'payload': latest}, f, indent=2)
+        json.dump({'schema': 'bsahi.sccr-latest/1', 'endpoint': '/data/sccr_latest.json', 'payload': latest}, f, indent=2)
     with open(os.path.join(DATA_DIR, 'sccr_history.json'), 'w') as f:
-        json.dump({'endpoint': '/data/sccr_history.json', 'count': len(history),
+        json.dump({'schema': 'bsahi.sccr-history/1', 'endpoint': '/data/sccr_history.json', 'count': len(history),
                    'sampling': ('one dated snapshot per DAY a run occurred. The series is NOT contiguous: '
                                 'a missing date means no run that day, so gaps are real, not zero-fee days. '
                                 'Do not plot as a continuous time series without labelling the gaps.'),

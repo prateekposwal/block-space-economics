@@ -303,7 +303,7 @@
       };
     }
 
-    var BLOCK_VBYTES = 4000000; // consensus vbytes per block — REAL sat/vB conversion
+    var BLOCK_VBYTES = 1000000; // vBYTES per block (4M weight / 4) — REAL sat/vB conversion
     function drawGenesisStrip() {
       var c = document.getElementById('genesis-canvas');
       if (!c) return;
