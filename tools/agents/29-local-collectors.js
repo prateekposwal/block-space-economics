@@ -50,6 +50,9 @@ var SCHEDULE = [
   { name: 'block_propagation',    script: 'tools/research/block_propagation.py',     args: ['--fetch', '--detail', '5'], every: 3600, timeoutS: 300 },
   { name: 'mining_geography',     script: 'tools/research/mining_geography.py',      args: [], every: 86400, timeoutS: 120 },
   { name: 'contribution_ratio',   script: 'tools/research/contribution_ratio.py',    args: [], every: 3600, timeoutS: 120 },
+  // Safety net: the com.bsahi.blockwatch daemon owns first-party relay capture,
+  // but rebuild its site JSON from the log even if that daemon is down.
+  { name: 'peer_relay_build',     script: 'tools/research/block_first_seen.py',      args: ['--build-only'], every: 1800, timeoutS: 120 },
   // Clearnet distinct-IP census from a public-IP VPS (see
   // research/inbound-census-vps.md). Inert until ~/.bsahi/vps-census.conf exists.
   { name: 'vps_census_pull', cmd: ['bash', 'tools/net/vps_census_pull.sh'], every: 3600,

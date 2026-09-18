@@ -73,18 +73,9 @@ def composition(peers):
     return comp
 
 
-def detect_block(prev_hash, window_s):
-    """Return a block record if the tip moved, else None."""
-    info = rpc("getblockchaininfo")
-    if not info:
-        return None
-    best = info.get("bestblockhash")
-    if not best or best == prev_hash:
-        return {"_best": best, "_ibd": info.get("initialblockdownload"), "_height": info.get("blocks")}
+def sample_block(best, height, window_s):
+    """Build the relay record for a block that just arrived from a peer."""
     now = int(time.time())
-    if info.get("initialblockdownload"):
-        # Reindex/IBD: blocks are replayed from disk, not relayed by peers.
-        return {"_best": best, "_ibd": True, "_height": info.get("blocks")}
     peers = rpc("getpeerinfo") or []
     cands = []
     for p in peers:
@@ -100,8 +91,7 @@ def detect_block(prev_hash, window_s):
     first_ts = cands[0]["last_block"] if cands else None
     first = [c for c in cands if c["last_block"] == first_ts] if first_ts else []
     return {
-        "_best": best, "_ibd": False, "_height": info.get("blocks"),
-        "hash": best, "height": info.get("blocks"),
+        "kind": "block", "hash": best, "height": height,
         "detected_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "candidates": cands,
         "first_seen": first,
@@ -161,28 +151,39 @@ def build():
 
 
 def run(watch, poll_s, window_s, comp_every_s):
-    prev = None
+    prev = None          # last tip we have accounted for
     last_comp = 0.0
+    ibd_state = None     # so the IBD/synced switch is logged ONCE, not every poll
     while True:
-        res = detect_block(prev, window_s)
-        if res:
-            if res.get("_best"):
-                prev = res["_best"]
-            if res.get("hash"):
-                row = dict(res)
-                row["kind"] = "block"
+        info = rpc("getblockchaininfo")
+        if info:
+            raw_ibd = info.get("initialblockdownload")
+            ibd = True if raw_ibd is None else bool(raw_ibd)   # unknown -> safe (don't record)
+            best, height = info.get("bestblockhash"), info.get("blocks")
+            if ibd_state is None or ibd != ibd_state:
+                print(("IBD/reindex (height %s) — not recording relay; switches on "
+                       "automatically when it clears" % height) if ibd
+                      else "synced — now recording block relay from peers", flush=True)
+                ibd_state = ibd
+                prev = best      # never mistake the IBD->synced tip for a fresh block
+            if ibd:
+                prev = best      # blocks are replayed from disk, not relayed
+            elif prev is None:
+                prev = best      # adopt the current tip without recording it
+            elif best and best != prev:
+                row = sample_block(best, height, window_s)
                 append(row)
                 print("block %s h=%s first=%s (%s) cands=%d"
                       % (row["hash"][:16], row["height"],
                          (row["first_seen"][0]["addr"] if row["first_seen"] else "?"),
                          row["first_class"], len(row["candidates"])), flush=True)
-            elif res.get("_ibd"):
-                print("IBD/reindex (height %s) — not recording relay" % res.get("_height"), flush=True)
+                prev = best
         now = time.time()
-        if now - last_comp >= comp_every_s:
+        if now - last_comp >= comp_every_s or last_comp == 0.0:
             peers = rpc("getpeerinfo") or []
             if peers:
-                append({"kind": "composition", "at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                append({"kind": "composition",
+                        "at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
                         "composition": composition(peers)})
                 build()
                 last_comp = now
