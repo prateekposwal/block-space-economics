@@ -1,11 +1,11 @@
 {
   "schema": "bsahi.inbound-census/2",
   "layer": "observed",
-  "generated_at": "2026-09-18T18:14:43.007748+00:00",
+  "generated_at": "2026-09-18T19:14:57.459329+00:00",
   "source": "Bitcoin Core getpeerinfo on the project's listening node",
   "method": "tools/research/inbound_census.py \u2014 count peers that dial in (identity = IP, port stripped)",
   "latest": {
-    "at": "2026-09-18T18:14:43.007748+00:00",
+    "at": "2026-09-18T19:14:57.459329+00:00",
     "connections_in": 0,
     "inbound_count": 0,
     "inbound_ips": [],
@@ -13,7 +13,7 @@
     "identity_hidden_ips": [],
     "connection_type_breakdown": {}
   },
-  "samples": 23,
+  "samples": 24,
   "history": [
     {
       "at": "2026-09-17T17:29:55.332181+00:00",
@@ -129,6 +129,11 @@
       "at": "2026-09-18T18:14:43.007748+00:00",
       "inbound_count": 0,
       "connections_in": 0
+    },
+    {
+      "at": "2026-09-18T19:14:57.459329+00:00",
+      "inbound_count": 0,
+      "connections_in": 0
     }
   ],
   "distinct_inbound_addresses_ever": 0,
@@ -145,5 +150,5 @@
     "listen": "1",
     "reachability": "port-forward for clearnet distinct-node counting; Tor gives a concurrency bound only"
   },
-  "headline": "0 inbound peers observed across 23 sample(s); the node accepts connections but is not yet being dialled"
+  "headline": "0 inbound peers observed across 24 sample(s); the node accepts connections but is not yet being dialled"
 }
