@@ -1,0 +1,25 @@
+{
+  "schema": "bsahi.peer-relay/1",
+  "layer": "observed",
+  "generated_at": "2026-09-18T19:20:45.621211+00:00",
+  "source": "local Bitcoin Core getpeerinfo (last_block/network/connection_type) polled by tools/research/block_first_seen.py",
+  "peer_composition": {
+    "total": 10,
+    "by_network": {
+      "ipv4": 7,
+      "ipv6": 1,
+      "onion": 2
+    },
+    "by_class": {
+      "clearnet": 8,
+      "overlay": 2
+    },
+    "by_direction": {
+      "outbound": 10
+    }
+  },
+  "blocks_observed": 0,
+  "first_seen_by_class": {},
+  "blocks": [],
+  "note": "FIRST-PARTY: the relay view of THIS node among its own peers, not the network. 'first_seen' = peer(s) with the earliest last_block inside the detection window; second granularity means ties are a set. It says who relayed the block to us, NOT who mined it. Blocks are not recorded while the node is in IBD/reindex (no peer relay)."
+}

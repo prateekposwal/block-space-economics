@@ -42,6 +42,7 @@ CATALOG = {
     "block_propagation.json": ("observed", "C", "Per-block relay: announcing-node counts + propagation stats (btcnodes inv sampler)"),
     "mining_geography.json": ("modelled", "C/D", "Mining hashrate share by country/region (CBECI mining map — estimate, monthly)"),
     "contribution_ratio.json": ("modelled", "C", "Three-axis contribution join: verification population | block relay | block production"),
+    "peer_relay.json": ("observed", "B", "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)"),
     "node_version_distribution.json": ("observed", "B", "Node software + service-bit distribution (self-declared)"),
     "seed_census.json": ("observed", "B", "DNS-seed address census — a third independent view of the node population"),
     "addrman_churn.json": ("observed", "B", "Addrman churn — empirical address-pool staleness (first-party gossip sampler)"),

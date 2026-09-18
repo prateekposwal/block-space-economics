@@ -176,6 +176,8 @@ def dashboard_cards():
     sc, ac, ic = L('seed_census.json'), L('addrman_churn.json'), L('inbound_census.json')
     u, pb, pc = L('utxo_state_series.json'), L('perblock_validation.json'), L('production_cost_ratio.json')
     vci, dif, mem = L('verify_cost_index.json'), L('difficulty_series.json'), L('mempool_congestion_series.json')
+    ng, bp, mg = L('node_geography.json'), L('block_propagation.json'), L('mining_geography.json')
+    prl, cr = L('peer_relay.json'), L('contribution_ratio.json')
     out = []
 
     cur = fa.get('current') or {}
@@ -281,6 +283,51 @@ def dashboard_cards():
     if mem:
         out.append(_card('Mempool congestion', 'observed', 'B*', ['Frozen primary \u00b7 2016\u20132026', 'pre-2016 is reconstruction-only (chart starts 2016-06).'],
                          '/data/mempool_congestion_series.json', 'data'))
+
+    if ng.get('network_class'):
+        nc, gg = ng['network_class'], ng.get('geography') or {}
+        out.append(_card('Node geography & network class', 'observed', 'B', [
+            '<b>%s</b> reachable \u00b7 %s Tor + %s I2P = %s%% overlay (locationless)'
+            % (_num(nc.get('reachable_nodes'), 0), _num(nc.get('tor'), 0), _num(nc.get('i2p'), 0), nc.get('overlay_share_pct')),
+            'Clearnet spread over %s unique locations' % _num(gg.get('unique_coordinate_pairs'), 0)],
+            '/data/node_geography.json', 'data'))
+
+    bs = bp.get('summary') or {}
+    if bs:
+        out.append(_card('Block relay (observed announcers)', 'observed', 'C', [
+            '%s blocks \u00b7 announcing peers min %s / mean %s / max %s'
+            % (bs.get('blocks_in_window'), _num(bs.get('announcing_nodes_min'), 0),
+               _num(bs.get('announcing_nodes_mean'), 1), _num(bs.get('announcing_nodes_max'), 0)),
+            'Sample of listening peers carrying the block \u2014 not the producer.'],
+            '/data/block_propagation.json', 'data'))
+
+    pcmp = prl.get('peer_composition') or {}
+    if pcmp:
+        cls = pcmp.get('by_class') or {}
+        line = ' \u00b7 '.join('%s %s' % (k, v) for k, v in cls.items()) or '\u2014'
+        out.append(_card('First-party peer relay', 'observed', 'B', [
+            '%s peers \u00b7 %s' % (_num(pcmp.get('total'), 0), line),
+            '%s blocks first-seen captured%s' % (prl.get('blocks_observed', 0),
+                                                 '' if prl.get('blocks_observed') else ' (node in IBD/reindex)')],
+            '/data/peer_relay.json', 'data'))
+
+    if mg.get('status') == 'OK':
+        rows = mg.get('country_share') or []
+        out.append(_card('Mining geography', 'modelled', 'C/D', [
+            'Hashrate share by country \u00b7 %s \u00b7 CBECI estimate (~32\u201338%% pool sample)' % (mg.get('period') or ''),
+            'Top: %s' % ', '.join('%s %s%%' % (r.get('country'), r.get('share_pct')) for r in rows[:3])],
+            '/data/mining_geography.json', 'data'))
+    else:
+        out.append(_card('Mining geography', 'modelled', 'C/D', [
+            'CBECI mining map is a Firebase SPA \u2014 imported from its Download CSV.',
+            'Status: %s \u2014 drop a CSV in captured-data/cbeci/.' % (mg.get('status') or 'missing')],
+            '/data/mining_geography.json', 'data'))
+
+    if cr:
+        out.append(_card('Contribution axes', 'modelled', 'C', [
+            'Three populations, not one: verification \u00b7 relay \u00b7 production.',
+            'A single public-vs-private ratio is undefined (category error).'],
+            '/data/contribution_ratio.json', 'data'))
 
     return ''.join(out)
 

@@ -1,8 +1,8 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-18T19:18:08.686313+00:00",
+  "generated_at": "2026-09-18T19:21:33.803465+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
-  "count": 36,
+  "count": 37,
   "datasets": [
     {
       "name": "addrman_churn.json",
@@ -133,7 +133,7 @@
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
       "bytes": 1548,
-      "updated": "2026-09-18T19:12:43.220017+00:00",
+      "updated": "2026-09-18T19:18:08.722458+00:00",
       "rows": null
     },
     {
@@ -242,6 +242,18 @@
       "description": "Node software + service-bit distribution (self-declared)",
       "bytes": 1449,
       "updated": "2026-09-15T19:33:09.448977+00:00",
+      "rows": null
+    },
+    {
+      "name": "peer_relay.json",
+      "url": "https://bitcoinsahi.com/data/peer_relay.json",
+      "path": "data/peer_relay.json",
+      "schema": "bsahi.peer-relay/1",
+      "layer": "observed",
+      "grade": "B",
+      "description": "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)",
+      "bytes": 891,
+      "updated": "2026-09-18T19:20:45.621211+00:00",
       "rows": null
     },
     {
