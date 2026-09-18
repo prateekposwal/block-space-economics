@@ -1,8 +1,8 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-18T19:12:43.181303+00:00",
+  "generated_at": "2026-09-18T19:18:08.686313+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
-  "count": 32,
+  "count": 36,
   "datasets": [
     {
       "name": "addrman_churn.json",
@@ -53,6 +53,30 @@
       "rows": null
     },
     {
+      "name": "block_propagation.json",
+      "url": "https://bitcoinsahi.com/data/block_propagation.json",
+      "path": "data/block_propagation.json",
+      "schema": "bsahi.block-propagation/1",
+      "layer": "observed",
+      "grade": "C",
+      "description": "Per-block relay: announcing-node counts + propagation stats (btcnodes inv sampler)",
+      "bytes": 40381,
+      "updated": "2026-09-18T19:16:52.421450+00:00",
+      "rows": null
+    },
+    {
+      "name": "contribution_ratio.json",
+      "url": "https://bitcoinsahi.com/data/contribution_ratio.json",
+      "path": "data/contribution_ratio.json",
+      "schema": "bsahi.contribution-ratio/1",
+      "layer": "modelled",
+      "grade": "C",
+      "description": "Three-axis contribution join: verification population | block relay | block production",
+      "bytes": 1921,
+      "updated": "2026-09-18T19:17:43.317116+00:00",
+      "rows": null
+    },
+    {
       "name": "difficulty_series.json",
       "url": "https://bitcoinsahi.com/data/difficulty_series.json",
       "path": "data/difficulty_series.json",
@@ -73,7 +97,7 @@
       "grade": "C",
       "description": "Three claims on fee revenue per block + the subsidy crossover + temporal price-path scenarios",
       "bytes": 13924,
-      "updated": "2026-09-18T17:10:20.314150+00:00",
+      "updated": "2026-09-18T19:14:56.502382+00:00",
       "rows": null
     },
     {
@@ -96,8 +120,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Inbound-peer census \u2014 first-party lower bound on non-listening nodes",
-      "bytes": 4373,
-      "updated": "2026-09-18T18:14:43.007748+00:00",
+      "bytes": 4486,
+      "updated": "2026-09-18T19:14:57.459329+00:00",
       "rows": null
     },
     {
@@ -109,7 +133,7 @@
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
       "bytes": 1548,
-      "updated": "2026-09-18T19:07:20.064780+00:00",
+      "updated": "2026-09-18T19:12:43.220017+00:00",
       "rows": null
     },
     {
@@ -161,6 +185,18 @@
       "rows": null
     },
     {
+      "name": "mining_geography.json",
+      "url": "https://bitcoinsahi.com/data/mining_geography.json",
+      "path": "data/mining_geography.json",
+      "schema": "bsahi.mining-geography/1",
+      "layer": "modelled",
+      "grade": "C/D",
+      "description": "Mining hashrate share by country/region (CBECI mining map \u2014 estimate, monthly)",
+      "bytes": 531,
+      "updated": "2026-09-18T19:17:55.156213+00:00",
+      "rows": null
+    },
+    {
       "name": "node_census.json",
       "url": "https://bitcoinsahi.com/data/node_census.json",
       "path": "data/node_census.json",
@@ -185,6 +221,18 @@
       "rows": 3981
     },
     {
+      "name": "node_geography.json",
+      "url": "https://bitcoinsahi.com/data/node_geography.json",
+      "path": "data/node_geography.json",
+      "schema": "bsahi.node-geography/1",
+      "layer": "observed",
+      "grade": "B",
+      "description": "Reachable-node network class (clearnet/Tor/I2P) + coarse geographic spread (btcnodes aggregates)",
+      "bytes": 2597,
+      "updated": "2026-09-18T19:16:24.073867+00:00",
+      "rows": null
+    },
+    {
       "name": "node_version_distribution.json",
       "url": "https://bitcoinsahi.com/data/node_version_distribution.json",
       "path": "data/node_version_distribution.json",
@@ -205,7 +253,7 @@
       "grade": "B",
       "description": "Per-block SPOT samples (weight/size/tx/fee) vs the era aggregates",
       "bytes": 59502,
-      "updated": "2026-09-18T18:44:46.056793+00:00",
+      "updated": "2026-09-18T19:14:57.695250+00:00",
       "rows": null
     },
     {
@@ -264,8 +312,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Latest Storage Cost Coverage Ratio reading (dated)",
-      "bytes": 780,
-      "updated": "2026-09-18T17:10:18.024812+00:00",
+      "bytes": 779,
+      "updated": "2026-09-18T19:14:53.444242+00:00",
       "rows": null
     },
     {
@@ -288,8 +336,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Daily SCCR series",
-      "bytes": 4820,
-      "updated": "2026-09-18T17:10:18.024812+00:00",
+      "bytes": 4819,
+      "updated": "2026-09-18T19:14:53.444242+00:00",
       "rows": null
     },
     {
@@ -300,8 +348,8 @@
       "layer": "modelled",
       "grade": "C",
       "description": "SCCR sensitivity bands, bootstrap CI and stress test",
-      "bytes": 9338,
-      "updated": "2026-09-18T17:10:20.220585+00:00",
+      "bytes": 9347,
+      "updated": "2026-09-18T19:14:56.013960+00:00",
       "rows": null
     },
     {

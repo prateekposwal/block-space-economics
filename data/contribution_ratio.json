@@ -1,0 +1,47 @@
+{
+  "schema": "bsahi.contribution-ratio/1",
+  "layer": "modelled",
+  "generated_at": "2026-09-18T19:17:43.317116+00:00",
+  "source": "join of node_geography.json + block_propagation.json + mining_geography.json + verification_population.json + pool_attribution_validation.json",
+  "caveat": "These are THREE populations, not one. A single 'public vs private contribution ratio on blocks' is not defined: blocks are PRODUCED by miners, RELAYED by nodes (public and private alike), and the private/non-listening node share is unobservable. Read the axes separately.",
+  "axis_1_verification_population": {
+    "available": true,
+    "grade": "B (floor)",
+    "reachable_nodes": 26703,
+    "overlay_pct": 65.25,
+    "tor_pct": 48.35,
+    "clearnet_lower_bound": 3452,
+    "region_counts": {
+      "North America": 1595,
+      "Europe": 1297,
+      "Asia": 210,
+      "Oceania": 96,
+      "South America": 73,
+      "Africa": 21,
+      "Other/unknown": 13
+    },
+    "unobservable": "non-listening / NAT'd nodes \u2014 no crawler can see them; floor only",
+    "observability_tiers": {
+      "A_gossip_addresses": 53321,
+      "B_reachable_nodes": 26586,
+      "C_non_listening": "unobservable",
+      "D_total": "unobservable"
+    }
+  },
+  "axis_2_block_relay": {
+    "available": true,
+    "grade": "C (pinger sample of listening peers)",
+    "blocks_in_window": 50,
+    "announcing_nodes_min": 1,
+    "announcing_nodes_mean": 24.9,
+    "announcing_nodes_max": 251,
+    "not_the_producer": "announcing peers != the miner that produced the block"
+  },
+  "axis_3_block_production": {
+    "available": false,
+    "reason": "SOURCE_UNAVAILABLE",
+    "download_url": "https://ccaf.io/cbnsi/cbeci/mining_map",
+    "pool_attribution_status": "Validation vs reachable independent evidence; self-reported pool hashrate UNAVAILABLE (documented) -- see research/pool-hashrate-reachability.md",
+    "network_hashrate_ehs": 1013.7
+  }
+}

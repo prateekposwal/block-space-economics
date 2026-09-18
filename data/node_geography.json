@@ -1,0 +1,122 @@
+{
+  "schema": "bsahi.node-geography/1",
+  "layer": "observed",
+  "generated_at": "2026-09-18T19:16:24.073867+00:00",
+  "source": "btcnodes.io crawler aggregates: /api/v1/snapshots/latest/?field=top and ?field=coordinates (crawler ~2x/day)",
+  "snapshot_ts": 1789758663,
+  "latest_height": 967590,
+  "network_class": {
+    "reachable_nodes": 26703,
+    "validated_nodes": 26061,
+    "total_nodes": 26059,
+    "tor": 12600,
+    "i2p": 4404,
+    "overlay": 17004,
+    "clearnet_top_asns_sum": 3452,
+    "overlay_share_pct": 65.25,
+    "tor_share_pct": 48.35,
+    "note": "Overlay = Tor + I2P: nodes that announce NO location. Clearnet count is only the sum of the top ASNs shown, a lower bound on clearnet nodes (the tail is not listed)."
+  },
+  "top_asns": [
+    [
+      "AS24940",
+      877
+    ],
+    [
+      "AS63949",
+      835
+    ],
+    [
+      "AS396982",
+      407
+    ],
+    [
+      "AS16276",
+      376
+    ],
+    [
+      "AS7922",
+      276
+    ],
+    [
+      "AS16509",
+      269
+    ],
+    [
+      "AS14061",
+      213
+    ],
+    [
+      "AS7018",
+      199
+    ]
+  ],
+  "top_user_agents": [
+    [
+      "/Satoshi:31.1.0/",
+      24.49,
+      967591
+    ],
+    [
+      "/Satoshi:31.0.0/",
+      7.9,
+      967591
+    ],
+    [
+      "/Satoshi:29.3.0/",
+      6.38,
+      967591
+    ],
+    [
+      "/Satoshi:29.3.0/Knots:20260507/",
+      5.25,
+      967591
+    ],
+    [
+      "/Satoshi:27.0.0/",
+      4.79,
+      967591
+    ],
+    [
+      "/Satoshi:29.2.0/",
+      4.62,
+      967591
+    ],
+    [
+      "/Satoshi:28.1.0/",
+      4.26,
+      967591
+    ],
+    [
+      "/Satoshi:26.0.0/",
+      3.36,
+      967591
+    ],
+    [
+      "/Satoshi:30.2.0/",
+      3.26,
+      967591
+    ],
+    [
+      "/Satoshi:29.0.0/",
+      3.05,
+      967591
+    ]
+  ],
+  "geography": {
+    "unique_coordinate_pairs": 3305,
+    "unique_pairs_share_pct": 12.68,
+    "region_counts": {
+      "North America": 1595,
+      "Europe": 1297,
+      "Asia": 210,
+      "Oceania": 96,
+      "South America": 73,
+      "Africa": 21,
+      "Other/unknown": 13
+    },
+    "region_method": "coarse lat/lon boxes over unique coordinate pairs; approximate",
+    "note": "btcnodes returns UNIQUE [lat,lon] pairs, not per-node rows: nodes collocated in one city/datacenter count ONCE, so region_counts are distinct locations, not node counts. Only clearnet nodes carry coordinates; Tor/I2P are locationless by design."
+  },
+  "note": "Reachable = answered a bitcoin handshake (LISTENING nodes). Nodes behind NAT/non-listening are invisible to every crawler, so every count here is a FLOOR, never the network's true size."
+}

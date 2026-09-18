@@ -44,6 +44,12 @@ var SCHEDULE = [
   { name: 'seed_census',          script: 'tools/research/seed_census.py',           args: [], every: 43200, timeoutS: 600 },
   { name: 'pool_concentration',   script: 'tools/research/pool_concentration.py',    args: [], every: 86400, timeoutS: 900 },
   { name: 'perblock_validation',  script: 'tools/research/perblock_validation.py',   args: ['--samples', '12'], every: 1800, timeoutS: 900 },
+  // Population-geography program. The three SOURCES are cached and rate-limit
+  // safe; contribution_ratio only JOINS them, so it runs last.
+  { name: 'node_geography',       script: 'tools/research/node_geography.py',        args: ['--fetch'], every: 21600, timeoutS: 300 },
+  { name: 'block_propagation',    script: 'tools/research/block_propagation.py',     args: ['--fetch', '--detail', '5'], every: 3600, timeoutS: 300 },
+  { name: 'mining_geography',     script: 'tools/research/mining_geography.py',      args: [], every: 86400, timeoutS: 120 },
+  { name: 'contribution_ratio',   script: 'tools/research/contribution_ratio.py',    args: [], every: 3600, timeoutS: 120 },
   // Clearnet distinct-IP census from a public-IP VPS (see
   // research/inbound-census-vps.md). Inert until ~/.bsahi/vps-census.conf exists.
   { name: 'vps_census_pull', cmd: ['bash', 'tools/net/vps_census_pull.sh'], every: 3600,
