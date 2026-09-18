@@ -1,40 +1,40 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-18T20:25:04.497Z",
+  "generated_at": "2026-09-18T21:10:02.837871+00:00",
   "freshness_min": 0,
-  "payload_ts": "2026-09-18T20:25:02.651Z",
-  "fees_ts": "2026-09-18T20:25:02.651Z",
-  "price_ts": "2026-09-18T20:25:03.113Z",
-  "height_ts": "2026-09-18T20:25:04.177Z",
-  "mempool_ts": "2026-09-18T20:25:04.341Z",
-  "lightning_ts": "2026-09-18T20:25:04.496Z",
+  "payload_ts": "2026-09-18T21:10:01.029818+00:00",
+  "fees_ts": "2026-09-18T21:10:01.029818+00:00",
+  "price_ts": "2026-09-18T21:10:01.029818+00:00",
+  "height_ts": "2026-09-18T21:10:01.029818+00:00",
+  "mempool_ts": "2026-09-18T21:10:01.029818+00:00",
+  "lightning_ts": "2026-09-18T21:10:01.029818+00:00",
   "fees": {
-    "fastestFee": 3,
-    "halfHourFee": 1,
+    "fastestFee": 4,
+    "halfHourFee": 3,
     "hourFee": 1,
     "economyFee": 1,
     "minimumFee": 1
   },
-  "btc_price": 81190,
-  "block_height": 967605,
-  "mempool_tx": 81003,
+  "btc_price": 81172,
+  "block_height": 967610,
+  "mempool_tx": 84329,
   "lightning": {
     "latest": {
-      "id": 151022,
-      "added": "2026-08-30T00:00:00.000Z",
-      "channel_count": 32678,
-      "node_count": 16242,
-      "total_capacity": 379548376497,
-      "tor_nodes": 7984,
-      "clearnet_nodes": 4596,
-      "unannounced_nodes": 2026,
-      "avg_capacity": 11614798,
-      "avg_fee_rate": 824,
-      "avg_base_fee_mtokens": 903,
-      "med_capacity": 2040000,
+      "id": 115515,
+      "added": "2026-05-21T00:00:00.000Z",
+      "channel_count": 41087,
+      "node_count": 17437,
+      "total_capacity": 489660335543,
+      "tor_nodes": 8974,
+      "clearnet_nodes": 4695,
+      "unannounced_nodes": 2001,
+      "avg_capacity": 11917646,
+      "avg_fee_rate": 817,
+      "avg_base_fee_mtokens": 881,
+      "med_capacity": 2100000,
       "med_fee_rate": 100,
-      "med_base_fee_mtokens": 500,
-      "clearnet_tor_nodes": 1636
+      "med_base_fee_mtokens": 100,
+      "clearnet_tor_nodes": 1767
     }
   },
   "forecast": [
@@ -50,13 +50,11 @@
     },
     {
       "day_offset": 3,
-      "predicted_fastest_fee": 3,
+      "predicted_fastest_fee": 3.0,
       "trend": "stable"
     }
   ],
-  "alerts": [
-    "🛡 CAPTURE: failure ratio 21% (last 24h) > 20%"
-  ],
+  "alerts": [],
   "history": [
     {
       "date": "2026-08-21",
