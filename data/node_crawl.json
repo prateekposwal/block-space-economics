@@ -1,0 +1,147 @@
+{
+  "schema": "bsahi.node-crawl/1",
+  "layer": "observed",
+  "generated_at": "2026-09-18T19:42:19.605800+00:00",
+  "source": "first-party handshake crawler (tools/net/node_crawler.py); addresses from local addrman + DNS seeds",
+  "attempted": 1500,
+  "reachable": 153,
+  "reachable_pct": 10.2,
+  "elapsed_s": 49.5,
+  "address_pool": {
+    "ipv4": 40846,
+    "ipv6": 9955
+  },
+  "by_network": {
+    "ipv6": 24,
+    "ipv4": 129
+  },
+  "by_user_agent_top": [
+    [
+      "/Satoshi:31.1.0/",
+      29
+    ],
+    [
+      "/Satoshi:28.1.0/",
+      14
+    ],
+    [
+      "/Satoshi:31.0.0/",
+      13
+    ],
+    [
+      "/Satoshi:27.0.0/",
+      11
+    ],
+    [
+      "/Satoshi:30.2.0/",
+      10
+    ],
+    [
+      "/Satoshi:29.0.0/",
+      7
+    ],
+    [
+      "/Satoshi:30.0.0/",
+      7
+    ],
+    [
+      "/Satoshi:25.1.0/",
+      6
+    ],
+    [
+      "/Satoshi:25.0.0/",
+      6
+    ],
+    [
+      "/Satoshi:28.1.0(FutureBit-Apollo-Node)/",
+      6
+    ],
+    [
+      "/Satoshi:28.0.0/",
+      5
+    ],
+    [
+      "/Satoshi:29.1.0/",
+      3
+    ],
+    [
+      "/Satoshi:27.1.0/",
+      3
+    ],
+    [
+      "/Satoshi:29.2.0/Knots:20251110/",
+      3
+    ],
+    [
+      "/Satoshi:29.3.0/Knots:20260508/",
+      3
+    ]
+  ],
+  "by_protocol": {
+    "70016": 152,
+    "70015": 1
+  },
+  "services": {
+    "NODE_NETWORK": 121,
+    "NODE_NETWORK_LIMITED": 32
+  },
+  "sync": {
+    "peers_reporting_height": 148,
+    "behind_more_than_6_blocks": 1,
+    "share_synced_pct": 99.32
+  },
+  "our_tip_height": 559438,
+  "sample_reachable": [
+    "103.54.18.167",
+    "104.50.34.152",
+    "107.209.23.24",
+    "107.3.248.143",
+    "108.171.215.210",
+    "108.196.10.214",
+    "109.199.127.181",
+    "119.17.149.153",
+    "144.202.19.1",
+    "144.76.114.93",
+    "144.76.2.169",
+    "148.251.237.196",
+    "15.161.168.23",
+    "154.12.118.113",
+    "154.5.180.120",
+    "159.196.79.203",
+    "162.55.242.28",
+    "167.235.34.35",
+    "167.248.15.113",
+    "167.71.159.219",
+    "170.39.173.129",
+    "172.232.181.87",
+    "172.236.20.240",
+    "173.208.236.58",
+    "173.214.175.202",
+    "173.88.100.210",
+    "176.169.208.187",
+    "176.66.85.219",
+    "176.9.11.172",
+    "178.174.147.110",
+    "178.255.169.120",
+    "181.220.170.169",
+    "183.129.178.204",
+    "185.125.169.149",
+    "185.146.157.3",
+    "185.157.162.236",
+    "185.159.108.219",
+    "185.70.43.194",
+    "193.72.32.187",
+    "194.195.254.132",
+    "20.210.120.76",
+    "200.24.255.62",
+    "204.141.62.44",
+    "209.97.158.0",
+    "209.97.174.172",
+    "212.47.78.147",
+    "212.95.62.154",
+    "213.136.80.223",
+    "213.144.128.8",
+    "217.123.85.163"
+  ],
+  "note": "FIRST-PARTY reachable census. Reachable = completed the handshake, i.e. LISTENING nodes; NAT'd/non-listening are invisible to every crawler, so this is a FLOOR. Single vantage (one ASN/site) and onion/I2P excluded from dialing by default."
+}

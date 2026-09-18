@@ -1,8 +1,8 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-18T19:39:10.215014+00:00",
+  "generated_at": "2026-09-18T19:42:39.983324+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
-  "count": 38,
+  "count": 39,
   "datasets": [
     {
       "name": "addrman_churn.json",
@@ -133,7 +133,7 @@
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
       "bytes": 1548,
-      "updated": "2026-09-18T19:26:31.044603+00:00",
+      "updated": "2026-09-18T19:39:10.309944+00:00",
       "rows": null
     },
     {
@@ -219,6 +219,18 @@
       "bytes": 429524,
       "updated": "2026-09-17T20:04:44.171985+00:00",
       "rows": 3981
+    },
+    {
+      "name": "node_crawl.json",
+      "url": "https://bitcoinsahi.com/data/node_crawl.json",
+      "path": "data/node_crawl.json",
+      "schema": "bsahi.node-crawl/1",
+      "layer": "observed",
+      "grade": "A",
+      "description": "First-party reachable-node census by P2P handshake crawl (network class, client mix, sync)",
+      "bytes": 2869,
+      "updated": "2026-09-18T19:42:19.605800+00:00",
+      "rows": null
     },
     {
       "name": "node_geography.json",

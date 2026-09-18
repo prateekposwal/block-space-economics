@@ -179,6 +179,7 @@ def dashboard_cards():
     ng, bp, mg = L('node_geography.json'), L('block_propagation.json'), L('mining_geography.json')
     prl, cr = L('peer_relay.json'), L('contribution_ratio.json')
     vc = L('validation_cost.json')
+    ncr = L('node_crawl.json')
     out = []
 
     cur = fa.get('current') or {}
@@ -328,6 +329,20 @@ def dashboard_cards():
             'CBECI mining map is a Firebase SPA \u2014 imported from its Download CSV.',
             'Status: %s \u2014 drop a CSV in captured-data/cbeci/.' % (mg.get('status') or 'missing')],
             '/data/mining_geography.json', 'data'))
+
+    if ncr.get('reachable'):
+        sa = ncr.get('services') or {}
+        full, lim = sa.get('NODE_NETWORK', 0), sa.get('NODE_NETWORK_LIMITED', 0)
+        tot = (full + lim) or 1
+        bn = ncr.get('by_network') or {}
+        out.append(_card('First-party node crawl', 'observed', 'A', [
+            '%s reachable / %s dialed (%s%%) \u00b7 IPv4 %s / IPv6 %s'
+            % (_num(ncr.get('reachable'), 0), _num(ncr.get('attempted'), 0),
+               _num(ncr.get('reachable_pct'), 1), _num(bn.get('ipv4'), 0), _num(bn.get('ipv6'), 0)),
+            'Full nodes %d%% \u00b7 pruned %d%% \u00b7 top client %s'
+            % (round(100 * full / tot), round(100 * lim / tot),
+               (ncr.get('by_user_agent_top') or [['\u2014']])[0][0])],
+            '/data/node_crawl.json', 'data'))
 
     vp2 = vc.get('pass') or {}
     veras = [e for e in (vc.get('by_era') or []) if e.get('ms_per_block')]
