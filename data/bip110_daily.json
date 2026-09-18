@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-17T22:42:44.243Z",
-  "source": "GitHub Actions (public API mempool.space /api/blocks?limit=10)",
+  "generated_at": "2026-09-18T01:09:20.553Z",
+  "source": "spool bip110_signal",
   "thresholdPct": 55,
-  "note": "Observed bit-4 signaling share per day from live block samples (deduped by height; heights are permanent, so the daily union is exact across runs). BIP-110 lock-in requires 55% within a 2016-block period. Produced by GitHub Actions — survives the local Mac being off.",
+  "note": "Observed bit-4 signaling share per day from sampled block captures (deduped by height). BIP-110 lock-in requires 55% within a 2016-block period.",
   "daily": [
     {
       "day": "2026-08-10",
@@ -31,205 +31,67 @@
     },
     {
       "day": "2026-08-14",
-      "blocks": 161,
+      "blocks": 73,
       "signaling": 0,
       "pct": 0
     },
     {
       "day": "2026-08-15",
-      "blocks": 144,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-08-16",
-      "blocks": 160,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-08-17",
-      "blocks": 157,
+      "blocks": 76,
       "signaling": 0,
       "pct": 0
     },
     {
       "day": "2026-08-18",
-      "blocks": 148,
+      "blocks": 45,
       "signaling": 0,
       "pct": 0
     },
     {
       "day": "2026-08-19",
-      "blocks": 125,
+      "blocks": 67,
       "signaling": 0,
       "pct": 0
     },
     {
       "day": "2026-08-20",
-      "blocks": 128,
+      "blocks": 93,
       "signaling": 0,
       "pct": 0
     },
     {
       "day": "2026-08-21",
-      "blocks": 137,
+      "blocks": 64,
       "signaling": 0,
       "pct": 0
     },
     {
       "day": "2026-08-22",
-      "blocks": 147,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-08-23",
-      "blocks": 133,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-08-24",
-      "blocks": 141,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-08-25",
-      "blocks": 142,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-08-26",
-      "blocks": 126,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-08-27",
-      "blocks": 20,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-08-29",
-      "blocks": 20,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-08-30",
-      "blocks": 60,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-08-31",
-      "blocks": 40,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-09-01",
-      "blocks": 70,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-09-02",
-      "blocks": 60,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-09-03",
-      "blocks": 70,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-09-04",
-      "blocks": 80,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-09-05",
-      "blocks": 80,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-09-06",
-      "blocks": 80,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-09-07",
-      "blocks": 60,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-09-08",
-      "blocks": 69,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-09-09",
-      "blocks": 58,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-09-10",
-      "blocks": 60,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-09-11",
-      "blocks": 70,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-09-12",
-      "blocks": 80,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-09-13",
-      "blocks": 50,
-      "signaling": 0,
-      "pct": 0
-    },
-    {
-      "day": "2026-09-14",
-      "blocks": 60,
+      "blocks": 31,
       "signaling": 0,
       "pct": 0
     },
     {
       "day": "2026-09-15",
-      "blocks": 50,
+      "blocks": 20,
       "signaling": 0,
       "pct": 0
     },
     {
       "day": "2026-09-16",
-      "blocks": 60,
+      "blocks": 86,
       "signaling": 0,
       "pct": 0
     },
     {
       "day": "2026-09-17",
-      "blocks": 60,
+      "blocks": 76,
+      "signaling": 0,
+      "pct": 0
+    },
+    {
+      "day": "2026-09-18",
+      "blocks": 38,
       "signaling": 0,
       "pct": 0
     }
