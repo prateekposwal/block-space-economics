@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.validation-cost/1",
   "layer": "observed",
-  "generated_at": "2026-09-18T22:37:01.566079+00:00",
+  "generated_at": "2026-09-18T23:21:16.644910+00:00",
   "source": "local Bitcoin Core debug.log UpdateTip wall-clock timings during a full -reindex (single machine, first-party)",
   "hardware": {
     "model": "MacBookAir10,1",
@@ -11,14 +11,14 @@
   },
   "pass": {
     "start_utc": "2026-09-17T17:28:16+00:00",
-    "end_utc": "2026-09-18T22:36:58+00:00",
+    "end_utc": "2026-09-18T23:21:15+00:00",
     "from_height": 0,
-    "to_height": 584467,
-    "blocks": 584467,
-    "txs": 432841342,
-    "wall_seconds": 104922,
-    "blocks_per_sec": 5.57,
-    "ms_per_block": 179.517,
+    "to_height": 589014,
+    "blocks": 589014,
+    "txs": 442623798,
+    "wall_seconds": 107579,
+    "blocks_per_sec": 5.475,
+    "ms_per_block": 182.643,
     "still_reindexing": true
   },
   "by_era": [
@@ -154,16 +154,16 @@
     },
     {
       "era": "2019",
-      "blocks": 28008,
-      "wall_seconds": 11170,
+      "blocks": 32555,
+      "wall_seconds": 13827,
       "height_from": 556459,
-      "height_to": 584467,
-      "txs": 63601096,
-      "blocks_per_sec": 2.507,
-      "ms_per_block": 398.815,
-      "tx_per_sec": 5693.9,
-      "us_per_tx": 175.63,
-      "cost_index_vs_base": 17.32
+      "height_to": 589014,
+      "txs": 73383552,
+      "blocks_per_sec": 2.354,
+      "ms_per_block": 424.727,
+      "tx_per_sec": 5307.3,
+      "us_per_tx": 188.42,
+      "cost_index_vs_base": 18.45
     }
   ],
   "cost_index_base_era": "2009",
@@ -223,6 +223,13 @@
       "progress": 0.2868209350188353,
       "ibd": true,
       "bitcoind_cpu_pct": 74.5
+    },
+    {
+      "at": "2026-09-18T23:21:05.360905+00:00",
+      "height": 589002,
+      "progress": 0.2933212086423849,
+      "ibd": true,
+      "bitcoind_cpu_pct": 210.5
     }
   ],
   "caveats": [
