@@ -1,6 +1,6 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-18T01:23:01.163238+00:00",
+  "generated_at": "2026-09-18T03:40:58.030164+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
   "count": 31,
   "datasets": [
@@ -32,12 +32,12 @@
       "name": "bip110.json",
       "url": "https://bitcoinsahi.com/data/bip110.json",
       "path": "data/bip110.json",
-      "schema": null,
+      "schema": "bsahi.bip110/1",
       "layer": "observed",
       "grade": "A",
       "description": "BIP-110 signaling state (GitHub Actions, mempool.space)",
-      "bytes": 5337,
-      "updated": "2026-09-17T22:50:48.087559+00:00",
+      "bytes": 5366,
+      "updated": "2026-09-18T02:58:24.800025+00:00",
       "rows": null
     },
     {
@@ -61,7 +61,7 @@
       "grade": "C",
       "description": "Three claims on fee revenue per block + the subsidy crossover + temporal price-path scenarios",
       "bytes": 13924,
-      "updated": "2026-09-18T01:23:00.884733+00:00",
+      "updated": "2026-09-18T03:40:57.881425+00:00",
       "rows": null
     },
     {
@@ -84,8 +84,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Inbound-peer census \u2014 first-party lower bound on non-listening nodes",
-      "bytes": 3243,
-      "updated": "2026-09-18T00:22:12.829267+00:00",
+      "bytes": 3469,
+      "updated": "2026-09-18T02:28:00.564807+00:00",
       "rows": null
     },
     {
@@ -96,8 +96,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
-      "bytes": 3558,
-      "updated": "2026-09-17T23:18:21.828927+00:00",
+      "bytes": 1548,
+      "updated": "2026-09-18T02:58:28.388916+00:00",
       "rows": null
     },
     {
@@ -156,8 +156,8 @@
       "layer": "observed",
       "grade": "C",
       "description": "Address-manager sample: gossiped ADDRESSES (not nodes)",
-      "bytes": 751,
-      "updated": "2026-09-18T00:20:46.431452+00:00",
+      "bytes": 761,
+      "updated": "2026-09-18T02:07:29.141103+00:00",
       "rows": null
     },
     {
@@ -192,8 +192,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Per-block SPOT samples (weight/size/tx/fee) vs the era aggregates",
-      "bytes": 59294,
-      "updated": "2026-09-18T01:07:56.126491+00:00",
+      "bytes": 59502,
+      "updated": "2026-09-18T03:25:51.295821+00:00",
       "rows": null
     },
     {
@@ -204,7 +204,7 @@
       "layer": "observed",
       "grade": "C/B",
       "description": "Pool attribution internal-coherence validation",
-      "bytes": 1600,
+      "bytes": 1714,
       "updated": "2026-09-15T22:28:25.900114+00:00",
       "rows": null
     },
@@ -228,7 +228,7 @@
       "layer": "modelled",
       "grade": "C",
       "description": "Producing-side energy cost vs production value, electricity scenarios",
-      "bytes": 11862,
+      "bytes": 12023,
       "updated": "2026-09-17T03:48:55.035832+00:00",
       "rows": 15
     },
@@ -248,12 +248,12 @@
       "name": "sccr.json",
       "url": "https://bitcoinsahi.com/data/sccr.json",
       "path": "data/sccr.json",
-      "schema": null,
+      "schema": "bsahi.sccr/1",
       "layer": "observed",
       "grade": "B",
       "description": "Latest Storage Cost Coverage Ratio reading (dated)",
-      "bytes": 648,
-      "updated": "2026-09-18T01:22:57.022611+00:00",
+      "bytes": 779,
+      "updated": "2026-09-18T03:40:55.024830+00:00",
       "rows": null
     },
     {
@@ -264,7 +264,7 @@
       "layer": "reconstructed",
       "grade": "B/C",
       "description": "Era-level SCCR reconstruction (daily aggregates -> era legs)",
-      "bytes": 10229,
+      "bytes": 10389,
       "updated": "2026-09-17T09:15:59.513506+00:00",
       "rows": 14
     },
@@ -272,12 +272,12 @@
       "name": "sccr_history.json",
       "url": "https://bitcoinsahi.com/data/sccr_history.json",
       "path": "data/sccr_history.json",
-      "schema": null,
+      "schema": "bsahi.sccr-history/1",
       "layer": "observed",
       "grade": "B",
       "description": "Daily SCCR series",
-      "bytes": 4516,
-      "updated": "2026-09-18T01:22:57.029609+00:00",
+      "bytes": 4819,
+      "updated": "2026-09-18T03:40:55.024830+00:00",
       "rows": null
     },
     {
@@ -288,8 +288,8 @@
       "layer": "modelled",
       "grade": "C",
       "description": "SCCR sensitivity bands, bootstrap CI and stress test",
-      "bytes": 9347,
-      "updated": "2026-09-18T01:22:59.621400+00:00",
+      "bytes": 9343,
+      "updated": "2026-09-18T03:40:57.784628+00:00",
       "rows": null
     },
     {
@@ -324,7 +324,7 @@
       "layer": "reconstructed",
       "grade": "D",
       "description": "UTXO/state anchors + chain-size cross-check",
-      "bytes": 1489,
+      "bytes": 1634,
       "updated": "2026-09-15T22:45:15.518866+00:00",
       "rows": null
     },
@@ -337,7 +337,7 @@
       "grade": "A",
       "description": "Latest observed UTXO/state measurement",
       "bytes": 811,
-      "updated": "2026-09-17T20:05:37.204240+00:00",
+      "updated": "2026-09-18T02:12:59.294494+00:00",
       "rows": null
     },
     {
@@ -348,9 +348,9 @@
       "layer": "observed",
       "grade": "A",
       "description": "gettxoutsetinfo measurements from a real node (one row per height)",
-      "bytes": 2927,
-      "updated": "2026-09-17T20:05:37.203354+00:00",
-      "rows": 3
+      "bytes": 3886,
+      "updated": "2026-09-18T02:12:59.293754+00:00",
+      "rows": 4
     },
     {
       "name": "verification_population.json",
