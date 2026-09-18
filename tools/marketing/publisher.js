@@ -249,42 +249,38 @@ function buildFeedTitle(topic, seq, preview) {
 }
 
 function generateRSSFeed() {
-  var postLog = loadPostLog();
-  var items = postLog.posts;
-
-  // Per-topic totals for descending sequence numbers (oldest = #1).
-  var totals = {};
-  items.forEach(function(p) { if (p && p.topic) totals[p.topic] = (totals[p.topic] || 0) + 1; });
-  var used = {};
+  // SOURCE: the research changelog (dated entries), NOT the retired Nostr post
+  // log. Nostr posting was cancelled (it never posted), so the feed was empty.
+  // A changelog entry is a real, dated update.
+  var items = [];
+  try {
+    var cl = fs.readFileSync(path.resolve(__dirname, '..', '..', 'research', 'CHANGELOG.md'), 'utf8');
+    var re = /^##\s+(\d{4}-\d{2}-\d{2})\s+[—-]\s+(.+)$/gm, m;
+    while ((m = re.exec(cl)) !== null) {
+      items.push({ date: m[1], title: m[2].trim(), body: '' });
+    }
+  } catch (e) { log('RSS: could not read CHANGELOG.md: ' + e.message); }
 
   var rss = '<?xml version="1.0" encoding="UTF-8"?>\n';
   rss += '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n';
   rss += '<channel>\n';
   rss += '  <title>BSAHI — Block Space Research</title>\n';
-  rss += '  <link>https://bitcoinsahi.com</link>\n';
-  rss += '  <description>Bitcoin block space economics research from BSAHI — posted to Nostr in real-time</description>\n';
+  rss += '  <link>https://bitcoinsahi.com/research/changelog</link>\n';
+  rss += '  <description>Dated research updates from BSAHI — Bitcoin fee-market and block-space measurement.</description>\n';
   rss += '  <language>en</language>\n';
   rss += '  <atom:link href="https://bitcoinsahi.com/feed.xml" rel="self" type="application/rss+xml"/>\n';
   rss += '  <lastBuildDate>' + new Date().toUTCString() + '</lastBuildDate>\n';
 
-  var seen = {};
-  for (var i = items.length - 1; i >= 0; i--) {
-    var p = items[i];
-    // Guard: skip items without a valid eventId (no more guid>undefined), dedupe by eventId.
-    if (!p || !p.eventId || typeof p.eventId !== 'string' || !/^[0-9a-f]{64}$/.test(p.eventId)) continue;
-    if (seen[p.eventId]) continue;
-    seen[p.eventId] = true;
-    var topic = p.topic || 'BSAHI';
-    used[topic] = (used[topic] || 0) + 1;
-    var seq = totals[topic] - used[topic] + 1;
+  items.slice(0, 50).forEach(function (it) {
+    var link = 'https://bitcoinsahi.com/research/changelog';
     rss += '  <item>\n';
-    rss += '    <title>' + escapeXml(buildFeedTitle(topic, seq, p.contentPreview)) + '</title>\n';
-    rss += '    <link>https://snort.social/e/' + p.eventId + '</link>\n';
-    rss += '    <description><![CDATA[' + (p.contentPreview || '') + ']]></description>\n';
-    rss += '    <pubDate>' + new Date(p.postedAt).toUTCString() + '</pubDate>\n';
-    rss += '    <guid>' + p.eventId + '</guid>\n';
+    rss += '    <title>' + escapeXml(it.date + ' — ' + it.title) + '</title>\n';
+    rss += '    <link>' + link + '</link>\n';
+    rss += '    <description><![CDATA[' + (it.body || it.title) + ']]></description>\n';
+    rss += '    <pubDate>' + new Date(it.date + 'T00:00:00Z').toUTCString() + '</pubDate>\n';
+    rss += '    <guid isPermaLink="false">bsahi-changelog-' + it.date + '-' + escapeXml(it.title).slice(0, 40) + '</guid>\n';
     rss += '  </item>\n';
-  }
+  });
 
   rss += '</channel>\n</rss>\n';
 
@@ -292,7 +288,7 @@ function generateRSSFeed() {
   if (!fs.existsSync(rssDir)) fs.mkdirSync(rssDir, { recursive: true });
   var rssPath = path.join(rssDir, 'feed.xml');
   fs.writeFileSync(rssPath, rss);
-  log('RSS: ' + rssPath);
+  log('RSS: ' + rssPath + ' (' + items.length + ' changelog items)');
   return rssPath;
 }
 

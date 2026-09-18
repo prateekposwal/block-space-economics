@@ -20,7 +20,7 @@ Recorded by Prateek (with TELOS). Consistent with ratified Decision 1 (research-
 scope, see `docs/decisions/2026-08-02-project-decisions.md`). Companion to
 `working-paper.md` v2.2.0 (core paper) and `research/future-directions-v3.md`
 (the v3.0 agenda split out of the paper's former §11/§12), and
-`model-spec.json` v2.0.1.
+`model-spec.json` v2.1.1.
 
 ---
 
@@ -252,7 +252,7 @@ estimate" row — never as a headline ratio.
 
 **DONE (verified) — already in the repo and load-bearing for the roadmap:**
 
-- **Storage leg (SCCR) is complete and canonical** — `model-spec.json` v2.0.1;
+- **Storage leg (SCCR) is complete and canonical** — `model-spec.json` v2.1.1;
   `tools/research/storage-ratio.js`; three independent implementations (JS/Python/C,
   all verified agreeing per-block via `research/reproduce/cross_check.sh`);
   joint Monte Carlo (`research/sccr_monte_carlo.py`); knife-edge thresholds (N≈7.1K /
@@ -327,7 +327,7 @@ count N but NOT the pruned-vs-archival split) and `research/publication-plan.md`
 
 ## 8. Phase IV first answers — the five deep questions (2026-08-02)
 
-Computed with `tools/research/sccr_dynamics.py` (canonical model-spec v2.0.1
+Computed with `tools/research/sccr_dynamics.py` (canonical model-spec v2.1.1
 quantities; live baseline SCCR = 0.2228 @ N=32K, C=$925, T=10, P≈$63K, ~2 sat/vB;
 frozen-capture cross-check 0.2186). Full derivations in companion `future-directions-v3.md` §2.
 **Model output vs judgment are separated in the paper**; this section is the
