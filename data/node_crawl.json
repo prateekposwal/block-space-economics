@@ -1,15 +1,14 @@
 {
   "schema": "bsahi.node-crawl/1",
   "layer": "observed",
-  "generated_at": "2026-09-18T19:42:19.605800+00:00",
+  "generated_at": "2026-09-18T19:45:43.717074+00:00",
   "source": "first-party handshake crawler (tools/net/node_crawler.py); addresses from local addrman + DNS seeds",
   "attempted": 1500,
   "reachable": 153,
   "reachable_pct": 10.2,
-  "elapsed_s": 49.5,
+  "elapsed_s": 0.0,
   "address_pool": {
-    "ipv4": 40846,
-    "ipv6": 9955
+    "enriched_from": "crawl_20260918T194219Z.jsonl"
   },
   "by_network": {
     "ipv6": 24,
@@ -85,12 +84,180 @@
     "NODE_NETWORK": 121,
     "NODE_NETWORK_LIMITED": 32
   },
+  "by_country": [
+    [
+      "US",
+      54
+    ],
+    [
+      "DE",
+      41
+    ],
+    [
+      "FR",
+      8
+    ],
+    [
+      "CA",
+      6
+    ],
+    [
+      "SG",
+      5
+    ],
+    [
+      "SE",
+      4
+    ],
+    [
+      "CH",
+      3
+    ],
+    [
+      "NL",
+      3
+    ],
+    [
+      "NO",
+      2
+    ],
+    [
+      "CZ",
+      2
+    ],
+    [
+      "GB",
+      2
+    ],
+    [
+      "BR",
+      2
+    ],
+    [
+      "CN",
+      2
+    ],
+    [
+      "RU",
+      2
+    ],
+    [
+      "AT",
+      2
+    ],
+    [
+      "AU",
+      2
+    ],
+    [
+      "PT",
+      2
+    ],
+    [
+      "BG",
+      1
+    ],
+    [
+      "IN",
+      1
+    ],
+    [
+      "KR",
+      1
+    ],
+    [
+      "FI",
+      1
+    ],
+    [
+      "JP",
+      1
+    ],
+    [
+      "ES",
+      1
+    ],
+    [
+      "IT",
+      1
+    ],
+    [
+      "LT",
+      1
+    ],
+    [
+      "MX",
+      1
+    ],
+    [
+      "AR",
+      1
+    ],
+    [
+      "AE",
+      1
+    ]
+  ],
+  "by_asn_top": [
+    [
+      "24940",
+      "HETZNER-AS",
+      24
+    ],
+    [
+      "51167",
+      "CONTABO",
+      7
+    ],
+    [
+      "396982",
+      "GOOGLE-CLOUD-PLATFORM",
+      6
+    ],
+    [
+      "14061",
+      "DIGITALOCEAN-ASN",
+      6
+    ],
+    [
+      "16276",
+      "OVH",
+      6
+    ],
+    [
+      "16509",
+      "AMAZON-02",
+      5
+    ],
+    [
+      "63949",
+      "AKAMAI-LINODE-AP Akamai Connected Cloud",
+      5
+    ],
+    [
+      "7018",
+      "ATT-INTERNET4",
+      3
+    ],
+    [
+      "14618",
+      "AMAZON-AES",
+      3
+    ],
+    [
+      "20115",
+      "CHARTER-20115",
+      3
+    ]
+  ],
+  "located_pct": 100.0,
+  "geo_source": "iptoasn ip2asn offline DB (captured-data/geo)",
   "sync": {
     "peers_reporting_height": 148,
     "behind_more_than_6_blocks": 1,
     "share_synced_pct": 99.32
   },
-  "our_tip_height": 559438,
+  "our_tip_height": 560211,
   "sample_reachable": [
     "103.54.18.167",
     "104.50.34.152",

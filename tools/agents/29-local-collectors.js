@@ -56,6 +56,9 @@ var SCHEDULE = [
   // Measured validation cost, harvested from the live reindex log (first-party).
   // Keeps filling in later eras as the reindex advances toward the tip.
   { name: 'validation_cost',      script: 'tools/research/validation_cost.py',       args: ['--sample'], every: 1800, timeoutS: 300 },
+  // Re-apply offline geo/ASN to the newest crawl (no dialing) so data/node_crawl.json
+  // always carries country/ASN even if the crawl ran without the geo DB.
+  { name: 'node_crawl_enrich',    script: 'tools/net/node_crawler.py',               args: ['--enrich-raw', 'latest'], every: 3600, timeoutS: 180 },
   // Clearnet distinct-IP census from a public-IP VPS (see
   // research/inbound-census-vps.md). Inert until ~/.bsahi/vps-census.conf exists.
   { name: 'vps_census_pull', cmd: ['bash', 'tools/net/vps_census_pull.sh'], every: 3600,

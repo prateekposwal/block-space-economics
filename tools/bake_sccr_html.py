@@ -166,6 +166,20 @@ def stamp_block(path, start_mark, end_mark, content):
     return True
 
 
+def self_host_line(ncr):
+    """Top countries + top hosting ASN from a first-party crawl (offline geo DB)."""
+    bc = ncr.get('by_country') or []
+    ba = ncr.get('by_asn_top') or []
+    if not bc:
+        return 'Geo: offline DB not applied'
+    tot = sum(n for _, n in bc) or 1
+    top_c = ' \u00b7 '.join('%s %d%%' % (c, round(100 * n / tot)) for c, n in bc[:3])
+    line = 'Top country: ' + top_c
+    if ba:
+        line += ' \u00b7 top host %s %d%%' % (ba[0][1] or ba[0][0], round(100 * ba[0][2] / tot))
+    return line
+
+
 def dashboard_cards():
     """Static, crawlable fallback for research/dashboard.html #cards — a snapshot
     of every card the JS renders, so a no-JS client / crawler sees the full set.
@@ -341,7 +355,8 @@ def dashboard_cards():
                _num(ncr.get('reachable_pct'), 1), _num(bn.get('ipv4'), 0), _num(bn.get('ipv6'), 0)),
             'Full nodes %d%% \u00b7 pruned %d%% \u00b7 top client %s'
             % (round(100 * full / tot), round(100 * lim / tot),
-               (ncr.get('by_user_agent_top') or [['\u2014']])[0][0])],
+               (ncr.get('by_user_agent_top') or [['\u2014']])[0][0]),
+            self_host_line(ncr)],
             '/data/node_crawl.json', 'data'))
 
     vp2 = vc.get('pass') or {}

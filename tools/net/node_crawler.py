@@ -244,6 +244,22 @@ def build(results, src_counts, elapsed, tip_height):
             svc["other"] += 1
         if isinstance(r.get("start_height"), int) and r["start_height"] > 0:
             heights.append(r["start_height"])
+    # Offline geo/ASN enrichment (no per-request API). Skips if the DB is absent.
+    by_country, by_asn = collections.Counter(), collections.Counter()
+    geo_ok = False
+    try:
+        import geo_db
+        if geo_db.load():
+            geo_ok = True
+            for r in reach:
+                g = geo_db.lookup(r["addr"])
+                if g.get("country"):
+                    by_country[g["country"]] += 1
+                if g.get("asn"):
+                    by_asn[(g["asn"], g.get("org") or "")] += 1
+    except Exception:
+        pass
+    located = sum(by_country.values())
     lag = None
     if heights and tip_height:
         below = sum(1 for h in heights if tip_height - h > 6)
@@ -263,6 +279,11 @@ def build(results, src_counts, elapsed, tip_height):
         "by_user_agent_top": by_ua.most_common(15),
         "by_protocol": dict(by_proto),
         "services": dict(svc),
+        "by_country": by_country.most_common(),
+        "by_asn_top": [[a, o, n] for (a, o), n in by_asn.most_common(10)],
+        "located_pct": round(100 * located / len(reach), 2) if reach else None,
+        "geo_source": ("iptoasn ip2asn offline DB (captured-data/geo)" if geo_ok
+                       else "unavailable — offline geo DB not built"),
         "sync": lag,
         "our_tip_height": tip_height,
         "sample_reachable": sorted(x["addr"] for x in reach)[:50],
@@ -293,7 +314,34 @@ def main():
     ap.add_argument("--max-seconds", type=int, default=1800)
     ap.add_argument("--include-overlay", action="store_true", help="include onion/i2p in the pool count")
     ap.add_argument("--addrs", default=None, help="extra host[:port] file")
+    ap.add_argument("--enrich-raw", default=None,
+                    help="rebuild data/node_crawl.json from an existing raw jsonl (no dialing)")
     args = ap.parse_args()
+
+    if args.enrich_raw:
+        raw = args.enrich_raw
+        if raw == "latest":                      # enrich the newest crawl on disk
+            cand = ([os.path.join(CAP, x) for x in os.listdir(CAP)] if os.path.isdir(CAP) else [])
+            cand = [p for p in cand if p.endswith(".jsonl")]
+            raw = max(cand, key=os.path.getmtime) if cand else None
+            if not raw:
+                print("no raw crawl files under %s" % CAP)
+                return
+        rows = []
+        with open(raw) as f:
+            for line in f:
+                if line.strip():
+                    try:
+                        rows.append(json.loads(line))
+                    except Exception:
+                        pass
+        doc = build(rows, {"enriched_from": os.path.basename(raw)}, 0.0, tip())
+        with open(OUT, "w") as f:
+            json.dump(doc, f, indent=2)
+        print("enriched %d rows -> %s" % (len(rows), OUT))
+        print("  reachable %d | by_country %s" % (doc["reachable"], doc["by_country"][:8]))
+        print("  top ASN %s" % doc["by_asn_top"][:4])
+        return
 
     addrs, src = gather(args.include_overlay, args.addrs)
     print("address pool: %d (%s)" % (len(addrs), dict(src)))
