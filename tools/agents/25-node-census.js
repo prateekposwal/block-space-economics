@@ -11,6 +11,8 @@ var child_process = require('child_process');
 var REPO = path.resolve(__dirname, '..', '..');
 var RPC_ARGS = '-rpcuser=bsahi -rpcpassword=bsahi';
 var BITCOIN_CLI = process.env.HOME + '/.local/bin/bitcoin-cli';
+var HISTORY_LOG = path.join(REPO, 'data', 'addrman_history.jsonl');
+var HISTORY_JSON = path.join(REPO, 'data', 'addrman_history.json');
 
 // Committed census mirror (data/node_census.json): the census is the ONLY
 // data source GH never needs — the Mac is the sole census writer. On a
@@ -45,6 +47,40 @@ function writeCensusMirror(out) {
   }
   if (changed) fs.writeFileSync(p, blob);
   return changed;
+}
+
+// Append-only history of the addrman sample. node_census.json is the LATEST
+// point; this is the TREND. A failed/zero sample is never logged (no fake dips),
+// and rows are deduped by captured_at so re-runs are idempotent.
+function recordHistory(out) {
+  if (!out.ok || !out.totalKnownAddresses) return 0;
+  var row = {
+    captured_at: out.observedAt,
+    totalAddresses: out.totalKnownAddresses,
+    networkBreakdown: out.networkBreakdown || null,
+    liveConnections: out.liveConnections,
+    inbound: out.inbound,
+    outbound: out.outbound,
+    networkVersion: out.networkVersion
+  };
+  fs.appendFileSync(HISTORY_LOG, JSON.stringify(row) + '\n');
+  var seen = {}, rows = [];
+  fs.readFileSync(HISTORY_LOG, 'utf8').split('\n').forEach(function (l) {
+    if (!l.trim()) return;
+    var r; try { r = JSON.parse(l); } catch (e) { return; }
+    if (!seen[r.captured_at]) { seen[r.captured_at] = 1; rows.push(r); }
+  });
+  rows.sort(function (a, b) { return a.captured_at < b.captured_at ? -1 : 1; });
+  fs.writeFileSync(HISTORY_JSON, JSON.stringify({
+    schema: 'bsahi.addrman-history/1',
+    layer: 'observed',
+    generated_at: new Date().toISOString(),
+    source: 'Bitcoin Core getnodeaddresses 0 (full addrman) — PUBLIC gossiped addresses over time',
+    note: 'Append-only history of the local addrman sample (one row per node-census run). PUBLIC addresses only (Core stores no non-routable addresses), listening-biased, addresses != nodes. Companion to node_census.json (latest point) and node_census_series.json (btcnodes reachable-node crawl).',
+    count: rows.length,
+    rows: rows
+  }, null, 2) + '\n');
+  return rows.length;
 }
 
 function rpc(method, params) {
@@ -99,6 +135,7 @@ async function run() {
   // Committed mirror first (success-only; keeps last good on failure).
   if (out.ok && out.totalKnownAddresses > 0) {
     try { writeCensusMirror(out); } catch (e) { console.error('node-census mirror write failed: ' + e.message); }
+    try { recordHistory(out); } catch (e) { console.error('addrman history write failed: ' + e.message); }
   }
 
   var spool = await spoolMod.init();

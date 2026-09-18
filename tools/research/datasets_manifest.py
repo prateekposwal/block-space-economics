@@ -36,6 +36,7 @@ CATALOG = {
     "reproduction_verification.json": ("observed", "A", "JS=Python=C reproduction verification of the SCCR"),
     "integrity_audit.json": ("observed", "A", "Integrity audit: heights/dates, units, provenance, layers"),
     "node_census.json": ("observed", "C", "Address-manager sample: gossiped ADDRESSES (not nodes)"),
+    "addrman_history.json": ("observed", "C", "Append-only history of the local addrman PUBLIC address sample (trend of node_census.json)"),
     "node_census_series.json": ("observed", "B", "Reachable-node crawl series (btcnodes)"),
     "node_version_distribution.json": ("observed", "B", "Node software + service-bit distribution (self-declared)"),
     "seed_census.json": ("observed", "B", "DNS-seed address census — a third independent view of the node population"),
