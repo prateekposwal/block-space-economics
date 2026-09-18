@@ -1,6 +1,6 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-18T19:56:32.979458+00:00",
+  "generated_at": "2026-09-18T21:28:39.791887+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
   "count": 42,
   "datasets": [
@@ -12,8 +12,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Addrman churn \u2014 empirical address-pool staleness (first-party gossip sampler)",
-      "bytes": 1432,
-      "updated": "2026-09-18T08:20:29.848520+00:00",
+      "bytes": 1513,
+      "updated": "2026-09-18T20:19:07.023887+00:00",
       "rows": null
     },
     {
@@ -73,7 +73,7 @@
       "grade": "C",
       "description": "Three-axis contribution join: verification population | block relay | block production",
       "bytes": 2432,
-      "updated": "2026-09-18T19:30:01.744588+00:00",
+      "updated": "2026-09-18T20:36:05.314228+00:00",
       "rows": null
     },
     {
@@ -97,7 +97,7 @@
       "grade": "C",
       "description": "Three claims on fee revenue per block + the subsidy crossover + temporal price-path scenarios",
       "bytes": 13924,
-      "updated": "2026-09-18T19:14:56.502382+00:00",
+      "updated": "2026-09-18T21:28:39.642847+00:00",
       "rows": null
     },
     {
@@ -120,8 +120,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Inbound-peer census \u2014 first-party lower bound on non-listening nodes",
-      "bytes": 4486,
-      "updated": "2026-09-18T19:14:57.459329+00:00",
+      "bytes": 4599,
+      "updated": "2026-09-18T20:19:06.831218+00:00",
       "rows": null
     },
     {
@@ -133,7 +133,7 @@
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
       "bytes": 1548,
-      "updated": "2026-09-18T19:47:50.262595+00:00",
+      "updated": "2026-09-18T19:56:53.691203+00:00",
       "rows": null
     },
     {
@@ -181,7 +181,7 @@
       "grade": "B",
       "description": "Mining concentration (HHI/Gini/N_eff per window)",
       "bytes": 10460,
-      "updated": "2026-09-17T20:05:44.793397+00:00",
+      "updated": "2026-09-18T20:19:11.269868+00:00",
       "rows": null
     },
     {
@@ -216,8 +216,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Reachable-node crawl series (btcnodes)",
-      "bytes": 429524,
-      "updated": "2026-09-17T20:04:44.171985+00:00",
+      "bytes": 429595,
+      "updated": "2026-09-18T20:19:06.552575+00:00",
       "rows": 3981
     },
     {
@@ -228,8 +228,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "First-party reachable-node census by P2P handshake crawl (network class, client mix, sync)",
-      "bytes": 4545,
-      "updated": "2026-09-18T19:45:43.717074+00:00",
+      "bytes": 2968,
+      "updated": "2026-09-18T20:09:57.519462+00:00",
       "rows": null
     },
     {
@@ -265,7 +265,7 @@
       "grade": "B",
       "description": "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)",
       "bytes": 891,
-      "updated": "2026-09-18T19:47:36.834844+00:00",
+      "updated": "2026-09-18T21:17:01.948121+00:00",
       "rows": null
     },
     {
@@ -277,7 +277,7 @@
       "grade": "B",
       "description": "Per-block SPOT samples (weight/size/tx/fee) vs the era aggregates",
       "bytes": 59502,
-      "updated": "2026-09-18T19:45:14.845020+00:00",
+      "updated": "2026-09-18T20:54:58.572299+00:00",
       "rows": null
     },
     {
@@ -300,8 +300,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Public pool stratum endpoints: CDN-fronting + RTT (shows why pool-IP geo cannot locate mining)",
-      "bytes": 6784,
-      "updated": "2026-09-18T19:56:11.092611+00:00",
+      "bytes": 6782,
+      "updated": "2026-09-18T20:04:05.103439+00:00",
       "rows": null
     },
     {
@@ -324,8 +324,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Robust multi-venue BTC/USD reference rate (median + MAD outlier rejection, full provenance)",
-      "bytes": 903,
-      "updated": "2026-09-18T19:53:19.584327+00:00",
+      "bytes": 921,
+      "updated": "2026-09-18T20:36:06.220233+00:00",
       "rows": null
     },
     {
@@ -349,7 +349,7 @@
       "grade": "A",
       "description": "First-party block-relay propagation CDF (per-peer deltas, clearnet vs overlay, BIP152 HB)",
       "bytes": 675,
-      "updated": "2026-09-18T19:47:36.835660+00:00",
+      "updated": "2026-09-18T20:36:05.597947+00:00",
       "rows": null
     },
     {
@@ -373,7 +373,7 @@
       "grade": "B",
       "description": "Latest Storage Cost Coverage Ratio reading (dated)",
       "bytes": 779,
-      "updated": "2026-09-18T19:14:53.444242+00:00",
+      "updated": "2026-09-18T21:28:36.872452+00:00",
       "rows": null
     },
     {
@@ -397,7 +397,7 @@
       "grade": "B",
       "description": "Daily SCCR series",
       "bytes": 4819,
-      "updated": "2026-09-18T19:14:53.444242+00:00",
+      "updated": "2026-09-18T21:28:36.872452+00:00",
       "rows": null
     },
     {
@@ -408,8 +408,8 @@
       "layer": "modelled",
       "grade": "C",
       "description": "SCCR sensitivity bands, bootstrap CI and stress test",
-      "bytes": 9347,
-      "updated": "2026-09-18T19:14:56.013960+00:00",
+      "bytes": 9342,
+      "updated": "2026-09-18T21:28:39.530258+00:00",
       "rows": null
     },
     {
@@ -420,8 +420,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "DNS-seed address census \u2014 a third independent view of the node population",
-      "bytes": 10110,
-      "updated": "2026-09-18T08:20:30.601078+00:00",
+      "bytes": 17491,
+      "updated": "2026-09-18T20:19:08.012389+00:00",
       "rows": null
     },
     {
@@ -480,8 +480,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Measured node-side validation cost per era from a full -reindex (first-party, no API)",
-      "bytes": 5162,
-      "updated": "2026-09-18T19:45:26.981278+00:00",
+      "bytes": 5512,
+      "updated": "2026-09-18T20:55:06.801857+00:00",
       "rows": null
     },
     {
