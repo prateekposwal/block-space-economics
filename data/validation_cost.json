@@ -1,0 +1,193 @@
+{
+  "schema": "bsahi.validation-cost/1",
+  "layer": "observed",
+  "generated_at": "2026-09-18T19:38:48.542180+00:00",
+  "source": "local Bitcoin Core debug.log UpdateTip wall-clock timings during a full -reindex (single machine, first-party)",
+  "hardware": {
+    "model": "MacBookAir10,1",
+    "cpu": "Apple M1",
+    "cores": "8",
+    "mem_gb": 8.6
+  },
+  "pass": {
+    "start_utc": "2026-09-17T17:28:16+00:00",
+    "end_utc": "2026-09-18T19:38:47+00:00",
+    "from_height": 0,
+    "to_height": 558645,
+    "blocks": 558645,
+    "txs": 373456317,
+    "wall_seconds": 94231,
+    "blocks_per_sec": 5.928,
+    "ms_per_block": 168.678,
+    "still_reindexing": true
+  },
+  "by_era": [
+    {
+      "era": "2009",
+      "blocks": 32489,
+      "wall_seconds": 748,
+      "height_from": 0,
+      "height_to": 32489,
+      "txs": 32708,
+      "blocks_per_sec": 43.434,
+      "ms_per_block": 23.023,
+      "tx_per_sec": 43.7,
+      "us_per_tx": 22869.02,
+      "cost_index_vs_base": 1.0
+    },
+    {
+      "era": "2010",
+      "blocks": 67919,
+      "wall_seconds": 141,
+      "height_from": 32490,
+      "height_to": 100409,
+      "txs": 185304,
+      "blocks_per_sec": 481.695,
+      "ms_per_block": 2.076,
+      "tx_per_sec": 1314.2,
+      "us_per_tx": 760.91,
+      "cost_index_vs_base": 0.09
+    },
+    {
+      "era": "2011",
+      "blocks": 59626,
+      "wall_seconds": 241,
+      "height_from": 100410,
+      "height_to": 160036,
+      "txs": 1901764,
+      "blocks_per_sec": 247.411,
+      "ms_per_block": 4.042,
+      "tx_per_sec": 7891.1,
+      "us_per_tx": 126.72,
+      "cost_index_vs_base": 0.18
+    },
+    {
+      "era": "2012",
+      "blocks": 54525,
+      "wall_seconds": 1081,
+      "height_from": 160037,
+      "height_to": 214562,
+      "txs": 8452976,
+      "blocks_per_sec": 50.439,
+      "ms_per_block": 19.826,
+      "tx_per_sec": 7819.6,
+      "us_per_tx": 127.88,
+      "cost_index_vs_base": 0.86
+    },
+    {
+      "era": "2013",
+      "blocks": 63432,
+      "wall_seconds": 2932,
+      "height_from": 214563,
+      "height_to": 277995,
+      "txs": 19643233,
+      "blocks_per_sec": 21.634,
+      "ms_per_block": 46.223,
+      "tx_per_sec": 6699.6,
+      "us_per_tx": 149.26,
+      "cost_index_vs_base": 2.01
+    },
+    {
+      "era": "2014",
+      "blocks": 58864,
+      "wall_seconds": 3952,
+      "height_from": 277996,
+      "height_to": 336860,
+      "txs": 25263107,
+      "blocks_per_sec": 14.895,
+      "ms_per_block": 67.138,
+      "tx_per_sec": 6392.5,
+      "us_per_tx": 156.43,
+      "cost_index_vs_base": 2.92
+    },
+    {
+      "era": "2015",
+      "blocks": 54320,
+      "wall_seconds": 5869,
+      "height_from": 336861,
+      "height_to": 391181,
+      "txs": 45673719,
+      "blocks_per_sec": 9.255,
+      "ms_per_block": 108.045,
+      "tx_per_sec": 7782.2,
+      "us_per_tx": 128.5,
+      "cost_index_vs_base": 4.69
+    },
+    {
+      "era": "2016",
+      "blocks": 54850,
+      "wall_seconds": 11226,
+      "height_from": 391182,
+      "height_to": 446032,
+      "txs": 82624730,
+      "blocks_per_sec": 4.886,
+      "ms_per_block": 204.667,
+      "tx_per_sec": 7360.1,
+      "us_per_tx": 135.87,
+      "cost_index_vs_base": 8.89
+    },
+    {
+      "era": "2017",
+      "blocks": 55927,
+      "wall_seconds": 17013,
+      "height_from": 446033,
+      "height_to": 501960,
+      "txs": 104061096,
+      "blocks_per_sec": 3.287,
+      "ms_per_block": 304.2,
+      "tx_per_sec": 6116.6,
+      "us_per_tx": 163.49,
+      "cost_index_vs_base": 13.21
+    },
+    {
+      "era": "2018",
+      "blocks": 54497,
+      "wall_seconds": 50549,
+      "height_from": 501961,
+      "height_to": 556458,
+      "txs": 81393103,
+      "blocks_per_sec": 1.078,
+      "ms_per_block": 927.556,
+      "tx_per_sec": 1610.2,
+      "us_per_tx": 621.05,
+      "cost_index_vs_base": 40.29
+    },
+    {
+      "era": "2019",
+      "blocks": 2186,
+      "wall_seconds": 479,
+      "height_from": 556459,
+      "height_to": 558645,
+      "txs": 4216071,
+      "blocks_per_sec": 4.564,
+      "ms_per_block": 219.122,
+      "tx_per_sec": 8801.8,
+      "us_per_tx": 113.61,
+      "cost_index_vs_base": 9.52
+    }
+  ],
+  "cost_index_base_era": "2009",
+  "resources": [
+    {
+      "at": "2026-09-18T19:38:34.840998+00:00",
+      "height": 558606,
+      "progress": 0.2474546598545002,
+      "ibd": true,
+      "bitcoind_cpu_pct": 9.8
+    },
+    {
+      "at": "2026-09-18T19:38:45.919210+00:00",
+      "height": 558638,
+      "progress": 0.2475039105635445,
+      "ibd": true,
+      "bitcoind_cpu_pct": 75.0
+    }
+  ],
+  "caveats": [
+    "Single machine and disk: one hardware sample, not the network average.",
+    "A -reindex is not live validation (no gossip/relay/parallel validation).",
+    "Early eras include reindex startup and coins-cache flush overhead; treat the first era as anomalous and read RELATIVE movement across eras.",
+    "UpdateTip timestamps are second-granular.",
+    "Measured node-side cost \u2014 the cost side of the SCCR/VCI thesis, otherwise modelled."
+  ]
+}

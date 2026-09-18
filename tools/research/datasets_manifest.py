@@ -43,6 +43,7 @@ CATALOG = {
     "mining_geography.json": ("modelled", "C/D", "Mining hashrate share by country (auto: Hashrate Index quarterly heatmap; CBECI CSV preferred if present)"),
     "contribution_ratio.json": ("modelled", "C", "Three-axis contribution join: verification population | block relay | block production"),
     "peer_relay.json": ("observed", "B", "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)"),
+    "validation_cost.json": ("observed", "A", "Measured node-side validation cost per era from a full -reindex (first-party, no API)"),
     "node_version_distribution.json": ("observed", "B", "Node software + service-bit distribution (self-declared)"),
     "seed_census.json": ("observed", "B", "DNS-seed address census — a third independent view of the node population"),
     "addrman_churn.json": ("observed", "B", "Addrman churn — empirical address-pool staleness (first-party gossip sampler)"),

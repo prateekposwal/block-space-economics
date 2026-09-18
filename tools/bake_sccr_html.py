@@ -178,6 +178,7 @@ def dashboard_cards():
     vci, dif, mem = L('verify_cost_index.json'), L('difficulty_series.json'), L('mempool_congestion_series.json')
     ng, bp, mg = L('node_geography.json'), L('block_propagation.json'), L('mining_geography.json')
     prl, cr = L('peer_relay.json'), L('contribution_ratio.json')
+    vc = L('validation_cost.json')
     out = []
 
     cur = fa.get('current') or {}
@@ -327,6 +328,19 @@ def dashboard_cards():
             'CBECI mining map is a Firebase SPA \u2014 imported from its Download CSV.',
             'Status: %s \u2014 drop a CSV in captured-data/cbeci/.' % (mg.get('status') or 'missing')],
             '/data/mining_geography.json', 'data'))
+
+    vp2 = vc.get('pass') or {}
+    veras = [e for e in (vc.get('by_era') or []) if e.get('ms_per_block')]
+    if vp2 and veras:
+        base = next((e for e in veras if e.get('cost_index_vs_base') == 1.0), veras[0])
+        top = max(veras, key=lambda e: e['ms_per_block'])
+        out.append(_card('Validation cost (measured)', 'observed', 'A', [
+            'Reindex h%s in %sh \u00b7 %s blocks/s \u00b7 %s ms/block'
+            % (_num(vp2.get('to_height'), 0), round((vp2.get('wall_seconds') or 0) / 3600, 1),
+               _num(vp2.get('blocks_per_sec'), 2), _num(vp2.get('ms_per_block'), 1)),
+            'Per-block cost %s\u00d7 %s\u2192%s \u00b7 per-tx roughly flat'
+            % (_num(top.get('cost_index_vs_base'), 1), base.get('era'), top.get('era'))],
+            '/data/validation_cost.json', 'data'))
 
     if cr:
         out.append(_card('Contribution axes', 'modelled', 'C', [

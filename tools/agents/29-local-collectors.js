@@ -53,6 +53,9 @@ var SCHEDULE = [
   // Safety net: the com.bsahi.blockwatch daemon owns first-party relay capture,
   // but rebuild its site JSON from the log even if that daemon is down.
   { name: 'peer_relay_build',     script: 'tools/research/block_first_seen.py',      args: ['--build-only'], every: 1800, timeoutS: 120 },
+  // Measured validation cost, harvested from the live reindex log (first-party).
+  // Keeps filling in later eras as the reindex advances toward the tip.
+  { name: 'validation_cost',      script: 'tools/research/validation_cost.py',       args: ['--sample'], every: 1800, timeoutS: 300 },
   // Clearnet distinct-IP census from a public-IP VPS (see
   // research/inbound-census-vps.md). Inert until ~/.bsahi/vps-census.conf exists.
   { name: 'vps_census_pull', cmd: ['bash', 'tools/net/vps_census_pull.sh'], every: 3600,

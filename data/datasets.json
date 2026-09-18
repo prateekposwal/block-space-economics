@@ -1,8 +1,8 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-18T19:26:18.966552+00:00",
+  "generated_at": "2026-09-18T19:39:10.215014+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
-  "count": 37,
+  "count": 38,
   "datasets": [
     {
       "name": "addrman_churn.json",
@@ -61,7 +61,7 @@
       "grade": "C",
       "description": "Per-block relay: announcing-node counts + propagation stats (btcnodes inv sampler)",
       "bytes": 40381,
-      "updated": "2026-09-18T19:16:52.421450+00:00",
+      "updated": "2026-09-18T19:30:01.285019+00:00",
       "rows": null
     },
     {
@@ -72,8 +72,8 @@
       "layer": "modelled",
       "grade": "C",
       "description": "Three-axis contribution join: verification population | block relay | block production",
-      "bytes": 1921,
-      "updated": "2026-09-18T19:17:43.317116+00:00",
+      "bytes": 2432,
+      "updated": "2026-09-18T19:30:01.744588+00:00",
       "rows": null
     },
     {
@@ -133,7 +133,7 @@
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
       "bytes": 1548,
-      "updated": "2026-09-18T19:21:52.958775+00:00",
+      "updated": "2026-09-18T19:26:31.044603+00:00",
       "rows": null
     },
     {
@@ -193,7 +193,7 @@
       "grade": "C/D",
       "description": "Mining hashrate share by country (auto: Hashrate Index quarterly heatmap; CBECI CSV preferred if present)",
       "bytes": 1740,
-      "updated": "2026-09-18T19:26:08.141193+00:00",
+      "updated": "2026-09-18T19:30:01.569535+00:00",
       "rows": null
     },
     {
@@ -229,7 +229,7 @@
       "grade": "B",
       "description": "Reachable-node network class (clearnet/Tor/I2P) + coarse geographic spread (btcnodes aggregates)",
       "bytes": 2597,
-      "updated": "2026-09-18T19:16:24.073867+00:00",
+      "updated": "2026-09-18T19:30:00.987911+00:00",
       "rows": null
     },
     {
@@ -253,7 +253,7 @@
       "grade": "B",
       "description": "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)",
       "bytes": 891,
-      "updated": "2026-09-18T19:20:45.621211+00:00",
+      "updated": "2026-09-18T19:30:01.941794+00:00",
       "rows": null
     },
     {
@@ -423,6 +423,18 @@
       "bytes": 5697,
       "updated": "2026-09-18T17:13:01.986901+00:00",
       "rows": 6
+    },
+    {
+      "name": "validation_cost.json",
+      "url": "https://bitcoinsahi.com/data/validation_cost.json",
+      "path": "data/validation_cost.json",
+      "schema": "bsahi.validation-cost/1",
+      "layer": "observed",
+      "grade": "A",
+      "description": "Measured node-side validation cost per era from a full -reindex (first-party, no API)",
+      "bytes": 4989,
+      "updated": "2026-09-18T19:38:48.542180+00:00",
+      "rows": null
     },
     {
       "name": "verification_population.json",
