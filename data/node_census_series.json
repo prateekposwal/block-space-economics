@@ -1,6 +1,6 @@
 {
   "schema": "bsahi.node-census-series/1",
-  "generated_at": "2026-09-17T20:04:44.171985+00:00",
+  "generated_at": "2026-09-18T20:19:06.552575+00:00",
   "status": "PRIMARY-SOURCE reachable-node series (btcnodes.io snapshot API)",
   "source": "https://btcnodes.io/api/v1/snapshots/ (renamed bitnodes)",
   "n_snapshots": 3981,
@@ -16,7 +16,7 @@
     "2026-08": 26818.8,
     "2026-09": 26664.9
   },
-  "note": "Replaces the addrman-based node_census.json totalKnownAddresses (32,000 = addrman CAP artifact, not a count). Actual reachable node count (btcnodes) is ~26.5-27K. For SCCR: N=26,600 raises SCCR ~20% vs N=32,000.",
+  "note": "The addrman-based node_census.json totalKnownAddresses is a sample of PUBLIC gossiped addresses, not a node count \u2014 and it is not a 32K cap (it grows with peer exposure). Reachable node count (btcnodes) is ~26.5-27K. For SCCR: N=26,586 raises SCCR ~20% vs the earlier N=32,000.",
   "points": [
     {
       "date": "2026-05-08",

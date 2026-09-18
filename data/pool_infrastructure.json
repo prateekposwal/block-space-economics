@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.pool-infrastructure/1",
   "layer": "observed",
-  "generated_at": "2026-09-18T19:56:11.092611+00:00",
+  "generated_at": "2026-09-18T20:04:05.103439+00:00",
   "source": "DNS resolution + TCP connect RTT of public pool stratum endpoints, geolocated with the offline ip2asn DB",
   "pools_probed": 9,
   "addresses_geolocated": 14,
@@ -24,7 +24,7 @@
               "org": "CLOUDFLARENET",
               "fronted_by_cdn": true,
               "stratum_port_open": 3333,
-              "rtt_ms": 8.3
+              "rtt_ms": 9.9
             },
             {
               "ip": "2606:4700:90:0:dfdc:ec63:837f:96af",
@@ -33,7 +33,7 @@
               "org": "CLOUDFLARENET",
               "fronted_by_cdn": true,
               "stratum_port_open": 3333,
-              "rtt_ms": 24.0
+              "rtt_ms": 23.8
             }
           ]
         }
@@ -55,7 +55,7 @@
               "org": "CLOUDFLARENET",
               "fronted_by_cdn": true,
               "stratum_port_open": 3333,
-              "rtt_ms": 9.2
+              "rtt_ms": 8.6
             },
             {
               "ip": "::ffff:172.65.233.152",
@@ -64,7 +64,7 @@
               "org": null,
               "fronted_by_cdn": false,
               "stratum_port_open": 3333,
-              "rtt_ms": 8.8
+              "rtt_ms": 8.7
             }
           ]
         }
@@ -86,7 +86,7 @@
               "org": "CLOUDFLARENET",
               "fronted_by_cdn": true,
               "stratum_port_open": 3333,
-              "rtt_ms": 7.7
+              "rtt_ms": 11.3
             },
             {
               "ip": "2606:4700:90:0:d5d6:266f:5bd9:52e6",
@@ -95,7 +95,7 @@
               "org": "CLOUDFLARENET",
               "fronted_by_cdn": true,
               "stratum_port_open": 3333,
-              "rtt_ms": 24.5
+              "rtt_ms": 24.7
             }
           ]
         }
@@ -107,11 +107,11 @@
         "stratum.binance.com": {
           "resolved": [
             "52.193.12.32",
-            "52.193.14.146",
             "3.113.40.3",
+            "52.193.14.146",
             "::ffff:52.193.12.32",
-            "::ffff:52.193.14.146",
-            "::ffff:3.113.40.3"
+            "::ffff:3.113.40.3",
+            "::ffff:52.193.14.146"
           ],
           "addresses": [
             {
@@ -121,16 +121,16 @@
               "org": "AMAZON-02",
               "fronted_by_cdn": true,
               "stratum_port_open": 443,
-              "rtt_ms": 138.7
+              "rtt_ms": 142.6
             },
             {
-              "ip": "52.193.14.146",
+              "ip": "3.113.40.3",
               "country": "US",
               "asn": "16509",
               "org": "AMAZON-02",
               "fronted_by_cdn": true,
               "stratum_port_open": 443,
-              "rtt_ms": 140.9
+              "rtt_ms": 139.3
             }
           ]
         }
@@ -152,7 +152,7 @@
               "org": "CLOUDFLARENET",
               "fronted_by_cdn": true,
               "stratum_port_open": 3333,
-              "rtt_ms": 21.2
+              "rtt_ms": 24.1
             },
             {
               "ip": "::ffff:172.65.65.63",
@@ -161,7 +161,7 @@
               "org": null,
               "fronted_by_cdn": false,
               "stratum_port_open": 3333,
-              "rtt_ms": 24.0
+              "rtt_ms": 23.8
             }
           ]
         }
@@ -174,7 +174,7 @@
           "resolved": [
             "104.18.13.119",
             "104.18.12.119",
-            "2606:4700:90c0:22f9:f164:db7:c78e:965e"
+            "2606:4700:90c0:22f9:f10c:bae:c78e:965e"
           ],
           "addresses": [
             {
@@ -184,7 +184,7 @@
               "org": "CLOUDFLARENET",
               "fronted_by_cdn": true,
               "stratum_port_open": 443,
-              "rtt_ms": 30.1
+              "rtt_ms": 32.2
             },
             {
               "ip": "104.18.12.119",
@@ -193,7 +193,7 @@
               "org": "CLOUDFLARENET",
               "fronted_by_cdn": true,
               "stratum_port_open": 443,
-              "rtt_ms": 30.6
+              "rtt_ms": 34.7
             }
           ]
         }
@@ -233,7 +233,7 @@
               "org": "AS-VULTR",
               "fronted_by_cdn": false,
               "stratum_port_open": 3333,
-              "rtt_ms": 140.6
+              "rtt_ms": 155.8
             },
             {
               "ip": "::ffff:167.179.108.82",
@@ -242,7 +242,7 @@
               "org": null,
               "fronted_by_cdn": false,
               "stratum_port_open": 3333,
-              "rtt_ms": 139.6
+              "rtt_ms": 134.6
             }
           ]
         }
