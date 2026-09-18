@@ -204,6 +204,7 @@ def main():
 
     latest = {
         'schema': 'bsahi.sccr/1',
+        'source': 'Bitcoin Core fee capture (captured-data/sccr-live) + mempool.space USD price; see notes',
         'date': day,
         'generated_at': now.isoformat(),
         'spec_version': cfg['version'],
@@ -235,9 +236,13 @@ def main():
     with open(os.path.join(DATA_DIR, 'sccr.json'), 'w') as f:
         json.dump(latest, f, indent=2)
     with open(os.path.join(DATA_DIR, 'sccr_latest.json'), 'w') as f:
-        json.dump({'schema': 'bsahi.sccr-latest/1', 'endpoint': '/data/sccr_latest.json', 'payload': latest}, f, indent=2)
+        json.dump({'schema': 'bsahi.sccr-latest/1', 'generated_at': now.isoformat(),
+                   'source': 'Bitcoin Core fee capture + mempool.space USD price (see payload.notes)',
+                   'endpoint': '/data/sccr_latest.json', 'payload': latest}, f, indent=2)
     with open(os.path.join(DATA_DIR, 'sccr_history.json'), 'w') as f:
-        json.dump({'schema': 'bsahi.sccr-history/1', 'endpoint': '/data/sccr_history.json', 'count': len(history),
+        json.dump({'schema': 'bsahi.sccr-history/1', 'generated_at': now.isoformat(),
+                   'source': 'Bitcoin Core fee capture (captured-data/sccr-live); one dated snapshot per run-day',
+                   'endpoint': '/data/sccr_history.json', 'count': len(history),
                    'sampling': ('one dated snapshot per DAY a run occurred. The series is NOT contiguous: '
                                 'a missing date means no run that day, so gaps are real, not zero-fee days. '
                                 'Do not plot as a continuous time series without labelling the gaps.'),

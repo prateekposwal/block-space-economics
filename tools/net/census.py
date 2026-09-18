@@ -187,6 +187,7 @@ def main():
         "schema": "bsahi.inbound-census-verdict/1",
         "layer": "observed",
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "source": "Local Bitcoin Core getnetworkinfo/getpeerinfo + external inbound probes (check-host.net IPv6, STUN); see environment",
         "grade": grade,
         "statement": statement,
         "concurrency_lower_bound": conc,

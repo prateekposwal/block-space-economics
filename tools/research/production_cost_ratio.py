@@ -123,6 +123,7 @@ def main():
     out = {
         "schema": "bsahi.production-cost-ratio/1",
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "source": "Frozen primary series (era hashrate, BTC price, block subsidy, fee totals) + ASEC ASIC efficiency + electricity price archetypes; see assumptions",
         "status": "AGGREGATE (network-wide) — producing-side instrument; regional split NOT included (grade D until Cambridge-map + regional electricity capture)",
         "assumptions": {
             "asec_efficiency_j_per_th_by_era": ERA_EFF_J_PER_TH,

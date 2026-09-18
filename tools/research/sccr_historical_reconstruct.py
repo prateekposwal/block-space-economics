@@ -131,6 +131,7 @@ def main():
     out = {
         "schema": "bsahi.sccr-historical-series.v3",
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "source": "blockchain.info daily charts (frozen in captured-data/historical/blockchain.info/) — full list in dataset_metadata.sources",
         "model_spec_version": "v2.1.0 (canonical)",
         "status": "RECONSTRUCTED-ESTIMATE — daily aggregates from blockchain.info charts; fee=BTC/day x USD price; node count scenario B is an approximation",
         "l_net_formula": "C x T x N / R_blocks",

@@ -1,6 +1,6 @@
 {
   "schema": "bsahi.integrity-audit/1",
-  "generated_at": "2026-09-18T02:14:58.173259+00:00",
+  "generated_at": "2026-09-18T02:58:28.388916+00:00",
   "method": "tools/research/integrity_audit.py \u2014 checks heights/dates, units, provenance, layers",
   "findings": [
     {
@@ -30,100 +30,9 @@
     {
       "check": "provenance(schema+generated_at+source)",
       "source": "data/*.json",
-      "status": "WARN",
-      "detail": "15 dataset(s) incomplete",
-      "missing": [
-        {
-          "file": "bip110.json",
-          "schema": false,
-          "generated_at": false,
-          "source": true
-        },
-        {
-          "file": "inbound_census_verdict.json",
-          "schema": true,
-          "generated_at": true,
-          "source": false
-        },
-        {
-          "file": "node_census.json",
-          "schema": true,
-          "generated_at": false,
-          "source": true
-        },
-        {
-          "file": "perblock_validation.json",
-          "schema": true,
-          "generated_at": false,
-          "source": false
-        },
-        {
-          "file": "pool_attribution_validation.json",
-          "schema": true,
-          "generated_at": true,
-          "source": false
-        },
-        {
-          "file": "production_cost_ratio.json",
-          "schema": true,
-          "generated_at": true,
-          "source": false
-        },
-        {
-          "file": "reproduction_verification.json",
-          "schema": true,
-          "generated_at": false,
-          "source": true
-        },
-        {
-          "file": "sccr.json",
-          "schema": false,
-          "generated_at": true,
-          "source": false
-        },
-        {
-          "file": "sccr_historical_series.json",
-          "schema": true,
-          "generated_at": true,
-          "source": false
-        },
-        {
-          "file": "sccr_history.json",
-          "schema": false,
-          "generated_at": false,
-          "source": false
-        },
-        {
-          "file": "sccr_latest.json",
-          "schema": false,
-          "generated_at": false,
-          "source": false
-        },
-        {
-          "file": "utxo_series.json",
-          "schema": true,
-          "generated_at": true,
-          "source": false
-        },
-        {
-          "file": "utxo_state_latest.json",
-          "schema": true,
-          "generated_at": false,
-          "source": true
-        },
-        {
-          "file": "utxo_state_series.json",
-          "schema": true,
-          "generated_at": false,
-          "source": true
-        },
-        {
-          "file": "verification_population.json",
-          "schema": true,
-          "generated_at": false,
-          "source": true
-        }
-      ]
+      "status": "PASS",
+      "detail": "0 dataset(s) incomplete",
+      "missing": []
     },
     {
       "check": "layer field or explicit classification",
@@ -141,6 +50,6 @@
   "summary": {
     "checks": 7,
     "fail": 0,
-    "warn": 1
+    "warn": 0
   }
 }

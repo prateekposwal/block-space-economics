@@ -166,6 +166,7 @@ def build_reconstruction():
     historical_series = {
         "schema": "bsahi.sccr-historical/1",
         "generated_at": "2026-09-09T23:00:00Z",
+        "source": "Reconstruction from frozen captured-data fee series + data/fee_history.json + blockchair aggregate anchors; unreachable legs listed in data_gaps",
         "model_spec_version": cfg['version'],
         "canonical_l_net_usd": round(l_net_canonical, 6),
         "canonical_cb": cb,

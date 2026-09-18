@@ -188,6 +188,7 @@ function buildBip110() {
     var inWindow = height >= WINDOW_START && height <= WINDOW_END;
     var passedLockIn = height >= LOCK_IN;
     var out = {
+      schema: 'bsahi.bip110/1',
       ok: true,
       height: height,
       window: { start: WINDOW_START, end: WINDOW_END, lockIn: LOCK_IN, inWindow: inWindow, passedLockIn: passedLockIn,

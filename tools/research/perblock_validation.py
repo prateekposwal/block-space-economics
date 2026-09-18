@@ -253,9 +253,13 @@ def main():
     if os.path.exists(out_path):
         try:
             with open(out_path) as f:
-                out = json.load(f)
+                prev = json.load(f)
+            # Carry forward accumulated rows, but keep the fresh dict so the
+            # checkpoint never drops schema/generated_at/method (re-stamped below).
+            out["_rows"] = prev.get("_rows", [])
         except Exception:
             pass
+    out["generated_at"] = datetime.datetime.now(UTC).isoformat()
     out.setdefault("_rows", [])
     rows = out["_rows"]
     # An era is DONE only if it reached the sample target. A partial era

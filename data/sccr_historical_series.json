@@ -289,5 +289,6 @@
     "fee_USD/block derived from daily aggregates, not per-block fee captures",
     "2013-2015 fee/BTC series sparse at the epoch start; confidence C",
     "2026 partial year includes live repo captures (authoritative, see data/sccr_history.json)"
-  ]
+  ],
+  "source": "Reconstruction from frozen captured-data fee series + data/fee_history.json + blockchair aggregate anchors; unreachable legs listed in data_gaps"
 }

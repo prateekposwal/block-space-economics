@@ -35,6 +35,7 @@ def main():
     out = {
         "schema": "bsahi.utxo-series/1",
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "source": "blockchair /stats (frozen anchors) cross-checked against VCI chain-size route; UTXO-count leg unreachable (see utxo_count_reason)",
         "status": "ANCHORS + CROSS-CHECK — continuous UTXO-count series NOT obtainable this session (documented in research/utxo-series-reachability.md)",
         "anchors_blockchair_2026_09_15": {
             "outputs_ever_created": bc.get("outputs"),

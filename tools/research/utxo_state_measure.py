@@ -109,6 +109,7 @@ def write_site_series():
     doc = {
         "schema": "bsahi.utxo-state-series/1",
         "layer": "observed",
+        "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "note": ("OBSERVED gettxoutsetinfo measurements from a real Bitcoin Core node. "
                  "This is NOT the reconstructed era table (grade D) and must not be mixed with it."),
         "count": len(rows),

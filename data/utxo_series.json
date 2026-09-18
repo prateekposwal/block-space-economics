@@ -19,5 +19,6 @@
     "note": "VCI's cumulative avg-block-size route runs ~10% high of blockchair's direct measurement; well within the documented scenario grade. Neither is the UTXO state leg."
   },
   "vci_state_leg_status": "utxo_state_gb remains the documented estimate table in verify_cost_index.py (0.5-11 GB per era); hardening to a measured series is blocked on a reachable UTXO-count source or a synced local node (gettxoutsetinfo snapshots).",
-  "row6_historical_grade": "D \u2014 unchanged; reachability evidence filed (research/utxo-series-reachability.md)."
+  "row6_historical_grade": "D \u2014 unchanged; reachability evidence filed (research/utxo-series-reachability.md).",
+  "source": "blockchair /stats (frozen anchors) cross-checked against VCI chain-size route; UTXO-count leg unreachable (see utxo_count_reason)"
 }

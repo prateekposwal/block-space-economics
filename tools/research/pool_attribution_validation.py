@@ -90,6 +90,7 @@ def main():
     out = {
         "schema": "bsahi.pool-attribution-validation/1",
         "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "source": "Frozen pool capture (captured-data/mempool.space/pools_24h.json) + blockchair hashrate cross-check",
         "status": "Validation vs reachable independent evidence; self-reported pool hashrate UNAVAILABLE (documented) -- see research/pool-hashrate-reachability.md",
         "internal_coherence": coherence,
         "network_cross_check_blockchair": net,

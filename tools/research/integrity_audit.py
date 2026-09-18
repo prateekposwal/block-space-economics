@@ -135,6 +135,15 @@ def audit_units():
     return findings
 
 
+# Keys that legitimately declare WHEN a dataset was produced. Generators differ
+# (captured_at / measured_at / verified_at / observedAt); the audit's intent is
+# "does the dataset declare its production time", not "does it use one spelling".
+# `date`/`as_of` are deliberately excluded: those are the data's reference period,
+# not the generation instant, and must not satisfy this check.
+TIME_KEYS = ("generated_at", "produced_at", "registered_at", "captured_at",
+             "measured_at", "verified_at", "observed_at", "observedAt")
+
+
 def audit_provenance():
     findings = []
     missing = []
@@ -146,8 +155,9 @@ def audit_provenance():
         if not isinstance(d, dict):
             continue
         has_schema = bool(d.get("schema") or d.get("schema_version"))
-        has_time = bool(d.get("generated_at") or d.get("produced_at") or d.get("registered_at"))
-        has_src = any(k in d for k in ("source", "sources", "provenance", "method", "inputs", "note"))
+        has_time = any(d.get(k) for k in TIME_KEYS)
+        has_src = any(k in d for k in ("source", "sources", "provenance", "method",
+                                        "inputs", "note", "notes"))
         if not (has_schema and has_time and has_src):
             missing.append({"file": name, "schema": has_schema, "generated_at": has_time, "source": has_src})
     findings.append({"check": "provenance(schema+generated_at+source)", "source": "data/*.json",
