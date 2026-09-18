@@ -1,6 +1,6 @@
 {
   "schema": "bsahi.integrity-audit/1",
-  "generated_at": "2026-09-17T23:18:21.828927+00:00",
+  "generated_at": "2026-09-18T01:37:42.913945+00:00",
   "method": "tools/research/integrity_audit.py \u2014 checks heights/dates, units, provenance, layers",
   "findings": [
     {
@@ -130,10 +130,16 @@
       "source": "data/*.json",
       "status": "PASS",
       "detail": "all research datasets classified"
+    },
+    {
+      "check": "model-spec N-derivation (quantities.N is the single source of truth)",
+      "source": "research/model-spec.json",
+      "status": "PASS",
+      "detail": "all N-derived values match quantities.N=26586"
     }
   ],
   "summary": {
-    "checks": 6,
+    "checks": 7,
     "fail": 0,
     "warn": 1
   }

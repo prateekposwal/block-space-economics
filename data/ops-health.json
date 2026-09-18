@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-18T01:10:16.250Z",
+  "generated_at": "2026-09-18T01:44:39.604Z",
   "status": "DEGRADED",
   "issues": [
-    "ORCHESTRATOR: heartbeat 27810 min ago",
+    "ORCHESTRATOR: heartbeat 27845 min ago",
     "CAPTURE: failure ratio 30% (last 24h) > 20%"
   ],
   "checks": {
     "spool": {
       "accountingOk": true,
-      "pending": 23,
+      "pending": 0,
       "dead": 0,
       "stale": 0
     },
@@ -18,10 +18,10 @@
       "agent": "running"
     },
     "de_agent": {
-      "lastRunAgeMin": 0
+      "lastRunAgeMin": 34
     },
     "orchestrator": {
-      "heartbeatAgeMin": 27810,
+      "heartbeatAgeMin": 27845,
       "phase": "cycle-complete"
     },
     "capture": {
