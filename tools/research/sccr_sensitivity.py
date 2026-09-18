@@ -37,7 +37,7 @@ R_BLOCKS = 365.25 * 24 * 6
 B_BLOCK = 1_500_000          # bytes/block assumption used by the kit (model-spec v2.1.0)
 
 # Assumption ranges. N and C are the two with real evidence behind the range:
-# N: independent node-count estimates span ~10K-100K (our census is a >=32K lower bound);
+# N: independent node-count estimates span ~10K-100K (our measured reachable-node count is ~26.6K, a lower bound);
 # C: full-node annualized cost ~$500-1500 (hardware + power + bandwidth).
 # Centre the grid on the MEASURED reachable-node count (model-spec N), with
 # the 10K-100K estimate band around it.

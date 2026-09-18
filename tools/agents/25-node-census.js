@@ -34,9 +34,10 @@ function writeCensusMirror(out) {
     networkVersion: out.networkVersion,
     connections: out.connections,
     captured_at: out.observedAt,
-    source: 'Bitcoin Core getnodeaddresses 0 (exact addrman size) — gossiped addresses, NOT a node count',
+    networkBreakdown: out.networkBreakdown,
+    source: 'Bitcoin Core getnodeaddresses 0 (full addrman) — gossiped PUBLIC addresses (clearnet IPv4/IPv6 + .onion), NOT a node count',
     lower_bound: true,
-    note: 'Addrman sample (gossip-observed ADDRESSES, not nodes): shaped by peer count and uptime, so a lower bound on the address set only. Not a node census; see data/verification_population.json. Written by the LOCAL Mac node-census agent (tools/agents/25-node-census.js).'
+    note: 'Addrman sample (gossip-observed ADDRESSES, not nodes). Only nodes that advertise themselves as reachable are gossiped, so the set is PUBLIC/listening-biased and holds duplicate entries for one node; NAT\'d non-listening nodes (the majority) never appear. Core excludes non-routable addresses (RFC1918/loopback/CGNAT), so this is public-only. It is a lower bound on the known ADDRESS set — never N; see data/verification_population.json (canonical N=26,586 reachable nodes). Written by the LOCAL Mac node-census agent (tools/agents/25-node-census.js).'
   }, null, 2) + '\n';
   var changed = true;
   if (fs.existsSync(p)) {
@@ -68,6 +69,13 @@ async function run() {
   }
   if (addrs && Array.isArray(addrs)) {
     out.totalKnownAddresses = addrs.length;
+    // Composition of the addrman set (public clearnet vs onion vs i2p). Answers
+    // "are these public or private?" directly: Core stores no non-routable addrs.
+    out.networkBreakdown = addrs.reduce(function(acc, a) {
+      var n = a.network || 'unknown';
+      acc[n] = (acc[n] || 0) + 1;
+      return acc;
+    }, {});
     out.sample = addrs.slice(0, 3).map(function(a) { return a.address; });
     out.ok = true;
   }

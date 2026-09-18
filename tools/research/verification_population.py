@@ -152,9 +152,9 @@ def main():
             "A_gossip_addresses": {
                 "layer": "observed", "grade": "C",
                 "value": census.get("totalKnownAddresses"),
-                "what": "addresses the local node learned via addr gossip (addrman), lower bound at the request ceiling",
-                "not": "NOT a node count and NOT a bound on reachable nodes; sample shaped by peer count and uptime",
-                "source": "getnodeaddresses 32000, data/node_census.json",
+                "what": "addresses the local node learned via addr gossip (addrman), full set (count=0); public/listening-biased, not deduped to nodes",
+                "not": "NOT a node count and NOT a bound on reachable nodes; only publicly reachable (advertising) nodes are gossiped",
+                "source": "getnodeaddresses 0 (full addrman), data/node_census.json",
                 "captured_at": census.get("captured_at"),
             },
             "B_reachable_nodes": {

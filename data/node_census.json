@@ -1,16 +1,24 @@
 {
   "schema": "bsahi.node-census/1",
   "ok": true,
-  "totalKnownAddresses": 32000,
-  "liveConnections": 11,
+  "totalKnownAddresses": 53321,
+  "liveConnections": 10,
   "inbound": 0,
-  "outbound": 11,
-  "sample": [],
+  "outbound": 10,
+  "sample": [
+    "65.108.55.210",
+    "98.33.134.28",
+    "79.98.219.221"
+  ],
   "networkVersion": 270100,
-  "connections": 11,
-  "captured_at": "2026-09-18T00:20:45.275Z",
-  "source": "Bitcoin Core getnodeaddresses (local node, RPC max 32000; addrman saturation lower bound)",
+  "connections": 10,
+  "captured_at": "2026-09-18T19:04:59.864Z",
+  "networkBreakdown": {
+    "ipv4": 40645,
+    "ipv6": 9881,
+    "onion": 2795
+  },
+  "source": "Bitcoin Core getnodeaddresses 0 (full addrman) — gossiped PUBLIC addresses (clearnet IPv4/IPv6 + .onion), NOT a node count",
   "lower_bound": true,
-  "note": "PRIMARY-SOURCE lower-bound census: the node knows AT LEAST N addresses (addrman caps at 32,000). Written by the LOCAL Mac node-census agent (tools/agents/25-node-census.js, run by the DE server). GitHub Actions never needs the census \u2014 it reads the committed dated constant.",
-  "sample_redacted": "raw node IPs are not published (privacy); count is what matters"
+  "note": "Addrman sample (gossip-observed ADDRESSES, not nodes). Only nodes that advertise themselves as reachable are gossiped, so the set is PUBLIC/listening-biased and holds duplicate entries for one node; NAT'd non-listening nodes (the majority) never appear. Core excludes non-routable addresses (RFC1918/loopback/CGNAT), so this is public-only. It is a lower bound on the known ADDRESS set — never N; see data/verification_population.json (canonical N=26,586 reachable nodes). Written by the LOCAL Mac node-census agent (tools/agents/25-node-census.js)."
 }

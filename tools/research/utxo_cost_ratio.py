@@ -37,7 +37,7 @@ def main():
     Q = spec['quantities']
 
     cb_insc = Q['cb_insc']['value']       # 1.92573e-6 $/byte/year
-    N = Q['N']['value']                    # 32000 nodes
+    N = Q['N']['value']                    # measured reachable nodes (model-spec)
     I_BYTES = Q['I_bytes']['value']        # 400 bytes
     I_RATE = Q['I_rate']['value']          # 100000 inscriptions/month
     R_BLOCKS = Q['R_blocks']['value']      # 52596 blocks/year
@@ -77,8 +77,8 @@ def main():
         "note": (
             "UTXOCIR = fee_USD_per_block / (cb_insc × UTXO_bytes_per_block × N). "
             "Numerator: avgFees × USD_price from fee_history_blocks.json. "
-            "Denominator: cb_insc=1.92573e-6 $/byte/year (model-spec.json v2.1.0), "
-            "I_BYTES=400, I_RATE=100K/mo, N=32,000. "
+            "Denominator: cb_insc=1.92573e-6 $/byte/year (model-spec.json v2.1.1), "
+            f"I_BYTES=400, I_RATE=100K/mo, N={N:,.0f}. "
             "The task spec referenced '29.9 KB/block marginal growth' which does not "
             "appear in utxo_cost_model.py. This script uses verified model-spec.json "
             "constants: inscription-only growth = 480MB/year ≈ 9.1 KB/block. "

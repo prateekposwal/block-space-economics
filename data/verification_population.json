@@ -8,11 +8,11 @@
     "A_gossip_addresses": {
       "layer": "observed",
       "grade": "C",
-      "value": 32000,
-      "what": "addresses the local node learned via addr gossip (addrman), lower bound at the request ceiling",
-      "not": "NOT a node count and NOT a bound on reachable nodes; sample shaped by peer count and uptime",
-      "source": "getnodeaddresses 32000, data/node_census.json",
-      "captured_at": "2026-08-02T19:05:03.982Z"
+      "value": 53321,
+      "what": "addresses the local node learned via addr gossip (addrman), full set (count=0); public/listening-biased, not deduped to nodes",
+      "not": "NOT a node count and NOT a bound on reachable nodes; only publicly reachable (advertising) nodes are gossiped",
+      "source": "getnodeaddresses 0 (full addrman), data/node_census.json",
+      "captured_at": "2026-09-18T19:04:59.864Z"
     },
     "B_reachable_nodes": {
       "layer": "observed",
@@ -315,7 +315,7 @@
     ]
   },
   "headline": {
-    "observed": "At least 26,586 independently reachable Bitcoin nodes were measured (2026-09-16); the address manager of one small node knew \u226532,000 gossiped addresses.",
+    "observed": "At least 26,586 independently reachable Bitcoin nodes were measured (2026-09-16); the address manager of one small node knew \u226553,321 gossiped addresses.",
     "unobservable": "The total node population \u2014 including non-listening and private nodes \u2014 is not observable; BSAHI measures the observable part and states the gap rather than filling it with an estimate.",
     "grade": "B for the reachable count; C for the address sample; D/unobservable for everything beyond."
   }

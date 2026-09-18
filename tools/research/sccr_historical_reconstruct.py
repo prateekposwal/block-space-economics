@@ -12,7 +12,7 @@ fee_USD_per_block is derived from the aggregate series:
     fee_USD_block   = transaction_fees(BTC/day) x price(USD/BTC) / blocks_per_day
 
 Two node-count scenarios:
-  A "constant-N"      N = 32,000 everywhere (repo principal census, 2026-08-02)
+  A "constant-N"      N = quantities.N everywhere (measured reachable nodes, model-spec)
   B "era-adjusted-N"  era N from the documented APPROXIMATION table (not repo
                       measurements; confidence C/D — see data-confidence.md)
 
@@ -93,7 +93,7 @@ def main():
         price_avg = statistics.mean(prc) if prc else None
         fee_usd_block = fee_b * price_avg / blocks_day if price_avg else None
 
-        L_net_32 = C_USD * T_YRS * N_PRINCIPAL / R_BLOCKS
+        L_net_constN = C_USD * T_YRS * N_PRINCIPAL / R_BLOCKS   # key was "32k" historically; N_PRINCIPAL is now 26,586
         N_era = PRIMARY_ANCHOR_N.get(yr, ERA_N.get(yr, N_PRINCIPAL))
         anchored = yr in PRIMARY_ANCHOR_N
         L_net_era = C_USD * T_YRS * N_era / R_BLOCKS
@@ -106,11 +106,11 @@ def main():
             "blocks_per_day_est": round(blocks_day, 1),
             "btc_price_usd_avg": round(price_avg, 2) if price_avg else None,
             "fee_usd_per_block": round(fee_usd_block, 2) if fee_usd_block else None,
-            "L_net_usd_32k": round(L_net_32, 2),
+            "L_net_usd_constN": round(L_net_constN, 2),
             "L_net_usd_eraN": round(L_net_era, 2),
             "N_scenario_B": N_era,
             "N_source": ANCHOR_SOURCE.get(yr, "approximation (no primary source recovered)"),
-            "sccr_const_N32k": round(fee_usd_block / L_net_32, 4) if fee_usd_block else None,
+            "sccr_const_N": round(fee_usd_block / L_net_constN, 4) if fee_usd_block else None,
             "sccr_era_adjusted_N": round(fee_usd_block / L_net_era, 4) if fee_usd_block else None,
             "data_confidence": "C" if yr < 2016 else ("B*" if anchored else "B"),  # anchored eras carry primary N
         })
@@ -123,7 +123,7 @@ def main():
             m = e.get("sccr_era_adjusted_N")
             q7[e["era"]] = {
                 "claimed": Q7[e["era"]],
-                "measured_const_N32k": e.get("sccr_const_N32k"),
+                "measured_const_N": e.get("sccr_const_N"),
                 "measured_era_adjusted_N": m,
                 "verdict": "COMPATIBLE (within 50%)" if m and abs(m - Q7[e["era"]]) <= Q7[e["era"]] * 0.5 else "INCOMPATIBLE (>50% off)",
             }
@@ -172,11 +172,11 @@ def main():
     for e in eras_out:
         if not e.get("reconstructable"):
             continue
-        print(f"{e['era']:6}{e['fee_usd_per_block'] or 0:>14.2f}{e['L_net_usd_32k']:>10.2f}{e['L_net_usd_eraN']:>10.2f}"
-              f"{e['sccr_const_N32k'] or 0:>12.4f}{e['sccr_era_adjusted_N'] or 0:>12.4f}{e['N_scenario_B']:>7}   {e['data_confidence']}")
+        print(f"{e['era']:6}{e['fee_usd_per_block'] or 0:>14.2f}{e['L_net_usd_constN']:>10.2f}{e['L_net_usd_eraN']:>10.2f}"
+              f"{e['sccr_const_N'] or 0:>12.4f}{e['sccr_era_adjusted_N'] or 0:>12.4f}{e['N_scenario_B']:>7}   {e['data_confidence']}")
     print("\nQ7 comparison:")
     for k, v in q7.items():
-        print(f"  {k}: claimed={v['claimed']}  constN32k={v['measured_const_N32k']}  eraAdjN={v['measured_era_adjusted_N']}  -> {v['verdict']}")
+        print(f"  {k}: claimed={v['claimed']}  constN={v['measured_const_N']}  eraAdjN={v['measured_era_adjusted_N']}  -> {v['verdict']}")
     print(f"\nWrote {OUT}")
 
 if __name__ == "__main__":

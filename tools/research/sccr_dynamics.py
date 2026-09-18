@@ -10,11 +10,11 @@ Extends reproduce.py with the v3.0 dynamic agenda:
   Q5  2040:        cost deflation x node growth x fee regime — two divergent
       futures.
 
-Canonical quantities ONLY from research/model-spec.json v2.0.1. No constants
-redefined. Baseline anchored at working-paper section-10 (SCCR = 0.2228, the
-167-block live capture at N=32K, C=$925, T=10, P~$63K) and cross-checked
-against the frozen-capture reproduction (SCCR = 0.2186, 171 blocks) from
-tools/research/reproduce.py.
+Canonical quantities ONLY from research/model-spec.json (current version). No
+constants redefined. The historical baseline is anchored at working-paper
+section-10 (SCCR = 0.2228, the 167-block live capture at the then-N=32K,
+C=$925, T=10, P~$63K) and cross-checked against the frozen-capture reproduction
+(SCCR = 0.2186, 171 blocks) from tools/research/reproduce.py.
 
 SCCR is homogeneous in its drivers (working-paper section-10 method note):
     SCCR = fee_USD / L_net = fee_BTC * P * R_blocks / (C * T * N)
@@ -79,7 +79,7 @@ def sccr(fee_sats, P, C, N, T, R):
 def scenario(tag, label, P, fee_mult, N_mult, C_mult, T=10.0, R=52596.0,
              fee_sats=None):
     """fee_mult scales the baseline fee (sat/vB equivalent); C/N mult scale
-    canonical C=925, N=32000. Returns dict + computed SCCR."""
+    canonical C=925 and N (model-spec quantities.N). Returns dict + computed SCCR."""
     fs = fee_sats if fee_sats is not None else BASE_FEE_SATS * fee_mult
     C = 925.0 * C_mult
     N = _SPEC_N * N_mult

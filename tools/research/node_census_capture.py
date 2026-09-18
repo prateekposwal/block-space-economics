@@ -85,7 +85,7 @@ def main():
         "period": (series[0]["date"], series[-1]["date"]) if series else None,
         "latest_nodes": series[-1]["nodes"] if series else None,
         "monthly_mean_nodes": monthly,
-        "note": "Replaces the addrman-based node_census.json totalKnownAddresses (32,000 = addrman CAP artifact, not a count). Actual reachable node count (btcnodes) is ~26.5-27K. For SCCR: N=26,600 raises SCCR ~20% vs N=32,000.",
+        "note": "The addrman-based node_census.json totalKnownAddresses is a sample of PUBLIC gossiped addresses, not a node count — and it is not a 32K cap (it grows with peer exposure). Reachable node count (btcnodes) is ~26.5-27K. For SCCR: N=26,586 raises SCCR ~20% vs the earlier N=32,000.",
         "points": series,
     }
     with open(OUT_SERIES, "w") as f:

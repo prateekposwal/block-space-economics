@@ -14,7 +14,7 @@ from working-paper §10 are treated as CLAIMS requiring verification,
 not as measurements.
 
 The script:
-  1. Computes L_net for the canonical N=32000 census
+  1. Computes L_net for the canonical N (model-spec quantities.N, measured reachable nodes)
   2. Reverse-engineers what fee_USD would produce the Q7 partials
   3. Documents all assumptions, data gaps, and uncertainty per era
   4. Outputs a structured JSON series (with honest gaps)
@@ -35,7 +35,7 @@ def load_spec():
     q = spec['quantities']
     return {
         'C': q['C']['value'],        # 925 USD/yr
-        'N': q['N']['value'],        # 32000 nodes
+        'N': q['N']['value'],        # measured reachable validating nodes (model-spec)
         'T': q['T']['value'],        # 10 yr
         'B_block': q['B_block']['value'],  # 1,500,000 bytes
         'R_blocks': q['R_blocks']['value'], # 52,596 blocks/yr
@@ -86,9 +86,9 @@ def build_reconstruction():
         '2024': {'sccr': 4.8, 'note': 'era-adjusted node counts, source: working-paper §10 Q7'},
     }
     
-    # What fee_USD would be needed at N=32000 (canonical) for each Q7 partial
+    # What fee_USD would be needed at the canonical N for each Q7 partial
     print("=" * 78)
-    print("  REVERSE-ENGINEERING Q7 PARTIALS (at N=32000 canonical)")
+    print(f"  REVERSE-ENGINEERING Q7 PARTIALS (at canonical N={cfg['N']})")
     print("=" * 78)
     print(f"  {'Era':<6} {'Claimed SCCR':<14} {'Required fee_USD/block':<24} {'Implied sat/vB*':<16}")
     print(f"  {'-'*6:<6} {'-'*14:<14} {'-'*24:<24} {'-'*16:<16}")
@@ -107,7 +107,7 @@ def build_reconstruction():
     
     print()
     print("  * Implied sat/vB at BTC=$63,000 (current price). Historical prices would differ.")
-    print("  * At N=32000, these fee levels are implausibly high for most blocks.")
+    print(f"  * At N={cfg['N']}, these fee levels are implausibly high for most blocks.")
     print("  * The Q7 claim says 'era-adjusted node counts' — if N was LOWER,")
     print("    L_net is smaller, and lower fee_USD suffices. This is the key uncertainty.")
     
@@ -186,7 +186,7 @@ def build_reconstruction():
         "data_gaps": [
             "No historical fee data (sat/vB per block) exists in the repo for any pre-2026 period",
             "No historical BTC price data exists in the repo",
-            "No historical node count (N) data exists in the repo — N=32000 is only the 2026-08-02 census",
+            "No historical node-count SERIES exists — N is measured only for the present (btcnodes) plus the 2017/2026 era anchors; other eras are approximations",
             "Blockstream API provides block headers (size, tx_count, timestamp) but NOT aggregate fees per block",
             "Mempool.space is not reachable from the production machine; even if reachable, it provides recent data only",
             "The backtest.py only covers the UTXO cost model (not SCCR) with 2023-era intentional overrides",
