@@ -1,40 +1,40 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-17T23:51:14.623Z",
+  "generated_at": "2026-09-18T00:21:28.557Z",
   "freshness_min": 0,
-  "payload_ts": "2026-09-17T23:51:12.683Z",
-  "fees_ts": "2026-09-17T23:51:12.683Z",
-  "price_ts": "2026-09-17T23:51:13.145Z",
-  "height_ts": "2026-09-17T23:51:14.295Z",
-  "mempool_ts": "2026-09-17T23:51:14.462Z",
-  "lightning_ts": "2026-09-17T23:51:14.622Z",
+  "payload_ts": "2026-09-18T00:21:26.720Z",
+  "fees_ts": "2026-09-18T00:21:26.720Z",
+  "price_ts": "2026-09-18T00:21:27.166Z",
+  "height_ts": "2026-09-18T00:21:28.222Z",
+  "mempool_ts": "2026-09-18T00:21:28.391Z",
+  "lightning_ts": "2026-09-18T00:21:28.556Z",
   "fees": {
-    "fastestFee": 1,
+    "fastestFee": 2,
     "halfHourFee": 1,
     "hourFee": 1,
     "economyFee": 1,
     "minimumFee": 1
   },
-  "btc_price": 76369,
-  "block_height": 967480,
-  "mempool_tx": 78057,
+  "btc_price": 76290,
+  "block_height": 967481,
+  "mempool_tx": 79219,
   "lightning": {
     "latest": {
-      "id": 154152,
+      "id": 158595,
       "added": "2026-08-30T00:00:00.000Z",
-      "channel_count": 32676,
-      "node_count": 16237,
-      "total_capacity": 379442797509,
-      "tor_nodes": 7981,
-      "clearnet_nodes": 4595,
-      "unannounced_nodes": 2027,
-      "avg_capacity": 11612278,
+      "channel_count": 32679,
+      "node_count": 16244,
+      "total_capacity": 379548807845,
+      "tor_nodes": 7986,
+      "clearnet_nodes": 4596,
+      "unannounced_nodes": 2026,
+      "avg_capacity": 11614456,
       "avg_fee_rate": 824,
-      "avg_base_fee_mtokens": 903,
-      "med_capacity": 2035000,
+      "avg_base_fee_mtokens": 902,
+      "med_capacity": 2042066,
       "med_fee_rate": 100,
       "med_base_fee_mtokens": 500,
-      "clearnet_tor_nodes": 1634
+      "clearnet_tor_nodes": 1636
     }
   },
   "forecast": [
@@ -55,8 +55,9 @@
     }
   ],
   "alerts": [
-    "🛡 ORCHESTRATOR: heartbeat 27719 min ago",
-    "🛡 CAPTURE: failure ratio 35% (last 24h) > 20%"
+    "🛡 SPOOL: accounting/dead issue",
+    "🛡 ORCHESTRATOR: heartbeat 27749 min ago",
+    "🛡 CAPTURE: failure ratio 32% (last 24h) > 20%"
   ],
   "history": [
     {
@@ -438,6 +439,10 @@
     {
       "date": "2026-09-18",
       "fastestFee": 4
+    },
+    {
+      "date": "2026-09-18",
+      "fastestFee": 3
     }
   ],
   "totalPosts": 0
