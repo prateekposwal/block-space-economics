@@ -207,7 +207,14 @@ def main():
         raise SystemExit(0 if self_test("127.0.0.1", 8333) else 1)
     if not a.advertise:
         raise SystemExit("--advertise public_ip:port is required (the address peers will dial)")
-    ip, _, port = a.advertise.partition(":")
+    # Advertise may be an IPv4 host:port or an IPv6 literal, bracketed or not.
+    adv = a.advertise.strip()
+    if adv.startswith("["):
+        ip, _, port = adv[1:].partition("]:")
+    else:
+        ip, _, port = adv.rpartition(":")
+        if not port:
+            ip, port = adv, "8333"
     os.makedirs(os.path.dirname(a.log) or ".", exist_ok=True)
     run(a.listen, ip, int(port or 8333), a.log, a.seeds.split(","), a.rounds)
 
