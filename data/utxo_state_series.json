@@ -1,9 +1,9 @@
 {
   "schema": "bsahi.utxo-state-series/1",
   "layer": "observed",
-  "generated_at": "2026-09-18T17:13:01.986901+00:00",
+  "generated_at": "2026-09-20T06:16:30.868922+00:00",
   "note": "OBSERVED gettxoutsetinfo measurements from a real Bitcoin Core node. This is NOT the reconstructed era table (grade D) and must not be mixed with it.",
-  "count": 6,
+  "count": 7,
   "rows": [
     {
       "schema": "bsahi.utxo-state/1",
@@ -135,6 +135,29 @@
       "utxo_hash": "12bf585336750cb370a1967516cad6a547fcb689ad07888aebea1a4087ea0713",
       "verificationprogress": 0.410187,
       "headers": 671673,
+      "initialblockdownload": true,
+      "source": {
+        "rpc": "127.0.0.1:8332",
+        "conf": "/Users/prateekposwal/Library/Application Support/Bitcoin/bitcoin.conf",
+        "tool": "tools/research/utxo_state_measure.py"
+      }
+    },
+    {
+      "schema": "bsahi.utxo-state/1",
+      "layer": "observed",
+      "measured_at": "2026-09-20T06:16:30.856363+00:00",
+      "block_time": "2021-05-03T23:03:39+00:00",
+      "height": 681783,
+      "bestblock": "00000000000000000004ff450e574fea6432dec6c8ed18496f3efdaaae2e6fe5",
+      "utxo_count": 76292959,
+      "total_amount_btc": 18698444.09110838,
+      "disk_size_bytes": 4615880365,
+      "chainstate_disk_bytes": 9387194046,
+      "bogosize_bytes": 5714158768,
+      "hash_type": "muhash",
+      "utxo_hash": "5f6b10128b27d26618d6ceaa85fd6da0a9bc97ee04eeaae58a3c1fd245155112",
+      "verificationprogress": 0.423335,
+      "headers": 967801,
       "initialblockdownload": true,
       "source": {
         "rpc": "127.0.0.1:8332",
