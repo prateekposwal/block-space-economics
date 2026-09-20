@@ -213,7 +213,7 @@ def main():
         ip, _, port = adv[1:].partition("]:")
     else:
         ip, _, port = adv.rpartition(":")
-        if not port:
+        if not ip:            # no colon at all -> whole string is the host
             ip, port = adv, "8333"
     os.makedirs(os.path.dirname(a.log) or ".", exist_ok=True)
     run(a.listen, ip, int(port or 8333), a.log, a.seeds.split(","), a.rounds)
