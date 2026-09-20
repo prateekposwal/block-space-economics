@@ -74,7 +74,7 @@ leg (and the five unmeasured legs) at a glance:
                    ▼                                   ▼
       ┌─────────────────────────┐     ┌────────────────┬────────────────┐
       │       BLOCK SPACE       │     │    STORAGE (SCCR) — MEASURED    │
-      │congestion · the one good│     │ 0.22-0.29 @ N=32K · 99-100% <1x │
+      │congestion · the one good│     │ 0.26-0.35 @ 26.6K · 98-100% <1x │
       │  the fee market prices  │     │ ──────────────────────────────  │
       │    (~10-min horizon)    │     │      UTXO (UCIR) — FUTURE       │
       │                         │     │   VALIDATION (VCIR) — FUTURE    │
