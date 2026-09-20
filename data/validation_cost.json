@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.validation-cost/1",
   "layer": "observed",
-  "generated_at": "2026-09-19T00:54:36.884695+00:00",
+  "generated_at": "2026-09-20T05:36:30.958314+00:00",
   "source": "local Bitcoin Core debug.log UpdateTip wall-clock timings during a full -reindex (single machine, first-party)",
   "hardware": {
     "model": "MacBookAir10,1",
@@ -11,14 +11,14 @@
   },
   "pass": {
     "start_utc": "2026-09-17T17:28:16+00:00",
-    "end_utc": "2026-09-19T00:54:33+00:00",
+    "end_utc": "2026-09-20T05:36:24+00:00",
     "from_height": 0,
-    "to_height": 606418,
-    "blocks": 606418,
-    "txs": 480283702,
-    "wall_seconds": 113177,
-    "blocks_per_sec": 5.358,
-    "ms_per_block": 186.632,
+    "to_height": 678698,
+    "blocks": 678698,
+    "txs": 632954012,
+    "wall_seconds": 216488,
+    "blocks_per_sec": 3.135,
+    "ms_per_block": 318.975,
     "still_reindexing": true
   },
   "by_era": [
@@ -154,16 +154,42 @@
     },
     {
       "era": "2019",
-      "blocks": 49959,
-      "wall_seconds": 19425,
+      "blocks": 54231,
+      "wall_seconds": 20618,
       "height_from": 556459,
-      "height_to": 606418,
-      "txs": 111043456,
-      "blocks_per_sec": 2.572,
-      "ms_per_block": 388.819,
-      "tx_per_sec": 5716.5,
-      "us_per_tx": 174.93,
-      "cost_index_vs_base": 16.89
+      "height_to": 610690,
+      "txs": 119782701,
+      "blocks_per_sec": 2.63,
+      "ms_per_block": 380.188,
+      "tx_per_sec": 5809.6,
+      "us_per_tx": 172.13,
+      "cost_index_vs_base": 16.51
+    },
+    {
+      "era": "2020",
+      "blocks": 53221,
+      "wall_seconds": 80925,
+      "height_from": 610691,
+      "height_to": 663912,
+      "txs": 112550998,
+      "blocks_per_sec": 0.658,
+      "ms_per_block": 1520.546,
+      "tx_per_sec": 1390.8,
+      "us_per_tx": 719.01,
+      "cost_index_vs_base": 66.04
+    },
+    {
+      "era": "2021",
+      "blocks": 14785,
+      "wall_seconds": 21190,
+      "height_from": 663913,
+      "height_to": 678698,
+      "txs": 31376263,
+      "blocks_per_sec": 0.698,
+      "ms_per_block": 1433.209,
+      "tx_per_sec": 1480.7,
+      "us_per_tx": 675.35,
+      "cost_index_vs_base": 62.25
     }
   ],
   "cost_index_base_era": "2009",
@@ -251,6 +277,160 @@
       "progress": 0.3182325857073592,
       "ibd": true,
       "bitcoind_cpu_pct": 6.4
+    },
+    {
+      "at": "2026-09-19T01:25:22.322277+00:00",
+      "height": 613182,
+      "progress": 0.327359810332554,
+      "ibd": true,
+      "bitcoind_cpu_pct": 25.6
+    },
+    {
+      "at": "2026-09-19T02:08:42.760422+00:00",
+      "height": 615587,
+      "progress": 0.3306540574452023,
+      "ibd": true,
+      "bitcoind_cpu_pct": 5.3
+    },
+    {
+      "at": "2026-09-19T04:27:17.715296+00:00",
+      "height": 619773,
+      "progress": 0.3369128843897721,
+      "ibd": true,
+      "bitcoind_cpu_pct": 11.1
+    },
+    {
+      "at": "2026-09-19T07:51:56.551004+00:00",
+      "height": 624272,
+      "progress": 0.3431353211927867,
+      "ibd": true,
+      "bitcoind_cpu_pct": 0.9
+    },
+    {
+      "at": "2026-09-19T17:54:59.973609+00:00",
+      "height": 625446,
+      "progress": 0.3444465754208017,
+      "ibd": true,
+      "bitcoind_cpu_pct": 8.9
+    },
+    {
+      "at": "2026-09-19T18:27:33.562788+00:00",
+      "height": 628748,
+      "progress": 0.3487958632154025,
+      "ibd": true,
+      "bitcoind_cpu_pct": 1.3
+    },
+    {
+      "at": "2026-09-19T19:03:40.289810+00:00",
+      "height": 631913,
+      "progress": 0.3534655606372363,
+      "ibd": true,
+      "bitcoind_cpu_pct": 18.8
+    },
+    {
+      "at": "2026-09-19T19:34:47.885456+00:00",
+      "height": 635976,
+      "progress": 0.3588531540558393,
+      "ibd": true,
+      "bitcoind_cpu_pct": 5.3
+    },
+    {
+      "at": "2026-09-19T20:05:42.613636+00:00",
+      "height": 640193,
+      "progress": 0.3648473007217141,
+      "ibd": true,
+      "bitcoind_cpu_pct": 87.1
+    },
+    {
+      "at": "2026-09-19T20:46:14.298380+00:00",
+      "height": 644102,
+      "progress": 0.370516080514846,
+      "ibd": true,
+      "bitcoind_cpu_pct": 28.9
+    },
+    {
+      "at": "2026-09-19T21:33:50.368135+00:00",
+      "height": 648264,
+      "progress": 0.3764133030291851,
+      "ibd": true,
+      "bitcoind_cpu_pct": 51.4
+    },
+    {
+      "at": "2026-09-19T22:04:58.049389+00:00",
+      "height": 651815,
+      "progress": 0.3814359508258227,
+      "ibd": true,
+      "bitcoind_cpu_pct": 33.6
+    },
+    {
+      "at": "2026-09-19T22:37:51.669583+00:00",
+      "height": 655835,
+      "progress": 0.3873263387655983,
+      "ibd": true,
+      "bitcoind_cpu_pct": 37.3
+    },
+    {
+      "at": "2026-09-19T23:08:39.471069+00:00",
+      "height": 659628,
+      "progress": 0.3924588972421357,
+      "ibd": true,
+      "bitcoind_cpu_pct": 17.8
+    },
+    {
+      "at": "2026-09-19T23:39:37.060662+00:00",
+      "height": 663411,
+      "progress": 0.3978368401885488,
+      "ibd": true,
+      "bitcoind_cpu_pct": 173.5
+    },
+    {
+      "at": "2026-09-20T01:00:58.219391+00:00",
+      "height": 667610,
+      "progress": 0.4038223637976126,
+      "ibd": true,
+      "bitcoind_cpu_pct": 16.6
+    },
+    {
+      "at": "2026-09-20T01:47:13.149508+00:00",
+      "height": 669313,
+      "progress": 0.4063477712149336,
+      "ibd": true,
+      "bitcoind_cpu_pct": 40.2
+    },
+    {
+      "at": "2026-09-20T02:18:47.739522+00:00",
+      "height": 673622,
+      "progress": 0.4125196980855473,
+      "ibd": true,
+      "bitcoind_cpu_pct": 123.6
+    },
+    {
+      "at": "2026-09-20T04:18:54.206568+00:00",
+      "height": 674989,
+      "progress": 0.4143808606379287,
+      "ibd": true,
+      "bitcoind_cpu_pct": 0.2
+    },
+    {
+      "at": "2026-09-20T04:34:54.582563+00:00",
+      "height": 675629,
+      "progress": 0.415225915772652,
+      "ibd": true,
+      "bitcoind_cpu_pct": 0.5
+    },
+    {
+      "at": "2026-09-20T05:05:18.407535+00:00",
+      "height": 675829,
+      "progress": 0.4154658553299981,
+      "ibd": true,
+      "bitcoind_cpu_pct": 4.8
+    },
+    {
+      "at": "2026-09-20T05:36:17.328483+00:00",
+      "height": 678695,
+      "progress": 0.4192727359198523,
+      "ibd": true,
+      "bitcoind_cpu_pct": 8.0
     }
   ],
   "caveats": [
