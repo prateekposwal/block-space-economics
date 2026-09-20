@@ -1,10 +1,10 @@
 {
   "schema": "bsahi.addrman-history/1",
   "layer": "observed",
-  "generated_at": "2026-09-18T19:12:36.427Z",
+  "generated_at": "2026-09-20T04:56:29.806Z",
   "source": "Bitcoin Core getnodeaddresses 0 (full addrman) — PUBLIC gossiped addresses over time",
   "note": "Append-only history of the local addrman sample (one row per node-census run). PUBLIC addresses only (Core stores no non-routable addresses), listening-biased, addresses != nodes. Companion to node_census.json (latest point) and node_census_series.json (btcnodes reachable-node crawl).",
-  "count": 1,
+  "count": 2,
   "rows": [
     {
       "captured_at": "2026-09-18T19:12:36.012Z",
@@ -13,6 +13,19 @@
         "ipv4": 40662,
         "ipv6": 9884,
         "onion": 2796
+      },
+      "liveConnections": 10,
+      "inbound": 0,
+      "outbound": 10,
+      "networkVersion": 270100
+    },
+    {
+      "captured_at": "2026-09-20T04:56:29.387Z",
+      "totalAddresses": 61302,
+      "networkBreakdown": {
+        "ipv4": 45951,
+        "ipv6": 11405,
+        "onion": 3946
       },
       "liveConnections": 10,
       "inbound": 0,

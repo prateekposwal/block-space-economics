@@ -1,5 +1,6 @@
 var fs = require('fs');
 var path = require('path');
+var cp = require('child_process');
 var { CONFIG } = require('./config.js');
 var discover = require('./discover.js');
 var integrate = require('./integrate.js');
@@ -118,10 +119,16 @@ async function runCycle() {
     var _now = new Date();
     var _today = _now.toISOString().slice(0, 10);
     if (STATE.lastNodeCensusDay !== _today) {
-      var nodeCensus = require('../../tools/agents/25-node-census.js');
-      var census = await nodeCensus.run();
+      // Run as a SUBPROCESS, not require(). A long-lived DE-server caches
+      // require()d modules, so once this file is edited the running process keeps
+      // executing the OLD version indefinitely. That silently reset the census
+      // mirror back to a stale 32,000 every day for a week (found 2026-09-20).
+      // A fresh process always runs current code.
+      var out = cp.execFileSync(process.execPath,
+        [path.join(__dirname, '..', 'agents', '25-node-census.js')],
+        { cwd: path.join(__dirname, '..', '..'), timeout: 180000 }).toString().trim();
       STATE.lastNodeCensusDay = _today;
-      log('Node census: ' + (census.totalKnownAddresses || 0) + ' known addresses');
+      log('Node census: ' + (out.split('\n').pop() || 'ran'));
     }
   } catch (e) { log('Node census error: ' + e.message); }
 
