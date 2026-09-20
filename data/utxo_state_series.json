@@ -1,9 +1,9 @@
 {
   "schema": "bsahi.utxo-state-series/1",
   "layer": "observed",
-  "generated_at": "2026-09-20T06:16:30.868922+00:00",
+  "generated_at": "2026-09-20T18:18:30.828637+00:00",
   "note": "OBSERVED gettxoutsetinfo measurements from a real Bitcoin Core node. This is NOT the reconstructed era table (grade D) and must not be mixed with it.",
-  "count": 7,
+  "count": 9,
   "rows": [
     {
       "schema": "bsahi.utxo-state/1",
@@ -158,6 +158,52 @@
       "utxo_hash": "5f6b10128b27d26618d6ceaa85fd6da0a9bc97ee04eeaae58a3c1fd245155112",
       "verificationprogress": 0.423335,
       "headers": 967801,
+      "initialblockdownload": true,
+      "source": {
+        "rpc": "127.0.0.1:8332",
+        "conf": "/Users/prateekposwal/Library/Application Support/Bitcoin/bitcoin.conf",
+        "tool": "tools/research/utxo_state_measure.py"
+      }
+    },
+    {
+      "schema": "bsahi.utxo-state/1",
+      "layer": "observed",
+      "measured_at": "2026-09-20T12:14:05.371775+00:00",
+      "block_time": "2021-10-01T15:48:41+00:00",
+      "height": 703043,
+      "bestblock": "0000000000000000000776252ca9f41c3dd713468acd015946a3da07e9fa6c76",
+      "utxo_count": 75274270,
+      "total_amount_btc": 18831318.79247,
+      "disk_size_bytes": 4572197692,
+      "chainstate_disk_bytes": 9395298260,
+      "bogosize_bytes": 5634010819,
+      "hash_type": "muhash",
+      "utxo_hash": "69b5f9bf2c4700648aab6dcabd768d1e49488f14e99634463045390c695c1f6d",
+      "verificationprogress": 0.44686,
+      "headers": 967822,
+      "initialblockdownload": true,
+      "source": {
+        "rpc": "127.0.0.1:8332",
+        "conf": "/Users/prateekposwal/Library/Application Support/Bitcoin/bitcoin.conf",
+        "tool": "tools/research/utxo_state_measure.py"
+      }
+    },
+    {
+      "schema": "bsahi.utxo-state/1",
+      "layer": "observed",
+      "measured_at": "2026-09-20T18:18:30.725216+00:00",
+      "block_time": "2021-10-11T07:13:49+00:00",
+      "height": 704499,
+      "bestblock": "0000000000000000000780ec5275aed8ad9fc9100def5b0b1037cbff0f9ad178",
+      "utxo_count": 75100646,
+      "total_amount_btc": 18840418.79245908,
+      "disk_size_bytes": 4571615271,
+      "chainstate_disk_bytes": 4684570501,
+      "bogosize_bytes": 5620867110,
+      "hash_type": "muhash",
+      "utxo_hash": "013dee1dd64469511e76ac3d422be9f0fdee8386fa4f375bb4af7b9a165b5c76",
+      "verificationprogress": 0.448508,
+      "headers": 967875,
       "initialblockdownload": true,
       "source": {
         "rpc": "127.0.0.1:8332",

@@ -1,118 +1,118 @@
 {
   "schema": "bsahi.node-geography/1",
   "layer": "observed",
-  "generated_at": "2026-09-20T06:16:39.913793+00:00",
+  "generated_at": "2026-09-20T18:19:04.626502+00:00",
   "source": "btcnodes.io crawler aggregates: /api/v1/snapshots/latest/?field=top and ?field=coordinates (crawler ~2x/day)",
-  "snapshot_ts": 1789884184,
-  "latest_height": 967800,
+  "snapshot_ts": 1789927062,
+  "latest_height": 967870,
   "network_class": {
-    "reachable_nodes": 26522,
-    "validated_nodes": 25978,
-    "total_nodes": 25973,
-    "tor": 12620,
-    "i2p": 4306,
-    "overlay": 16926,
-    "clearnet_top_asns_sum": 3479,
-    "overlay_share_pct": 65.17,
-    "tor_share_pct": 48.59,
+    "reachable_nodes": 26570,
+    "validated_nodes": 25834,
+    "total_nodes": 25830,
+    "tor": 12561,
+    "i2p": 4199,
+    "overlay": 16760,
+    "clearnet_top_asns_sum": 3415,
+    "overlay_share_pct": 64.89,
+    "tor_share_pct": 48.63,
     "note": "Overlay = Tor + I2P: nodes that announce NO location. Clearnet count is only the sum of the top ASNs shown, a lower bound on clearnet nodes (the tail is not listed)."
   },
   "top_asns": [
     [
       "AS24940",
-      876
+      863
     ],
     [
       "AS63949",
-      859
+      833
     ],
     [
       "AS396982",
-      404
+      406
     ],
     [
       "AS16276",
-      374
-    ],
-    [
-      "AS16509",
-      280
+      364
     ],
     [
       "AS7922",
-      270
+      278
+    ],
+    [
+      "AS16509",
+      268
     ],
     [
       "AS14061",
-      213
+      203
     ],
     [
       "AS7018",
-      203
+      200
     ]
   ],
   "top_user_agents": [
     [
       "/Satoshi:31.1.0/",
-      24.58,
-      967801
+      24.67,
+      967871
     ],
     [
       "/Satoshi:31.0.0/",
-      7.74,
-      967801
+      7.8,
+      967871
     ],
     [
       "/Satoshi:29.3.0/",
-      6.36,
-      967801
+      6.53,
+      967871
     ],
     [
       "/Satoshi:29.3.0/Knots:20260507/",
-      5.11,
-      967801
+      5.09,
+      967871
     ],
     [
       "/Satoshi:27.0.0/",
-      4.86,
-      967801
+      4.82,
+      967871
     ],
     [
       "/Satoshi:29.2.0/",
-      4.55,
-      967801
+      4.54,
+      967871
     ],
     [
       "/Satoshi:28.1.0/",
-      4.24,
-      967801
+      4.28,
+      967871
     ],
     [
       "/Satoshi:26.0.0/",
-      3.35,
-      967801
+      3.3,
+      967871
     ],
     [
       "/Satoshi:30.2.0/",
-      3.2,
-      967801
+      3.19,
+      967871
     ],
     [
       "/Satoshi:29.0.0/",
-      3.03,
-      967801
+      3.04,
+      967871
     ]
   ],
   "geography": {
-    "unique_coordinate_pairs": 3288,
-    "unique_pairs_share_pct": 12.66,
+    "unique_coordinate_pairs": 3348,
+    "unique_pairs_share_pct": 12.96,
     "region_counts": {
-      "North America": 1581,
-      "Europe": 1283,
-      "Asia": 220,
-      "Oceania": 99,
-      "South America": 72,
-      "Africa": 20,
+      "North America": 1588,
+      "Europe": 1331,
+      "Asia": 218,
+      "Oceania": 96,
+      "South America": 77,
+      "Africa": 25,
       "Other/unknown": 13
     },
     "region_method": "coarse lat/lon boxes over unique coordinate pairs; approximate",
