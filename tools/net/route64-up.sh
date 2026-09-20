@@ -31,6 +31,15 @@ echo "  ok"
 echo "==> bringing up the tunnel ($IFACE)"
 sudo -n "$ROOT/tools/net/tunnel-root.sh" up "$CONF" "$EXTRA"
 
+# Reply path: without this, inbound SYNs arrive on the tunnel but the kernel sends
+# the SYN-ACK out the physical interface (invalid source), so no peer ever
+# completes the handshake. route-on pins the endpoint /128 to the physical gateway
+# and routes 2000::/3 via the tunnel. Reversible with route-off.
+EP="$(awk -F'[][: ]+' '/^[[:space:]]*Endpoint/{print; exit}' "$CONF" 2>/dev/null \
+      | sed -E 's/.*\[?([0-9a-fA-F:]+)\]?:[0-9]+.*/\1/')"
+sudo -n "$ROOT/tools/net/tunnel-root.sh" route-on "${EP:-2a11:6c7:3::1}" \
+  && echo "  reply-path routes installed (route-off to revert)"
+
 echo "==> waiting for handshake"
 for i in $(seq 1 10); do
   if ~/.bsahi/bin/wg show "$IFACE" 2>/dev/null | grep -q "latest handshake"; then echo "  handshake established"; break; fi

@@ -99,9 +99,51 @@ case "${1:-}" in
     echo "--- addresses ---"; ifconfig "$IFACE" 2>/dev/null | grep -E "inet6? |inet " || true
     echo "--- routes via $IFACE ---"; netstat -rn -f inet6 2>/dev/null | grep "$IFACE" || true
     ;;
-  down)
-    pkill -f "wireguard-go $IFACE" 2>/dev/null || true
-    echo "tunnel $IFACE down"
+  route-on)
+    # The reply path is the missing piece: inbound SYNs arrive on utun72, but the
+    # kernel would send the SYN-ACK out en0 (invalid source) so the peer never
+    # completes the handshake. Fix:
+    #   1) pin the WireGuard endpoint /128 to its CURRENT (physical) gateway so the
+    #      tunnel's own UDP does not get routed into the tunnel (loop),
+    #   2) route global IPv6 (2000::/3) via the tunnel, so replies to peers leave
+    #      the same way the SYN arrived.
+    # Deliberately NOT replacing the default route: 2000::/3 is a prefix route we
+    # can delete precisely without touching whatever default routes already exist.
+    EP="${2:-2a11:6c7:3::1}"     # WireGuard endpoint (Route64 router); override if needed
+    EGW="$(route -n get -inet6 "$EP" 2>/dev/null | awk '/gateway/{print $2}')"
+    EIF="$(route -n get -inet6 "$EP" 2>/dev/null | awk '/interface/{print $2}')"
+    echo "endpoint $EP currently via $EGW dev $EIF"
+    [ -n "$EGW" ] && route add -inet6 -host "$EP" "$EGW" 2>/dev/null || true
+    route add -inet6 2000::/3 -interface "$IFACE" 2>/dev/null || echo "  (2000::/3 add failed)"
+    echo "routes ON: $EP pinned via $EIF; 2000::/3 via $IFACE"
+    netstat -rn -f inet6 | grep -E "2000::/3|$EP" || true
     ;;
-  *) echo "usage: tunnel-root.sh up <conf> [extra_ipv6] | status | down"; exit 2;;
+  route-off)
+    EP="$(route -n get -inet6 2a11:6c7:3::1 2>/dev/null >/dev/null; echo 2a11:6c7:3::1)"
+    route delete -inet6 2000::/3 2>/dev/null || true
+    route delete -inet6 -host "$EP" 2>/dev/null || true
+    echo "routes OFF (2000::/3 and $EP removed)"
+    ;;
+  diag)
+    echo "--- pf enabled? ---"; pfctl -s info 2>&1 | head -2
+    echo "--- pf rules (first 30) ---"; pfctl -s rules 2>&1 | head -30
+    echo "--- macOS ALF ---"; /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate 2>&1
+    ;;
+  capture)
+    # capture <iface> <seconds> <outfile>   — time-boxed, read-only pcap
+    CIF="${2:-$IFACE}"; CSEC="${3:-20}"; COUT="${4:-/tmp/bsahi-cap.pcap}"
+    /usr/sbin/tcpdump -i "$CIF" -n -s 128 -w "$COUT" 2>/dev/null &
+    TP=$!; sleep "$CSEC"; kill "$TP" 2>/dev/null || true; wait "$TP" 2>/dev/null || true
+    echo "captured ${CSEC}s on $CIF -> $COUT"
+    chmod 644 "$COUT" 2>/dev/null || true
+    ;;
+  down)
+    # SAFETY: always remove the reply-path routes first. A stale 2000::/3 via a
+    # dead tunnel would blackhole ALL of the host's IPv6.
+    route delete -inet6 2000::/3 2>/dev/null || true
+    route delete -inet6 -host "${2:-2a11:6c7:3::1}" 2>/dev/null || true
+    pkill -f "wireguard-go $IFACE" 2>/dev/null || true
+    echo "tunnel $IFACE down (reply-path routes removed)"
+    ;;
+  *) echo "usage: tunnel-root.sh up <conf> [extra_ipv6] | status | route-on | route-off | diag | capture <iface> <secs> <out> | down"; exit 2;;
 esac
