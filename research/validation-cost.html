@@ -99,7 +99,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 </table>
 </div>
 <p><strong>Cross-check via initial sync.</strong> Full initial validation of ~1M blocks adds on the order of 6–24 h of CPU over an assumevalid-style sync on comparable hardware ⇒ 0.02–0.09 s/block <em>averaged</em> (I/O-bound, so a lower bound on CPU) — consistent with the 0.1–1 s/block estimate above for <em>steady-state</em> validation with an in-RAM UTXO cache (steady state is CPU-bound, sync is I/O-bound; the two brackets straddle the true value).</p>
-<p><strong>Key quantities carried in the model:</strong> R_blocks (52,596) and N (≥32K) are canonical in <code>research/model-spec.json</code>; the validation leg adds <strong>no new model constant</strong> — it is a resource-budget bound on C (the bundled $925/yr node cost), the same decomposition discipline as the bandwidth leg.</p>
+<p><strong>Key quantities carried in the model:</strong> R_blocks (52,596) and N (26,586, measured reachable) are canonical in <code>research/model-spec.json</code>; the validation leg adds <strong>no new model constant</strong> — it is a resource-budget bound on C (the bundled $925/yr node cost), the same decomposition discipline as the bandwidth leg.</p>
 <h2>3. Reference literature</h2>
 <ul>
 <li><strong>Node-cost context:</strong> Tschorsch, F. &amp; Scheuermann, B., <em>Bitcoin and Beyond: A Technical Survey on Decentralized Digital Currencies</em>, IEEE COMST 18(3), 2016 — surveys full-node validation/storage/bandwidth cost components and gives the classic per-node cost decomposition this bound refines.</li>
