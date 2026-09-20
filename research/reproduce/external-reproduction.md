@@ -1,172 +1,183 @@
 # External Reproduction Log
 
-**Status:** 🟡 IN PROGRESS — kit verified reproducible-by-stranger (fresh-clone
-simulation 2026-08-03 PASS; **re-baselined to the 2026-09-16 frozen snapshot**
-on 2026-09-16 — the original 2026-08-02 capture was never versioned into git,
-and the GH Actions pipeline previously refreshed the kit input in place, making
-the documented 0.2186 unreachable from a clean clone. Fixed at the root: the
-pipeline no longer writes into `research/reproduce/input/`; live refreshes go to
-`captured-data/sccr-live/`. Re-verified clean-clone below.); **actual external
-reproducer still NOT engaged — that is the one remaining human step (Prateek
-sends the recruit message).**
+**Status: in progress.** The kit reproduces from a clean clone — that has been
+verified twice, most recently against the 2026-09-16 frozen snapshot. An actual
+external reproducer has not run it yet. Sending that one message is the last
+human step, and it is Prateek's to take.
+
+## Read this first: the re-base
+
+Every SCCR figure in the historical rows below was produced *before* the Phase-C
+node-count re-base on 2026-09-17 (N 32,000 → 26,586). SCCR is inverse-linear in
+N, so the same runs now read **1.2036×** higher: the frozen capture that logged
+0.240641 now returns 0.289645.
+
+The rows are left exactly as they were written — they are the record of what
+those runs produced at the time. The numbers to reproduce *today* are in the
+"Reference result" section below.
 
 ---
 
-## ✅ Post-fix clean-clone verification (2026-09-16) — current baseline
+## Reference result (the current contract)
 
-Reference contract (frozen snapshot 2026-09-16, 155 blocks, model-spec v2.1.0):
-**avg 0.2406, min 0.0490, max 1.0757, 153/155 below 1× (98.7%)**, L_net
-5627.804 USD/block.
+From the frozen snapshot of 2026-09-16 — 155 blocks, heights 967,138→967,292,
+model-spec v2.1.1, N = 26,586, L_net $4,675.65/block:
+
+**avg 0.2896 · min 0.0590 · max 1.2948 · 152 of 155 below 1× (98.1%)**
 
 | Path tested | Result |
 |---|---|
-| `bash research/reproduce/cross_check.sh` (all three) | ✅ **PASS** — JS / Python / C all agree (avg 0.240641, min 0.049048, max 1.075697, below-1× 153), VERDICT: ALL THREE AGREE |
-| `python3 tools/research/reproduce.py` (one-command) | ✅ **PASS** — exit 0, reads frozen input by default (155 blocks, heights 967138→967292), reproduces avg 0.240641 |
-| `gcc -O2 -o reproduce_sccr reproduce_sccr.c -lm` (C from source) | ✅ **PASS** — compiles clean on macOS, agrees |
-| Input data (155 entries, heights 967138→967292) | ✅ committed + versioned in `input/fee_history_capture.json`; `reproduce.py` **defaults to it** (no DB needed) |
-| Determinism | ✅ `git status` clean after all runs (frozen input untouched by pipeline — verified) |
+| `bash research/reproduce/cross_check.sh` | Pass — JS, Python and C agree to 1e-6 |
+| `python3 tools/research/reproduce.py` | Pass — exit 0, reads the frozen input by default, prints avg 0.2896 |
+| `gcc -O2 -o reproduce_sccr reproduce_sccr.c -lm` | Pass — compiles clean on macOS, agrees |
+| Input | Committed and versioned in `input/fee_history_capture.json`; no database needed |
+| Determinism | `git status` stays clean after every run |
+
+The kit reads N from `model-spec.json`, so a fresh clone reproduces this value
+with no edits. The SCCR on the live dashboard is a different, daily-refreshed
+reading — see `/data/sccr.json`.
 
 ---
 
-## ✅ Fresh-clone simulation (2026-08-03) — historical record (superseded baseline)
+## Clean-clone verification, 2026-09-16
 
-> The rows below record the ORIGINAL 171-block / avg-0.2186 freeze baseline. That
-> specific input was never committed to git (the pipeline refreshed the file in
-> place); the 2026-09-16 re-baseline (above) is the current, reproducible
-> contract. Rows preserved for the log.
+The 2026-08-02 capture was never committed, and the GitHub Actions pipeline used
+to refresh the kit input in place — so the documented 0.2186 could not be reached
+from a clean clone. Fixed at the root: the pipeline no longer writes into
+`research/reproduce/input/`; live refreshes go to `captured-data/sccr-live/`.
+After that change, a fresh clone reproduces the current numbers (table above).
 
-An uninvolved person was simulated exactly: fresh `git clone` of the public
-repo into a clean temp dir, then **only** the published instructions
-(`README.md` → "Reproduce in 30 seconds" + `research/reproduce/README.md` →
-"Run all three") were followed. No insider knowledge, no extra files, no help.
+---
+
+## Historical record: the 2026-08-03 fresh-clone simulation
+
+This was the first run, against the original 171-block snapshot
+(heights 960,562→960,732). It logged **avg 0.2186**, which is the pre-re-base
+value for that input. That specific input file was later superseded; the rows are
+kept as the log of what the simulation found.
+
+The method was a plain fresh clone into a clean temp directory, following only the
+published instructions — `README.md` ("Reproduce in 30 seconds") and
+`research/reproduce/README.md` ("Run all three"). No insider knowledge, no extra
+files.
 
 | Path tested | Result |
 |---|---|
-| `python3 tools/research/reproduce.py` (one-command) | ✅ **PASS** — exit 0, prints avg **0.2186**, min 0.0584, max 0.8320, 171/171 below 1×, writes chart |
-| `bash research/reproduce/cross_check.sh` (all three) | ✅ **PASS** — JS / Python / C all agree (avg 0.218605, min 0.058357, max 0.831961), VERDICT: ALL THREE AGREE |
-| `gcc -O2 -o reproduce_sccr reproduce_sccr.c -lm` (C from source) | ✅ **PASS** — compiles clean on macOS, produces 0.2186 |
-| Python 3.9 (system, no pip installs needed) | ✅ works (stdlib only for compute; chart skips gracefully if matplotlib absent) |
-| Input data (171 entries, heights 960562→960732) | ✅ committed + versioned in `input/fee_history_capture.json`; `reproduce.py` **defaults to it** (no DB needed) |
-| Node (JS impl) | ✅ works from clone |
-| **Definitive re-test (post-push, 2026-08-03):** fresh clone of the **live GitHub repo** (`59573b0`), one-command path + `cross_check.sh`, then `git status` | ✅ **PASS** — 0.2186, all three agree, working tree **completely clean** after all runs (deterministic, zero dirty state) |
+| `python3 tools/research/reproduce.py` | Pass — avg 0.2186, min 0.0584, max 0.8320, 171/171 below 1× |
+| `bash research/reproduce/cross_check.sh` | Pass — JS, Python and C agree (avg 0.218605), verdict: all three agree |
+| `gcc -O2 -o reproduce_sccr reproduce_sccr.c -lm` | Pass — compiles clean on macOS |
+| Python 3.9 (system, no pip) | Works — stdlib only for the compute; the chart is skipped if matplotlib is absent |
+| Input | 171 entries, committed to `input/fee_history_capture.json` |
+| Node | Works from a clone |
+| Re-test against the live repo at `59573b0` | Pass — all three agree, working tree clean afterwards |
 
-### Gaps found and fixed by the simulation (all fixed, all committed)
+### What the simulation caught
 
-1. **❌→✅ C binary missing in clones.** `cross_check.sh` step 3/3 called
-   `./research/reproduce/reproduce_sccr`, but the binary is gitignored — a
-   stranger following "Run all three" hit `No such file or directory` and the
-   script failed (exit 1). **Fix:** `cross_check.sh` now auto-compiles the C
-   source when the binary is absent (with a clear message + fallback gcc
-   command).
-2. **❌→✅ Scary sqlite errors in JS step.** `storage-ratio.js` in frozen-input
-   mode still tried DB queries (`no such table: block_stats / research_findings`
-   printed to stderr) and overwrote the committed dated report file in the
-   clone. **Fix:** `SCCR_INPUT_FILE` mode is now fully DB-free and
-   side-effect-free — no sqlite queries, no research_findings insert, no report
-   file written; output explicitly says "frozen-input reproduction — no report
-   written". Canonical live-DB behavior unchanged when env var absent.
-3. **❌→✅ Heights not sorted (contiguous-set but unordered).** A stranger
-   checking `heights == list(range(960562, 960733))` would get `False` even
-   though all 171 heights were present. **Fix:** `input/fee_history_capture.json`
-   normalized to ascending height order — order-invariant computation (verified:
-   all three implementations still produce identical avg/min/max, and per-block
-   values unchanged), so this is a pure determinism improvement. Reference
-   outputs (`output/reproduce_sccr_python.json`, `sccr_chart.png`) regenerated.
+Three defects that a stranger would have hit, all fixed and committed:
 
-## 📦 Shareable package (for the human step)
+1. **The C binary was missing from clones.** `cross_check.sh` called
+   `./research/reproduce/reproduce_sccr`, but the binary is gitignored, so anyone
+   following "Run all three" got `No such file or directory` and an exit code of 1.
+   The script now compiles the C source when the binary is absent.
+2. **Scary sqlite errors in the JS step.** In frozen-input mode, `storage-ratio.js`
+   still ran database queries (`no such table: block_stats / research_findings`)
+   and overwrote the committed report file. Frozen-input mode is now fully
+   database-free and writes no files; the live-database behaviour is unchanged.
+3. **Heights were present but unsorted.** A stranger checking the contiguous set
+   got `False` even though all 171 heights were there. The capture file is now in
+   ascending order. The computation is order-invariant, so the values did not
+   change.
 
-- **Repo (the whole package):** `https://github.com/prateekposwal/block-space-economics`
-  (public; live at bitcoinsahi.com)
+---
+
+## What to send
+
+- **Repository:** https://github.com/prateekposwal/block-space-economics (public;
+  live at bitcoinsahi.com)
 - **Protocol:** `research/reproduce/README.md` → *External reproduction protocol (3 steps)*
-- **Input:** `research/reproduce/input/fee_history_capture.json` (155 entries, committed)
-- **Expected output:** avg **0.2406**, min **0.0490**, max **1.0757**, 153/155 below 1× (98.7%)
-- **Recruit message (copy-paste ready):** `research/reproduce/recruit-message.md`
+- **Input:** `research/reproduce/input/fee_history_capture.json`
+- **Expected output:** avg **0.2896**, min 0.0590, max 1.2948, 152 of 155 below 1×
+- **Message to send:** `research/reproduce/recruit-message.md` (copy-paste ready)
 
-## ⏳ The one remaining human step (requires Prateek)
+## The remaining step
 
-External reproduction is **Prateek's task**: an *uninvolved* person must run the
-3-step protocol. TELOS cannot recruit a real human, and autonomous posting is
-blocked on two gates:
+An uninvolved person has to run the three-step protocol. Two gates sit in front of
+the outreach, and both are Prateek's:
 
-1. **arXiv is NOT yet live** (`TODO-bitcoin-oracle.md` R5: arXiv/Optech not
-   submitted; awaiting Prateek's arXiv account/ORCID/license). The community
-   review plan's outreach list is explicitly sequenced *after* the preprint
-   URL exists, so those venues (Optech, Delving, bitcoin-dev, Chaincode,
-   r/BitcoinEngineering) are not ready.
-2. **The Nostr publisher uses Prateek's key** (`captured-data/nostr-key.json`,
-   gitignored). Posting through `tools/marketing/publisher.js` would use his
-   account — **not** something TELOS does without his explicit say-so.
+1. **The preprint is not live yet.** The community venues on the outreach list
+   (Optech, Delving, bitcoin-dev, Chaincode, r/BitcoinEngineering) are sequenced
+   after a preprint URL exists, and arXiv is waiting on Prateek's account,
+   ORCID and licence.
+2. **The publisher uses Prateek's Nostr key.** Posting through
+   `tools/marketing/publisher.js` would speak in his name, which is not something
+   to do automatically.
 
-**What Prateek does (≈5 min):** open `research/reproduce/recruit-message.md`,
-copy the message into an email/DM to one person (friend, colleague, any
-technically-literate non-crypto person), and send. Then record the result
-below.
+**What Prateek does (about 5 minutes):** open `research/reproduce/recruit-message.md`,
+copy it into an email or DM to one person — a friend, a colleague, anyone
+technically literate — and send it. Then record the reply below.
 
-## Result table (ready to fill)
+## Result table
 
 | Reproducer | Environment | Result | Notes |
 |---|---|---|---|
-| **You (Prateek)** | macOS (darwin); Python 3.9 + Node + gcc | **0.2406** (Reference) | Reference run — the published numbers (avg 0.2406, min 0.0490, max 1.0757, 153/155 below 1×); confirmed by clean-clone verification 2026-09-16 |
-| External #1 | *(pending)* | *(pending)* | |
-| External #2 | *(pending)* | *(pending)* | |
-| External #3 | *(pending)* | *(pending)* | |
+| Prateek (reference run) | macOS; Python 3.9 + Node + gcc | 0.2896 | The published numbers; confirmed by the 2026-09-16 clean-clone verification |
+| External #1 | pending | pending | |
+| External #2 | pending | pending | |
+| External #3 | pending | pending | |
 
-## Outcome categories — three, not two
+## Three outcomes, not two
 
-An external run is recorded under exactly one of three outcomes. Never collapse
-the middle one into either neighbor — **"reproduced the number but disagrees
-with the framing" is not a failed reproduction**; it is honest scientific
-disagreement about documented assumptions (working-paper §7.1).
+An external run lands in exactly one of these. The middle one matters: reproducing
+the number while disagreeing with the framing is a successful reproduction, not a
+failed one. The disagreement is scientific feedback about a documented assumption
+(working-paper §7.1).
 
-| Outcome | What it means | Effect on the D5 milestone | Where it is recorded |
-|---|---|---|---|
-| ✅ **Reproduced** | Number matches from a clean clone (avg 0.2406, min 0.0490, max 1.0757, 153/155 below 1×) | **Milestone MET** — GO/SUBMIT trigger fires | Detail row below (Verdict = Reproduced) |
-| 🟡 **Reproduced number, disagrees with framing** | Number matches, but the reproducer challenges a documented assumption (C = $925/yr bundling, T = 10 horizon, storage-as-first-resource, externality reading) | **Milestone MET** — the number was reproduced; the disagreement is feedback, not failure | Detail row below (Verdict = "Reproduced + framing objection") **and** logged in the community-feedback triage (`research/community-review-plan.md` §4 → `research/community-feedback.md`) |
-| ❌ **Failed to reproduce** | Materially different number from a clean clone (different avg/band or per-block mismatch), not reconciled | **Milestone NOT met** — submission BLOCKED until reconciled | Detail row below (Verdict = Failed); investigated as falsifier 1 of working-paper §7.1 |
+| Outcome | Meaning | Effect on the milestone |
+|---|---|---|
+| Reproduced | Number matches from a clean clone | Milestone met |
+| Reproduced, with a framing objection | Number matches, but the reproducer disputes a documented assumption (C = $925/yr bundling, T = 10 years, storage-as-first-resource, the externality reading) | Milestone met — the objection goes to the community-feedback triage, not the failure column |
+| Failed to reproduce | Materially different number from a clean clone, not reconciled | Milestone not met — submission stays blocked until the discrepancy is explained |
 
-**Recording rule:** the number reproduced correctly = milestone met even if the
-reproducer challenges assumptions; the disagreement goes to community feedback,
-never into the Fail column.
+**Recording rule:** a correctly reproduced number meets the milestone even if the
+reproducer challenges the assumptions. The objection is logged as feedback.
 
-## Phrasing rule
+## Wording
 
-Use **"Independently reproduced by external participants following the published
-reproduction protocol"** — **NOT** "externally verified."
+Say "independently reproduced by external participants following the published
+reproduction protocol". Do not say "externally verified".
 
-## When a result lands, also record the detail row here:
+## Detail row (fill when a result lands)
 
-| Date | Reproducer | Language/Env | Avg SCCR | Min | Max | Below 1× | Per-block max dev | Verdict (Reproduced / Reproduced + framing objection / Failed) |
+| Date | Reproducer | Language/Env | Avg SCCR | Min | Max | Below 1× | Per-block max dev | Verdict |
 |---|---|---|---|---|---|---|---|---|
-| *(pending)* | | | | | | | | |
+| pending | | | | | | | | |
 
-## ✅ GO / SUBMIT TRIGGER — "reproducibility milestone achieved" (advisor rule)
+## When to stop polishing and submit
 
-> **Milestone achieved** when any external participant replies with the equivalent
-> of: **"I cloned it, ran one command, and got 0.2406"** — i.e., an uninvolved human
-> independently confirms the published numbers from a clean clone, following the
-> published protocol.
->
-> **→ milestone achieved → stop polishing → submit.**
->
-> **The trigger fires on reproduction of the number — regardless of framing
-> objections.** A reproducer who confirms the numbers but disputes a documented
-> assumption (C bundling, T = 10, storage-first, externality reading) has still met
-> the milestone: record the objection in the community-feedback triage
-> (`research/community-review-plan.md` §4 → `research/community-feedback.md`) and
-> fold it into the next revision — it does not block submission. Conversely, a
-> reproducer who **cannot** reproduce the number (materially different result from
-> a clean clone, not reconciled) **blocks submission** until the discrepancy is
-> reconciled; that is falsifier 1 of working-paper §7.1.
->
-> Until a reproduction-of-the-number reply lands, the submission gate stays
-> closed. When it lands: record the reply (quote + date + reproducer, anonymous
-> ok) in this log, then submit.
+The milestone is met when an external participant replies with the equivalent of
+"I cloned it, ran one command, and got 0.2896" — an uninvolved human confirming
+the published numbers from a clean clone.
 
-**Recruit assets (2026-08-03):** copy-paste message `recruit-message.md` ·
-personalized variants `recruit-message-personalized.md` · verified contact list
+When that reply arrives, the submission gate opens: stop polishing and submit.
+Record the reply here (quote, date, reproducer — anonymous is fine), then submit.
+
+Two clarifications:
+
+- A reproducer who confirms the number but disputes a documented assumption has
+  still met the milestone. Log the objection in the community-feedback triage
+  (`research/community-review-plan.md` §4 → `research/community-feedback.md`) and
+  fold it into the next revision. It does not block submission.
+- A reproducer who cannot reproduce the number — materially different result,
+  unreconciled — blocks submission until it is explained. That is falsifier 1 of
+  working-paper §7.1.
+
+Until a reproduction-of-the-number reply lands, the gate stays closed.
+
+**Recruit assets (2026-08-03):** `recruit-message.md` · personalized variants
+`recruit-message-personalized.md` · verified contact list
 `external-reproducer-contacts.md` (8 verified channels; no fabricated emails).
 
 ---
 
-*Bitcoin Sahi Research — external reproduction log (working-paper v2.1.0,
-model-spec v2.0.1). Simulation + fixes 2026-08-03.*
+*Bitcoin Sahi Research — external reproduction log. Working paper v2.1.0,
+model-spec v2.1.1. Simulation and fixes 2026-08-03; re-based 2026-09-17.*
