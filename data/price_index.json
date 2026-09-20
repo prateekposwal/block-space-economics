@@ -1,25 +1,24 @@
 {
   "schema": "bsahi.price-index/1",
   "layer": "observed",
-  "generated_at": "2026-09-20T21:05:16.717454+00:00",
+  "generated_at": "2026-09-20T21:38:23.680980+00:00",
   "source": "direct queries to independent venues; robust median (MAD outlier rejection)",
   "status": "OK",
-  "median_usd": 80870.79,
+  "median_usd": 80904.99,
   "sources_queried": 5,
   "sources_ok": 4,
   "sources_used": {
-    "binance_usdt": 80876.07,
-    "coinbase": 80864.9,
-    "gemini": 80870.79
+    "binance_usdt": 80921.49,
+    "gemini": 80909.99,
+    "mempool.space": 80900.0,
+    "coinbase": 80898.38
   },
-  "sources_rejected": {
-    "mempool.space": 81076.0
-  },
+  "sources_rejected": {},
   "errors": {
     "kraken": "URLError"
   },
-  "mad_usd": 5.59,
-  "dispersion_pct": 0.0138,
+  "mad_usd": 5.81,
+  "dispersion_pct": 0.0286,
   "min_sources_required": 3,
   "note": "Robust multi-venue BTC/USD reference rate. Price is an off-chain fact and cannot be derived from the node; the win here is removing the SINGLE-source dependency, not the dependency itself. Median over independent venues with MAD-based outlier rejection; per-source values are published so the number is reproducible."
 }
