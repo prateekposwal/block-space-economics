@@ -2,7 +2,7 @@
 
 <!-- seo-title: Storage Cost Internalization in Bitcoin's Fee Market -->
 
-**The Bitcoin Block Space Problem** — BSAHI Working Paper v2.2.0 (model-spec.json v2.0.1)
+**The Bitcoin Block Space Problem** — BSAHI Working Paper v2.2.0 (model-spec.json v2.1.1)
 *Prepared by Prateek Poswal (Independent Researcher) within the Bitcoin Sahi Research Council program · ORCID: 0009-0005-2139-1877 · 2026-08-03*
 
 *This work is licensed under a Creative Commons Attribution 4.0 International License (CC BY 4.0). To view a copy, visit https://creativecommons.org/licenses/by/4.0/.*
@@ -26,7 +26,7 @@ A joint Monte Carlo over N, C, T, and price (current band, 10,000 draws) gives a
 
 **Hypothesis:** Bitcoin's fee market efficiently allocates scarce block space, but may not fully internalize every long-lived resource cost created by confirmed transactions.
 
-**Final numbers at a glance** — the headline in four lines, exact figures (all captures dated; model-spec v2.0.1; the full derivation is §4–§5, the sensitivity and knife-edge details are §5.3–§5.4, and the falsifiers are §7.1):
+**Final numbers at a glance** — the headline in four lines, exact figures (all captures dated; model-spec v2.1.1; the full derivation is §4–§5, the sensitivity and knife-edge details are §5.3–§5.4, and the falsifiers are §7.1):
 
 | Quantity | Value |
 |---|---|
@@ -334,7 +334,7 @@ The v1 bound, **order-of-magnitude only** (band ≈ 0.5×–5×):
 | Validation CPU per block | **~0.1–1 s** (cross-checked by initial-sync delta: 6–24 h / ~1M blocks) |
 | Validation CPU per node per year | **~1.5–15 h** |
 | **Validation cost per node per year** | **~$0.5–$5** (central ≈ $1–2/yr at $0.10–0.50/CPU-h) |
-| Network-wide (N = 32K) | **~$16K–160K/yr** |
+| Network-wide (N = 26,586) | **~$16K–160K/yr** |
 
 **Falsifiable claim (v1):** *validation cost per full node per year is
 < $100 — bounded from above by the entire node budget C = $925/yr, central

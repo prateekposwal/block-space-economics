@@ -179,5 +179,5 @@ Until a reproduction-of-the-number reply lands, the gate stays closed.
 
 ---
 
-*Bitcoin Sahi Research — external reproduction log. Working paper v2.1.0,
+*Bitcoin Sahi Research — external reproduction log. Working paper v2.2.0,
 model-spec v2.1.1. Simulation and fixes 2026-08-03; re-based 2026-09-17.*

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="description" content="The Bitcoin Block Space Problem — BSAHI Working Paper v2.2.0 (model-spec.json v2.0.1) Bitcoin block space economics research from BSAHI — live fee, mempool, and">
+<meta name="description" content="The Bitcoin Block Space Problem — BSAHI Working Paper v2.2.0 (model-spec.json v2.1.1) Bitcoin block space economics research from BSAHI — live fee, mempool, and">
 <meta property="og:title" content="Storage Cost Internalization in Bitcoin&#x27;s Fee Market">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://bitcoinsahi.com/research/working-paper">
@@ -74,7 +74,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <script src="/js/site-nav.js"></script>
 <div class="container">
 <h1>Storage Cost Internalization in Bitcoin&#x27;s Fee Market</h1>
-<p><strong>The Bitcoin Block Space Problem</strong> — BSAHI Working Paper v2.2.0 (model-spec.json v2.0.1) <em>Prepared by Prateek Poswal (Independent Researcher) within the Bitcoin Sahi Research Council program · ORCID: 0009-0005-2139-1877 · 2026-08-03</em></p>
+<p><strong>The Bitcoin Block Space Problem</strong> — BSAHI Working Paper v2.2.0 (model-spec.json v2.1.1) <em>Prepared by Prateek Poswal (Independent Researcher) within the Bitcoin Sahi Research Council program · ORCID: 0009-0005-2139-1877 · 2026-08-03</em></p>
 <p><em>This work is licensed under a Creative Commons Attribution 4.0 International License (CC BY 4.0). To view a copy, visit https://creativecommons.org/licenses/by/4.0/.</em></p>
 <hr>
 <h2>Abstract</h2>
@@ -89,7 +89,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 </ul>
 <p>A joint Monte Carlo over N, C, T, and price (current band, 10,000 draws) gives a P5–P95 interval of <strong>0.07–0.47</strong>, median 0.17, with <strong>99.9% of draws below the 1× threshold</strong>; the share of sampled blocks below 1× ranges ~79–100% depending on the true N. We reconcile two cost models that previously disagreed by 16.4× (dimensionless), document the correction transparently (model-spec.json v2.0.0), and state results to the precision the evidence licenses: <strong>external reproduction is pending (D5)</strong>. The framework is reproducible, falsifiable research.</p>
 <p><strong>Hypothesis:</strong> Bitcoin&#x27;s fee market efficiently allocates scarce block space, but may not fully internalize every long-lived resource cost created by confirmed transactions.</p>
-<p><strong>Final numbers at a glance</strong> — the headline in four lines, exact figures (all captures dated; model-spec v2.0.1; the full derivation is §4–§5, the sensitivity and knife-edge details are §5.3–§5.4, and the falsifiers are §7.1):</p>
+<p><strong>Final numbers at a glance</strong> — the headline in four lines, exact figures (all captures dated; model-spec v2.1.1; the full derivation is §4–§5, the sensitivity and knife-edge details are §5.3–§5.4, and the falsifiers are §7.1):</p>
 <div class="table-wrap">
 <table>
 <tr><th>Quantity</th><th>Value</th></tr>
@@ -192,7 +192,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <p><strong>Why average, not marginal?</strong> <code>cb</code> is an <em>average</em> (accounting) attribution: total node cost divided by total bytes. The 164× (dimensionless) marginal branch (<code>cb_insc</code>) attributes the same cost to inscription bytes only — a <em>marginal</em> (optimization) view. Both are valid; they answer different questions. Average cost is the right tool for <strong>accounting</strong> — &quot;what share of the network&#x27;s modeled hosting bill does the fee market cover?&quot; — which is this paper&#x27;s question. Marginal cost is the right tool for <strong>optimization</strong> — &quot;what does one more byte cost the network?&quot; — which is the inscription-externality branch&#x27;s question. The paper uses the average for its headline (accounting) and documents the marginal variant explicitly (the 164× marginal-inscription branch above), rather than burying the choice. A future marginal-attribution study would be a legitimate companion, not a correction.</p>
 <h2>5. Findings</h2>
 <h3>5.1 The Storage Cost Coverage Ratio</h3>
-<p>Measured from live <code>fee_history</code> captures. <strong>The current canonical reading is SCCR 0.3277</strong> (2026-09-19, 129 blocks, N=26,586, model-spec v2.1.1). The figures below are the <strong>pre-re-base record at N=32,000</strong>, retained for reproducibility; because SCCR is inverse-linear in N, multiply any of them by <strong>32,000/26,586 = 1.2036</strong> for the current basis (see the re-base note above). N is not directly observable: 32,000 was the address-manager sample (≥32K gossiped addresses, <strong>not a node count</strong>) and the measured reachable-node count is 26,586 (§5.4). The headline, in four lines (exact numbers in the tables below):</p>
+<p>Measured from live <code>fee_history</code> captures. <strong>The current canonical reading is SCCR 0.3327</strong> (2026-09-20, 124 blocks, N=26,586, model-spec v2.1.1). The figures below are the <strong>pre-re-base record at N=32,000</strong>, retained for reproducibility; because SCCR is inverse-linear in N, multiply any of them by <strong>32,000/26,586 = 1.2036</strong> for the current basis (see the re-base note above). N is not directly observable: 32,000 was the address-manager sample (≥32K gossiped addresses, <strong>not a node count</strong>) and the measured reachable-node count is 26,586 (§5.4). The headline, in four lines (exact numbers in the tables below):</p>
 <ul>
 <li><strong>Dated baseline band (Aug 02–15): ≈0.22</strong> at N=32K (<strong>≈0.27 at N=26,586</strong>), with ~100% of sampled blocks below 1× storage cost.</li>
 <li><strong>Live series (Aug 24): 0.4813</strong> at N=26,586, <strong>94.37% of blocks below 1×</strong> (true <strong>Sep 07 = 0.307344</strong>, 100% below) — the coverage ratio is fee-market-driven and time-varying.</li>
@@ -302,14 +302,14 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <table>
 <tr><th>N</th><th>status</th><th>L_net (USD/block)</th><th>SCCR</th><th>fee coverage</th><th>externality vs baseline</th></tr>
 <tr><td>---:</td><td>---</td><td>---:</td><td>---:</td><td>---:</td><td>---:</td></tr>
-<tr><td>26,586</td><td>B · measured reachable validators (baseline / floor)</td><td>$4,676</td><td>0.3277</td><td>32.8%</td><td>1.00×</td></tr>
-<tr><td>32,000</td><td>C · previous addrman address sample (deprecated as a node count)</td><td>$5,628</td><td>0.2723</td><td>27.2%</td><td>1.20×</td></tr>
-<tr><td>50,000</td><td>D · estimate — lower end of the 50K–100K band</td><td>$8,793</td><td>0.1743</td><td>17.4%</td><td>1.88×</td></tr>
-<tr><td>80,000</td><td>D · estimate — midpoint of the 50K–100K band</td><td>$14,070</td><td>0.1089</td><td>10.9%</td><td>3.01×</td></tr>
-<tr><td>100,000</td><td>D · estimate — upper end of the 50K–100K band</td><td>$17,587</td><td>0.0871</td><td>8.7%</td><td>3.76×</td></tr>
-<tr><td>150,000</td><td>D · private:public ≈ 4.6:1 — below the literature ratio</td><td>$26,380</td><td>0.0581</td><td>5.8%</td><td>5.64×</td></tr>
-<tr><td>200,000</td><td>D · private:public ≈ 6.5:1</td><td>$35,174</td><td>0.0436</td><td>4.4%</td><td>7.52×</td></tr>
-<tr><td>265,860</td><td>D · private:public ≈ 9:1 — Erlay (CCS&#x27;19) literature ratio</td><td>$46,756</td><td>0.0328</td><td>3.3%</td><td>10.00×</td></tr>
+<tr><td>26,586</td><td>B · measured reachable validators (baseline / floor)</td><td>$4,676</td><td>0.3327</td><td>33.3%</td><td>1.00×</td></tr>
+<tr><td>32,000</td><td>C · previous addrman address sample (deprecated as a node count)</td><td>$5,628</td><td>0.2764</td><td>27.6%</td><td>1.20×</td></tr>
+<tr><td>50,000</td><td>D · estimate — lower end of the 50K–100K band</td><td>$8,793</td><td>0.1769</td><td>17.7%</td><td>1.88×</td></tr>
+<tr><td>80,000</td><td>D · estimate — midpoint of the 50K–100K band</td><td>$14,070</td><td>0.1106</td><td>11.1%</td><td>3.01×</td></tr>
+<tr><td>100,000</td><td>D · estimate — upper end of the 50K–100K band</td><td>$17,587</td><td>0.0884</td><td>8.8%</td><td>3.76×</td></tr>
+<tr><td>150,000</td><td>D · private:public ≈ 4.6:1 — below the literature ratio</td><td>$26,380</td><td>0.0590</td><td>5.9%</td><td>5.64×</td></tr>
+<tr><td>200,000</td><td>D · private:public ≈ 6.5:1</td><td>$35,174</td><td>0.0442</td><td>4.4%</td><td>7.52×</td></tr>
+<tr><td>265,860</td><td>D · private:public ≈ 9:1 — Erlay (CCS&#x27;19) literature ratio</td><td>$46,756</td><td>0.0333</td><td>3.3%</td><td>10.00×</td></tr>
 </table>
 </div>
 <p><strong>Paper defense (for peer review):</strong></p>
@@ -338,7 +338,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <tr><td>Validation CPU per block</td><td><strong>~0.1–1 s</strong> (cross-checked by initial-sync delta: 6–24 h / ~1M blocks)</td></tr>
 <tr><td>Validation CPU per node per year</td><td><strong>~1.5–15 h</strong></td></tr>
 <tr><td><strong>Validation cost per node per year</strong></td><td><strong>~$0.5–$5</strong> (central ≈ $1–2/yr at $0.10–0.50/CPU-h)</td></tr>
-<tr><td>Network-wide (N = 32K)</td><td><strong>~$16K–160K/yr</strong></td></tr>
+<tr><td>Network-wide (N = 26,586)</td><td><strong>~$16K–160K/yr</strong></td></tr>
 </table>
 </div>
 <p><strong>Falsifiable claim (v1):</strong> <em>validation cost per full node per year is &lt; $100 — bounded from above by the entire node budget C = $925/yr, central estimate ~$1–2/yr.</em> Falsified by a measured benchmark showing ≥ ~200 h/yr steady-state validation CPU, or a hardware census showing validation is a <em>binding</em> provisioning constraint. Literature anchored on Tschorsch &amp; Scheuermann (2016, IEEE COMST), Delgado-Segura et al. (2018, UTXO analysis), Bitcoin Core&#x27;s <code>src/bench</code> suite; the architect-notes 3-paper fee list is acknowledged as <em>not</em> modeling validation — the gap this leg opens. <strong>Verdict:</strong> validation is cheap <em>per block</em>, so cheap per node; its network total (~$16K–160K/yr) is ~3 orders of magnitude below the storage leg&#x27;s modeled network burden — which is itself the finding, not an assertion.</p>
