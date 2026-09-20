@@ -81,8 +81,13 @@ def external_probe(addr):
 def inbound_counts():
     try:
         d = json.load(open(CENSUS))
+        # Tier C must use the CRAWLER-FILTERED count: known monitors dial nodes on
+        # purpose and are not evidence of a non-listening/private node.
         return {"now": (d.get("latest") or {}).get("inbound_count", 0),
-                "distinct_ever": d.get("distinct_inbound_addresses_ever", 0)}
+                "distinct_ever": d.get("distinct_inbound_measurement_ever",
+                                       d.get("distinct_inbound_addresses_ever", 0)),
+                "raw_distinct_ever": d.get("distinct_inbound_addresses_ever", 0),
+                "known_crawlers_ever": len(d.get("known_crawler_ips_ever") or [])}
     except Exception:
         return {"now": 0, "distinct_ever": 0}
 

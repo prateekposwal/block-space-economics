@@ -1,19 +1,35 @@
 {
   "schema": "bsahi.inbound-census/2",
   "layer": "observed",
-  "generated_at": "2026-09-20T07:26:52.810069+00:00",
+  "generated_at": "2026-09-20T08:33:12.157732+00:00",
   "source": "Bitcoin Core getpeerinfo on the project's listening node",
   "method": "tools/research/inbound_census.py \u2014 count peers that dial in (identity = IP, port stripped)",
   "latest": {
-    "at": "2026-09-20T07:26:52.810069+00:00",
-    "connections_in": 0,
-    "inbound_count": 0,
-    "inbound_ips": [],
+    "at": "2026-09-20T08:33:12.157732+00:00",
+    "connections_in": 1,
+    "inbound_count": 1,
+    "inbound_ips": [
+      "2a00:1398:4:2a05:4e52:62ff:fe22:6c13"
+    ],
+    "inbound_measurement_ips": [],
+    "crawler_ips": [
+      "2a00:1398:4:2a05:4e52:62ff:fe22:6c13"
+    ],
+    "inbound_detail": [
+      {
+        "ip": "2a00:1398:4:2a05:4e52:62ff:fe22:6c13",
+        "subver": "/dsn.tm.kit.edu/bitcoin:0.9.99/",
+        "network": "ipv6",
+        "crawler": true
+      }
+    ],
     "identity_hidden": false,
     "identity_hidden_ips": [],
-    "connection_type_breakdown": {}
+    "connection_type_breakdown": {
+      "inbound": 1
+    }
   },
-  "samples": 31,
+  "samples": 34,
   "history": [
     {
       "at": "2026-09-17T17:29:55.332181+00:00",
@@ -169,21 +185,41 @@
       "at": "2026-09-20T07:26:52.810069+00:00",
       "inbound_count": 0,
       "connections_in": 0
+    },
+    {
+      "at": "2026-09-20T08:25:20.349989+00:00",
+      "inbound_count": 1,
+      "connections_in": 1
+    },
+    {
+      "at": "2026-09-20T08:32:16.559505+00:00",
+      "inbound_count": 1,
+      "connections_in": 1
+    },
+    {
+      "at": "2026-09-20T08:33:12.157732+00:00",
+      "inbound_count": 1,
+      "connections_in": 1
     }
   ],
-  "distinct_inbound_addresses_ever": 0,
-  "max_concurrent_inbound": 0,
+  "distinct_inbound_addresses_ever": 1,
+  "distinct_inbound_measurement_ever": 0,
+  "known_crawler_ips_ever": [
+    "2a00:1398:4:2a05:4e52:62ff:fe22:6c13"
+  ],
+  "max_concurrent_inbound": 1,
   "identity_hidden_ever": false,
   "interpretation": {
     "what_it_measures": "Nodes that opened a connection to us. A node that dials out is, by that act, not serving inbound connections to the crawler \u2014 i.e. a non-listening / private node.",
     "clearnet_bound": "`max_concurrent_inbound` is a first-party LOWER bound on non-listening nodes: N simultaneous inbound peers means at least N such nodes exist.",
     "tor_limitation": "Over Tor every peer appears as 127.0.0.1, so distinct-node identity is NOT observable \u2014 only the concurrency bound. Distinct-node counting requires a clearnet port-forward.",
-    "what_it_is_not": "Not a population count. It is bounded by our slots, uptime, reachability (port-forward/Tor) and the churn of who happens to dial us."
+    "what_it_is_not": "Not a population count. It is bounded by our slots, uptime, reachability (port-forward/Tor) and the churn of who happens to dial us.",
+    "crawler_filter": "Known measurement crawlers (e.g. /dsn.tm.kit.edu/) dial nodes on purpose, so they are excluded from the measurement count and reported separately. `distinct_inbound_addresses_ever` is the raw set; `distinct_inbound_measurement_ever` excludes known crawlers. The latter is the honest lower bound on non-listening nodes."
   },
   "requirements": {
     "maxconnections": "must exceed the outbound count so inbound slots exist",
     "listen": "1",
     "reachability": "port-forward for clearnet distinct-node counting; Tor gives a concurrency bound only"
   },
-  "headline": "0 inbound peers observed across 31 sample(s); the node accepts connections but is not yet being dialled"
+  "headline": "1 distinct clearnet peer IP(s) and up to 1 concurrent inbound peer(s) across 34 sample(s) have dialled in; latest: 1"
 }

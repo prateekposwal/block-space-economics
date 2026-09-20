@@ -51,6 +51,19 @@ def _is_identity_hidden(ip):
     return ip == "::1" or ip == "127.0.0.1" or ip.startswith("127.")
 
 
+# Known measurement crawlers / monitors. These DIAL nodes on purpose (that is
+# their whole function), so counting them as "non-listening / private" nodes
+# would be wrong. Matched case-insensitively against the peer's `subver`.
+# First observed case: /dsn.tm.kit.edu/bitcoin:0.9.99/ (KIT Bitcoin monitor).
+KNOWN_CRAWLERS = ("dsn.tm.kit.edu", "bitnodes", "btcnodes", "21.co", "btcscan",
+                  "blockchain.info", "bitcoinseeds", "node-crawler")
+
+
+def _is_known_crawler(subver):
+    s = (subver or "").lower()
+    return any(k in s for k in KNOWN_CRAWLERS)
+
+
 def main():
     if node is None:
         raise SystemExit("cannot import the RPC layer")
@@ -63,9 +76,18 @@ def main():
     ips = [_ip(p.get("addr", "")) for p in inbound]
     identifiable = sorted({ip for ip in ips if ip and not _is_identity_hidden(ip)})
     hidden = sorted({ip for ip in ips if ip and _is_identity_hidden(ip)})
+    detail = [{"ip": _ip(p.get("addr", "")), "subver": p.get("subver"),
+               "network": p.get("network"),
+               "crawler": _is_known_crawler(p.get("subver"))} for p in inbound]
+    measure = sorted({d["ip"] for d in detail
+                      if d["ip"] and not _is_identity_hidden(d["ip"]) and not d["crawler"]})
+    crawlers = sorted({d["ip"] for d in detail if d["ip"] and d["crawler"]})
     rec = {"at": now, "connections_in": net.get("connections_in"),
            "inbound_count": len(inbound),
-           "inbound_ips": identifiable,                # clearnet identity
+           "inbound_ips": identifiable,                # clearnet identity (all)
+           "inbound_measurement_ips": measure,         # excluding known crawlers
+           "crawler_ips": crawlers,
+           "inbound_detail": detail,
            "identity_hidden": bool(hidden),
            "identity_hidden_ips": hidden,
            "connection_type_breakdown": _counts(p.get("connection_type", "?") for p in inbound)}
@@ -78,16 +100,26 @@ def main():
         with open(JSONL) as f:
             rows = [json.loads(l) for l in f if l.strip()]
     ever = set()
+    ever_measure = set()
+    ever_crawler = set()
     max_concurrent = 0
     hidden_ever = False
     for r in rows:
         ever |= {ip for ip in r.get("inbound_ips", []) if ip}
+        if "inbound_measurement_ips" in r:
+            ever_measure |= {ip for ip in r.get("inbound_measurement_ips") or [] if ip}
+            ever_crawler |= {ip for ip in r.get("crawler_ips") or [] if ip}
+        else:
+            ever_measure |= {ip for ip in r.get("inbound_ips", []) if ip}  # legacy rows
         # backward compat: older rows stored addr strings with ports
         if not r.get("inbound_ips") and r.get("inbound_addrs"):
             ever |= {_ip(a) for a in r["inbound_addrs"]
                      if a and not _is_identity_hidden(_ip(a))}
         max_concurrent = max(max_concurrent, r.get("inbound_count") or 0)
         hidden_ever = hidden_ever or bool(r.get("identity_hidden"))
+    # An IP identified as a crawler anywhere is never a measurement, even if an
+    # older (pre-filter) row had counted it as an ordinary inbound peer.
+    ever_measure -= ever_crawler
 
     out = {
         "schema": "bsahi.inbound-census/2",
@@ -100,6 +132,8 @@ def main():
         "history": [{"at": r["at"], "inbound_count": r.get("inbound_count", 0),
                      "connections_in": r.get("connections_in")} for r in rows[-120:]],
         "distinct_inbound_addresses_ever": len(ever),
+        "distinct_inbound_measurement_ever": len(ever_measure),
+        "known_crawler_ips_ever": sorted(ever_crawler),
         "max_concurrent_inbound": max_concurrent,
         "identity_hidden_ever": hidden_ever,
         "interpretation": {
@@ -112,6 +146,11 @@ def main():
                                "clearnet port-forward."),
             "what_it_is_not": ("Not a population count. It is bounded by our slots, uptime, reachability "
                                "(port-forward/Tor) and the churn of who happens to dial us."),
+            "crawler_filter": ("Known measurement crawlers (e.g. /dsn.tm.kit.edu/) dial nodes on purpose, "
+                               "so they are excluded from the measurement count and reported separately. "
+                               "`distinct_inbound_addresses_ever` is the raw set; "
+                               "`distinct_inbound_measurement_ever` excludes known crawlers. The latter is "
+                               "the honest lower bound on non-listening nodes."),
         },
         "requirements": {"maxconnections": "must exceed the outbound count so inbound slots exist",
                          "listen": "1",
@@ -122,7 +161,9 @@ def main():
     with open(OUT, "w") as f:
         json.dump(out, f, indent=2)
     print(f"inbound: {rec['inbound_count']} now | max concurrent ever: {max_concurrent} | "
-          f"distinct clearnet IPs ever: {len(ever)} | identity-hidden seen: {hidden_ever}")
+          f"distinct clearnet IPs ever: {len(ever)}"
+          f" (measurement {len(ever_measure)}, known crawlers {len(ever_crawler)})"
+          f" | identity-hidden seen: {hidden_ever}")
     print(f"connections_in (netinfo): {net.get('connections_in')} | listening: {net.get('localaddresses')}")
     print(f"\nwrote {os.path.relpath(OUT, ROOT)}")
 

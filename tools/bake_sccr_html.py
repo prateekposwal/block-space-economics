@@ -218,9 +218,16 @@ def dashboard_cards():
         if d5.get('measurement_live'):
             _ep_line = ('Census endpoint: <b>LIVE</b> \u00b7 %s \u00b7 externally verified reachable'
                         % (d5.get('census_endpoint') or ''))
-            _priv = (('Private / non-listening: <b>%s measured</b> (lower bound) \u00b7 grade %s'
-                      % (_num(_inb.get('distinct_ever'), 0), _cg)) if _inb.get('distinct_ever')
-                     else 'Private / non-listening: <b>not yet measured</b> (0 inbound peers) \u00b7 grade %s' % _cg)
+            _m = _inb.get('distinct_ever') or 0
+            _raw = _inb.get('raw_distinct_ever') or 0
+            if _m:
+                _priv = ('Private / non-listening: <b>%s measured</b> (lower bound) \u00b7 grade %s'
+                         % (_num(_m, 0), _cg))
+            elif _raw:
+                _priv = ('Private / non-listening: <b>not yet measured</b> \u2014 %s inbound so far, '
+                         'all known crawlers (excluded) \u00b7 grade %s' % (_num(_raw, 0), _cg))
+            else:
+                _priv = ('Private / non-listening: <b>not yet measured</b> (0 inbound peers) \u00b7 grade %s' % _cg)
         elif _ep.get('handshake_fresh'):
             _ep_line = 'Census endpoint: up but external reachability not verified'
             _priv = 'Private / non-listening: <b>not yet measured</b> \u00b7 grade %s' % _cg
