@@ -57,7 +57,7 @@ The bandwidth bound ($3.94/yr/node, $126K/yr network-wide) is an **upper bound**
 
 | Leg | Cost/year/node | Share of total C |
 |---|---|---|
-| Storage (SCCR) | $5,627.80/block × 52,596 = ~$297M/yr network | 100% (the reference) |
+| Storage (SCCR) | $4,675.65/block × 52,596 = ~$246M/yr network | 100% (the reference) |
 | Bandwidth | $3.94/yr/node | ~0.004% of storage |
 | UTXO (UTXOCIR) | Covered by fees (2.9× coverage) | N/A |
 | Validation | $0.5–5/yr/node | ~0.1–0.5% of C |
