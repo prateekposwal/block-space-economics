@@ -35,10 +35,13 @@ sudo -n "$ROOT/tools/net/tunnel-root.sh" up "$CONF" "$EXTRA"
 # the SYN-ACK out the physical interface (invalid source), so no peer ever
 # completes the handshake. route-on pins the endpoint /128 to the physical gateway
 # and routes 2000::/3 via the tunnel. Reversible with route-off.
-EP="$(awk -F'[][: ]+' '/^[[:space:]]*Endpoint/{print; exit}' "$CONF" 2>/dev/null \
-      | sed -E 's/.*\[?([0-9a-fA-F:]+)\]?:[0-9]+.*/\1/')"
-sudo -n "$ROOT/tools/net/tunnel-root.sh" route-on "${EP:-2a11:6c7:3::1}" \
-  && echo "  reply-path routes installed (route-off to revert)"
+EP="$(sed -n 's/.*Endpoint *= *\[\{0,1\}\([0-9a-fA-F:]\{6,\}\)\]\{0,1\}:.*/\1/p' "$CONF" 2>/dev/null | head -1 || true)"
+EP="${EP:-2a11:6c7:3::1}"
+if sudo -n "$ROOT/tools/net/tunnel-root.sh" route-on "$EP"; then
+  echo "  reply-path routes installed (route-off to revert)"
+else
+  echo "  WARN: route-on failed — inbound will arrive but replies may not return"
+fi
 
 echo "==> waiting for handshake"
 for i in $(seq 1 10); do
