@@ -29,13 +29,21 @@ fi
 log "bringing up routed-IPv6 tunnel (conf present, sudo unlocked)"
 "$ROOT/tools/net/route64-up.sh" "$CONF" || log "route64-up.sh failed"
 
-# keepalive loop: re-assert the tunnel if the handshake lapses
+# Keepalive loop. SAFETY: 2000::/3 is routed via the tunnel, so a dead tunnel
+# would blackhole ALL host IPv6. On a lapsed handshake we first tear down (which
+# removes the routes and restores normal IPv6), then bring it back with fresh
+# routes. Never leave the routes pointing at a dead tunnel.
+STALE=180
 while true; do
-  if ~/.bsahi/bin/wg show "${IFACE:-utun72}" 2>/dev/null | grep -q "latest handshake"; then
-    sleep 120
-  else
-    log "no handshake — re-running route64-up.sh"
+  TS="$(sudo -n "$ROOT/tools/net/tunnel-root.sh" hsage 2>/dev/null | tr -dc '0-9')"
+  NOW="$(date +%s)"
+  if [ -z "$TS" ] || [ "$TS" = "0" ] || [ $((NOW - TS)) -gt "$STALE" ]; then
+    log "handshake stale (ts=${TS:-none}, age=$((NOW - ${TS:-0}))s) — tearing down (routes off), then re-up"
+    sudo -n "$ROOT/tools/net/tunnel-root.sh" down >/dev/null 2>&1 || true
+    sleep 5
     "$ROOT/tools/net/route64-up.sh" "$CONF" >/dev/null 2>&1 || true
-    sleep 60
+    sleep 45
+  else
+    sleep 120
   fi
 done

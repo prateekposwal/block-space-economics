@@ -113,6 +113,10 @@ case "${1:-}" in
     EGW="$(route -n get -inet6 "$EP" 2>/dev/null | awk '/gateway/{print $2}')"
     EIF="$(route -n get -inet6 "$EP" 2>/dev/null | awk '/interface/{print $2}')"
     echo "endpoint $EP currently via $EGW dev $EIF"
+    # idempotent: clear any stale pin/route before adding (a stale pin after a
+    # network change would prevent the tunnel re-establishing)
+    route delete -inet6 -host "$EP" 2>/dev/null || true
+    route delete -inet6 2000::/3 2>/dev/null || true
     [ -n "$EGW" ] && route add -inet6 -host "$EP" "$EGW" 2>/dev/null || true
     route add -inet6 2000::/3 -interface "$IFACE" 2>/dev/null || echo "  (2000::/3 add failed)"
     echo "routes ON: $EP pinned via $EIF; 2000::/3 via $IFACE"
@@ -123,6 +127,11 @@ case "${1:-}" in
     route delete -inet6 2000::/3 2>/dev/null || true
     route delete -inet6 -host "$EP" 2>/dev/null || true
     echo "routes OFF (2000::/3 and $EP removed)"
+    ;;
+  hsage)
+    # print the unix timestamp of the latest handshake (0 if never) — lets the
+    # supervisor detect a STALE tunnel rather than merely a present one.
+    "$BIN/wg" show "$IFACE" latest-handshakes 2>/dev/null | awk '{print $2}' | head -1
     ;;
   diag)
     echo "--- pf enabled? ---"; pfctl -s info 2>&1 | head -2
