@@ -42,6 +42,7 @@ CATALOG = {
     "block_propagation.json": ("observed", "C", "Per-block relay: announcing-node counts + propagation stats (btcnodes inv sampler)"),
     "mining_geography.json": ("modelled", "C/D", "Mining hashrate share by country (auto: Hashrate Index quarterly heatmap; CBECI CSV preferred if present)"),
     "contribution_ratio.json": ("modelled", "C", "Three-axis contribution join: verification population | block relay | block production"),
+    "d5_status.json": ("observed", "B", "D5 census endpoint status: tunnel, EXTERNAL reachability self-test, inbound counts"),
     "peer_relay.json": ("observed", "B", "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)"),
     "validation_cost.json": ("observed", "A", "Measured node-side validation cost per era from a full -reindex (first-party, no API)"),
     "node_crawl.json": ("observed", "A", "First-party reachable-node census by P2P handshake crawl (network class, client mix, sync)"),

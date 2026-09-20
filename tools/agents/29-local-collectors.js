@@ -62,6 +62,8 @@ var SCHEDULE = [
   // Self-hosted robust BTC/USD reference rate (median across independent venues).
   { name: 'price_index',          script: 'tools/research/price_index.py',           args: [], every: 900, timeoutS: 120 },
   // Mining-geography reachability evidence: pool stratum endpoints + CDN fronting.
+  // D5: is the private/non-listening census endpoint actually live + reachable?
+  { name: 'd5_status',           script: 'tools/net/d5_status.py',                 args: [], every: 1800, timeoutS: 180 },
   { name: 'pool_infrastructure',  script: 'tools/net/pool_infrastructure.py',        args: [], every: 86400, timeoutS: 300 },
   // Clearnet distinct-IP census from a public-IP VPS (see
   // research/inbound-census-vps.md). Inert until ~/.bsahi/vps-census.conf exists.

@@ -207,20 +207,30 @@ def dashboard_cards():
             'Security claim $%s/block \u00b7 fees cover %s%% of it' % (_num(cl.get('security_energy_cost'), 0), cov.get('security_by_fees_pct', '\u2014')),
             'Subsidy covers energy until ~%s' % (yr or '\u2014')], '/research/fee-allocation', 'the analysis'))
 
-    icv = L('inbound_census_verdict.json')
+    d5 = L('d5_status.json')
     if vp.get('quantities'):
         _q = vp['quantities']
         _b = (_q.get('B_reachable_nodes') or {}).get('value')
         _a = (_q.get('A_gossip_addresses') or {}).get('value')
         _cg = (_q.get('C_non_listening') or {}).get('grade') or 'D'
-        _verdict = icv.get('grade') or 'n/a'
-        _why = ('awaiting a public relay host \u2014 this Mac is CGNAT'
-                if _verdict == 'CONTAINED' else _verdict)
+        _inb = d5.get('inbound') or {}
+        _ep = d5.get('endpoint') or {}
+        if d5.get('measurement_live'):
+            _ep_line = ('Census endpoint: <b>LIVE</b> \u00b7 %s \u00b7 externally verified reachable'
+                        % (d5.get('census_endpoint') or ''))
+            _priv = (('Private / non-listening: <b>%s measured</b> (lower bound) \u00b7 grade %s'
+                      % (_num(_inb.get('distinct_ever'), 0), _cg)) if _inb.get('distinct_ever')
+                     else 'Private / non-listening: <b>not yet measured</b> (0 inbound peers) \u00b7 grade %s' % _cg)
+        elif _ep.get('handshake_fresh'):
+            _ep_line = 'Census endpoint: up but external reachability not verified'
+            _priv = 'Private / non-listening: <b>not yet measured</b> \u00b7 grade %s' % _cg
+        else:
+            _ep_line = 'Census endpoint: <b>down</b> \u2014 private nodes unobservable'
+            _priv = 'Private / non-listening: <b>not observable</b> \u00b7 grade %s' % _cg
         out.append(_card('Node population: public vs private', 'observed', 'B / D', [
             'Public (reachable, listening): <b>%s</b> \u00b7 gossip addresses %s (not nodes)'
             % (_num(_b, 0), _num(_a, 0)),
-            'Private / non-listening: <b>not observable</b> \u00b7 grade %s \u00b7 total unknown' % _cg,
-            'D5 inbound census: <b>%s</b> \u2014 %s' % (_verdict, _why)],
+            _priv, _ep_line],
             '/research/inbound-census-vps', 'the method'))
 
     if vp.get('quantities'):
