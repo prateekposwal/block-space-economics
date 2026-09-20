@@ -1,0 +1,128 @@
+# BSAHI D5 — relay CONTROL PLANE (not the measurement endpoint).
+#
+# GitHub Actions provisions/configures a minimal public relay host. It is NOT the
+# Bitcoin endpoint: runner IPs are ephemeral, inbound to runners is unsupported,
+# and the runner disappears after the job. The relay host is the endpoint; the
+# reverse tunnel + PROXY demuxer stay on the Mac (they must terminate at Core).
+#
+#   peers -> [VPS :8333 HAProxy send-proxy-v2] -> ssh -R -> [Mac demuxer] -> Core
+#
+# MANUAL ONLY. This never runs on push/schedule; it requires explicit dispatch and
+# configured secrets. It does not modify Bitcoin Core or the SCCR model.
+#
+# Required secrets:
+#   RELAY_SSH_KEY   private SSH key that can log into the relay host (and that the
+#                   Mac will also use for `ssh -R`)
+# Optional (mode=provision, Oracle Cloud Always-Free):
+#   OCI_CLI_PRIVATE_KEY, OCI_CLI_FINGERPRINT, OCI_CLI_TENANCY, OCI_CLI_USER, OCI_CLI_REGION
+#
+# Required inputs: host (user@public-ip). mode=adopt just configures an existing host.
+
+name: deploy-relay
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "adopt = configure an existing host; provision = create an OCI VM first"
+        type: choice
+        options: [adopt, provision]
+        default: adopt
+      host:
+        description: "user@public-ip of the relay host (required for adopt)"
+        type: string
+        required: true
+      port:
+        description: "public TCP port for the entry point"
+        type: string
+        default: "8333"
+
+permissions:
+  contents: read
+
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve target host
+        id: t
+        run: |
+          HOST="${{ inputs.host }}"
+          echo "host=$HOST" >> "$GITHUB_OUTPUT"
+          echo "ip=${HOST#*@}" >> "$GITHUB_OUTPUT"
+
+      - name: Load deploy key
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "${{ secrets.RELAY_SSH_KEY }}" > ~/.ssh/relay
+          chmod 600 ~/.ssh/relay
+          ssh-keyscan -H "${{ steps.t.outputs.ip }}" >> ~/.ssh/known_hosts 2>/dev/null || true
+
+      - name: (provision) create an Oracle Cloud Always-Free VM
+        if: inputs.mode == 'provision'
+        env:
+          OCI_CLI_PRIVATE_KEY: ${{ secrets.OCI_CLI_PRIVATE_KEY }}
+          OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
+          OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }}
+          OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }}
+          OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
+        run: |
+          set -euo pipefail
+          curl -L -s https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh \
+            | bash -s -- --accept-all-licenses --exec-dir "$HOME/oci-cli/bin" >/dev/null
+          mkdir -p ~/.oci
+          printf '%s\n' "$OCI_CLI_PRIVATE_KEY" > ~/.oci/oci_api_key.pem
+          chmod 600 ~/.oci/oci_api_key.pem
+          cat > ~/.oci/config <<EOF
+          [DEFAULT]
+          user=$OCI_CLI_USER
+          fingerprint=$OCI_CLI_FINGERPRINT
+          tenancy=$OCI_CLI_TENANCY
+          region=$OCI_CLI_REGION
+          key_file=$HOME/.oci/oci_api_key.pem
+          EOF
+          export PATH="$HOME/oci-cli/bin:$PATH"
+          [ -f ~/.ssh/relay.pub ] || ssh-keygen -y -f ~/.ssh/relay > ~/.ssh/relay.pub
+          PORT="${{ inputs.port }}" bash tools/net/oci-census-vm.sh ~/.ssh/relay.pub \
+            | tee /tmp/oci.log
+          echo "::notice::provision output above — set the 'host' input to the printed user@ip on the next run"
+
+      - name: (adopt) install the PROXY-v2 entry point on the host
+        if: inputs.mode == 'adopt'
+        run: |
+          set -euo pipefail
+          SSH="ssh -i ~/.ssh/relay -o BatchMode=yes -o ConnectTimeout=15"
+          scp -q -i ~/.ssh/relay tools/net/entrypoint-haproxy.cfg tools/net/entrypoint-setup.sh \
+            "${{ steps.t.outputs.host }}:"
+          $SSH "${{ steps.t.outputs.host }}" \
+            "sudo PORT=${{ inputs.port }} TUNNEL_PORT=9000 bash entrypoint-setup.sh"
+
+      - name: External reachability check (runner is an independent vantage point)
+        run: |
+          set -euo pipefail
+          IP="${{ steps.t.outputs.ip }}"; PORT="${{ inputs.port }}"
+          if timeout 10 bash -c "</dev/tcp/$IP/$PORT"; then
+            echo "::notice::TCP $IP:$PORT is OPEN from the runner (external vantage)."
+            echo "  NOTE: this proves the entry point accepts TCP. End-to-end peer"
+            echo "  forwarding also requires the Mac-side reverse tunnel (ssh -R) running."
+          else
+            echo "::error::TCP $IP:$PORT is NOT reachable from the runner — open it in the"
+            echo "provider's firewall/security list (and check ufw on the host)."
+            exit 1
+          fi
+
+      - name: Summary
+        run: |
+          {
+            echo "## BSAHI relay control plane"
+            echo ""
+            echo "- mode: \`${{ inputs.mode }}\`"
+            echo "- host: \`${{ steps.t.outputs.host }}\`"
+            echo "- entry point: HAProxy \`send-proxy-v2\` on :${{ inputs.port }} -> 127.0.0.1:9000"
+            echo ""
+            echo "**Still required (Mac side, not a runner job):**"
+            echo '`tools/net/tunnel-up.sh <user@host>` — persistent reverse tunnel +'
+            echo "PROXY demuxer -> Bitcoin Core. Then \`tools/net/relay-verify.sh <ip>\`."
+          } >> "$GITHUB_STEP_SUMMARY"
