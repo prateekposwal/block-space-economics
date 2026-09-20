@@ -29,6 +29,20 @@ cidr2mask() {  # $1 prefix 1..32 -> dotted mask
   local p="$1" bits; bits=$(( 0xffffffff << (32-p) & 0xffffffff ))
   printf '%d.%d.%d.%d' $((bits>>24&255)) $((bits>>16&255)) $((bits>>8&255)) $((bits&255))
 }
+# macOS utun is POINTOPOINT: an IPv4 address needs a peer/destination or ifconfig
+# fails with "Destination address required". For a /30 the peer is the other host.
+ipv4_peer() {  # $1=ip $2=prefix -> peer ip
+  local a b c d ip plen size net off peer
+  IFS=. read -r a b c d <<<"$1"
+  plen="$2"
+  ip=$(( (a<<24)|(b<<16)|(c<<8)|d ))
+  [ "$plen" -ge 31 ] && { echo "$1"; return; }
+  size=$(( 1 << (32-plen) ))
+  net=$(( ip & ~(size-1) ))
+  off=$(( ip - net ))
+  peer=$(( net + size - 1 - off ))
+  printf '%d.%d.%d.%d' $((peer>>24&255)) $((peer>>16&255)) $((peer>>8&255)) $((peer&255))
+}
 
 case "${1:-}" in
   up)
@@ -45,35 +59,49 @@ case "${1:-}" in
         ip="${a%%/*}"; plen="${a##*/}"
         case "$ip" in
           *:*) echo "       ifconfig $IFACE inet6 $ip prefixlen $plen up" ;;
-          *)   echo "       ifconfig $IFACE inet $ip netmask $(cidr2mask "$plen") up" ;;
+          *)   echo "       ifconfig $IFACE inet $ip $(ipv4_peer "$ip" "$plen") up" ;;
         esac
       done
       [ -n "$EXTRA" ] && echo "       ifconfig $IFACE inet6 $EXTRA alias"
       exit 0
     fi
 
-    "$BIN/wireguard-go" "$IFACE"
-    sleep 2
+    if ! ifconfig "$IFACE" >/dev/null 2>&1; then
+      "$BIN/wireguard-go" "$IFACE"; sleep 2
+    else
+      echo "  ($IFACE already exists — not restarting wireguard-go)"
+    fi
     wg_only "$CONF" > "$WG_ONLY"
-    "$BIN/wg" setconf "$IFACE" "$WG_ONLY"
+    "$BIN/wg" setconf "$IFACE" "$WG_ONLY" || { rm -f "$WG_ONLY"; echo "  wg setconf FAILED"; exit 4; }
     rm -f "$WG_ONLY"
 
+    # Assign every address. Each is best-effort and NON-FATAL: a transport IPv4
+    # that will not stick must not stop the essential IPv6 address being added.
     addresses "$CONF" | while read -r a; do
       [ -z "$a" ] && continue
       ip="${a%%/*}"; plen="${a##*/}"
       case "$ip" in
-        *:*) ifconfig "$IFACE" inet6 "$ip" prefixlen "$plen" up ;;
-        *)   ifconfig "$IFACE" inet "$ip" netmask "$(cidr2mask "$plen")" up ;;
+        *:*)
+          if ifconfig "$IFACE" inet6 "$ip" prefixlen "$plen" up 2>/dev/null; then echo "  assigned $a"
+          else echo "  WARN: could not assign $a (non-fatal)"; fi ;;
+        *)
+          # point-to-point: give the /30 peer as destination
+          if ifconfig "$IFACE" inet "$ip" "$(ipv4_peer "$ip" "$plen")" up 2>/dev/null; then echo "  assigned $a"
+          else echo "  WARN: could not assign $a (non-fatal)"; fi ;;
       esac
-      echo "  assigned $a"
     done
     [ -n "$EXTRA" ] && ifconfig "$IFACE" inet6 "$EXTRA" alias || true
     ifconfig "$IFACE" | grep -E "inet6? |inet " | sed 's/^/  /' || true
     echo "tunnel $IFACE up"; "$BIN/wg" show "$IFACE" || true
     ;;
+  status)
+    echo "--- wg show $IFACE ---"; "$BIN/wg" show "$IFACE" 2>&1 || true
+    echo "--- addresses ---"; ifconfig "$IFACE" 2>/dev/null | grep -E "inet6? |inet " || true
+    echo "--- routes via $IFACE ---"; netstat -rn -f inet6 2>/dev/null | grep "$IFACE" || true
+    ;;
   down)
     pkill -f "wireguard-go $IFACE" 2>/dev/null || true
     echo "tunnel $IFACE down"
     ;;
-  *) echo "usage: tunnel-root.sh up <conf> [extra_ipv6] | down"; exit 2;;
+  *) echo "usage: tunnel-root.sh up <conf> [extra_ipv6] | status | down"; exit 2;;
 esac
