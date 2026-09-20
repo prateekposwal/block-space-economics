@@ -1,11 +1,11 @@
 {
   "schema": "bsahi.inbound-census/2",
   "layer": "observed",
-  "generated_at": "2026-09-20T08:33:12.157732+00:00",
+  "generated_at": "2026-09-20T08:39:22.056203+00:00",
   "source": "Bitcoin Core getpeerinfo on the project's listening node",
   "method": "tools/research/inbound_census.py \u2014 count peers that dial in (identity = IP, port stripped)",
   "latest": {
-    "at": "2026-09-20T08:33:12.157732+00:00",
+    "at": "2026-09-20T08:39:22.056203+00:00",
     "connections_in": 1,
     "inbound_count": 1,
     "inbound_ips": [
@@ -29,7 +29,7 @@
       "inbound": 1
     }
   },
-  "samples": 34,
+  "samples": 35,
   "history": [
     {
       "at": "2026-09-17T17:29:55.332181+00:00",
@@ -200,6 +200,11 @@
       "at": "2026-09-20T08:33:12.157732+00:00",
       "inbound_count": 1,
       "connections_in": 1
+    },
+    {
+      "at": "2026-09-20T08:39:22.056203+00:00",
+      "inbound_count": 1,
+      "connections_in": 1
     }
   ],
   "distinct_inbound_addresses_ever": 1,
@@ -221,5 +226,5 @@
     "listen": "1",
     "reachability": "port-forward for clearnet distinct-node counting; Tor gives a concurrency bound only"
   },
-  "headline": "1 distinct clearnet peer IP(s) and up to 1 concurrent inbound peer(s) across 34 sample(s) have dialled in; latest: 1"
+  "headline": "1 distinct clearnet peer IP(s) and up to 1 concurrent inbound peer(s) across 35 sample(s) have dialled in; latest: 1"
 }
