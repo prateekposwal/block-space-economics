@@ -1,7 +1,7 @@
 # Audience Summaries — "Storage Cost Internalization in Bitcoin's Fee Market"
 
-**Companion to:** `research/working-paper.md` v2.1.0 · `research/model-spec.json`
-v2.0.1 · `research/roadmap.md` (adopted 2026-08-02)
+**Companion to:** `research/working-paper.md` v2.2.0 · `research/model-spec.json`
+v2.1.1 · `research/roadmap.md` (adopted 2026-08-02)
 **Status:** READY-TO-USE (2026-08-03) — four polished abstracts/explainers for
 the submission and site, one per audience, written for the peer-review package.
 **Numbers used (verified against the repo):** **LIVE series (2026-08-21) — SCCR
@@ -10,14 +10,14 @@ the submission and site, one per audience, written for the peer-review package.
 `reports/research/regime-event-2026-08-21.md` / served
 https://bitcoinsahi.com/research/regime-event-2026-08-21.html). **Dated banded
 baseline (Aug 02–15):** SCCR ≈ 0.22–0.29 (dimensionless, dated captures at the
-≥32K lower-bound census; **range across the true-N band: ~0.07–0.71**);
+26,586 measured reachable census; **range across the true-N band: ~0.07–0.71**);
 **frozen-capture reproduction 0.2186** (171 blocks, min 0.0584 / max 0.8320,
 171/171 below 1×, reproduced by JS/Python/C); **08-02 rolling value 0.2151**
 (169 blocks, rolling 24h window, 2026-08-02 session). SCCR is the **first member of the RIR family**
 (Resource Internalization Ratios); every other member (UCIR, VCIR, RCIR, BCIR,
 DCIR) is a research hypothesis, not a measured result. All surfaces must state
 the banded claim — never the strong form ("100% below 1×" does not survive the
-**Primary-source lower-bound census (≥32,000 known addresses via Bitcoin Core `getnodeaddresses`)** on the dated capture; working-paper §5.4).
+**Measured reachable-node census (26,586; the local addrman sample counts addresses, not nodes)** on the dated capture; working-paper §5.4).
 
 ---
 
@@ -149,7 +149,7 @@ measuring what it prices *forever*.
 
 ---
 
-*Bitcoin Sahi Research Council — Audience summaries for working-paper v2.1.0
+*Bitcoin Sahi Research Council — Audience summaries for working-paper v2.2.0
 (2026-08-03). Four audiences: developers / researchers / investors / general
 public. All figures banded or capture-dated; see working-paper §5 for the full
 point-in-time discipline.*

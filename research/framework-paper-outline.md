@@ -196,7 +196,7 @@ the thesis paragraph, before §1.
 
 - **What this section contains:** Paper 1's SCCR as the *worked example* of the
   framework — deliberately placed after the theory, and summarized, NOT the
-  headline of the paper. Definition, census (≥32K, primary source), the
+  headline of the paper. Definition, census (26,586 measured reachable, a lower bound), the
   dated Aug 02–15 banded result (~22–29% coverage, ~99–100% below 1×) AND the
   live series (0.4433 / 96.24% below 1× on 2026-08-21 — see regime-event note),
   knife-edge thresholds (N ≈ 7.1K / P* ≈ $283K), the v2.0.0 10× correction as

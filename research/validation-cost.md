@@ -49,7 +49,7 @@ consistent with the 0.1–1 s/block estimate above for *steady-state* validation
 with an in-RAM UTXO cache (steady state is CPU-bound, sync is I/O-bound; the
 two brackets straddle the true value).
 
-**Key quantities carried in the model:** R_blocks (52,596) and N (≥32K) are
+**Key quantities carried in the model:** R_blocks (52,596) and N (26,586, measured reachable) are
 canonical in `research/model-spec.json`; the validation leg adds **no new model constant** — it is a resource-budget bound on C (the bundled $925/yr node cost),
 the same decomposition discipline as the bandwidth leg.
 
@@ -106,7 +106,7 @@ and a hardware census; until either lands, the bound stands as the v1 value.
   the block subsidy — a different market entirely).
 - It does **not** claim validation is economically significant *today*; it
   claims the opposite order of magnitude: validation is cheap per node because
-  it is *per-block cheap*, and its network total (~$16K–160K/yr at ≥32K nodes)
+  it is *per-block cheap*, and its network total (~$16K–160K/yr at 26,586 nodes)
   is small relative to the storage leg's network totals (L_net ≈ $5.6K per
   average block × 52,596 blocks/yr ≈ $297M/yr modeled). The leg exists so the
   framework can *show* this, not assert it.

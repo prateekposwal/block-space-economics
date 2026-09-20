@@ -118,7 +118,7 @@
 ## 11. NODE COUNT COMPLETE CENSUS
 
 **Status**: DATA REQUIRED
-**Source**: `model-spec.json` — N=32K is a primary-source lower-bound census, not a complete enumeration
+**Source**: `model-spec.json` — N=26,586 is a measured reachable-node lower bound, not a complete enumeration
 **Problem**: Independent estimates span 10K–100K reachable nodes. SCCR is inversely proportional to N.
 **Data Required**: Full addrman enumeration, independent census, regional node distribution.
 **Next Step**: Fund/organize a proper node census (see `model-spec.json` §5.4 knife-edge).
@@ -168,7 +168,7 @@
 ## 16. BANDWIDTH LEG MEASUREMENT
 
 **Status**: v1 ANALYTICAL BOUND (not measurement)
-**Source**: `model-spec.json` v2.1.0, `research/verification_appendix.md`, `research/pruning_externality_analysis.md`
+**Source**: `model-spec.json` v2.1.1, `research/verification_appendix.md`, `research/pruning_externality_analysis.md`
 **Problem**: The bandwidth leg ($3.94/yr/node) is an analytical bound using a $0.05/GB retail proxy, not a measurement.
 **Data Required**: Measured per-node bandwidth bills (flat-rate reality), measured replication-weighted byte flow.
 **Next Step**: Collect operator bandwidth cost data, measure actual propagation.

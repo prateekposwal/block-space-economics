@@ -1,7 +1,7 @@
 # Community Review Plan — After the arXiv Preprint is Live
 
 **For:** "Storage Cost Internalization in Bitcoin's Fee Market" (working-paper
-v2.1.0) — community review phase, sequenced AFTER the arXiv upload
+v2.2.0) — community review phase, sequenced AFTER the arXiv upload
 **Status:** PLAN (2026-08-02) — execute after the preprint URL exists
 **Goal:** get the paper in front of the exact audience who can falsify it
 (node operators, protocol engineers, economists), log every objection, and feed
@@ -29,8 +29,8 @@ individual Core contributors. r/BitcoinEngineering same-day.
 ## 2. What to send each (pitch vs. full paper)
 
 - **Pitch-only (summary, no PDF):** Optech, bitcoin-dev, r/BitcoinEngineering.
-  A 2–4 sentence summary: what was measured (SCCR, live data, ≥32K census),
-  the headline (fees cover ~22–29% of modeled 10-yr storage cost at N=32K,
+  A 2–4 sentence summary: what was measured (SCCR, live data, 26,586 reachable-node census),
+  the headline (fees cover ~22–29% of modeled 10-yr storage cost (pre-re-base N=32,000; ~27–35% at the measured N=26,586),
   ~99–100% of sampled blocks below 1×), and the reproducible framework. Keep it
   neutral — these are technical venues, not advocacy.
 - **Full paper + reproduction kit:** Delving Bitcoin, Chaincode Labs, Bitcoin
@@ -44,10 +44,10 @@ individual Core contributors. r/BitcoinEngineering same-day.
 
 > We measure whether Bitcoin's fee market internalizes the long-term storage
 > cost of permanently recorded blockchain data. Using a primary-source node
-> census (≥32,000 known addresses from a live Bitcoin Core node) and live
+> reachable-node census (26,586; the local addrman sample counts addresses, not nodes) and live
 > fee-history data, we define a Storage Cost Coverage Ratio (SCCR) — fees paid
 > over estimated lifetime replicated storage cost. Across 171 sampled blocks
-> (2026-08-02 capture, model-spec v2.0.1) fees cover ~22% of the modeled 10-yr
+> (2026-08-02 capture, model-spec v2.0.1 — pre-re-base; at the measured N=26,586 the coverage is ~27%) fees cover ~22% of the modeled 10-yr
 > storage cost on average; ~99–100% of sampled blocks fall below the 1×
 > threshold. The ratio is reproduced in three independent implementations
 > (JS/Python/C) with a frozen input capture. Preprint: [URL]. Reproduction kit:

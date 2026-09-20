@@ -2,7 +2,9 @@
 
 **BSAHI Working Paper v2.2.0 — Historical SCCR Reconstruction (Rank 1 of BSAHI plan)**
 *Prepared: 2026-09-09 | Author: BSAHI Research Council*
-*Model-spec: v2.1.0 (canonical)*
+*Model-spec: v2.1.1 (canonical)*
+> **Re-base note (2026-09-17):** the reverse-engineering tables below are computed at the pre-re-base **N = 32,000** address sample. N is now measured at **26,586** reachable nodes, so the canonical L_net is $4,675.65/block and every SCCR below scales by 1.2036x. The tables are retained as the historical record.
+
 
 ---
 
@@ -12,11 +14,11 @@
 
 | Item | Status |
 |---|---|
-| Canonical SCCR formula | **Verified** — model-spec.json v2.1.0, L_net = $5,627.80/block at N=32K |
+| Canonical SCCR formula | **Verified** — model-spec.json v2.1.1, L_net = $4,675.65/block at N=26,586 |
 | 2026 live SCCR series | **Available** — 29 points, Aug 2–Sep 9, 2026 |
 | Historical fee data (pre-2026) | **NOT AVAILABLE** — zero captures in repo |
 | Historical BTC price data | **NOT AVAILABLE** — zero price series in repo |
-| Historical node count (N) data | **NOT AVAILABLE** — N=32K is only the 2026-08-02 census |
+| Historical node count (N) data | **NOT AVAILABLE** — N=26,586 is only the present measured value |
 | Q7 historical partials | **UNVERIFIED** — claims without evidence |
 | **TEST RESULT** | **C (Broken)** — structural data gaps, not model failure |
 | **GO/NO-GO for Step 2** | **CONDITIONAL NO-GO** — proceed only for 2026-regime measurement |
@@ -25,7 +27,7 @@
 
 ## 2. THE CANONICAL FORMULA (Verified)
 
-From `research/model-spec.json` v2.1.0:
+From `research/model-spec.json` v2.1.1:
 
 ```
 SCCR = fee_USD / L_net

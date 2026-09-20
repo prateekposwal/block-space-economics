@@ -328,7 +328,7 @@ count N but NOT the pruned-vs-archival split) and `research/publication-plan.md`
 ## 8. Phase IV first answers — the five deep questions (2026-08-02)
 
 Computed with `tools/research/sccr_dynamics.py` (canonical model-spec v2.1.1
-quantities; live baseline SCCR = 0.2228 @ N=32K, C=$925, T=10, P≈$63K, ~2 sat/vB;
+quantities; live baseline SCCR = 0.2228 @ N=32K (pre-re-base; 1.2036x higher at the measured N=26,586), C=$925, T=10, P≈$63K, ~2 sat/vB;
 frozen-capture cross-check 0.2186). Full derivations in companion `future-directions-v3.md` §2.
 **Model output vs judgment are separated in the paper**; this section is the
 roadmap-level summary.
@@ -342,7 +342,7 @@ is to run a node, the fewer nodes there will be"* (post 287, Jul 2010). Q1's
 N-margin loop (under-pricing → exit → N↓ → SCCR↑) is Satoshi's own hypothesis;
 a measured N-response function would test it directly (working-paper §7.1
 falsifier 6). The "never more than 100K nodes" claim is consistent with this
-paper's N-band (census ≥32K; estimates 10K–100K).
+paper's N-band (measured 26,586; estimates 10K–100K).
 
 ### Q1 — What force pushes SCCR toward equilibrium? (4-way scenario)
 
@@ -561,14 +561,14 @@ falsifiers 1–3; headline at risk until reconciled).
 | # | Assumption | Type | Why it's that type | What would reclassify or falsify it |
 |---|---|---|---|---|
 | 1 | **T = 10 yr horizon** | **C** | Defensible selection (pruning shortens retention, permanent storage extends it); sensitivity disclosed (working-paper §5.3: T = 5/10/15 → 0.446/0.223/0.149); direction robust | Measured retention distribution ~10× shorter → reframes the externality reading (falsifier 5), not an error |
-| 2 | **N = 32K (addrman-cap lower bound)** | **M** | Empirical bound, not a complete enumeration (working-paper §5.4); true set estimated 10K–100K; SCCR ∝ 1/N | Complete census showing true N differs materially in a direction that moves the ~0.07–0.71 band; "~99–100% below 1×" breaks at N ≈ 49K |
+| 2 | **N = 26,586 (measured reachable lower bound)** | **M** | Empirical bound, not a complete enumeration (working-paper §5.4); true set estimated 10K–100K; SCCR ∝ 1/N | Complete census showing true N differs materially in a direction that moves the ~0.07–0.71 band; "~99–100% below 1×" breaks at N ≈ 49K |
 | 3 | **C bundling (storage + bandwidth + misc)** | **M (leaning --- the blurry case)** | Bundling is a choice, but the component values are an implicit measurement --- and bandwidth (600) dominates storage (166.67) in the component sum, so the storage reading of the headline is fragile | Measured cost decomposition showing the storage share materially different, or a double-counted component → reframes and re-bands the headline |
 | 4 | **B_block = 1.5MB stationary** | **M (narrow surface)** | Empirical quantity, but SCCR is B-invariant (working-paper §5.3: B cancels) --- affects per-byte presentation (cb), not the headline ratio | Wrong byte basis in the capture → data-quality flag, not headline-moving under the current spec |
 | 5 | **"Fees paid" definition** (fee_USD = avgFees × USD/BTC; subsidy excluded) | **M** | Numerator is a live measurement (mempool.space 24h block-fee history); definition explicit, value empirical | Fee-side reproduction mismatch, corrected capture, or wrong conversion/attribution → falsifier 1/3 territory |
 | 6 | **Storage-first sequencing** | **C** | Program ordering --- "first measurable," not "most important" (working-paper §7 item 7) | Only evidence storage is not reproducibly measurable touches it; asserting another resource matters more is feedback |
 | 7 | **Average-vs-marginal attribution** | **C** | Documented choice; 164× gap disclosed; both branches reported (working-paper §4.2) | Showing marginal is the only economically correct object → engagement, not error |
 | 8 | **Homogeneous node cost structure** | **C (with an empirical seam)** | Deliberate simplification (working-paper §7 item 2); heterogeneity is a refinement direction | The C = $925/yr value inside is empirical --- a regional refinement moving the band is falsifier 2; the structural choice itself is not falsifiable by asserting heterogeneity |
-| 9 | **No discounting / constant cost** | **C** | Documented choice; sensitivity disclosed (r = 5/8% → −27/−45% PV; average stays below 1× at N=32K) | Corrected treatment flipping the headline direction --- none under the disclosed sensitivity |
+| 9 | **No discounting / constant cost** | **C** | Documented choice; sensitivity disclosed (r = 5/8% → −27/−45% PV; average stays below 1× at N=26,586) | Corrected treatment flipping the headline direction --- none under the disclosed sensitivity |
 
 **The blurry case, named honestly.** Row 3 (C bundling) sits on the line: the
 *decision to bundle* is a choice (Type C); the *claim that the components are as

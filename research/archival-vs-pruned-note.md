@@ -1,7 +1,7 @@
 # Archival vs Pruned — Companion Note to the Storage Paper (Phase I)
 
 **Companion to:** `research/working-paper.md` v2.2.0 · `research/model-spec.json`
-v2.1.0 · `research/roadmap.md` (adopted 2026-08-02, §7)
+v2.1.1 · `research/roadmap.md` (adopted 2026-08-02, §7)
 **Status:** REVIEWED (2026-08-04) — approved for simultaneous publication with the
 paper (D7 sign-off). The pruning-split measurement gap it identifies is Phase I
 follow-on, not a submission blocker.
@@ -23,10 +23,12 @@ Two of those terms rest on assumptions that pruning directly conditions:
   `canonicalSource: "research/verification_appendix.md Open Q3 (assumption)"`.
   Working-paper §7 limitation 3 states it plainly: *"10-year horizon is an
   assumption; pruning shortens actual retention, permanent storage extends it."*
-- **N (replication) = 32,000 nodes** — a **primary-source lower-bound census
-  (≥32,000 known addresses via Bitcoin Core `getnodeaddresses`)** (addrman
-  saturated at the RPC max). The census measures *reachable node count*, a lower bound (≥32K). It
-  says nothing about how many of those nodes retain the full chain vs. prune.
+- **N (replication) = 26,586 nodes** — measured reachable (btcnodes crawl,
+  2026-09-16), a lower bound. (The local addrman sample counts gossiped
+  **addresses**, not nodes, and is not capped at 32,000: `getnodeaddresses 0`
+  returned 61,302 on 2026-09-20. An earlier revision of this note misread the
+  32,000 truncation as an addrman cap.) N says nothing about how many of those
+  nodes retain the full chain vs. prune.
 
 If a large share of nodes prune, then **who bears the storage cost** changes: only
 archival nodes carry the disk/lifetime-storage burden the SCCR denominator prices.
@@ -45,7 +47,7 @@ captures:
 
 | Field | Meaning |
 |---|---|
-| `totalKnownAddresses` | address-manager size from `getnodeaddresses` — **32,000 = RPC cap** (addrman saturated; true reachable set ≥ 32K, a lower bound) |
+| `totalKnownAddresses` | address-manager size from `getnodeaddresses 0` — the whole address set, **not a node count and not a cap** (61,302 as of 2026-09-20; 32,000 was a truncated request) |
 | `liveConnections` / `inbound` / `outbound` | current P2P connection counts (`getpeerinfo`) |
 | `networkVersion` / `connections` | Core version + configured connection count |
 
@@ -66,7 +68,7 @@ archival indicators.
 
 ### 2.3 Conclusion — measurement gap
 
-> **The repo's primary-source lower-bound census captures N (reachable node count, ≥32K) but does
+> **The repo's primary-source lower-bound census captures N (reachable node count, a lower bound; now 26,586) but does
 > NOT contain a pruned-vs-archival split. No measured split exists in the repo as
 > of 2026-08-02. This note therefore identifies the split as the measurement gap
 > the companion study must close — it does not fabricate one.**
@@ -78,7 +80,7 @@ simultaneously:
 
 1. **Effective N shrinks for the storage leg.** If a fraction `f` of nodes prune,
    the storage-bearing population is `N_archival = N × (1 − f)`. At the live
-   baseline (SCCR ≈ 0.223 at N=32K), the average crosses 1× only below
+   baseline (SCCR ≈ 0.223 at the pre-re-base N=32K), the average crosses 1× only below
    N ≈ 7,130 nodes — so even a 78% pruning rate (N_archival ≈ 7K) would *not* flip
    the headline on the live capture, but it would raise the ratio for archival
    nodes substantially. The knife-edge is documented in working-paper §5.4.
@@ -115,7 +117,7 @@ order of increasing effort:
    pruned nodes refuse (an established technique in the literature); (b) correlate
    with `getpeerinfo` connection age and version. This turns the existing census
    into a pruned-vs-archival probe with **no new infrastructure**, only a new
-   agent (agent-26) sampling a subset of the 32K known addresses.
+   agent (agent-26) sampling a subset of the known addresses.
 2. **Voluntary operator survey.** A short questionnaire (node software, prune
    setting, disk allocated) distributed via r/BitcoinEngineering, bitcoin-dev, and
    the Optech newsletter — cheap, but self-selection biased.
@@ -158,4 +160,4 @@ a pruning split.
 
 ---
 
-*Bitcoin Sahi Research Council — Companion note to working-paper v2.1.0 (Phase I), 2026-08-02*
+*Bitcoin Sahi Research Council — Companion note to working-paper v2.2.0 (Phase I), 2026-08-02*

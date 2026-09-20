@@ -1,4 +1,4 @@
-# Phase I Publication Plan — "Storage Cost Internalization in Bitcoin's Fee Market" (Working Paper v2.1.0)
+# Phase I Publication Plan — "Storage Cost Internalization in Bitcoin's Fee Market" (Working Paper v2.2.0)
 
 *Paper 1 of the **Bitcoin Resource Accounting** program (renamed 2026-08-02; the
 program name is the framework identity — SCCR is Metric #1 — while this paper
@@ -6,7 +6,7 @@ keeps its descriptive title).*
 
 **Status:** DRAFT (2026-08-02) — greenlit at roadmap adoption (Prateek, "continue :)");
 publication decisions recorded 2026-08-02 (Prateek's directive) — see §7 + `docs/decisions/2026-08-02-publication-decisions.md`.
-**Scope:** submit `research/working-paper.md` v2.1.0 (SCCR storage paper, now titled
+**Scope:** submit `research/working-paper.md` v2.2.0 (SCCR storage paper, now titled
 **"Storage Cost Internalization in Bitcoin's Fee Market"**, keeping "The Bitcoin Block
 Space Problem" as the program subtitle) with the archival-vs-pruned companion note
 (`research/archival-vs-pruned-note.md`), **published simultaneously** (Prateek's
@@ -59,7 +59,7 @@ the frame while the banded number evidences it.
 
 | Venue | Where | What goes in | Notes |
 |---|---|---|---|
-| **arXiv** | arxiv.org, submit via account | Working paper v2.1.0 (+ companion note as appendix or separate posting) | Category: **cs.CR** (cryptography & security — Bitcoin/blockchain work is routinely filed here) or **econ.GN** (general economics — the framing is an externality/economics paper). Recommend cs.CR primary with the economics framing kept prominent in the abstract. arXiv is not peer-reviewed; it is a preprint server — the paper's reproducible-measurement asset maps well to it. |
+| **arXiv** | arxiv.org, submit via account | Working paper v2.2.0 (+ companion note as appendix or separate posting) | Category: **cs.CR** (cryptography & security — Bitcoin/blockchain work is routinely filed here) or **econ.GN** (general economics — the framing is an externality/economics paper). Recommend cs.CR primary with the economics framing kept prominent in the abstract. arXiv is not peer-reviewed; it is a preprint server — the paper's reproducible-measurement asset maps well to it. |
 | **Bitcoin Optech newsletter** | bitcoinops.org — newsletter submission/contact | Short research summary + link to preprint | Optech regularly cites new Bitcoin research. Submission is a summary pitch, not the full paper. Value: reaches node operators and engineers — exactly the "who bears the cost" audience. |
 | (follow-on) **r/BitcoinEngineering** | reddit.com/r/BitcoinEngineering | Announcement thread + link | Existing community from v1/v2; post *after* arXiv is live (link-first). |
 | (follow-on, optional) **Workshop/venue** | e.g. Bitcoin Research Day / academic workshops | Full paper | Only after community feedback validates the framing. Do NOT pre-commit. |
@@ -84,7 +84,7 @@ the frame while the banded number evidences it.
    ("All Rights Reserved") — do NOT change it until Prateek's final ratification
    (recommended, awaiting final go).**
 3. **Abstract.** Rewrite to arXiv constraints (~1 paragraph, ≤ ~1500 chars):
-   state the question, the SCCR definition, the primary-source census (≥32K), the
+   state the question, the SCCR definition, the primary-source census (26,586 measured reachable), the
    dated banded result (~22–29%, ~99–100% below 1×, Aug 02–15 baseline) AND the
    live series (0.4433 / 96.24% below 1× on 2026-08-21 — see
    `reports/research/regime-event-2026-08-21.md`), and the reproducibility claim.
@@ -102,7 +102,7 @@ the frame while the banded number evidences it.
    everywhere (dimensionless ratios, USD/block, nodes, yr). Before upload: run a
    final pass confirming (i) every table row carries units, (ii) SCCR is stated
    dimensionless, (iii) no bare "0.29" without a date+capture qualifier, (iv) the
-   canonical live value is read from model-spec v2.0.1, never hardcoded
+   canonical live value is read from model-spec v2.1.1, never hardcoded
    (working-paper §5.3 discipline).
 6. **Claims-within-evidence check.** Confirm every headline is a *dated*,
    capture-labeled statement ("lower bound ≥32K", "T=10 assumption") with the
@@ -168,7 +168,7 @@ measured. Also the basis for the Optech 2–4 sentence summary (§3 step 1).
 - [ ] **Companion note final** (`archival-vs-pruned-note.md` — Prateek's simultaneous-publication decision recorded; note content review pending)
 - [x] **Source format** — ✅ DECIDED (Prateek 2026-08-02): **LaTeX, not PDF-only**; LaTeX source EXISTS (`research/working-paper.tex`); needs a compile pass on a machine with pdflatex (toolchain absent locally)
 - [ ] **External reproduction** — 🚨 **CRITICAL PATH** (Prateek 2026-08-02: *the only thing worth delaying submission for*); protocol + log in `research/reproduce/`; do NOT submit until an uninvolved reproducer has run it (or delay waived)
-- [ ] **Reproducibility line intact**: model-spec v2.0.1 + three independent implementations (JS/Python/C) named
+- [ ] **Reproducibility line intact**: model-spec v2.1.1 + three independent implementations (JS/Python/C) named
 - [ ] **Prior-work honesty intact**: Liu et al. 2021 (arXiv:2103.05866) acknowledged as closest prior work; contribution = measurement, not the observation (working-paper §8.2)
 - [ ] **Dead-claims audit**: no reference to v1/v2 oracle framing (refuted); no BIP-110 claim beyond documented DOA status
 - [ ] **Falsifiability section present** — working-paper §7.1 ("What would falsify

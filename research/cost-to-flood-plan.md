@@ -3,7 +3,7 @@
 **Status:** PLANNED (2026-08-04) — the direct research extension requested by the
 Vachagan comment. Next paper in the Bitcoin Resource Accounting program.
 **Companion:** `research/working-paper.md` (node-side SCCR, v2.2.0),
-`research/reply-vachagan.md` (the reply that spawned this), `research/model-spec.json` v2.1.0.
+`research/reply-vachagan.md` (the reply that spawned this), `research/model-spec.json` v2.1.1.
 
 ---
 
@@ -25,7 +25,7 @@ does it cost them, and what is the resulting **leverage ratio** (node cost impos
 |---|---|---|
 | **P_flood** | USD to fill one full block at the fee floor | frozen capture: cheapest block = 0.00522 BTC (~$329); avg = 0.0195 BTC (~$1,231) |
 | **P_year** | USD/year to fill every block (~52,596 blocks) | avg ≈ **$65M/yr**; at fee floor ≈ **$17M/yr** (verified) |
-| **C_node_imposed** | USD/year the flood imposes on all N nodes | SCCR model × N=32K (storage/bandwidth legs) |
+| **C_node_imposed** | USD/year the flood imposes on all N nodes | SCCR model × N=26,586 (storage/bandwidth legs) |
 | **L** | **the leverage ratio** = C_node_imposed ÷ P_year | **3.0× (verified)** — see §4 |
 | **P_dust** | USD per dust UTXO minted (330-sat dust + fee) | ~$0.246/UTXO at fee floor (verified) |
 | **C_dust_imposed** | lifetime node cost of one dust UTXO (T=10) | $0.229/node (verified) → **L_dust = 0.9×** |

@@ -1,6 +1,6 @@
 # Literature Audit — Reproducible Fee-to-Resource Metrics for Bitcoin
 
-**Audit for:** working-paper v2.1.0 (SCCR storage paper), pre-submission
+**Audit for:** working-paper v2.2.0 (SCCR storage paper), pre-submission
 **Date:** 2026-08-02
 **Method:** arXiv API full-text/metadata queries (multiple keyword sets),
 Google Scholar keyword search, direct arXiv ID verification of every source
@@ -116,5 +116,5 @@ textbook); the fee-market-as-VCG framing (Aronoff et al. 2026).
 
 ---
 
-*Bitcoin Sahi Research — literature audit for working-paper v2.1.0 (2026-08-02).
+*Bitcoin Sahi Research — literature audit for working-paper v2.2.0 (2026-08-02).
 All sources above verified against primary records except where marked.*

@@ -20,7 +20,7 @@ Ratio) is Metric #1** — the first measured member of the RIR family.
 **Why this exists:** [WHY_THIS_EXISTS.md](WHY_THIS_EXISTS.md) — one page,
 plain language, no equations. (If you read only one thing, read that.)
 
-**Paper 1:** [Storage Cost Internalization in Bitcoin's Fee Market — Working Paper v2.1.0](research/working-paper.md)
+**Paper 1:** [Storage Cost Internalization in Bitcoin's Fee Market — Working Paper v2.2.0](research/working-paper.md)
 *(program subtitle: The Bitcoin Block Space Problem — the paper keeps its
 descriptive title; the program name is Bitcoin Resource Accounting, adopted
 2026-08-02. Roadmap: [research/roadmap.md](research/roadmap.md).)*
@@ -65,12 +65,12 @@ one-time-payment → long-lived-shared-resource system (cross-chain, Phase V —
 | Quantity | Symbol | Units | Value | Source |
 |---|---|---|---|---|
 | Annual node cost | C | USD/yr | 925 | component sum (see model-spec) |
-| Replication factor | N | nodes | 32,000 | **primary-source census** (agent-25, `getnodeaddresses`, ≥32K — a lower bound) |
+| Replication factor | N | nodes | 26,586 | **measured reachable nodes** (btcnodes crawl, 2026-09-16 — a lower bound; was 32,000 pre-re-base) |
 | Storage horizon | T | yr | 10 | assumption (archival retention) |
 | Avg block size | B_block | bytes | 1,500,000 | captured data |
 
 The single canonical source of every constant is
-[`research/model-spec.json`](research/model-spec.json) (v2.0.1). **No script
+[`research/model-spec.json`](research/model-spec.json) (v2.1.1). **No script
 redefines a model constant.** The full derivation, the 10× time-horizon
 correction, and the 16.4× model reconciliation are documented in the
 [working paper §6](research/working-paper.md) and
@@ -116,28 +116,28 @@ bash research/reproduce/cross_check.sh     # prints all three + VERDICT
 claim): the 3-step protocol is in
 [`research/reproduce/README.md`](research/reproduce/README.md).
 
-## Results (as of the 2026-08-02 capture, 171 blocks, model-spec v2.0.1)
+## Results (frozen snapshot 2026-09-16, 155 blocks, model-spec v2.1.1)
 
 | Metric | Value |
 |---|---|
-| Avg SCCR (dimensionless) | **0.2186** |
-| Min / Max | 0.0584 / 0.8320 |
-| Blocks below 1× | **100.0%** |
-| L_net | $5,627.80 / block |
+| Avg SCCR (dimensionless) | **0.2896** |
+| Min / Max | 0.0590 / 1.2948 |
+| Blocks below 1× | **98.1%** (152/155) |
+| L_net | $4,675.65 / block |
 
 The ratio is a **banded, dated estimate that moves with the fee market**:
-~0.22–0.29 across captures at the real N=32K census, with ~99–100% of sampled
+~0.29 across captures at the measured N=26,586, with ~98% of sampled
 blocks below 1×. It is homogeneous in its drivers —
-`SCCR ∝ (fee × price) / (C × T × N)` — and the knife-edge thresholds (avg
-inverts at N≈7.1K / BTC≈$283K on the live baseline; the 100%-below-1× claim
+`SCCR ∝ (fee × price) / (C × T × N)` — and the knife-edge thresholds (computed at the
+pre-re-base N=32,000 baseline: avg inverts at N≈7.1K / BTC≈$283K; the 100%-below-1× claim
 breaks at N≈49K on the dated capture) are in
 [working-paper §5.4](research/working-paper.md). **Never hardcode the ratio** —
 read it from `research/model-spec.json` or run the tool.
 
 ## Limitations (honest, in the paper)
 
-1. **N=32K is a lower bound** — the addrman caps at 32,000 addresses; the true
-   reachable set is ≥32K. Independent estimates span ~10K–100K.
+1. **N=26,586 is a lower bound** — it counts reachable (listening) nodes; the
+   total including non-listening nodes is unknown. Independent estimates span ~10K–100K.
 2. **T=10 yr is an assumption** — pruning shortens actual retention; the
    pruned-vs-archival split is *not yet measured* (data gap named in
    [`research/archival-vs-pruned-note.md`](research/archival-vs-pruned-note.md)).

@@ -109,7 +109,7 @@ capture or reconstruction lands.
 | Fee market + USD price | **A** | Live per-block capture (17 endpoints, `captured-data/bsahi.db`), frozen reproduce inputs | none material |
 | Block/state size (current) | **A** | Live captures, capacity page | — |
 | Block/state size (historical) | **C** | Archive-derived estimates | pre-2016 series needs reconstruction |
-| Node count | **D** | Census via agent-25 (`getnodeaddresses`, ≥32K lower bound) | Methods changed over time; listening-only; pre-2014 estimates wide error. Weakest pillar. |
+| Node count | **B/D** | Reachable-node crawl (btcnodes) measures N=26,586; the local addrman sample counts ADDRESSES, not nodes | Listening-only; pre-2014 estimates wide error. Total population remains grade D. |
 | Mining concentration | **C** | Pool share data, recent years | Pre-2013 partial; merged mining + solo miners invisible |
 | UTXO set (current) | **B** | Indexer captures | full historical UTXO series thin pre-2016 |
 | Verification cost (live) | **B** | Time-to-IBD hardware benchmarks, size data | to be captured continuously |
@@ -160,7 +160,7 @@ is no longer symmetrical.
 | Resource burden (bandwidth) | note only | `research/bandwidth-bound-note.md` | live bandwidth-per-block capture |
 | Economic cost | Cost-to-Flood | `research/cost-to-flood.html` | generalize to Cost-to-Verify / Cost-to-Use |
 | Power concentration | Fork-tracker (BIP-110), governance boundary | `/fork-tracker`, `research/governance-boundary.html` | marginal-concentration series (new hashrate/UTXOs/fees) |
-| Verification/coordination | Node census (N=32K), bip110 case study | `tools/agents/agent-25`, `research/bip110-post-lockin-case-study.md` | VCI index (build) |
+| Verification/coordination | Node census (N=26,586), bip110 case study | `data/node_census_series.json`, `research/bip110-post-lockin-case-study.md` | VCI index (build) |
 | Network stress | Live dashboard | `/live` | historical stress reconstruction |
 | Boundary | boundary catalog (10 events) | [`research/boundary-catalog.md`](research/boundary-catalog.md), `research/boundary-event-2017.md` | add events as data-grade improves |
 | Production cost (energy/regional) | none | — | mining map + electricity series (build) |

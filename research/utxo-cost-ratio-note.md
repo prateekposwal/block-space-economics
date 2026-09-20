@@ -14,10 +14,10 @@ UTXOCIR = fee_USD_per_block / (cb_insc × UTXO_bytes_per_block × N)
 ```
 
 - **Numerator**: Fee contribution per block, computed from `fee_history_blocks.json` as `avgFees` (sats) × `USD` (BTC price) → fee_USD.
-- **Denominator**: UTXO growth cost per block, computed from model-spec.json v2.1.0:
+- **Denominator**: UTXO growth cost per block, computed from model-spec.json v2.1.1:
   - `cb_insc = 1.92573e-6 $/byte/year` (marginal inscription attribution)
   - `UTXO_bytes_per_block = I_BYTES × I_RATE × 12 / R_blocks = 400 × 100,000 × 12 / 52,596 ≈ 9,128 bytes/block`
-  - `N = 32,000` nodes (primary-source lower-bound census)
+  - `N = 26,586` nodes (measured reachable, a lower bound)
 
 ---
 
@@ -42,7 +42,7 @@ This is consistent with the broader finding that at current fee levels (~5-50 sa
 1. **Fee data covers 2026 only** (`fee_history_blocks.json` contains blocks 966127–966270). No 2017 or historical fee data exists in the repository for comparison.
 2. **Inscription-only UTXO growth**: The model uses inscription-specific UTXO growth (400 bytes × 100K/month). Total UTXO set growth includes non-inscription outputs (regular transactions, change outputs). The 29.9 KB/block figure referenced in the task specification does not appear in the repo's `utxo_cost_model.py`.
 3. **cb_insc is the inscription marginal branch**, not the block-average branch (cb = 1.17246e-8). Using cb_insc attributes 164× more cost per byte than the block-average basis, reflecting the marginal attribution methodology.
-4. **N = 32,000 is a lower bound** (addrman cap). The true reachable set is ≥32K. Using a higher N would increase the denominator and lower UTXOCIR proportionally.
+4. **N = 26,586 is a lower bound** (measured reachable nodes; the total including non-listening nodes is unknown). Using a higher N would increase the denominator and lower UTXOCIR proportionally.
 
 ---
 
@@ -58,9 +58,9 @@ UTXOCIR measures one dimension of this asymmetry: **the gap between what users p
 
 All numbers trace to existing repository data:
 - **fee_USD**: `avgFees` × `USD` from `data/fee_history_blocks.json` (mempool.space API via GitHub Actions)
-- **cb_insc**: model-spec.json v2.1.0 quantity, verified across three independent implementations
-- **UTXO bytes**: model-spec.json v2.1.0 quantities: I_bytes=400, I_rate=100000, R_blocks=52596
-- **N**: model-spec.json v2.1.0 census (≥32,000 via Bitcoin Core getnodeaddresses)
+- **cb_insc**: model-spec.json v2.1.1 quantity, verified across three independent implementations
+- **UTXO bytes**: model-spec.json v2.1.1 quantities: I_bytes=400, I_rate=100000, R_blocks=52596
+- **N**: model-spec.json v2.1.1 (26,586 measured reachable nodes, a lower bound)
 
 No external data was used. No new metrics were invented.
 

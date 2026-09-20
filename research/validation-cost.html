@@ -99,7 +99,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 </table>
 </div>
 <p><strong>Cross-check via initial sync.</strong> Full initial validation of ~1M blocks adds on the order of 6–24 h of CPU over an assumevalid-style sync on comparable hardware ⇒ 0.02–0.09 s/block <em>averaged</em> (I/O-bound, so a lower bound on CPU) — consistent with the 0.1–1 s/block estimate above for <em>steady-state</em> validation with an in-RAM UTXO cache (steady state is CPU-bound, sync is I/O-bound; the two brackets straddle the true value).</p>
-<p><strong>Key quantities carried in the model:</strong> R_blocks (52,596) and N (26,586, measured reachable) are canonical in <code>research/model-spec.json</code>; the validation leg adds <strong>no new model constant</strong> — it is a resource-budget bound on C (the bundled $925/yr node cost), the same decomposition discipline as the bandwidth leg.</p>
+<p><strong>Key quantities carried in the model:</strong> R_blocks (52,596) and N (≥32K) are canonical in <code>research/model-spec.json</code>; the validation leg adds <strong>no new model constant</strong> — it is a resource-budget bound on C (the bundled $925/yr node cost), the same decomposition discipline as the bandwidth leg.</p>
 <h2>3. Reference literature</h2>
 <ul>
 <li><strong>Node-cost context:</strong> Tschorsch, F. &amp; Scheuermann, B., <em>Bitcoin and Beyond: A Technical Survey on Decentralized Digital Currencies</em>, IEEE COMST 18(3), 2016 — surveys full-node validation/storage/bandwidth cost components and gives the classic per-node cost decomposition this bound refines.</li>
@@ -111,7 +111,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <ul>
 <li><strong>Order-of-magnitude only.</strong> The central ~$1–2/yr/node spans ~0.5×–5× on signature-check throughput alone (hardware generation, OpenSSL vs libsecp256k1, Schnorr batching); initial-sync cross-checks widen the spread, they do not tighten it.</li>
 <li>The $/CPU-h amortization is a <strong>model artifact</strong>, not a bill: full nodes run continuously and their marginal electricity for a few hours of extra CPU is near zero for most operators. The bound is best read as <em>provisioning pressure</em> (hardware class and lifetime), which is how C enters the model.</li>
-<li>Network-wide numbers scale linearly in N and inherit the node-count caveat (the addrman sample bounds known <em>addresses</em>, not nodes; the true node band is 10K–100K).</li>
+<li>Network-wide numbers scale linearly in N and inherit the node-count caveat (the addrman sample bounds known addresses, not nodes; the true node band is 10K–100K).</li>
 </ul>
 <h2>5. Falsifiable claim (v1)</h2>
 <blockquote><strong>&quot;Validation cost per full node per year is &lt; $100 — bounded from above by the entire node hardware+operating budget C = $925/yr (model-spec v2.1.1), with a central order-of-magnitude estimate of ~$1–2/yr per node.&quot;</strong></blockquote>
@@ -120,7 +120,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <ul>
 <li>It does <strong>not</strong> measure validation on any specific hardware.</li>
 <li>It does <strong>not</strong> include <strong>mining</strong> PoW (that is a producer cost, priced by the block subsidy — a different market entirely).</li>
-<li>It does <strong>not</strong> claim validation is economically significant <em>today</em>; it claims the opposite order of magnitude: validation is cheap per node because it is <em>per-block cheap</em>, and its network total (~$16K–160K/yr at ≥32K nodes) is small relative to the storage leg&#x27;s network totals (L_net ≈ $5.6K per average block × 52,596 blocks/yr ≈ $297M/yr modeled). The leg exists so the framework can <em>show</em> this, not assert it.</li>
+<li>It does <strong>not</strong> claim validation is economically significant <em>today</em>; it claims the opposite order of magnitude: validation is cheap per node because it is <em>per-block cheap</em>, and its network total (~$16K–160K/yr at 26,586 nodes) is small relative to the storage leg&#x27;s network totals (L_net ≈ $5.6K per average block × 52,596 blocks/yr ≈ $297M/yr modeled). The leg exists so the framework can <em>show</em> this, not assert it.</li>
 </ul>
 <p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
 </div>

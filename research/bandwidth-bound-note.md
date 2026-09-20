@@ -9,23 +9,23 @@
 
 The bandwidth bound answers: **how much does it cost to propagate one block to one more node?**
 
-### Analytical formula (from model-spec.json v2.1.0)
+### Analytical formula (from model-spec.json v2.1.1)
 
 ```
 B_all_yr = B_block × R_blocks = 1,500,000 × 52,596 = 7.8894e10 bytes/year
 bw_GB_yr = B_all_yr / 1e9 = 78.894 GB/year
 bw_cost_per_year_node = bw_GB_yr × $0.05/GB = $3.9447/year/node
-bw_cost_per_year_net = bw_cost_per_year_node × N = $126,230/year (N=32,000)
+bw_cost_per_year_net = bw_cost_per_year_node × N = $104,873.8/year (N=26,586)
 ```
 
 | Quantity | Value | Source |
 |---|---|---|
-| B_block | 1,500,000 bytes | model-spec.json v2.1.0 (captured data) |
-| R_blocks | 52,596 blocks/year | model-spec.json v2.1.0 (derived: 365.25×24×6) |
+| B_block | 1,500,000 bytes | model-spec.json v2.1.1 (captured data) |
+| R_blocks | 52,596 blocks/year | model-spec.json v2.1.1 (derived: 365.25×24×6) |
 | B_all_yr | 78.894 GB/year | Derived |
-| cost_per_gb | $0.05/GB | model-spec.json v2.1.0 (retail proxy) |
+| cost_per_gb | $0.05/GB | model-spec.json v2.1.1 (retail proxy) |
 | **bw_cost_per_year_node** | **$3.94/yr** | Computed |
-| **bw_cost_per_year_net** | **$126K/yr** | Computed at N=32,000 |
+| **bw_cost_per_year_net** | **$104,874/yr** | Computed at N=26,586 |
 | bw_cost_per_block_node | $0.000075 | Computed |
 | bw_cost_per_block_net | $2.40 | Computed |
 

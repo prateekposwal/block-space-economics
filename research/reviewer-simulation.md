@@ -1,6 +1,6 @@
 # Reviewer Simulation — Adversarial Pre-Submission Review
 
-**For:** working-paper v2.1.0 (SCCR storage paper) · model-spec v2.0.1
+**For:** working-paper v2.2.0 (SCCR storage paper) · model-spec v2.1.1
 **Date:** 2026-08-02
 **Freshness note (2026-08-21):** this review memo is a **dated historical record**
 written against the Aug 02–15 banded baseline (~0.22–0.29, ~99–100% below 1×).
@@ -36,12 +36,13 @@ counter-attack, node-count** — is cross-referenced throughout.
      borne by typical nodes. **This is the paper's strongest pre-emption.**
    - *Residual gap:* the *measured* pruned-vs-archival split does not exist
      (agent-26 is future work). A Core reviewer will accept the honest framing
-     but may push "so your headline N=32K is a reachability bound, not a
+     but may push "so your headline N=26,586 is a reachability bound, not a
      storage-bearing population."
 
 2. **"The node count is the RPC cap, not the network."** (PRE-EMPTION: node-count)
-   - *Answered?* **Yes, §5.4 and model-spec N note** — "32,000 is a lower bound
-     (the node knows AT LEAST 32K addresses; addrman caps at 32,000)". The
+   - *Answered?* **Yes, §5.4 and model-spec N note** — "26,586 is a measured
+     reachable lower bound (the local addrman sample counts addresses, not
+     nodes, and is not capped — `getnodeaddresses 0` returns 61,302)". The
      knife-edge thresholds (N≈7.1K inversion, N≈49K break of the 100% claim)
      bound the claim. This is the correct, honest treatment.
    - *Residual gap:* an adversarial Core reviewer might demand the actual
@@ -157,10 +158,10 @@ recurring cost), and adding the cost-trend sentence to limitation 4.
      (sats/block) with the capture's `USD` price. The reproduction kit freezes
      that exact input. A distributed-systems reviewer can now check every block.
 
-4. **"Node count 32K from getnodeaddresses is addrman's cap — the number is
+4. **"Node count 32K from getnodeaddresses is an addrman sample — the number is
    suspiciously round."**
    - *Answered?* **Yes, §5.4 + model-spec note** — the paper says the addrman is
-     saturated at the cap, hence "at least 32K". This is the correct, honest
+     the whole address manager (61,302 addresses as of 2026-09-20), and it counts ADDRESSES not nodes. N is measured separately at 26,586. This is the correct, honest
      reading of the RPC's behavior. The independent-estimates band (10K–100K)
      is given.
 

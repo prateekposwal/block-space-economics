@@ -53,7 +53,7 @@ the storage class (row 4/5).
 
 If a large pruned share f exists, the SCCR denominator over-states the
 storage-bearing population; SCCR is then an upper bound on the burden borne by
-the archival class. The knife-edge: at live baseline SCCR≈0.22 (N=32K), the cross
+the archival class. The knife-edge: at live baseline SCCR≈0.29 (N=26,586), the cross
 happens only below N_archival≈7,130 nodes — so even ~78% pruning does not flip the
 headline, though it concentrates the unpriced burden on the archival minority.
 Row 5 grading and THESIS §9 absorb this as a stated upper-bound reading.

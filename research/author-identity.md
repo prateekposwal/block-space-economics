@@ -1,6 +1,6 @@
 # Author Identity & ORCID — Recommendation (Pre-Submission)
 
-**For:** arXiv submission of working-paper v2.1.0 (SCCR storage paper, Paper 1 of
+**For:** arXiv submission of working-paper v2.2.0 (SCCR storage paper, Paper 1 of
 the **Bitcoin Resource Accounting** program)
 **Status:** **RECOMMENDED (Prateek's choice recorded 2026-08-02)** — author
 identity and arXiv real-identity are RESOLVED by Prateek's directive; ORCID is an
@@ -114,5 +114,5 @@ under Option A this becomes "Prateek Poswal · Independent Researcher · 2026-08
 
 ---
 
-*Bitcoin Sahi Research — author identity recommendation for working-paper v2.1.0
+*Bitcoin Sahi Research — author identity recommendation for working-paper v2.2.0
 (2026-08-02). Extends publication-plan.md §2.*

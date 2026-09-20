@@ -1,6 +1,8 @@
 # Future Directions (v3.0) — Deep Questions, First Answers, Cross-Chain
 
-**Companion to:** `research/working-paper.md` v2.2.0 (core paper) · `research/model-spec.json` v2.0.1
+**Companion to:**
+> **Re-base note (2026-09-17):** the preview tables below use the pre-re-base baseline (N = 32,000, L_net $5,627.80, SCCR 0.2228). N is now measured at 26,586, so L_net is $4,675.65 and the baseline SCCR is 0.2228 x 1.2036 = 0.2682. Values are retained as computed.
+ `research/working-paper.md` v2.2.0 (core paper) · `research/model-spec.json` v2.1.1
 *Bitcoin Sahi Research Council — Bitcoin Resource Accounting program · 2026-08-03*
 
 > **STATUS: PROGRAM / AGENDA MATERIAL — CLEARLY DISTINCT FROM THE MEASURED SCCR PAPER.**
@@ -30,7 +32,7 @@ model output.
 
 **Trajectory.** v2.0 asked and answered a *measurement* question: **"Can we measure whether the fee market internalizes long-term storage costs?"** — the SCCR is that measurement. The next evolution of this program (v3.0) moves from measurement to *economic dynamics*: **"Under what economic conditions would the fee market naturally internalize these costs?"** Instead of asking how large today's gap is, v3.0 asks which parameter paths — BTC price, fee levels, node counts, storage costs, payment-layer substitution — close the gap on their own, and whether any endogenous mechanism does so.
 
-**The v3.0 research agenda is the following eight questions.** Preliminary computations at the live fee level (canonical model-spec v2.0.1 quantities; live `fee_history` capture, 2026-08-02; baseline SCCR = 0.2228 (dimensionless) at N=32K, T=10 yr, C=$925/yr) are reported as previews; full derivations, assumptions, and sensitivity detail are in the accompanying analysis report.
+**The v3.0 research agenda is the following eight questions.** Preliminary computations at the live fee level (canonical model-spec v2.1.1 quantities; live `fee_history` capture, 2026-08-02; baseline SCCR = 0.2228 (dimensionless) at N=32K, T=10 yr, C=$925/yr) are reported as previews; full derivations, assumptions, and sensitivity detail are in the accompanying analysis report.
 
 | # | Question | Headline model output (live baseline) |
 |---|---|---|
@@ -59,7 +61,7 @@ framework (Phase V) is sketched in **§3**.
 *Addendum 2026-08-02, within the **Bitcoin Resource Accounting** program (see
 `research/roadmap.md`; SCCR is Metric #1 of the RIR family). This section answers
 the five deeper questions extending the §1 agenda. All computations use the
-canonical model-spec v2.0.1 quantities and the §1 live baseline
+canonical model-spec v2.1.1 quantities and the §1 live baseline
 (SCCR = 0.2228 at N=32K, C=$925/yr, T=10 yr, P≈$63K, ~2 sat/vB), are regenerated
 by `tools/research/sccr_dynamics.py` (JSON: `tools/research/sccr_dynamics_output.json`),
 and are cross-checked against the frozen-capture reproduction (SCCR = 0.2186,

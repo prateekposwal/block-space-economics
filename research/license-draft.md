@@ -1,6 +1,6 @@
 # License — Recommendation & Drafts (Pre-Submission)
 
-**For:** working-paper v2.1.0 (SCCR storage paper, Paper 1 of the **Bitcoin
+**For:** working-paper v2.2.0 (SCCR storage paper, Paper 1 of the **Bitcoin
 Resource Accounting** program) + the block-space-economics repo
 **Status:** ✅ **RECOMMENDED by Prateek (2026-08-02): MIT (code) + CC BY 4.0
 (paper)** — flagged **"recommended, awaiting final go"**: the LICENSE file must

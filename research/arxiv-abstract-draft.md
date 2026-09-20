@@ -15,7 +15,7 @@ This is the arXiv-length rewrite.
 > recorded blockchain data? We define the Storage Cost Coverage Ratio (SCCR) --
 > the ratio of transaction fees paid to the estimated lifetime replicated-storage
 > cost borne by full nodes -- and measure it against live fee-history data using
-> a primary-source node census (>=32,000 known addresses from a live Bitcoin Core
+> a measured reachable-node census (26,586; the local addrman sample counts addresses from a live Bitcoin Core
 > node). Across the frozen capture of 171 blocks, fees cover approximately 22% of
 > the modeled 10-year replicated storage cost (band 0.07-0.71 across the node-count
 > and price range), with ~99-100% of sampled blocks below the 1x threshold. We
@@ -35,7 +35,7 @@ This is the arXiv-length rewrite.
 > We measure whether Bitcoin's fee market internalizes the long-term storage cost
 > of permanently recorded blockchain data. The Storage Cost Coverage Ratio (SCCR)
 > -- transaction fees over estimated lifetime replicated-storage cost -- averages
-> ~0.22 on a frozen 171-block capture using a primary-source node census (>=32K
+> ~0.22 on a frozen 171-block capture using a measured reachable-node census (26,586
 > reachable addresses), with ~99-100% of blocks below the 1x threshold. Two cost
 > models that disagreed by 16.4x are reconciled and documented; the result is
 > reproduced in three independent implementations (JS/Python/C). We claim only a

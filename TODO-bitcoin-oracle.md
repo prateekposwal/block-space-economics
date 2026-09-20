@@ -96,7 +96,7 @@ deployment) are documented in `docs/decisions/2026-08-02-project-decisions.md`
 - [ ] Publish as research note (arXiv, Bitcoin Optech, r/BitcoinEngineering) — working paper live; arXiv/Optech not yet submitted
 - [ ] Feed Bitcoin Core `getblockstats → utxo_size_inc` for per-block UTXO growth data — **deferred**: local node ~320K blocks behind tip; drop until synced
 
-**Key finding (v2.0.1, canonical):** at the real node census (N=32K), fees cover
+**Key finding (pre-re-base, v2.0.1):** at the then-census (N=32K), fees cover
 ~22.5% of the estimated 10-year storage cost (live re-measure 2026-08-02), with
 100% of sampled blocks below 1×. **v3.0 deep questions (Q1–Q5) answered
 2026-08-02** — `tools/research/sccr_dynamics.py` (4-way scenario overshoots at

@@ -28,7 +28,7 @@ out of current scope (see `docs/decisions/2026-08-02-project-decisions.md`).
 ## Research
 - **SCCR publication to arXiv / Bitcoin Optech** — not yet submitted; working paper
   is live on the site.
-- **SCCR headline reconciliation (done 2026-08-02)** — model-spec v2.0.1 is now the
+- **SCCR headline reconciliation (done 2026-08-02)** — model-spec v2.1.1 is now the (superseded: this entry records the 2026-08-02 state; N was later re-based 32,000 -> 26,586)
   canonical authority (N=32K, live re-measure 0.2252); working-paper/learn.html/
   marketing-queue were updated. Any future surface must read the live value, never
   a hardcoded number.

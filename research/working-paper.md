@@ -313,7 +313,7 @@ node bandwidth bills are overwhelmingly flat-rate (residential/colocation
 unmetered), so $/GB is a *marginal economic proxy*, not a typical bill. The
 bound's job is to bound the *marginal* propagation externality the storage leg
 deliberately excludes (§7 limitation 5): the full-chain marginal cost is
-**~$3.94/yr per node** (~$126K/yr network at ≥32K nodes), and the
+**~$3.94/yr per node** (~$104.9K/yr network at 26,586 nodes), and the
 inscription-incremental slice is **~$0.024/yr per node** — small in both
 frames, in the same direction as the pruning analysis's verdict
 (`pruning_externality_analysis.md`: $0.02–0.05/yr unavoidable per node).
@@ -458,7 +458,7 @@ The correction increased the estimated SCCR by an order of magnitude but did not
 
 **Future work (the resource-pricing program; statuses updated 2026-08-04):**
 - **UTXO leg — v1 DONE (measurement):** `getblockstats → utxo_size_inc` now persisted end-to-end (schema column, live spool-consumer path, backfill of 165 heights from the spool; avg ~29.9 KB/block) — §5.7. Remaining: $/byte pricing of the UTXO delta and validation-lookup cost surface.
-- **Bandwidth leg — v1 DONE (analytical bound):** model-spec v2.1.0 quantities B × replication × $/GB: $3.94/yr per node marginal full-chain propagation, ~$126K/yr network, inscription-incremental $0.024/yr/node — §5.5. Remaining: measured per-node bills (flat-rate reality) and a measured replication-weighted byte flow.
+- **Bandwidth leg — v1 DONE (analytical bound):** model-spec v2.1.1 quantities B × replication × $/GB: $3.94/yr per node marginal full-chain propagation, ~$126K/yr network, inscription-incremental $0.024/yr/node — §5.5. Remaining: measured per-node bills (flat-rate reality) and a measured replication-weighted byte flow.
 - **Validation leg — v1 STARTED (OOM survey):** `research/validation-cost.md` — validation cost per node per year < $100 (central ~$1–2/yr), literature-anchored, falsifiable — §5.6. Remaining: a pinned Core benchmark run and a hardware census.
 - **Node distribution:** expand `node_geo` (currently 224 rows) for per-region cost distributions
 - **BIP-110 pre/post measurement protocol** if activation is ever signaled
