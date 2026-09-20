@@ -1,21 +1,22 @@
 {
   "schema": "bsahi.peer-relay/1",
   "layer": "observed",
-  "generated_at": "2026-09-20T19:08:20.164934+00:00",
+  "generated_at": "2026-09-20T19:28:12.919602+00:00",
   "source": "local Bitcoin Core getpeerinfo (last_block/network/connection_type) polled by tools/research/block_first_seen.py",
   "peer_composition": {
-    "total": 10,
+    "total": 11,
     "by_network": {
-      "ipv4": 6,
-      "ipv6": 2,
-      "onion": 2
+      "ipv4": 7,
+      "ipv6": 3,
+      "onion": 1
     },
     "by_class": {
-      "clearnet": 8,
-      "overlay": 2
+      "clearnet": 10,
+      "overlay": 1
     },
     "by_direction": {
-      "outbound": 10
+      "outbound": 10,
+      "inbound": 1
     }
   },
   "blocks_observed": 0,
