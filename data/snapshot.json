@@ -1,60 +1,65 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-20T05:16:58.514835+00:00",
+  "generated_at": "2026-09-20T05:35:23.100Z",
   "freshness_min": 0,
-  "payload_ts": "2026-09-20T05:16:57.386079+00:00",
-  "fees_ts": "2026-09-20T05:16:57.386079+00:00",
-  "price_ts": "2026-09-20T05:16:57.386079+00:00",
-  "height_ts": "2026-09-20T05:16:57.386079+00:00",
-  "mempool_ts": "2026-09-20T05:16:57.386079+00:00",
-  "lightning_ts": "2026-09-20T05:16:57.386079+00:00",
+  "payload_ts": "2026-09-20T05:35:20.344Z",
+  "fees_ts": "2026-09-20T05:35:20.344Z",
+  "price_ts": "2026-09-20T05:35:21.092Z",
+  "height_ts": "2026-09-20T05:35:22.158Z",
+  "mempool_ts": "2026-09-20T05:35:22.908Z",
+  "lightning_ts": "2026-09-20T05:35:23.078Z",
   "fees": {
-    "fastestFee": 2,
+    "fastestFee": 1,
     "halfHourFee": 1,
     "hourFee": 1,
     "economyFee": 1,
     "minimumFee": 1
   },
-  "btc_price": 80490,
-  "block_height": 967795,
-  "mempool_tx": 78525,
+  "btc_price": 80522,
+  "block_height": 967800,
+  "mempool_tx": 73129,
   "lightning": {
     "latest": {
-      "id": 118870,
-      "added": "2026-05-22T00:00:00.000Z",
-      "channel_count": 41080,
-      "node_count": 17438,
-      "total_capacity": 489826757734,
-      "tor_nodes": 8975,
-      "clearnet_nodes": 4696,
-      "unannounced_nodes": 2000,
-      "avg_capacity": 11923728,
-      "avg_fee_rate": 817,
-      "avg_base_fee_mtokens": 880,
-      "med_capacity": 2100000,
+      "id": 142148,
+      "added": "2026-08-30T00:00:00.000Z",
+      "channel_count": 32674,
+      "node_count": 16232,
+      "total_capacity": 379393623670,
+      "tor_nodes": 7977,
+      "clearnet_nodes": 4599,
+      "unannounced_nodes": 2020,
+      "avg_capacity": 11611484,
+      "avg_fee_rate": 824,
+      "avg_base_fee_mtokens": 903,
+      "med_capacity": 2035000,
       "med_fee_rate": 100,
-      "med_base_fee_mtokens": 100,
-      "clearnet_tor_nodes": 1767
+      "med_base_fee_mtokens": 500,
+      "clearnet_tor_nodes": 1636
     }
   },
   "forecast": [
     {
       "day_offset": 1,
-      "predicted_fastest_fee": 1.3,
+      "predicted_fastest_fee": 3,
       "trend": "stable"
     },
     {
       "day_offset": 2,
-      "predicted_fastest_fee": 1.3,
+      "predicted_fastest_fee": 2.9,
       "trend": "stable"
     },
     {
       "day_offset": 3,
-      "predicted_fastest_fee": 1.3,
+      "predicted_fastest_fee": 2.9,
       "trend": "stable"
     }
   ],
-  "alerts": [],
+  "alerts": [
+    "🛡 SPOOL: stale sources: bip110_signal,block_adoption,block_hash,block_height,block_interval,blockchair,blocks,btc_price,coinpaprika,derived_metrics,difficulty,fear_greed,fee_history,fees,hashrate,lightning,mempool,mempool_blocks,mempool_recent,mining_pools,raw_block_tip,research_findings",
+    "🛡 DE AGENT: last run 23846 min ago",
+    "🛡 ORCHESTRATOR: heartbeat 23835 min ago",
+    "🛡 CAPTURE: failure ratio 56% (last 24h) > 20%"
+  ],
   "history": [
     {
       "date": "2026-08-22",
