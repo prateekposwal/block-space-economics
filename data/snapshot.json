@@ -1,39 +1,39 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-20T21:40:58.628Z",
+  "generated_at": "2026-09-20T22:11:20.798Z",
   "freshness_min": 0,
-  "payload_ts": "2026-09-20T21:40:49.907Z",
-  "fees_ts": "2026-09-20T21:40:49.907Z",
-  "price_ts": "2026-09-20T21:40:50.662Z",
-  "height_ts": "2026-09-20T21:40:51.794Z",
-  "mempool_ts": "2026-09-20T21:40:57.850Z",
-  "lightning_ts": "2026-09-20T21:40:58.626Z",
+  "payload_ts": "2026-09-20T22:11:11.138Z",
+  "fees_ts": "2026-09-20T22:11:11.138Z",
+  "price_ts": "2026-09-20T22:11:11.881Z",
+  "height_ts": "2026-09-20T22:11:13.125Z",
+  "mempool_ts": "2026-09-20T22:11:20.043Z",
+  "lightning_ts": "2026-09-20T22:11:20.796Z",
   "fees": {
-    "fastestFee": 1,
+    "fastestFee": 2,
     "halfHourFee": 1,
     "hourFee": 1,
     "economyFee": 1,
     "minimumFee": 1
   },
-  "btc_price": 80900,
-  "block_height": 967899,
-  "mempool_tx": 78317,
+  "btc_price": 80914,
+  "block_height": 967902,
+  "mempool_tx": 81211,
   "lightning": {
     "latest": {
       "id": 122219,
       "added": "2026-09-20T00:00:00.000Z",
-      "channel_count": 31671,
-      "node_count": 16104,
-      "total_capacity": 374203355991,
-      "tor_nodes": 7897,
+      "channel_count": 31672,
+      "node_count": 16105,
+      "total_capacity": 374273155679,
+      "tor_nodes": 7899,
       "clearnet_nodes": 4598,
-      "unannounced_nodes": 2014,
-      "avg_capacity": 11815331,
+      "unannounced_nodes": 2013,
+      "avg_capacity": 11817162,
       "avg_fee_rate": 813,
       "avg_base_fee_mtokens": 926,
       "med_capacity": 2076016,
       "med_fee_rate": 100,
-      "med_base_fee_mtokens": 740,
+      "med_base_fee_mtokens": 750,
       "clearnet_tor_nodes": 1595
     },
     "previous": {
@@ -73,7 +73,7 @@
   ],
   "alerts": [
     "🛡 SPOOL: stale sources: bip110_signal,block_interval",
-    "🛡 CAPTURE: failure ratio 38% (last 24h) > 20%"
+    "🛡 CAPTURE: failure ratio 39% (last 24h) > 20%"
   ],
   "history": [
     {
@@ -446,6 +446,10 @@
     },
     {
       "date": "2026-09-20",
+      "fastestFee": 1
+    },
+    {
+      "date": "2026-09-21",
       "fastestFee": 1
     },
     {
