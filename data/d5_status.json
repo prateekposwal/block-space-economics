@@ -1,11 +1,11 @@
 {
   "schema": "bsahi.d5-status/1",
   "layer": "observed",
-  "generated_at": "2026-09-21T00:35:52.487774+00:00",
+  "generated_at": "2026-09-21T01:49:39.505948+00:00",
   "source": "tunnel status (scoped sudo) + external reachability self-test via the Tor exit network + data/inbound_census.json",
   "census_endpoint": "2a11:6c7:f34:3a::2",
   "endpoint": {
-    "handshake_age_s": 42,
+    "handshake_age_s": 66,
     "handshake_fresh": true,
     "global_v6_routed_via_tunnel": true
   },
@@ -15,12 +15,12 @@
   },
   "measurement_live": true,
   "inbound": {
-    "now": 1,
+    "now": 0,
     "distinct_ever": 1,
     "raw_distinct_ever": 2,
     "known_crawlers_ever": 1
   },
   "tier_c_value": 1,
-  "statement": "Census endpoint live (Route64 IPv6); inbound reachable \u2014 externally verified. 1 inbound peer(s) observed so far.",
+  "statement": "Census endpoint live (Route64 IPv6); inbound reachable \u2014 externally verified. 0 inbound peer(s) observed so far.",
   "note": "Tier C is reported as null until real inbound peers are observed; a live instrument is not a measurement. Source IPs are preserved end-to-end, so distinct inbound IPs are a genuine lower bound on non-listening nodes."
 }
