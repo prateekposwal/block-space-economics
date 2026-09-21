@@ -24,6 +24,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 OUT = os.path.join(ROOT, "data", "ibd_cleared_notice.json")
 STATE = os.path.join(ROOT, "captured-data", "ibd-watch-state.json")
 CDF = os.path.join(ROOT, "data", "propagation_cdf.json")
+PPE = os.path.join(ROOT, "data", "private_population_estimate.json")
 CLI = os.path.join(os.path.expanduser("~"), ".local", "bin", "bitcoin-cli")
 
 
@@ -71,6 +72,19 @@ def main():
         }
         events.append("participation_first")
 
+    # The whole point of the exercise: the moment capture-recapture can produce a
+    # NUMBER (a recapture exists), record it. Until then the estimator reports
+    # None/INSUFFICIENT_RECAPTURES — this fires exactly once, when that changes.
+    ppe = load(PPE, {}) or {}
+    if ppe.get("estimate") is not None and not state.get("private_estimate_first"):
+        state["private_estimate_first"] = {
+            "at": now(), "estimate": ppe.get("estimate"), "ci95": ppe.get("ci95"),
+            "distinct_observed": ppe.get("distinct_observed"),
+            "occasions": ppe.get("occasions"),
+            "status": ppe.get("status"), "independence": ppe.get("independence"),
+        }
+        events.append("private_estimate_first")
+
     os.makedirs(os.path.dirname(STATE), exist_ok=True)
     with open(STATE, "w") as f:
         json.dump(state, f, indent=2)
@@ -86,6 +100,9 @@ def main():
         "participation_blocks_observed": blocks_obs,
         "ibd_cleared": state.get("ibd_cleared"),
         "participation_first": state.get("participation_first"),
+        "private_estimate_first": state.get("private_estimate_first"),
+        "private_estimate_now": ppe.get("estimate"),
+        "private_status_now": ppe.get("status"),
         "events_this_run": events,
         "note": ("One-shot transition record. ibd_cleared = the node finished syncing, so "
                  "first-party block-relay capture can begin. participation_first = the first "
@@ -100,8 +117,9 @@ def main():
         for e in events:
             print("ibd-watch: *** %s *** %s" % (e, json.dumps(state.get(e))))
     else:
-        print("ibd-watch: waiting — ibd=%s height=%s participation_blocks=%s"
-              % ((info or {}).get("initialblockdownload"), (info or {}).get("blocks"), blocks_obs))
+        print("ibd-watch: waiting — ibd=%s height=%s participation_blocks=%s private_estimate=%s (%s)"
+              % ((info or {}).get("initialblockdownload"), (info or {}).get("blocks"), blocks_obs,
+                 ppe.get("estimate"), ppe.get("status")))
     return 0
 
 

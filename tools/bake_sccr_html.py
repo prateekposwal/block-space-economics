@@ -442,6 +442,12 @@ def dashboard_cards():
             _lines.append('First measured block-relay participation: <b>%s%%</b> of observed blocks '
                           'had a non-listening (inbound) announcer'
                           % _num(_pf.get('inbound_announcer_share_pct'), 1))
+            _pef = ibdn.get('private_estimate_first')
+            if _pef:
+                _ci = _pef.get('ci95') or []
+                _lines.append('Private node estimate (capture-recapture): <b>%s</b>%s'
+                              % (_num(_pef.get('estimate'), 0),
+                                 (' (95%% CI %s\u2013%s)' % (_num(_ci[0], 0), _num(_ci[1], 0))) if len(_ci) == 2 else ''))
         else:
             _lines.append('Block-relay participation: awaiting synced relay (0 blocks observed)')
         out.append(_card('Sync &amp; relay readiness', 'observed', 'A', _lines,
