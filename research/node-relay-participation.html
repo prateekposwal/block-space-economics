@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Reachable nodes are ~1/3 of Bitcoin&#x27;s network and non-listening nodes ~2/3 (ratio ~1:1.6 to 1:2). Both relay blocks, but no published per-block public/private split exists.">
+<meta property="og:title" content="Public vs Private Nodes, and Their Participation in Blocks">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/node-relay-participation">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/node-relay-participation">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Verification Population","item":"https://bitcoinsahi.com/research/verification-population"}]}
+</script>
+<title>Public vs Private Nodes, and Their Participation in Blocks — BSAHI Research</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Verification Population Observatory","name":"Verification Population Observatory","url":"https://bitcoinsahi.com/research/verification-population","mainEntityOfPage":"https://bitcoinsahi.com/research/verification-population","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","about":["Bitcoin","nodes","verification","observability"],"datePublished":"2026-09-17","dateModified":"2026-09-17"}
+</script>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Public vs Private Nodes, and Their Participation in Blocks</h1>
+<p><strong>BSAHI — literature finding</strong> <em>Produced: 2026-09-21</em></p>
+<h2>The short answer</h2>
+<p>Two different ratios get conflated, and only one of them is published.</p>
+<ol>
+<li><strong>Population ratio</strong> (public vs private nodes) — well studied. Reachable (listening) nodes are roughly <strong>one third</strong> of the network; non-listening (&quot;unreachable&quot;) nodes are the other <strong>two thirds</strong>, i.e. about <strong>1 : 2</strong>. Estimates across independent methods cluster between <strong>1 : 1.6 and 1 : 2</strong>, with outlier claims up to 1 : 10–30.</li>
+<li><strong>Block-participation ratio</strong> (what share of a block&#x27;s relay is public vs private) — <strong>not published by anyone in the form people expect.</strong> There is no per-block &quot;X% public, Y% private&quot; figure in the literature. What exists is evidence that <em>both</em> classes relay, plus the structural reason the split is lopsided.</li>
+</ol>
+<h2>Why &quot;participation in blocks&quot; needs splitting three ways</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Sense</th><th>Who does it</th><th>Is public/private the right axis?</th></tr>
+<tr><td><strong>Producing</strong> a block</td><td>miners / pools</td><td><strong>No.</strong> A block is produced by a miner; whether that miner&#x27;s node listens is incidental. Production is measured by pool share and region, not node class.</td></tr>
+<tr><td><strong>Relaying</strong> a block (inv → getdata → block)</td><td>every node</td><td><strong>Yes</strong> — and both classes relay.</td></tr>
+<tr><td><strong>Serving</strong> a block to a new peer</td><td>listening nodes only</td><td><strong>No</strong> — by definition only reachable nodes can be dialled.</td></tr>
+</table>
+</div>
+<p>The third row is the asymmetry that shapes everything else: a non-listening node can <em>pull</em> a block and pass it on to its own outbound peers, but nobody can dial it. So it can never be the first hop for someone else.</p>
+<h2>What the literature establishes</h2>
+<p><strong>Population ratio.</strong></p>
+<div class="table-wrap">
+<table>
+<tr><th>Source</th><th>Method</th><th>Finding</th></tr>
+<tr><td>Bitnodes, Apr 2026</td><td>crawler + <code>addr</code> gossip</td><td>~70,000 total; ~23,000 reachable (<strong>~1/3</strong>)</td></tr>
+<tr><td>Li et al., <em>BNS</em>, Mathematics 2023</td><td>active crawl + decision-tree classifier</td><td>45,000–50,000 total; reachable : unreachable ≈ <strong>1 : 1.6</strong></td></tr>
+<tr><td>Wang et al., PAL, 2021</td><td>passive <code>addr</code> observation (5 yrs)</td><td><strong>~31,000</strong> unreachable peers <em>with useful services</em> active per day, end-2020; validation suggests ~50% detection</td></tr>
+<tr><td>Franzoni &amp; Daza, IEEE Blockchain 2020</td><td>survey</td><td>unreachable &quot;more than 90% of the whole network&quot;; some estimates 10–30× reachable</td></tr>
+<tr><td>Kiffer et al., 2025</td><td>cross-chain crawl</td><td>prior work: unreachable ≈ <strong>2× reachable</strong></td></tr>
+<tr><td>BTC Nodes crawl, Sep 2026</td><td>own handshake crawl</td><td>21,837 reachable by network type: <strong>onion 51%, IPv4 21%, I2P 19%, IPv6 8%</strong></td></tr>
+</table>
+</div>
+<p>The spread is real and comes from method: an active crawler sees only listening nodes; a passive observer watching <code>addr</code> gossip sees a <em>timestamped address set</em>, which is polluted by dead and flooded entries. Bitnodes&#x27; own caveat is that an unreachable count &quot;can only provide a rough estimation&quot;.</p>
+<p><strong>Do private nodes relay blocks? Yes — explicitly.</strong></p>
+<ul>
+<li>PAL (2021): <em>&quot;While unreachable peers do not accept incoming connections, they open several outgoing connections to other peers and <strong>participate in the propagation of transactions and blocks just as reachable peers do</strong>.&quot;</em></li>
+<li>Wang &amp; Pustogarov (2017), 2M+ connections measured: <strong>75.4%</strong> of propagations were relayed by a <strong>mix</strong> of unreachable, unavailable and reachable IPs; only <strong>5.3%</strong> were relayed by IPs of a single type. Private nodes are in the path.</li>
+<li>The same paper: a <em>small</em> number of peers carry 89% of transaction propagations — relay is concentrated irrespective of node class.</li>
+</ul>
+<p><strong>Why the relay split is lopsided (structural, not empirical).</strong></p>
+<ul>
+<li>A reachable node can hold up to <strong>125</strong> connections; a non-listening node keeps only its outbound set — <strong>8 full-relay + 2 block-relay-only</strong> by Core default.</li>
+<li>Every node&#x27;s outbound connections necessarily target <em>reachable</em> nodes. Therefore the listening set absorbs <strong>all</strong> outbound connection attempts from the entire network and sits in the hub position.</li>
+<li>Result: a <strong>hub-and-spoke</strong> topology. Reachable nodes form the backbone that relays blocks onward; non-listening nodes are leaves — they receive and pass on to their ~10 peers, but cannot fan out.</li>
+</ul>
+<p>So &quot;how much do private nodes participate in blocks?&quot; has a structural answer (they relay, as leaves) but no published numeric split.</p>
+<h2>What this project adds</h2>
+<p>No one publishes the per-block public/private relay split. BSAHI&#x27;s Phase 5 instrument is built to measure exactly the closest honest version of it:</p>
+<blockquote>Of blocks observed, what share had an inbound (non-listening) peer among the</blockquote>
+<blockquote>announcers — and among the earliest announcers?</blockquote>
+<p>Mechanics: <code>getpeerinfo</code> records, per block, which of our peers announced it, their <code>network</code> and <code>connection_type</code>, and whether they were <code>inbound</code> (non-listening) or outbound, with second-granular timing. Aggregated into <code>data/propagation_cdf.json</code> → <code>participation</code>, and surfaced on the dashboard.</p>
+<p>Status: wired and unit-tested, <strong>awaiting synced relay</strong> — the node was reindexing, and during reindex blocks come from disk, not from peers, so no rows are recorded (nothing is fabricated to fill the gap).</p>
+<h2>Caveats that must travel with any number here</h2>
+<ul>
+<li><strong>One vantage point.</strong> Our split describes <em>our</em> peer set, not the network.</li>
+<li><strong><code>inbound</code> ≠ private.</strong> An inbound peer is one that dialled us; it may itself be a listening node that chose us, a mobile wallet, or a known measurement crawler. <code>inbound_census.py</code> excludes known crawlers (e.g. <code>/dsn.tm.kit.edu/</code>) for exactly this reason.</li>
+<li><strong>Addresses ≠ nodes.</strong> NAT and CGNAT put many nodes behind one IP; a distinct-IP count is a floor, never a census.</li>
+<li><strong>Unreachable estimates are rough.</strong> Bitnodes says so itself; the <code>addr</code>-gossip method cannot distinguish a live non-listening node from a stale address.</li>
+</ul>
+<h2>Sources</h2>
+<ul>
+<li>Wang, L., Pustogarov, I. <em>Towards Better Understanding of Bitcoin Unreachable Peers.</em> arXiv:1709.06837 (2017).</li>
+<li>Mödinger, D. et al. <em>Unobtrusive monitoring: statistical dissemination latency estimation in Bitcoin&#x27;s P2P network.</em> PLOS ONE (2020) — PAL method.</li>
+<li>Li, R. et al. <em>BNS: A Detection System to Find Nodes in the Bitcoin Network.</em> Mathematics 11(24):4885 (2023).</li>
+<li>Franzoni, F., Daza, V. <em>Improving Bitcoin Transaction Propagation by Leveraging Unreachable Nodes.</em> IEEE Blockchain (2020).</li>
+<li>Kiffer, L. et al. <em>Multiple Sides of 36 Coins: Measuring P2P Infrastructure.</em> ACM POMACS (2025).</li>
+<li>Bitnodes / BTC Nodes crawler (2026); Bitcoin Network Operations Collective, <em>Unreachable addresses in Bitcoin GETADDR responses</em> (2026).</li>
+</ul><p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>
