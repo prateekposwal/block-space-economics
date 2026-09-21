@@ -78,6 +78,12 @@ li{margin:7px 0}
 .post .e{font-size:.9rem;color:var(--ink-2);margin:0}
 .post .tg{display:inline-block;font-size:.7rem;color:var(--ink-2);border:1px solid var(--line);border-radius:999px;padding:2px 9px;margin-top:9px}
 .allposts{display:inline-block;margin-top:4px;font-weight:500}
+.liprofile{display:flex;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0}
+.li-av{background:#0A66C2;color:#fff;font-size:1rem;font-weight:800}
+.libtn{flex:0 0 auto;padding:8px 14px;border:1px solid #0A66C2;border-radius:999px;color:#7FB3E8;font-size:.85rem;font-weight:600;text-decoration:none}
+.libtn:hover{background:rgba(10,102,194,.15);text-decoration:none;color:#fff}
+.post .lilink{display:inline-block;margin-top:9px;font-size:.78rem;color:var(--ink-2)}
+@media (max-width:560px){.liprofile{flex-wrap:wrap}}
 
 footer{max-width:860px;margin:0 auto;padding:26px 20px 40px;border-top:1px solid var(--line);color:var(--ink-3);font-size:.85rem}
 footer a{color:var(--ink-2)}
@@ -143,6 +149,18 @@ footer a{color:var(--ink-2)}
     </div>
   </div>
 
+  <h2>On LinkedIn</h2>
+  <div class="liprofile">
+    <div class="avatar li-av">in</div>
+    <div style="flex:1">
+      <div class="pname">Prateek Poswal</div>
+      <div class="prole">Posting the research as it happens — findings, corrections, and open questions.</div>
+    </div>
+    <a class="libtn" href="https://www.linkedin.com/in/prateek-53881946/" target="_blank" rel="me noopener">Follow →</a>
+  </div>
+  <div class="posts" id="liposts" hidden></div>
+  <p class="em" id="liempty" style="font-size:.85rem">Post archive coming here as it is added.</p>
+
   <h2>Recent posts</h2>
   <div class="posts">
     <a class="post" href="/research/changelog">
@@ -189,5 +207,36 @@ footer a{color:var(--ink-2)}
   <a href="/research">Research</a> · <a href="/articles">Articles</a> · <a href="/about">About</a> ·
   <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a>
 </footer>
+<script>
+/* LinkedIn posts render from /data/linkedin_posts.json so adding a post is a data
+   edit, not an HTML edit. LinkedIn blocks automated reads (HTTP 999/authwall) and
+   the bridge's session is interactive Google SSO, so the file is curated by hand.
+   Empty file -> the profile card stands alone and no post grid is shown. */
+(function(){
+  var grid=document.getElementById('liposts'), empty=document.getElementById('liempty');
+  fetch('/data/linkedin_posts.json',{cache:'no-store'})
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var posts=(d && d.posts) || [];
+      if(!posts.length) return;                       // keep the honest empty state
+      posts.slice().sort(function(a,b){ return (b.date||'').localeCompare(a.date||''); })
+        .forEach(function(p){
+          var a=document.createElement('a');
+          a.className='post';
+          a.href=p.url || ((d && d.profile) || 'https://www.linkedin.com/in/prateek-53881946/');
+          a.target='_blank'; a.rel='noopener';
+          var t=document.createElement('div'); t.className='t'; t.textContent=p.title || (p.text||'').split('\n')[0].slice(0,90);
+          var e=document.createElement('p'); e.className='e'; e.textContent=p.text||'';
+          var m=document.createElement('div'); m.className='d'; m.textContent=p.date||'';
+          a.appendChild(m); a.appendChild(t); a.appendChild(e);
+          (p.tags||[]).forEach(function(tg){ var s=document.createElement('span'); s.className='tg'; s.textContent=tg; a.appendChild(s); });
+          var l=document.createElement('span'); l.className='lilink'; l.textContent='View on LinkedIn →'; a.appendChild(l);
+          grid.appendChild(a);
+        });
+      grid.hidden=false; if(empty) empty.hidden=true;
+    })
+    .catch(function(){});
+})();
+</script>
 </body>
 </html>

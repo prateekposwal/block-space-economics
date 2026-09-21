@@ -181,7 +181,7 @@ NON_RESEARCH = {
     "alerts.json", "beta-status.json", "beta-users.json", "ops-health.json",
     "site-health.json", "snapshot.json", "latest.json", "fee_forecast.json",
     "integrity_audit.json", "content.json", "adoption.json", "roi.json", "datasets.json",
-    "bitcoin-weather-2.json",
+    "bitcoin-weather-2.json", "linkedin_posts.json",
 }
 
 

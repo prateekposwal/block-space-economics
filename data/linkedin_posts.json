@@ -1,0 +1,14 @@
+{
+  "schema": "bsahi.linkedin-posts/1",
+  "layer": "observed",
+  "generated_at": "2026-09-21T00:00:00+00:00",
+  "source": "manually curated. LinkedIn blocks automated reads (HTTP 999 / authwall) and this project's bridge authenticates through interactive Google SSO, so posts cannot be fetched — they are added here by hand.",
+  "profile": "https://www.linkedin.com/in/prateek-53881946/",
+  "how_to_add": {
+    "step": "append an object to posts[] with date, text, url (optional) and tags (optional)",
+    "date_format": "YYYY-MM-DD",
+    "renders_at": "https://bitcoinsahi.com/about — newest first, as cards"
+  },
+  "note": "Empty is the honest state: no post text was retrievable from this environment. The local publishing log holds one 'posted' LinkedIn entry, but its stored body is truncated to 100 characters, so it is not reproduced here.",
+  "posts": []
+}
