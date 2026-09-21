@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.bridge-reserves/1",
   "layer": "observed",
-  "generated_at": "2026-09-21T10:25:30.955746+00:00",
+  "generated_at": "2026-09-21T10:37:22.142133+00:00",
   "source": "Bitcoin custody balances measured via Esplora; token supply via eth_call totalSupply() across independent public RPCs. Custodian address lists are the issuers' published disclosures.",
   "method": "backing_ratio = measured BTC reserves / token supply. Both exploit families drive the ratio below 1: a custody drain lowers the numerator, an unbacked mint raises the denominator.",
   "scope": "Solvency/backing monitor. It observes the CONSEQUENCE of an unbacked mint (supply detaching from reserves), not the contract bug. It cannot see the mint itself, which happens on another chain.",
@@ -15,17 +15,18 @@
       "id": "wbtc",
       "name": "Wrapped BTC (WBTC)",
       "layer": "observed",
+      "kind": "reserve_backed",
       "token": {
         "chain": "ethereum",
         "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
         "decimals": 8
       },
       "supply_tokens": 116132.18273272,
-      "supply_sources_agreeing": 2,
+      "supply_breakdown": null,
+      "supply_sources_agreeing": 3,
       "supply_sources_errors": {
         "https://eth-mainnet.public.blastapi.io": "HTTPError",
-        "https://1rpc.io/eth": "RuntimeError",
-        "https://eth.merkle.io": "HTTPError"
+        "https://1rpc.io/eth": "RuntimeError"
       },
       "supply_snapshot_prev": 116132.18273272,
       "supply_change_pct": 0.0,
@@ -174,6 +175,45 @@
       ],
       "custody_source": "https://www.wbtc.network/transparency",
       "note": "backing_ratio_lower_bound counts the unmeasured chains' published supply as real, so it is the conservative (solvency-safe) view. custody_coverage = measured reserves / the issuer's claimed total; below 1.0 the address list is incomplete and NO solvency verdict is issued, because a partial reserve fakes exactly the shortfall this tool exists to detect."
+    },
+    {
+      "id": "lbtc",
+      "name": "Liquid Bitcoin (L-BTC)",
+      "layer": "observed",
+      "kind": "supply_only",
+      "token": {
+        "chain": "liquid",
+        "address": "L-BTC",
+        "decimals": 8
+      },
+      "supply_tokens": 4234.75864413,
+      "supply_breakdown": {
+        "peg_in_amount": 18387.58482936,
+        "peg_out_amount": 14142.79839199,
+        "burned_amount": 10.02779324,
+        "peg_in_count": 117346,
+        "peg_out_count": 10414
+      },
+      "supply_sources_agreeing": 1,
+      "supply_sources_errors": {},
+      "supply_snapshot_prev": null,
+      "supply_change_pct": null,
+      "reserves_btc_confirmed": 0.0,
+      "reserves_btc_unconfirmed": 0.0,
+      "reserves_btc_measured": 0.0,
+      "custody_addresses": [],
+      "unmeasured_chains_btc": {},
+      "unmeasured_total_btc": 0,
+      "published_reserves_btc": null,
+      "custody_coverage": null,
+      "backing_ratio": null,
+      "backing_ratio_lower_bound": null,
+      "status": "SUPPLY_ONLY",
+      "flags": [
+        "NO_RESERVE_LEG"
+      ],
+      "custody_source": "11-of-15 federation multisig; peg addresses are derived per peg-in, so no static list. Reserve leg not wired.",
+      "note": "backing_ratio_lower_bound counts the unmeasured chains' published supply as real, so it is the conservative (solvency-safe) view. custody_coverage = measured reserves / the issuer's claimed total; below 1.0 the address list is incomplete and NO solvency verdict is issued, because a partial reserve fakes exactly the shortfall this tool exists to detect."
     }
   ],
   "replays": [
@@ -213,5 +253,7 @@
       "reported": "~4,000 of 4,200 BTC withdrawn; ~85% later returned",
       "source": "Blockstream disclosure; Liquid Network incident reports"
     }
-  ]
+  ],
+  "alerts": [],
+  "alert_policy": "ALERT on: backing ratio below 0.98 once custody coverage is complete; a supply step of >= 5.0% between snapshots; or an undercollateralised flag. INCOMPLETE_CUSTODY_LIST and SUPPLY_ONLY are reported but never alerted, because neither can support a solvency claim."
 }

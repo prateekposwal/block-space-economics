@@ -76,6 +76,10 @@ var SCHEDULE = [
   // D5: is the private/non-listening census endpoint actually live + reachable?
   { name: 'd5_status',           script: 'tools/net/d5_status.py',                 args: [], every: 1800, timeoutS: 180 },
   { name: 'pool_infrastructure',  script: 'tools/net/pool_infrastructure.py',        args: [], every: 86400, timeoutS: 300 },
+  // Bridge backing-ratio watchtower: measured BTC custody vs token supply (WBTC
+  // reserves + L-BTC peg supply). Runs on a cadence so the supply series exists
+  // and a step change (unbacked mint) is visible BETWEEN runs, not just at it.
+  { name: 'bridge_reserves',      script: 'tools/research/bridge_reserves.py',       args: [], every: 900, timeoutS: 300 },
   // Clearnet distinct-IP census from a public-IP VPS (see
   // research/inbound-census-vps.md). Inert until ~/.bsahi/vps-census.conf exists.
   { name: 'vps_census_pull', cmd: ['bash', 'tools/net/vps_census_pull.sh'], every: 3600,

@@ -114,6 +114,23 @@ WRAPPERS = [
             "osmosis": 85.9553, "bsc": 0.0, "base": 0.0050,
         },
     },
+    {
+        # Claim-side only. The federation is an 11-of-15 multisig and its
+        # mainchain peg addresses are per-peg-in tweaks of the federation
+        # script, so there is no static reserve address list to watch. The
+        # Liquid ledger still gives us the part that an unbacked L-BTC mint
+        # (the Sep 6 incident) inflates.
+        "id": "lbtc",
+        "name": "Liquid Bitcoin (L-BTC)",
+        "kind": "supply_only",
+        "supply_kind": "liquid_peg",
+        "asset_id": "6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d",
+        "token": {"chain": "liquid", "address": "L-BTC", "decimals": 8},
+        "bitcoin_custody": [],
+        "custody_source": ("11-of-15 federation multisig; peg addresses are derived per "
+                           "peg-in, so no static list. Reserve leg not wired."),
+        "unmeasured_chains": {},
+    },
 ]
 
 # Replay fixtures: reported figures from incidents with no readable live supply
@@ -173,6 +190,38 @@ def total_supply(rpc, address):
     if "result" not in r:
         raise RuntimeError("rpc error: %s" % r.get("error"))
     return int(r["result"], 16)
+
+
+LIQUID_API = "https://blockstream.info/liquid/api"
+
+
+def liquid_supply(asset_id, decimals):
+    """Circulating L-BTC from the Liquid peg ledger.
+
+    The federation's mainchain peg addresses are per-peg-in tweaks of the
+    federation script, not a static list, so the Bitcoin reserve leg cannot be
+    wired from a published address list. The Liquid side is fully readable
+    though: peg-in mints L-BTC, peg-out and explicit burns destroy it, so
+
+        circulating = peg_in_amount - peg_out_amount - burned_amount
+
+    That is the CLAIM side — exactly the side an unbacked L-BTC mint inflates —
+    so it is worth monitoring on its own. Single source (Blockstream's Esplora),
+    which is a real trust caveat: no second Liquid indexer is publicly available.
+    """
+    d = _get(LIQUID_API + "/asset/" + asset_id)
+    c = d["chain_stats"]
+    scale = 10 ** decimals
+    pin = c.get("peg_in_amount", 0) / scale
+    pout = c.get("peg_out_amount", 0) / scale
+    burned = c.get("burned_amount", 0) / scale
+    return pin - pout - burned, {
+        "peg_in_amount": round(pin, 8),
+        "peg_out_amount": round(pout, 8),
+        "burned_amount": round(burned, 8),
+        "peg_in_count": c.get("peg_in_count"),
+        "peg_out_count": c.get("peg_out_count"),
+    }
 
 
 def supply_consensus(rpcs, address, decimals):
@@ -281,15 +330,25 @@ def prev_supply(wid):
 
 
 def monitor(w):
-    decimals = w["token"]["decimals"]
-    supply, used, errors = supply_consensus(w["supply_rpcs"], w["token"]["address"], decimals)
-    conf, unconf, rows = custody_total(w["bitcoin_custody"])
+    supply_only = w.get("kind") == "supply_only"
+    decimals = w.get("token", {}).get("decimals", 8)
+    if w.get("supply_kind") == "liquid_peg":
+        supply, extra = liquid_supply(w["asset_id"], decimals)
+        used, errors = {"blockstream-liquid-esplora": supply}, {}
+    else:
+        supply, used, errors = supply_consensus(w["supply_rpcs"], w["token"]["address"], decimals)
+        extra = None
+    if supply_only:
+        conf = unconf = 0.0
+        rows = []
+    else:
+        conf, unconf, rows = custody_total(w["bitcoin_custody"])
     measured_reserves = conf + unconf
-    ratio = (measured_reserves / supply) if supply else None
+    ratio = (measured_reserves / supply) if (supply and not supply_only) else None
 
     gap = sum(w.get("unmeasured_chains", {}).values())
     # ratio if the unmeasured chains exist (worst case for solvency)
-    ratio_lower = (measured_reserves / (supply + gap)) if supply else None
+    ratio_lower = (measured_reserves / (supply + gap)) if (supply and not supply_only) else None
 
     step_pct = None
     ps = prev_supply(w["id"])
@@ -301,7 +360,13 @@ def monitor(w):
     published = w.get("published_reserves_btc")
     coverage = (measured_reserves / published) if published else None
     flags = []
-    if coverage is not None and coverage < 0.99:
+    if supply_only:
+        # Claim side only. No reserve leg => no ratio, no solvency verdict. The
+        # value here is the supply series itself: an unbacked mint shows up as a
+        # step change even when nothing on Bitcoin moves.
+        status = "SUPPLY_ONLY"
+        flags.append("NO_RESERVE_LEG")
+    elif coverage is not None and coverage < 0.99:
         status = "INCOMPLETE_CUSTODY_LIST"
         flags.append("CUSTODY_COVERAGE_%.1f%%" % (100 * coverage))
         flags.append("NO_SOLVENCY_VERDICT")
@@ -317,8 +382,10 @@ def monitor(w):
 
     return {
         "id": w["id"], "name": w["name"], "layer": "observed",
-        "token": w["token"],
+        "kind": w.get("kind", "reserve_backed"),
+        "token": w.get("token"),
         "supply_tokens": round(supply, 8) if supply else None,
+        "supply_breakdown": extra,
         "supply_sources_agreeing": len(used),
         "supply_sources_errors": errors,
         "supply_snapshot_prev": ps,
@@ -365,6 +432,33 @@ def replay(r):
     }
 
 
+ALERT_OUT = os.path.join(ROOT, "data", "bridge_alerts.json")
+ALERT_LOG = os.path.join(CAP, "alerts.jsonl")
+
+
+def build_alerts(live):
+    """Only fire where a claim is actually supportable.
+
+    INCOMPLETE_CUSTODY_LIST and SUPPLY_ONLY deliberately produce no alert: a
+    partial reserve fakes a shortfall, and a supply-only view has no reserve to
+    compare against. Alerting on either would be crying wolf, which is how a
+    monitor gets ignored on the day it is right.
+    """
+    out = []
+    for m in live:
+        if m["status"] == "ALERT":
+            out.append("%s UNDERCOLLATERALISED: backing ratio %s"
+                       % (m["id"], m["backing_ratio_lower_bound"]))
+        for f in m["flags"]:
+            if f.startswith("SUPPLY_STEP_"):
+                out.append("%s %s (supply %s -> %s)"
+                           % (m["id"], f, m["supply_snapshot_prev"], m["supply_tokens"]))
+            if f.startswith("ADDRESSES_UNUSABLE_"):
+                out.append("%s custody list has %s unusable address(es)"
+                           % (m["id"], f.rsplit("_", 1)[1]))
+    return out
+
+
 def main():
     live = [monitor(w) for w in WRAPPERS]
     rep = [replay(r) for r in REPLAYS]
@@ -377,6 +471,10 @@ def main():
         print("%-26s %-14s ratio %.6g -> %.6g  %s  detected=%s"
               % (r["id"], r["mechanism"], r["ratio_before"], r["ratio_after"],
                  r["status_after"], r["detected"]))
+
+    alerts = build_alerts(live)
+    for a in alerts:
+        print("  !! %s" % a)
 
     doc = {
         "schema": "bsahi.bridge-reserves/1",
@@ -395,6 +493,13 @@ def main():
                   "supply_step_alert_pct": SUPPLY_STEP_ALERT_PCT},
         "wrappers": live,
         "replays": rep,
+        "alerts": alerts,
+        "alert_policy": ("ALERT on: backing ratio below %s once custody coverage is "
+                         "complete; a supply step of >= %.1f%% between snapshots; or an "
+                         "undercollateralised flag. INCOMPLETE_CUSTODY_LIST and "
+                         "SUPPLY_ONLY are reported but never alerted, because neither "
+                         "can support a solvency claim."
+                         % (BAND_WATCH, SUPPLY_STEP_ALERT_PCT)),
     }
     os.makedirs(CAP, exist_ok=True)
     with open(os.path.join(CAP, "history.jsonl"), "a") as f:
@@ -406,7 +511,15 @@ def main():
                                     "ratio": m["backing_ratio_lower_bound"]}) + "\n")
     with open(OUT, "w") as f:
         json.dump(doc, f, indent=2)
-    print("  -> %s" % OUT)
+
+    with open(ALERT_OUT, "w") as f:
+        json.dump({"alerts": alerts, "at": doc["generated_at"],
+                   "source": "bridge-reserves"}, f, indent=2)
+    if alerts:
+        with open(ALERT_LOG, "a") as f:
+            for a in alerts:
+                f.write(json.dumps({"at": doc["generated_at"], "alert": a}) + "\n")
+    print("  -> %s  (%d alert(s))" % (OUT, len(alerts)))
 
 
 if __name__ == "__main__":
