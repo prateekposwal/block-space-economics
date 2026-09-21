@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.validation-cost/1",
   "layer": "observed",
-  "generated_at": "2026-09-21T14:14:41.227542+00:00",
+  "generated_at": "2026-09-21T22:58:51.382799+00:00",
   "source": "local Bitcoin Core debug.log UpdateTip wall-clock timings during a full -reindex (single machine, first-party)",
   "hardware": {
     "model": "MacBookAir10,1",
@@ -11,14 +11,14 @@
   },
   "pass": {
     "start_utc": "2026-09-21T00:35:30+00:00",
-    "end_utc": "2026-09-21T14:14:41+00:00",
+    "end_utc": "2026-09-21T22:58:06+00:00",
     "from_height": 710825,
-    "to_height": 745020,
-    "blocks": 34195,
-    "txs": 60105732,
-    "wall_seconds": 49151,
-    "blocks_per_sec": 0.696,
-    "ms_per_block": 1437.374,
+    "to_height": 750049,
+    "blocks": 39224,
+    "txs": 68954633,
+    "wall_seconds": 80556,
+    "blocks_per_sec": 0.487,
+    "ms_per_block": 2053.743,
     "still_reindexing": true
   },
   "by_era": [
@@ -37,16 +37,16 @@
     },
     {
       "era": "2022",
-      "blocks": 28421,
-      "wall_seconds": 45607,
+      "blocks": 33450,
+      "wall_seconds": 77012,
       "height_from": 716599,
-      "height_to": 745020,
-      "txs": 49591607,
-      "blocks_per_sec": 0.623,
-      "ms_per_block": 1604.694,
-      "tx_per_sec": 1087.4,
-      "us_per_tx": 919.65,
-      "cost_index_vs_base": 2.61
+      "height_to": 750049,
+      "txs": 58440508,
+      "blocks_per_sec": 0.434,
+      "ms_per_block": 2302.302,
+      "tx_per_sec": 758.8,
+      "us_per_tx": 1317.78,
+      "cost_index_vs_base": 3.75
     }
   ],
   "cost_index_base_era": "2021",
@@ -442,6 +442,20 @@
       "progress": 0.495862788476864,
       "ibd": true,
       "bitcoind_cpu_pct": 84.8
+    },
+    {
+      "at": "2026-09-21T22:36:12.555201+00:00",
+      "height": 747658,
+      "progress": 0.4988406698917109,
+      "ibd": true,
+      "bitcoind_cpu_pct": 66.6
+    },
+    {
+      "at": "2026-09-21T22:58:50.524183+00:00",
+      "height": 750049,
+      "progress": 0.5016594698635508,
+      "ibd": true,
+      "bitcoind_cpu_pct": 6.0
     }
   ],
   "caveats": [
