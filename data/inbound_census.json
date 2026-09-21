@@ -1,117 +1,41 @@
 {
   "schema": "bsahi.inbound-census/2",
   "layer": "observed",
-  "generated_at": "2026-09-21T05:12:16.774042+00:00",
+  "generated_at": "2026-09-21T11:07:48.071622+00:00",
   "source": "Bitcoin Core getpeerinfo on the project's listening node",
   "method": "tools/research/inbound_census.py \u2014 count peers that dial in (identity = IP, port stripped)",
   "latest": {
-    "at": "2026-09-21T05:12:16.774042+00:00",
-    "connections_in": 9,
-    "inbound_count": 9,
+    "at": "2026-09-21T11:07:48.071622+00:00",
+    "connections_in": 1,
+    "inbound_count": 1,
     "inbound_ips": [
-      "2001:41b8:810:40:be24:11ff:fe82:aeba",
-      "2001:67c:1220:808:0:3110:93e5:8f0",
-      "2001:67c:1220:808:0:3120:93e5:8f0",
-      "2602:fcdb:0:3::186",
-      "2a00:1398:4:2a03::bc11",
-      "2a00:1398:4:2a03::bc12",
-      "2a00:1398:4:2a05:4e52:62ff:fe22:6c13"
+      "2602:fcdb:0:3::186"
     ],
     "inbound_measurement_ips": [
-      "2001:67c:1220:808:0:3110:93e5:8f0",
-      "2001:67c:1220:808:0:3120:93e5:8f0",
-      "2602:fcdb:0:3::186",
-      "2a00:1398:4:2a03::bc11"
+      "2602:fcdb:0:3::186"
     ],
-    "crawler_ips": [
-      "2001:41b8:810:40:be24:11ff:fe82:aeba",
-      "2a00:1398:4:2a03::bc12",
-      "2a00:1398:4:2a05:4e52:62ff:fe22:6c13"
-    ],
+    "crawler_ips": [],
     "inbound_detail": [
       {
-        "ip": "2001:67c:1220:808:0:3120:93e5:8f0",
-        "subver": "/bitcoinj:0.16.2/Bitcoin Wallet:9.26/",
-        "network": "ipv6",
-        "local": "2a11:6c7:f34:3a::2",
-        "crawler": false
-      },
-      {
-        "ip": "2001:67c:1220:808:0:3110:93e5:8f0",
-        "subver": "/bitcoinj:0.16.2/Bitcoin Wallet:9.26/",
-        "network": "ipv6",
-        "local": "2a11:6c7:f34:3a::3",
-        "crawler": false
-      },
-      {
-        "ip": "2001:67c:1220:808:0:3120:93e5:8f0",
-        "subver": "/bitcoinj:0.16.2/Bitcoin Wallet:9.26/",
-        "network": "ipv6",
-        "local": "2a11:6c7:f34:3a::3",
-        "crawler": false
-      },
-      {
-        "ip": "2a00:1398:4:2a05:4e52:62ff:fe22:6c13",
-        "subver": "/dsn.tm.kit.edu/bitcoin:0.9.99/",
-        "network": "ipv6",
-        "local": "2a11:6c7:f34:3a::3",
-        "crawler": true
-      },
-      {
-        "ip": "2a00:1398:4:2a03::bc12",
-        "subver": "/dsn.tm.kit.edu/bitcoin:0.9.99/",
-        "network": "ipv6",
-        "local": "2a11:6c7:f34:3a::3",
-        "crawler": true
-      },
-      {
-        "ip": "2a00:1398:4:2a03::bc11",
-        "subver": "/dsn.kastel.kit.edu/bitcoin:28.0.0/",
-        "network": "ipv6",
-        "local": "2a11:6c7:f34:3a::3",
-        "crawler": false
-      },
-      {
         "ip": "2602:fcdb:0:3::186",
         "subver": "/Satoshi:25.1.0/",
         "network": "ipv6",
         "local": "2a11:6c7:f34:3a::3",
         "crawler": false
-      },
-      {
-        "ip": "2602:fcdb:0:3::186",
-        "subver": "/Satoshi:25.1.0/",
-        "network": "ipv6",
-        "local": "2a11:6c7:f34:3a::2",
-        "crawler": false
-      },
-      {
-        "ip": "2001:41b8:810:40:be24:11ff:fe82:aeba",
-        "subver": "/dsn.tm.kit.edu/bitcoin:0.9.99/",
-        "network": "ipv6",
-        "local": "2a11:6c7:f34:3a::2",
-        "crawler": true
       }
     ],
     "by_local_addr": {
-      "2a11:6c7:f34:3a::2": [
-        "2001:67c:1220:808:0:3120:93e5:8f0",
-        "2602:fcdb:0:3::186"
-      ],
       "2a11:6c7:f34:3a::3": [
-        "2001:67c:1220:808:0:3110:93e5:8f0",
-        "2001:67c:1220:808:0:3120:93e5:8f0",
-        "2602:fcdb:0:3::186",
-        "2a00:1398:4:2a03::bc11"
+        "2602:fcdb:0:3::186"
       ]
     },
     "identity_hidden": false,
     "identity_hidden_ips": [],
     "connection_type_breakdown": {
-      "inbound": 9
+      "inbound": 1
     }
   },
-  "samples": 45,
+  "samples": 46,
   "history": [
     {
       "at": "2026-09-17T17:29:55.332181+00:00",
@@ -337,6 +261,11 @@
       "at": "2026-09-21T05:12:16.774042+00:00",
       "inbound_count": 9,
       "connections_in": 9
+    },
+    {
+      "at": "2026-09-21T11:07:48.071622+00:00",
+      "inbound_count": 1,
+      "connections_in": 1
     }
   ],
   "distinct_inbound_addresses_ever": 7,
@@ -360,5 +289,5 @@
     "listen": "1",
     "reachability": "port-forward for clearnet distinct-node counting; Tor gives a concurrency bound only"
   },
-  "headline": "7 distinct clearnet peer IP(s) and up to 9 concurrent inbound peer(s) across 45 sample(s) have dialled in; latest: 9"
+  "headline": "7 distinct clearnet peer IP(s) and up to 9 concurrent inbound peer(s) across 46 sample(s) have dialled in; latest: 1"
 }
