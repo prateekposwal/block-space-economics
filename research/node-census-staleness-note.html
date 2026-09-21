@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The 32,000 figure was a truncated address sample, not an addrman cap. Corrected: N = 26,586 measured reachable nodes.">
+<meta property="og:title" content="Node Census Staleness Report">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/node-census-staleness-note">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/node-census-staleness-note">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Verification Population","item":"https://bitcoinsahi.com/research/verification-population"}]}
+</script>
+<title>Node Census Staleness Report — BSAHI Research</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Verification Population Observatory","name":"Verification Population Observatory","url":"https://bitcoinsahi.com/research/verification-population","mainEntityOfPage":"https://bitcoinsahi.com/research/verification-population","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","about":["Bitcoin","nodes","verification","observability"],"datePublished":"2026-09-17","dateModified":"2026-09-17"}
+</script>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Node Census Staleness Report</h1>
+<p><strong>BSAHI — Data Quality Assessment</strong> <em>Produced: 2026-09-11 03:24 UTC</em> | <em>Updated: 2026-09-16 (primary reachable-node series captured); corrected 2026-09-20</em></p>
+<hr>
+<h2>Correction (2026-09-20): there is no 32,000 addrman cap</h2>
+<p>Earlier revisions of this note — and several other documents — described <code>totalKnownAddresses = 32,000</code> as an <strong>addrman cap</strong>. That is wrong, and we have the measurement to show it: <code>getnodeaddresses 0</code> (which returns the whole address manager) came back with <strong>61,302</strong> addresses on 2026-09-20, and the count has kept growing with peer exposure. The 32,000 figure came from an older code path that requested a literal count and so truncated the response.</p>
+<p>Two separate corrections follow from this:</p>
+<ol>
+<li>The addrman sample is an <strong>address</strong> set, not a node count, and it is <strong>not capped</strong> at any round number.</li>
+<li>The reachable-node count N is measured independently (btcnodes crawl), and is <strong>26,586</strong> — not 32,000.</li>
+</ol>
+<h2>2026-09-16 update — primary reachable-node census captured</h2>
+<p><code>tools/research/node_census_capture.py</code> captures the <strong>btcnodes.io snapshot API</strong> (renamed bitnodes) — 3,981 snapshots, 2026-05-08 → 2026-09-15, ~3/day. <code>data/node_census_series.json</code> is the primary-source reachable-node series.</p>
+<p><strong>Live reading: ~26,600 reachable nodes</strong> (latest 26,586; monthly means 25.3–26.9K, June–Sep 2026). The separate local addrman sample (<code>data/node_census.json</code>) is a count of gossiped <strong>addresses</strong> — public, listening-biased, and not a node count.</p>
+<p><strong>Era anchors for the SCCR reconstruction (N table):</strong></p>
+<ul>
+<li><strong>2017-12-11: N ≈ 11,891</strong> — Wayback-archived <code>bitnodes.earn.com/api/v1/snapshots/</code> page-1 (47,320-snapshot history), recovered raw via <code>web.archive.org/web/... id_</code>.</li>
+<li><strong>2026: N ≈ 26,635</strong> — btcnodes.io series mean (2026-05-08..09-15).</li>
+</ul>
+<p>Deep history is NOT recoverable as a continuous series: btcnodes retains only ~4 months; the Wayback Machine holds just 3 captures of the old paginated API (2017-12-11 retrievable; two 2022-12-31 mementos 404 on raw fetch). Eras 2013-2016 and 2018-2025 remain approximation in the SCCR N table; 2017 and 2026 are now primary-anchored.</p>
+<p><strong>SCCR impact (2026-09-16, re-run):</strong> with N=26,635 (not 32,000), 2026 SCCR = 0.297 (still &lt; 1 — first sustained sub-1× regime confirmed). With N=11,891 (not 8,000), 2017 SCCR = 3.35 — the Q7 &quot;2017 ≈ 10.0&quot; claim is even less reproducible than at the old estimate.</p>
+<hr>
+<h2>Current state at the original assessment (retained)</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Field</th><th>Value</th></tr>
+<tr><td>Census date</td><td>2026-08-02T19:05:03.982Z</td></tr>
+<tr><td>Staleness at the time</td><td><strong>39 days</strong></td></tr>
+<tr><td>Total known addresses</td><td>32,000 (the truncated sample recorded then; now 61,302)</td></tr>
+<tr><td>Live connections at capture</td><td>8</td></tr>
+<tr><td>Live capture attempted</td><td><strong>No</strong> — Bitcoin Core RPC not reachable</td></tr>
+<tr><td>Live capture reason</td><td><code>bitcoind</code> not running; <code>bitcoin-cli</code> cannot connect to 127.0.0.1:8332</td></tr>
+</table>
+</div>
+<hr>
+<h2>Why this mattered</h2>
+<p>The node census was a <strong>primary-source lower bound</strong> — the node knows at least the addresses in its address manager. What was not understood at the time is that the address-manager sample measures <strong>addresses, not nodes</strong>, and that the recorded 32,000 was a truncation rather than a ceiling. The true reachable-node set is measured separately, with independent estimates spanning 10K–100K.</p>
+<p><strong>A stale census meant:</strong></p>
+<ul>
+<li>SCCR was computed with an N that was too high (32,000), making SCCR artificially low</li>
+<li>The 30-day staleness threshold (documented in <code>research/model-spec.json</code>) was exceeded</li>
+<li>The <code>census_stale: true</code> flag was correctly set in <code>data/sccr_latest.json</code></li>
+</ul>
+<hr>
+<h2>What a fresh census reveals</h2>
+<ol>
+<li><strong>Current reachable-node count</strong> — 26,586 (measured; a lower bound)</li>
+<li><strong>Address-manager sample</strong> — 61,302 public gossiped addresses (not nodes)</li>
+<li><strong>Pruned vs. archival distribution</strong> — from our own handshake crawl: ~79% full, ~21% pruned</li>
+<li><strong>Geographic distribution</strong> — from the offline ASN DB, over the crawl</li>
+<li><strong>Version distribution</strong> — from our own crawl (<code>by_user_agent_top</code>)</li>
+</ol>
+<hr>
+<h2>How to refresh</h2>
+<p>The reachable-node series is captured by <code>tools/research/node_census_capture.py</code> (btcnodes snapshot API), scheduled daily.</p>
+<p>The local address-manager sample is captured by <code>tools/agents/25-node-census.js</code>, which runs <code>bitcoin-cli getnodeaddresses 0</code> (the whole address manager) on the local Bitcoin Core node:</p>
+<ol>
+<li>Start <code>bitcoind</code> with the BSAHI configuration (<code>~/Library/Application Support/Bitcoin/bitcoin.conf</code>)</li>
+<li>Wait for sync (the node is currently reindexing)</li>
+<li>Run <code>node tools/agents/25-node-census.js</code></li>
+<li>The agent writes the sample to <code>data/node_census.json</code> and appends to <code>data/addrman_history.json</code></li>
+</ol>
+<hr>
+<h2>Honest statement</h2>
+<p><strong>No data was fabricated.</strong> The values recorded on 2026-08-02 are kept as the historical record. What changed is the <em>interpretation</em>: the 32,000 was a truncated address sample, not an addrman cap and not a node count.</p>
+<p><strong>Postscript (2026-09-20):</strong> <code>getnodeaddresses 0</code> returns 61,302 addresses, so the &quot;cap&quot; reading is retired. N (reachable nodes) is measured at 26,586 from an independent crawl.</p>
+<hr>
+<p><em>Census sources: btcnodes.io snapshot API (reachable nodes) and Bitcoin Core <code>getnodeaddresses 0</code> (address sample). Agents: <code>tools/research/node_census_capture.py</code>, <code>tools/agents/25-node-census.js</code>.</em></p><p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>

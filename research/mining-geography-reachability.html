@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Can mining geography be measured first-party? The methods surveyed, the measurement that rules out pool-IP geolocation, and the two paths that would work.">
+<meta property="og:title" content="Mining Geography: What Can Be Measured and What Cannot">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/mining-geography-reachability">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/mining-geography-reachability">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Verification Population","item":"https://bitcoinsahi.com/research/verification-population"}]}
+</script>
+<title>Mining Geography: What Can Be Measured and What Cannot — BSAHI Research</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Verification Population Observatory","name":"Verification Population Observatory","url":"https://bitcoinsahi.com/research/verification-population","mainEntityOfPage":"https://bitcoinsahi.com/research/verification-population","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","about":["Bitcoin","nodes","verification","observability"],"datePublished":"2026-09-17","dateModified":"2026-09-17"}
+</script>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Mining Geography: What Can Be Measured and What Cannot</h1>
+<p><strong>BSAHI — reducing third-party dependence, item 3</strong> <em>Produced: 2026-09-19</em></p>
+<h2>Claim tested</h2>
+<p>The independence scorecard lists <strong>Mining geography</strong> as &quot;inherently external — pools don&#x27;t disclose&quot;. This note tests that claim: can mining&#x27;s geographic distribution be measured or reverse-engineered FIRST-PARTY, the way we did for the node population (crawler), geography (offline ASN DB) and validation cost (reindex)?</p>
+<h2>Methods surveyed (literature + practice)</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Method</th><th>What it yields</th><th>Who uses it</th><th>Verdict here</th></tr>
+<tr><td>Pool-declared facility IPs, aggregated by the pool</td><td>hashrate by country/region</td><td><strong>CBECI / CCAF</strong> mining map</td><td>Needs pool cooperation. Not reproducible.</td></tr>
+<tr><td>Pool stratum endpoint IP → geolocate</td><td>&quot;where the pool is&quot;</td><td>common shortcut</td><td><strong>Dead — measured below.</strong></td></tr>
+<tr><td>Miner Entanglement: connect to pools as a sub-miner, time their block notifications</td><td>pool block-reception latency</td><td>Cao et al., <em>Characterizing the Impact of Network Delay on Bitcoin Mining</em>, SRDS 2021</td><td>Needs a miner/worker registration; gives latency, not location.</td></tr>
+<tr><td>On-chain exchange-flow inference: trace coinbase → where miners cash out → exchange&#x27;s region</td><td>miner region, majority of hashrate</td><td>Makarov &amp; Schoar, <em>Blockchain Analysis of the Bitcoin Market</em>, NBER w29396</td><td>Real, first-party-capable — but needs full address clustering + exchange labelling (research-scale).</td></tr>
+<tr><td>Passive topology / minimum-spanning-tree from broadcast timing</td><td>infer the broadcasting (mining) node</td><td>Mariem et al., <em>Vivisecting Blockchain P2P Networks</em>, 2018</td><td>Needs many vantage points + RTT matrix. Single-vantage here.</td></tr>
+<tr><td>Published supplementary dataset (desensitized, per-location hashrate)</td><td>2018–2019 monthly grid</td><td>Sun et al., <em>Spatial analysis of global Bitcoin mining</em>, Sci. Rep. 2022</td><td>Historical only; importable but not current.</td></tr>
+</table>
+</div>
+<h2>Measured evidence (this environment, 2026-09-19)</h2>
+<p><code>tools/net/pool_infrastructure.py</code> resolves each pool&#x27;s public stratum hostname, geolocates it with the offline ip2asn DB, and probes TCP RTT:</p>
+<div class="table-wrap">
+<table>
+<tr><th>Pool</th><th>Hostname</th><th>Country</th><th>ASN org</th><th>CDN</th></tr>
+<tr><td>F2Pool</td><td>btc.f2pool.com</td><td>US</td><td>CLOUDFLARENET</td><td>yes</td></tr>
+<tr><td>ViaBTC</td><td>btc.viabtc.com</td><td>US</td><td>CLOUDFLARENET</td><td>yes</td></tr>
+<tr><td>AntPool</td><td>stratum.antpool.com</td><td>US</td><td>CLOUDFLARENET</td><td>yes</td></tr>
+<tr><td>Binance Pool</td><td>stratum.binance.com</td><td>US</td><td>AMAZON-02</td><td>yes</td></tr>
+<tr><td>Braiins/Slush</td><td>stratum.braiins.com</td><td>US</td><td>CLOUDFLARENET</td><td>yes</td></tr>
+<tr><td>Foundry USA</td><td>foundryusapool.com</td><td>US</td><td>CLOUDFLARENET</td><td>yes</td></tr>
+<tr><td>Kano</td><td>jp.kano.is</td><td>US</td><td>AS-VULTR</td><td>no</td></tr>
+</table>
+</div>
+<p><strong>10 of 14 resolved addresses are CDN-fronted.</strong> The country/ASN returned is the <em>edge&#x27;s</em>, not the pool&#x27;s origin — and the pool&#x27;s workers (the miners we actually want) never appear in any of it. Pool-endpoint geolocation is therefore not a mining-geography method at all; it is a CDN-geography method.</p>
+<h2>Verdict</h2>
+<p><strong>Mining geography is not first-party measurable from a single node.</strong> Two paths exist and both are out of reach here:</p>
+<ol>
+<li><strong>Pool cooperation</strong> (the CBECI method) — the only direct measurement. Not obtainable without partner-pool agreements.</li>
+<li><strong>On-chain exchange-flow inference</strong> (the Makarov–Schoar method) — genuinely first-party in principle, and the strongest available substitute. It requires (a) full historical transaction-graph clustering and (b) a labelled exchange-address corpus. Neither is buildable in this repo today, and both are blocked while the node reindexes.</li>
+</ol>
+<p>Everything a single node <em>can</em> measure about mining — pool block share via coinbase tags — is <strong>concentration</strong>, not geography. That distinction is the honest boundary, and it is why the scorecard keeps this row external.</p>
+<h2>What is in use instead</h2>
+<p>An automatic <strong>source ladder</strong> in <code>tools/research/mining_geography.py</code>:</p>
+<ol>
+<li>CBECI mining-map CSV in <code>captured-data/cbeci/</code> (monthly, authoritative, pool sample ~32–38%) — preferred if the operator drops one in; the CBECI API itself is reCAPTCHA-gated and is deliberately <strong>not</strong> scraped.</li>
+<li><strong>Hashrate Index (Luxor) quarterly heatmap</strong> — public HTML, parsed automatically (currently Q3 2026: US 36.7%, Russia 17.2%, China 12.2%, covering 85.1% of global hashrate). Both are labelled <strong>estimates</strong>.</li>
+</ol>
+<h2>What would unblock a first-party answer</h2>
+<ul>
+<li>A <strong>distributed sentinel set</strong> (≥3 geographically separate vantage points) plus the block-arrival timing we already record per peer — enough for latency-based origin inference.</li>
+<li>A <strong>transaction-clustering indexer</strong> + an exchange-address corpus — enables the exchange-flow method, which is the one genuinely first-party route to miner region.</li>
+</ul><p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>

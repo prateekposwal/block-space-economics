@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Why a CGNAT/mobile host cannot produce distinct-IP inbound evidence, and the two deployable patterns that can.">
+<meta property="og:title" content="Inbound Census: Why This Mac Cannot Be Reached, and the Public-IP Pattern">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/inbound-census-vps">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/inbound-census-vps">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Verification Population","item":"https://bitcoinsahi.com/research/verification-population"}]}
+</script>
+<title>Inbound Census: Why This Mac Cannot Be Reached, and the Public-IP Pattern — BSAHI Research</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Verification Population Observatory","name":"Verification Population Observatory","url":"https://bitcoinsahi.com/research/verification-population","mainEntityOfPage":"https://bitcoinsahi.com/research/verification-population","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","about":["Bitcoin","nodes","verification","observability"],"datePublished":"2026-09-17","dateModified":"2026-09-17"}
+</script>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Inbound Census: Why This Mac Cannot Be Reached, and the Public-IP Pattern</h1>
+<p><strong>BSAHI — working note (internal)</strong> <em>Produced: 2026-09-18 · Status: solution design for the clearnet distinct-node evidence.</em></p>
+<hr>
+<h2>What D5 needs</h2>
+<p><code>tools/research/inbound_census.py</code> wants a lower bound on <strong>non-listening / private nodes</strong>: nodes that dial <em>us</em>. To count them by identity, the node must see <strong>distinct source IPs</strong> of inbound peers.</p>
+<h2>What blocks it (measured, 2026-09-18)</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Path</th><th>Result</th></tr>
+<tr><td><strong>IPv4 inbound</strong></td><td>❌ <strong>impossible</strong> — the Mac is on a CGNAT link (traceroute shows two stacked private hops <code>10.57.222.34</code> → <code>10.191.76.201</code>; public IP shared). No port-forward exists to configure.</td></tr>
+<tr><td><strong>IPv6 inbound</strong></td><td>❌ <strong>blocked</strong> — IPv6 egress works, but two independent external fetchers (r.jina.ai, allorigins) resolved our global IPv6 and <strong>timed out</strong>. Carriers firewall inbound v6 by default.</td></tr>
+<tr><td><strong>Tor inbound</strong></td><td>✅ works (proved: a separate Tor client and a real bitcoind both dialled in) — but Tor&#x27;s HS forwarding makes every peer appear as <strong><code>127.0.0.1</code></strong>, so identity is lost. Only a <em>concurrency</em> bound survives.</td></tr>
+<tr><td><strong>Home LAN</strong></td><td>the earlier port-forward target (<code>192.168.29.1 → .211</code>) is a <em>different</em> network the Mac is not currently on.</td></tr>
+</table>
+</div>
+<p><strong>Conclusion: distinct-IP clearnet inbound cannot be produced from a CGNAT/mobile host.</strong> This is a property of the network, not a configuration gap. A router rule, UPnP, or NAT-PMP cannot change it (both were also tested — the router supported neither).</p>
+<h2>The pattern (what node operators do behind CGNAT)</h2>
+<p>A node behind CGNAT has no inbound path; the standard answer is <strong>run the reachable node on a host that has a public IP</strong>. For a <em>measurement</em> node whose only job is to observe who dials in, the node does not have to be the research machine.</p>
+<p>Two deployable options, in order of preference:</p>
+<h3>Option 1 — census node on a public-IP VPS (recommended)</h3>
+<p><code>tools/net/vps-census-node.sh</code> provisions a pruned, listening bitcoind on a fresh Ubuntu VPS (Oracle Cloud Always-Free, GCP e2-micro, Hetzner, …), opens 8333, and installs a cron that writes <code>/var/lib/bsahi/inbound.json</code> every 10 min.</p>
+<p>The Mac pulls it with <code>tools/net/vps_census_pull.sh &lt;user@vps&gt;</code> → <code>data/vps_inbound_census.json</code>. <strong>This produces distinct clearnet IPs</strong> — the real D5 evidence — and is stable across the Mac changing networks.</p>
+<p>Cost: a free-tier VM is sufficient; a pruned node needs ~2 GB.</p>
+<h3>Option 2 — PROXY-protocol relay: keep the node on the Mac, borrow only an address</h3>
+<p>Preferred when the Mac already has the chainstate (it does): the public host only <strong>relays</strong>, it does not run a node, so nothing needs to sync there.</p>
+<pre><code>peers -&gt; [entry: HAProxy :8333 send-proxy-v2] -&gt; [ssh -R tunnel] -&gt; [Mac demuxer :8344] -&gt; bitcoind :8333
+                     (public IP)                                    (recovers the REAL src IP)</code></pre>
+<ul>
+<li><code>tools/net/entrypoint-haproxy.cfg</code> / <code>entrypoint-setup.sh</code> — the public entry point (HAProxy, <code>send-proxy-v2</code>).</li>
+<li><code>tools/net/tunnel-up.sh</code> — Mac side: reverse tunnel + the demuxer.</li>
+<li><code>tools/net/proxyproto_demux.py</code> — parses PROXY v1/v2, records the true source IP, strips the header, forwards to bitcoind. Bitcoin Core cannot parse PROXY headers on 8333, which is exactly why this demuxer exists.</li>
+</ul>
+<p><strong>Tested (2026-09-18), real output</strong> — v1 and v2, IPv4 and IPv6, with the non-Bitcoin filter working:</p>
+<pre><code>src_ip=203.0.113.5      bitcoin_peer=True     (PROXY v1)
+src_ip=2001:db8::9      bitcoin_peer=True     (PROXY v2, IPv6)
+src_ip=198.51.100.7     bitcoin_peer=False    (scanner, filtered by network magic)</code></pre>
+<p>The real-peer filter is cheap and stateless: a connection counts only if the first 4 bytes it sends are the Bitcoin network magic (<code>f9beb4d9</code>), so port scanners and health checks never pollute the count.</p>
+<p><strong>Why not a plain proxy / ngrok / <code>ssh -R</code> on their own:</strong> they SNAT, so every peer arrives from the relay&#x27;s IP — the same identity collapse as Tor, without Tor&#x27;s properties. Only the PROXY-protocol hop preserves the source address.</p>
+<h3>One-command deploy</h3>
+<pre><code># 1. (optional) create an Oracle Cloud Always-Free relay VM + open 8333
+tools/net/oci-census-vm.sh                 # prints ubuntu@&lt;public-ip&gt;
+
+# 2. deploy everything and verify, in one shot
+tools/net/relay-deploy.sh ubuntu@&lt;public-ip&gt;
+
+# 3. independently confirm from outside + read the recovered IPs
+tools/net/relay-verify.sh &lt;public-ip&gt;</code></pre>
+<p><code>relay-deploy.sh</code> copies the entry-point config, installs HAProxy, starts the reverse tunnel and the demuxer, then self-tests by opening a magic-prefixed connection to the public port and confirming a new record lands in <code>data/proxy_inbound.jsonl</code> with the real source IP.</p>
+<h3>What to provide</h3>
+<p>To finalise the connection parameters for a given host: the <strong>public IP / hostname</strong> and <strong>SSH user</strong> (<code>ubuntu@…</code>), plus the <strong>OS</strong> (the scripts assume Ubuntu/Debian with <code>apt</code>, <code>haproxy</code>, <code>sshd</code>). Everything else — ports (<code>8333</code> public, <code>9000</code> tunnel, <code>8344</code> demuxer) — is parameterised via <code>PORT</code>/<code>TUNNEL_PORT</code>/<code>DEMUX_PORT</code>.</p>
+<h3>Option 2b — routed IPv6 tunnel (NO VM, NO card, NO account approval)</h3>
+<p>The cleanest path found: a free <strong>WireGuard IPv6 tunnel broker</strong> (e.g. Route64, AS212895 — free, automated, no contact/card) hands out a <strong>routed /56 delivered over WireGuard</strong>. Because the tunnel is <em>outbound</em>-established with persistent keepalive, it bypasses <strong>both the CGNAT and the carrier&#x27;s IPv6 firewall</strong>, and because a routed prefix is not NATed, an inbound peer&#x27;s own IPv6 source address reaches bitcoind <strong>unaltered</strong> — real distinct identities, no collapse.</p>
+<p>Built here with <strong>no Homebrew and no sudo</strong>:</p>
+<ul>
+<li><code>tools/net/wireguard-build.sh</code> -&gt; <code>~/.bsahi/bin/{wireguard-go,wg}</code> (Go 1.23 tarball + wireguard-go + wireguard-tools; built and verified, v0.0.20250522).</li>
+<li><code>tools/net/route64-wg-up.sh</code> -&gt; brings the tunnel up <strong>without <code>wg-quick</code></strong> (macOS bash is 3.2; wg-quick needs bash 4). Uses <code>wireguard-go</code> + <code>wg setconf</code> + <code>ifconfig</code>/<code>route</code>. Needs <code>sudo</code> (creating the interface), which is the one step no script can perform unattended.</li>
+</ul>
+<p>Flow: register at route64.org -&gt; create an IPv6 tunnelbroker (WireGuard) -&gt; download the .conf -&gt; <code>sudo tools/net/route64-wg-up.sh ~/.bsahi/route64.conf &lt;addr-from-/56&gt;</code> -&gt; bitcoind picks up the new interface address dynamically (<strong>no restart, so the reindex survives</strong>) -&gt; IPv6 peers connect with native IPs.</p>
+<p><strong>Irreducible steps (honest accounting).</strong> Exactly two things cannot be automated, both one-time:</p>
+<ol>
+<li><strong>Route64 signup</strong> — needs <em>your</em> email; no script can receive the confirmation mail. ~2 min, no card.</li>
+<li><strong>One-time sudoers unlock</strong> — creating a network interface requires root on macOS (the OS refuses otherwise). Run <strong>once</strong>, ever: <code>sudo tools/net/bshai-net-unlock.sh</code>. It installs a rule scoped to <em>one</em> auditable script (<code>tools/net/tunnel-root.sh</code>), NOT to <code>ifconfig</code>/<code>route</code>/<code>wg</code>.</li>
+</ol>
+<p>After those, it is a single unattended command forever: <code>tools/net/route64-up.sh ~/.bsahi/route64.conf &lt;addr-from-/56&gt;</code>.</p>
+<p><strong>Rejected pattern:</strong> piping a stored password via <code>sudo -S</code> (env-var token). The credential leaks through the environment/process table/history, and on macOS it wouldn&#x27;t work anyway (no <code>ip</code>; <code>wg-quick</code> needs bash 4, system has 3.2).</p>
+<h3>Why a bare listener is NOT an option (measured 2026-09-18)</h3>
+<p>The tempting &quot;serverless sentinel&quot; — a Python script listening on 8333 on a free sandbox — <strong>cannot work, and would actively corrupt the census</strong>:</p>
+<ol>
+<li><strong>No such platform exists.</strong> Fly.io retired its free tier and now requires a card on <em>every</em> org; Deno Deploy and Render are HTTP-only; Replit&#x27;s TCP is paid; Glitch shut down in 2025. There is no free, no-card, public raw-TCP host.</li>
+<li><strong>A listener is undiscoverable.</strong> Bitcoin nodes only dial addresses learned via <code>addr</code> gossip or the hardcoded DNS seeds. Measured: a real node advertising an onion for ~1.5 h still had <code>connections_in=0</code>; a bare listener received nothing. What <em>would</em> arrive is <strong>port scanners</strong> — not non-listening validators. Counting them would be fabricated evidence.</li>
+</ol>
+<p><strong>The correct design is a <em>seeding</em> node, not a listener</strong> — <code>tools/net/seed_sentinel.py</code>: connect out to DNS-seeded peers, complete the version/verack handshake, then advertise our own public address so peers add us to addrman. Only then does inbound appear, and every inbound peer is a genuine validator. <strong>Verified against the live node</strong>: handshake completes and Core returns a 29 KB <code>addr</code> message, i.e. it accepts the sentinel as a peer.</p>
+<p>The seeding sentinel still needs one thing a script cannot conjure: <strong>a host whose public IP is reachable.</strong> No-card routes to that: the home LAN port-forward, a GitHub Student Pack cloud credit, a virtual debit card for Oracle Always-Free (it never bills), or any always-on box on a non-CGNAT network.</p>
+<h3>Why STUN / UDP hole-punching cannot work here (measured 2026-09-18)</h3>
+<p>Ran a correct RFC-5389 STUN probe (<code>tools/net/stun_probe.py</code>) from behind this link. The same local UDP socket mapped to <strong>different external endpoints per destination</strong>:</p>
+<pre><code>local 0.0.0.0:58517  -&gt;  stun.l.google.com   : 106.67.179.93:50402
+                     -&gt;  stun.cloudflare.com : 106.67.185.45:50311</code></pre>
+<p>Different <strong>IP</strong> <em>and</em> different <strong>port</strong> for the same socket = a <strong>symmetric NAT with multiple carrier egress addresses</strong>. Consequences:</p>
+<ol>
+<li><strong>An advertised external endpoint is a dead end.</strong> A Bitcoin peer dialling the address we learned from STUN arrives as a <em>new flow</em> to a <em>different</em> mapping (or a different egress IP) and is dropped by the carrier NAT. This is exactly why WebRTC falls back to <strong>TURN relays</strong> on symmetric NAT — and a relay SNATs, which destroys peer identity.</li>
+<li><strong>Hole-punching needs both ends to coordinate.</strong> It works when two peers exchange mappings through a rendezvous and fire simultaneously. Bitcoin nodes do not participate in any rendezvous; they simply dial an address from addrman.</li>
+<li><strong>STUN is UDP; Bitcoin P2P is TCP.</strong> The UDP mapping STUN reports is unrelated to the TCP path bitcoind needs.</li>
+</ol>
+<p>So STUN/hole-punching is not a route to the census — the carrier NAT is symmetric, the protocol is wrong, and there is no coordinating peer. Only a <strong>real public host</strong> (or a SNAT relay, which loses identity) works.</p>
+<h3>Option 3 — port-forward on a non-CGNAT network</h3>
+<p>If the Mac is ever on the home LAN (<code>192.168.29.1</code>), forward TCP 8333 → <code>192.168.29.211</code> there. (The hour-long bash against CGNAT above is why this only works on that network.)</p>
+<h3>Not a substitute</h3>
+<ul>
+<li><strong>Tor</strong> — proves the plumbing and gives a concurrency bound, but not identity.</li>
+<li><strong>ngrok / Cloudflare Tunnel / SSH -R</strong> — these SNAT, so every peer would appear from the relay&#x27;s IP: the same identity collapse, without the security of Tor. Only a <strong>source-preserving</strong> relay (VPS + WireGuard + DNAT, no MASQUERADE) keeps original IPs — more fragile than Option 1 and no cheaper.</li>
+</ul>
+<h2>How the data flows</h2>
+<pre><code>peers ──dial──▶ VPS bitcoind (public IP) ──getpeerinfo──▶ /var/lib/bsahi/inbound.json
+                                                              │  ssh
+                                                              ▼
+                                       Mac: tools/net/vps_census_pull.sh
+                                                              │
+                                                              ▼
+                                        data/vps_inbound_census.json  (distinct IPs)</code></pre>
+<h2>What it buys (and what it still isn&#x27;t)</h2>
+<ul>
+<li><code>distinct_inbound_ips_ever</code> becomes a genuine <strong>lower bound on non-listening nodes</strong> — first-party, clearnet, identity-preserving.</li>
+<li>It remains a <strong>lower bound</strong>, never a population count: bounded by the VPS&#x27;s slots, uptime, and who happens to dial it.</li>
+<li>Combine with the existing views (crawler, DNS seeds, addrman) as the fourth independent instrument.</li>
+</ul>
+<h2>Status</h2>
+<ul>
+<li>Scripts written and syntax-checked; <strong>untested</strong> (no VPS available).</li>
+<li>Not provisioned. Once a VPS exists: run the script, open 8333 in the provider&#x27;s security list, let it sync, then <code>vps_census_pull.sh</code> — and add the pull to <code>com.bsahi.collectors</code>.</li>
+</ul><p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>

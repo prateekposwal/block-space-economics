@@ -283,6 +283,52 @@ footer .links a:hover{color:var(--accent)}
     <a class="read" href="/research/bip110-post-lockin-case-study">Read the case study →</a>
   </div>
 
+
+  <!-- 2026-09-17 -->
+  <div class="article">
+    <div class="date">September 17, 2026</div>
+    <h2><a href="/research/verification-population">The Node Count Was 20% Too High — We Re-Based It</a></h2>
+    <div class="excerpt">Our SCCR model ran on N = 32,000. That number was a truncated address sample, not a node count: the node's address manager actually holds 61,302 addresses, and the measured reachable-node count is 26,586. Because SCCR is inverse-linear in N, every value rises by 1.2036x — the frozen capture moves 0.2406 to 0.2896, and L_net falls from $5,627.80 to $4,675.65 per block. The direction of the finding did not change; the magnitude did.</div>
+    <div class="tags"><span class="tag measure">node count</span><span class="tag foundation">correction</span></div>
+    <a class="read" href="/research/verification-population">Read the observatory →</a>
+  </div>
+
+  <!-- 2026-09-18 -->
+  <div class="article">
+    <div class="date">September 18, 2026</div>
+    <h2><a href="/research/inbound-census-vps">Can You Count the Nodes That Cannot Be Counted?</a></h2>
+    <div class="excerpt">Non-listening nodes — behind NAT, never accepting inbound — are invisible to every crawler. The only way to observe them is to be reachable yourself and count who dials in. This machine sits behind carrier-grade NAT (five stacked private hops, a shared public IP), and the carrier firewalls inbound IPv6. So we borrowed a public IPv6 and ran a PROXY-protocol relay that preserves the peer's real source address. The tunnel came up and the SYNs arrived — but macOS sent the replies out the wrong interface. A packet capture found it; one routing fix later, an external host reached our node with its address intact.</div>
+    <div class="tags"><span class="tag measure">private nodes</span><span class="tag foundation">census</span></div>
+    <a class="read" href="/research/inbound-census-vps">Read the method →</a>
+  </div>
+
+  <!-- 2026-09-20 -->
+  <div class="article">
+    <div class="date">September 20, 2026</div>
+    <h2><a href="/data/validation_cost.json">The Reindex Is a Measurement</a></h2>
+    <div class="excerpt">A full reindex validates every block in order on one machine, and Core logs the wall-clock time of each connected block. That makes the reindex a natural experiment in what validation actually costs. Measured on a MacBook Air: 23 ms per block in 2009 rising to 928 ms per block in 2018 — a 40x increase — while per-transaction cost stayed roughly flat near 130 microseconds. The cost side of the storage thesis, measured instead of modelled.</div>
+    <div class="tags"><span class="tag measure">validation cost</span><span class="tag foundation">first-party</span></div>
+    <a class="read" href="/data/validation_cost.json">See the measured curve →</a>
+  </div>
+
+  <!-- 2026-09-21 -->
+  <div class="article">
+    <div class="date">September 21, 2026</div>
+    <h2><a href="/research/mining-geography-reachability">Mining Geography: The Method That Doesn't Work, and the Two That Would</a></h2>
+    <div class="excerpt">We tested the obvious shortcut: geolocate the mining pools' stratum endpoints. Measured result — 10 of 14 addresses are CDN-fronted (Cloudflare, Amazon), so the country you get back belongs to the edge, not the pool, and the miners themselves never appear anywhere in it. Pool-IP geolocation is a CDN-geography method. Two approaches would actually work, and both need something this project does not have yet.</div>
+    <div class="tags"><span class="tag measure">mining</span><span class="tag foundation">reachability</span></div>
+    <a class="read" href="/research/mining-geography-reachability">Read the finding →</a>
+  </div>
+
+  <!-- 2026-09-21b -->
+  <div class="article">
+    <div class="date">September 21, 2026</div>
+    <h2><a href="/research/changelog">Every Page Said 32,000</a></h2>
+    <div class="excerpt">We audited all 47 live pages for stale numbers and broken rendering. Most had already labelled their pre-re-base figures honestly. But the reproduction protocol told a stranger to expect 0.2406 when the kit actually produces 0.2896 — a false failure waiting to happen — one page was serving 51 literal **bold** markers as visible text, and a fix we had already shipped had been silently reverted. What the audit found, and the discipline it forced.</div>
+    <div class="tags"><span class="tag measure">accuracy</span><span class="tag foundation">audit</span></div>
+    <a class="read" href="/research/changelog">Read the changelog →</a>
+  </div>
+
 </div>
 
 <p style="margin-top:28px;color:var(--muted);font-size:.9rem;text-align:center;">New measurements every day. <a href="/story" style="color:var(--accent)">See the live data story →</a></p>
