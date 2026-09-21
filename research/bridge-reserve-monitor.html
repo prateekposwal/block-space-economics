@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A bridge exploit lives in the token ledger, not on Bitcoin. The detector is the backing ratio between BTC reserves and token supply — and it catches both the Symbiosis mint and the Liquid drain.">
+<meta property="og:title" content="Catching a Bridge Hack That Never Touched Bitcoin">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/bridge-reserve-monitor">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/bridge-reserve-monitor">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Catching a Bridge Hack That Never Touched Bitcoin","item":"https://bitcoinsahi.com/research/bridge-reserve-monitor"}]}
+</script>
+<title>Catching a Bridge Hack That Never Touched Bitcoin — BSAHI Research</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Verification Population Observatory","name":"Verification Population Observatory","url":"https://bitcoinsahi.com/research/verification-population","mainEntityOfPage":"https://bitcoinsahi.com/research/verification-population","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","about":["Bitcoin","nodes","verification","observability"],"datePublished":"2026-09-17","dateModified":"2026-09-17"}
+</script>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Catching a Bridge Hack That Never Touched Bitcoin</h1>
+<p><strong>BSAHI — method note</strong> <em>Produced: 2026-09-21</em></p>
+<h2>The wrong monitor, and the right one</h2>
+<p>A bitcoin-only custody monitor — watch addresses, alert on big outflows — catches one family of bridge failure and misses the other. The September 2026 incidents split exactly along that line:</p>
+<ul>
+<li><strong>Liquid Network</strong> (~4,000 of 4,200 BTC, Sep 6): real BTC left the federation wallet. A Bitcoin monitor sees this.</li>
+<li><strong>Symbiosis</strong> (46.1 billion syBTC from 330 satoshis, Sep 11): <strong>no bitcoin ever moved.</strong> A Bitcoin monitor is blind.</li>
+</ul>
+<p>So I was wrong to say the base layer can&#x27;t help here. It can — if you read it <em>alongside</em> the other ledger.</p>
+<h2>A bridge is two ledgers pretending to be one asset</h2>
+<pre><code>Bitcoin chain:   BTC locked in custody        &lt;- the RESERVE  (the say)
+host chain(s):   tokens minted against it      &lt;- the CLAIM</code></pre>
+<p>Bitcoin can only ever show you the reserve. <strong>The exploit lives in the claim.</strong> The detector is not a better Bitcoin monitor; it is the ratio between the two:</p>
+<pre><code>backing_ratio = BTC_reserves / token_supply</code></pre>
+<p>Both failure families drive that ratio below 1 — from opposite sides:</p>
+<div class="table-wrap">
+<table>
+<tr><th>Mechanism</th><th>Reserves</th><th>Supply</th><th>Real case</th></tr>
+<tr><td><strong>custody drain</strong></td><td>↓</td><td>flat</td><td>Liquid, 4,000 BTC out</td></tr>
+<tr><td><strong>unbacked mint</strong></td><td>flat</td><td>↑↑↑</td><td>Symbiosis, Nomic</td></tr>
+</table>
+</div>
+<p>And reading the claim side is cheap. One <code>eth_call</code> to <code>totalSupply()</code>, through public RPCs, cross-checked across providers so a single stale or lying node cannot move the number — the same discipline as our price index.</p>
+<h2>It works</h2>
+<p>Run against the two incidents&#x27; reported figures (<code>layer: replay</code> — these exercise the detector, they are not measurements):</p>
+<div class="table-wrap">
+<table>
+<tr><th>Incident</th><th>Mechanism</th><th>Ratio before → after</th><th>Detected</th></tr>
+<tr><td>Symbiosis</td><td>unbacked mint</td><td>1.078 → <strong>3.25 × 10⁻¹⁰</strong></td><td><strong>yes</strong></td></tr>
+<tr><td>Liquid</td><td>custody drain</td><td>1.000 → <strong>0.0476</strong></td><td><strong>yes</strong></td></tr>
+</table>
+</div>
+<p>Symbiosis is caught <strong>without knowing anything about the reserves at all</strong> — a supply that jumps by a factor of 3.3 billion detaches from any reserve. That is the answer to &quot;how do you catch an off-chain mint&quot;: not on Bitcoin, on the <em>supply</em>, and you only get the supply by reading the other chain.</p>
+<h2>Everything you need to know is public</h2>
+<p>Wrappers publish their custody addresses because custody is a <em>disclosure</em>, not a chain-derivable fact. WBTC publishes a proof-of-reserves page with its custodian Bitcoin addresses; each one is independently checkable. The monitor reads them, measures the balances itself, and refuses to trust the transcription.</p>
+<h2>The finding: the reserve page doesn&#x27;t enumerate the reserve</h2>
+<p>Measured live against WBTC&#x27;s own published addresses:</p>
+<pre><code>token supply (Ethereum, 5 RPCs agreeing)   116,132.18273272 WBTC
+reserves measured on Bitcoin (20 addresses) 43,233.5005 BTC
+custodian&#x27;s claimed reserve total          116,511.9929 BTC
+custody coverage                           37.1%
+status                                     INCOMPLETE_CUSTODY_LIST</code></pre>
+<p>The page&#x27;s address table lists 20 addresses holding <strong>43,234 BTC</strong> while stating total reserves of <strong>116,512 BTC</strong>. Our measurement of those 20 addresses matches the page&#x27;s own per-address figures exactly, so the measurement is not the problem — <strong>63% of the claimed reserve is simply not enumerated on the page.</strong></p>
+<p>The monitor reports <code>INCOMPLETE_CUSTODY_LIST</code> and issues <strong>no solvency verdict</strong>.</p>
+<p>That refusal is the point. A partial reserve list manufactures exactly the shortfall this tool exists to detect — naively, the ratio reads 0.37 and a careless monitor would scream &quot;WBTC is 63% undercollateralised,&quot; which is the opposite of true and the kind of false alarm that destroys a monitor&#x27;s credibility. So the tool measures its own coverage against the issuer&#x27;s claimed total first, and stays silent when it is looking at a fragment.</p>
+<h2>Two traps this hit, both worth keeping</h2>
+<ol>
+<li><strong>Transcription mangles addresses.</strong> The address for <code>3EmKqHZ…</code> came out of a rendered page as <code>…Bdk91ermc4V7</code>; the real one is <code>…Bdk91erm4V7</code>. One bad character silently dropped <strong>2,400 BTC</strong> from the reserve and faked a shortfall. Every address is now checksum-validated before use, and unusable addresses are counted and reported, never ignored.</li>
+<li><strong>A partial list fakes a hack.</strong> Covered above — the completeness guard.</li>
+</ol>
+<h2>The edge we have that a dashboard doesn&#x27;t</h2>
+<p>This host runs a Bitcoin node with ZMQ queued after the reindex. That means custody spends can be seen in the <strong>mempool</strong>, before confirmation — so a Liquid-style drain is alertable <em>before</em> it finalises, which no block-explorer-based dashboard can do. The supply leg is cheap to poll; the reserve leg is where an independent node earns its place.</p>
+<h2>What this is not</h2>
+<p>A solvency monitor, not an exploit detector. It observes the <em>consequence</em> of an unbacked mint — supply detaching from reserves — not the contract bug. It cannot see the mint itself, which happens on another chain, and it inherits the issuer&#x27;s custody disclosure as a trust input.</p>
+<h2>The data</h2>
+<ul>
+<li><code>tools/research/bridge_reserves.py</code> — the monitor (reserves via Esplora, supply via multi-RPC <code>eth_call</code>, address checksum validation, completeness guard).</li>
+<li><code>data/bridge_reserves.json</code> — measured wrapper state, per-address custody detail, coverage, and the incident replays.</li>
+</ul>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>

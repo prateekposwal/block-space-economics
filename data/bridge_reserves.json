@@ -1,0 +1,217 @@
+{
+  "schema": "bsahi.bridge-reserves/1",
+  "layer": "observed",
+  "generated_at": "2026-09-21T10:25:30.955746+00:00",
+  "source": "Bitcoin custody balances measured via Esplora; token supply via eth_call totalSupply() across independent public RPCs. Custodian address lists are the issuers' published disclosures.",
+  "method": "backing_ratio = measured BTC reserves / token supply. Both exploit families drive the ratio below 1: a custody drain lowers the numerator, an unbacked mint raises the denominator.",
+  "scope": "Solvency/backing monitor. It observes the CONSEQUENCE of an unbacked mint (supply detaching from reserves), not the contract bug. It cannot see the mint itself, which happens on another chain.",
+  "bands": {
+    "ok": 0.999,
+    "watch": 0.98,
+    "supply_step_alert_pct": 5.0
+  },
+  "wrappers": [
+    {
+      "id": "wbtc",
+      "name": "Wrapped BTC (WBTC)",
+      "layer": "observed",
+      "token": {
+        "chain": "ethereum",
+        "address": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+        "decimals": 8
+      },
+      "supply_tokens": 116132.18273272,
+      "supply_sources_agreeing": 2,
+      "supply_sources_errors": {
+        "https://eth-mainnet.public.blastapi.io": "HTTPError",
+        "https://1rpc.io/eth": "RuntimeError",
+        "https://eth.merkle.io": "HTTPError"
+      },
+      "supply_snapshot_prev": 116132.18273272,
+      "supply_change_pct": 0.0,
+      "reserves_btc_confirmed": 43233.5005,
+      "reserves_btc_unconfirmed": 0.0,
+      "reserves_btc_measured": 43233.5005,
+      "custody_addresses": [
+        {
+          "address": "3PRCCQMdWwjEKy89iVdL8LouknsgygwWpL",
+          "btc": 3013.0204,
+          "unconfirmed_btc": 0.0,
+          "utxos": 132
+        },
+        {
+          "address": "3NfBFZRgKfHVJy7rSTutZyGpa5M2GpRdwu",
+          "btc": 2620.7139,
+          "unconfirmed_btc": 0.0,
+          "utxos": 11
+        },
+        {
+          "address": "3EmKqHZhXic3TymhuY8NLS7Bdk91erm4V7",
+          "btc": 2402.0939,
+          "unconfirmed_btc": 0.0,
+          "utxos": 7
+        },
+        {
+          "address": "3QdyHj1i4y5CywEFWJ5PwoqGzDxGyJGPeb",
+          "btc": 2401.8181,
+          "unconfirmed_btc": 0.0,
+          "utxos": 7
+        },
+        {
+          "address": "3MnCLWSq31hetgbVA1Xn1VxVVb31SPeSKa",
+          "btc": 2401.8181,
+          "unconfirmed_btc": 0.0,
+          "utxos": 7
+        },
+        {
+          "address": "3HHLh4HSK8wj1w3YW9i4Chdnuybgadhpz1",
+          "btc": 2401.1837,
+          "unconfirmed_btc": 0.0,
+          "utxos": 7
+        },
+        {
+          "address": "31sW8NHLr9MELRdoGPWrEk6wBd1pj2uzkB",
+          "btc": 2401.1434,
+          "unconfirmed_btc": 0.0,
+          "utxos": 7
+        },
+        {
+          "address": "36jGhq48YgvjJWtEpqrc57QzXcBJQyCsS7",
+          "btc": 2400.386,
+          "unconfirmed_btc": 0.0,
+          "utxos": 7
+        },
+        {
+          "address": "36ZsF5YgJDW25eZKS6gnZMqW4gr6wv9xp1",
+          "btc": 2399.9749,
+          "unconfirmed_btc": 0.0,
+          "utxos": 7
+        },
+        {
+          "address": "3KWe9k7TG2j7xNw8BP9YHXBeHy1knC1xGS",
+          "btc": 2386.2339,
+          "unconfirmed_btc": 0.0,
+          "utxos": 7
+        },
+        {
+          "address": "3ARRJS9VNVkMdiESpxq2AGfpZUQRUvdGgd",
+          "btc": 2379.3431,
+          "unconfirmed_btc": 0.0,
+          "utxos": 9
+        },
+        {
+          "address": "3FDtvkk7hpZq5GuEJxt3Ps95vjtdDEfJ4T",
+          "btc": 2240.7339,
+          "unconfirmed_btc": 0.0,
+          "utxos": 7
+        },
+        {
+          "address": "36h9DtMdqYWTxSg1yys2exZPFQoQXv8QRL",
+          "btc": 2230.72,
+          "unconfirmed_btc": 0.0,
+          "utxos": 9
+        },
+        {
+          "address": "31oMgrBjhbAr1ZZjFUFYfDT1ZYvx3Qp9qL",
+          "btc": 1928.043,
+          "unconfirmed_btc": 0.0,
+          "utxos": 7
+        },
+        {
+          "address": "3CDy1xZavmpd27jV6TZm5teH8U6hrdXRES",
+          "btc": 1928.043,
+          "unconfirmed_btc": 0.0,
+          "utxos": 6
+        },
+        {
+          "address": "3Muz5dT5EguQgTiXgQ1eqJYNkjjQuSMgsb",
+          "btc": 1880.0121,
+          "unconfirmed_btc": 0.0,
+          "utxos": 10
+        },
+        {
+          "address": "3MkzCjZjodyaBXz7W8i9NTjduEdykdkd89",
+          "btc": 1750.4731,
+          "unconfirmed_btc": 0.0,
+          "utxos": 7
+        },
+        {
+          "address": "35bXvntqjj5LnEpRVqU9bLcAPtT9crggYj",
+          "btc": 1654.3624,
+          "unconfirmed_btc": 0.0,
+          "utxos": 5
+        },
+        {
+          "address": "3PyK2LYBfYMUXsa8sMhTSHQZ8StQy3Xoz8",
+          "btc": 1206.6918,
+          "unconfirmed_btc": 0.0,
+          "utxos": 5
+        },
+        {
+          "address": "3FVsTChmR7WYgfnU3CAmrrD3kqmaRMaJCC",
+          "btc": 1206.6918,
+          "unconfirmed_btc": 0.0,
+          "utxos": 5
+        }
+      ],
+      "unmeasured_chains_btc": {
+        "solana": 104.83,
+        "tron": 99.84,
+        "kava": 76.3787,
+        "osmosis": 85.9553,
+        "bsc": 0.0,
+        "base": 0.005
+      },
+      "unmeasured_total_btc": 367.009,
+      "published_reserves_btc": 116511.9929,
+      "custody_coverage": 0.3711,
+      "backing_ratio": 0.372278,
+      "backing_ratio_lower_bound": 0.371106,
+      "status": "INCOMPLETE_CUSTODY_LIST",
+      "flags": [
+        "CUSTODY_COVERAGE_37.1%",
+        "NO_SOLVENCY_VERDICT"
+      ],
+      "custody_source": "https://www.wbtc.network/transparency",
+      "note": "backing_ratio_lower_bound counts the unmeasured chains' published supply as real, so it is the conservative (solvency-safe) view. custody_coverage = measured reserves / the issuer's claimed total; below 1.0 the address list is incomplete and NO solvency verdict is issued, because a partial reserve fakes exactly the shortfall this tool exists to detect."
+    }
+  ],
+  "replays": [
+    {
+      "id": "symbiosis-2026-09-11",
+      "name": "Symbiosis BridgeV2 (syBTC)",
+      "layer": "replay",
+      "mechanism": "unbacked mint",
+      "supply_before_tokens": 13.91,
+      "supply_after_tokens": 46100000000.0,
+      "reserves_before_btc": 15.0,
+      "reserves_after_btc": 15.0,
+      "ratio_before": 1.0783608914450036,
+      "ratio_after": 3.253796095444685e-10,
+      "status_before": "OK",
+      "status_after": "ALERT",
+      "detected": true,
+      "supply_step_pct": 331416247204.0978,
+      "reported": "330 satoshi deposit -> 46.1B syBTC in ~4 minutes, 12 txs",
+      "source": "Blockaid alert; Symbiosis post-mortem; CoinDesk/Cryptonomist coverage"
+    },
+    {
+      "id": "liquid-2026-09-06",
+      "name": "Liquid Network (L-BTC)",
+      "layer": "replay",
+      "mechanism": "custody drain",
+      "supply_before_tokens": 4200.0,
+      "supply_after_tokens": 4200.0,
+      "reserves_before_btc": 4200.0,
+      "reserves_after_btc": 200.0,
+      "ratio_before": 1.0,
+      "ratio_after": 0.047619047619047616,
+      "status_before": "OK",
+      "status_after": "ALERT",
+      "detected": true,
+      "supply_step_pct": 0.0,
+      "reported": "~4,000 of 4,200 BTC withdrawn; ~85% later returned",
+      "source": "Blockstream disclosure; Liquid Network incident reports"
+    }
+  ]
+}

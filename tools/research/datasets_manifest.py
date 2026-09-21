@@ -49,6 +49,7 @@ CATALOG = {
     "peer_relay.json": ("observed", "B", "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)"),
     "validation_cost.json": ("observed", "A", "Measured node-side validation cost per era from a full -reindex (first-party, no API)"),
     "base_layer_audit.json": ("observed", "A", "Base-layer audit of off-chain BTC bridge incidents: incident-window blocks + BTC issued vs claimed notional token supply"),
+    "bridge_reserves.json": ("observed", "A", "Bridge backing-ratio monitor: measured BTC custody vs token supply, with a completeness guard and incident replays"),
     "node_crawl.json": ("observed", "A", "First-party reachable-node census by P2P handshake crawl (network class, client mix, sync)"),
     "propagation_cdf.json": ("observed", "A", "First-party block-relay propagation CDF (per-peer deltas, clearnet vs overlay, BIP152 HB)"),
     "price_index.json": ("observed", "A", "Robust multi-venue BTC/USD reference rate (median + MAD outlier rejection, full provenance)"),
