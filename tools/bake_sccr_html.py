@@ -208,6 +208,7 @@ def dashboard_cards():
             'Subsidy covers energy until ~%s' % (yr or '\u2014')], '/research/fee-allocation', 'the analysis'))
 
     ppe = L('private_population_estimate.json')
+    nun = L('node_upgrade_notice.json')
     ibdn = L('ibd_cleared_notice.json')
     d5 = L('d5_status.json')
     if vp.get('quantities'):
@@ -442,6 +443,10 @@ def dashboard_cards():
             _lines.append('First measured block-relay participation: <b>%s%%</b> of observed blocks '
                           'had a non-listening (inbound) announcer'
                           % _num(_pf.get('inbound_announcer_share_pct'), 1))
+            if nun.get('applied'):
+                _lines.append('Node upgrade applied at h%s \u00b7 full-relay, prune 50 GB, ZMQ '
+                              '(indexes deferred: memory) \u00b7 no reindex=%s'
+                              % (_num(nun.get('height_before'), 0), 'yes' if nun.get('no_reindex') else 'NO'))
             _pef = ibdn.get('private_estimate_first')
             if _pef:
                 _ci = _pef.get('ci95') or []

@@ -67,6 +67,9 @@ var SCHEDULE = [
   // D5: keep gossiping our census IPv6 so peers add it to addrman and dial us.
   // Inert unless the tunnel is fresh; advertises once ev 30 min (~2 min per run).
   { name: 'advertise',           cmd: ['bash', 'tools/net/advertise.sh'], every: 1800, timeoutS: 420 },
+  // One-shot: applies the node quality upgrade the moment the reindex finishes
+  // (idle until then, and forever after via its marker file).
+  { name: 'node_upgrade',         script: 'tools/net/apply_node_upgrade.py',       args: [], every: 900, timeoutS: 420 },
   // Reports the two transitions we're waiting on: IBD cleared, and the first
   // measured block-relay participation number. Fires once each; cheap.
   { name: 'ibd_watch',           script: 'tools/research/ibd_watch.py',            args: [], every: 900, timeoutS: 60 },

@@ -43,6 +43,7 @@ CATALOG = {
     "mining_geography.json": ("modelled", "C/D", "Mining hashrate share by country (auto: Hashrate Index quarterly heatmap; CBECI CSV preferred if present)"),
     "contribution_ratio.json": ("modelled", "C", "Three-axis contribution join: verification population | block relay | block production"),
     "private_population_estimate.json": ("modelled", "C", "Capture-recapture estimate of the non-listening node population (Lincoln-Petersen / Chapman / Chao1)"),
+    "node_upgrade_notice.json": ("observed", "A", "One-shot record: the node quality upgrade applied after the reindex (full-relay, larger prune, ZMQ)"),
     "ibd_cleared_notice.json": ("observed", "A", "One-shot record: IBD cleared + first measured block-relay participation"),
     "d5_status.json": ("observed", "B", "D5 census endpoint status: tunnel, EXTERNAL reachability self-test, inbound counts"),
     "peer_relay.json": ("observed", "B", "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)"),
