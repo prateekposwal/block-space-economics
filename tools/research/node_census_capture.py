@@ -17,6 +17,9 @@ Writes data/node_census_series.json (btcnodes) + data/node_census_anchors.json (
 import json, os, sys, datetime, statistics, urllib.request, re, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import sys
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+from netfetch import bounded_get  # noqa: E402
 BN_CACHE = os.path.join(ROOT, "captured-data", "btcnodes")
 WB_CACHE = os.path.join(ROOT, "captured-data", "wayback-bitnodes")
 OUT_SERIES = os.path.join(ROOT, "data", "node_census_series.json")
@@ -31,9 +34,7 @@ WB_URLS = [
 UA = {"User-Agent": "bsahi-research"}
 
 def _get(url, timeout=40):
-    req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read()
+    return bounded_get(url, timeout=timeout)   # deadline also covers DNS
 
 def fetch_page(page):
     path = os.path.join(BN_CACHE, f"snapshots_page_{page}.json")

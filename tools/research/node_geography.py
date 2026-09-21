@@ -27,6 +27,9 @@ import os
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import sys
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+from netfetch import bounded_get  # noqa: E402
 OUT = os.path.join(ROOT, "data", "node_geography.json")
 CACHE = os.path.join(ROOT, "captured-data", "btcnodes")
 BASE = "https://btcnodes.io/api/v1/snapshots/latest/?field="
@@ -35,9 +38,7 @@ MIN_AGE_H = 6.0
 
 
 def _get(url):
-    req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=60) as r:
-        return json.loads(r.read().decode("utf-8"))
+    return bounded_get(url, timeout=60, json=True)   # deadline also covers DNS
 
 
 def _cache_path(field):

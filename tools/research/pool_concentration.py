@@ -20,6 +20,9 @@ Writes data/mining_concentration.json.
 import json, os, sys, statistics, urllib.request, datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import sys
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+from netfetch import bounded_get  # noqa: E402
 CACHE = os.path.join(ROOT, "captured-data", "mempool.space")
 OUT = os.path.join(ROOT, "data", "mining_concentration.json")
 
@@ -41,9 +44,7 @@ def fetch(pair):
         with open(path) as f:
             data = json.load(f)
     if data is None:
-        req = urllib.request.Request(BASE.format(name), headers={"User-Agent": "bsahi-research"})
-        with urllib.request.urlopen(req, timeout=20) as r:
-            data = json.load(r)
+        data = bounded_get(BASE.format(name), timeout=20, json=True)
         os.makedirs(CACHE, exist_ok=True)
         with open(path, "w") as f:
             json.dump(data, f, indent=2)

@@ -29,6 +29,9 @@ import re
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import sys
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+from netfetch import bounded_get  # noqa: E402
 OUT = os.path.join(ROOT, "data", "mining_geography.json")
 SRC_DIR = os.path.join(ROOT, "captured-data", "cbeci")
 HI_CACHE = os.path.join(ROOT, "captured-data", "hashrateindex")
@@ -148,11 +151,9 @@ def fetch_hi():
             html = open(cache, encoding="utf-8", errors="replace").read()
         else:
             try:
-                req = urllib.request.Request(url, headers=UA)
-                with urllib.request.urlopen(req, timeout=45) as r:
-                    if r.status != 200:
-                        continue
-                    html = r.read().decode("utf-8", "replace")
+                # Non-2xx raises (FetchError) rather than returning, so the
+                # original `status != 200: continue` is preserved by the except.
+                html = bounded_get(url, timeout=45).decode("utf-8", "replace")
                 open(cache, "w", encoding="utf-8").write(html)
             except Exception:
                 continue

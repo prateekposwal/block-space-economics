@@ -24,6 +24,9 @@ import statistics
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import sys
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+from netfetch import bounded_get  # noqa: E402
 OUT = os.path.join(ROOT, "data", "price_index.json")
 CAP = os.path.join(ROOT, "captured-data", "price")
 UA = {"User-Agent": "bitcoinsahi-research/1.0 (+https://bitcoinsahi.com)"}
@@ -32,9 +35,7 @@ MIN_SOURCES = 3       # refuse to publish below this many good venues
 
 
 def _get(url, timeout=12):
-    req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return json.loads(r.read().decode("utf-8", "replace"))
+    return bounded_get(url, timeout=timeout, json=True)   # deadline also covers DNS
 
 
 def _coinbase():

@@ -25,6 +25,9 @@ import os
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import sys
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+from netfetch import bounded_get  # noqa: E402
 OUT = os.path.join(ROOT, "data", "block_propagation.json")
 CACHE = os.path.join(ROOT, "captured-data", "btcnodes")
 LIST_URL = "https://btcnodes.io/api/v1/inv/?type=2&limit=%d"
@@ -34,9 +37,10 @@ MIN_AGE_H = 1.0
 
 
 def _get(url):
-    req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=60) as r:
-        return json.loads(r.read().decode("utf-8")), r.headers.get("ratelimit-remaining")
+    # bounded_get also covers DNS, which urllib's timeout does not — the hole
+    # that let this job run 2,943s past its 300s limit.
+    body, hdrs = bounded_get(url, timeout=60, with_headers=True)
+    return json.loads(body.decode("utf-8", "replace")), hdrs.get("ratelimit-remaining")
 
 
 def _fresh(path, hours):

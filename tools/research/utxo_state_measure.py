@@ -36,6 +36,8 @@ import urllib.error
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+from netfetch import bounded_call  # noqa: E402
 SERIES = os.path.join(ROOT, "data", "utxo_state_series.jsonl")
 SERIES_JSON = os.path.join(ROOT, "data", "utxo_state_series.json")
 LATEST = os.path.join(ROOT, "data", "utxo_state_latest.json")
@@ -86,12 +88,18 @@ def rpc(cfg, method, params=None):
         "Content-Type": "application/json",
         "Authorization": "Basic " + base64.b64encode(f"{user}:{pwd}".encode()).decode(),
     })
+    # bounded_call re-raises the ORIGINAL exception, so the error mapping below
+    # is unchanged; it only adds a wall-clock deadline (this RPC can legitimately
+    # run for minutes, so the budget stays generous but finite).
+    def _rpc():
+        with urllib.request.urlopen(req, timeout=540) as r:
+            return json.loads(r.read().decode())
+
     try:
-        with urllib.request.urlopen(req, timeout=600) as r:
-            d = json.loads(r.read().decode())
+        d = bounded_call(_rpc, 540)
     except urllib.error.HTTPError as e:
         raise RuntimeError(f"{method}: {e.code} {e.read().decode()[:200]}")
-    except (urllib.error.URLError, socket.timeout) as e:
+    except (urllib.error.URLError, socket.timeout, TimeoutError) as e:
         raise SystemExit(f"cannot reach the node at {url} — is bitcoind running? ({e})")
     if d.get("error"):
         raise RuntimeError(f"{method}: {d['error']}")

@@ -50,6 +50,9 @@ import statistics
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import sys
+sys.path.insert(0, os.path.join(ROOT, "tools"))
+from netfetch import bounded_get  # noqa: E402
 OUT = os.path.join(ROOT, "data", "bridge_reserves.json")
 CAP = os.path.join(ROOT, "captured-data", "bridge")
 UA = {"User-Agent": "bitcoinsahi-research/1.0 (+https://bitcoinsahi.com)"}
@@ -164,9 +167,10 @@ REPLAYS = [
 
 
 def _get(url, timeout=20, raw=False, data=None):
-    req = urllib.request.Request(url, headers=UA, data=data)
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        body = r.read().decode("utf-8", "replace")
+    # bounded_get covers DNS too. This tool makes ~26 calls (20 custody addresses
+    # + supply consensus); each one used to be able to hang on resolution, which
+    # is how a run once took 9,335s.
+    body = bounded_get(url, timeout=timeout, data=data).decode("utf-8", "replace")
     return body.strip() if raw else json.loads(body)
 
 
