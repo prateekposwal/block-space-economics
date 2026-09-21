@@ -16,32 +16,16 @@
 {"@context":"https://schema.org","@type":"AboutPage","url":"https://bitcoinsahi.com/about","name":"About Bitcoin Sahi (BSAHI)","mainEntity":{"@id":"https://bitcoinsahi.com/#organization"},"author":{"@id":"https://bitcoinsahi.com/#person"},"inLanguage":"en"}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@id":"https://bitcoinsahi.com/#person","@type":"Person","name":"Prateek Poswal","jobTitle":"Independent Researcher","identifier":"https://orcid.org/0009-0005-2139-1877","url":"https://bitcoinsahi.com/about","sameAs":["https://orcid.org/0009-0005-2139-1877","https://github.com/prateekposwal/block-space-economics"],"worksFor":{"@id":"https://bitcoinsahi.com/#organization"}}
+{"@context":"https://schema.org","@id":"https://bitcoinsahi.com/#person","@type":"Person","name":"Prateek Poswal","jobTitle":"Independent Researcher","identifier":"https://orcid.org/0009-0005-2139-1877","url":"https://bitcoinsahi.com/about","sameAs":["https://www.linkedin.com/in/prateek-53881946/","https://orcid.org/0009-0005-2139-1877","https://github.com/prateekposwal/block-space-economics"],"worksFor":{"@id":"https://bitcoinsahi.com/#organization"}}
 </script>
-<script type="application/ld+json">
-{"@context":"https://schema.org","@id":"https://bitcoinsahi.com/#organization","@type":"Organization","name":"Bitcoin Sahi","alternateName":"BSAHI","url":"https://bitcoinsahi.com/","logo":{"@type":"ImageObject","url":"https://bitcoinsahi.com/logo.png","width":512,"height":512},"founder":{"@id":"https://bitcoinsahi.com/#person"},"sameAs":["https://github.com/prateekposwal/block-space-economics"]}
-</script>
-<title>About Bitcoin Sahi (BSAHI) — Independent Research</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--fg);font-family:var(--ui);line-height:1.8}
-.container{max-width:760px;margin:0 auto;padding:48px 24px 80px}
-h1{font-family:var(--disp);color:var(--accent);font-size:2rem;font-weight:600;margin-bottom:8px}
-.sub{color:var(--muted);font-size:.95rem;margin-bottom:30px}
-h2{color:var(--fg);font-size:1.15rem;margin:30px 0 10px}
-p{color:var(--muted);margin-bottom:14px}
-ul{color:var(--muted);padding-left:22px;margin-bottom:14px}
-li{margin-bottom:8px}
-code{background:var(--surface);border-radius:6px;padding:2px 5px;font-family:var(--mono);font-size:.88em}
-a{color:var(--accent)}
-.card{border:1px solid var(--border);border-radius:10px;background:var(--surface);padding:16px 18px;margin:16px 0}
-footer{border-top:1px solid var(--border);padding:24px;text-align:center;font-size:.8rem;color:var(--muted)}
-footer a{color:var(--muted)}
-</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap"></noscript>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
 <style>
 :root{
   --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
@@ -52,57 +36,158 @@ footer a{color:var(--muted)}
   --disp:'Newsreader',Georgia,'Times New Roman',serif;
   --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
   --card:var(--surface); --border:var(--line); --fg:var(--ink); --muted:var(--ink-2);
-  --gold:var(--accent-ink); --blue:var(--info); --green:var(--ok); --red:var(--err);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:17px;line-height:1.7;margin:0;-webkit-font-smoothing:antialiased}
+.container{max-width:860px;margin:0 auto;padding:34px 20px 70px}
+h1{font-family:var(--disp);font-size:2.3rem;font-weight:600;color:var(--accent);margin:6px 0 8px;letter-spacing:-.01em}
+.sub{color:var(--ink-2);font-size:1.05rem;margin:0 0 24px}
+h2{font-family:var(--disp);font-size:1.35rem;font-weight:600;margin:34px 0 10px;padding-top:6px}
+p{margin:0 0 14px}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:var(--mono);font-size:.85em;background:var(--surface-muted);padding:2px 6px;border-radius:5px}
+ul{margin:0 0 16px;padding-left:20px}
+li{margin:7px 0}
+.em{color:var(--ink-2)}
+
+/* at-a-glance */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:22px 0 6px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.stat .v{font-family:var(--disp);font-size:1.45rem;font-weight:600;color:var(--accent-ink);line-height:1.2}
+.stat .l{font-size:.78rem;color:var(--ink-2);margin-top:4px}
+
+.formula{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0;font-family:var(--mono);font-size:.9rem;color:var(--ink);overflow-x:auto}
+
+/* who */
+.profile{display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+.avatar{width:54px;height:54px;border-radius:50%;background:var(--accent);color:#121110;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.25rem;flex:0 0 auto}
+.pname{font-weight:700;font-size:1.1rem;line-height:1.3}
+.prole{font-size:.85rem;color:var(--ink-2);margin:2px 0 10px}
+.plinks{display:flex;gap:8px;flex-wrap:wrap}
+.plinks a{font-size:.8rem;padding:5px 11px;border:1px solid var(--line);border-radius:999px;color:var(--ink-2);text-decoration:none;transition:all .15s}
+.plinks a:hover{border-color:var(--accent);color:var(--ink);text-decoration:none;background:var(--surface-muted)}
+.plinks a.li{border-color:color-mix(in srgb,var(--accent) 45%,transparent);color:var(--accent-ink)}
+
+/* recent posts */
+.posts{display:grid;gap:12px;margin:16px 0 10px}
+.post{display:block;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;text-decoration:none;transition:border-color .15s,transform .15s}
+.post:hover{border-color:var(--accent);transform:translateX(3px);text-decoration:none}
+.post .d{font-size:.72rem;color:var(--ink-3);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.post .t{font-family:var(--disp);font-size:1.12rem;font-weight:600;color:var(--ink);margin:5px 0 6px;line-height:1.3}
+.post .e{font-size:.9rem;color:var(--ink-2);margin:0}
+.post .tg{display:inline-block;font-size:.7rem;color:var(--ink-2);border:1px solid var(--line);border-radius:999px;padding:2px 9px;margin-top:9px}
+.allposts{display:inline-block;margin-top:4px;font-weight:500}
+
+footer{max-width:860px;margin:0 auto;padding:26px 20px 40px;border-top:1px solid var(--line);color:var(--ink-3);font-size:.85rem}
+footer a{color:var(--ink-2)}
+@media (max-width:560px){
+  h1{font-size:1.85rem}
+  .profile{flex-direction:column}
+  .stats{grid-template-columns:repeat(2,1fr)}
 }
 </style>
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/site-nav.css">
 </head>
 <body>
 <script src="/js/site-nav.js"></script>
 <div class="container">
   <h1>About Bitcoin Sahi</h1>
-  <p class="sub">Bitcoin Sahi (BSAHI) is an independent research project measuring the economics of Bitcoin block space.</p>
+  <p class="sub">An independent research project measuring the economics of Bitcoin block space.</p>
 
-  <p>Bitcoin has a market price for block space, but no explicit market price for the long-lived resources a confirmed transaction commits the network to. Bitcoin Sahi measures one of those resources &mdash; replicated storage &mdash; and asks how much of its modeled cost is actually covered by transaction fees.</p>
+  <p>Bitcoin has a market price for block space, but no explicit market price for the long-lived resources a confirmed transaction commits the network to. Bitcoin Sahi measures one of those resources — replicated storage — and asks how much of its modeled cost transaction fees actually cover.</p>
+
+  <h2>At a glance</h2>
+  <div class="stats">
+    <div class="stat"><div class="v">26,586</div><div class="l">measured reachable nodes (N)</div></div>
+    <div class="stat"><div class="v">0.2896</div><div class="l">SCCR, frozen capture</div></div>
+    <div class="stat"><div class="v">25</div><div class="l">published articles</div></div>
+    <div class="stat"><div class="v">3</div><div class="l">independent implementations</div></div>
+  </div>
+  <p class="em" style="font-size:.85rem">N and SCCR are dated measurements, not constants — see <a href="/research/changelog">the changelog</a> for every correction.</p>
 
   <h2>What we measure</h2>
   <p><strong>Bitcoin Resource Accounting</strong> is the research program: quantifying the long-lived resources Bitcoin consumes (replicated storage, UTXO state, validation, relay, bandwidth) and how much of each cost the fee market internalizes. The first metric is the <strong>Storage Cost Coverage Ratio (SCCR)</strong>:</p>
-  <div class="card"><code>SCCR = transaction fees (USD) &divide; modeled 10-year storage cost borne by full nodes (USD)</code></div>
-  <p>A ratio below 1.0 means the fees paid do not cover the modeled cost of storing that data across the network. SCCR is <em>fee-market-driven and time-varying</em>: we publish it as a dated measurement, not a fixed constant.</p>
+  <div class="formula">SCCR = transaction fees (USD) ÷ modeled 10-year storage cost borne by full nodes (USD)</div>
+  <p>A ratio below 1.0 means the fees paid do not cover the modeled cost of storing that data across the network. SCCR is <em>fee-market-driven and time-varying</em>: it is published as a dated measurement, not a fixed constant.</p>
 
   <h2>How we work</h2>
   <ul>
-    <li><strong>First-party instrumentation.</strong> Measurements come from our own Bitcoin Core node and public network APIs, captured and frozen with dates.</li>
-    <li><strong>Reproducible.</strong> Three independent implementations (JavaScript, Python, C) agree to the last decimal, and a public reproduction kit lets anyone verify the SCCR in about 15 minutes.</li>
-    <li><strong>Self-correcting.</strong> We found and published a 10&times; time-horizon error in our own number, corrected it, and regenerated every value.</li>
-    <li><strong>Falsifiable.</strong> Claims are stated with explicit bounds, assumptions (N, T), and falsifiers.</li>
+    <li><strong>First-party instrumentation.</strong> Measurements come from our own Bitcoin Core node, or from public sources captured and frozen with dates. Where a third party is unavoidable, it is named and graded.</li>
+    <li><strong>Reproducible.</strong> Three independent implementations (JavaScript, Python, C) agree to the last decimal, and a <a href="/research/reproduce/">public reproduction kit</a> lets anyone verify the SCCR in about 15 minutes.</li>
+    <li><strong>Self-correcting.</strong> We found and published a 10× time-horizon error in our own number, corrected it, regenerated every value — and later re-based the node count from 32,000 to 26,586.</li>
+    <li><strong>Falsifiable.</strong> Claims are stated with explicit bounds, assumptions (N, T), and the conditions that would falsify them.</li>
     <li><strong>Open.</strong> Code, data, and method are public under CC BY 4.0.</li>
   </ul>
 
   <h2>Data</h2>
   <p>The measurement endpoints are open and stable:</p>
   <ul>
-    <li><a href="/data/sccr.json"><code>/data/sccr.json</code></a> &mdash; latest SCCR reading</li>
-    <li><a href="/data/sccr_history.json"><code>/data/sccr_history.json</code></a> &mdash; daily SCCR series</li>
-    <li><a href="/data/perblock_validation.json"><code>/data/perblock_validation.json</code></a> &mdash; per-block validation samples</li>
-    <li><a href="/data/difficulty_series.json"><code>/data/difficulty_series.json</code></a> &mdash; difficulty, 2009&ndash;present</li>
-    <li><a href="/data/mempool_congestion_series.json"><code>/data/mempool_congestion_series.json</code></a> &mdash; mempool congestion, 2016&ndash;present</li>
+    <li><a href="/data/sccr.json"><code>/data/sccr.json</code></a> — latest SCCR reading</li>
+    <li><a href="/data/sccr_history.json"><code>/data/sccr_history.json</code></a> — daily SCCR series</li>
+    <li><a href="/data/perblock_validation.json"><code>/data/perblock_validation.json</code></a> — per-block validation samples</li>
+    <li><a href="/data/difficulty_series.json"><code>/data/difficulty_series.json</code></a> — difficulty, 2009–present</li>
+    <li><a href="/data/mempool_congestion_series.json"><code>/data/mempool_congestion_series.json</code></a> — mempool congestion, 2016–present</li>
   </ul>
 
   <h2>Who</h2>
-  <p><strong>Prateek Poswal</strong> &mdash; Independent Researcher. ORCID <a href="https://orcid.org/0009-0005-2139-1877">0009-0005-2139-1877</a>. Source code and data: <a href="https://github.com/prateekposwal/block-space-economics">github.com/prateekposwal/block-space-economics</a>.</p>
+  <div class="profile">
+    <div class="avatar">P</div>
+    <div>
+      <div class="pname">Prateek Poswal</div>
+      <div class="prole">Independent Researcher · Bitcoin Sahi Research</div>
+      <div class="plinks">
+        <a class="li" href="https://www.linkedin.com/in/prateek-53881946/" target="_blank" rel="me noopener">LinkedIn</a>
+        <a href="https://orcid.org/0009-0005-2139-1877" target="_blank" rel="me noopener">ORCID 0009-0005-2139-1877</a>
+        <a href="https://github.com/prateekposwal/block-space-economics" target="_blank" rel="me noopener">GitHub</a>
+      </div>
+    </div>
+  </div>
+
+  <h2>Recent posts</h2>
+  <div class="posts">
+    <a class="post" href="/research/changelog">
+      <div class="d">September 21, 2026</div>
+      <div class="t">Every Page Said 32,000</div>
+      <p class="e">We audited all 47 live pages for stale numbers. The reproduction protocol promised 0.2406 when the kit produces 0.2896 — and one fix we had already shipped had been silently reverted.</p>
+      <span class="tg">accuracy</span>
+    </a>
+    <a class="post" href="/research/mining-geography-reachability">
+      <div class="d">September 21, 2026</div>
+      <div class="t">Mining Geography: The Method That Doesn't Work</div>
+      <p class="e">We tested the obvious shortcut — geolocating mining pools' stratum endpoints. 10 of 14 addresses are CDN-fronted, so the country you get belongs to the edge, not the pool.</p>
+      <span class="tg">mining</span>
+    </a>
+    <a class="post" href="/data/validation_cost.json">
+      <div class="d">September 20, 2026</div>
+      <div class="t">The Reindex Is a Measurement</div>
+      <p class="e">Validating every block in order on one machine: 23 ms/block in 2009 rising to 928 ms/block in 2018 — a 40× rise — while per-transaction cost stayed near 130 µs.</p>
+      <span class="tg">validation cost</span>
+    </a>
+    <a class="post" href="/research/inbound-census-vps">
+      <div class="d">September 18, 2026</div>
+      <div class="t">Can You Count the Nodes That Cannot Be Counted?</div>
+      <p class="e">Non-listening nodes are invisible to every crawler. We borrowed a public IPv6 and ran a PROXY-protocol relay — then found the replies leaving by the wrong interface.</p>
+      <span class="tg">private nodes</span>
+    </a>
+    <a class="post" href="/research/verification-population">
+      <div class="d">September 17, 2026</div>
+      <div class="t">The Node Count Was 20% Too High</div>
+      <p class="e">The model ran on N = 32,000 — a truncated address sample. The measured reachable count is 26,586, so every SCCR value rises by 1.2036×.</p>
+      <span class="tg">correction</span>
+    </a>
+  </div>
+  <a class="allposts" href="/articles">All 25 articles →</a>
 
   <h2>Contact</h2>
-  <p>Research and correction queries: <a href="mailto:beta@bitcoinsahi.com">beta@bitcoinsahi.com</a>. We particularly welcome attempts to falsify the measurements.</p>
+  <p>Research and correction queries: <a href="mailto:beta@bitcoinsahi.com">beta@bitcoinsahi.com</a>. Also on <a href="https://www.linkedin.com/in/prateek-53881946/" target="_blank" rel="me noopener">LinkedIn</a>. Falsification attempts are particularly welcome.</p>
 
   <h2>Licensing</h2>
   <p>Research, data, and code are published under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International (CC BY 4.0)</a> license. Reuse with attribution.</p>
-
-  <p style="margin-top:28px;"><a href="/learn">Read the research &rarr;</a> &middot; <a href="/research">Research library</a> &middot; <a href="/articles">Archive</a></p>
 </div>
-<footer>Bitcoin Sahi &mdash; research and decision platform for the Bitcoin block space economy &middot; <a href="/about">About</a> &middot; <a href="/terms">Terms</a> &middot; <a href="/privacy">Privacy</a></footer>
+<footer>
+  Bitcoin Sahi — research and decision platform for the Bitcoin block space economy ·
+  <a href="/research">Research</a> · <a href="/articles">Articles</a> · <a href="/about">About</a> ·
+  <a href="/terms">Terms</a> · <a href="/privacy">Privacy</a>
+</footer>
 </body>
 </html>
