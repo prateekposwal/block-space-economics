@@ -1,25 +1,25 @@
 {
-  "generated_at": "2026-09-21T02:22:54.142182+00:00",
-  "data_points": 101,
+  "generated_at": "2026-09-21T03:17:33.966315+00:00",
+  "data_points": 102,
   "first_capture": "2026-09-15_10-11-53",
-  "last_capture": "2026-09-21_07-41-34",
-  "latest_fastest_fee": 1,
-  "slope": -0.026,
+  "last_capture": "2026-09-21_08-38-51",
+  "latest_fastest_fee": 3,
+  "slope": 0.037,
   "trend": "stable",
   "forecast": [
     {
       "day_offset": 1,
-      "predicted_fastest_fee": 1,
+      "predicted_fastest_fee": 1.6,
       "trend": "stable"
     },
     {
       "day_offset": 2,
-      "predicted_fastest_fee": 1,
+      "predicted_fastest_fee": 1.6,
       "trend": "stable"
     },
     {
       "day_offset": 3,
-      "predicted_fastest_fee": 1,
+      "predicted_fastest_fee": 1.6,
       "trend": "stable"
     }
   ],
@@ -31,14 +31,14 @@
     "regime_window": 24
   },
   "regime": {
-    "current": "normal",
-    "changes": 6,
+    "current": "spike",
+    "changes": 7,
     "window": 24
   },
   "quality": {
-    "rmse": 1.022,
-    "mae": 0.695,
-    "lastResidual": 0.111,
+    "rmse": 1.039,
+    "mae": 0.709,
+    "lastResidual": 2.103,
     "algorithm": "holt-linear-trend"
   },
   "disclaimer": "Holt linear-trend exponential smoothing on spool capture history (holt-linear-trend). Not financial advice."
