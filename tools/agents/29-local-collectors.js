@@ -40,6 +40,13 @@ var SCHEDULE = [
   { name: 'node_census',          script: 'tools/research/node_census_capture.py',   args: [], every: 86400, timeoutS: 1500 },
   { name: 'utxo_state_measure',   script: 'tools/research/utxo_state_measure.py',    args: [], every: 21600, timeoutS: 600 },
   { name: 'inbound_census',       script: 'tools/research/inbound_census.py',        args: [], every: 3600,  timeoutS: 300 },
+  // Bridge backing-ratio watchtower. Placed BEFORE the slow fetchers on purpose:
+  // detecting an in-flight bridge exploit is time-critical, and a long job
+  // earlier in the list (block_propagation has been observed running ~47 min
+  // past its 300s timeout) starves everything after it for the whole cycle.
+  // 231s measured (20 Esplora custody lookups + 5-RPC supply consensus); keep
+  // real headroom so a slow Esplora day cannot turn it into a FAILED cycle.
+  { name: 'bridge_reserves',      script: 'tools/research/bridge_reserves.py',       args: [], every: 900, timeoutS: 600 },
   { name: 'addrman_churn',        script: 'tools/research/addrman_churn.py',         args: [], every: 43200, timeoutS: 600 },
   { name: 'seed_census',          script: 'tools/research/seed_census.py',           args: [], every: 43200, timeoutS: 600 },
   { name: 'pool_concentration',   script: 'tools/research/pool_concentration.py',    args: [], every: 86400, timeoutS: 900 },
@@ -76,10 +83,6 @@ var SCHEDULE = [
   // D5: is the private/non-listening census endpoint actually live + reachable?
   { name: 'd5_status',           script: 'tools/net/d5_status.py',                 args: [], every: 1800, timeoutS: 180 },
   { name: 'pool_infrastructure',  script: 'tools/net/pool_infrastructure.py',        args: [], every: 86400, timeoutS: 300 },
-  // Bridge backing-ratio watchtower: measured BTC custody vs token supply (WBTC
-  // reserves + L-BTC peg supply). Runs on a cadence so the supply series exists
-  // and a step change (unbacked mint) is visible BETWEEN runs, not just at it.
-  { name: 'bridge_reserves',      script: 'tools/research/bridge_reserves.py',       args: [], every: 900, timeoutS: 300 },
   // Clearnet distinct-IP census from a public-IP VPS (see
   // research/inbound-census-vps.md). Inert until ~/.bsahi/vps-census.conf exists.
   { name: 'vps_census_pull', cmd: ['bash', 'tools/net/vps_census_pull.sh'], every: 3600,
