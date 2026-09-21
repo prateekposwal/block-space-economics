@@ -30,7 +30,17 @@ ADDR="$(sed -n 's/^[[:space:]]*Address[[:space:]]*=[[:space:]]*//p' "$CONF" \
         | tr ',' '\n' | tr -d ' ' | grep ':' | head -1 | cut -d/ -f1)"
 if [ -z "$ADDR" ]; then echo "advertise: no IPv6 in $CONF — skipping"; exit 0; fi
 
-echo "advertise: gossiping [$ADDR]:8333 to peers (${ROUNDS} round(s), listen ${LISTEN_PORT})"
-exec python3 "$ROOT/tools/net/seed_sentinel.py" \
-  --listen "$LISTEN_PORT" --advertise "[$ADDR]:8333" \
-  --log "$LOG" --rounds "$ROUNDS"
+# Advertise EVERY reachable address we hold, not just the first. Each address is
+# gossiped separately, which is what makes each one a distinct capture channel for
+# capture-recapture (data/inbound_samples.jsonl tags arrivals by local address).
+ADDRS="$ADDR"
+SECOND="$(printf '%s' "$ADDR" | sed -E 's/::[0-9a-fA-F]+$/::3/')"
+if [ -n "$SECOND" ] && [ "$SECOND" != "$ADDR" ]; then ADDRS="$ADDR $SECOND"; fi
+
+for A in $ADDRS; do
+  echo "advertise: gossiping [$A]:8333 (${ROUNDS} round(s), listen ${LISTEN_PORT})"
+  python3 "$ROOT/tools/net/seed_sentinel.py" \
+    --listen "$LISTEN_PORT" --advertise "[$A]:8333" \
+    --log "$LOG" --rounds "$ROUNDS" 2>&1 | tail -3
+done
+exit 0

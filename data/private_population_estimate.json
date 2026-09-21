@@ -1,35 +1,21 @@
 {
   "schema": "bsahi.private-population/1",
   "layer": "modelled",
-  "generated_at": "2026-09-21T02:01:05.532343+00:00",
+  "generated_at": "2026-09-21T02:18:35.513155+00:00",
   "source": "capture-recapture over first-party inbound observations (data/inbound_samples.jsonl + any --vantage logs)",
   "method": "Lincoln-Petersen / Chapman (2 occasions) and Chao1 richness; CI = point \u00b1 1.96 SE",
-  "status": "INSUFFICIENT_RECAPTURES",
+  "status": "NEEDS_SECOND_OCCASION",
   "estimate": null,
   "ci95": null,
-  "floor": 1,
-  "distinct_observed": 1,
-  "occasions": [
-    {
-      "label": "period-1",
-      "n": 0
-    },
-    {
-      "label": "period-2",
-      "n": 1
-    }
-  ],
-  "estimators": {
-    "chao1": {
-      "N": null,
-      "note": "f2 = 0: no node seen twice, Chao1 undefined"
-    }
-  },
+  "floor": 0,
+  "distinct_observed": 0,
+  "occasions": [],
+  "estimators": {},
   "frequency": {
-    "seen_once": 1,
+    "seen_once": 0,
     "seen_twice": 0
   },
-  "note": "No node was caught in both occasions, so Lincoln-Petersen and Chapman are undefined (m = 0). The observed distinct count is a floor only.",
+  "note": "Only 0 local address(es) have caught anything; capture-recapture needs two. The second address (\u2026::3) is live and advertised \u2014 it needs inbound arrivals, which depend on peers learning it.",
   "reachable_nodes": 26586,
   "total_if_estimate_holds": null,
   "assumptions": [

@@ -43,6 +43,22 @@ else
   echo "  WARN: route-on failed — inbound will arrive but replies may not return"
 fi
 
+# SECOND LISTENING ADDRESS -> a second capture channel for capture-recapture.
+# Two addresses in the same routed /64, each gossiped separately, so a peer that
+# learned one may still be caught by the other. Weak independence (same host,
+# same peer set) — stated as such in the estimate — but it is a real second
+# channel and it costs nothing.
+SECOND="$(printf '%s' "$EP" | sed -E 's/::[0-9a-fA-F]+$/::3/')"
+if [ "$SECOND" = "$EP" ]; then
+  # endpoint was not ::x form; fall back to the conf's own address with the host byte set to 3
+  BASE="$(sed -n 's/.*Address *= *[0-9.]*\/[0-9]*, *\([0-9a-fA-F:]*\)::[0-9a-fA-F]*\/.*/\1/p' "$CONF" | head -1)"
+  [ -n "$BASE" ] && SECOND="${BASE}::3"
+fi
+if [ -n "$SECOND" ] && [ "$SECOND" != "$EP" ]; then
+  sudo -n "$ROOT/tools/net/tunnel-root.sh" addaddr "$SECOND" 64 >/dev/null 2>&1 \
+    && echo "  second listening address: $SECOND/64 (capture channel 2)" || true
+fi
+
 echo "==> waiting for handshake"
 for i in $(seq 1 10); do
   if ~/.bsahi/bin/wg show "$IFACE" 2>/dev/null | grep -q "latest handshake"; then echo "  handshake established"; break; fi

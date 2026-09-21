@@ -153,6 +153,24 @@ def occasions_time(rows, k):
     return out
 
 
+def occasions_localaddr(rows):
+    """One occasion per LOCAL ADDRESS peer dialled (our own capture channels).
+
+    Every address in our routed prefix is gossiped separately, so arrivals on each
+    are a distinct channel. Independence is WEAK — same host, same peer set — so the
+    estimate from this mode is optimistic (recapture is too likely, N biased low).
+    Use it to get a number now; use --mode vantage for a defensible one.
+    """
+    per = {}
+    for r in rows:
+        bl = r.get("by_local_addr")
+        if isinstance(bl, dict):
+            for addr, ips in bl.items():
+                if isinstance(ips, list):
+                    per.setdefault(addr, set()).update(ips)
+    return [(a, s) for a, s in sorted(per.items()) if s]
+
+
 def occasions_vantage(specs):
     """specs: list of (label, path). One occasion per vantage."""
     return [(label, set().union(*[_ids(r) for r in _rows(p)]) if _rows(p) else set())
@@ -162,7 +180,7 @@ def occasions_vantage(specs):
 # ─────────────────────────────────── main ───────────────────────────────────
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mode", choices=["time", "vantage"], default="time")
+    ap.add_argument("--mode", choices=["time", "vantage", "localaddr"], default="time")
     ap.add_argument("--periods", type=int, default=2, help="capture occasions when --mode time")
     ap.add_argument("--vantage", action="append", default=[],
                     help="LABEL=PATH of an additional inbound jsonl vantage")
@@ -170,7 +188,21 @@ def main():
                     help="measured reachable node count, for the total estimate")
     args = ap.parse_args()
 
-    if args.mode == "vantage":
+    if args.mode == "localaddr":
+        rows = _rows(INBOUND)
+        labelled = occasions_localaddr(rows)
+        if len(labelled) < 2:
+            est = estimate([s for _, s in labelled]) if labelled else estimate([])
+            est["status"] = "NEEDS_SECOND_OCCASION"
+            est["note"] = ("Only %d local address(es) have caught anything; capture-recapture "
+                           "needs two. The second address (…::3) is live and advertised — it "
+                           "needs inbound arrivals, which depend on peers learning it."
+                           % len(labelled))
+        else:
+            est = estimate([s for _, s in labelled])
+        est["occasions"] = [{"label": l, "n": len(s)} for l, s in labelled]
+        est["independence"] = "WEAK (same host, same peer set) — treat as optimistic"
+    elif args.mode == "vantage":
         specs = [("self", INBOUND)] + [(v.split("=", 1)[0], v.split("=", 1)[1])
                                        for v in args.vantage if "=" in v]
         labelled = occasions_vantage(specs)

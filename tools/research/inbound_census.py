@@ -78,7 +78,16 @@ def main():
     hidden = sorted({ip for ip in ips if ip and _is_identity_hidden(ip)})
     detail = [{"ip": _ip(p.get("addr", "")), "subver": p.get("subver"),
                "network": p.get("network"),
+               # Which of OUR addresses did this peer reach? A host can listen on
+               # several (e.g. more than one address in its routed prefix), and each
+               # address is gossiped separately — so this tags the CAPTURE CHANNEL and
+               # lets capture-recapture run across our own addresses.
+               "local": (p.get("addrlocal") or "").rsplit(":", 1)[0].strip("[]") or None,
                "crawler": _is_known_crawler(p.get("subver"))} for p in inbound]
+    by_local = {}
+    for d in detail:
+        if d["ip"] and d["local"] and not _is_identity_hidden(d["ip"]) and not d["crawler"]:
+            by_local.setdefault(d["local"], set()).add(d["ip"])
     measure = sorted({d["ip"] for d in detail
                       if d["ip"] and not _is_identity_hidden(d["ip"]) and not d["crawler"]})
     crawlers = sorted({d["ip"] for d in detail if d["ip"] and d["crawler"]})
@@ -88,6 +97,7 @@ def main():
            "inbound_measurement_ips": measure,         # excluding known crawlers
            "crawler_ips": crawlers,
            "inbound_detail": detail,
+           "by_local_addr": {k: sorted(v) for k, v in by_local.items()},
            "identity_hidden": bool(hidden),
            "identity_hidden_ips": hidden,
            "connection_type_breakdown": _counts(p.get("connection_type", "?") for p in inbound)}

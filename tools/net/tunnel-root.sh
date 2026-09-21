@@ -128,6 +128,15 @@ case "${1:-}" in
     route delete -inet6 -host "$EP" 2>/dev/null || true
     echo "routes OFF (2000::/3 and $EP removed)"
     ;;
+  addaddr)
+    # addaddr <ipv6> [plen] — add ANOTHER listening address in our routed prefix.
+    # Each address is gossiped separately, so inbound arrivals on each form a
+    # distinct capture channel for capture-recapture.
+    A="${2:?ipv6}"; P="${3:-64}"
+    ifconfig "$IFACE" inet6 "$A" prefixlen "$P" alias
+    echo "alias $A/$P on $IFACE"
+    ifconfig "$IFACE" | grep inet6 | sed 's/^/  /' || true
+    ;;
   hsage)
     # print the unix timestamp of the latest handshake (0 if never) — lets the
     # supervisor detect a STALE tunnel rather than merely a present one.
@@ -154,5 +163,5 @@ case "${1:-}" in
     pkill -f "wireguard-go $IFACE" 2>/dev/null || true
     echo "tunnel $IFACE down (reply-path routes removed)"
     ;;
-  *) echo "usage: tunnel-root.sh up <conf> [extra_ipv6] | status | route-on | route-off | diag | capture <iface> <secs> <out> | down"; exit 2;;
+  *) echo "usage: tunnel-root.sh up <conf> [extra_ipv6] | addaddr <ipv6> [plen] | status | route-on | route-off | diag | capture <iface> <secs> <out> | down"; exit 2;;
 esac
