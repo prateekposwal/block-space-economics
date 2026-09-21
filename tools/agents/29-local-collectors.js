@@ -108,50 +108,109 @@ function writeState(s) {
   catch (e) { log('state write failed: ' + e.message); }
 }
 
-function main() {
+function killTree(pid, signal) {
+  // Negative pid = the whole process GROUP (requires detached:true below).
+  try { process.kill(-pid, signal); }
+  catch (e) { try { process.kill(pid, signal); } catch (e2) { /* already gone */ } }
+}
+
+/**
+ * Run one job with a HARD timeout that actually kills.
+ *
+ * execFileSync's `timeout` only signals the direct child, then blocks waiting for
+ * it to exit. If that child is parked in a syscall (a blocking network read with
+ * no timeout), SIGTERM is deferred until the call returns — which may be never —
+ * and the collector wedges. Observed: block_propagation ran 2,943s against a 300s
+ * limit and starved every job behind it, including the bridge watchtower.
+ *
+ * So: spawn DETACHED (its own process group) and, on timeout, SIGTERM then
+ * SIGKILL the group. SIGKILL cannot be caught or deferred, so the whole tree dies.
+ * We also stop waiting if the child has exited but something inherited its stdio
+ * pipes and is holding them open, which would otherwise hang 'close' forever.
+ */
+function runJob(job, argv) {
+  return new Promise(function (resolve) {
+    var limitMs = (job.timeoutS || TIMEOUT_MS / 1000) * 1000;
+    var child;
+    try {
+      child = cp.spawn(argv[0], argv.slice(1), {
+        cwd: REPO, detached: true, stdio: ['ignore', 'pipe', 'pipe']
+      });
+    } catch (e) {
+      return resolve({ ok: false, timedOut: false, err: String((e && e.message) || e) });
+    }
+
+    var out = '', err = '', timedOut = false, settled = false, killTimer = null, exitTimer = null;
+
+    function done(code, signal) {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      if (killTimer) clearTimeout(killTimer);
+      if (exitTimer) clearTimeout(exitTimer);
+      resolve({ ok: !timedOut && code === 0, timedOut: timedOut, code: code, signal: signal, out: out, err: err });
+    }
+
+    child.stdout.on('data', function (d) { if (out.length < 8000) out += d; });
+    child.stderr.on('data', function (d) { if (err.length < 8000) err += d; });
+
+    var timer = setTimeout(function () {
+      timedOut = true;
+      killTree(child.pid, 'SIGTERM');
+      killTimer = setTimeout(function () { killTree(child.pid, 'SIGKILL'); }, 5000);
+    }, limitMs);
+
+    // Child gone: give pipes a moment to flush, then stop waiting regardless.
+    child.on('exit', function () { exitTimer = setTimeout(function () { done(null, null); }, 2000); });
+    child.on('close', done);
+    child.on('error', function (e) { err += String((e && e.message) || e); done(-1, null); });
+  });
+}
+
+async function main() {
   var state = readState();
   var now = Math.floor(Date.now() / 1000);
   var ran = 0, failed = 0;
 
-  SCHEDULE.forEach(function (job) {
+  for (var i = 0; i < SCHEDULE.length; i++) {
+    var job = SCHEDULE[i];
     var last = state[job.name] && state[job.name].last_run_epoch;
-    if (last && (now - last) < job.every) return;   // not due
-    if (job.requires && !fs.existsSync(job.requires)) return;   // not configured yet
+    if (last && (now - last) < job.every) continue;             // not due
+    if (job.requires && !fs.existsSync(job.requires)) continue; // not configured yet
 
     var argv;
     if (job.cmd) {
       argv = job.cmd.slice();
     } else {
       var scriptPath = path.join(REPO, job.script);
-      if (!fs.existsSync(scriptPath)) { log(job.name + ': script missing, skipped'); return; }
+      if (!fs.existsSync(scriptPath)) { log(job.name + ': script missing, skipped'); continue; }
       argv = ['python3', scriptPath].concat(job.args);
     }
 
     var t0 = Date.now();
-    try {
-      cp.execFileSync(argv[0], argv.slice(1), {
-        cwd: REPO, timeout: (job.timeoutS || TIMEOUT_MS / 1000) * 1000, stdio: ['ignore', 'pipe', 'pipe']
-      });
-      var dt = ((Date.now() - t0) / 1000).toFixed(0);
+    var res = await runJob(job, argv);
+    var dt = ((Date.now() - t0) / 1000).toFixed(0);
+
+    if (res.ok) {
       log(job.name + ': OK (' + dt + 's)');
       state[job.name] = { last_run_epoch: now, last_ok_epoch: now, last_status: 'ok', last_s: Number(dt) };
-      writeState(state);   // persist per job: a slow LAST job must not lose the rest
       ran++;
-    } catch (e) {
-      var dtf = ((Date.now() - t0) / 1000).toFixed(0);
-      var tail = String((e.stderr || e.stdout || e.message || '')).trim().split('\n').slice(-2).join(' | ').slice(0, 200);
-      log(job.name + ': FAILED after ' + dtf + 's — ' + tail);
+    } else {
+      var tail = String(res.err || res.out || '').trim().split('\n').slice(-2).join(' | ').slice(0, 200);
+      var why = res.timedOut ? ('TIMEOUT after ' + dt + 's (group killed)') : ('FAILED after ' + dt + 's');
+      log(job.name + ': ' + why + ' — ' + tail);
       // Record the attempt so a hard-failing job retries on its normal cadence,
       // not every 15 min.
-      state[job.name] = { last_run_epoch: now, last_ok_epoch: (state[job.name] || {}).last_ok_epoch || null, last_status: 'failed', last_s: Number(dtf) };
-      writeState(state);
+      state[job.name] = { last_run_epoch: now, last_ok_epoch: (state[job.name] || {}).last_ok_epoch || null,
+                          last_status: res.timedOut ? 'timeout' : 'failed', last_s: Number(dt) };
       failed++;
     }
-  });
+    writeState(state);   // persist per job: a slow LAST job must not lose the rest
+  }
 
   writeState(state);
   if (ran || failed) log('cycle: ' + ran + ' ok, ' + failed + ' failed');
   return 0;
 }
 
-if (require.main === module) process.exit(main());
+if (require.main === module) main().then(function (code) { process.exit(code); });
