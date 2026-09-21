@@ -126,6 +126,28 @@ dynamics, and the permanent cost of data storage.</p>
 
 <p style="margin:-6px 0 18px;color:var(--ink-2);font-size:.9rem"><strong>SCCR is an upper bound.</strong> N = 26,586 is the observed reachable population; non-listening/private nodes are unobservable, and counting them (they bear cost too) would lower the ratio. Population <em>scenarios</em> — 50K, 100K, and ~265.9K under a historical 9:1 assumption (not a measured count) — are shown in the <a href="/research/sccr-sensitivity">sensitivity note</a>.</p>
 
+<style>
+.ux-bar{position:sticky;top:62px;z-index:40;background:var(--bg);padding:12px 0 10px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.ux-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#ux-q{flex:1 1 240px;min-width:180px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font:inherit;font-size:.9rem}
+#ux-q:focus{outline:2px solid var(--accent);outline-offset:1px}
+.ux-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.ux-chip{padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--ink-2);font:inherit;font-size:.75rem;cursor:pointer}
+.ux-chip:hover{border-color:var(--accent);color:var(--ink)}
+.ux-chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#121110;font-weight:600}
+.ux-count{font-size:.78rem;color:var(--ink-2);margin-top:8px}
+li[hidden],h2[hidden],p.rg[hidden]{display:none}
+.ux-empty{padding:22px;text-align:center;color:var(--ink-2);border:1px dashed var(--line);border-radius:12px}
+@media (max-width:640px){.ux-bar{position:static}}
+</style>
+<div class="ux-bar" id="uxbar">
+  <div class="ux-row">
+    <input id="ux-q" type="search" placeholder="Search research…" aria-label="Search research">
+  </div>
+  <div class="ux-chips" id="ux-chips" role="group" aria-label="Filter by section"></div>
+  <div class="ux-count" id="ux-count" aria-live="polite"></div>
+</div>
+<div class="ux-empty" id="ux-empty" hidden>Nothing matches that filter.</div>
 <h2>Definitions</h2>
 <p class="rg">Self-contained definitions for the terms used across this library.</p>
 <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:0 0 18px">
@@ -210,5 +232,66 @@ fetch('/data/verify_cost_index.json').then(function(r){return r.json();}).then(f
 <p style="margin-top:32px;"><a href="/learn">← Back to Learn</a></p>
 </div>
 <footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+<script>
+(function(){
+  var root=document.querySelector('.container')||document.body;
+  var uls=[].slice.call(root.querySelectorAll('ul.rlist'));
+  if(!uls.length) return;
+  var groups=[];
+  function grpFor(h2){
+    for(var i=0;i<groups.length;i++) if(groups[i].h2===h2) return groups[i];
+    var g={h2:h2, els:[], lis:[], desc:null}; groups.push(g); return g;
+  }
+  uls.forEach(function(ul){
+    var h2=ul.previousElementSibling;
+    while(h2 && h2.tagName!=='H2') h2=h2.previousElementSibling;
+    var g=grpFor(h2), gi=groups.indexOf(g);
+    g.els.push(ul);
+    [].slice.call(ul.children).forEach(function(li){
+      if(li.tagName!=='LI') return;
+      li.dataset.text=(li.textContent||'').toLowerCase();
+      li.dataset.g=String(gi);
+      g.lis.push(li);
+    });
+  });
+  groups.forEach(function(g){
+    if(!g.h2) return;
+    var n=g.h2.nextElementSibling;
+    while(n && n.tagName!=='H2'){ if(n.classList && n.classList.contains('rg')) g.desc=n; n=n.nextElementSibling; }
+  });
+  var allLis=[].concat.apply([], groups.map(function(g){ return g.lis; }));
+  var chips=document.getElementById('ux-chips'), q=document.getElementById('ux-q'),
+      cnt=document.getElementById('ux-count'), empty=document.getElementById('ux-empty');
+  var active='all';
+  function label(g){ var t=(g.h2?g.h2.textContent:'').trim(); return t.replace(/\s*\(\d{4}-\d{2}\)\s*$/,''); }
+  function mk(label,val,n){
+    var b=document.createElement('button'); b.type='button'; b.className='ux-chip';
+    b.textContent=label+' ('+n+')'; b.setAttribute('aria-pressed', val===active);
+    b.onclick=function(){ active=val; [].forEach.call(chips.children,function(c){ c.setAttribute('aria-pressed', c===b); }); apply(); };
+    return b;
+  }
+  chips.appendChild(mk('All','all',allLis.length));
+  groups.forEach(function(g,gi){ if(g.h2 && g.lis.length) chips.appendChild(mk(label(g), String(gi), g.lis.length)); });
+  function apply(){
+    var s=(q.value||'').trim().toLowerCase(), n=0;
+    allLis.forEach(function(li){
+      var okT=(active==='all')||(li.dataset.g===active);
+      var okQ=!s||li.dataset.text.indexOf(s)>=0;
+      var show=okT&&okQ; li.hidden=!show; if(show)n++;
+    });
+    groups.forEach(function(g){
+      var any=g.lis.some(function(li){ return !li.hidden; });
+      g.els.forEach(function(el){ el.hidden=!any; });
+      if(g.h2) g.h2.hidden=!any;
+      if(g.desc) g.desc.hidden=!any;
+    });
+    cnt.textContent='Showing '+n+' of '+allLis.length+' entries'
+      +(active==='all'?'':' \u00b7 section filtered')+(s?' \u00b7 matching \u201c'+s+'\u201d':'');
+    empty.hidden=(n>0);
+  }
+  q.addEventListener('input',apply);
+  apply();
+})();
+</script>
 </body>
 </html>

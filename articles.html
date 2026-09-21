@@ -100,6 +100,33 @@ footer .links a:hover{color:var(--accent)}
   </div>
 </div>
 
+<style>
+.ux-bar{position:sticky;top:62px;z-index:40;background:var(--bg);padding:12px 0 10px;border-bottom:1px solid var(--border);margin-bottom:14px}
+.ux-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+#ux-q{flex:1 1 240px;min-width:180px;padding:9px 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--fg);font:inherit;font-size:.9rem}
+#ux-q:focus{outline:2px solid var(--accent);outline-offset:1px}
+.ux-btn{padding:9px 12px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--muted);font:inherit;font-size:.8rem;cursor:pointer;white-space:nowrap}
+.ux-btn:hover{color:var(--fg);border-color:var(--accent)}
+.ux-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.ux-chip{padding:4px 10px;border:1px solid var(--border);border-radius:999px;background:transparent;color:var(--muted);font:inherit;font-size:.75rem;cursor:pointer}
+.ux-chip:hover{color:var(--fg);border-color:var(--accent)}
+.ux-chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:600}
+.ux-count{font-size:.78rem;color:var(--muted);margin-top:8px}
+.article[hidden]{display:none}
+.article{margin-bottom:14px}
+.article .excerpt{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.ux-empty{padding:26px;text-align:center;color:var(--muted);border:1px dashed var(--border);border-radius:12px}
+@media (max-width:640px){.ux-bar{position:static}}
+</style>
+<div class="ux-bar" id="uxbar">
+  <div class="ux-row">
+    <input id="ux-q" type="search" placeholder="Search articles…" aria-label="Search articles">
+    <button id="ux-sort" class="ux-btn" type="button">Newest first</button>
+  </div>
+  <div class="ux-chips" id="ux-chips" role="group" aria-label="Filter by tag"></div>
+  <div class="ux-count" id="ux-count" aria-live="polite"></div>
+</div>
+<div class="ux-empty" id="ux-empty" hidden>No articles match that filter.</div>
 <div class="timeline">
 
   <!-- 2026-07-30 -->
@@ -335,5 +362,46 @@ footer .links a:hover{color:var(--accent)}
 </div>
 
 <footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/story">Data Story</a><a href="/articles">Articles</a><a href="/beta">Beta</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+<script>
+(function(){
+  var tl=document.querySelector('.timeline'); if(!tl) return;
+  var arts=[].slice.call(tl.querySelectorAll('.article'));
+  arts.forEach(function(el){
+    var d=(el.querySelector('.date')||{}).textContent||'';
+    var t=Date.parse(d.split('\u00b7')[0].trim());
+    el.dataset.ts=isNaN(t)?0:t;
+    el.dataset.tags=[].slice.call(el.querySelectorAll('.tag')).map(function(x){return x.textContent.trim().toLowerCase();}).join('|');
+    el.dataset.text=((el.querySelector('h2')||{}).textContent+' '+(el.querySelector('.excerpt')||{}).textContent+' '+el.dataset.tags).toLowerCase();
+  });
+  var chips=document.getElementById('ux-chips'), q=document.getElementById('ux-q'),
+      cnt=document.getElementById('ux-count'), srt=document.getElementById('ux-sort'),
+      empty=document.getElementById('ux-empty');
+  var tags={}; arts.forEach(function(el){ el.dataset.tags.split('|').forEach(function(t){ if(t) tags[t]=(tags[t]||0)+1; }); });
+  var active='all', newest=true;
+  function mkChip(label,val,n){
+    var b=document.createElement('button'); b.type='button'; b.className='ux-chip';
+    b.textContent=n?label+' ('+n+')':label; b.setAttribute('aria-pressed', val===active);
+    b.onclick=function(){ active=val; [].forEach.call(chips.children,function(c){ c.setAttribute('aria-pressed', c===b); }); apply(); };
+    return b;
+  }
+  chips.appendChild(mkChip('All','all',arts.length));
+  Object.keys(tags).sort(function(a,b){ return tags[b]-tags[a]; }).forEach(function(t){ chips.appendChild(mkChip(t,t,tags[t])); });
+  function sortArts(){ arts.slice().sort(function(a,b){ var d=(+a.dataset.ts)-(+b.dataset.ts); return newest? -d : d; }).forEach(function(el){ tl.appendChild(el); }); }
+  function apply(){
+    var n=0, s=(q.value||'').trim().toLowerCase();
+    arts.forEach(function(el){
+      var okT=(active==='all')||el.dataset.tags.split('|').indexOf(active)>=0;
+      var okQ=!s||el.dataset.text.indexOf(s)>=0;
+      var show=okT&&okQ; el.hidden=!show; if(show)n++;
+    });
+    cnt.textContent='Showing '+n+' of '+arts.length+' articles'
+      +(active==='all'?'':' \u00b7 tag: '+active)+(s?' \u00b7 matching \u201c'+s+'\u201d':'');
+    empty.hidden=(n>0);
+  }
+  srt.onclick=function(){ newest=!newest; srt.textContent=newest?'Newest first':'Oldest first'; srt.setAttribute('aria-pressed',newest); sortArts(); };
+  q.addEventListener('input',apply);
+  sortArts(); apply();
+})();
+</script>
 </body>
 </html>
