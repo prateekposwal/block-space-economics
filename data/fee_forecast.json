@@ -1,25 +1,25 @@
 {
-  "generated_at": "2026-09-21T10:20:45.551660+00:00",
-  "data_points": 106,
+  "generated_at": "2026-09-21T14:15:03.351117+00:00",
+  "data_points": 109,
   "first_capture": "2026-09-15_10-11-53",
-  "last_capture": "2026-09-21_15-39-33",
+  "last_capture": "2026-09-21_19-01-40",
   "latest_fastest_fee": 2,
-  "slope": 0.035,
+  "slope": 0.087,
   "trend": "stable",
   "forecast": [
     {
       "day_offset": 1,
-      "predicted_fastest_fee": 1.7,
+      "predicted_fastest_fee": 2.4,
       "trend": "stable"
     },
     {
       "day_offset": 2,
-      "predicted_fastest_fee": 1.7,
+      "predicted_fastest_fee": 2.5,
       "trend": "stable"
     },
     {
       "day_offset": 3,
-      "predicted_fastest_fee": 1.7,
+      "predicted_fastest_fee": 2.6,
       "trend": "stable"
     }
   ],
@@ -32,13 +32,13 @@
   },
   "regime": {
     "current": "normal",
-    "changes": 8,
+    "changes": 10,
     "window": 24
   },
   "quality": {
-    "rmse": 1.025,
-    "mae": 0.704,
-    "lastResidual": 0.541,
+    "rmse": 1.023,
+    "mae": 0.71,
+    "lastResidual": -0.496,
     "algorithm": "holt-linear-trend"
   },
   "disclaimer": "Holt linear-trend exponential smoothing on spool capture history (holt-linear-trend). Not financial advice."

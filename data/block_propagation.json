@@ -1,49 +1,181 @@
 {
   "schema": "bsahi.block-propagation/1",
   "layer": "observed",
-  "generated_at": "2026-09-21T11:56:50.869262+00:00",
+  "generated_at": "2026-09-21T14:14:32.213080+00:00",
   "source": "btcnodes.io inventory sampler (/api/v1/inv/?type=2, /api/v1/inv/<hash>/)",
   "ratelimit_remaining": "unlimited",
   "blocks": [
     {
-      "hash": "00000000000048624f893060f41a0e2adfcd41dabb08790d01c1be3a10a1ff35",
-      "announcing_nodes": 2,
-      "latest_seen": 1789988733,
+      "hash": "00000000000005c0e704b88ca6ef585608fc5e8e53aadf5e340cdee2eefffd62",
+      "announcing_nodes": 3,
+      "latest_seen": 1789999993,
       "propagation_stats": {
-        "mean": 4,
-        "std": 4,
+        "mean": 484,
+        "std": 343,
         "min": 0,
-        "50%": 0,
-        "90%": 7,
-        "max": 7,
+        "50%": 701,
+        "90%": 752,
+        "max": 752,
         "head": [
           [
-            "2a01:239:2e2:2000::1-8333",
-            1789988733
+            "177.54.145.109-19260",
+            1789999993
           ],
           [
-            "85.215.186.25-8333",
-            1789988733
+            "2607:5300:60:93d7::1-42069",
+            1789999993
+          ],
+          [
+            "2402:1f00:8001:195::1-42069",
+            1789999993
           ]
         ]
       },
       "announcer_sample": [
         {
-          "node": "2a01:239:2e2:2000::1-8333",
-          "timestamp": 1789988733,
+          "node": "177.54.145.109-19260",
+          "timestamp": 1789999993,
           "delay_ms": 0
         },
         {
-          "node": "85.215.186.25-8333",
-          "timestamp": 1789988733,
-          "delay_ms": 7
+          "node": "2607:5300:60:93d7::1-42069",
+          "timestamp": 1789999993,
+          "delay_ms": 701
+        },
+        {
+          "node": "2402:1f00:8001:195::1-42069",
+          "timestamp": 1789999993,
+          "delay_ms": 752
         }
       ]
     },
     {
-      "hash": "00000000b9388204737a1d17d28779d91656206411b2708df2a33a4072fa4cd6",
+      "hash": "0000000000000a0f0647c11759307cf910536e74380dac948f0832ec7c3cd4b3",
+      "announcing_nodes": 2,
+      "latest_seen": 1789999821,
+      "propagation_stats": {
+        "mean": 530,
+        "std": 530,
+        "min": 0,
+        "50%": 0,
+        "90%": 1060,
+        "max": 1060,
+        "head": [
+          [
+            "177.54.145.109-19260",
+            1789999820
+          ],
+          [
+            "2607:5300:60:93d7::1-42069",
+            1789999821
+          ]
+        ]
+      },
+      "announcer_sample": [
+        {
+          "node": "177.54.145.109-19260",
+          "timestamp": 1789999820,
+          "delay_ms": 0
+        },
+        {
+          "node": "2607:5300:60:93d7::1-42069",
+          "timestamp": 1789999821,
+          "delay_ms": 1060
+        }
+      ]
+    },
+    {
+      "hash": "0000000000000b5a3c5210ea1eee8b292437c2a40b08864b775a310a99570aa9",
+      "announcing_nodes": 2,
+      "latest_seen": 1789999654,
+      "propagation_stats": {
+        "mean": 65,
+        "std": 65,
+        "min": 0,
+        "50%": 0,
+        "90%": 130,
+        "max": 130,
+        "head": [
+          [
+            "2607:5300:60:93d7::1-42069",
+            1789999654
+          ],
+          [
+            "177.54.145.109-19260",
+            1789999654
+          ]
+        ]
+      },
+      "announcer_sample": [
+        {
+          "node": "2607:5300:60:93d7::1-42069",
+          "timestamp": 1789999654,
+          "delay_ms": 0
+        },
+        {
+          "node": "177.54.145.109-19260",
+          "timestamp": 1789999654,
+          "delay_ms": 130
+        }
+      ]
+    },
+    {
+      "hash": "0000000000000000d5778ad8e63e0ab04814ef3dcd85b685248d09a2547884c8",
+      "announcing_nodes": 4,
+      "latest_seen": 1789999446,
+      "propagation_stats": {
+        "mean": 69,
+        "std": 41,
+        "min": 0,
+        "50%": 92,
+        "90%": 106,
+        "max": 106,
+        "head": [
+          [
+            "51.154.33.47-63212",
+            1789999446
+          ],
+          [
+            "2806:2f0:56e1:c022:9dd:51fa:bcc7:ea05-8333",
+            1789999446
+          ],
+          [
+            "145.40.235.26-8333",
+            1789999446
+          ],
+          [
+            "2a01:239:26b:8600::1-8333",
+            1789999446
+          ]
+        ]
+      },
+      "announcer_sample": [
+        {
+          "node": "51.154.33.47-63212",
+          "timestamp": 1789999446,
+          "delay_ms": 0
+        },
+        {
+          "node": "2806:2f0:56e1:c022:9dd:51fa:bcc7:ea05-8333",
+          "timestamp": 1789999446,
+          "delay_ms": 78
+        },
+        {
+          "node": "145.40.235.26-8333",
+          "timestamp": 1789999446,
+          "delay_ms": 92
+        },
+        {
+          "node": "2a01:239:26b:8600::1-8333",
+          "timestamp": 1789999446,
+          "delay_ms": 106
+        }
+      ]
+    },
+    {
+      "hash": "00000000b7e15dd723e909f4ab0321199d8e033fa707bbce35134230b5e5f9f6",
       "announcing_nodes": 1,
-      "latest_seen": 1789988510,
+      "latest_seen": 1789999124,
       "propagation_stats": {
         "mean": 0,
         "std": 0,
@@ -54,285 +186,249 @@
         "head": [
           [
             "94.72.112.249-8383",
-            1789988510
+            1789999124
           ]
         ]
       },
       "announcer_sample": [
         {
           "node": "94.72.112.249-8383",
-          "timestamp": 1789988510,
+          "timestamp": 1789999124,
           "delay_ms": 0
         }
       ]
     },
     {
-      "hash": "000000000362a8474844d5071d57f6188181099f3c4fd538800a5687a2a1d6be",
-      "announcing_nodes": 1,
-      "latest_seen": 1789988465
+      "hash": "0000000000003606ab89c704b460871083c3f8456a43ab6b4eaa5e3dc5386422",
+      "announcing_nodes": 2,
+      "latest_seen": 1789999055
     },
     {
-      "hash": "000000006caeaecf1961fea4d62c0363e731090f78e8a37d963078bec6250fb5",
-      "announcing_nodes": 1,
-      "latest_seen": 1789988306,
-      "propagation_stats": {
-        "mean": 0,
-        "std": 0,
-        "min": 0,
-        "50%": 0,
-        "90%": 0,
-        "max": 0,
-        "head": [
-          [
-            "94.72.112.249-8383",
-            1789988306
-          ]
-        ]
-      },
-      "announcer_sample": [
-        {
-          "node": "94.72.112.249-8383",
-          "timestamp": 1789988306,
-          "delay_ms": 0
-        }
-      ]
-    },
-    {
-      "hash": "0000000000000df36dd5d2d951a7435026e3ad02b13b656aef9121e3ab485eb2",
+      "hash": "00000000000006d6a3f328d1fc921f6eb25f1e7de3c867303ae6320d7d9d84b3",
       "announcing_nodes": 3,
-      "latest_seen": 1789988297
+      "latest_seen": 1789999025
     },
     {
-      "hash": "00000000e7142842c37dd7f47075ff041c624f676809a10b6c45d3f308e395ac",
+      "hash": "0000000000000000f6e3f7b8d61775155cd304a561c93e43d3a762cbd9fed96c",
+      "announcing_nodes": 11,
+      "latest_seen": 1789998956
+    },
+    {
+      "hash": "000000009f95533cd973dcbf89dc389424e1849e1aa25ab42cca3fdb79ca62c6",
       "announcing_nodes": 1,
-      "latest_seen": 1789988268
+      "latest_seen": 1789998955
     },
     {
-      "hash": "0000000000000000bc0fb9d24da7239578d4c7a9289cba802e6602790c217860",
-      "announcing_nodes": 13,
-      "latest_seen": 1789988022
+      "hash": "00000000000000000000b0357e2faa162e72e20bc0f1f2f26485c08908a1f903",
+      "announcing_nodes": 267,
+      "latest_seen": 1789998907
     },
     {
-      "hash": "0000000000000d06a2b8809a839c09859a4dbb02bb2daaacda6eaa576d0081a5",
+      "hash": "000000000000000000012d774f252f05bcd98286abc13fea0f73b84e49a0f2e7",
+      "announcing_nodes": 268,
+      "latest_seen": 1789998907
+    },
+    {
+      "hash": "0000000000000000cd30e20f7d8b5b74574bb86a467e7eabfa2066950afe501e",
+      "announcing_nodes": 11,
+      "latest_seen": 1789998822
+    },
+    {
+      "hash": "000000000000020ea38326d2a0f4b8a61751f7bb2f5d583c58ae1e1accc1e55b",
       "announcing_nodes": 3,
-      "latest_seen": 1789988014
+      "latest_seen": 1789998819
     },
     {
-      "hash": "0000000000000000ee6aa49aef1043dbee87901c1c9b3201a18b4d926003e786",
-      "announcing_nodes": 13,
-      "latest_seen": 1789987957
+      "hash": "00000000000000000001428f733536dc16a06b7125d1154ad6a4955094e1a87a",
+      "announcing_nodes": 264,
+      "latest_seen": 1789998689
     },
     {
-      "hash": "000000000000082914a026ad66466972f6297045ee963b2f0463dbc2671ddeb2",
+      "hash": "00000000000000000000bf85ca0ae2063901acd326a4754bd75c486b98db7630",
+      "announcing_nodes": 267,
+      "latest_seen": 1789998689
+    },
+    {
+      "hash": "00000000000048da39d2c4748b14cd7b876f2efa004f204aac341fbc89144e16",
+      "announcing_nodes": 2,
+      "latest_seen": 1789998678
+    },
+    {
+      "hash": "000000000000083d05c42677056030c511924b65bdb339dfdbf1b7425750fab0",
       "announcing_nodes": 3,
-      "latest_seen": 1789987932
+      "latest_seen": 1789998655
     },
     {
-      "hash": "000000000000136a05129032b206c647b0f1141375058c12f3bef1fc3375eaf3",
+      "hash": "0000000000004a2c28ac310248d11c209a7ed9fde4130be7923194afab16dd03",
       "announcing_nodes": 2,
-      "latest_seen": 1789987725
+      "latest_seen": 1789998454
     },
     {
-      "hash": "00000000000000011ddfc6c222abb2a94627d03b7badd364c354d53b541be443",
-      "announcing_nodes": 13,
-      "latest_seen": 1789987691
+      "hash": "000000005f45724c6f1f179ce2c6465751721a24c411184a11af6ef8158ac638",
+      "announcing_nodes": 1,
+      "latest_seen": 1789998408
     },
     {
-      "hash": "0000000000000728ffbfc1266634f964da4aa1f58de41402088cb695543cc57c",
+      "hash": "00000000000000000000fefd5efd9547657e2bae256542380cf38df2a2e16afd",
+      "announcing_nodes": 268,
+      "latest_seen": 1789998404
+    },
+    {
+      "hash": "000000000000000141b6b7c3b2f00891f18818016d464da3318c656efebc3862",
+      "announcing_nodes": 11,
+      "latest_seen": 1789998286
+    },
+    {
+      "hash": "00000000000057299b6e9eba959b488154f9c0e148960267c95fc2f3194744b5",
+      "announcing_nodes": 2,
+      "latest_seen": 1789998271
+    },
+    {
+      "hash": "000000000000000029d17bb9a0c8a822ac100dfd4a2534ba65fce0e834c1bf8d",
+      "announcing_nodes": 11,
+      "latest_seen": 1789998266
+    },
+    {
+      "hash": "0000000050c99c1cc90916f905c70b519fb934f79e8b2821750562a9fcbc3218",
+      "announcing_nodes": 1,
+      "latest_seen": 1789998117
+    },
+    {
+      "hash": "000000000000000134cc63d1ce226525c5ce693fca0b1ab2b54f82543ee0c387",
+      "announcing_nodes": 11,
+      "latest_seen": 1789998094
+    },
+    {
+      "hash": "000000000000080b1375c1ebc1387c57c3e52592a334e4e8ab8c2da59b740c23",
       "announcing_nodes": 3,
-      "latest_seen": 1789987455
+      "latest_seen": 1789997998
     },
     {
-      "hash": "000000000000356d94b733616999d37f3cc2b303e5d1194f4ac53bc19d3d8e7d",
-      "announcing_nodes": 2,
-      "latest_seen": 1789987437
+      "hash": "000000000e42f9bde7903ffeb17447207e9a73799e9ca0e9c4077c61c3340616",
+      "announcing_nodes": 1,
+      "latest_seen": 1789997896
     },
     {
-      "hash": "00000000000000000000976181f78e10045ed7a313c26142d5ef7f05d68097d7",
-      "announcing_nodes": 266,
-      "latest_seen": 1789987293
+      "hash": "00000000f7e1e1aa56c6c0bfdb31bc2c7adecdeb4e73083cf62069c42217d2f3",
+      "announcing_nodes": 1,
+      "latest_seen": 1789997501
     },
     {
-      "hash": "00000000000002d4b432915a836c855db6638b74e4d6326f3ee33bbf98176c5b",
+      "hash": "00000000000000000000299791e77cd9039cc0d52d053c88b01dcd438d85370d",
+      "announcing_nodes": 268,
+      "latest_seen": 1789997363
+    },
+    {
+      "hash": "0000000000000275d07b3099e73466733ae8226fd15c42cfb0ac3897677d0242",
       "announcing_nodes": 3,
-      "latest_seen": 1789987130
+      "latest_seen": 1789997310
     },
     {
-      "hash": "000000000000000019e49f7c4e8d84f67333faba82155fbea0d851d3f802bf28",
-      "announcing_nodes": 14,
-      "latest_seen": 1789986948
+      "hash": "000000000000000000019e526aca0878729d004eba50186d4a796f6627fa8e6d",
+      "announcing_nodes": 268,
+      "latest_seen": 1789997099
     },
     {
-      "hash": "00000000000000000000cafd56162a9a6ccd652dc71de678062b3ae8195444ae",
-      "announcing_nodes": 265,
-      "latest_seen": 1789986942
+      "hash": "00000000000000007539d33a66b7f02c00d07d4111f035677d62f7456a31fb0d",
+      "announcing_nodes": 11,
+      "latest_seen": 1789997010
     },
     {
-      "hash": "00000000e2d67c1c585e29888f3b1e4265baec36476f3284b869f05ce0395591",
-      "announcing_nodes": 1,
-      "latest_seen": 1789986466
-    },
-    {
-      "hash": "0000000000003deaa3fafadb7117168a2446d819fa6112cde3d10d09c6b3b543",
-      "announcing_nodes": 2,
-      "latest_seen": 1789986389
-    },
-    {
-      "hash": "00000000000000000001ea858df3a4805950f201b86b8908a801d4156fef82e3",
-      "announcing_nodes": 266,
-      "latest_seen": 1789986384
-    },
-    {
-      "hash": "000000000000000133e52168873989027452f61eccefb8c9d763f71cbe4bef8a",
-      "announcing_nodes": 14,
-      "latest_seen": 1789986372
-    },
-    {
-      "hash": "00000000000059164415f2baf717df4c769d2af04818316da5c6ba2ffd14fc65",
-      "announcing_nodes": 2,
-      "latest_seen": 1789986342
-    },
-    {
-      "hash": "00000000886a21184ec959b4fa0155051afc9a3971facfb8746c6d67ab6ae876",
-      "announcing_nodes": 1,
-      "latest_seen": 1789986263
-    },
-    {
-      "hash": "00000000987e58d1d7f86b7fc3645098e8a3830a5b7ad016a0155f38ad40721e",
-      "announcing_nodes": 1,
-      "latest_seen": 1789986084
-    },
-    {
-      "hash": "000000004db210ce042a555331949d0056125fca3a164d19f6b39c447ef8bbed",
-      "announcing_nodes": 1,
-      "latest_seen": 1789986018
-    },
-    {
-      "hash": "0000000000000000008e08ecd75097c9d288911511f83707dad113691a8d6e1d",
-      "announcing_nodes": 14,
-      "latest_seen": 1789985876
-    },
-    {
-      "hash": "0000000000003f320033e7c4d1e0a462b792bf9002fd7bafb45dfa89d8b4e24a",
-      "announcing_nodes": 2,
-      "latest_seen": 1789985849
-    },
-    {
-      "hash": "00000000000000013466bf2e1c710ae54a6530d29db2f79bd7a95554178ad70d",
-      "announcing_nodes": 14,
-      "latest_seen": 1789985737
-    },
-    {
-      "hash": "00000000000000006d5f79074a99acd7389218aef8f518dff3ecc81fcb515a84",
-      "announcing_nodes": 14,
-      "latest_seen": 1789985730
-    },
-    {
-      "hash": "00000000000003eb0a6f3956695947670afa45e59eca84845c11e253fd8618b3",
+      "hash": "0000000000000e59074b69663abc0f7e18dbc4967b94642d1a958f67c08e40c7",
       "announcing_nodes": 3,
-      "latest_seen": 1789985719
+      "latest_seen": 1789996874
     },
     {
-      "hash": "0000000000000000eda3e0b89049f38b26ff544ab1b5c508ffa615aa7501e34d",
-      "announcing_nodes": 14,
-      "latest_seen": 1789985566
+      "hash": "0000000000000000000118f7f4e2b00ce769ade07ee58610d88009f3dc4fa939",
+      "announcing_nodes": 268,
+      "latest_seen": 1789996790
     },
     {
-      "hash": "0000000000000000000181838d957d5f7a8345732c6fcad0cce3ec028d62f1a7",
-      "announcing_nodes": 265,
-      "latest_seen": 1789985528
+      "hash": "000000000000000125840381bb4580880c7c0f1efe1e5987e1b7624913e01bdc",
+      "announcing_nodes": 11,
+      "latest_seen": 1789996754
     },
     {
-      "hash": "00000000000000000000e225db2f24a682cbf7104e214dfb1424777b2ff46e3c",
-      "announcing_nodes": 266,
-      "latest_seen": 1789985143
-    },
-    {
-      "hash": "0000000000000000ab6f17e1e5b3d1203fdc6e4186f2565320c4f12470525335",
-      "announcing_nodes": 14,
-      "latest_seen": 1789985085
-    },
-    {
-      "hash": "000000007a66c3ddf4bd5603828ef54d5ef47ce0e8990de3258705ef16d15346",
+      "hash": "00000000f3ad88efa05e30f33b41c362ddd7625f19bfaacc86e37e62bf16c00e",
       "announcing_nodes": 1,
-      "latest_seen": 1789984986
+      "latest_seen": 1789996655
     },
     {
-      "hash": "00000000383dc9511591372a1a262236f74f2e0322bf677ab0ba20e4e1d8c6a4",
+      "hash": "0000000000000000000211ddedebe985e9549f4cb145647efea756c5979f5f1f",
+      "announcing_nodes": 268,
+      "latest_seen": 1789996586
+    },
+    {
+      "hash": "0000000000000644f5dee85c0ae43cffab8f2cc6e2dfb68ffd81050d0632369e",
+      "announcing_nodes": 3,
+      "latest_seen": 1789996582
+    },
+    {
+      "hash": "0000000000000000492a337d378c3fbddbf091ed6607707dc9a1026704be99bc",
+      "announcing_nodes": 11,
+      "latest_seen": 1789996576
+    },
+    {
+      "hash": "0000000000000be1d4d91069aac32859a867a0e2cdc5f7adf53d4fdc30f9ac44",
+      "announcing_nodes": 3,
+      "latest_seen": 1789996349
+    },
+    {
+      "hash": "00000000000007f39c25435b6b387cc4087a577162bde9261ee7a98fdd679784",
+      "announcing_nodes": 3,
+      "latest_seen": 1789996328
+    },
+    {
+      "hash": "00000000d84cf452ba3a72583d8a7aa6c1a3974a677d749ecab05043839480ef",
       "announcing_nodes": 1,
-      "latest_seen": 1789984845
+      "latest_seen": 1789996209
     },
     {
-      "hash": "00000000000000000000d67aff42351c9a0f544bc0b6e16ea673e10857ff06b7",
-      "announcing_nodes": 265,
-      "latest_seen": 1789984681
+      "hash": "000000000000000117a1914e7658f57656f54d69f3df79b44d2aae4575302ef2",
+      "announcing_nodes": 11,
+      "latest_seen": 1789996151
     },
     {
-      "hash": "00000000dc00371953ea9363763d5c3f88f3e33d3ec569291f7a2154240f5946",
+      "hash": "00000000000000000001ce4111f945a3d49377d0afb574bba231301486f8b7d4",
+      "announcing_nodes": 268,
+      "latest_seen": 1789996033
+    },
+    {
+      "hash": "00000000000000000000409ea12902d6d2b452f6bf1ce6f95f79d3c9e5f225d3",
+      "announcing_nodes": 268,
+      "latest_seen": 1789996031
+    },
+    {
+      "hash": "0000000063671dabe8ded25b60758238c7af54fe55b02dc92d49976383b97837",
       "announcing_nodes": 1,
-      "latest_seen": 1789984438
+      "latest_seen": 1789996017
     },
     {
-      "hash": "000000003cab3c759df69ea7ec310bbc6c91d370d1fe4620023e072be5dd71c4",
+      "hash": "00000000000000011296fd3b3eba69c79321d0e3782bd28948082e52c84bd64c",
+      "announcing_nodes": 11,
+      "latest_seen": 1789995955
+    },
+    {
+      "hash": "000000002cfb30914a899c0f9948cc1bf9f52f1ca6b4a59f8bddf78fb537c6d4",
       "announcing_nodes": 1,
-      "latest_seen": 1789983984
+      "latest_seen": 1789995929
     },
     {
-      "hash": "00000000514b41009baf6ac64b33dfaddf01cfec04a4d4cfed784c88a6012514",
+      "hash": "0000000000000000084cbf6e52e986303a4d3f51c6eab4bd524aa1a24f11d854",
+      "announcing_nodes": 11,
+      "latest_seen": 1789995900
+    },
+    {
+      "hash": "0000000089c35850234e4de0d6e04e9d185d76d4989d806a4cc822eabb41e872",
       "announcing_nodes": 1,
-      "latest_seen": 1789983852
-    },
-    {
-      "hash": "000000000000000000009d0a7fdf55b3f25bfc4a6f8a627469fcef39d620aeee",
-      "announcing_nodes": 266,
-      "latest_seen": 1789983786
-    },
-    {
-      "hash": "0000000069bd8b78a3ad5a12afb4b566ce95e83d0ba2a7c1724bcda71da2648f",
-      "announcing_nodes": 1,
-      "latest_seen": 1789983765
-    },
-    {
-      "hash": "00000000000000000000dd05a70d991ca076a4fe9a8ba4cd80fe6f028b9d9701",
-      "announcing_nodes": 266,
-      "latest_seen": 1789983669
-    },
-    {
-      "hash": "0000000000003bf2d9915102a27e579d478daacabf4da2ac21a5ebecf500d231",
-      "announcing_nodes": 2,
-      "latest_seen": 1789983624
-    },
-    {
-      "hash": "00000000000000008e6df7358da30d8e124bc8178b429175604076e54af109f8",
-      "announcing_nodes": 15,
-      "latest_seen": 1789983548
-    },
-    {
-      "hash": "00000000000033751edfcd634cedcf81c26f6aa1b65c751b0499b033713b202c",
-      "announcing_nodes": 2,
-      "latest_seen": 1789983537
-    },
-    {
-      "hash": "000000007c13510b839e8bec2cb7f18ccc31e8bf8086f0b51e231acd792dfccf",
-      "announcing_nodes": 1,
-      "latest_seen": 1789983508
-    },
-    {
-      "hash": "0000000000002692e35658cc81440a624e4815239ba909d1cb3ceb8fb375b7b8",
-      "announcing_nodes": 2,
-      "latest_seen": 1789983504
-    },
-    {
-      "hash": "00000000a6d6fac5d15582c333fa382394483256cae24c6843a61e31e9ee3733",
-      "announcing_nodes": 1,
-      "latest_seen": 1789983411
+      "latest_seen": 1789995676
     }
   ],
   "summary": {
     "blocks_in_window": 50,
     "announcing_nodes_min": 1,
-    "announcing_nodes_max": 266,
-    "announcing_nodes_mean": 46.58
+    "announcing_nodes_max": 268,
+    "announcing_nodes_mean": 62.4
   },
   "note": "'announcing_nodes' is how many peers BTC Nodes' pinger observed announce the block inv \u2014 a SAMPLE of listening peers, NOT a network count and NOT the block producer. This measures RELAY contribution, not mining. A block is produced by a miner/pool; who announced it first is a separate (latency) question."
 }

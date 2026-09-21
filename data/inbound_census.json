@@ -1,41 +1,23 @@
 {
   "schema": "bsahi.inbound-census/2",
   "layer": "observed",
-  "generated_at": "2026-09-21T11:07:48.071622+00:00",
+  "generated_at": "2026-09-21T13:31:30.129069+00:00",
   "source": "Bitcoin Core getpeerinfo on the project's listening node",
   "method": "tools/research/inbound_census.py \u2014 count peers that dial in (identity = IP, port stripped)",
   "latest": {
-    "at": "2026-09-21T11:07:48.071622+00:00",
-    "connections_in": 1,
-    "inbound_count": 1,
-    "inbound_ips": [
-      "2602:fcdb:0:3::186"
-    ],
-    "inbound_measurement_ips": [
-      "2602:fcdb:0:3::186"
-    ],
+    "at": "2026-09-21T13:31:30.129069+00:00",
+    "connections_in": 0,
+    "inbound_count": 0,
+    "inbound_ips": [],
+    "inbound_measurement_ips": [],
     "crawler_ips": [],
-    "inbound_detail": [
-      {
-        "ip": "2602:fcdb:0:3::186",
-        "subver": "/Satoshi:25.1.0/",
-        "network": "ipv6",
-        "local": "2a11:6c7:f34:3a::3",
-        "crawler": false
-      }
-    ],
-    "by_local_addr": {
-      "2a11:6c7:f34:3a::3": [
-        "2602:fcdb:0:3::186"
-      ]
-    },
+    "inbound_detail": [],
+    "by_local_addr": {},
     "identity_hidden": false,
     "identity_hidden_ips": [],
-    "connection_type_breakdown": {
-      "inbound": 1
-    }
+    "connection_type_breakdown": {}
   },
-  "samples": 46,
+  "samples": 47,
   "history": [
     {
       "at": "2026-09-17T17:29:55.332181+00:00",
@@ -266,6 +248,11 @@
       "at": "2026-09-21T11:07:48.071622+00:00",
       "inbound_count": 1,
       "connections_in": 1
+    },
+    {
+      "at": "2026-09-21T13:31:30.129069+00:00",
+      "inbound_count": 0,
+      "connections_in": 0
     }
   ],
   "distinct_inbound_addresses_ever": 7,
@@ -289,5 +276,5 @@
     "listen": "1",
     "reachability": "port-forward for clearnet distinct-node counting; Tor gives a concurrency bound only"
   },
-  "headline": "7 distinct clearnet peer IP(s) and up to 9 concurrent inbound peer(s) across 46 sample(s) have dialled in; latest: 1"
+  "headline": "7 distinct clearnet peer IP(s) and up to 9 concurrent inbound peer(s) across 47 sample(s) have dialled in; latest: 0"
 }

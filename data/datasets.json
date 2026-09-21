@@ -1,6 +1,6 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-21T10:26:00.571613+00:00",
+  "generated_at": "2026-09-21T13:31:26.896401+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
   "count": 47,
   "datasets": [
@@ -72,8 +72,8 @@
       "layer": "observed",
       "grade": "C",
       "description": "Per-block relay: announcing-node counts + propagation stats (btcnodes inv sampler)",
-      "bytes": 42302,
-      "updated": "2026-09-21T05:12:24.694306+00:00",
+      "bytes": 10014,
+      "updated": "2026-09-21T11:56:50.869262+00:00",
       "rows": null
     },
     {
@@ -84,8 +84,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Bridge backing-ratio monitor: measured BTC custody vs token supply, with a completeness guard and incident replays",
-      "bytes": 7115,
-      "updated": "2026-09-21T10:25:30.955746+00:00",
+      "bytes": 9015,
+      "updated": "2026-09-21T12:05:51.952259+00:00",
       "rows": null
     },
     {
@@ -96,8 +96,8 @@
       "layer": "modelled",
       "grade": "C",
       "description": "Three-axis contribution join: verification population | block relay | block production",
-      "bytes": 2432,
-      "updated": "2026-09-21T05:12:25.703855+00:00",
+      "bytes": 2433,
+      "updated": "2026-09-21T11:56:51.049635+00:00",
       "rows": null
     },
     {
@@ -108,8 +108,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "D5 census endpoint status: tunnel, EXTERNAL reachability self-test, inbound counts",
-      "bytes": 1039,
-      "updated": "2026-09-21T10:19:59.870995+00:00",
+      "bytes": 1040,
+      "updated": "2026-09-21T12:02:01.235077+00:00",
       "rows": null
     },
     {
@@ -133,7 +133,7 @@
       "grade": "C",
       "description": "Three claims on fee revenue per block + the subsidy crossover + temporal price-path scenarios",
       "bytes": 13924,
-      "updated": "2026-09-21T10:15:29.019258+00:00",
+      "updated": "2026-09-21T13:31:24.576305+00:00",
       "rows": null
     },
     {
@@ -157,7 +157,7 @@
       "grade": "A",
       "description": "One-shot record: IBD cleared + first measured block-relay participation",
       "bytes": 849,
-      "updated": "2026-09-21T10:19:56.994325+00:00",
+      "updated": "2026-09-21T12:01:50.809109+00:00",
       "rows": null
     },
     {
@@ -168,8 +168,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Inbound-peer census \u2014 first-party lower bound on non-listening nodes",
-      "bytes": 10259,
-      "updated": "2026-09-21T05:12:16.774042+00:00",
+      "bytes": 7978,
+      "updated": "2026-09-21T11:07:48.071622+00:00",
       "rows": null
     },
     {
@@ -181,7 +181,7 @@
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
       "bytes": 1548,
-      "updated": "2026-09-21T09:47:57.907838+00:00",
+      "updated": "2026-09-21T10:38:01.560021+00:00",
       "rows": null
     },
     {
@@ -277,7 +277,7 @@
       "grade": "A",
       "description": "First-party reachable-node census by P2P handshake crawl (network class, client mix, sync)",
       "bytes": 6595,
-      "updated": "2026-09-21T09:48:51.007751+00:00",
+      "updated": "2026-09-21T11:57:11.498608+00:00",
       "rows": null
     },
     {
@@ -312,8 +312,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)",
-      "bytes": 911,
-      "updated": "2026-09-21T10:24:32.828742+00:00",
+      "bytes": 871,
+      "updated": "2026-09-21T13:15:44.827983+00:00",
       "rows": null
     },
     {
@@ -325,7 +325,7 @@
       "grade": "B",
       "description": "Per-block SPOT samples (weight/size/tx/fee) vs the era aggregates",
       "bytes": 59502,
-      "updated": "2026-09-21T10:15:30.115254+00:00",
+      "updated": "2026-09-21T11:07:48.283864+00:00",
       "rows": null
     },
     {
@@ -372,8 +372,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Robust multi-venue BTC/USD reference rate (median + MAD outlier rejection, full provenance)",
-      "bytes": 898,
-      "updated": "2026-09-21T10:15:33.701038+00:00",
+      "bytes": 897,
+      "updated": "2026-09-21T11:57:14.026451+00:00",
       "rows": null
     },
     {
@@ -409,7 +409,7 @@
       "grade": "A",
       "description": "First-party block-relay propagation CDF (per-peer deltas, clearnet vs overlay, BIP152 HB)",
       "bytes": 1187,
-      "updated": "2026-09-21T10:24:32.834086+00:00",
+      "updated": "2026-09-21T13:15:44.829352+00:00",
       "rows": null
     },
     {
@@ -433,7 +433,7 @@
       "grade": "B",
       "description": "Latest Storage Cost Coverage Ratio reading (dated)",
       "bytes": 779,
-      "updated": "2026-09-21T10:15:25.842385+00:00",
+      "updated": "2026-09-21T13:31:18.138139+00:00",
       "rows": null
     },
     {
@@ -457,7 +457,7 @@
       "grade": "B",
       "description": "Daily SCCR series",
       "bytes": 5171,
-      "updated": "2026-09-21T10:15:25.842385+00:00",
+      "updated": "2026-09-21T13:31:18.138139+00:00",
       "rows": null
     },
     {
@@ -469,7 +469,7 @@
       "grade": "C",
       "description": "SCCR sensitivity bands, bootstrap CI and stress test",
       "bytes": 9345,
-      "updated": "2026-09-21T10:15:28.862251+00:00",
+      "updated": "2026-09-21T13:31:23.187301+00:00",
       "rows": null
     },
     {
@@ -540,8 +540,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Measured node-side validation cost per era from a full -reindex (first-party, no API)",
-      "bytes": 11164,
-      "updated": "2026-09-21T10:15:31.776666+00:00",
+      "bytes": 11335,
+      "updated": "2026-09-21T11:56:52.310770+00:00",
       "rows": null
     },
     {
