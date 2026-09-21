@@ -1,4 +1,4 @@
-# D5 inbound census — why the Mac can't do it, and the public-IP pattern
+# Inbound Census: Why This Mac Cannot Be Reached, and the Public-IP Pattern
 
 **BSAHI — working note (internal)**
 *Produced: 2026-09-18 · Status: solution design for the clearnet distinct-node evidence.*

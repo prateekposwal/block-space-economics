@@ -214,6 +214,30 @@ def _plain(title):
     return html.unescape(re.sub(r'[*`]', '', title)).strip()
 
 
+def _body_bounds(text):
+    """(start, end) of the replaceable body region, or None if not locatable.
+
+    start = first char after the <h1> line's terminating newline.
+    end   = start of the last trailing datacard before the back-link (kept as
+            chrome), else the back-link paragraph itself.
+
+    Both markers are located by offset, never by line-start, so a body that ends
+    flush against the back-link (e.g. "...</ul><p style=...>") is still found.
+    """
+    m = re.search(r'<h1[^>]*>.*?</h1>', text, re.S)
+    if not m:
+        return None
+    nl = text.find('\n', m.end())
+    if nl == -1:
+        return None
+    start = nl + 1
+    back = text.find(END_MARK, start)
+    if back == -1:
+        return None
+    dc = text.rfind(DATACARD_MARK, start, back)
+    return start, (dc if dc != -1 else back)
+
+
 def sync(name):
     md_path = os.path.join(REPO, 'research', name + '.md')
     html_path = os.path.join(REPO, 'research', name + '.html')
@@ -229,18 +253,21 @@ def sync(name):
         orig = f.read()
     text = orig
 
-    # Body region: everything between the <h1> line and the back-link line.
-    lines = text.split('\n')
-    starts = [i for i, l in enumerate(lines) if l.startswith(H1_MARK)]
-    ends = [i for i, l in enumerate(lines) if l.startswith(END_MARK)]
-    if starts and ends and ends[0] > starts[0]:
-        end = ends[0]
-        # Keep a trailing data card (calibration notes) as chrome.
-        if lines[end - 1].startswith(DATACARD_MARK):
-            end -= 1
-        body = grp.render_md_body(md).split('\n')
-        lines = lines[:starts[0] + 1] + body + lines[end:]
-        text = '\n'.join(lines)
+    # Body region: from the end of the <h1> to the back-link paragraph.
+    #
+    # This must be position-based, not line-based. The back-link <p> is glued to
+    # whatever the body ends with, so on a page whose markdown ends in a list the
+    # line reads "</ul><p style=...>" and never startswith(END_MARK) — the old
+    # line-start test silently skipped the body, updating the title while keeping
+    # the previous page's content. Anchor on the marker's offset instead.
+    bounds = _body_bounds(text)
+    if bounds:
+        body_start, body_end = bounds
+        rendered = grp.render_md_body(md).strip('\n')
+        text = text[:body_start] + rendered + '\n' + text[body_end:]
+    else:
+        print('%s: WARNING body region not found (h1 or back-link missing) — '
+              'only the title was refreshed' % name, file=sys.stderr)
 
     # <h1>, <title>, og:title, breadcrumb name -> the md title.
     h1 = grp.inline(title)

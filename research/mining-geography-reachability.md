@@ -1,4 +1,4 @@
-# Mining Geography — Reachability & Reverse-Engineering Finding
+# Mining Geography: What Can Be Measured and What Cannot
 
 <!-- seo-title: Mining Geography: What Can Be Measured and What Cannot -->
 
