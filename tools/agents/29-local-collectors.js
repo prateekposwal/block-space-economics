@@ -67,6 +67,9 @@ var SCHEDULE = [
   // D5: keep gossiping our census IPv6 so peers add it to addrman and dial us.
   // Inert unless the tunnel is fresh; advertises once ev 30 min (~2 min per run).
   { name: 'advertise',           cmd: ['bash', 'tools/net/advertise.sh'], every: 1800, timeoutS: 420 },
+  // Reports the two transitions we're waiting on: IBD cleared, and the first
+  // measured block-relay participation number. Fires once each; cheap.
+  { name: 'ibd_watch',           script: 'tools/research/ibd_watch.py',            args: [], every: 900, timeoutS: 60 },
   // D5: is the private/non-listening census endpoint actually live + reachable?
   { name: 'd5_status',           script: 'tools/net/d5_status.py',                 args: [], every: 1800, timeoutS: 180 },
   { name: 'pool_infrastructure',  script: 'tools/net/pool_infrastructure.py',        args: [], every: 86400, timeoutS: 300 },

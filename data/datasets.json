@@ -1,8 +1,8 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-20T23:55:20.922094+00:00",
+  "generated_at": "2026-09-21T00:45:11.668724+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
-  "count": 43,
+  "count": 44,
   "datasets": [
     {
       "name": "addrman_churn.json",
@@ -60,8 +60,8 @@
       "layer": "observed",
       "grade": "C",
       "description": "Per-block relay: announcing-node counts + propagation stats (btcnodes inv sampler)",
-      "bytes": 14552,
-      "updated": "2026-09-20T23:13:22.713315+00:00",
+      "bytes": 42780,
+      "updated": "2026-09-21T00:33:04.077789+00:00",
       "rows": null
     },
     {
@@ -73,7 +73,7 @@
       "grade": "C",
       "description": "Three-axis contribution join: verification population | block relay | block production",
       "bytes": 2433,
-      "updated": "2026-09-20T23:13:22.827702+00:00",
+      "updated": "2026-09-21T00:33:04.195785+00:00",
       "rows": null
     },
     {
@@ -84,8 +84,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "D5 census endpoint status: tunnel, EXTERNAL reachability self-test, inbound counts",
-      "bytes": 1064,
-      "updated": "2026-09-20T23:16:21.386495+00:00",
+      "bytes": 1039,
+      "updated": "2026-09-21T00:35:52.487774+00:00",
       "rows": null
     },
     {
@@ -125,6 +125,18 @@
       "rows": 1614
     },
     {
+      "name": "ibd_cleared_notice.json",
+      "url": "https://bitcoinsahi.com/data/ibd_cleared_notice.json",
+      "path": "data/ibd_cleared_notice.json",
+      "schema": "bsahi.ibd-notice/1",
+      "layer": "observed",
+      "grade": "A",
+      "description": "One-shot record: IBD cleared + first measured block-relay participation",
+      "bytes": 734,
+      "updated": "2026-09-21T00:44:24.382247+00:00",
+      "rows": null
+    },
+    {
       "name": "inbound_census.json",
       "url": "https://bitcoinsahi.com/data/inbound_census.json",
       "path": "data/inbound_census.json",
@@ -132,8 +144,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Inbound-peer census \u2014 first-party lower bound on non-listening nodes",
-      "bytes": 7043,
-      "updated": "2026-09-20T19:28:02.096044+00:00",
+      "bytes": 6855,
+      "updated": "2026-09-21T00:36:11.317493+00:00",
       "rows": null
     },
     {
@@ -145,7 +157,7 @@
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
       "bytes": 1548,
-      "updated": "2026-09-20T08:33:58.285511+00:00",
+      "updated": "2026-09-21T00:40:32.684828+00:00",
       "rows": null
     },
     {
@@ -240,8 +252,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "First-party reachable-node census by P2P handshake crawl (network class, client mix, sync)",
-      "bytes": 4540,
-      "updated": "2026-09-20T23:13:59.111410+00:00",
+      "bytes": 6595,
+      "updated": "2026-09-21T00:39:24.550068+00:00",
       "rows": null
     },
     {
@@ -252,8 +264,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Reachable-node network class (clearnet/Tor/I2P) + coarse geographic spread (btcnodes aggregates)",
-      "bytes": 2596,
-      "updated": "2026-09-20T18:19:04.626502+00:00",
+      "bytes": 2598,
+      "updated": "2026-09-21T00:32:57.447181+00:00",
       "rows": null
     },
     {
@@ -276,8 +288,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)",
-      "bytes": 912,
-      "updated": "2026-09-20T23:13:22.956133+00:00",
+      "bytes": 889,
+      "updated": "2026-09-21T00:40:24.700756+00:00",
       "rows": null
     },
     {
@@ -289,7 +301,7 @@
       "grade": "B",
       "description": "Per-block SPOT samples (weight/size/tx/fee) vs the era aggregates",
       "bytes": 59502,
-      "updated": "2026-09-20T23:13:13.743613+00:00",
+      "updated": "2026-09-21T00:32:53.419743+00:00",
       "rows": null
     },
     {
@@ -336,8 +348,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Robust multi-venue BTC/USD reference rate (median + MAD outlier rejection, full provenance)",
-      "bytes": 902,
-      "updated": "2026-09-20T23:14:01.353663+00:00",
+      "bytes": 901,
+      "updated": "2026-09-21T00:33:35.557181+00:00",
       "rows": null
     },
     {
@@ -356,12 +368,12 @@
       "name": "propagation_cdf.json",
       "url": "https://bitcoinsahi.com/data/propagation_cdf.json",
       "path": "data/propagation_cdf.json",
-      "schema": "bsahi.propagation-cdf/1",
+      "schema": null,
       "layer": "observed",
       "grade": "A",
       "description": "First-party block-relay propagation CDF (per-peer deltas, clearnet vs overlay, BIP152 HB)",
-      "bytes": 675,
-      "updated": "2026-09-20T23:13:22.957693+00:00",
+      "bytes": 116,
+      "updated": "2026-09-21T00:44:24.425807+00:00",
       "rows": null
     },
     {
@@ -493,7 +505,7 @@
       "grade": "A",
       "description": "Measured node-side validation cost per era from a full -reindex (first-party, no API)",
       "bytes": 13053,
-      "updated": "2026-09-20T23:13:35.643959+00:00",
+      "updated": "2026-09-21T00:33:14.415754+00:00",
       "rows": null
     },
     {

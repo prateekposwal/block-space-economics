@@ -207,6 +207,7 @@ def dashboard_cards():
             'Security claim $%s/block \u00b7 fees cover %s%% of it' % (_num(cl.get('security_energy_cost'), 0), cov.get('security_by_fees_pct', '\u2014')),
             'Subsidy covers energy until ~%s' % (yr or '\u2014')], '/research/fee-allocation', 'the analysis'))
 
+    ibdn = L('ibd_cleared_notice.json')
     d5 = L('d5_status.json')
     if vp.get('quantities'):
         _q = vp['quantities']
@@ -418,6 +419,25 @@ def dashboard_cards():
                 'Awaiting synced relay (node still reindexing)',
                 'Will capture per-peer deltas, clearnet vs overlay, BIP152 high-bandwidth.'],
                 '/data/propagation_cdf.json', 'data'))
+
+    if ibdn:
+        _ic, _pf = ibdn.get('ibd_cleared'), ibdn.get('participation_first')
+        _lines = []
+        if _ic:
+            _lines.append('Sync cleared %s (height %s)'
+                          % (str(_ic.get('at'))[:16].replace('T', ' '), _num(_ic.get('height'), 0)))
+        else:
+            _pct = (100.0 * (ibdn.get('height') or 0) / (ibdn.get('headers') or 1))
+            _lines.append('Syncing \u2014 h%s / %s (%.1f%%) \u00b7 relay capture starts when IBD clears'
+                          % (_num(ibdn.get('height'), 0), _num(ibdn.get('headers'), 0), _pct))
+        if _pf:
+            _lines.append('First measured block-relay participation: <b>%s%%</b> of observed blocks '
+                          'had a non-listening (inbound) announcer'
+                          % _num(_pf.get('inbound_announcer_share_pct'), 1))
+        else:
+            _lines.append('Block-relay participation: awaiting synced relay (0 blocks observed)')
+        out.append(_card('Sync &amp; relay readiness', 'observed', 'A', _lines,
+                         '/data/ibd_cleared_notice.json', 'data'))
 
     if ncr.get('reachable'):
         sa = ncr.get('services') or {}
