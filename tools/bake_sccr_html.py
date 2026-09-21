@@ -400,12 +400,19 @@ def dashboard_cards():
             cdf = pcd.get('delta_cdf') or []
             med = next((t for t, p in cdf if p >= 50), None)
             cls = pcd.get('by_class_cdf') or {}
-            out.append(_card('Relay propagation CDF', 'observed', 'A', [
+            _pt = pcd.get('participation') or {}
+            _lines = [
                 '%s blocks \u00b7 %s peer sightings \u00b7 median delta %ss'
                 % (_num(pcd.get('blocks_observed'), 0), _num(pcd.get('peer_sightings'), 0), _num(med, 0)),
                 'Split: %s \u00b7 BIP152 high-bandwidth tracked'
-                % ' + '.join('%s %s' % (k, _num(len(v), 0)) for k, v in cls.items())],
-                '/data/propagation_cdf.json', 'data'))
+                % ' + '.join('%s %s' % (k, _num(len(v), 0)) for k, v in cls.items())]
+            if _pt.get('blocks_observed'):
+                _lines.append('Non-listening (inbound) peers announced %s%% of blocks '
+                              '\u00b7 earliest announcer in %s%%'
+                              % (_num(_pt.get('inbound_announcer_share_pct'), 1),
+                                 _num(_pt.get('inbound_first_seen_share_pct'), 1)))
+            out.append(_card('Relay propagation CDF', 'observed', 'A', _lines,
+                             '/data/propagation_cdf.json', 'data'))
         else:
             out.append(_card('Relay propagation CDF', 'observed', 'A', [
                 'Awaiting synced relay (node still reindexing)',

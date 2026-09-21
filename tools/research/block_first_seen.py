@@ -192,6 +192,23 @@ def build_cdf(blocks):
                  "propagation measurement. getpeerinfo timestamps are second-granular, "
                  "so ties are a set, not a single winner."),
     }
+    # ---- participation: the closest honest measure of "private-node share of block relay"
+    part = [b for b in blocks if b.get("candidates")]
+    n = len(part)
+    with_inb = sum(1 for b in part if any(c.get("inbound") for c in b["candidates"]))
+    first_inb = sum(1 for b in part if any(f.get("inbound") for f in (b.get("first_seen") or [])))
+    doc["participation"] = {
+        "blocks_observed": n,
+        "blocks_with_inbound_announcer": with_inb,
+        "blocks_with_inbound_first_seen": first_inb,
+        "inbound_announcer_share_pct": round(100.0 * with_inb / n, 2) if n else None,
+        "inbound_first_seen_share_pct": round(100.0 * first_inb / n, 2) if n else None,
+        "note": ("Share of observed blocks where a NON-LISTENING (inbound) peer was among the "
+                 "announcers, and among the earliest announcers. This measures RELAY "
+                 "participation, not production: blocks are produced by miners/pools, never by "
+                 "'a public or private node'. First-party and one-vantage only."),
+    }
+
     if not total:
         doc["note"] = ("Structure is valid but empty: no synced-relay blocks yet "
                        "(node still reindexing). Fills automatically once IBD clears.")

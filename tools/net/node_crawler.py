@@ -320,13 +320,25 @@ def main():
 
     if args.enrich_raw:
         raw = args.enrich_raw
-        if raw == "latest":                      # enrich the newest crawl on disk
+        if raw in ("latest", "best"):
             cand = ([os.path.join(CAP, x) for x in os.listdir(CAP)] if os.path.isdir(CAP) else [])
             cand = [p for p in cand if p.endswith(".jsonl")]
-            raw = max(cand, key=os.path.getmtime) if cand else None
-            if not raw:
+            if not cand:
                 print("no raw crawl files under %s" % CAP)
                 return
+            if raw == "best":
+                # The census IS the full crawl. A bounded/manual run would otherwise
+                # overwrite the published aggregate with a handful of addresses
+                # (observed 2026-09-21: the aggregate dropped from 5,192/56,794 to
+                # 144/268 because the newest file happened to be a small run).
+                def _rows(p):
+                    try:
+                        return sum(1 for _ in open(p, errors="replace"))
+                    except Exception:
+                        return 0
+                raw = max(cand, key=lambda p: (_rows(p), os.path.getmtime(p)))
+            else:
+                raw = max(cand, key=os.path.getmtime)
         rows = []
         with open(raw) as f:
             for line in f:

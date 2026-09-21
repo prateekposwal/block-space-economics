@@ -58,7 +58,9 @@ var SCHEDULE = [
   { name: 'validation_cost',      script: 'tools/research/validation_cost.py',       args: ['--sample'], every: 1800, timeoutS: 300 },
   // Re-apply offline geo/ASN to the newest crawl (no dialing) so data/node_crawl.json
   // always carries country/ASN even if the crawl ran without the geo DB.
-  { name: 'node_crawl_enrich',    script: 'tools/net/node_crawler.py',               args: ['--enrich-raw', 'latest'], every: 3600, timeoutS: 180 },
+  // 'best' = most complete raw crawl, not merely the newest: a small manual run
+  // must not overwrite the published census aggregate.
+  { name: 'node_crawl_enrich',    script: 'tools/net/node_crawler.py',               args: ['--enrich-raw', 'best'], every: 3600, timeoutS: 180 },
   // Self-hosted robust BTC/USD reference rate (median across independent venues).
   { name: 'price_index',          script: 'tools/research/price_index.py',           args: [], every: 900, timeoutS: 120 },
   // Mining-geography reachability evidence: pool stratum endpoints + CDN fronting.
