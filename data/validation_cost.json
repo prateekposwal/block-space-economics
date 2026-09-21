@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.validation-cost/1",
   "layer": "observed",
-  "generated_at": "2026-09-21T03:56:56.424310+00:00",
+  "generated_at": "2026-09-21T05:57:08.251735+00:00",
   "source": "local Bitcoin Core debug.log UpdateTip wall-clock timings during a full -reindex (single machine, first-party)",
   "hardware": {
     "model": "MacBookAir10,1",
@@ -11,14 +11,14 @@
   },
   "pass": {
     "start_utc": "2026-09-21T00:35:30+00:00",
-    "end_utc": "2026-09-21T03:56:47+00:00",
+    "end_utc": "2026-09-21T05:57:07+00:00",
     "from_height": 710825,
-    "to_height": 729559,
-    "blocks": 18734,
-    "txs": 32526746,
-    "wall_seconds": 12077,
-    "blocks_per_sec": 1.551,
-    "ms_per_block": 644.657,
+    "to_height": 735856,
+    "blocks": 25031,
+    "txs": 43716666,
+    "wall_seconds": 19297,
+    "blocks_per_sec": 1.297,
+    "ms_per_block": 770.924,
     "still_reindexing": true
   },
   "by_era": [
@@ -37,16 +37,16 @@
     },
     {
       "era": "2022",
-      "blocks": 12960,
-      "wall_seconds": 8533,
+      "blocks": 19257,
+      "wall_seconds": 15753,
       "height_from": 716599,
-      "height_to": 729559,
-      "txs": 22012621,
-      "blocks_per_sec": 1.519,
-      "ms_per_block": 658.41,
-      "tx_per_sec": 2579.7,
-      "us_per_tx": 387.64,
-      "cost_index_vs_base": 1.07
+      "height_to": 735856,
+      "txs": 33202541,
+      "blocks_per_sec": 1.222,
+      "ms_per_block": 818.04,
+      "tx_per_sec": 2107.7,
+      "us_per_tx": 474.45,
+      "cost_index_vs_base": 1.33
     }
   ],
   "cost_index_base_era": "2021",
@@ -400,6 +400,20 @@
       "progress": 0.4776871936174814,
       "ibd": true,
       "bitcoind_cpu_pct": 20.6
+    },
+    {
+      "at": "2026-09-21T05:12:26.270910+00:00",
+      "height": 733531,
+      "progress": 0.4823692191238695,
+      "ibd": true,
+      "bitcoind_cpu_pct": 21.9
+    },
+    {
+      "at": "2026-09-21T05:57:06.899910+00:00",
+      "height": 735851,
+      "progress": 0.4850791681511274,
+      "ibd": true,
+      "bitcoind_cpu_pct": 118.9
     }
   ],
   "caveats": [
