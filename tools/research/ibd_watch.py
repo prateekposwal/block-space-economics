@@ -10,7 +10,9 @@ poll by hand:
   2. participation_first  — the first time propagation_cdf.json reports a
                             non-zero participation.blocks_observed
                             (i.e. the first measured "% of blocks with an
-                            inbound / non-listening announcer")
+                            inbound announcer" — inbound = the peer dialled us,
+                            which is an UPPER bound on private participation, not
+                            a public/private split)
 
 State lives in captured-data/ibd-watch-state.json (pipeline state, not committed)
 so each event fires exactly once. Writes data/ibd_cleared_notice.json.
@@ -107,7 +109,8 @@ def main():
         "note": ("One-shot transition record. ibd_cleared = the node finished syncing, so "
                  "first-party block-relay capture can begin. participation_first = the first "
                  "measured share of observed blocks whose announcers included an inbound "
-                 "(non-listening) peer. Both are recorded the first time they happen; this "
+                 "peer (one that dialled us) — an upper bound on private participation, not a "
+                 "public/private split. Both are recorded the first time they happen; this "
                  "file is rewritten on each run but the events do not repeat."),
     }
     with open(OUT, "w") as f:

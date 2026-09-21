@@ -14,7 +14,9 @@ WHY THIS EXISTS
   Two grades of evidence, never conflated:
     * DISTINCT  — reachable clearnet/IPv6 inbound gives real, un-SNATed peer IPs.
     * CONCURRENCY — Tor inbound hides identity (peers appear as 127.0.0.1), so the
-      only valid bound is `max simultaneous inbound peers >= N non-listening nodes`.
+      only valid bound is `max simultaneous inbound peers >= N nodes that dialled
+      us` (an UPPER bound on private participation — inbound is not the same as
+      non-listening).
     * CONTAINED — no inbound path: report 0 with the measured reason.
 
   Fabricating scanner traffic as validators is explicitly not an option; the

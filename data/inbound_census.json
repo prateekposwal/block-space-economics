@@ -1,41 +1,98 @@
 {
-  "schema": "bsahi.inbound-census/2",
+  "schema": "bsahi.inbound-census/3",
   "layer": "observed",
-  "generated_at": "2026-09-21T22:57:56.982451+00:00",
+  "generated_at": "2026-09-21T23:43:35.610028+00:00",
   "source": "Bitcoin Core getpeerinfo on the project's listening node",
-  "method": "tools/research/inbound_census.py \u2014 count peers that dial in (identity = IP, port stripped)",
+  "method": "tools/research/inbound_census.py \u2014 count peers that dial in (identity = IP, port stripped) and read their service bits",
+  "inbound_service_bits": {
+    "peers_with_service_bits": 1,
+    "archival_network": 0,
+    "network_limited": 0,
+    "both_bits_ambiguous": 1,
+    "other_or_unknown": 0,
+    "archival_share_pct": null,
+    "archival_share_basis": 0,
+    "note": "NODE_NETWORK = full-chain archival; NODE_NETWORK_LIMITED = pruned. Measured on peers that dialled us, which INCLUDES non-listening nodes a crawler cannot reach \u2014 so it is a replication-factor sample of a population the reachable-node crawl structurally cannot see. `archival_share_pct` excludes peers setting both bits (contradictory, counted in both_bits_ambiguous). Small n by construction (bounded by our inbound slots and uptime); treat as a growing sample, not a network rate."
+  },
   "latest": {
-    "at": "2026-09-21T22:57:56.982451+00:00",
-    "connections_in": 1,
-    "inbound_count": 1,
+    "at": "2026-09-21T23:43:35.610028+00:00",
+    "connections_in": 4,
+    "inbound_count": 4,
     "inbound_ips": [
+      "2600:1f18:3aea:7000:9686:54b9:b4c6:8955",
+      "2600:1f18:6418:9607:5863:f57b:2272:cb9e",
       "2602:fcdb:0:3::186"
     ],
     "inbound_measurement_ips": [
       "2602:fcdb:0:3::186"
     ],
-    "crawler_ips": [],
+    "crawler_ips": [
+      "2600:1f18:3aea:7000:9686:54b9:b4c6:8955",
+      "2600:1f18:6418:9607:5863:f57b:2272:cb9e"
+    ],
     "inbound_detail": [
       {
         "ip": "2602:fcdb:0:3::186",
         "subver": "/Satoshi:25.1.0/",
         "network": "ipv6",
+        "services": "000000000000040d",
+        "servicesnames": [
+          "NETWORK",
+          "BLOOM",
+          "WITNESS",
+          "NETWORK_LIMITED"
+        ],
         "local": "2a11:6c7:f34:3a::2",
         "crawler": false
+      },
+      {
+        "ip": "2600:1f18:3aea:7000:9686:54b9:b4c6:8955",
+        "subver": "/Metrika-Bitnodes:0.1/",
+        "network": "ipv6",
+        "services": "0000000000000000",
+        "servicesnames": [],
+        "local": "2a11:6c7:f34:3a::2",
+        "crawler": true
+      },
+      {
+        "ip": "2602:fcdb:0:3::186",
+        "subver": "/Satoshi:25.1.0/",
+        "network": "ipv6",
+        "services": "000000000000040d",
+        "servicesnames": [
+          "NETWORK",
+          "BLOOM",
+          "WITNESS",
+          "NETWORK_LIMITED"
+        ],
+        "local": "2a11:6c7:f34:3a::3",
+        "crawler": false
+      },
+      {
+        "ip": "2600:1f18:6418:9607:5863:f57b:2272:cb9e",
+        "subver": "/Metrika-Bitnodes:0.1/",
+        "network": "ipv6",
+        "services": "0000000000000000",
+        "servicesnames": [],
+        "local": "2a11:6c7:f34:3a::3",
+        "crawler": true
       }
     ],
     "by_local_addr": {
       "2a11:6c7:f34:3a::2": [
+        "2602:fcdb:0:3::186"
+      ],
+      "2a11:6c7:f34:3a::3": [
         "2602:fcdb:0:3::186"
       ]
     },
     "identity_hidden": false,
     "identity_hidden_ips": [],
     "connection_type_breakdown": {
-      "inbound": 1
+      "inbound": 4
     }
   },
-  "samples": 48,
+  "samples": 51,
   "history": [
     {
       "at": "2026-09-17T17:29:55.332181+00:00",
@@ -276,28 +333,46 @@
       "at": "2026-09-21T22:57:56.982451+00:00",
       "inbound_count": 1,
       "connections_in": 1
+    },
+    {
+      "at": "2026-09-21T23:41:51.478804+00:00",
+      "inbound_count": 4,
+      "connections_in": 4
+    },
+    {
+      "at": "2026-09-21T23:42:28.802108+00:00",
+      "inbound_count": 4,
+      "connections_in": 4
+    },
+    {
+      "at": "2026-09-21T23:43:35.610028+00:00",
+      "inbound_count": 4,
+      "connections_in": 4
     }
   ],
-  "distinct_inbound_addresses_ever": 7,
+  "distinct_inbound_addresses_ever": 9,
   "distinct_inbound_measurement_ever": 4,
   "known_crawler_ips_ever": [
     "2001:41b8:810:40:be24:11ff:fe82:aeba",
+    "2600:1f18:3aea:7000:9686:54b9:b4c6:8955",
+    "2600:1f18:6418:9607:5863:f57b:2272:cb9e",
     "2a00:1398:4:2a03::bc12",
     "2a00:1398:4:2a05:4e52:62ff:fe22:6c13"
   ],
   "max_concurrent_inbound": 9,
   "identity_hidden_ever": false,
   "interpretation": {
-    "what_it_measures": "Nodes that opened a connection to us. A node that dials out is, by that act, not serving inbound connections to the crawler \u2014 i.e. a non-listening / private node.",
-    "clearnet_bound": "`max_concurrent_inbound` is a first-party LOWER bound on non-listening nodes: N simultaneous inbound peers means at least N such nodes exist.",
+    "what_it_measures": "Nodes that opened a connection to us. That set is a MIX: it contains non-listening / NAT'd nodes a crawler cannot reach, AND listening nodes that chose to dial us. It is not a non-listening-node census.",
+    "what_it_bounds": "`max_concurrent_inbound` is an UPPER bound on the private share of the nodes that dialled us \u2014 every private dialler is inbound, but not every inbound peer is private \u2014 NOT a lower bound on the non-listening population. Separating the two needs a reachability test (dial the peer back), which this tool does not do.",
     "tor_limitation": "Over Tor every peer appears as 127.0.0.1, so distinct-node identity is NOT observable \u2014 only the concurrency bound. Distinct-node counting requires a clearnet port-forward.",
     "what_it_is_not": "Not a population count. It is bounded by our slots, uptime, reachability (port-forward/Tor) and the churn of who happens to dial us.",
-    "crawler_filter": "Known measurement crawlers (e.g. /dsn.tm.kit.edu/) dial nodes on purpose, so they are excluded from the measurement count and reported separately. `distinct_inbound_addresses_ever` is the raw set; `distinct_inbound_measurement_ever` excludes known crawlers. The latter is the honest lower bound on non-listening nodes."
+    "crawler_filter": "Known measurement crawlers (e.g. /dsn.tm.kit.edu/) dial nodes on purpose, so they are excluded from the measurement count and reported separately. `distinct_inbound_addresses_ever` is the raw set; `distinct_inbound_measurement_ever` excludes known crawlers.",
+    "service_bits": "`inbound_service_bits` reads NODE_NETWORK vs NODE_NETWORK_LIMITED from the version handshake of peers that dialled us. Because that set includes non-listening nodes, it is the one view we have of the ARCHIVAL / replication factor of the population the reachable-node crawl structurally cannot see."
   },
   "requirements": {
     "maxconnections": "must exceed the outbound count so inbound slots exist",
     "listen": "1",
     "reachability": "port-forward for clearnet distinct-node counting; Tor gives a concurrency bound only"
   },
-  "headline": "7 distinct clearnet peer IP(s) and up to 9 concurrent inbound peer(s) across 48 sample(s) have dialled in; latest: 1"
+  "headline": "9 distinct clearnet peer IP(s) and up to 9 concurrent inbound peer(s) across 51 sample(s) have dialled in; latest: 4"
 }

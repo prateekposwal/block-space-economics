@@ -192,7 +192,13 @@ def build_cdf(blocks):
                  "propagation measurement. getpeerinfo timestamps are second-granular, "
                  "so ties are a set, not a single winner."),
     }
-    # ---- participation: the closest honest measure of "private-node share of block relay"
+    # ---- participation: the inbound/outbound split of block relay, first-party
+    #
+    # Do NOT read this as a public/private split. `inbound` means the peer dialled
+    # US; a LISTENING node can dial us too, so the inbound set is
+    # {private diallers} u {public diallers}. The share below is therefore an UPPER
+    # bound on private participation, not an estimate of it. It is still the
+    # closest first-party proxy we have, but it must travel with that caveat.
     part = [b for b in blocks if b.get("candidates")]
     n = len(part)
     with_inb = sum(1 for b in part if any(c.get("inbound") for c in b["candidates"]))
@@ -203,10 +209,12 @@ def build_cdf(blocks):
         "blocks_with_inbound_first_seen": first_inb,
         "inbound_announcer_share_pct": round(100.0 * with_inb / n, 2) if n else None,
         "inbound_first_seen_share_pct": round(100.0 * first_inb / n, 2) if n else None,
-        "note": ("Share of observed blocks where a NON-LISTENING (inbound) peer was among the "
-                 "announcers, and among the earliest announcers. This measures RELAY "
-                 "participation, not production: blocks are produced by miners/pools, never by "
-                 "'a public or private node'. First-party and one-vantage only."),
+        "note": ("Share of observed blocks where an INBOUND peer (one that dialled us) was among the "
+                 "announcers, and among the earliest announcers. `inbound` is NOT the same as "
+                 "non-listening: a listening node can dial us too, so this is an UPPER bound on "
+                 "private participation, not a public/private split. It measures RELAY participation, "
+                 "not production — blocks are produced by miners/pools, never by 'a public or private "
+                 "node'. First-party and one-vantage only."),
     }
 
     if not total:

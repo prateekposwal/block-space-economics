@@ -273,8 +273,15 @@ def dashboard_cards():
                 al += ' \u00b7 persistence %s percent' % pr
             vl.append(al)
         if ic:
-            vl.append('Inbound (non-listening peers): <b>%s</b> now \u00b7 %s ever'
+            # "inbound" = the peer dialled us. NOT the same as non-listening: a
+            # listening node can dial us too, so this is an upper bound on private
+            # participation, not a count of private nodes.
+            vl.append('Inbound peers (dialled us; upper bound on private): <b>%s</b> now \u00b7 %s ever'
                       % (_num((ic.get('latest') or {}).get('inbound_count'), 0), _num(ic.get('distinct_inbound_addresses_ever'), 0)))
+            sb = ic.get('inbound_service_bits') or {}
+            if sb.get('peers_with_service_bits'):
+                vl.append('Inbound archival (NODE_NETWORK): <b>%s</b> of %s with bits'
+                          % (_num(sb.get('archival_network'), 0), _num(sb.get('peers_with_service_bits'), 0)))
         out.append(_card('Three views of the node population', 'observed', 'B', vl, '/research/population-measurement', 'the method'))
 
     if sc or ac or ic:

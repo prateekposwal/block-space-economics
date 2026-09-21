@@ -119,11 +119,20 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 </ul>
 <p>So &quot;how much do private nodes participate in blocks?&quot; has a structural answer (they relay, as leaves) but no published numeric split.</p>
 <h2>What this project adds</h2>
-<p>No one publishes the per-block public/private relay split. BSAHI&#x27;s Phase 5 instrument is built to measure exactly the closest honest version of it:</p>
-<blockquote>Of blocks observed, what share had an inbound (non-listening) peer among the</blockquote>
-<blockquote>announcers — and among the earliest announcers?</blockquote>
-<p>Mechanics: <code>getpeerinfo</code> records, per block, which of our peers announced it, their <code>network</code> and <code>connection_type</code>, and whether they were <code>inbound</code> (non-listening) or outbound, with second-granular timing. Aggregated into <code>data/propagation_cdf.json</code> → <code>participation</code>, and surfaced on the dashboard.</p>
-<p>Status: wired and unit-tested, <strong>awaiting synced relay</strong> — the node was reindexing, and during reindex blocks come from disk, not from peers, so no rows are recorded (nothing is fabricated to fill the gap).</p>
+<p>No one publishes the per-block public/private relay split, and BSAHI does not either. What the Phase 5 instrument measures is the closest <em>first-party</em> proxy:</p>
+<blockquote>Of blocks observed, what share had an inbound peer among the announcers — and</blockquote>
+<blockquote>among the earliest announcers?</blockquote>
+<p>Mechanics: <code>getpeerinfo</code> records, per block, which of our peers announced it, their <code>network</code> and <code>connection_type</code>, and whether they were <code>inbound</code> (the peer dialled <em>us</em>) or outbound, with second-granular timing. Aggregated into <code>data/propagation_cdf.json</code> → <code>participation</code>, and surfaced on the dashboard.</p>
+<p><strong>This is an upper bound, not the split.</strong> <code>inbound</code> means the peer dialled <em>us</em>, and a listening node can dial us too. So the inbound set is <code>{private diallers} ∪ {public diallers}</code>, and the share it produces overstates private participation. Separating the two needs a reachability test — dialling the peer back to see if it accepts — which this instrument does not do.</p>
+<p>Status: wired and unit-tested, <strong>awaiting synced relay</strong>. The node was reindexing, and during reindex blocks come from disk, not from peers, so <code>blocks_observed</code> is still <code>0</code> and no share is published. Nothing is fabricated to fill the gap.</p>
+<h2>The axis that actually touches cost: archival, not relay</h2>
+<p>Relay ≠ storage. A node announcing a block proves it passed a message on; it proves nothing about whether it keeps the chain. So relay participation cannot move the storage-cost estimate — but <strong>the archival rate can</strong>, and that is a different measurement entirely: the service bits.</p>
+<p><code>NODE_NETWORK</code> means the node serves the full chain; <code>NODE_NETWORK_LIMITED</code> means it is pruned. Measured on the reachable crawl:</p>
+<pre><code>NODE_NETWORK          4,356
+NODE_NETWORK_LIMITED  1,040      -&gt; 80.7% full-chain, 19.3% pruned</code></pre>
+<p>That is the replication factor, and it is the number a &quot;cost per node&quot; model divides by. Its blind spot is structural: it only covers the <strong>visible third</strong>. The archival status of the non-listening majority is unknown to any crawler.</p>
+<p>The one window into it is the nodes that dial <em>us</em>: they send their service bits in the version handshake, and that set includes non-listening nodes. So <code>inbound_census.py</code> now records <code>services</code> / <code>servicesnames</code> per inbound peer and aggregates the archival share (<code>inbound_service_bits</code>). It samples the replication factor of the population the reachable crawl cannot see — which is a quantity that can change the model, unlike relay share.</p>
+<p>Early and tiny by construction (bounded by our inbound slots and uptime): the first peer with usable bits set <strong>both</strong> <code>NETWORK</code> and <code>NETWORK_LIMITED</code>, which is contradictory (BIP-159 treats them as exclusive), so it is reported in its own <code>both_bits_ambiguous</code> bucket rather than counted as archival.</p>
 <h2>Caveats that must travel with any number here</h2>
 <ul>
 <li><strong>One vantage point.</strong> Our split describes <em>our</em> peer set, not the network.</li>

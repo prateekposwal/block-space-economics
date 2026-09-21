@@ -168,7 +168,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <tr><td><code>verification_population.py</code></td><td>reachable-node composition + activity partition</td><td>on capture</td></tr>
 <tr><td><code>seed_census.py</code></td><td>DNS-seed visible <strong>addresses</strong> (third view)</td><td>12 h</td></tr>
 <tr><td><code>addrman_churn.py</code></td><td>address <strong>persistence</strong> over time (staleness, measured)</td><td>12 h</td></tr>
-<tr><td><code>inbound_census.py</code></td><td>distinct peers that <strong>dial in</strong> = evidence of non-listening nodes</td><td>1 h</td></tr>
+<tr><td><code>inbound_census.py</code></td><td>distinct peers that <strong>dial in</strong> (includes non-listening nodes; <code>inbound</code> ≠ non-listening) + their <strong>service bits</strong></td><td>1 h</td></tr>
 </table>
 </div>
 <p><strong>The direction of the error is stated, not hidden.</strong> Non-listening nodes are excluded from the index, so the reported network-wide storage externality (<code>L_net</code>) is a <strong>lower bound</strong> and the reported SCCR an <strong>upper bound</strong>; the baseline is conservative. The unpublicised-node band (N = 50K/80K/100K) is published alongside every SCCR figure.</p>

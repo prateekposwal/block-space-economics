@@ -1,10 +1,22 @@
 #!/usr/bin/env python3
-"""D5 — inbound-peer census (first-party evidence of NON-LISTENING nodes).
+"""D5 — inbound-peer census: the nodes that dial *us*, and their service bits.
 
-Remote scans can only see nodes that accept inbound connections. Our own node, by
-contrast, can count the nodes that dial *us*: every inbound peer is a node that
-reached out, which is exactly the behaviour of a non-listening / NAT'd / private
-validator.
+Remote scans can only see nodes that accept inbound connections. Our own node can
+also count the nodes that dial *us* — a set that includes NAT'd / non-listening
+("private") nodes a crawler cannot reach.
+
+IMPORTANT: `inbound` is NOT a synonym for non-listening. A LISTENING node can dial
+us too — it fills its outbound slots from addrman like anyone else. So the inbound
+set is a MIX: {private diallers} ∪ {public diallers}. Consequently
+`max_concurrent_inbound` is an UPPER bound on the private share of diallers, NOT a
+lower bound on the non-listening population. Separating the two requires testing
+reachability (dialling the peer back), which this tool does not do.
+
+What the inbound set DOES give for free is the peer's SERVICE BITS from the version
+handshake: NODE_NETWORK (serves the full chain) vs NODE_NETWORK_LIMITED (pruned).
+That samples the archival / replication factor of a population that includes nodes
+no crawler can see — which is the quantity that matters for the storage-cost
+denominator, unlike relay participation.
 
 IDENTITY LIMITATION (measured 2026-09-18, two controlled experiments):
   Tor's hidden-service forwarding hides the origin — every onion inbound peer
@@ -12,8 +24,10 @@ IDENTITY LIMITATION (measured 2026-09-18, two controlled experiments):
   separate Tor client both recorded 127.0.0.1 (distinct ephemeral ports only).
   Therefore:
     * distinct-node counting REQUIRES clearnet inbound (a router port-forward);
-    * Tor inbound supports only a CONCURRENCY lower bound (N simultaneous
-      inbound peers => at least N non-listening nodes).
+    * Tor inbound supports only a CONCURRENCY bound (N simultaneous inbound peers
+      => at least N nodes that dialled us — an UPPER bound on private
+      participation, NOT a count of non-listening nodes, since a listening node
+      can dial us too).
 
 Also fixes an overcount: `addr` carries the peer's ephemeral source port, so the
 old "distinct addresses" metric counted every reconnect as a new node. Identity
@@ -64,6 +78,57 @@ def _is_known_crawler(subver):
     return any(k in s for k in KNOWN_CRAWLERS)
 
 
+def _service_summary(rows):
+    """Archival rate among distinct identifiable inbound peers, from service bits.
+
+    NODE_NETWORK = serves the full chain (archival); NODE_NETWORK_LIMITED = pruned.
+    This is the replication-factor sample: the archival share of nodes that dial
+    us, a set that includes the non-listening population no crawler can reach.
+    Latest service bits win per IP (a node can be upgraded between samples).
+    """
+    per_ip = {}
+    for r in rows:
+        for d in r.get("inbound_detail") or []:
+            ip, names = d.get("ip"), d.get("servicesnames")
+            if not ip or names is None:
+                continue
+            if _is_identity_hidden(ip) or d.get("crawler"):
+                continue
+            per_ip[ip] = set(names)
+    # A peer setting BOTH bits is contradictory (BIP-159: NODE_NETWORK_LIMITED is
+    # the pruned signal, NODE_NETWORK the archival one). It is seen in the wild
+    # (one Satoshi:25.1.0 peer here), so it gets its own bucket rather than being
+    # silently counted as archival.
+    archival, limited, both, other = [], [], [], []
+    for ip, s in per_ip.items():
+        has_net, has_lim = "NETWORK" in s, "NETWORK_LIMITED" in s
+        if has_net and has_lim:
+            both.append(ip)
+        elif has_net:
+            archival.append(ip)
+        elif has_lim:
+            limited.append(ip)
+        else:
+            other.append(ip)
+    resolved = len(archival) + len(limited) + len(other)
+    return {
+        "peers_with_service_bits": len(per_ip),
+        "archival_network": len(archival),
+        "network_limited": len(limited),
+        "both_bits_ambiguous": len(both),
+        "other_or_unknown": len(other),
+        "archival_share_pct": round(100.0 * len(archival) / resolved, 1) if resolved else None,
+        "archival_share_basis": resolved,
+        "note": ("NODE_NETWORK = full-chain archival; NODE_NETWORK_LIMITED = pruned. "
+                 "Measured on peers that dialled us, which INCLUDES non-listening nodes "
+                 "a crawler cannot reach — so it is a replication-factor sample of a "
+                 "population the reachable-node crawl structurally cannot see. "
+                 "`archival_share_pct` excludes peers setting both bits (contradictory, "
+                 "counted in both_bits_ambiguous). Small n by construction (bounded by our "
+                 "inbound slots and uptime); treat as a growing sample, not a network rate."),
+    }
+
+
 def main():
     if node is None:
         raise SystemExit("cannot import the RPC layer")
@@ -78,6 +143,11 @@ def main():
     hidden = sorted({ip for ip in ips if ip and _is_identity_hidden(ip)})
     detail = [{"ip": _ip(p.get("addr", "")), "subver": p.get("subver"),
                "network": p.get("network"),
+               # Service bits from the version handshake. NODE_NETWORK => serves
+               # the full chain (archival); NODE_NETWORK_LIMITED => pruned. This
+               # is the replication-factor sample for the private-inclusive set.
+               "services": p.get("services"),
+               "servicesnames": p.get("servicesnames") or [],
                # Which of OUR addresses did this peer reach? A host can listen on
                # several (e.g. more than one address in its routed prefix), and each
                # address is gossiped separately — so this tags the CAPTURE CHANNEL and
@@ -132,11 +202,13 @@ def main():
     ever_measure -= ever_crawler
 
     out = {
-        "schema": "bsahi.inbound-census/2",
+        "schema": "bsahi.inbound-census/3",
         "layer": "observed",
         "generated_at": now,
         "source": "Bitcoin Core getpeerinfo on the project's listening node",
-        "method": "tools/research/inbound_census.py — count peers that dial in (identity = IP, port stripped)",
+        "method": ("tools/research/inbound_census.py — count peers that dial in "
+                   "(identity = IP, port stripped) and read their service bits"),
+        "inbound_service_bits": _service_summary(rows),
         "latest": rec,
         "samples": len(rows),
         "history": [{"at": r["at"], "inbound_count": r.get("inbound_count", 0),
@@ -147,10 +219,13 @@ def main():
         "max_concurrent_inbound": max_concurrent,
         "identity_hidden_ever": hidden_ever,
         "interpretation": {
-            "what_it_measures": ("Nodes that opened a connection to us. A node that dials out is, by that act, "
-                                 "not serving inbound connections to the crawler — i.e. a non-listening / private node."),
-            "clearnet_bound": ("`max_concurrent_inbound` is a first-party LOWER bound on non-listening nodes: "
-                               "N simultaneous inbound peers means at least N such nodes exist."),
+            "what_it_measures": ("Nodes that opened a connection to us. That set is a MIX: it contains "
+                                 "non-listening / NAT'd nodes a crawler cannot reach, AND listening nodes "
+                                 "that chose to dial us. It is not a non-listening-node census."),
+            "what_it_bounds": ("`max_concurrent_inbound` is an UPPER bound on the private share of the nodes "
+                               "that dialled us — every private dialler is inbound, but not every inbound peer "
+                               "is private — NOT a lower bound on the non-listening population. Separating the "
+                               "two needs a reachability test (dial the peer back), which this tool does not do."),
             "tor_limitation": ("Over Tor every peer appears as 127.0.0.1, so distinct-node identity is NOT "
                                "observable — only the concurrency bound. Distinct-node counting requires a "
                                "clearnet port-forward."),
@@ -159,8 +234,11 @@ def main():
             "crawler_filter": ("Known measurement crawlers (e.g. /dsn.tm.kit.edu/) dial nodes on purpose, "
                                "so they are excluded from the measurement count and reported separately. "
                                "`distinct_inbound_addresses_ever` is the raw set; "
-                               "`distinct_inbound_measurement_ever` excludes known crawlers. The latter is "
-                               "the honest lower bound on non-listening nodes."),
+                               "`distinct_inbound_measurement_ever` excludes known crawlers."),
+            "service_bits": ("`inbound_service_bits` reads NODE_NETWORK vs NODE_NETWORK_LIMITED from the "
+                             "version handshake of peers that dialled us. Because that set includes "
+                             "non-listening nodes, it is the one view we have of the ARCHIVAL / replication "
+                             "factor of the population the reachable-node crawl structurally cannot see."),
         },
         "requirements": {"maxconnections": "must exceed the outbound count so inbound slots exist",
                          "listen": "1",

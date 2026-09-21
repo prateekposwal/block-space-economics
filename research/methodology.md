@@ -129,7 +129,7 @@ BSAHI's `N` is the **validating** set. The two must never be merged.
 | `verification_population.py` | reachable-node composition + activity partition | on capture |
 | `seed_census.py` | DNS-seed visible **addresses** (third view) | 12 h |
 | `addrman_churn.py` | address **persistence** over time (staleness, measured) | 12 h |
-| `inbound_census.py` | distinct peers that **dial in** = evidence of non-listening nodes | 1 h |
+| `inbound_census.py` | distinct peers that **dial in** (includes non-listening nodes; `inbound` ≠ non-listening) + their **service bits** | 1 h |
 
 **The direction of the error is stated, not hidden.** Non-listening nodes are
 excluded from the index, so the reported network-wide storage externality

@@ -76,20 +76,57 @@ So "how much do private nodes participate in blocks?" has a structural answer
 
 ## What this project adds
 
-No one publishes the per-block public/private relay split. BSAHI's Phase 5
-instrument is built to measure exactly the closest honest version of it:
+No one publishes the per-block public/private relay split, and BSAHI does not
+either. What the Phase 5 instrument measures is the closest *first-party* proxy:
 
-> Of blocks observed, what share had an inbound (non-listening) peer among the
-> announcers — and among the earliest announcers?
+> Of blocks observed, what share had an inbound peer among the announcers — and
+> among the earliest announcers?
 
 Mechanics: `getpeerinfo` records, per block, which of our peers announced it,
-their `network` and `connection_type`, and whether they were `inbound`
-(non-listening) or outbound, with second-granular timing. Aggregated into
+their `network` and `connection_type`, and whether they were `inbound` (the peer
+dialled *us*) or outbound, with second-granular timing. Aggregated into
 `data/propagation_cdf.json` → `participation`, and surfaced on the dashboard.
 
-Status: wired and unit-tested, **awaiting synced relay** — the node was
-reindexing, and during reindex blocks come from disk, not from peers, so no rows
-are recorded (nothing is fabricated to fill the gap).
+**This is an upper bound, not the split.** `inbound` means the peer dialled *us*,
+and a listening node can dial us too. So the inbound set is
+`{private diallers} ∪ {public diallers}`, and the share it produces overstates
+private participation. Separating the two needs a reachability test — dialling the
+peer back to see if it accepts — which this instrument does not do.
+
+Status: wired and unit-tested, **awaiting synced relay**. The node was reindexing,
+and during reindex blocks come from disk, not from peers, so `blocks_observed` is
+still `0` and no share is published. Nothing is fabricated to fill the gap.
+
+## The axis that actually touches cost: archival, not relay
+
+Relay ≠ storage. A node announcing a block proves it passed a message on; it
+proves nothing about whether it keeps the chain. So relay participation cannot
+move the storage-cost estimate — but **the archival rate can**, and that is a
+different measurement entirely: the service bits.
+
+`NODE_NETWORK` means the node serves the full chain; `NODE_NETWORK_LIMITED` means
+it is pruned. Measured on the reachable crawl:
+
+```
+NODE_NETWORK          4,356
+NODE_NETWORK_LIMITED  1,040      -> 80.7% full-chain, 19.3% pruned
+```
+
+That is the replication factor, and it is the number a "cost per node" model
+divides by. Its blind spot is structural: it only covers the **visible third**.
+The archival status of the non-listening majority is unknown to any crawler.
+
+The one window into it is the nodes that dial *us*: they send their service bits
+in the version handshake, and that set includes non-listening nodes. So
+`inbound_census.py` now records `services` / `servicesnames` per inbound peer and
+aggregates the archival share (`inbound_service_bits`). It samples the
+replication factor of the population the reachable crawl cannot see — which is a
+quantity that can change the model, unlike relay share.
+
+Early and tiny by construction (bounded by our inbound slots and uptime): the
+first peer with usable bits set **both** `NETWORK` and `NETWORK_LIMITED`, which is
+contradictory (BIP-159 treats them as exclusive), so it is reported in its own
+`both_bits_ambiguous` bucket rather than counted as archival.
 
 ## Caveats that must travel with any number here
 
