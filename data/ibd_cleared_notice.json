@@ -1,11 +1,11 @@
 {
   "schema": "bsahi.ibd-notice/1",
   "layer": "observed",
-  "generated_at": "2026-09-21T23:05:20.421733+00:00",
+  "generated_at": "2026-09-21T23:43:35.796192+00:00",
   "source": "local Bitcoin Core getblockchaininfo + data/propagation_cdf.json",
   "ibd_now": true,
-  "height": 750958,
-  "headers": 968053,
+  "height": 755270,
+  "headers": 968058,
   "participation_blocks_observed": 0,
   "ibd_cleared": null,
   "participation_first": null,
@@ -13,5 +13,5 @@
   "private_estimate_now": null,
   "private_status_now": "NEEDS_SECOND_OCCASION",
   "events_this_run": [],
-  "note": "One-shot transition record. ibd_cleared = the node finished syncing, so first-party block-relay capture can begin. participation_first = the first measured share of observed blocks whose announcers included an inbound (non-listening) peer. Both are recorded the first time they happen; this file is rewritten on each run but the events do not repeat."
+  "note": "One-shot transition record. ibd_cleared = the node finished syncing, so first-party block-relay capture can begin. participation_first = the first measured share of observed blocks whose announcers included an inbound peer (one that dialled us) \u2014 an upper bound on private participation, not a public/private split. Both are recorded the first time they happen; this file is rewritten on each run but the events do not repeat."
 }

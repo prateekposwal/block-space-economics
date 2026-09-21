@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-21T23:07:58.987722+00:00",
+  "generated_at": "2026-09-21T23:48:03.550Z",
   "freshness_min": 0,
-  "payload_ts": "2026-09-21T23:07:57.668932+00:00",
-  "fees_ts": "2026-09-21T23:07:57.668932+00:00",
-  "price_ts": "2026-09-21T23:07:57.668932+00:00",
-  "height_ts": "2026-09-21T23:07:57.668932+00:00",
-  "mempool_ts": "2026-09-21T23:07:57.668932+00:00",
-  "lightning_ts": "2026-09-21T23:07:57.668932+00:00",
+  "payload_ts": "2026-09-21T23:47:57.223Z",
+  "fees_ts": "2026-09-21T23:47:57.223Z",
+  "price_ts": "2026-09-21T23:47:57.749Z",
+  "height_ts": "2026-09-21T23:47:58.988Z",
+  "mempool_ts": "2026-09-21T23:48:03.271Z",
+  "lightning_ts": "2026-09-21T23:48:03.548Z",
   "fees": {
     "fastestFee": 1,
     "halfHourFee": 1,
@@ -15,46 +15,49 @@
     "economyFee": 1,
     "minimumFee": 1
   },
-  "btc_price": 86430,
-  "block_height": 968054,
-  "mempool_tx": 79185,
+  "btc_price": 86449,
+  "block_height": 968061,
+  "mempool_tx": 74982,
   "lightning": {
     "latest": {
-      "id": 115515,
-      "added": "2026-05-21T00:00:00.000Z",
-      "channel_count": 41087,
-      "node_count": 17437,
-      "total_capacity": 489660335543,
-      "tor_nodes": 8974,
-      "clearnet_nodes": 4695,
-      "unannounced_nodes": 2001,
-      "avg_capacity": 11917646,
-      "avg_fee_rate": 817,
-      "avg_base_fee_mtokens": 881,
-      "med_capacity": 2100000,
+      "id": 164408,
+      "added": "2026-08-20T00:00:00.000Z",
+      "channel_count": 33101,
+      "node_count": 16420,
+      "total_capacity": 375019291916,
+      "tor_nodes": 8120,
+      "clearnet_nodes": 4637,
+      "unannounced_nodes": 2014,
+      "avg_capacity": 11329546,
+      "avg_fee_rate": 826,
+      "avg_base_fee_mtokens": 904,
+      "med_capacity": 2000100,
       "med_fee_rate": 100,
-      "med_base_fee_mtokens": 100,
-      "clearnet_tor_nodes": 1767
+      "med_base_fee_mtokens": 500,
+      "clearnet_tor_nodes": 1649
     }
   },
   "forecast": [
     {
       "day_offset": 1,
-      "predicted_fastest_fee": 3.0,
-      "trend": "stable"
-    },
-    {
-      "day_offset": 2,
       "predicted_fastest_fee": 3.1,
       "trend": "stable"
     },
     {
-      "day_offset": 3,
+      "day_offset": 2,
       "predicted_fastest_fee": 3.2,
+      "trend": "stable"
+    },
+    {
+      "day_offset": 3,
+      "predicted_fastest_fee": 3.3,
       "trend": "stable"
     }
   ],
-  "alerts": [],
+  "alerts": [
+    "🛡 SITE /capacity -> 0 (timeout)",
+    "🛡 SITE /data/site-health.json -> 0 (timeout)"
+  ],
   "history": [
     {
       "date": "2026-09-16",
@@ -479,6 +482,14 @@
     {
       "date": "2026-09-22",
       "fastestFee": 4
+    },
+    {
+      "date": "2026-09-22",
+      "fastestFee": 3
+    },
+    {
+      "date": "2026-09-22",
+      "fastestFee": 1
     }
   ],
   "totalPosts": 0
