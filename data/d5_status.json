@@ -1,17 +1,17 @@
 {
   "schema": "bsahi.d5-status/1",
   "layer": "observed",
-  "generated_at": "2026-09-20T23:16:21.386495+00:00",
+  "generated_at": "2026-09-20T23:57:47.693769+00:00",
   "source": "tunnel status (scoped sudo) + external reachability self-test via the Tor exit network + data/inbound_census.json",
   "census_endpoint": "2a11:6c7:f34:3a::2",
   "endpoint": {
-    "handshake_age_s": 10,
+    "handshake_age_s": 112,
     "handshake_fresh": true,
     "global_v6_routed_via_tunnel": true
   },
   "external_reachability": {
     "reachable": true,
-    "reason": "Can't complete SOCKS5 connection to 2a11:6c7:f34:3a::2. (5)"
+    "reason": "Can't complete SOCKS5 connection to 2a11:6c7:f34:3a::2. (1)"
   },
   "measurement_live": true,
   "inbound": {
