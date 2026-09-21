@@ -1,0 +1,438 @@
+{
+  "schema": "bsahi.base-layer-audit/1",
+  "layer": "observed",
+  "generated_at": "2026-09-21T09:44:39.268290+00:00",
+  "source": "Bitcoin blocks via Esplora (blockstream.info, mempool.space fallback); subsidy derived from the consensus halving schedule",
+  "method": "For each incident, locate the Bitcoin block at/after the reported UTC time, then report the surrounding blocks (height, hash, timestamp, tx_count) and the BTC issued in the window. Block hashes are the primary source and re-checkable against any node.",
+  "scope": "Bitcoin base layer ONLY. The exploits occurred on other chains / in sidechains and are invisible in Bitcoin blocks. This audit does not measure, detect, or explain those bugs.",
+  "window_blocks_each_side": 6,
+  "incidents": [
+    {
+      "id": "symbiosis-2026-09-11",
+      "name": "Symbiosis Bitcoin Bridge (BridgeV2)",
+      "reported_at_utc": "2026-09-11T04:28:00Z",
+      "chain_where_bug_lived": "BNB Chain (BridgeV2), proceeds on Ethereum; Rootstock cited",
+      "claimed_notional_tokens": 46100000000,
+      "claimed_notional_unit": "syBTC",
+      "claimed_notional_usd": 46100000000,
+      "reported_realized_usd": 336000,
+      "reported_protocol_loss_btc": 9.97,
+      "anchor_height": 966454,
+      "anchor_block_time_utc": "2026-09-11T04:27:54Z",
+      "anchor_block_hash": "00000000000000000000e39ec83c76362cce048fffabc6cfa955ce229f296190",
+      "window_blocks": [
+        {
+          "height": 966448,
+          "hash": "00000000000000000001a90e2798de998e9685787b38a0566bbbd8be69218b29",
+          "timestamp": 1789097819,
+          "utc": "2026-09-11T03:36:59Z",
+          "tx_count": 6643,
+          "size": 1588427,
+          "weight": 3993998
+        },
+        {
+          "height": 966449,
+          "hash": "000000000000000000015a680187d6a8ff3211e6db6bcf2c899ecffb90265598",
+          "timestamp": 1789097939,
+          "utc": "2026-09-11T03:38:59Z",
+          "tx_count": 6201,
+          "size": 1582863,
+          "weight": 3993507
+        },
+        {
+          "height": 966450,
+          "hash": "00000000000000000000e747012e57d01eda2fa303a2a5da6c32eaadbfd493c7",
+          "timestamp": 1789098346,
+          "utc": "2026-09-11T03:45:46Z",
+          "tx_count": 6604,
+          "size": 1497384,
+          "weight": 3993630
+        },
+        {
+          "height": 966451,
+          "hash": "00000000000000000001aeda42328df7b69524df763d6db8ad6d004f768e5402",
+          "timestamp": 1789098476,
+          "utc": "2026-09-11T03:47:56Z",
+          "tx_count": 7098,
+          "size": 1543093,
+          "weight": 3993313
+        },
+        {
+          "height": 966452,
+          "hash": "000000000000000000008a2345df4224fb7fe29064a05ec34b9eea9613b94fb5",
+          "timestamp": 1789099084,
+          "utc": "2026-09-11T03:58:04Z",
+          "tx_count": 5483,
+          "size": 1514509,
+          "weight": 3993007
+        },
+        {
+          "height": 966453,
+          "hash": "00000000000000000001f07d46a39aa7f0ea65d9876e8623656a03bc5b4bf49b",
+          "timestamp": 1789100116,
+          "utc": "2026-09-11T04:15:16Z",
+          "tx_count": 4625,
+          "size": 1541207,
+          "weight": 3993617
+        },
+        {
+          "height": 966454,
+          "hash": "00000000000000000000e39ec83c76362cce048fffabc6cfa955ce229f296190",
+          "timestamp": 1789100874,
+          "utc": "2026-09-11T04:27:54Z",
+          "tx_count": 5395,
+          "size": 1580906,
+          "weight": 3993893
+        },
+        {
+          "height": 966455,
+          "hash": "000000000000000000004eb36f08ed52d0f07db097a6d92b35ef0d6e24ffaae0",
+          "timestamp": 1789100953,
+          "utc": "2026-09-11T04:29:13Z",
+          "tx_count": 7344,
+          "size": 1490962,
+          "weight": 3992935
+        },
+        {
+          "height": 966456,
+          "hash": "00000000000000000000374b22c2c5829514c2b12990808f6beafa9ed35b9077",
+          "timestamp": 1789101358,
+          "utc": "2026-09-11T04:35:58Z",
+          "tx_count": 5955,
+          "size": 1584402,
+          "weight": 3992724
+        },
+        {
+          "height": 966457,
+          "hash": "000000000000000000017503465da5a609c419759bafa65a4b43c01a4eb35baa",
+          "timestamp": 1789101883,
+          "utc": "2026-09-11T04:44:43Z",
+          "tx_count": 2271,
+          "size": 1280325,
+          "weight": 3993099
+        },
+        {
+          "height": 966458,
+          "hash": "00000000000000000001dda438485f60d0bc02f4c30bfabfd487a08e10c27c9b",
+          "timestamp": 1789101945,
+          "utc": "2026-09-11T04:45:45Z",
+          "tx_count": 6956,
+          "size": 1434765,
+          "weight": 3993600
+        },
+        {
+          "height": 966459,
+          "hash": "00000000000000000001f7e4a23270d8de4fa62fe809c34028fe85420ce47929",
+          "timestamp": 1789102193,
+          "utc": "2026-09-11T04:49:53Z",
+          "tx_count": 6533,
+          "size": 1511338,
+          "weight": 3992881
+        },
+        {
+          "height": 966460,
+          "hash": "00000000000000000000f493e4cadfec302fdfa95ba7914a6de5503b2af06455",
+          "timestamp": 1789102662,
+          "utc": "2026-09-11T04:57:42Z",
+          "tx_count": 6975,
+          "size": 1513349,
+          "weight": 3992699
+        }
+      ],
+      "blocks_in_window": 13,
+      "subsidy_btc_per_block": 3.125,
+      "base_layer_btc_issued": 40.625,
+      "issuance_matches_schedule": true,
+      "block_tx_count_median": 6533,
+      "tx_count_outlier_heights": [],
+      "notional_to_issued_ratio": 1134769230.77,
+      "bitcoin_leg": "no base-layer anomaly in window; issuance equals the consensus subsidy for the blocks produced",
+      "source": "Blockaid community alert; Symbiosis @X statement; CoinDesk, Cryptonomist, Tom's Hardware, Bitcoin.com coverage"
+    },
+    {
+      "id": "liquid-2026-09-06",
+      "name": "Blockstream Liquid Network (L-BTC)",
+      "reported_at_utc": "2026-09-06T00:00:00Z",
+      "chain_where_bug_lived": "Liquid sidechain (Elements range-proof verification cache)",
+      "claimed_notional_tokens": null,
+      "claimed_notional_unit": "L-BTC",
+      "claimed_notional_usd": 320000000,
+      "reported_realized_usd": 320000000,
+      "reported_protocol_loss_btc": 4000.0,
+      "anchor_height": 965687,
+      "anchor_block_time_utc": "2026-09-05T23:48:43Z",
+      "anchor_block_hash": "00000000000000000000f7b532b20feff92b6d237ad742abfe786ed3caf1a3e0",
+      "window_blocks": [
+        {
+          "height": 965681,
+          "hash": "00000000000000000000be907ccb74fb647c6123094fa996114973ce240e4314",
+          "timestamp": 1788648872,
+          "utc": "2026-09-05T22:54:32Z",
+          "tx_count": 4636,
+          "size": 1538175,
+          "weight": 3993549
+        },
+        {
+          "height": 965682,
+          "hash": "0000000000000000000083f0dc8b46ca986deb5dabccb2a70fb3fd54eb60dafe",
+          "timestamp": 1788649359,
+          "utc": "2026-09-05T23:02:39Z",
+          "tx_count": 5076,
+          "size": 1565985,
+          "weight": 3993645
+        },
+        {
+          "height": 965683,
+          "hash": "00000000000000000000374c88ad4d3e373de304d24d5bfddb9383b8663926a0",
+          "timestamp": 1788649521,
+          "utc": "2026-09-05T23:05:21Z",
+          "tx_count": 6935,
+          "size": 1541457,
+          "weight": 3993861
+        },
+        {
+          "height": 965684,
+          "hash": "0000000000000000000225a20a1e516c35d359d55d1f7936de8c2418166c79f7",
+          "timestamp": 1788650453,
+          "utc": "2026-09-05T23:20:53Z",
+          "tx_count": 4605,
+          "size": 1671356,
+          "weight": 3994025
+        },
+        {
+          "height": 965685,
+          "hash": "00000000000000000002344d12d8440a1b74f2d41849f8057d5b7f947def2a44",
+          "timestamp": 1788650680,
+          "utc": "2026-09-05T23:24:40Z",
+          "tx_count": 7453,
+          "size": 1479142,
+          "weight": 3994975
+        },
+        {
+          "height": 965686,
+          "hash": "00000000000000000000d57f286f7f60c497000659552db8f1cb83210fb7e1fd",
+          "timestamp": 1788651948,
+          "utc": "2026-09-05T23:45:48Z",
+          "tx_count": 3486,
+          "size": 1742089,
+          "weight": 3993928
+        },
+        {
+          "height": 965687,
+          "hash": "00000000000000000000f7b532b20feff92b6d237ad742abfe786ed3caf1a3e0",
+          "timestamp": 1788652123,
+          "utc": "2026-09-05T23:48:43Z",
+          "tx_count": 4976,
+          "size": 1634233,
+          "weight": 3992791
+        },
+        {
+          "height": 965688,
+          "hash": "0000000000000000000027872759a290099d02d988ad030cc011f388c5978d11",
+          "timestamp": 1788653086,
+          "utc": "2026-09-06T00:04:46Z",
+          "tx_count": 3353,
+          "size": 1732995,
+          "weight": 3992910
+        },
+        {
+          "height": 965689,
+          "hash": "000000000000000000003aa7c44fd539c5f15e3c0f2c90820d62721bb4eef0fc",
+          "timestamp": 1788653877,
+          "utc": "2026-09-06T00:17:57Z",
+          "tx_count": 4614,
+          "size": 1703134,
+          "weight": 3997609
+        },
+        {
+          "height": 965690,
+          "hash": "0000000000000000000167c3ea35cac4952079699ee998062974f95fbe22875b",
+          "timestamp": 1788653932,
+          "utc": "2026-09-06T00:18:52Z",
+          "tx_count": 7323,
+          "size": 1494547,
+          "weight": 3993103
+        },
+        {
+          "height": 965691,
+          "hash": "00000000000000000001544913a4138024c1ff2b27a50e8573af784ad59dd6c9",
+          "timestamp": 1788654346,
+          "utc": "2026-09-06T00:25:46Z",
+          "tx_count": 6094,
+          "size": 1490356,
+          "weight": 3992803
+        },
+        {
+          "height": 965692,
+          "hash": "000000000000000000018bc100421ddc3d952ba111932d31a73fb07940913eb8",
+          "timestamp": 1788654481,
+          "utc": "2026-09-06T00:28:01Z",
+          "tx_count": 6808,
+          "size": 1593044,
+          "weight": 3993749
+        },
+        {
+          "height": 965693,
+          "hash": "0000000000000000000173b14d5f0c17894c976b341b9c1d2e3157c281764280",
+          "timestamp": 1788654658,
+          "utc": "2026-09-06T00:30:58Z",
+          "tx_count": 6861,
+          "size": 1524130,
+          "weight": 3993529
+        }
+      ],
+      "blocks_in_window": 13,
+      "subsidy_btc_per_block": 3.125,
+      "base_layer_btc_issued": 40.625,
+      "issuance_matches_schedule": true,
+      "block_tx_count_median": 5076,
+      "tx_count_outlier_heights": [],
+      "notional_to_issued_ratio": null,
+      "bitcoin_leg": "no base-layer anomaly in window; issuance equals the consensus subsidy for the blocks produced",
+      "source": "Blockstream disclosure; Liquid Network incident reports"
+    },
+    {
+      "id": "allbridge-2026-08-19",
+      "name": "Allbridge (forged CCTP cross-chain message)",
+      "reported_at_utc": "2026-08-19T00:00:00Z",
+      "chain_where_bug_lived": "Cross-chain message handler (CCTP)",
+      "claimed_notional_tokens": null,
+      "claimed_notional_unit": null,
+      "claimed_notional_usd": 190000,
+      "reported_realized_usd": 190000,
+      "reported_protocol_loss_btc": null,
+      "anchor_height": 963111,
+      "anchor_block_time_utc": "2026-08-18T23:57:12Z",
+      "anchor_block_hash": "00000000000000000001e707ecff196d2f1c327d3a6f6a3ee4746ed9082095ca",
+      "window_blocks": [
+        {
+          "height": 963105,
+          "hash": "00000000000000000002178ec606704cad9fadd20ad03a7173d34cfbd41bfa98",
+          "timestamp": 1787093580,
+          "utc": "2026-08-18T22:53:00Z",
+          "tx_count": 4211,
+          "size": 1561810,
+          "weight": 3997858
+        },
+        {
+          "height": 963106,
+          "hash": "00000000000000000000542bbb277523e0b00893f1aab260f3f6f785e84035a6",
+          "timestamp": 1787094112,
+          "utc": "2026-08-18T23:01:52Z",
+          "tx_count": 3391,
+          "size": 1627372,
+          "weight": 3993448
+        },
+        {
+          "height": 963107,
+          "hash": "000000000000000000012bcd4d0ef980a62c4224aa15f650996e0e98f86fda7a",
+          "timestamp": 1787095705,
+          "utc": "2026-08-18T23:28:25Z",
+          "tx_count": 4655,
+          "size": 1557031,
+          "weight": 3997927
+        },
+        {
+          "height": 963108,
+          "hash": "00000000000000000001883e92ef2a39f21c795013346f2ce8e8ac2cdaea2dbd",
+          "timestamp": 1787096197,
+          "utc": "2026-08-18T23:36:37Z",
+          "tx_count": 3705,
+          "size": 1500869,
+          "weight": 3997781
+        },
+        {
+          "height": 963109,
+          "hash": "00000000000000000001634aef3db3ea9a9aa41b310a157328513681f3cd7e90",
+          "timestamp": 1787097129,
+          "utc": "2026-08-18T23:52:09Z",
+          "tx_count": 4404,
+          "size": 1607101,
+          "weight": 3994684
+        },
+        {
+          "height": 963110,
+          "hash": "00000000000000000001cd5d3fc662ff565fd223a67d43de5f4be81ca7061e61",
+          "timestamp": 1787097274,
+          "utc": "2026-08-18T23:54:34Z",
+          "tx_count": 731,
+          "size": 358164,
+          "weight": 917529
+        },
+        {
+          "height": 963111,
+          "hash": "00000000000000000001e707ecff196d2f1c327d3a6f6a3ee4746ed9082095ca",
+          "timestamp": 1787097432,
+          "utc": "2026-08-18T23:57:12Z",
+          "tx_count": 5674,
+          "size": 1708732,
+          "weight": 3992890
+        },
+        {
+          "height": 963112,
+          "hash": "00000000000000000000500eae11c144213f16232b69caa0cfdcff0489d57c73",
+          "timestamp": 1787098601,
+          "utc": "2026-08-19T00:16:41Z",
+          "tx_count": 3654,
+          "size": 1630934,
+          "weight": 3992750
+        },
+        {
+          "height": 963113,
+          "hash": "0000000000000000000080ca463416f4a01050149012b9f4b839dd84fd660710",
+          "timestamp": 1787099904,
+          "utc": "2026-08-19T00:38:24Z",
+          "tx_count": 4048,
+          "size": 1572335,
+          "weight": 3993791
+        },
+        {
+          "height": 963114,
+          "hash": "00000000000000000001d6b189ef583170ae0a7b4a1d6e526fa442b4b78b7445",
+          "timestamp": 1787102883,
+          "utc": "2026-08-19T01:28:03Z",
+          "tx_count": 3945,
+          "size": 1526531,
+          "weight": 3993749
+        },
+        {
+          "height": 963115,
+          "hash": "000000000000000000018685fecd8188ec2f8e67442ac45b89726b010eb6c01c",
+          "timestamp": 1787103277,
+          "utc": "2026-08-19T01:34:37Z",
+          "tx_count": 3780,
+          "size": 1621544,
+          "weight": 3993434
+        },
+        {
+          "height": 963116,
+          "hash": "00000000000000000000248d1df30b0d0744da712747c553ce399997f7e7b978",
+          "timestamp": 1787105998,
+          "utc": "2026-08-19T02:19:58Z",
+          "tx_count": 4223,
+          "size": 1560620,
+          "weight": 3994082
+        },
+        {
+          "height": 963117,
+          "hash": "0000000000000000000066cea3bdf284ed12ef3eb6330ba83b0586386cf729d9",
+          "timestamp": 1787106153,
+          "utc": "2026-08-19T02:22:33Z",
+          "tx_count": 3530,
+          "size": 1507720,
+          "weight": 3993652
+        }
+      ],
+      "blocks_in_window": 13,
+      "subsidy_btc_per_block": 3.125,
+      "base_layer_btc_issued": 40.625,
+      "issuance_matches_schedule": true,
+      "block_tx_count_median": 3945,
+      "tx_count_outlier_heights": [],
+      "notional_to_issued_ratio": null,
+      "bitcoin_leg": "no base-layer anomaly in window; issuance equals the consensus subsidy for the blocks produced",
+      "source": "DeFiLlama hacks record; incident reporting"
+    }
+  ],
+  "note": "Bitcoin's issuance is consensus-enforced. Over any window the base layer creates exactly subsidy*blocks BTC and no more, so a bridge cannot mint real bitcoin however large its reported token supply. The gap between claimed notional supply and BTC actually issued is the trust gap between a ticker and the asset."
+}

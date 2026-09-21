@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Bitcoin was not hacked in the September 2026 bridge incidents. Base-layer audit of the incident windows: anchor blocks, issuance vs claimed notional token supply.">
+<meta property="og:title" content="Bitcoin Was Not Hacked — Here&#x27;s What the Blocks Show">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/base-layer-not-compromised">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/base-layer-not-compromised">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Bitcoin Was Not Hacked — Here's What the Blocks Show","item":"https://bitcoinsahi.com/research/base-layer-not-compromised"}]}
+</script>
+<title>Bitcoin Was Not Hacked — Here&#x27;s What the Blocks Show — BSAHI Research</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Verification Population Observatory","name":"Verification Population Observatory","url":"https://bitcoinsahi.com/research/verification-population","mainEntityOfPage":"https://bitcoinsahi.com/research/verification-population","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","about":["Bitcoin","nodes","verification","observability"],"datePublished":"2026-09-17","dateModified":"2026-09-17"}
+</script>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Bitcoin Was Not Hacked — Here&#x27;s What the Blocks Show</h1>
+<p><strong>BSAHI — base-layer audit</strong> <em>Produced: 2026-09-21</em></p>
+<h2>The short answer</h2>
+<p>When the September 2026 bridge incidents made headlines — <em>&quot;a hacker turned 25 cents of bitcoin into 46 billion fake BTC&quot;</em> — one fact went missing from almost every write-up:</p>
+<p><strong>Bitcoin was not hacked. Not once. In any of them.</strong></p>
+<p>The exploit ran in a <strong>smart contract on BNB Chain</strong>. The token that was minted (<code>syBTC</code>) was a number in that contract. It was not, and could not be, bitcoin. Bitcoin&#x27;s supply is fixed by consensus at 21 million; no bridge, however broken, can mint a single satoshi that Bitcoin&#x27;s nodes will accept.</p>
+<h2>The incident, precisely</h2>
+<p>Symbiosis operates a cross-chain bridge that issues <code>syBTC</code>, a synthetic token meant to track bitcoin 1:1 on other chains. On <strong>2026-09-11 at ~04:28 UTC</strong>, two bugs chained:</p>
+<ol>
+<li><strong>Privilege escalation.</strong> The bridge &quot;looked at the wrong part of a bitcoin transaction&quot; to decide who sent the money, so the attacker was treated as both an approved depositor <strong>and</strong> the bridge administrator.</li>
+<li><strong>No bounds check on the fee.</strong> As admin, the attacker set the minimum fee <strong>negative</strong>. A second bug subtracted that negative fee from the deposit — which <em>added</em> to it. The deposit became worth whatever number he supplied.</li>
+</ol>
+<pre><code>330 sats (~$0.25)   →   12 bogus deposits in ~4 minutes
+                    →   ~46.1 billion syBTC  (2^62 raw units)
+                    =   &gt;2,000× Bitcoin&#x27;s entire 21M supply
+realized cash-out   →   4.39 WBTC via Uniswap V4 on Ethereum → ~$336,000</code></pre>
+<p>The root cause is a <strong>trust-boundary failure</strong>: the contract accepted a <em>signed message</em> as proof of deposit, without ever tying the mint to BTC actually locked.</p>
+<h2>It was the same trick, four times in a month</h2>
+<div class="table-wrap">
+<table>
+<tr><th>Incident</th><th>Chain where the bug lived</th><th>Reported loss</th></tr>
+<tr><td>Allbridge</td><td>cross-chain message handler (CCTP)</td><td>~$190k</td></tr>
+<tr><td>Verus–Ethereum</td><td>cross-chain validation</td><td>~$11M</td></tr>
+<tr><td><strong>Liquid Network</strong></td><td>Liquid sidechain (Elements range-proof cache)</td><td>~$320M (4,000 of 4,200 BTC)</td></tr>
+<tr><td>Nomic (nBTC)</td><td>wrapper backing logic</td><td>unbacked, unnoticed for months</td></tr>
+<tr><td><strong>Symbiosis</strong></td><td>BNB Chain (BridgeV2)</td><td>~$336k realized</td></tr>
+</table>
+</div>
+<p>Every one is the same failure: <strong>software that claims to hold BTC printed more claims than it held Bitcoin.</strong> Not one was a Bitcoin consensus failure.</p>
+<h2>What the blocks actually show</h2>
+<p>We audited the Bitcoin base layer in the window of each incident. Method: find the Bitcoin block at the reported time, report the surrounding blocks, and derive the BTC issued from the consensus subsidy schedule. Block hashes are the primary source and re-checkable against any node.</p>
+<div class="table-wrap">
+<table>
+<tr><th>Incident</th><th>Anchor block</th><th>Block time (UTC)</th><th>BTC issued in window</th><th>Claimed notional</th><th>Ratio</th></tr>
+<tr><td>Symbiosis</td><td>966,454</td><td>2026-09-11T04:27:54Z</td><td>40.625</td><td>46,100,000,000 syBTC</td><td><strong>1,134,769,231 : 1</strong></td></tr>
+<tr><td>Liquid</td><td>965,687</td><td>2026-09-05T23:48:43Z</td><td>40.625</td><td>(L-BTC; sidechain)</td><td>—</td></tr>
+<tr><td>Allbridge</td><td>963,111</td><td>2026-08-18T23:57:12Z</td><td>40.625</td><td>—</td><td>—</td></tr>
+</table>
+</div>
+<p>Over a 13-block window (about two hours) the Bitcoin network issued <strong>40.625 BTC</strong> — exactly <code>3.125 × 13</code>, the consensus subsidy and nothing more. The Symbiosis incident alone claimed a notional supply <strong>1.13 billion times</strong> larger than the BTC the base layer created in the same window.</p>
+<p>That gap is the whole story. Bitcoin&#x27;s issuance is consensus-enforced; a contract balance is not.</p>
+<h2>Two different &quot;unbacked liability&quot; problems</h2>
+<p>This is where the incident touches our research — as a mirror image, not an overlap.</p>
+<ol>
+<li><strong>On Bitcoin (what BSAHI measures).</strong> The Storage Cost Coverage Ratio asks whether fees pay for the permanent state that Bitcoin nodes must actually carry. This is real, measurable, and lands on real machines.</li>
+<li><strong>Off Bitcoin (what this incident was).</strong> <code>syBTC</code> consumed <strong>no</strong> Bitcoin storage, no node bandwidth, no UTXO space. It cost Bitcoin nothing — and wrecked the credibility of anything calling itself &quot;BTC&quot;. A liability nobody can measure because it lives on someone else&#x27;s chain.</li>
+</ol>
+<p>The 21M cap protects Bitcoin. It protects <strong>nothing</strong> that merely borrows the ticker.</p>
+<h2>The data is here</h2>
+<p>The audit is generated from a reproducible tool and published as data:</p>
+<ul>
+<li><code>tools/research/base_layer_audit.py</code> — the audit, run against Esplora (<code>blockstream.info</code>, <code>mempool.space</code> fallback).</li>
+<li><code>data/base_layer_audit.json</code> — every block in each window (height, hash, timestamp, tx count), the subsidy, the issued total, and the ratio.</li>
+</ul>
+<h2>What BSAHI can and cannot do here</h2>
+<p><strong>Cannot.</strong> We cannot detect these exploits. The mint happened on BNB Chain, Ethereum and Rootstock; the Liquid mint happened inside the Elements sidechain. None of it is in a Bitcoin block. Detection came from contract-level monitors (Blockaid) and chain explorers. A Bitcoin node has no visibility there.</p>
+<p><strong>Can.</strong> We can state, with a verifiable timestamp and ledger, that the base layer was untouched — and quantify the gap between a claimed token supply and the BTC the network actually issued. That is the honest, reproducible contribution: <strong>the correction, not the alarm.</strong></p>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>
