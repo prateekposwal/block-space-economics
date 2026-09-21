@@ -48,12 +48,13 @@ fi
 # learned one may still be caught by the other. Weak independence (same host,
 # same peer set) — stated as such in the estimate — but it is a real second
 # channel and it costs nothing.
-SECOND="$(printf '%s' "$EP" | sed -E 's/::[0-9a-fA-F]+$/::3/')"
-if [ "$SECOND" = "$EP" ]; then
-  # endpoint was not ::x form; fall back to the conf's own address with the host byte set to 3
-  BASE="$(sed -n 's/.*Address *= *[0-9.]*\/[0-9]*, *\([0-9a-fA-F:]*\)::[0-9a-fA-F]*\/.*/\1/p' "$CONF" | head -1)"
-  [ -n "$BASE" ] && SECOND="${BASE}::3"
-fi
+# Derive the second address from OUR address in the conf — never from the
+# endpoint. The endpoint lives in the PROVIDER's prefix (adding an alias there
+# yields an address they do not route to us, which is unreachable: found by an
+# external probe 2026-09-21).
+SELF="$(sed -n 's/.*Address *= *[^,]*, *\([0-9a-fA-F:]\{6,\}\)\/[0-9]*.*/\1/p' "$CONF" | head -1)"
+SECOND="$(printf '%s' "$SELF" | sed -E 's/::[0-9a-fA-F]+$/::3/')"
+[ "$SECOND" = "$SELF" ] && SECOND=""
 if [ -n "$SECOND" ] && [ "$SECOND" != "$EP" ]; then
   sudo -n "$ROOT/tools/net/tunnel-root.sh" addaddr "$SECOND" 64 >/dev/null 2>&1 \
     && echo "  second listening address: $SECOND/64 (capture channel 2)" || true

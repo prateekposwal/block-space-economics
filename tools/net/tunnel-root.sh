@@ -137,6 +137,14 @@ case "${1:-}" in
     echo "alias $A/$P on $IFACE"
     ifconfig "$IFACE" | grep inet6 | sed 's/^/  /' || true
     ;;
+  deladdr)
+    # deladdr <ipv6> — remove an alias (e.g. one added in the WRONG prefix)
+    A="${2:?ipv6}"
+    ifconfig "$IFACE" inet6 "$A" delete 2>/dev/null \
+      || ifconfig "$IFACE" inet6 "$A" -alias 2>/dev/null || true
+    echo "removed $A from $IFACE"
+    ifconfig "$IFACE" | grep inet6 | sed 's/^/  /' || true
+    ;;
   hsage)
     # print the unix timestamp of the latest handshake (0 if never) — lets the
     # supervisor detect a STALE tunnel rather than merely a present one.
