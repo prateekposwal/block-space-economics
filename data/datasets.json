@@ -1,8 +1,8 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-21T00:45:11.668724+00:00",
+  "generated_at": "2026-09-21T02:01:19.577242+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
-  "count": 44,
+  "count": 45,
   "datasets": [
     {
       "name": "addrman_churn.json",
@@ -48,8 +48,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "BIP-110 signaling state (GitHub Actions, mempool.space)",
-      "bytes": 3316,
-      "updated": "2026-09-20T21:41:02.205570+00:00",
+      "bytes": 3413,
+      "updated": "2026-09-21T01:29:43.564323+00:00",
       "rows": null
     },
     {
@@ -60,8 +60,8 @@
       "layer": "observed",
       "grade": "C",
       "description": "Per-block relay: announcing-node counts + propagation stats (btcnodes inv sampler)",
-      "bytes": 42780,
-      "updated": "2026-09-21T00:33:04.077789+00:00",
+      "bytes": 39370,
+      "updated": "2026-09-21T01:46:27.589367+00:00",
       "rows": null
     },
     {
@@ -72,8 +72,8 @@
       "layer": "modelled",
       "grade": "C",
       "description": "Three-axis contribution join: verification population | block relay | block production",
-      "bytes": 2433,
-      "updated": "2026-09-21T00:33:04.195785+00:00",
+      "bytes": 2432,
+      "updated": "2026-09-21T01:46:27.760652+00:00",
       "rows": null
     },
     {
@@ -85,7 +85,7 @@
       "grade": "B",
       "description": "D5 census endpoint status: tunnel, EXTERNAL reachability self-test, inbound counts",
       "bytes": 1039,
-      "updated": "2026-09-21T00:35:52.487774+00:00",
+      "updated": "2026-09-21T01:49:39.505948+00:00",
       "rows": null
     },
     {
@@ -133,7 +133,7 @@
       "grade": "A",
       "description": "One-shot record: IBD cleared + first measured block-relay participation",
       "bytes": 734,
-      "updated": "2026-09-21T00:44:24.382247+00:00",
+      "updated": "2026-09-21T01:49:33.098176+00:00",
       "rows": null
     },
     {
@@ -144,8 +144,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Inbound-peer census \u2014 first-party lower bound on non-listening nodes",
-      "bytes": 6855,
-      "updated": "2026-09-21T00:36:11.317493+00:00",
+      "bytes": 6968,
+      "updated": "2026-09-21T01:46:12.684450+00:00",
       "rows": null
     },
     {
@@ -157,7 +157,7 @@
       "grade": "A",
       "description": "Integrity audit: heights/dates, units, provenance, layers",
       "bytes": 1548,
-      "updated": "2026-09-21T00:40:32.684828+00:00",
+      "updated": "2026-09-21T01:36:44.046454+00:00",
       "rows": null
     },
     {
@@ -253,7 +253,7 @@
       "grade": "A",
       "description": "First-party reachable-node census by P2P handshake crawl (network class, client mix, sync)",
       "bytes": 6595,
-      "updated": "2026-09-21T00:39:24.550068+00:00",
+      "updated": "2026-09-21T01:47:02.664097+00:00",
       "rows": null
     },
     {
@@ -288,8 +288,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)",
-      "bytes": 889,
-      "updated": "2026-09-21T00:40:24.700756+00:00",
+      "bytes": 892,
+      "updated": "2026-09-21T01:55:45.489132+00:00",
       "rows": null
     },
     {
@@ -301,7 +301,7 @@
       "grade": "B",
       "description": "Per-block SPOT samples (weight/size/tx/fee) vs the era aggregates",
       "bytes": 59502,
-      "updated": "2026-09-21T00:32:53.419743+00:00",
+      "updated": "2026-09-21T01:46:16.516532+00:00",
       "rows": null
     },
     {
@@ -348,8 +348,20 @@
       "layer": "observed",
       "grade": "A",
       "description": "Robust multi-venue BTC/USD reference rate (median + MAD outlier rejection, full provenance)",
-      "bytes": 901,
-      "updated": "2026-09-21T00:33:35.557181+00:00",
+      "bytes": 897,
+      "updated": "2026-09-21T01:47:09.699791+00:00",
+      "rows": null
+    },
+    {
+      "name": "private_population_estimate.json",
+      "url": "https://bitcoinsahi.com/data/private_population_estimate.json",
+      "path": "data/private_population_estimate.json",
+      "schema": "bsahi.private-population/1",
+      "layer": "modelled",
+      "grade": "C",
+      "description": "Capture-recapture estimate of the non-listening node population (Lincoln-Petersen / Chapman / Chao1)",
+      "bytes": 1979,
+      "updated": "2026-09-21T02:01:05.532343+00:00",
       "rows": null
     },
     {
@@ -368,12 +380,12 @@
       "name": "propagation_cdf.json",
       "url": "https://bitcoinsahi.com/data/propagation_cdf.json",
       "path": "data/propagation_cdf.json",
-      "schema": null,
+      "schema": "bsahi.propagation-cdf/1",
       "layer": "observed",
       "grade": "A",
       "description": "First-party block-relay propagation CDF (per-peer deltas, clearnet vs overlay, BIP152 HB)",
-      "bytes": 116,
-      "updated": "2026-09-21T00:44:24.425807+00:00",
+      "bytes": 1187,
+      "updated": "2026-09-21T01:55:45.492085+00:00",
       "rows": null
     },
     {
@@ -396,7 +408,7 @@
       "layer": "observed",
       "grade": "B",
       "description": "Latest Storage Cost Coverage Ratio reading (dated)",
-      "bytes": 779,
+      "bytes": 780,
       "updated": "2026-09-20T23:55:17.661776+00:00",
       "rows": null
     },
@@ -420,7 +432,7 @@
       "layer": "observed",
       "grade": "B",
       "description": "Daily SCCR series",
-      "bytes": 5053,
+      "bytes": 5054,
       "updated": "2026-09-20T23:55:17.661776+00:00",
       "rows": null
     },
@@ -504,8 +516,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Measured node-side validation cost per era from a full -reindex (first-party, no API)",
-      "bytes": 13053,
-      "updated": "2026-09-21T00:33:14.415754+00:00",
+      "bytes": 9945,
+      "updated": "2026-09-21T01:46:29.069553+00:00",
       "rows": null
     },
     {

@@ -1,0 +1,47 @@
+{
+  "schema": "bsahi.private-population/1",
+  "layer": "modelled",
+  "generated_at": "2026-09-21T02:01:05.532343+00:00",
+  "source": "capture-recapture over first-party inbound observations (data/inbound_samples.jsonl + any --vantage logs)",
+  "method": "Lincoln-Petersen / Chapman (2 occasions) and Chao1 richness; CI = point \u00b1 1.96 SE",
+  "status": "INSUFFICIENT_RECAPTURES",
+  "estimate": null,
+  "ci95": null,
+  "floor": 1,
+  "distinct_observed": 1,
+  "occasions": [
+    {
+      "label": "period-1",
+      "n": 0
+    },
+    {
+      "label": "period-2",
+      "n": 1
+    }
+  ],
+  "estimators": {
+    "chao1": {
+      "N": null,
+      "note": "f2 = 0: no node seen twice, Chao1 undefined"
+    }
+  },
+  "frequency": {
+    "seen_once": 1,
+    "seen_twice": 0
+  },
+  "note": "No node was caught in both occasions, so Lincoln-Petersen and Chapman are undefined (m = 0). The observed distinct count is a floor only.",
+  "reachable_nodes": 26586,
+  "total_if_estimate_holds": null,
+  "assumptions": [
+    "closure: no arrivals/departures between occasions (violated \u2014 nodes churn)",
+    "equal catchability: every non-listening node equally likely to dial us (violated \u2014 reconnecting/NAT-heavy nodes are over-caught)",
+    "independence of occasions (partly violated when occasions are time-slices of one vantage)",
+    "distinct IP = distinct node (violated under NAT/CGNAT \u2014 biases the estimate DOWN)"
+  ],
+  "caveats": [
+    "The protocol cannot yield a census: there is no registry, no heartbeat, and getaddr returns a bounded, filtered subset of one node's addrman.",
+    "Nodes that only ever connect to other non-listening nodes are invisible to every vantage and can never be estimated from inbound data.",
+    "Chao1 and any recapture estimate are LOWER bounds under heterogeneous catchability.",
+    "One vantage is a floor. Recapture across independent vantages (--mode vantage) is a genuine estimate and needs a second always-on reachable host."
+  ]
+}
