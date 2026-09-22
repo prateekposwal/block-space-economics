@@ -1,24 +1,24 @@
 {
   "schema": "bsahi.contribution-ratio/1",
   "layer": "modelled",
-  "generated_at": "2026-09-21T22:58:50.177919+00:00",
+  "generated_at": "2026-09-22T00:07:19.828716+00:00",
   "source": "join of node_geography.json + block_propagation.json + mining_geography.json + verification_population.json + pool_attribution_validation.json",
   "caveat": "These are THREE populations, not one. A single 'public vs private contribution ratio on blocks' is not defined: blocks are PRODUCED by miners, RELAYED by nodes (public and private alike), and the private/non-listening node share is unobservable. Read the axes separately.",
   "axis_1_verification_population": {
     "available": true,
     "grade": "B (floor)",
-    "reachable_nodes": 26353,
-    "overlay_pct": 64.81,
-    "tor_pct": 48.48,
-    "clearnet_lower_bound": 3430,
+    "reachable_nodes": 26545,
+    "overlay_pct": 65.34,
+    "tor_pct": 48.82,
+    "clearnet_lower_bound": 3423,
     "region_counts": {
-      "North America": 1602,
-      "Europe": 1305,
-      "Asia": 216,
-      "Oceania": 94,
-      "South America": 71,
-      "Africa": 24,
-      "Other/unknown": 13
+      "North America": 1614,
+      "Europe": 1319,
+      "Asia": 220,
+      "Oceania": 97,
+      "South America": 75,
+      "Africa": 26,
+      "Other/unknown": 12
     },
     "unobservable": "non-listening / NAT'd nodes \u2014 no crawler can see them; floor only",
     "observability_tiers": {
@@ -33,8 +33,8 @@
     "grade": "C (pinger sample of listening peers)",
     "blocks_in_window": 50,
     "announcing_nodes_min": 1,
-    "announcing_nodes_mean": 56.36,
-    "announcing_nodes_max": 259,
+    "announcing_nodes_mean": 80.26,
+    "announcing_nodes_max": 258,
     "not_the_producer": "announcing peers != the miner that produced the block"
   },
   "axis_3_block_production": {

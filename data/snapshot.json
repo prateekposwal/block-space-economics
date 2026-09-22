@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-21T23:48:03.550Z",
+  "generated_at": "2026-09-22T00:18:36.882Z",
   "freshness_min": 0,
-  "payload_ts": "2026-09-21T23:47:57.223Z",
-  "fees_ts": "2026-09-21T23:47:57.223Z",
-  "price_ts": "2026-09-21T23:47:57.749Z",
-  "height_ts": "2026-09-21T23:47:58.988Z",
-  "mempool_ts": "2026-09-21T23:48:03.271Z",
-  "lightning_ts": "2026-09-21T23:48:03.548Z",
+  "payload_ts": "2026-09-22T00:18:26.352Z",
+  "fees_ts": "2026-09-22T00:18:26.352Z",
+  "price_ts": "2026-09-22T00:18:27.141Z",
+  "height_ts": "2026-09-22T00:18:28.407Z",
+  "mempool_ts": "2026-09-22T00:18:32.760Z",
+  "lightning_ts": "2026-09-22T00:18:36.880Z",
   "fees": {
     "fastestFee": 1,
     "halfHourFee": 1,
@@ -15,48 +15,47 @@
     "economyFee": 1,
     "minimumFee": 1
   },
-  "btc_price": 86449,
-  "block_height": 968061,
-  "mempool_tx": 74982,
+  "btc_price": 86456,
+  "block_height": 968063,
+  "mempool_tx": 79775,
   "lightning": {
     "latest": {
-      "id": 164408,
-      "added": "2026-08-20T00:00:00.000Z",
-      "channel_count": 33101,
-      "node_count": 16420,
-      "total_capacity": 375019291916,
-      "tor_nodes": 8120,
-      "clearnet_nodes": 4637,
-      "unannounced_nodes": 2014,
-      "avg_capacity": 11329546,
-      "avg_fee_rate": 826,
+      "id": 145375,
+      "added": "2026-08-30T00:00:00.000Z",
+      "channel_count": 32518,
+      "node_count": 16225,
+      "total_capacity": 375370668018,
+      "tor_nodes": 7974,
+      "clearnet_nodes": 4598,
+      "unannounced_nodes": 2022,
+      "avg_capacity": 11543473,
+      "avg_fee_rate": 823,
       "avg_base_fee_mtokens": 904,
-      "med_capacity": 2000100,
+      "med_capacity": 2010000,
       "med_fee_rate": 100,
       "med_base_fee_mtokens": 500,
-      "clearnet_tor_nodes": 1649
+      "clearnet_tor_nodes": 1631
     }
   },
   "forecast": [
     {
       "day_offset": 1,
-      "predicted_fastest_fee": 3.1,
+      "predicted_fastest_fee": 2.5,
       "trend": "stable"
     },
     {
       "day_offset": 2,
-      "predicted_fastest_fee": 3.2,
+      "predicted_fastest_fee": 2.5,
       "trend": "stable"
     },
     {
       "day_offset": 3,
-      "predicted_fastest_fee": 3.3,
+      "predicted_fastest_fee": 2.5,
       "trend": "stable"
     }
   ],
   "alerts": [
-    "🛡 SITE /capacity -> 0 (timeout)",
-    "🛡 SITE /data/site-health.json -> 0 (timeout)"
+    "🛡 CAPTURE: failure ratio 38% (last 24h) > 20%"
   ],
   "history": [
     {
