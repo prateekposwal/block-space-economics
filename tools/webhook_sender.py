@@ -3,7 +3,10 @@
 Config file: tools/webhook_config.json (create with empty list if not exists).
 Each entry: {"url": "https://example.com/webhook", "events": ["high_fee", "low_fee", "spike"]}
 """
-import json, os, urllib.request
+import json, os, sys, urllib.request
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from netfetch import bounded_call  # noqa: E402
 
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), 'webhook_config.json')
 ALERT_FILE = os.path.join(os.path.dirname(__file__), 'alerts.json')
@@ -41,10 +44,18 @@ def main():
         try:
             req = urllib.request.Request(hook['url'], data=payload,
                 headers={'Content-Type': 'application/json'}, method='POST')
-            r = urllib.request.urlopen(req, timeout=10)
-            print(f"Webhook sent to {hook['url']}: {r.status}")
-            if r.status >= 300:
-                print(f"  WARNING non-2xx response: {r.status}")
+
+            def _post(_req=req):
+                with urllib.request.urlopen(_req, timeout=10) as _r:
+                    return _r.status
+
+            # bounded_call re-raises the original error, so the except below is
+            # unchanged; it only adds a deadline that also covers DNS. Without it a
+            # dead webhook host could stall the alert path.
+            status = bounded_call(_post, 10)
+            print(f"Webhook sent to {hook['url']}: {status}")
+            if status >= 300:
+                print(f"  WARNING non-2xx response: {status}")
         except Exception as e:
             print(f"Webhook failed for {hook['url']}: {e}")
 

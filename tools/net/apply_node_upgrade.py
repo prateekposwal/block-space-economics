@@ -15,12 +15,22 @@ Gates (all must pass):
 Applies:
   blocksonly=1 -> 0     become a full-relay peer (the single biggest quality win)
   prune=5000 -> 50000   keep ~50 GB instead of ~5 GB, so we can serve real history
-  zmqpubrawblock / zmqpubrawtx   live block+tx events for capture instruments
 
 Deliberately NOT applied, recorded in the conf as commented lines with the reason:
   blockfilterindex=1 / coinstatsindex=1  — enabling an index starts a full
   background index build (all ~967k blocks re-read). That is exactly the I/O+RAM
   load that crashed this node once. Enable by hand once the machine has headroom.
+
+DROPPED: zmqpubrawblock / zmqpubrawtx. They were queued here but NOTHING consumes
+them — pyzmq is not installed and no subscriber exists — so enabling them would
+have been a config advertising a capability the project does not exercise. The one
+edge they were meant to buy (custody spends seen BEFORE confirmation, for the
+bridge watchtower) is available from Esplora's per-address mempool endpoint, which
+is already our data path, without adding a dependency. If sub-second block-arrival
+timing is ever wanted, add ZMQ deliberately together with its consumer.
+
+Run `--selftest` to check the conf rewrite (pure, idempotent) without touching the
+live conf.
 
 Backs up bitcoin.conf before touching it. Idempotent: the marker makes it one-shot.
 """
@@ -42,9 +52,7 @@ RPC = ["-rpcuser=bsahi", "-rpcpassword=bsahi"]
 
 SET = {"prune": "50000", "blocksonly": "0"}
 ADD = [
-    "# Added by apply_node_upgrade.py after the reindex completed (full-relay + capture):",
-    "zmqpubrawblock=tcp://127.0.0.1:28332",
-    "zmqpubrawtx=tcp://127.0.0.1:28332",
+    "# Added by apply_node_upgrade.py after the reindex completed (full-relay):",
     "# NOT enabled on purpose: an index build re-reads every block and needs RAM/IO this",
     "# 8 GB host does not have spare (it OOM-crashed once). Uncomment when there is headroom.",
     "#blockfilterindex=1",
@@ -70,8 +78,8 @@ def rewrite_conf(text):
     """Apply SET/ADD to a conf body. Pure + IDEMPOTENT so it can be unit-tested.
 
     Idempotent matters: the script is one-shot via the marker, but a conf that has
-    already been upgraded must not accumulate duplicate zmq lines if it ever runs
-    again (or if a human re-runs it by hand)."""
+    already been upgraded must not accumulate duplicate appended lines if it ever
+    runs again (or if a human re-runs it by hand)."""
     lines = text.split("\n")
     seen = set()
     out = []
@@ -151,14 +159,16 @@ def main():
         "no_reindex": ok,
         "conf_backup": os.path.basename(bak),
         "changed": {"blocksonly": "0", "prune": "50000"},
-        "added": ["zmqpubrawblock", "zmqpubrawtx"],
+        "added": [],
+        "dropped_zmq": ("zmqpubrawblock/zmqpubrawtx were queued but have no consumer; "
+                        "removed rather than enabled unused. The pre-confirmation mempool "
+                        "edge is available via Esplora's per-address mempool endpoint."),
         "deferred_indexes": ["blockfilterindex", "coinstatsindex", "peerblockfilters"],
         "deferred_reason": ("An index build re-reads every block and needs RAM/IO this 8 GB "
                             "host lacks (it OOM-crashed once). Uncomment in bitcoin.conf when "
                             "there is headroom."),
         "note": ("Runs once. Full-relay (blocksonly=0) makes the node materially more useful "
-                 "to peers; prune=50000 keeps ~50 GB of history instead of ~5 GB. ZMQ is "
-                 "published for capture instruments."),
+                 "to peers; prune=50000 keeps ~50 GB of history instead of ~5 GB."),
     }
     with open(NOTICE, "w") as f:
         json.dump(doc, f, indent=2)
@@ -170,5 +180,32 @@ def main():
     return 0 if ok else 1
 
 
+def _selftest():
+    """Pure checks on rewrite_conf — never touches the live bitcoin.conf."""
+    base = "server=1\nprune=5000\nblocksonly=1\nlisten=1\nrest=1\n"
+    once = rewrite_conf(base)
+    twice = rewrite_conf(once)
+    thrice = rewrite_conf(twice)
+    checks = [
+        ("prune -> 50000", "prune=50000" in once),
+        ("blocksonly -> 0", "blocksonly=0" in once),
+        ("no stale prune=5000", "prune=5000\n" not in once),
+        ("no stale blocksonly=1", "blocksonly=1\n" not in once),
+        ("untouched keys preserved", "server=1" in once and "listen=1" in once and "rest=1" in once),
+        ("indexes commented, not enabled", all(("#" + k) in once for k in
+            ("blockfilterindex=1", "coinstatsindex=1", "peerblockfilters=1"))),
+        ("no zmq lines added", "zmqpubraw" not in once),
+        ("idempotent (2nd run == 1st)", twice == once),
+        ("idempotent (3rd run == 1st)", thrice == once),
+    ]
+    ok = True
+    for name, good in checks:
+        ok &= good
+        print("  %-34s %s" % (name, "PASS" if good else "FAIL"))
+    print("SELFTEST " + ("PASS" if ok else "FAIL"))
+    return 0 if ok else 1
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    import sys
+    raise SystemExit(_selftest() if "--selftest" in sys.argv else main())

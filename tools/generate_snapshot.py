@@ -11,10 +11,13 @@ from datetime import datetime, timezone
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 DATA_DIR = os.path.join(REPO, 'data')
 
+sys.path.insert(0, os.path.join(REPO, 'tools'))
+from netfetch import bounded_get  # noqa: E402
+
 def fetch(url, timeout=15):
-    req = urllib.request.Request(url, headers={'User-Agent': 'BSAHI-Snapshot/1.0'})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read().decode('utf-8')
+    # deadline also covers DNS; this runs in the GitHub Actions snapshot tier
+    return bounded_get(url, timeout=timeout,
+                       headers={'User-Agent': 'BSAHI-Snapshot/1.0'}).decode('utf-8')
 
 def load_local(name, fb):
     # Priority: committed rich data/ first, then captured-data/, then tools/ stubs.

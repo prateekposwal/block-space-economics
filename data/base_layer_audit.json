@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.base-layer-audit/1",
   "layer": "observed",
-  "generated_at": "2026-09-21T09:44:39.268290+00:00",
+  "generated_at": "2026-09-22T00:14:57.141078+00:00",
   "source": "Bitcoin blocks via Esplora (blockstream.info, mempool.space fallback); subsidy derived from the consensus halving schedule",
   "method": "For each incident, locate the Bitcoin block at/after the reported UTC time, then report the surrounding blocks (height, hash, timestamp, tx_count) and the BTC issued in the window. Block hashes are the primary source and re-checkable against any node.",
   "scope": "Bitcoin base layer ONLY. The exploits occurred on other chains / in sidechains and are invisible in Bitcoin blocks. This audit does not measure, detect, or explain those bugs.",
