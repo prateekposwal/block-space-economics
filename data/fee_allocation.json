@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.fee-allocation/1",
   "layer": "modelled",
-  "generated_at": "2026-09-22T12:26:55.669479+00:00",
+  "generated_at": "2026-09-22T20:24:21.309088+00:00",
   "method": "tools/research/fee_allocation.py \u2014 three claims on fee revenue, per block, and the subsidy crossover. Subsidy arithmetic is exact; prices/energy are a scenario.",
   "current": {
     "year": 2026,
@@ -15,13 +15,13 @@
     "revenue_usd_per_block": {
       "subsidy": 213120.0,
       "fees_measured": 1417.0,
-      "fees_implied_by_sccr": 1924.0,
+      "fees_implied_by_sccr": 1998.0,
       "production_value_total": 236830.0
     },
     "coverage_pct": {
       "security_by_subsidy_pct": 107.3,
       "security_by_fees_pct": 0.7,
-      "storage_by_fees_pct": 41.2,
+      "storage_by_fees_pct": 42.7,
       "network_node_opex_1yr_by_fees_pct": 303.0
     }
   },
@@ -100,7 +100,7 @@
     "fee revenue": "B (frozen series: transaction-fees BTC/day x market price)",
     "multi-decade projection": "C (scenario)"
   },
-  "headline": "Fees must eventually fund both security and the storage/verification burden; today they fund almost neither. At ~$68,198/BTC the 2026 fee revenue is ~$1,417/block against a ~$198,549/block energy cost to produce a block and a ~$4,676/block modeled 10-year storage cost \u2014 so fees cover 0.7% of production and 41.2% of storage, while the subsidy (107.3% of energy cost) is still paying the security bill. Under a flat price the subsidy alone stops covering energy around 2028.",
+  "headline": "Fees must eventually fund both security and the storage/verification burden; today they fund almost neither. At ~$68,198/BTC the 2026 fee revenue is ~$1,417/block against a ~$198,549/block energy cost to produce a block and a ~$4,676/block modeled 10-year storage cost \u2014 so fees cover 0.7% of production and 42.7% of storage, while the subsidy (107.3% of energy cost) is still paying the security bill. Under a flat price the subsidy alone stops covering energy around 2028.",
   "temporal": {
     "layer": "modelled",
     "grade": "C \u2014 price paths are scenarios; the halving is arithmetic",
