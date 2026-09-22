@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.contribution-ratio/1",
   "layer": "modelled",
-  "generated_at": "2026-09-22T00:07:19.828716+00:00",
+  "generated_at": "2026-09-22T01:22:03.691458+00:00",
   "source": "join of node_geography.json + block_propagation.json + mining_geography.json + verification_population.json + pool_attribution_validation.json",
   "caveat": "These are THREE populations, not one. A single 'public vs private contribution ratio on blocks' is not defined: blocks are PRODUCED by miners, RELAYED by nodes (public and private alike), and the private/non-listening node share is unobservable. Read the axes separately.",
   "axis_1_verification_population": {
@@ -33,8 +33,8 @@
     "grade": "C (pinger sample of listening peers)",
     "blocks_in_window": 50,
     "announcing_nodes_min": 1,
-    "announcing_nodes_mean": 80.26,
-    "announcing_nodes_max": 258,
+    "announcing_nodes_mean": 84.16,
+    "announcing_nodes_max": 257,
     "not_the_producer": "announcing peers != the miner that produced the block"
   },
   "axis_3_block_production": {
