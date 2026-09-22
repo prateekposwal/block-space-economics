@@ -197,6 +197,7 @@ def dashboard_cards():
     pcd = L('propagation_cdf.json')
     px = L('price_index.json')
     pinf = L('pool_infrastructure.json')
+    brv, bla = L('bridge_reserves.json'), L('base_layer_audit.json')
     out = []
 
     cur = fa.get('current') or {}
@@ -498,6 +499,39 @@ def dashboard_cards():
             'Three populations, not one: verification \u00b7 relay \u00b7 production.',
             'A single public-vs-private ratio is undefined (category error).'],
             '/data/contribution_ratio.json', 'data'))
+
+    if brv:
+        lines = []
+        for w in (brv.get('wrappers') or []):
+            st = w.get('status')
+            if st == 'INCOMPLETE_CUSTODY_LIST':
+                lines.append('%s: custody list covers %s%% of the claimed reserve \u2014 no verdict'
+                             % (w.get('id'), _num(100 * (w.get('custody_coverage') or 0), 1)))
+            elif st == 'SUPPLY_ONLY':
+                lines.append('%s: supply %s (claim side only; reserve leg not wired)'
+                             % (w.get('id'), _num(w.get('supply_tokens'), 2)))
+            else:
+                lines.append('%s: backing ratio %s \u00b7 %s'
+                             % (w.get('id'), _num(w.get('backing_ratio_lower_bound'), 4), st))
+        det = [r.get('id') for r in (brv.get('replays') or []) if r.get('detected')]
+        if det:
+            lines.append('Replay: detector fires on %s' % ', '.join(det))
+        al = brv.get('alerts') or []
+        lines.append('Alerts: <b>%s</b>' % (len(al) if al else 'none'))
+        out.append(_card('Bridge backing-ratio watchtower', 'observed', 'B', lines,
+                         '/research/bridge-reserve-monitor', 'the method'))
+
+    if bla:
+        inc = bla.get('incidents') or []
+        lines = []
+        for i in inc[:2]:
+            lines.append('%s: anchor h%s \u00b7 %s BTC issued in window'
+                         % (i.get('id'), _num(i.get('anchor_height'), 0),
+                            _num(i.get('base_layer_btc_issued'), 3)))
+        lines.append('%d incident window(s) \u00b7 base layer only (the exploit is off-chain)'
+                     % len(inc))
+        out.append(_card('Base-layer audit (bridge incidents)', 'observed', 'A', lines,
+                         '/research/base-layer-not-compromised', 'the finding'))
 
     return ''.join(out)
 

@@ -47,6 +47,7 @@ import datetime
 import json
 import os
 import statistics
+import subprocess
 import urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -440,6 +441,21 @@ ALERT_OUT = os.path.join(ROOT, "data", "bridge_alerts.json")
 ALERT_LOG = os.path.join(CAP, "alerts.jsonl")
 
 
+def send_webhooks():
+    """Push through the SHARED alert channel.
+
+    webhook_sender.py merges data/bridge_alerts.json with ops-health's
+    tools/alerts.json, so this is the wiring that makes a bridge alert reach the
+    webhook instead of dying in a file nobody reads. Best-effort: a webhook
+    failure must never fail the collection.
+    """
+    try:
+        subprocess.run(["python3", os.path.join(ROOT, "tools", "webhook_sender.py")],
+                       capture_output=True, timeout=45)
+    except Exception as e:      # noqa: BLE001
+        print("  (webhook send skipped: %s)" % type(e).__name__)
+
+
 def build_alerts(live):
     """Only fire where a claim is actually supportable.
 
@@ -523,6 +539,7 @@ def main():
         with open(ALERT_LOG, "a") as f:
             for a in alerts:
                 f.write(json.dumps({"at": doc["generated_at"], "alert": a}) + "\n")
+        send_webhooks()
     print("  -> %s  (%d alert(s))" % (OUT, len(alerts)))
 
 
