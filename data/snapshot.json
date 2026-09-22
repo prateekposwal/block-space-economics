@@ -1,40 +1,40 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-22T00:18:36.882Z",
+  "generated_at": "2026-09-22T00:49:09.312Z",
   "freshness_min": 0,
-  "payload_ts": "2026-09-22T00:18:26.352Z",
-  "fees_ts": "2026-09-22T00:18:26.352Z",
-  "price_ts": "2026-09-22T00:18:27.141Z",
-  "height_ts": "2026-09-22T00:18:28.407Z",
-  "mempool_ts": "2026-09-22T00:18:32.760Z",
-  "lightning_ts": "2026-09-22T00:18:36.880Z",
+  "payload_ts": "2026-09-22T00:48:55.716Z",
+  "fees_ts": "2026-09-22T00:48:55.716Z",
+  "price_ts": "2026-09-22T00:48:59.844Z",
+  "height_ts": "2026-09-22T00:49:01.083Z",
+  "mempool_ts": "2026-09-22T00:49:05.203Z",
+  "lightning_ts": "2026-09-22T00:49:09.312Z",
   "fees": {
-    "fastestFee": 1,
-    "halfHourFee": 1,
+    "fastestFee": 3,
+    "halfHourFee": 3,
     "hourFee": 1,
     "economyFee": 1,
     "minimumFee": 1
   },
-  "btc_price": 86456,
-  "block_height": 968063,
-  "mempool_tx": 79775,
+  "btc_price": 86250,
+  "block_height": 968066,
+  "mempool_tx": 79301,
   "lightning": {
     "latest": {
-      "id": 145375,
-      "added": "2026-08-30T00:00:00.000Z",
-      "channel_count": 32518,
-      "node_count": 16225,
-      "total_capacity": 375370668018,
-      "tor_nodes": 7974,
-      "clearnet_nodes": 4598,
-      "unannounced_nodes": 2022,
-      "avg_capacity": 11543473,
-      "avg_fee_rate": 823,
-      "avg_base_fee_mtokens": 904,
-      "med_capacity": 2010000,
+      "id": 157258,
+      "added": "2026-07-13T00:00:00.000Z",
+      "channel_count": 39627,
+      "node_count": 17334,
+      "total_capacity": 445087713469,
+      "tor_nodes": 8839,
+      "clearnet_nodes": 4680,
+      "unannounced_nodes": 2023,
+      "avg_capacity": 11231931,
+      "avg_fee_rate": 842,
+      "avg_base_fee_mtokens": 882,
+      "med_capacity": 2094438,
       "med_fee_rate": 100,
-      "med_base_fee_mtokens": 500,
-      "clearnet_tor_nodes": 1631
+      "med_base_fee_mtokens": 100,
+      "clearnet_tor_nodes": 1792
     }
   },
   "forecast": [
@@ -55,7 +55,8 @@
     }
   ],
   "alerts": [
-    "🛡 CAPTURE: failure ratio 38% (last 24h) > 20%"
+    "🛡 SPOOL: accounting/dead issue",
+    "🛡 CAPTURE: failure ratio 37% (last 24h) > 20%"
   ],
   "history": [
     {
@@ -489,6 +490,10 @@
     {
       "date": "2026-09-22",
       "fastestFee": 1
+    },
+    {
+      "date": "2026-09-22",
+      "fastestFee": 3
     }
   ],
   "totalPosts": 0
