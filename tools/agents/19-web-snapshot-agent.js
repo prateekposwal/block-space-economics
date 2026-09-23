@@ -339,12 +339,23 @@ async function runAsync() {
       // Stage + commit data/ only when something actually changed (existing behavior).
       syncCmd += 'git add data/ && git add learn.html story.html products/sccr-index.html research/index.html research/dashboard.html 2>/dev/null; git diff --cached --quiet || (git -c user.name="bsahi-snapshot-bot" -c user.email="snapshot@bitcoinsahi.com" commit -m "chore: public snapshot ' + new Date().toISOString().slice(0, 16) + '"); ';
       // Conflict-safe sync: pull/rebase, and on conflict RESOLVE the rebase in-place
-      // (keep our freshly-regenerated data via --ours, then continue) — never reset
-      // --hard, never abort into a conflicted state, never swallow a failure.
+      // (keep our freshly-regenerated data, then continue) — never reset --hard,
+      // never abort into a conflicted state, never swallow a failure.
       // Runs EVERY cycle (not only when data/ changed) so a drifted origin is
       // fast-forwarded/replayed before the retry push — keeps the push
       // non-force and fast-forward-only.
-      syncCmd += '(git pull --rebase --autostash origin main 2>/dev/null && echo pull-ok) || { echo "pull conflict — resolving in place"; git checkout --ours data/ learn.html story.html products/sccr-index.html research/index.html research/dashboard.html 2>/dev/null; git add data/ learn.html story.html products/sccr-index.html research/index.html research/dashboard.html 2>/dev/null; git -c user.name="bsahi-snapshot-bot" -c user.email="snapshot@bitcoinsahi.com" -c core.editor=true commit --no-edit --allow-empty -m "chore: resolve snapshot conflict ' + new Date().toISOString().slice(0, 16) + '" 2>/dev/null; git rebase --continue 2>/dev/null || git commit --no-edit 2>/dev/null; }; ';
+      //
+      // TWO FIXES 2026-09-23 (markers had reached HEAD and the live site):
+      //  1. --ours was WRONG. During a REBASE, --ours is the UPSTREAM (origin) and
+      //     --theirs is the commit being replayed (ours). Verified empirically. So
+      //     the old line kept origin's data and threw away the freshly regenerated
+      //     local data — the opposite of the comment's intent.
+      //  2. There was no gate between resolution and commit, so a resolution that
+      //     left markers (e.g. a failed --ours pathspec) got committed and pushed.
+      //     Now the shell REFUSES to commit or push if any marker survives, and
+      //     re-runs the canonical data gate first. exit 1 aborts the whole sync,
+      //     so the push never runs.
+      syncCmd += '(git pull --rebase --autostash origin main 2>/dev/null && echo pull-ok) || { echo "pull conflict — resolving in place"; git checkout --theirs data/ learn.html story.html products/sccr-index.html research/index.html research/dashboard.html 2>/dev/null; git add data/ learn.html story.html products/sccr-index.html research/index.html research/dashboard.html 2>/dev/null; if grep -rq -e "^<<<<<<< " -e "^>>>>>>> " data/ learn.html story.html products/sccr-index.html research/index.html research/dashboard.html 2>/dev/null; then echo "CONFLICT MARKERS survived resolution — REFUSING to commit/push"; exit 1; fi; python3 tools/validate_data_json.py >/dev/null 2>&1 || { echo "data gate failed after resolution — REFUSING to commit/push"; exit 1; }; git -c user.name="bsahi-snapshot-bot" -c user.email="snapshot@bitcoinsahi.com" -c core.editor=true commit --no-edit --allow-empty -m "chore: resolve snapshot conflict ' + new Date().toISOString().slice(0, 16) + '" 2>/dev/null; git rebase --continue 2>/dev/null || git commit --no-edit 2>/dev/null; }; ';
       // Explicit refspec push (never force). Runs EVERY cycle so a previously
       // failed push is RETRIED even when data/ is unchanged. A push failure is
       // non-fatal: logged, local commits kept, next cycle retries them — the

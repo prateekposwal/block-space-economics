@@ -43,7 +43,10 @@ def validate(path):
     for marker in MARKERS:
         if marker in text:
             return 'contains conflict marker {!r}'.format(marker)
-    return is_json(path, text)
+    # Marker check applies to ANY file (a marker in a baked HTML page is just as
+    # broken as one in JSON). The JSON parse check only makes sense for .json —
+    # without this, passing an .html path reported a bogus "JSON parse error".
+    return is_json(path, text) if path.endswith('.json') else None
 
 
 def main(argv):
