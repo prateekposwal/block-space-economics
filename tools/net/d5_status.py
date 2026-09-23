@@ -117,7 +117,8 @@ def main():
              else "No census endpoint: tunnel not up/unrouted — private nodes unobservable.")),
         "note": ("Tier C is reported as null until real inbound peers are observed; a live "
                  "instrument is not a measurement. Source IPs are preserved end-to-end, so "
-                 "distinct inbound IPs are a genuine lower bound on non-listening nodes."),
+                 "distinct inbound IPs count nodes that dialled us — an upper bound on private "
+                 "participation, not a non-listening count."),
     }
     with open(OUT, "w") as f:
         json.dump(doc, f, indent=2)

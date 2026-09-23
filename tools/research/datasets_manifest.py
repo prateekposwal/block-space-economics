@@ -57,7 +57,7 @@ CATALOG = {
     "node_version_distribution.json": ("observed", "B", "Node software + service-bit distribution (self-declared)"),
     "seed_census.json": ("observed", "B", "DNS-seed address census — a third independent view of the node population"),
     "addrman_churn.json": ("observed", "B", "Addrman churn — empirical address-pool staleness (first-party gossip sampler)"),
-    "inbound_census.json": ("observed", "B", "Inbound-peer census — first-party lower bound on non-listening nodes"),
+    "inbound_census.json": ("observed", "B", "Inbound-peer census — nodes that dialled us (upper bound on private participation) + their service bits"),
     "verification_population.json": ("observed", "B", "Verification Population Observatory: observable node population + what is unobservable"),
     "population_snapshot.json": ("observed", "B", "Dated, hashed snapshot of the population-observability workstream (N, provenance, partition, component hashes)"),
     "bip110.json": ("observed", "A", "BIP-110 signaling state (GitHub Actions, mempool.space)"),

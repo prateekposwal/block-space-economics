@@ -2,7 +2,7 @@
   "schema": "bsahi.population-snapshot/1",
   "layer": "observed",
   "as_of": "2026-09-17",
-  "generated_at": "2026-09-17T18:08:29.368052+00:00",
+  "generated_at": "2026-09-23T18:25:50.293011+00:00",
   "model_spec": {
     "version": "2.1.1",
     "N": 26586,
@@ -13,7 +13,7 @@
   },
   "three_quantities": {
     "A_gossip_addresses": {
-      "value": 32000,
+      "value": 53321,
       "what": "addresses one node learned via addr gossip \u2014 NOT a node count"
     },
     "B_reachable_nodes": {
@@ -33,20 +33,20 @@
   },
   "first_party_instruments": {
     "seed_census": {
-      "distinct_addresses_ever": 349,
-      "persistence_rate_pct": 84.8,
+      "distinct_addresses_ever": 1587,
+      "persistence_rate_pct": null,
       "what": "DNS-seed visible addresses \u2014 a third independent view"
     },
     "addrman_churn": {
-      "distinct_addresses_ever": 34648,
-      "latest_count": 34633,
-      "persistence_rate_pct": 100.0,
+      "distinct_addresses_ever": 65803,
+      "latest_count": 62602,
+      "persistence_rate_pct": 98.8,
       "what": "empirical address-pool persistence (first-party gossip sampler)"
     },
     "inbound_census": {
-      "distinct_inbound_addresses_ever": 0,
-      "latest_inbound": 0,
-      "what": "first-party lower bound on non-listening nodes \u2014 PENDING node reachability"
+      "distinct_inbound_addresses_ever": 11,
+      "latest_inbound": 1,
+      "what": "first-party sample of nodes that dialled us \u2014 an UPPER bound on private participation, not a non-listening count \u2014 PENDING node reachability"
     }
   },
   "components": [
@@ -54,43 +54,43 @@
       "name": "verification_population.json",
       "layer": "observed",
       "grade": "B",
-      "bytes": 8711,
-      "sha256": "b682823d173761471f5dd2c9725a09dbaad12626c818d03569425a254510cdd9"
+      "bytes": 8771,
+      "sha256": "fea0e046ba9d9de5caa2fcae095a5dbba7731eb868765e9ac3674ac3bff23da1"
     },
     {
       "name": "seed_census.json",
       "layer": "observed",
       "grade": "B",
-      "bytes": 18051,
-      "sha256": "42397a2d0f5af7f6d56b41643c4a5e470a9642646bfb652df10bba2e6f099729"
+      "bytes": 18990,
+      "sha256": "585656f0bfa4affcd552a70f97e8776cbab45c29dcccea9b833449c84037582b"
     },
     {
       "name": "addrman_churn.json",
       "layer": "observed",
       "grade": "B",
-      "bytes": 1183,
-      "sha256": "a9ffcaffb6b3ed60af9cd34925e9b0d20a57cbab883d4969a89eaf496116d441"
+      "bytes": 1841,
+      "sha256": "41538a488251a04bce5aa09e54dcfa24de13921283b5e19c784852b8f38e6a18"
     },
     {
       "name": "inbound_census.json",
       "layer": "observed",
       "grade": "B",
-      "bytes": 1649,
-      "sha256": "5446536baf7d5ec569dda14b3f798996cae5ee026c93133be8d2ecee1ce1db2c"
+      "bytes": 11343,
+      "sha256": "7a8b68e22eca940aace93415e5c7383aab75172445ca42847bfad0cf55d6947c"
     },
     {
       "name": "node_census_series.json",
       "layer": "observed",
       "grade": "B",
-      "bytes": 429524,
-      "sha256": "9142fda3fb7477a1310aac595757e277eb56592f4a1e01716345494bd41f99b3"
+      "bytes": 429595,
+      "sha256": "145afcad79b9e4acd9bff8fe0d024aee617d440e35a09b362c76731bdc05615b"
     },
     {
       "name": "node_census.json",
       "layer": "observed",
       "grade": "C",
-      "bytes": 1202,
-      "sha256": "efd4d878994c96518aad0fdd0a03c3688b7dfd958f2d8cc57fc931b1e00025b1"
+      "bytes": 1129,
+      "sha256": "f70e533a958578dea4a83f2b458ace7c6c76e7428087031fca4b18c3c6954734"
     }
   ],
   "component_drift_expected": [
@@ -100,7 +100,7 @@
   ],
   "component_drift_note": "The three first-party instruments above are re-sampled on a schedule (hourly D5 inbound; 12 h D3 seed + D4 addrman), so their hashes move by design. The hashes here pin the 2026-09-17 state so that any *unexpected* change to a slow-moving input is detectable.",
   "open": [
-    "D5 inbound census returns 0 until the node serves inbound connections (router port-forward 8333, or Tor) \u2014 the only path to a first-party lower bound on non-listening nodes. Everything else is built and polling.",
+    "D5 inbound census returns 0 until the node serves inbound connections (router port-forward 8333, or Tor) \u2014 the only path to a first-party sample of nodes that dialled us (an upper bound on private participation). Everything else is built and polling.",
     "D5 external reproduction: an independent party must reproduce the SCCR (research/reproduce/recruit-message.md)."
   ],
   "note": "Versioned snapshot of the population-observability workstream. N has ONE source of truth (research/model-spec.json quantities.N, v2.1.1). Any change to a listed component changes its sha256 \u2014 compare against this file to detect drift. Rebuild with tools/research/population_snapshot.py."

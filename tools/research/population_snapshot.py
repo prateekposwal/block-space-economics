@@ -124,7 +124,7 @@ def main():
             "inbound_census": {
                 "distinct_inbound_addresses_ever": inbound.get("distinct_inbound_addresses_ever"),
                 "latest_inbound": (inbound.get("latest", {}) or {}).get("inbound_count"),
-                "what": "first-party lower bound on non-listening nodes — PENDING node reachability",
+                "what": "first-party sample of nodes that dialled us — an UPPER bound on private participation, not a non-listening count — PENDING node reachability",
             },
         },
         "components": components,
@@ -137,8 +137,8 @@ def main():
                                 "that any *unexpected* change to a slow-moving input is detectable.",
         "open": [
             "D5 inbound census returns 0 until the node serves inbound connections "
-            "(router port-forward 8333, or Tor) — the only path to a first-party lower bound "
-            "on non-listening nodes. Everything else is built and polling.",
+            "(router port-forward 8333, or Tor) — the only path to a first-party sample of "
+            "nodes that dialled us (an upper bound on private participation). Everything else is built and polling.",
             "D5 external reproduction: an independent party must reproduce the SCCR "
             "(research/reproduce/recruit-message.md).",
         ],
