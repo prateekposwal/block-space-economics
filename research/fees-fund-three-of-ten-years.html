@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SCCR 0.4307 does not mean Bitcoin is 57% underfunded. It means fees fund roughly the first 3 of the 10 modelled years of the node-cost commitment — and node operators carry the rest.">
+<meta property="og:title" content="Fees Fund Three of the Ten Modelled Years">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://bitcoinsahi.com/research/fees-fund-three-of-ten-years">
+<meta property="og:image" content="https://bitcoinsahi.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#121110">
+<link rel="canonical" href="https://bitcoinsahi.com/research/fees-fund-three-of-ten-years">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://bitcoinsahi.com/"},{"@type":"ListItem","position":2,"name":"Research","item":"https://bitcoinsahi.com/research/"},{"@type":"ListItem","position":3,"name":"Fees Fund Three of the Ten Modelled Years","item":"https://bitcoinsahi.com/research/fees-fund-three-of-ten-years"}]}
+</script>
+<title>Fees Fund Three of the Ten Modelled Years — BSAHI Research</title>
+<style>:root{
+  --bg:#121110; --surface:#1B1917; --surface-muted:#24211E;
+  --ink:#F5F1EA; --ink-2:#A8A29E; --ink-3:#8B8580; --line:#332F2A;
+  --accent:#F7931A; --accent-ink:#FBBF24;
+  --ok:#4ADE80; --warn:#FBBF24; --err:#F87171; --info:#60A5FA;
+  --ui:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  --disp:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,'Fira Code','Cascadia Code',monospace;
+}
+body{background:var(--bg);color:var(--ink);font-family:var(--ui);margin:0;padding:0}
+header{background:var(--surface);border-bottom:1px solid var(--line);padding:16px 24px}
+.header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.brand{color:var(--accent);font-weight:700;text-decoration:none;font-size:1.1rem}
+.nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-item{padding:6px 14px;font-size:.875rem;font-weight:500;color:var(--ink-2);border-radius:6px;text-decoration:none;transition:all .2s}
+.nav-item:hover{color:var(--ink);background:var(--surface-muted)}
+.nav-item.active{background:var(--surface-muted);color:var(--ink)}
+@media(max-width:600px){.header-inner{padding:0 12px}.nav{gap:6px}.nav-item{padding:5px 9px;font-size:.78rem}}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+h1{font-family:var(--disp);color:var(--accent);font-size:1.9rem;margin:0 0 8px}
+h2{font-family:var(--disp);color:var(--ink);font-size:1.3rem;margin:28px 0 12px}
+h3{font-family:var(--disp);color:var(--ink);font-size:1.1rem;margin:20px 0 8px}
+p{color:var(--ink-2);line-height:1.8;margin:0 0 14px}
+a{color:var(--accent-ink)}
+table{border-collapse:collapse;margin:14px 0;width:100%}
+th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;font-size:.9rem}
+th{background:var(--surface);color:var(--ink)}
+blockquote{border-left:3px solid var(--accent);margin:14px 0;padding:4px 16px;color:var(--ink-2);background:var(--surface)}
+pre,code{background:var(--surface);border-radius:6px;font-family:var(--mono)}
+pre{padding:14px;overflow-x:auto}
+code{padding:2px 5px;font-size:.88em}
+ul,ol{color:var(--ink-2);line-height:1.7;padding-left:24px}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0}
+footer{border-top:1px solid var(--line);padding:24px;text-align:center;font-size:.85rem;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .links a{color:var(--ink-3);text-decoration:none}
+footer .links a:hover{color:var(--accent-ink)}
+.datacard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:14px 0}
+.datacard b{color:var(--ink)}
+.kv{color:var(--ink-2);font-size:.92rem;line-height:1.9}
+.kv code{color:var(--accent-ink)}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+code{overflow-wrap:anywhere}
+
+p,li,dd,blockquote{overflow-wrap:anywhere}
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site-nav.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ScholarlyArticle","headline":"Verification Population Observatory","name":"Verification Population Observatory","url":"https://bitcoinsahi.com/research/verification-population","mainEntityOfPage":"https://bitcoinsahi.com/research/verification-population","author":{"@id":"https://bitcoinsahi.com/#person"},"publisher":{"@id":"https://bitcoinsahi.com/#organization"},"isPartOf":{"@id":"https://bitcoinsahi.com/#website"},"license":"https://creativecommons.org/licenses/by/4.0/","inLanguage":"en","about":["Bitcoin","nodes","verification","observability"],"datePublished":"2026-09-17","dateModified":"2026-09-17"}
+</script>
+</head>
+<body>
+<script src="/js/site-nav.js"></script>
+<div class="container">
+<h1>Fees Fund Three of the Ten Modelled Years</h1>
+<p><strong>BSAHI — interpretation note</strong> <em>Produced: 2026-09-23</em></p>
+<h2>What the SCCR does and does not say</h2>
+<p>The Storage Cost Coverage Ratio is <strong>0.4307</strong> — an upper bound. That number is easy to over-read. It does <strong>not</strong> say &quot;Bitcoin is 57% underfunded,&quot; and it does not say &quot;nobody is paying for nodes.&quot;</p>
+<p>What it says, in one sentence: <strong>on the current fee basis, fees fund roughly the first 3 of the 10 modelled years of the node-cost commitment, and the remainder is carried by whoever runs a node.</strong></p>
+<h2>What the model actually claims</h2>
+<p>The SCCR is a ratio of one fee reading to a multi-year commitment:</p>
+<pre><code>SCCR  = fees / L_net        L_net = N · C · T</code></pre>
+<p>where <code>N</code> = the reachable-node count (a floor), <code>C</code> = annual node operating cost ($925/yr), and <code>T</code> = 10 years. So the denominator is the network-wide node cost <strong>over a decade</strong>, and the numerator is <strong>one</strong> fee reading. The ratio is therefore a coverage fraction of that commitment, not a solvency verdict.</p>
+<p>Per block, 2026, all on one fee basis (measured 30-day mean, ~$1,417/block):</p>
+<div class="table-wrap">
+<table>
+<tr><th>claim on fees</th><th>USD/block</th><th>covered by fees</th></tr>
+<tr><td>---</td><td>---:</td><td>---:</td></tr>
+<tr><td>Security / production (energy to produce a block)</td><td>$198,549</td><td>0.7% (subsidy pays 107.3%)</td></tr>
+<tr><td><strong>Node-cost commitment</strong> (<code>L_net</code> = N·C·T, T=10yr)</td><td><strong>$4,676</strong></td><td><strong>30.3%</strong></td></tr>
+<tr><td>Node operating cost, <strong>one year</strong> of the same thing</td><td>$467.57</td><td>303.0%</td></tr>
+</table>
+</div>
+<p>At 30.3% of a ten-year commitment, fees cover <strong>~3.0 years</strong>. That is the finding.</p>
+<h2>A trap in that table — and why it is worth naming</h2>
+<p>Those last two rows are <strong>the same cost at different horizons</strong>. <code>L_net</code> is exactly <code>node_opex × T</code> (measured ratio 10.001), so their coverage percentages differ by exactly <code>T</code> (30.3% × 10 = 303.0%). They are one fact, not two.</p>
+<p>We nearly published them as two. The version of this note I first drafted argued <em>&quot;fees cover node operation but not permanence.&quot;</em> <strong>That is an artifact.</strong> There is no separate permanence term in the model — permanence <em>is</em> the multi-year node cost. Reading the pair as &quot;opex covered, permanence not&quot; is a horizon illusion, and the table invited it by showing a 1-year and a 10-year figure side by side unlabelled.</p>
+<p>Both the table and the headline now say so explicitly, because the next person to read those two rows will make the same mistake.</p>
+<h2>Who carries the remainder</h2>
+<p>The uncovered ~70% is not absorbed by the fee market. It lands on the node classes that actually hold the data — public and private/non-listening nodes alike. Every hidden node independently bears the replication and validation burden, so the measured floor makes the true coverage <em>lower</em>, not higher.</p>
+<p>Two other classes receive the verification guarantee without carrying it: institutional infrastructure (exchanges, custodians — partially, and internally) and delegated/lightweight users (not at all, and not observable in the P2P layer). See the verification-population observatory for why those two cannot be measured from this vantage.</p>
+<h2>Two caveats that must travel with the number</h2>
+<ul>
+<li><strong>The fee window matters, and it is named.</strong> The SCCR is a live reading on its own block window (137 blocks, 2026-09-23), which implies ~$2,014/block. On the 30-day mean (~$1,417/block) the storage coverage is 30.3%; on the SCCR&#x27;s own window it is 43.1%. Both are true. Quoting one as &quot;the&quot; coverage while the other is the headline is a category error, so the coverage table uses one basis and the SCCR is reported separately.</li>
+<li><strong>This is time-varying, not a constant.</strong> SCCR is driven by the fee market, which moves. The 3-of-10 figure is the current reading, not a fixed property.</li>
+</ul>
+<h2>What this does not say</h2>
+<p>It is not a claim that Bitcoin is failing, nor that anyone <em>should</em> pay differently. It is a measurement of which layer the fee market currently funds and which it leaves to node operators. The interesting question is the second one — and it is answerable, which is why the distinction is worth keeping sharp.</p>
+<h2>Data</h2>
+<ul>
+<li><code>data/fee_allocation.json</code> — the three claims, one fee basis, and the horizon note.</li>
+<li><code>data/sccr.json</code> — the live SCCR reading and its own window.</li>
+<li><code>research/sccr-sensitivity.md</code> — why N dominates the uncertainty and why the baseline is a strict floor.</li>
+</ul>
+<p style="margin-top:32px;"><a href="/research">← All research</a> · <a href="/learn">← Back to Learn</a></p>
+</div>
+<footer><div class="links"><a href="/">Home</a><a href="/live">Decide</a><a href="/learn">Learn</a><a href="/capacity">Capacity</a><a href="/fork-tracker">Fork</a><a href="/research">Research</a><a href="/about">About</a></div><div>Bitcoin Sahi — research and decision platform for the Bitcoin block space economy</div></footer>
+</body>
+</html>
