@@ -127,7 +127,7 @@ Promise.allSettled([
   if(vp && vp.quantities){ var q2=vp.quantities, cg=(q2.C_non_listening&&q2.C_non_listening.grade)||'D';
     var di=(d5&&d5.inbound)||{}, de=(d5&&d5.endpoint)||{}, epl, priv;
     if(d5 && d5.measurement_live){ epl='Census endpoint: <b>LIVE</b> \u00b7 '+(d5.census_endpoint||'')+' \u00b7 externally verified reachable';
-      priv=(di.distinct_ever?('Private / non-listening: <b>'+num(di.distinct_ever,0)+' measured</b> (lower bound)')
+      priv=(di.distinct_ever?('Private / non-listening: <b>'+num(di.distinct_ever,0)+' measured</b> (upper bound on private)')
             :(di.raw_distinct_ever?('Private / non-listening: <b>not yet measured</b> \u2014 '+num(di.raw_distinct_ever,0)+' inbound so far, all known crawlers (excluded)')
             :'Private / non-listening: <b>not yet measured</b> (0 inbound peers)'))+' \u00b7 grade '+cg; }
     else if(de.handshake_fresh){ epl='Census endpoint: up but external reachability not verified';
