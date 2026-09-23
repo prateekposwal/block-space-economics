@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-23T14:00:28.721Z",
+  "generated_at": "2026-09-23T14:30:17.793Z",
   "host": "bitcoinsahi.com",
   "status": "HEALTHY",
   "checks": [
@@ -7,15 +7,15 @@
       "route": "/",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 6879,
-      "bytes": 37912,
+      "ttfbMs": 3188,
+      "bytes": 37904,
       "ok": true
     },
     {
       "route": "/live",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 6999,
+      "ttfbMs": 2235,
       "bytes": 75603,
       "ok": true
     },
@@ -23,7 +23,7 @@
       "route": "/capacity",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 6803,
+      "ttfbMs": 1635,
       "bytes": 39397,
       "ok": true
     },
@@ -31,7 +31,7 @@
       "route": "/learn",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 6799,
+      "ttfbMs": 1903,
       "bytes": 62469,
       "ok": true
     },
@@ -39,7 +39,7 @@
       "route": "/fork-tracker",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 14104,
+      "ttfbMs": 1765,
       "bytes": 38987,
       "ok": true
     },
@@ -47,7 +47,7 @@
       "route": "/feed.xml",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 6228,
+      "ttfbMs": 1524,
       "bytes": 509,
       "ok": true
     },
@@ -55,7 +55,7 @@
       "route": "/data/snapshot.json",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 13898,
+      "ttfbMs": 1713,
       "bytes": 8402,
       "ok": true
     },
@@ -63,7 +63,7 @@
       "route": "/data/ops-health.json",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 12358,
+      "ttfbMs": 1573,
       "bytes": 653,
       "ok": true
     },
@@ -71,7 +71,7 @@
       "route": "/data/site-health.json",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 12358,
+      "ttfbMs": 1919,
       "bytes": 3121,
       "ok": true
     },
@@ -79,7 +79,7 @@
       "route": "/api/v1/",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 14034,
+      "ttfbMs": 1894,
       "bytes": 4141,
       "ok": true
     },
@@ -87,7 +87,7 @@
       "route": "/robots.txt",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 14030,
+      "ttfbMs": 1433,
       "bytes": 469,
       "ok": true
     },
@@ -95,7 +95,7 @@
       "route": "/sitemap.xml",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 13896,
+      "ttfbMs": 1458,
       "bytes": 5918,
       "ok": true
     }
@@ -106,49 +106,49 @@
       "file": "data/inbound_census.json",
       "why": "inbound census (hourly collector)",
       "maxHours": 6,
-      "ageHours": 0.1,
+      "ageHours": 0.6,
       "ok": true
     },
     {
       "file": "data/perblock_validation.json",
       "why": "per-block spot samples (30-min collector)",
       "maxHours": 4,
-      "ageHours": 0.1,
+      "ageHours": 0.6,
       "ok": true
     },
     {
       "file": "data/addrman_churn.json",
       "why": "addrman churn (12-h collector)",
       "maxHours": 30,
-      "ageHours": 10.9,
+      "ageHours": 11.4,
       "ok": true
     },
     {
       "file": "data/seed_census.json",
       "why": "DNS-seed census (12-h collector)",
       "maxHours": 30,
-      "ageHours": 10.9,
+      "ageHours": 11.4,
       "ok": true
     },
     {
       "file": "data/node_census_series.json",
       "why": "reachable-node crawl / canonical N (daily)",
       "maxHours": 48,
-      "ageHours": 11.1,
+      "ageHours": 11.6,
       "ok": true
     },
     {
       "file": "data/mining_concentration.json",
       "why": "mining concentration (daily)",
       "maxHours": 48,
-      "ageHours": 11.1,
+      "ageHours": 11.6,
       "ok": true
     },
     {
       "file": "data/sccr.json",
       "why": "SCCR reading (daily / cloud tier)",
       "maxHours": 48,
-      "ageHours": 1.6,
+      "ageHours": 2.1,
       "ok": true
     }
   ],
