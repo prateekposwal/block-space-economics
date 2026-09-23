@@ -63,12 +63,12 @@ Non-listening, private and Tor-hidden validators cannot be audited. They are **e
 
 Two instruments aim at quantity C, which no crawler can see:
 
-- **Inbound census** (`inbound_census.py`) — a listening node counts the peers that **dial in**. Every inbound peer is, by that act, a node not serving inbound itself: first-party evidence of a non-listening node. Current: **0** inbound, **0** distinct ever. This needs reachability (port-forward or Tor) to yield data; it is the highest-value measurement available to this project.
+- **Inbound census** (`inbound_census.py`) — a listening node counts the peers that **dial in**. Note that `inbound` is NOT the same as non-listening: a listening node can dial us too, so this is an **upper bound** on private participation, not a count of non-listening nodes. Its service-bit sample (`NODE_NETWORK` vs `NODE_NETWORK_LIMITED`) is the more useful output. Current: **0** inbound, **0** distinct ever. This needs reachability (port-forward or Tor) to yield data; it is the highest-value measurement available to this project.
 - **Addrman churn** (`addrman_churn.py`) — sampling the address manager over time measures **address persistence** (2 samples so far (persistence rate 100.0%)), turning "zombie IPs" from an assertion into a measured rotation rate.
 
 ## What would strengthen this
 
-1. **Reachability for the node** (port-forward or Tor) → the inbound census produces a genuine lower bound on non-listening nodes.
+1. **Reachability for the node** (port-forward or Tor) → the inbound census yields data on the nodes that dial us (an upper bound on private participation, plus their service bits).
 2. **Time** — churn and seed views need repeated samples; the "missing" numbers accrue automatically.
 3. **A healthy node** — it is currently reindexing after a disk-full chainstate corruption.
 

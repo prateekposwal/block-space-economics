@@ -120,14 +120,14 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <table>
 <tr><th>N</th><th>L_net (USD/block)</th><th>SCCR</th><th>externality vs baseline</th></tr>
 <tr><td>---:</td><td>---:</td><td>---:</td><td>---:</td></tr>
-<tr><td><strong>26,586</strong></td><td>$4,676</td><td><strong>0.4741</strong></td><td>1.00×</td></tr>
-<tr><td>32,000</td><td>$5,628</td><td>0.3939</td><td>1.20×</td></tr>
-<tr><td>50,000</td><td>$8,793</td><td>0.2521</td><td>1.88×</td></tr>
-<tr><td>80,000</td><td>$14,070</td><td>0.1576</td><td>3.01×</td></tr>
-<tr><td>100,000</td><td>$17,587</td><td>0.1261</td><td>3.76×</td></tr>
-<tr><td>150,000</td><td>$26,380</td><td>0.0840</td><td>5.64×</td></tr>
-<tr><td>200,000</td><td>$35,174</td><td>0.0630</td><td>7.52×</td></tr>
-<tr><td>265,860</td><td>$46,756</td><td>0.0474</td><td>10.00×</td></tr>
+<tr><td><strong>26,586</strong></td><td>$4,676</td><td><strong>0.4307</strong></td><td>1.00×</td></tr>
+<tr><td>32,000</td><td>$5,628</td><td>0.3578</td><td>1.20×</td></tr>
+<tr><td>50,000</td><td>$8,793</td><td>0.2290</td><td>1.88×</td></tr>
+<tr><td>80,000</td><td>$14,070</td><td>0.1431</td><td>3.01×</td></tr>
+<tr><td>100,000</td><td>$17,587</td><td>0.1145</td><td>3.76×</td></tr>
+<tr><td>150,000</td><td>$26,380</td><td>0.0763</td><td>5.64×</td></tr>
+<tr><td>200,000</td><td>$35,174</td><td>0.0572</td><td>7.52×</td></tr>
+<tr><td>265,860</td><td>$46,756</td><td>0.0431</td><td>10.00×</td></tr>
 </table>
 </div>
 <p><strong>Literature bracket — a scenario, not a measurement.</strong> Erlay: Efficient Transaction Relay for Bitcoin (CCS&#x27;19 / arXiv:1905.10518) reports <strong>private:public ≈ 9:1</strong> for the network at the time. Applied to the measured public set (26,586) that yields a <strong>scenario</strong> of ~265,860 — <strong>not a measured node count</strong> and not an established interval. It applies a 2019 topology assumption to today&#x27;s observed reachable population; the public set has since grown ~4×, so the ratio has likely compressed. The <a href="/research/sccr-sensitivity">sensitivity note</a> carries the scenario table and the estimator (<code>R = P·(i/o − 1)</code>) that would measure it.</p>
@@ -135,12 +135,12 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <h2>First-party measurement of the hidden set</h2>
 <p>Two instruments aim at quantity C, which no crawler can see:</p>
 <ul>
-<li><strong>Inbound census</strong> (<code>inbound_census.py</code>) — a listening node counts the peers that <strong>dial in</strong>. Every inbound peer is, by that act, a node not serving inbound itself: first-party evidence of a non-listening node. Current: <strong>0</strong> inbound, <strong>0</strong> distinct ever. This needs reachability (port-forward or Tor) to yield data; it is the highest-value measurement available to this project.</li>
+<li><strong>Inbound census</strong> (<code>inbound_census.py</code>) — a listening node counts the peers that <strong>dial in</strong>. Note that <code>inbound</code> is NOT the same as non-listening: a listening node can dial us too, so this is an <strong>upper bound</strong> on private participation, not a count of non-listening nodes. Its service-bit sample (<code>NODE_NETWORK</code> vs <code>NODE_NETWORK_LIMITED</code>) is the more useful output. Current: <strong>0</strong> inbound, <strong>0</strong> distinct ever. This needs reachability (port-forward or Tor) to yield data; it is the highest-value measurement available to this project.</li>
 <li><strong>Addrman churn</strong> (<code>addrman_churn.py</code>) — sampling the address manager over time measures <strong>address persistence</strong> (2 samples so far (persistence rate 100.0%)), turning &quot;zombie IPs&quot; from an assertion into a measured rotation rate.</li>
 </ul>
 <h2>What would strengthen this</h2>
 <ol>
-<li><strong>Reachability for the node</strong> (port-forward or Tor) → the inbound census produces a genuine lower bound on non-listening nodes.</li>
+<li><strong>Reachability for the node</strong> (port-forward or Tor) → the inbound census yields data on the nodes that dial us (an upper bound on private participation, plus their service bits).</li>
 <li><strong>Time</strong> — churn and seed views need repeated samples; the &quot;missing&quot; numbers accrue automatically.</li>
 <li><strong>A healthy node</strong> — it is currently reindexing after a disk-full chainstate corruption.</li>
 </ol>

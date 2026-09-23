@@ -49,7 +49,7 @@ The canonical `N` is a **measured reachable-node count**, not a census — see
 - **First-party instruments (independent views, each with its own caveat):**
   `verification_population.py` (the observed/unobservable split),
   `seed_census.py` (DNS-seed visible addresses), `addrman_churn.py` (address-pool
-  persistence), `inbound_census.py` (a lower bound on *non-listening* nodes —
+  persistence), `inbound_census.py` (an upper bound on *private* participation —
   requires the node to serve inbound connections).
 - **What to check:** that every instrument reports a **lower bound** and states
   what it does *not* measure. Addresses ≠ nodes; a reachable crawl is silent about

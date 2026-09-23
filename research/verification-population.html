@@ -176,7 +176,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <li>This partition is a lower-bound view of the validating set: hidden/private nodes are excluded and their exclusion makes every burden metric conservative.</li>
 </ul>
 <h2>The first-party inbound test (D5) — and its identity limit</h2>
-<p><code>tools/research/inbound_census.py</code> counts the nodes that <strong>dial us</strong> — each inbound peer is, by that act, a node not serving inbound to a crawler (a non-listening / NAT&#x27;d / private node). Two controlled experiments were run on 2026-09-18 to test whether the Tor route can produce distinct-node evidence:</p>
+<p><code>tools/research/inbound_census.py</code> counts the nodes that <strong>dial us</strong>. That set is a MIX: a <strong>listening</strong> node can dial us too, so these are an <strong>upper bound on private participation</strong>, not a count of non-listening nodes. Two controlled experiments were run on 2026-09-18 to test whether the Tor route can produce distinct-node evidence:</p>
 <div class="table-wrap">
 <table>
 <tr><th>experiment</th><th>result</th></tr>
@@ -186,7 +186,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 </div>
 <p><strong>Both were recorded by Core as <code>127.0.0.1</code>.</strong> Tor&#x27;s hidden-service forwarding hides the origin, so every onion peer looks like loopback. The consequence:</p>
 <ul>
-<li><strong>Tor inbound supports only a _concurrency_ lower bound</strong> — N simultaneous inbound peers means at least N non-listening nodes exist.</li>
+<li><strong>Tor inbound supports only a _concurrency_ bound</strong> — N simultaneous inbound peers means at least N nodes dialled us (an upper bound on private participation, not a count of non-listening nodes).</li>
 <li><strong>Distinct-node counting requires a clearnet port-forward</strong>, where Core sees distinct source IPs. Tor is not a substitute for it.</li>
 </ul>
 <p>The instrument was corrected accordingly (<code>bsahi.inbound-census/2</code>): identity is the peer <strong>IP with the ephemeral port stripped</strong> — which also fixes an overcount in v1, where <code>addr</code> included the source port so every reconnect looked like a new node — and loopback peers are flagged <code>identity_hidden</code> rather than counted. <code>max_concurrent_inbound</code> is the usable first-party lower bound; it remains a lower bound, never a population count.</p>

@@ -125,9 +125,9 @@ Partitions the **26,577 observed reachable nodes** by what a crawl can actually 
 
 ## The first-party inbound test (D5) — and its identity limit
 
-`tools/research/inbound_census.py` counts the nodes that **dial us** — each inbound
-peer is, by that act, a node not serving inbound to a crawler (a non-listening /
-NAT'd / private node). Two controlled experiments were run on 2026-09-18 to test
+`tools/research/inbound_census.py` counts the nodes that **dial us**. That set is a
+MIX: a **listening** node can dial us too, so these are an **upper bound on private
+participation**, not a count of non-listening nodes. Two controlled experiments were run on 2026-09-18 to test
 whether the Tor route can produce distinct-node evidence:
 
 | experiment | result |
@@ -138,8 +138,9 @@ whether the Tor route can produce distinct-node evidence:
 **Both were recorded by Core as `127.0.0.1`.** Tor's hidden-service forwarding
 hides the origin, so every onion peer looks like loopback. The consequence:
 
-- **Tor inbound supports only a _concurrency_ lower bound** — N simultaneous
-  inbound peers means at least N non-listening nodes exist.
+- **Tor inbound supports only a _concurrency_ bound** — N simultaneous inbound
+  peers means at least N nodes dialled us (an upper bound on private participation,
+  not a count of non-listening nodes).
 - **Distinct-node counting requires a clearnet port-forward**, where Core sees
   distinct source IPs. Tor is not a substitute for it.
 

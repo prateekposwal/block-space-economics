@@ -7,8 +7,8 @@
 
 ## What D5 needs
 
-`tools/research/inbound_census.py` wants a lower bound on **non-listening / private
-nodes**: nodes that dial *us*. To count them by identity, the node must see
+`tools/research/inbound_census.py` samples the nodes that dial *us* — an **upper
+bound** on private participation (a listening node can dial us too). To count them by identity, the node must see
 **distinct source IPs** of inbound peers.
 
 ## What blocks it (measured, 2026-09-18)
@@ -161,8 +161,8 @@ sandbox — **cannot work, and would actively corrupt the census**:
 **The correct design is a *seeding* node, not a listener** —
 `tools/net/seed_sentinel.py`: connect out to DNS-seeded peers, complete the
 version/verack handshake, then advertise our own public address so peers add us to
-addrman. Only then does inbound appear, and every inbound peer is a genuine
-validator. **Verified against the live node**: handshake completes and Core returns
+addrman. Only then does inbound appear, and every inbound peer is a node that
+dialled us (an upper bound on private participation, not a non-listening count). **Verified against the live node**: handshake completes and Core returns
 a 29 KB `addr` message, i.e. it accepts the sentinel as a peer.
 
 The seeding sentinel still needs one thing a script cannot conjure: **a host whose
@@ -228,8 +228,8 @@ peers ──dial──▶ VPS bitcoind (public IP) ──getpeerinfo──▶ /v
 
 ## What it buys (and what it still isn't)
 
-- `distinct_inbound_ips_ever` becomes a genuine **lower bound on non-listening
-  nodes** — first-party, clearnet, identity-preserving.
+- `distinct_inbound_ips_ever` becomes a first-party, clearnet, identity-preserving
+  count of nodes that dialled us — an **upper bound on private participation**.
 - It remains a **lower bound**, never a population count: bounded by the VPS's
   slots, uptime, and who happens to dial it.
 - Combine with the existing views (crawler, DNS seeds, addrman) as the fourth

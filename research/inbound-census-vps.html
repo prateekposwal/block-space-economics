@@ -77,7 +77,7 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <p><strong>BSAHI — working note (internal)</strong> <em>Produced: 2026-09-18 · Status: solution design for the clearnet distinct-node evidence.</em></p>
 <hr>
 <h2>What D5 needs</h2>
-<p><code>tools/research/inbound_census.py</code> wants a lower bound on <strong>non-listening / private nodes</strong>: nodes that dial <em>us</em>. To count them by identity, the node must see <strong>distinct source IPs</strong> of inbound peers.</p>
+<p><code>tools/research/inbound_census.py</code> samples the nodes that dial <em>us</em> — an <strong>upper bound</strong> on private participation (a listening node can dial us too). To count them by identity, the node must see <strong>distinct source IPs</strong> of inbound peers.</p>
 <h2>What blocks it (measured, 2026-09-18)</h2>
 <div class="table-wrap">
 <table>
@@ -144,7 +144,7 @@ tools/net/relay-verify.sh &lt;public-ip&gt;</code></pre>
 <li><strong>No such platform exists.</strong> Fly.io retired its free tier and now requires a card on <em>every</em> org; Deno Deploy and Render are HTTP-only; Replit&#x27;s TCP is paid; Glitch shut down in 2025. There is no free, no-card, public raw-TCP host.</li>
 <li><strong>A listener is undiscoverable.</strong> Bitcoin nodes only dial addresses learned via <code>addr</code> gossip or the hardcoded DNS seeds. Measured: a real node advertising an onion for ~1.5 h still had <code>connections_in=0</code>; a bare listener received nothing. What <em>would</em> arrive is <strong>port scanners</strong> — not non-listening validators. Counting them would be fabricated evidence.</li>
 </ol>
-<p><strong>The correct design is a <em>seeding</em> node, not a listener</strong> — <code>tools/net/seed_sentinel.py</code>: connect out to DNS-seeded peers, complete the version/verack handshake, then advertise our own public address so peers add us to addrman. Only then does inbound appear, and every inbound peer is a genuine validator. <strong>Verified against the live node</strong>: handshake completes and Core returns a 29 KB <code>addr</code> message, i.e. it accepts the sentinel as a peer.</p>
+<p><strong>The correct design is a <em>seeding</em> node, not a listener</strong> — <code>tools/net/seed_sentinel.py</code>: connect out to DNS-seeded peers, complete the version/verack handshake, then advertise our own public address so peers add us to addrman. Only then does inbound appear, and every inbound peer is a node that dialled us (an upper bound on private participation, not a non-listening count). <strong>Verified against the live node</strong>: handshake completes and Core returns a 29 KB <code>addr</code> message, i.e. it accepts the sentinel as a peer.</p>
 <p>The seeding sentinel still needs one thing a script cannot conjure: <strong>a host whose public IP is reachable.</strong> No-card routes to that: the home LAN port-forward, a GitHub Student Pack cloud credit, a virtual debit card for Oracle Always-Free (it never bills), or any always-on box on a non-CGNAT network.</p>
 <h3>Why STUN / UDP hole-punching cannot work here (measured 2026-09-18)</h3>
 <p>Ran a correct RFC-5389 STUN probe (<code>tools/net/stun_probe.py</code>) from behind this link. The same local UDP socket mapped to <strong>different external endpoints per destination</strong>:</p>
@@ -174,7 +174,7 @@ tools/net/relay-verify.sh &lt;public-ip&gt;</code></pre>
                                         data/vps_inbound_census.json  (distinct IPs)</code></pre>
 <h2>What it buys (and what it still isn&#x27;t)</h2>
 <ul>
-<li><code>distinct_inbound_ips_ever</code> becomes a genuine <strong>lower bound on non-listening nodes</strong> — first-party, clearnet, identity-preserving.</li>
+<li><code>distinct_inbound_ips_ever</code> becomes a first-party, clearnet, identity-preserving count of nodes that dialled us — an <strong>upper bound on private participation</strong>.</li>
 <li>It remains a <strong>lower bound</strong>, never a population count: bounded by the VPS&#x27;s slots, uptime, and who happens to dial it.</li>
 <li>Combine with the existing views (crawler, DNS seeds, addrman) as the fourth independent instrument.</li>
 </ul>
