@@ -225,7 +225,10 @@ def dashboard_cards():
             _m = _inb.get('distinct_ever') or 0
             _raw = _inb.get('raw_distinct_ever') or 0
             if _m:
-                _priv = ('Private / non-listening: <b>%s measured</b> (lower bound) \u00b7 grade %s'
+                # NOT a lower bound on private nodes: every peer here dialled US, and a
+                # LISTENING node can dial us too, so the set is {private} u {public}
+                # diallers. It is an UPPER bound on private participation.
+                _priv = ('Private / non-listening: <b>%s measured</b> (upper bound on private) \u00b7 grade %s'
                          % (_num(_m, 0), _cg))
             elif _raw:
                 _priv = ('Private / non-listening: <b>not yet measured</b> \u2014 %s inbound so far, '
