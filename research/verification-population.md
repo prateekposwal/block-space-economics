@@ -20,6 +20,37 @@ Four quantities are reported separately and **never conflated**:
 
 **A is not a node count.** `getnodeaddresses 32000` returns addresses from one node's address manager (learned via addr gossip); the set includes stale/unreachable entries and its size depends on peer count and uptime. The measured reachable-node count is B.
 
+## Who provides the infrastructure? Four classes, two of them unobservable
+
+The table above asks *what can be observed*. A different and more useful question is
+*who supplies the infrastructure*, because that is what the storage-cost model divides
+between. Four classes, and only two are within reach of this vantage:
+
+| class | observable? | how | status |
+|---|---|---|---|
+| **Public / listening nodes** | yes | crawler + handshake | measured: **26,586** |
+| **Private / non-listening nodes** | bounded, not counted | inbound peers only | estimate `None` (needs a 2nd capture occasion) |
+| **Institutional** (exchanges, custodians, businesses, mining ops) | **no — not attributable** | hosting concentration only | Hetzner ≈11% of the crawl, but that is a *host*, not an institution |
+| **Delegated / lightweight users** (wallets using someone else's node) | **no — not in the P2P layer** | nothing | no packet distinguishes a remote-node user from an operator |
+
+Two of these are hard limits, not gaps to be closed later:
+
+- **Institutional infrastructure cannot be attributed from the P2P layer.** Exchanges
+  and custodians run on shared cloud, so a node's IP says which *provider* it rents
+  from, not who operates it. This is the same failure mode that made pool-IP
+  geolocation useless (`data/pool_infrastructure.json`: 10 of 14 pool endpoints are
+  CDN-fronted). Counting ASNs is possible; naming institutions is not.
+- **Delegated users are invisible to Bitcoin's own network.** A wallet pointed at
+  someone else's node emits no distinguishing P2P signal. Only wallet telemetry could
+  size this class, and it is not available.
+
+**Why it matters for the cost model.** The infrastructure cost is borne by the public
+and private node classes; the institutional class bears it partially and internally;
+the delegated class bears none of it while receiving the verification guarantee. So
+the four classes are not a taxonomy for its own sake — they are the reason "cost per
+node × N" is a lower bound on the burden, and why the uncovered layer (see the
+fee-allocation analysis) has to be carried by whoever is left holding a node.
+
 ## Composition of the reachable set (26,577 nodes)
 
 **Software** — Bitcoin Core is 97.7% of reachable nodes (self-declared user agents):

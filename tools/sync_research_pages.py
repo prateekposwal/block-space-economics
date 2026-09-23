@@ -136,10 +136,25 @@ def _table_fee_allocation(fa):
         '|---|---:|---:|',
         '| **Security / production** (network energy cost to produce a block) | **$%s** | **%s%%** (subsidy pays %s%%) |'
         % (_comma(sec), cov.get('security_by_fees_pct', '—'), cov.get('security_by_subsidy_pct', '—')),
-        '| **Storage externality** (`L_net`, N=%s, T=%syr) | **$%s** | **%s%%** (the SCCR) |'
+        '| **Storage externality** (`L_net` = N·C·T, N=%s, T=%syr horizon) | **$%s** | **%s%%** |'
         % (n, c.get('storage_horizon_years', 10), _comma(stor), cov.get('storage_by_fees_pct', '—')),
-        '| Node operating cost (network-wide, one year) | $%s | %s%% |'
+        '| Node operating cost (network-wide, **1-year** horizon) | $%s | %s%% |'
         % (_comma(opex), cov.get('network_node_opex_1yr_by_fees_pct', '—')),
+        '',
+        '*Rows 2 and 3 are the SAME cost at different horizons: `L_net` = N·C·T, so row 2 is '
+        'row 3 multiplied by T. Their coverage percentages therefore differ by exactly T '
+        '(%s%% x %s = %s%%) — they are one fact, not two. Reading the pair as "node operation '
+        'is covered but permanence is not" is an error: the model has no separate permanence '
+        'term, permanence IS the multi-year node cost. What the pair actually says is that '
+        'fees fund roughly the first %s of the %s-year commitment.*'
+        % (cov.get('storage_by_fees_pct', '—'), c.get('storage_horizon_years', 10),
+           cov.get('network_node_opex_1yr_by_fees_pct', '—'),
+           round((c.get('storage_horizon_years', 10) or 10) * (cov.get('storage_by_fees_pct') or 0) / 100.0, 1),
+           c.get('storage_horizon_years', 10)),
+        '',
+        '*All rows share ONE fee basis — the measured 30-day mean ($%s/block). The SCCR is a '
+        'separate reading on its own live block window; quoting the two together without '
+        'naming the window is a category error.*' % _comma(rev.get('fees_measured', 0)),
     ])
 
 

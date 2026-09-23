@@ -165,7 +165,7 @@ def main():
         },
         "unpublicised_node_sensitivity": {
             "baseline_N": N0,
-            "baseline_layer": "B — measured reachable validating nodes (strict empirical floor)",
+            "baseline_layer": "B — measured reachable nodes (validating; a floor) (strict empirical floor)",
             "treatment": ("Baseline is anchored strictly to the measured reachable count. "
                           "Non-listening/private/Tor-hidden nodes cannot be audited with Grade B certainty and are "
                           "EXCLUDED from the primary index; they are reported here as an explicit sensitivity band."),

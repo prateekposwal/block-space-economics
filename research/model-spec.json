@@ -31,10 +31,10 @@
       "units": "nodes",
       "kind": "input",
       "value": 26586,
-      "canonicalSource": "MEASURED reachable validating-node count: 26,586 (btcnodes reachable-node crawl, 2026-09-16; data/node_census_series.json). Validating nodes bear the storage cost; miners (a few dozen pools) are separate fee recipients and are not counted here. Non-listening/private nodes are not remotely observable, so this is a measured LOWER bound on validating nodes \u2014 a larger N would lower the SCCR.",
+      "canonicalSource": "MEASURED reachable-node count (validating; a floor): 26,586 (btcnodes reachable-node crawl, 2026-09-16; data/node_census_series.json). Validating nodes bear the storage cost; miners (a few dozen pools) are separate fee recipients and are not counted here. Non-listening/private nodes are not remotely observable, so this is a measured LOWER bound on validating nodes \u2014 a larger N would lower the SCCR.",
       "captured_at": "2026-09-16",
       "census_date": "2026-09-16",
-      "note": "Re-based 2026-09-17 from the previous 32,000 (an addrman ADDRESS sample at the request ceiling, never a node count) to the measured reachable validating-node count. SCCR is inverse-linear in N, so the headline rises by 32000/26586 = 1.2036x (+20.4%). N is a lower bound (non-listening nodes are invisible); the true validating set is larger, which would lower the SCCR. See /research/verification-population.",
+      "note": "Re-based 2026-09-17 from the previous 32,000 (an addrman ADDRESS sample at the request ceiling, never a node count) to the measured reachable-node count (validating; a floor). SCCR is inverse-linear in N, so the headline rises by 32000/26586 = 1.2036x (+20.4%). N is a lower bound (non-listening nodes are invisible); the true validating set is larger, which would lower the SCCR. See /research/verification-population.",
       "superseded_by": "data/verification_population.json"
     },
     "T": {
@@ -142,7 +142,7 @@
       "units": "dimensionless",
       "kind": "derived",
       "formula": "fee_USD / L_net",
-      "value": "band over the capture log; value is inverse-linear in N and the live reading is in data/sccr.json (single writer). N = 26586 measured reachable validating nodes (lower bound).",
+      "value": "band over the capture log; value is inverse-linear in N and the live reading is in data/sccr.json (single writer). N = 26586 measured reachable nodes (validating; a floor) (lower bound).",
       "note": "Computed as fee_USD / L_net with L_net derived from quantities.N=26586. Never hardcode a point value here; read data/sccr.json."
     },
     "cost_per_gb": {
@@ -192,7 +192,7 @@
     }
   },
   "assumptions": [
-    "N = 26,586 is the MEASURED reachable validating-node count (a LOWER bound; non-listening/private nodes are unobservable). The earlier 32K was an addrman ADDRESS sample, and 60K was an estimate - both retired.",
+    "N = 26,586 is the MEASURED reachable-node count (validating; a floor) (a LOWER bound; non-listening/private nodes are unobservable). The earlier 32K was an addrman ADDRESS sample, and 60K was an estimate - both retired.",
     "homogeneous node costs",
     "10-yr archival horizon",
     "block size averaged",
@@ -206,7 +206,7 @@
     {
       "version": "2.1.1",
       "date": "2026-09-17",
-      "change": "N re-based 32,000 -> 26586 (measured reachable validating nodes); every N-derived value (L_net, bw_cost_per_year_net) is now DERIVED from quantities.N and asserted by integrity_audit.py. The stale 60K/32K assumptions were retired."
+      "change": "N re-based 32,000 -> 26586 (measured reachable nodes (validating; a floor)); every N-derived value (L_net, bw_cost_per_year_net) is now DERIVED from quantities.N and asserted by integrity_audit.py. The stale 60K/32K assumptions were retired."
     },
     {
       "version": "2.1.0",

@@ -88,6 +88,23 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 </table>
 </div>
 <p><strong>A is not a node count.</strong> <code>getnodeaddresses 32000</code> returns addresses from one node&#x27;s address manager (learned via addr gossip); the set includes stale/unreachable entries and its size depends on peer count and uptime. The measured reachable-node count is B.</p>
+<h2>Who provides the infrastructure? Four classes, two of them unobservable</h2>
+<p>The table above asks <em>what can be observed</em>. A different and more useful question is <em>who supplies the infrastructure</em>, because that is what the storage-cost model divides between. Four classes, and only two are within reach of this vantage:</p>
+<div class="table-wrap">
+<table>
+<tr><th>class</th><th>observable?</th><th>how</th><th>status</th></tr>
+<tr><td><strong>Public / listening nodes</strong></td><td>yes</td><td>crawler + handshake</td><td>measured: <strong>26,586</strong></td></tr>
+<tr><td><strong>Private / non-listening nodes</strong></td><td>bounded, not counted</td><td>inbound peers only</td><td>estimate <code>None</code> (needs a 2nd capture occasion)</td></tr>
+<tr><td><strong>Institutional</strong> (exchanges, custodians, businesses, mining ops)</td><td><strong>no — not attributable</strong></td><td>hosting concentration only</td><td>Hetzner ≈11% of the crawl, but that is a <em>host</em>, not an institution</td></tr>
+<tr><td><strong>Delegated / lightweight users</strong> (wallets using someone else&#x27;s node)</td><td><strong>no — not in the P2P layer</strong></td><td>nothing</td><td>no packet distinguishes a remote-node user from an operator</td></tr>
+</table>
+</div>
+<p>Two of these are hard limits, not gaps to be closed later:</p>
+<ul>
+<li><strong>Institutional infrastructure cannot be attributed from the P2P layer.</strong> Exchanges and custodians run on shared cloud, so a node&#x27;s IP says which <em>provider</em> it rents from, not who operates it. This is the same failure mode that made pool-IP geolocation useless (<code>data/pool_infrastructure.json</code>: 10 of 14 pool endpoints are CDN-fronted). Counting ASNs is possible; naming institutions is not.</li>
+<li><strong>Delegated users are invisible to Bitcoin&#x27;s own network.</strong> A wallet pointed at someone else&#x27;s node emits no distinguishing P2P signal. Only wallet telemetry could size this class, and it is not available.</li>
+</ul>
+<p><strong>Why it matters for the cost model.</strong> The infrastructure cost is borne by the public and private node classes; the institutional class bears it partially and internally; the delegated class bears none of it while receiving the verification guarantee. So the four classes are not a taxonomy for its own sake — they are the reason &quot;cost per node × N&quot; is a lower bound on the burden, and why the uncovered layer (see the fee-allocation analysis) has to be carried by whoever is left holding a node.</p>
 <h2>Composition of the reachable set (26,577 nodes)</h2>
 <p><strong>Software</strong> — Bitcoin Core is 97.7% of reachable nodes (self-declared user agents):</p>
 <div class="table-wrap">

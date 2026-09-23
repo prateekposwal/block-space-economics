@@ -35,7 +35,7 @@ def load_spec():
     q = spec['quantities']
     return {
         'C': q['C']['value'],        # 925 USD/yr
-        'N': q['N']['value'],        # measured reachable validating nodes (model-spec)
+        'N': q['N']['value'],        # measured reachable nodes (validating; a floor) (model-spec)
         'T': q['T']['value'],        # 10 yr
         'B_block': q['B_block']['value'],  # 1,500,000 bytes
         'R_blocks': q['R_blocks']['value'], # 52,596 blocks/yr

@@ -29,7 +29,7 @@ C_USD = 925.0
 T_YRS = 10.0
 R_BLOCKS = 52596.0
 # Single source of truth: N from model-spec.json (re-based 2026-09-17 to the
-# measured reachable validating-node count).
+# measured reachable-node count (validating; a floor)).
 def _spec_n():
     import os as _os, json as _json
     _root = _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))

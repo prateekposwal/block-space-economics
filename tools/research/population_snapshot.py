@@ -86,7 +86,7 @@ def main():
             "N_units": n.get("units"),
             "N_captured_at": n.get("captured_at"),
             "N_is_lower_bound": True,
-            "N_note": "Measured reachable validating-node count. Non-listening/private nodes are "
+            "N_note": "Measured reachable-node count (validating; a floor). Non-listening/private nodes are "
                       "not remotely observable, so the true set is larger (a larger N lowers the SCCR).",
         },
         "three_quantities": {

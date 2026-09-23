@@ -74,14 +74,29 @@ def main():
     # Distinct from L_net, which is the same cost over T=10 years. Comparing a
     # single node's opex to network-wide fees would be apples-to-oranges.
     node_opex_block = sccr["N"] * q["C"]["value"] / BLOCKS_PER_YEAR
+    # L_net = N*C*T, so the horizon is recoverable from the ratio. Stating it
+    # explicitly is what stops the two node-cost rows being misread as
+    # "operating cost is covered, permanence is not" — they are one cost at two
+    # horizons, differing by exactly T.
+    storage_horizon = round(storage_block / node_opex_block) if node_opex_block else None
 
     subsidy_now = 3.125
     subsidy_usd_block = subsidy_now * (price or 0)
 
+    # ALL coverage percentages share ONE fee basis: the measured fee revenue per
+    # block (30-day mean of the frozen fee_history).
+    #
+    # This was previously wrong. storage_by_fees_pct was `100 * avg_sccr`, which is
+    # CIRCULAR (the SCCR *is* fees/storage) AND on a different window than the opex
+    # row: the live 137-block SCCR reading implies ~$2,014/block while the 30-day
+    # mean is ~$1,417/block. Presenting 43.1% (storage) next to 303.0% (opex) invited
+    # a comparison between two different fee windows. The SCCR is now reported
+    # separately (sccr_reading) instead of smuggled in as a "coverage".
     coverage = {
+        "fee_basis": "measured fee revenue per block (30-day mean, frozen fee_history)",
         "security_by_subsidy_pct": round(100 * subsidy_usd_block / energy_usd_block, 1) if energy_usd_block else None,
         "security_by_fees_pct": round(100 * fee_usd_block_measured / energy_usd_block, 1) if energy_usd_block else None,
-        "storage_by_fees_pct": round(100 * sccr["avg_sccr"], 1),
+        "storage_by_fees_pct": round(100 * fee_usd_block_measured / storage_block, 1) if storage_block else None,
         "network_node_opex_1yr_by_fees_pct": round(100 * fee_usd_block_measured / node_opex_block, 1) if node_opex_block else None,
     }
 
@@ -173,6 +188,18 @@ def main():
                 "production_value_total": round(prod_value_block, 0),
             },
             "coverage_pct": coverage,
+            # The SCCR is a separate metric on its OWN fee window. Reported here so
+            # it is not confused with the coverage percentages above (different base).
+            "sccr_reading": round(sccr["avg_sccr"], 4),
+            "sccr_fee_window_blocks": sccr.get("blocks"),
+            "sccr_note": ("The SCCR (%s over %s blocks) is computed on its own live fee window, "
+                          "which implies ~$%.0f/block — NOT the 30-day mean (~$%.0f/block) used for "
+                          "the coverage percentages. On the SCCR's window storage coverage reads "
+                          "%.1f%%; on the 30-day mean it reads %s%%. The gap is the fee window, "
+                          "and it is real, not noise."
+                          % (round(sccr["avg_sccr"], 4), sccr.get("blocks"),
+                             fee_usd_block_sccr, fee_usd_block_measured,
+                             100 * sccr["avg_sccr"], coverage["storage_by_fees_pct"])),
         },
         "halving_schedule": [{"year": r["year"], "subsidy_btc": r["subsidy_btc"],
                               "subsidy_usd_per_block_at_current_price": round(r["subsidy_btc"] * (price or 0), 0)}
@@ -191,12 +218,19 @@ def main():
         },
         "headline": (
             f"Fees must eventually fund both security and the storage/verification burden; today they fund "
-            f"almost neither. At ~${price:,.0f}/BTC the 2026 fee revenue is ~${fee_usd_block_measured:,.0f}/block "
-            f"against a ~${energy_usd_block:,.0f}/block energy cost to produce a block and a ~${storage_block:,.0f}/block "
-            f"modeled 10-year storage cost — so fees cover {coverage['security_by_fees_pct']}% of production and "
-            f"{coverage['storage_by_fees_pct']}% of storage, while the subsidy ({coverage['security_by_subsidy_pct']}% of energy cost) "
-            f"is still paying the security bill. Under a flat price the subsidy alone stops covering energy around "
-            f"{fee_cover_year}."
+            f"neither fully. At ~${price:,.0f}/BTC the measured fee revenue is "
+            f"~${fee_usd_block_measured:,.0f}/block against a ~${energy_usd_block:,.0f}/block energy cost to "
+            f"produce a block and a ~${storage_block:,.0f}/block modeled storage cost. On ONE fee basis "
+            f"(30-day mean) fees cover {coverage['security_by_fees_pct']}% of production and "
+            f"{coverage['storage_by_fees_pct']}% of the modeled {storage_horizon}yr node-cost commitment "
+            f"(L_net = N*C*T). Note the two node-cost figures are the SAME cost at different horizons: one year "
+            f"of it reads {coverage['network_node_opex_1yr_by_fees_pct']}% (x{storage_horizon} = the T-year "
+            f"figure), so the pair is one fact, not 'opex covered, permanence not'. Put plainly, fees fund "
+            f"roughly the first "
+            f"{round(storage_horizon * (coverage['storage_by_fees_pct'] or 0) / 100.0, 1)} years of the "
+            f"{storage_horizon}-year commitment; the remainder is carried by node operators. The subsidy "
+            f"({coverage['security_by_subsidy_pct']}% of energy cost) is still paying the security bill. Under "
+            f"a flat price the subsidy alone stops covering energy around {fee_cover_year}."
         ) if price else "insufficient recent price/fee data",
         "temporal": {
             "layer": "modelled",

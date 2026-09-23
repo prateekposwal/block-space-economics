@@ -119,7 +119,7 @@ def census_status():
 def census_note():
     """Build the dated N-provenance phrase + staleness honesty note."""
     day, stale = census_status()
-    base = ('N=26,586 measured reachable validating nodes as of %s '
+    base = ('N=26,586 measured reachable nodes (validating; a floor) as of %s '
             '(btcnodes reachable-node crawl; addresses != nodes)' % (day if day else 'unknown date'))
     if not load_census_captured_at():
         return base + ' (N provenance date not committed)'

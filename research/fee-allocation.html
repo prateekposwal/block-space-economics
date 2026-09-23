@@ -82,10 +82,12 @@ p,li,dd,blockquote{overflow-wrap:anywhere}
 <tr><th>claim on fees (2026, per block)</th><th>USD/block</th><th>covered by fees today</th></tr>
 <tr><td>---</td><td>---:</td><td>---:</td></tr>
 <tr><td><strong>Security / production</strong> (network energy cost to produce a block)</td><td><strong>$198,549</strong></td><td><strong>0.7%</strong> (subsidy pays 107.3%)</td></tr>
-<tr><td><strong>Storage externality</strong> (<code>L_net</code>, N=26,586, T=10yr)</td><td><strong>$4,676</strong></td><td><strong>42.7%</strong> (the SCCR)</td></tr>
-<tr><td>Node operating cost (network-wide, one year)</td><td>$468</td><td>303.0%</td></tr>
+<tr><td><strong>Storage externality</strong> (<code>L_net</code> = N·C·T, N=26,586, T=10yr horizon)</td><td><strong>$4,676</strong></td><td><strong>30.3%</strong></td></tr>
+<tr><td>Node operating cost (network-wide, <strong>1-year</strong> horizon)</td><td>$468</td><td>303.0%</td></tr>
 </table>
 </div>
+<p><em>Rows 2 and 3 are the SAME cost at different horizons: <code>L_net</code> = N·C·T, so row 2 is row 3 multiplied by T. Their coverage percentages therefore differ by exactly T (30.3% x 10 = 303.0%) — they are one fact, not two. Reading the pair as &quot;node operation is covered but permanence is not&quot; is an error: the model has no separate permanence term, permanence IS the multi-year node cost. What the pair actually says is that fees fund roughly the first 3.0 of the 10-year commitment.</em></p>
+<p><em>All rows share ONE fee basis — the measured 30-day mean ($1,417/block). The SCCR is a separate reading on its own live block window; quoting the two together without naming the window is a category error.</em></p>
 <p><strong>Actual fee revenue: ~$1,415/block</strong> (measured; frozen series) — against a <strong>$198,549/block</strong> production cost and a <strong>$4,676/block</strong> modeled storage cost (N=26,586). The subsidy ($212,517/block) is what keeps the security budget met today.</p>
 <blockquote><strong>Miners are fee recipients; validators are cost bearers. That asymmetry is the externality.</strong> Miners are a few dozen pools running nodes; the ~26,586 reachable (and the unobservable non-listening) nodes are the ones carrying the storage and validation burden, and they receive nothing.</blockquote>
 <h2>The halving clock</h2>

@@ -212,7 +212,7 @@ function generateReport() {
   lines.push('');
   lines.push('### Caveats');
   lines.push('');
-  lines.push('- Node count N = ' + CONFIG.estimatedNodeCount.toLocaleString() + ' (measured reachable validating nodes, a lower bound). Actual count varies.');
+  lines.push('- Node count N = ' + CONFIG.estimatedNodeCount.toLocaleString() + ' (measured reachable nodes (validating; a floor), a lower bound). Actual count varies.');
   lines.push('- Node costs vary by hardware, bandwidth, electricity.');
   lines.push('- Storage horizon of ' + CONFIG.yearsOfStorage + ' years is an assumption. Some nodes prune earlier, some keep archival data forever.');
   lines.push('- Block size is averaged. Individual blocks vary significantly.');
