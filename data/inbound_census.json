@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.inbound-census/3",
   "layer": "observed",
-  "generated_at": "2026-09-22T05:13:32.761973+00:00",
+  "generated_at": "2026-09-23T03:01:23.023079+00:00",
   "source": "Bitcoin Core getpeerinfo on the project's listening node",
   "method": "tools/research/inbound_census.py \u2014 count peers that dial in (identity = IP, port stripped) and read their service bits",
   "inbound_service_bits": {
@@ -15,19 +15,35 @@
     "note": "NODE_NETWORK = full-chain archival; NODE_NETWORK_LIMITED = pruned. Measured on peers that dialled us, which INCLUDES non-listening nodes a crawler cannot reach \u2014 so it is a replication-factor sample of a population the reachable-node crawl structurally cannot see. `archival_share_pct` excludes peers setting both bits (contradictory, counted in both_bits_ambiguous). Small n by construction (bounded by our inbound slots and uptime); treat as a growing sample, not a network rate."
   },
   "latest": {
-    "at": "2026-09-22T05:13:32.761973+00:00",
-    "connections_in": 0,
-    "inbound_count": 0,
-    "inbound_ips": [],
+    "at": "2026-09-23T03:01:23.023079+00:00",
+    "connections_in": 1,
+    "inbound_count": 1,
+    "inbound_ips": [
+      "2600:1f18:6418:9607:ca06:2abf:6594:32a7"
+    ],
     "inbound_measurement_ips": [],
-    "crawler_ips": [],
-    "inbound_detail": [],
+    "crawler_ips": [
+      "2600:1f18:6418:9607:ca06:2abf:6594:32a7"
+    ],
+    "inbound_detail": [
+      {
+        "ip": "2600:1f18:6418:9607:ca06:2abf:6594:32a7",
+        "subver": "/Metrika-Bitnodes:0.1/",
+        "network": "ipv6",
+        "services": "0000000000000000",
+        "servicesnames": [],
+        "local": "2a11:6c7:f34:3a::2",
+        "crawler": true
+      }
+    ],
     "by_local_addr": {},
     "identity_hidden": false,
     "identity_hidden_ips": [],
-    "connection_type_breakdown": {}
+    "connection_type_breakdown": {
+      "inbound": 1
+    }
   },
-  "samples": 54,
+  "samples": 57,
   "history": [
     {
       "at": "2026-09-17T17:29:55.332181+00:00",
@@ -298,14 +314,30 @@
       "at": "2026-09-22T05:13:32.761973+00:00",
       "inbound_count": 0,
       "connections_in": 0
+    },
+    {
+      "at": "2026-09-22T21:14:17.018616+00:00",
+      "inbound_count": 0,
+      "connections_in": 0
+    },
+    {
+      "at": "2026-09-23T01:25:09.426536+00:00",
+      "inbound_count": 0,
+      "connections_in": 0
+    },
+    {
+      "at": "2026-09-23T03:01:23.023079+00:00",
+      "inbound_count": 1,
+      "connections_in": 1
     }
   ],
-  "distinct_inbound_addresses_ever": 9,
+  "distinct_inbound_addresses_ever": 10,
   "distinct_inbound_measurement_ever": 4,
   "known_crawler_ips_ever": [
     "2001:41b8:810:40:be24:11ff:fe82:aeba",
     "2600:1f18:3aea:7000:9686:54b9:b4c6:8955",
     "2600:1f18:6418:9607:5863:f57b:2272:cb9e",
+    "2600:1f18:6418:9607:ca06:2abf:6594:32a7",
     "2a00:1398:4:2a03::bc12",
     "2a00:1398:4:2a05:4e52:62ff:fe22:6c13"
   ],
@@ -324,5 +356,5 @@
     "listen": "1",
     "reachability": "port-forward for clearnet distinct-node counting; Tor gives a concurrency bound only"
   },
-  "headline": "9 distinct clearnet peer IP(s) and up to 9 concurrent inbound peer(s) across 54 sample(s) have dialled in; latest: 0"
+  "headline": "10 distinct clearnet peer IP(s) and up to 9 concurrent inbound peer(s) across 57 sample(s) have dialled in; latest: 1"
 }
