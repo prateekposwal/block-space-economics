@@ -1,37 +1,37 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-23T11:40:01.973Z",
+  "generated_at": "2026-09-23T12:19:39.949Z",
   "freshness_min": 0,
-  "payload_ts": "2026-09-23T11:39:52.181Z",
-  "fees_ts": "2026-09-23T11:39:52.181Z",
-  "price_ts": "2026-09-23T11:39:52.918Z",
-  "height_ts": "2026-09-23T11:39:54.082Z",
-  "mempool_ts": "2026-09-23T11:40:01.247Z",
-  "lightning_ts": "2026-09-23T11:40:01.972Z",
+  "payload_ts": "2026-09-23T12:19:28.513Z",
+  "fees_ts": "2026-09-23T12:19:28.513Z",
+  "price_ts": "2026-09-23T12:19:29.541Z",
+  "height_ts": "2026-09-23T12:19:30.656Z",
+  "mempool_ts": "2026-09-23T12:19:34.648Z",
+  "lightning_ts": "2026-09-23T12:19:39.926Z",
   "fees": {
-    "fastestFee": 1,
-    "halfHourFee": 1,
+    "fastestFee": 3,
+    "halfHourFee": 3,
     "hourFee": 1,
     "economyFee": 1,
     "minimumFee": 1
   },
-  "btc_price": 85504,
-  "block_height": 968267,
-  "mempool_tx": 79261,
+  "btc_price": 85536,
+  "block_height": 968269,
+  "mempool_tx": 86682,
   "lightning": {
     "latest": {
       "id": 122643,
       "added": "2026-09-23T00:00:00.000Z",
-      "channel_count": 31518,
-      "node_count": 16077,
-      "total_capacity": 374271812321,
-      "tor_nodes": 7875,
+      "channel_count": 31496,
+      "node_count": 16076,
+      "total_capacity": 374133225945,
+      "tor_nodes": 7874,
       "clearnet_nodes": 4592,
       "unannounced_nodes": 2017,
-      "avg_capacity": 11874859,
-      "avg_fee_rate": 811,
+      "avg_capacity": 11878754,
+      "avg_fee_rate": 810,
       "avg_base_fee_mtokens": 919,
-      "med_capacity": 2062500,
+      "med_capacity": 2074480,
       "med_fee_rate": 100,
       "med_base_fee_mtokens": 500,
       "clearnet_tor_nodes": 1593
@@ -57,17 +57,17 @@
   "forecast": [
     {
       "day_offset": 1,
-      "predicted_fastest_fee": 1.8,
+      "predicted_fastest_fee": 1.5,
       "trend": "stable"
     },
     {
       "day_offset": 2,
-      "predicted_fastest_fee": 1.8,
+      "predicted_fastest_fee": 1.4,
       "trend": "stable"
     },
     {
       "day_offset": 3,
-      "predicted_fastest_fee": 1.7,
+      "predicted_fastest_fee": 1.4,
       "trend": "stable"
     }
   ],
@@ -460,6 +460,10 @@
     {
       "date": "2026-09-23",
       "fastestFee": 2
+    },
+    {
+      "date": "2026-09-23",
+      "fastestFee": 1
     },
     {
       "date": "2026-09-23",
