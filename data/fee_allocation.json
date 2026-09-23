@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.fee-allocation/1",
   "layer": "modelled",
-  "generated_at": "2026-09-23T14:36:52.674325+00:00",
+  "generated_at": "2026-09-23T16:08:01.791399+00:00",
   "method": "tools/research/fee_allocation.py \u2014 three claims on fee revenue, per block, and the subsidy crossover. Subsidy arithmetic is exact; prices/energy are a scenario.",
   "current": {
     "year": 2026,
@@ -19,11 +19,15 @@
       "production_value_total": 236830.0
     },
     "coverage_pct": {
+      "fee_basis": "measured fee revenue per block (30-day mean, frozen fee_history)",
       "security_by_subsidy_pct": 107.3,
       "security_by_fees_pct": 0.7,
-      "storage_by_fees_pct": 43.1,
+      "storage_by_fees_pct": 30.3,
       "network_node_opex_1yr_by_fees_pct": 303.0
-    }
+    },
+    "sccr_reading": 0.4307,
+    "sccr_fee_window_blocks": 137,
+    "sccr_note": "The SCCR (0.4307 over 137 blocks) is computed on its own live fee window, which implies ~$2014/block \u2014 NOT the 30-day mean (~$1417/block) used for the coverage percentages. On the SCCR's window storage coverage reads 43.1%; on the 30-day mean it reads 30.3%. The gap is the fee window, and it is real, not noise."
   },
   "halving_schedule": [
     {
@@ -100,7 +104,7 @@
     "fee revenue": "B (frozen series: transaction-fees BTC/day x market price)",
     "multi-decade projection": "C (scenario)"
   },
-  "headline": "Fees must eventually fund both security and the storage/verification burden; today they fund almost neither. At ~$68,198/BTC the 2026 fee revenue is ~$1,417/block against a ~$198,549/block energy cost to produce a block and a ~$4,676/block modeled 10-year storage cost \u2014 so fees cover 0.7% of production and 43.1% of storage, while the subsidy (107.3% of energy cost) is still paying the security bill. Under a flat price the subsidy alone stops covering energy around 2028.",
+  "headline": "Fees must eventually fund both security and the storage/verification burden; today they fund neither fully. At ~$68,198/BTC the measured fee revenue is ~$1,417/block against a ~$198,549/block energy cost to produce a block and a ~$4,676/block modeled storage cost. On ONE fee basis (30-day mean) fees cover 0.7% of production and 30.3% of the modeled 10yr node-cost commitment (L_net = N*C*T). Note the two node-cost figures are the SAME cost at different horizons: one year of it reads 303.0% (x10 = the T-year figure), so the pair is one fact, not 'opex covered, permanence not'. Put plainly, fees fund roughly the first 3.0 years of the 10-year commitment; the remainder is carried by node operators. The subsidy (107.3% of energy cost) is still paying the security bill. Under a flat price the subsidy alone stops covering energy around 2028.",
   "temporal": {
     "layer": "modelled",
     "grade": "C \u2014 price paths are scenarios; the halving is arithmetic",

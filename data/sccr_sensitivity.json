@@ -214,7 +214,7 @@
   },
   "unpublicised_node_sensitivity": {
     "baseline_N": 26586,
-    "baseline_layer": "B \u2014 measured reachable validating nodes (strict empirical floor)",
+    "baseline_layer": "B \u2014 measured reachable nodes (validating; a floor) (strict empirical floor)",
     "treatment": "Baseline is anchored strictly to the measured reachable count. Non-listening/private/Tor-hidden nodes cannot be audited with Grade B certainty and are EXCLUDED from the primary index; they are reported here as an explicit sensitivity band.",
     "direction": "Excluding unpublicised nodes makes L_net a LOWER bound and the reported SCCR an UPPER bound \u2014 the baseline is therefore CONSERVATIVE with respect to the externality.",
     "curve": [

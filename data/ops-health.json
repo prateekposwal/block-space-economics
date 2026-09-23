@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-23T14:24:17.961Z",
+  "generated_at": "2026-09-23T15:56:27.123Z",
   "status": "DEGRADED",
   "issues": [
     "SPOOL: stale sources: bip110_signal,block_interval",
-    "CAPTURE: failure ratio 86% (last 24h) > 20%"
+    "CAPTURE: failure ratio 83% (last 24h) > 20%"
   ],
   "checks": {
     "spool": {
       "accountingOk": true,
-      "pending": 0,
+      "pending": 3,
       "dead": 0,
       "stale": 2
     },
@@ -18,18 +18,18 @@
       "agent": "running"
     },
     "de_agent": {
-      "lastRunAgeMin": 46
+      "lastRunAgeMin": 1
     },
     "orchestrator": {
-      "heartbeatAgeMin": 35804,
+      "heartbeatAgeMin": 35896,
       "phase": "cycle-complete",
       "scheduled": false
     },
     "capture": {
-      "failureRatioPct": 86,
+      "failureRatioPct": 83,
       "windowHours": 24,
-      "windowTotal": 378,
-      "windowFailed": 326
+      "windowTotal": 393,
+      "windowFailed": 328
     }
   }
 }
