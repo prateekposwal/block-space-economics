@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.inbound-census/3",
   "layer": "observed",
-  "generated_at": "2026-09-23T12:05:39.615192+00:00",
+  "generated_at": "2026-09-23T13:53:28.157007+00:00",
   "source": "Bitcoin Core getpeerinfo on the project's listening node",
   "method": "tools/research/inbound_census.py \u2014 count peers that dial in (identity = IP, port stripped) and read their service bits",
   "inbound_service_bits": {
@@ -15,37 +15,20 @@
     "note": "NODE_NETWORK = full-chain archival; NODE_NETWORK_LIMITED = pruned. Measured on peers that dialled us, which INCLUDES non-listening nodes a crawler cannot reach \u2014 so it is a replication-factor sample of a population the reachable-node crawl structurally cannot see. `archival_share_pct` excludes peers setting both bits (contradictory, counted in both_bits_ambiguous). Small n by construction (bounded by our inbound slots and uptime); treat as a growing sample, not a network rate."
   },
   "latest": {
-    "at": "2026-09-23T12:05:39.615192+00:00",
-    "connections_in": 5,
-    "inbound_count": 5,
+    "at": "2026-09-23T13:53:28.157007+00:00",
+    "connections_in": 2,
+    "inbound_count": 2,
     "inbound_ips": [
-      "2001:41b8:810:40:be24:11ff:fe82:aeba",
       "2602:fcdb:0:3::186",
-      "2607:5300:201:3100::3b74",
-      "2a00:1398:4:2a03::bc12",
       "2a00:1398:4:2a05:4e52:62ff:fe22:6c13"
     ],
     "inbound_measurement_ips": [
-      "2602:fcdb:0:3::186",
-      "2607:5300:201:3100::3b74"
+      "2602:fcdb:0:3::186"
     ],
     "crawler_ips": [
-      "2001:41b8:810:40:be24:11ff:fe82:aeba",
-      "2a00:1398:4:2a03::bc12",
       "2a00:1398:4:2a05:4e52:62ff:fe22:6c13"
     ],
     "inbound_detail": [
-      {
-        "ip": "2a00:1398:4:2a03::bc12",
-        "subver": "/dsn.tm.kit.edu/bitcoin:0.9.99/",
-        "network": "ipv6",
-        "services": "0000000000000001",
-        "servicesnames": [
-          "NETWORK"
-        ],
-        "local": "2a11:6c7:f34:3a::2",
-        "crawler": true
-      },
       {
         "ip": "2602:fcdb:0:3::186",
         "subver": "/Satoshi:25.1.0/",
@@ -70,26 +53,6 @@
         ],
         "local": "2a11:6c7:f34:3a::2",
         "crawler": true
-      },
-      {
-        "ip": "2001:41b8:810:40:be24:11ff:fe82:aeba",
-        "subver": "/dsn.tm.kit.edu/bitcoin:0.9.99/",
-        "network": "ipv6",
-        "services": "0000000000000001",
-        "servicesnames": [
-          "NETWORK"
-        ],
-        "local": "2a11:6c7:f34:3a::2",
-        "crawler": true
-      },
-      {
-        "ip": "2607:5300:201:3100::3b74",
-        "subver": "",
-        "network": "ipv6",
-        "services": "0000000000000000",
-        "servicesnames": [],
-        "local": null,
-        "crawler": false
       }
     ],
     "by_local_addr": {
@@ -100,10 +63,10 @@
     "identity_hidden": false,
     "identity_hidden_ips": [],
     "connection_type_breakdown": {
-      "inbound": 5
+      "inbound": 2
     }
   },
-  "samples": 60,
+  "samples": 61,
   "history": [
     {
       "at": "2026-09-17T17:29:55.332181+00:00",
@@ -404,6 +367,11 @@
       "at": "2026-09-23T12:05:39.615192+00:00",
       "inbound_count": 5,
       "connections_in": 5
+    },
+    {
+      "at": "2026-09-23T13:53:28.157007+00:00",
+      "inbound_count": 2,
+      "connections_in": 2
     }
   ],
   "distinct_inbound_addresses_ever": 11,
@@ -431,5 +399,5 @@
     "listen": "1",
     "reachability": "port-forward for clearnet distinct-node counting; Tor gives a concurrency bound only"
   },
-  "headline": "11 distinct clearnet peer IP(s) and up to 9 concurrent inbound peer(s) across 60 sample(s) have dialled in; latest: 5"
+  "headline": "11 distinct clearnet peer IP(s) and up to 9 concurrent inbound peer(s) across 61 sample(s) have dialled in; latest: 2"
 }

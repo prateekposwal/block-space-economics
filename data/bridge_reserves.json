@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.bridge-reserves/1",
   "layer": "observed",
-  "generated_at": "2026-09-23T12:06:29.252376+00:00",
+  "generated_at": "2026-09-23T13:55:43.208406+00:00",
   "source": "Bitcoin custody balances measured via Esplora; token supply via eth_call totalSupply() across independent public RPCs. Custodian address lists are the issuers' published disclosures.",
   "method": "backing_ratio = measured BTC reserves / token supply. Both exploit families drive the ratio below 1: a custody drain lowers the numerator, an unbacked mint raises the denominator.",
   "scope": "Solvency/backing monitor. It observes the CONSEQUENCE of an unbacked mint (supply detaching from reserves), not the contract bug. It cannot see the mint itself, which happens on another chain.",
