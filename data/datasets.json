@@ -1,6 +1,6 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-23T03:01:22.142552+00:00",
+  "generated_at": "2026-09-23T09:45:11.503284+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
   "count": 47,
   "datasets": [
@@ -12,8 +12,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Addrman churn \u2014 empirical address-pool staleness (first-party gossip sampler)",
-      "bytes": 1760,
-      "updated": "2026-09-21T22:58:37.498228+00:00",
+      "bytes": 1841,
+      "updated": "2026-09-23T03:03:50.515757+00:00",
       "rows": null
     },
     {
@@ -24,9 +24,9 @@
       "layer": "observed",
       "grade": "C",
       "description": "Append-only history of the local addrman PUBLIC address sample (trend of node_census.json)",
-      "bytes": 1441,
-      "updated": "2026-09-22T01:00:35.712Z",
-      "rows": 3
+      "bytes": 1741,
+      "updated": "2026-09-23T03:02:18.126Z",
+      "rows": 4
     },
     {
       "name": "avg-block-size.json",
@@ -72,8 +72,8 @@
       "layer": "observed",
       "grade": "C",
       "description": "Per-block relay: announcing-node counts + propagation stats (btcnodes inv sampler)",
-      "bytes": 22918,
-      "updated": "2026-09-22T05:14:59.416622+00:00",
+      "bytes": 63840,
+      "updated": "2026-09-23T03:04:38.923672+00:00",
       "rows": null
     },
     {
@@ -84,8 +84,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Bridge backing-ratio monitor: measured BTC custody vs token supply, with a completeness guard and incident replays",
-      "bytes": 9016,
-      "updated": "2026-09-22T05:21:40.306814+00:00",
+      "bytes": 9063,
+      "updated": "2026-09-23T03:49:14.659577+00:00",
       "rows": null
     },
     {
@@ -97,7 +97,7 @@
       "grade": "C",
       "description": "Three-axis contribution join: verification population | block relay | block production",
       "bytes": 2433,
-      "updated": "2026-09-23T01:43:07.159723+00:00",
+      "updated": "2026-09-23T03:04:42.004484+00:00",
       "rows": null
     },
     {
@@ -108,8 +108,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "D5 census endpoint status: tunnel, EXTERNAL reachability self-test, inbound counts",
-      "bytes": 1022,
-      "updated": "2026-09-23T01:49:42.856650+00:00",
+      "bytes": 1065,
+      "updated": "2026-09-23T03:54:03.435467+00:00",
       "rows": null
     },
     {
@@ -133,7 +133,7 @@
       "grade": "C",
       "description": "Three claims on fee revenue per block + the subsidy crossover + temporal price-path scenarios",
       "bytes": 13924,
-      "updated": "2026-09-23T03:01:22.015539+00:00",
+      "updated": "2026-09-23T09:45:10.975268+00:00",
       "rows": null
     },
     {
@@ -157,7 +157,7 @@
       "grade": "A",
       "description": "One-shot record: IBD cleared + first measured block-relay participation",
       "bytes": 930,
-      "updated": "2026-09-23T01:43:44.674023+00:00",
+      "updated": "2026-09-23T03:54:02.292428+00:00",
       "rows": null
     },
     {
@@ -168,8 +168,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Inbound-peer census \u2014 first-party lower bound on non-listening nodes",
-      "bytes": 10103,
-      "updated": "2026-09-23T01:25:09.426536+00:00",
+      "bytes": 10676,
+      "updated": "2026-09-23T03:01:23.023079+00:00",
       "rows": null
     },
     {
@@ -252,8 +252,8 @@
       "layer": "observed",
       "grade": "C",
       "description": "Address-manager sample: gossiped ADDRESSES (not nodes)",
-      "bytes": 1153,
-      "updated": "2026-09-22T01:00:35.625448+00:00",
+      "bytes": 1129,
+      "updated": "2026-09-23T03:02:18.125721+00:00",
       "rows": null
     },
     {
@@ -276,8 +276,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "First-party reachable-node census by P2P handshake crawl (network class, client mix, sync)",
-      "bytes": 6198,
-      "updated": "2026-09-23T02:59:46.108402+00:00",
+      "bytes": 6596,
+      "updated": "2026-09-23T03:05:46.632363+00:00",
       "rows": null
     },
     {
@@ -312,8 +312,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)",
-      "bytes": 834,
-      "updated": "2026-09-23T02:46:46.651669+00:00",
+      "bytes": 851,
+      "updated": "2026-09-23T09:42:53.759559+00:00",
       "rows": null
     },
     {
@@ -325,7 +325,7 @@
       "grade": "B",
       "description": "Per-block SPOT samples (weight/size/tx/fee) vs the era aggregates",
       "bytes": 59502,
-      "updated": "2026-09-23T01:42:40.233571+00:00",
+      "updated": "2026-09-23T03:49:14.987315+00:00",
       "rows": null
     },
     {
@@ -372,8 +372,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Robust multi-venue BTC/USD reference rate (median + MAD outlier rejection, full provenance)",
-      "bytes": 941,
-      "updated": "2026-09-23T01:43:42.417086+00:00",
+      "bytes": 906,
+      "updated": "2026-09-23T03:49:31.248030+00:00",
       "rows": null
     },
     {
@@ -409,7 +409,7 @@
       "grade": "A",
       "description": "First-party block-relay propagation CDF (per-peer deltas, clearnet vs overlay, BIP152 HB)",
       "bytes": 1187,
-      "updated": "2026-09-23T02:46:46.653683+00:00",
+      "updated": "2026-09-23T09:42:53.760713+00:00",
       "rows": null
     },
     {
@@ -433,7 +433,7 @@
       "grade": "B",
       "description": "Latest Storage Cost Coverage Ratio reading (dated)",
       "bytes": 779,
-      "updated": "2026-09-23T03:01:19.596258+00:00",
+      "updated": "2026-09-23T09:45:06.158963+00:00",
       "rows": null
     },
     {
@@ -457,7 +457,7 @@
       "grade": "B",
       "description": "Daily SCCR series",
       "bytes": 615,
-      "updated": "2026-09-23T03:01:19.596258+00:00",
+      "updated": "2026-09-23T09:45:06.158963+00:00",
       "rows": null
     },
     {
@@ -468,8 +468,8 @@
       "layer": "modelled",
       "grade": "C",
       "description": "SCCR sensitivity bands, bootstrap CI and stress test",
-      "bytes": 9348,
-      "updated": "2026-09-23T03:01:21.871140+00:00",
+      "bytes": 9342,
+      "updated": "2026-09-23T09:45:10.607163+00:00",
       "rows": null
     },
     {
@@ -480,8 +480,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "DNS-seed address census \u2014 a third independent view of the node population",
-      "bytes": 2466,
-      "updated": "2026-09-22T21:30:42.840173+00:00",
+      "bytes": 18990,
+      "updated": "2026-09-23T03:04:00.001881+00:00",
       "rows": null
     },
     {
@@ -540,8 +540,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "Measured node-side validation cost per era from a full -reindex (first-party, no API)",
-      "bytes": 13380,
-      "updated": "2026-09-23T01:43:08.653956+00:00",
+      "bytes": 13726,
+      "updated": "2026-09-23T03:49:16.809324+00:00",
       "rows": null
     },
     {

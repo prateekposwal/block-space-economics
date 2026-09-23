@@ -1,60 +1,74 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-09-23T03:47:18.813Z",
+  "generated_at": "2026-09-23T09:53:41.772Z",
   "freshness_min": 0,
-  "payload_ts": "2026-09-23T03:47:11.895Z",
-  "fees_ts": "2026-09-23T03:47:11.895Z",
-  "price_ts": "2026-09-23T03:47:12.867Z",
-  "height_ts": "2026-09-23T03:47:14.009Z",
-  "mempool_ts": "2026-09-23T03:47:18.478Z",
-  "lightning_ts": "2026-09-23T03:47:18.790Z",
+  "payload_ts": "2026-09-23T09:53:33.851Z",
+  "fees_ts": "2026-09-23T09:53:33.851Z",
+  "price_ts": "2026-09-23T09:53:34.957Z",
+  "height_ts": "2026-09-23T09:53:37.188Z",
+  "mempool_ts": "2026-09-23T09:53:41.487Z",
+  "lightning_ts": "2026-09-23T09:53:41.771Z",
   "fees": {
-    "fastestFee": 1,
+    "fastestFee": 2,
     "halfHourFee": 1,
     "hourFee": 1,
     "economyFee": 1,
     "minimumFee": 1
   },
-  "btc_price": 86827,
-  "block_height": 968221,
-  "mempool_tx": 82825,
+  "btc_price": 85828,
+  "block_height": 968255,
+  "mempool_tx": 84134,
   "lightning": {
     "latest": {
-      "id": 157258,
-      "added": "2026-07-13T00:00:00.000Z",
-      "channel_count": 39627,
-      "node_count": 17334,
-      "total_capacity": 445087713469,
-      "tor_nodes": 8839,
-      "clearnet_nodes": 4680,
-      "unannounced_nodes": 2023,
-      "avg_capacity": 11231931,
-      "avg_fee_rate": 842,
-      "avg_base_fee_mtokens": 882,
-      "med_capacity": 2094438,
+      "id": 145375,
+      "added": "2026-08-30T00:00:00.000Z",
+      "channel_count": 32518,
+      "node_count": 16225,
+      "total_capacity": 375370668018,
+      "tor_nodes": 7974,
+      "clearnet_nodes": 4598,
+      "unannounced_nodes": 2022,
+      "avg_capacity": 11543473,
+      "avg_fee_rate": 823,
+      "avg_base_fee_mtokens": 904,
+      "med_capacity": 2010000,
       "med_fee_rate": 100,
-      "med_base_fee_mtokens": 100,
-      "clearnet_tor_nodes": 1792
+      "med_base_fee_mtokens": 500,
+      "clearnet_tor_nodes": 1631
     }
   },
   "forecast": [
     {
       "day_offset": 1,
-      "predicted_fastest_fee": 2.2,
+      "predicted_fastest_fee": 1.8,
       "trend": "stable"
     },
     {
       "day_offset": 2,
-      "predicted_fastest_fee": 2.2,
+      "predicted_fastest_fee": 1.8,
       "trend": "stable"
     },
     {
       "day_offset": 3,
-      "predicted_fastest_fee": 2.2,
+      "predicted_fastest_fee": 1.7,
       "trend": "stable"
     }
   ],
-  "alerts": [],
+  "alerts": [
+    "🛡 SITE / -> 0 (timeout)",
+    "🛡 SITE /live -> 0 (timeout)",
+    "🛡 SITE /capacity -> 0 (timeout)",
+    "🛡 SITE /learn -> 0 (timeout)",
+    "🛡 SITE /fork-tracker -> 0 (timeout)",
+    "🛡 SITE /feed.xml -> 0 (timeout)",
+    "🛡 SITE /data/snapshot.json -> 0 (timeout)",
+    "🛡 SITE /data/ops-health.json -> 0 (timeout)",
+    "🛡 SITE /data/site-health.json -> 0 (timeout)",
+    "🛡 SITE /api/v1/ -> 0 (timeout)",
+    "🛡 SITE /robots.txt -> 0 (timeout)",
+    "🛡 SITE /sitemap.xml -> 0 (timeout)",
+    "⏳ STALE data/perblock_validation.json — 6h old (max 4h; per-block spot samples (30-min collector))"
+  ],
   "history": [
     {
       "date": "2026-09-17",
@@ -443,6 +457,10 @@
     {
       "date": "2026-09-23",
       "fastestFee": 2
+    },
+    {
+      "date": "2026-09-23",
+      "fastestFee": 1
     }
   ],
   "totalPosts": 0

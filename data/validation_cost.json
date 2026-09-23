@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.validation-cost/1",
   "layer": "observed",
-  "generated_at": "2026-09-23T03:04:52.867378+00:00",
+  "generated_at": "2026-09-23T09:53:32.886027+00:00",
   "source": "local Bitcoin Core debug.log UpdateTip wall-clock timings during a full -reindex (single machine, first-party)",
   "hardware": {
     "model": "MacBookAir10,1",
@@ -11,14 +11,14 @@
   },
   "pass": {
     "start_utc": "2026-09-21T00:35:30+00:00",
-    "end_utc": "2026-09-23T03:04:52+00:00",
+    "end_utc": "2026-09-23T09:48:33+00:00",
     "from_height": 710825,
-    "to_height": 771795,
-    "blocks": 60970,
-    "txs": 107092327,
-    "wall_seconds": 181762,
-    "blocks_per_sec": 0.335,
-    "ms_per_block": 2981.171,
+    "to_height": 775350,
+    "blocks": 64525,
+    "txs": 114215165,
+    "wall_seconds": 205983,
+    "blocks_per_sec": 0.313,
+    "ms_per_block": 3192.298,
     "still_reindexing": true
   },
   "by_era": [
@@ -50,16 +50,16 @@
     },
     {
       "era": "2023",
-      "blocks": 2008,
-      "wall_seconds": 78595,
+      "blocks": 5563,
+      "wall_seconds": 102816,
       "height_from": 769787,
-      "height_to": 771795,
-      "txs": 3469640,
-      "blocks_per_sec": 0.026,
-      "ms_per_block": 39140.936,
-      "tx_per_sec": 44.1,
-      "us_per_tx": 22652.21,
-      "cost_index_vs_base": 63.78
+      "height_to": 775350,
+      "txs": 10592478,
+      "blocks_per_sec": 0.054,
+      "ms_per_block": 18482.114,
+      "tx_per_sec": 103.0,
+      "us_per_tx": 9706.51,
+      "cost_index_vs_base": 30.11
     }
   ],
   "cost_index_base_era": "2021",
@@ -525,6 +525,20 @@
       "progress": 0.5266731042199242,
       "ibd": true,
       "bitcoind_cpu_pct": 29.6
+    },
+    {
+      "at": "2026-09-23T03:49:15.429572+00:00",
+      "height": 773401,
+      "progress": 0.5287195584477166,
+      "ibd": true,
+      "bitcoind_cpu_pct": 11.6
+    },
+    {
+      "at": "2026-09-23T09:53:31.505108+00:00",
+      "height": 775350,
+      "progress": 0.5313307255299944,
+      "ibd": true,
+      "bitcoind_cpu_pct": 0.6
     }
   ],
   "caveats": [

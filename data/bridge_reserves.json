@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.bridge-reserves/1",
   "layer": "observed",
-  "generated_at": "2026-09-23T03:03:35.006951+00:00",
+  "generated_at": "2026-09-23T09:53:11.652840+00:00",
   "source": "Bitcoin custody balances measured via Esplora; token supply via eth_call totalSupply() across independent public RPCs. Custodian address lists are the issuers' published disclosures.",
   "method": "backing_ratio = measured BTC reserves / token supply. Both exploit families drive the ratio below 1: a custody drain lowers the numerator, an unbacked mint raises the denominator.",
   "scope": "Solvency/backing monitor. It observes the CONSEQUENCE of an unbacked mint (supply detaching from reserves), not the contract bug. It cannot see the mint itself, which happens on another chain.",
@@ -31,9 +31,9 @@
       },
       "supply_snapshot_prev": 116132.18273272,
       "supply_change_pct": 0.0,
-      "reserves_btc_confirmed": 40220.4801,
+      "reserves_btc_confirmed": 37818.662,
       "reserves_btc_unconfirmed": 0.0,
-      "reserves_btc_measured": 40220.4801,
+      "reserves_btc_measured": 37818.662,
       "custody_addresses": [
         {
           "address": "3PRCCQMdWwjEKy89iVdL8LouknsgygwWpL",
@@ -53,9 +53,7 @@
         },
         {
           "address": "3QdyHj1i4y5CywEFWJ5PwoqGzDxGyJGPeb",
-          "btc": 2401.8181,
-          "unconfirmed_btc": 0.0,
-          "utxos": 7
+          "error": "RuntimeError"
         },
         {
           "address": "3MnCLWSq31hetgbVA1Xn1VxVVb31SPeSKa",
@@ -164,14 +162,14 @@
       },
       "unmeasured_total_btc": 367.009,
       "published_reserves_btc": 116511.9929,
-      "custody_coverage": 0.3452,
-      "backing_ratio": 0.346334,
-      "backing_ratio_lower_bound": 0.345243,
+      "custody_coverage": 0.3246,
+      "backing_ratio": 0.325652,
+      "backing_ratio_lower_bound": 0.324626,
       "status": "INCOMPLETE_CUSTODY_LIST",
       "flags": [
-        "CUSTODY_COVERAGE_34.5%",
+        "CUSTODY_COVERAGE_32.5%",
         "NO_SOLVENCY_VERDICT",
-        "ADDRESSES_UNUSABLE_1"
+        "ADDRESSES_UNUSABLE_2"
       ],
       "custody_source": "https://www.wbtc.network/transparency",
       "note": "backing_ratio_lower_bound counts the unmeasured chains' published supply as real, so it is the conservative (solvency-safe) view. custody_coverage = measured reserves / the issuer's claimed total; below 1.0 the address list is incomplete and NO solvency verdict is issued, because a partial reserve fakes exactly the shortfall this tool exists to detect."
@@ -255,7 +253,7 @@
     }
   ],
   "alerts": [
-    "wbtc custody list has 1 unusable address(es)"
+    "wbtc custody list has 2 unusable address(es)"
   ],
   "alert_policy": "ALERT on: backing ratio below 0.98 once custody coverage is complete; a supply step of >= 5.0% between snapshots; or an undercollateralised flag. INCOMPLETE_CUSTODY_LIST and SUPPLY_ONLY are reported but never alerted, because neither can support a solvency claim."
 }

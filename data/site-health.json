@@ -1,156 +1,285 @@
 {
-  "generated_at": "2026-09-23T03:45:53.488Z",
+  "generated_at": "2026-09-23T09:52:07.617Z",
   "host": "bitcoinsahi.com",
-  "status": "HEALTHY",
+  "status": "DEGRADED",
   "checks": [
     {
       "route": "/",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 499,
-      "bytes": 37904,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 26011,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/live",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 544,
-      "bytes": 75603,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 25999,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/capacity",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 506,
-      "bytes": 39397,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 25978,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/learn",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 504,
-      "bytes": 62469,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 25977,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/fork-tracker",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 443,
-      "bytes": 38987,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 25975,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/feed.xml",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 425,
-      "bytes": 509,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 26163,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/data/snapshot.json",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 353,
-      "bytes": 8402,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 26145,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/data/ops-health.json",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 355,
-      "bytes": 653,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 26140,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/data/site-health.json",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 410,
-      "bytes": 3121,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 26142,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/api/v1/",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 439,
-      "bytes": 4141,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 25970,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/robots.txt",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 408,
-      "bytes": 469,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 26136,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     },
     {
       "route": "/sitemap.xml",
       "expected": 200,
-      "status": 200,
-      "ttfbMs": 434,
-      "bytes": 5918,
-      "ok": true
+      "status": 0,
+      "ttfbMs": 26140,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
     }
   ],
-  "failures": [],
+  "failures": [
+    {
+      "route": "/",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 26011,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/live",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 25999,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/capacity",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 25978,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/learn",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 25977,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/fork-tracker",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 25975,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/feed.xml",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 26163,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/data/snapshot.json",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 26145,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/data/ops-health.json",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 26140,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/data/site-health.json",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 26142,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/api/v1/",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 25970,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/robots.txt",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 26136,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    },
+    {
+      "route": "/sitemap.xml",
+      "expected": 200,
+      "status": 0,
+      "ttfbMs": 26140,
+      "bytes": 0,
+      "ok": false,
+      "error": "timeout"
+    }
+  ],
   "data_freshness": [
     {
       "file": "data/inbound_census.json",
       "why": "inbound census (hourly collector)",
       "maxHours": 6,
-      "ageHours": 0.7,
+      "ageHours": 0,
       "ok": true
     },
     {
       "file": "data/perblock_validation.json",
       "why": "per-block spot samples (30-min collector)",
       "maxHours": 4,
-      "ageHours": 0.7,
-      "ok": true
+      "ageHours": 6,
+      "ok": false
     },
     {
       "file": "data/addrman_churn.json",
       "why": "addrman churn (12-h collector)",
       "maxHours": 30,
-      "ageHours": 0.7,
+      "ageHours": 6.8,
       "ok": true
     },
     {
       "file": "data/seed_census.json",
       "why": "DNS-seed census (12-h collector)",
       "maxHours": 30,
-      "ageHours": 0.7,
+      "ageHours": 6.8,
       "ok": true
     },
     {
       "file": "data/node_census_series.json",
       "why": "reachable-node crawl / canonical N (daily)",
       "maxHours": 48,
-      "ageHours": 0.9,
+      "ageHours": 7,
       "ok": true
     },
     {
       "file": "data/mining_concentration.json",
       "why": "mining concentration (daily)",
       "maxHours": 48,
-      "ageHours": 0.9,
+      "ageHours": 7,
       "ok": true
     },
     {
       "file": "data/sccr.json",
       "why": "SCCR reading (daily / cloud tier)",
       "maxHours": 48,
-      "ageHours": 0.7,
+      "ageHours": 0.1,
       "ok": true
     }
   ],
-  "stale_datasets": []
+  "stale_datasets": [
+    {
+      "file": "data/perblock_validation.json",
+      "why": "per-block spot samples (30-min collector)",
+      "maxHours": 4,
+      "ageHours": 6,
+      "ok": false
+    }
+  ]
 }
