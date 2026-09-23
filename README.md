@@ -38,6 +38,16 @@ Ratio** — is **Metric #1**, established and reproduced.
 v1 (priority oracle) and v2 (externality fee) are dead; this is the research-first
 successor.
 
+**Beyond the base layer (wrapper/bridge workstream).** The same accounting applied
+to *bridged* BTC: a bridge is two ledgers pretending to be one asset, so the detector
+is the ratio between measured BTC custody and token supply. It catches both failure
+families — a custody drain (Liquid) and an unbacked mint (Symbiosis) — and is
+deliberately **silent** when it cannot see the whole reserve, because a partial
+reserve fakes exactly the shortfall it exists to detect
+([bridge-reserve-monitor](research/bridge-reserve-monitor.md)). The complementary
+audit establishes the *Bitcoin-leg* ground truth for off-chain incidents
+([base-layer-not-compromised](research/base-layer-not-compromised.md)).
+
 © 2026 Prateek Poswal. Code licensed under the MIT License (see `LICENSE`);
 research text licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
 
@@ -116,7 +126,12 @@ bash research/reproduce/cross_check.sh     # prints all three + VERDICT
 claim): the 3-step protocol is in
 [`research/reproduce/README.md`](research/reproduce/README.md).
 
-## Results (frozen snapshot 2026-09-16, 155 blocks, model-spec v2.1.1)
+## Results
+
+**Current reading** (2026-09-23, 137 blocks, model-spec v2.1.1): SCCR **0.4307**,
+94.89% of blocks below 1×. Read it live from `data/sccr.json` — **never hardcode it.**
+
+**Frozen snapshot** (2026-09-16, 155 blocks) — the dated capture the paper uses:
 
 | Metric | Value |
 |---|---|
@@ -124,6 +139,14 @@ claim): the 3-step protocol is in
 | Min / Max | 0.0590 / 1.2948 |
 | Blocks below 1× | **98.1%** (152/155) |
 | L_net | $4,675.65 / block |
+
+**What the ratio does and does not say:** SCCR is a coverage ratio for a *ten-year*
+commitment (`L_net = N·C·T`) evaluated on *one* fee reading. At the current reading
+that is ~30% of the modelled commitment — i.e. **fees fund roughly the first 3 of
+the 10 modelled years, and node operators carry the rest.** It is not a solvency
+verdict ("Bitcoin is 57% underfunded" is an over-read). Full reasoning, including a
+horizon trap in the cost table, in
+[fees-fund-three-of-ten-years](research/fees-fund-three-of-ten-years.md).
 
 The ratio is a **banded, dated estimate that moves with the fee market**:
 ~0.29 across captures at the measured N=26,586, with ~98% of sampled
@@ -138,9 +161,13 @@ read it from `research/model-spec.json` or run the tool.
 
 1. **N=26,586 is a lower bound** — it counts reachable (listening) nodes; the
    total including non-listening nodes is unknown. Independent estimates span ~10K–100K.
-2. **T=10 yr is an assumption** — pruning shortens actual retention; the
-   pruned-vs-archival split is *not yet measured* (data gap named in
-   [`research/archival-vs-pruned-note.md`](research/archival-vs-pruned-note.md)).
+2. **T=10 yr is an assumption** — pruning shortens actual retention. The
+   pruned-vs-archival split is now **measured on the reachable crawl**:
+   `NODE_NETWORK` 4,356 vs `NODE_NETWORK_LIMITED` 1,040 (80.7% / 19.3%, see
+   `data/node_crawl.json`), and inbound peers now give a service-bit sample of the
+   population a crawler cannot see (`data/inbound_census.json` →
+   `inbound_service_bits`). The *unreachable majority's* archival rate is still
+   unknown, which is why N remains a floor.
 3. **No discounting** — a one-time fee vs. an undiscounted 10-yr sum
    overstates the liability as commonly valued (r=5% → −27% PV).
 4. **Node costs are homogeneous** in the model; marginal bandwidth-propagation
@@ -157,14 +184,32 @@ the literature audit (arXiv + Google Scholar, 2026-08-02) are in
 
 ```
 research/            working-paper.md, model-spec.json, literature-audit.md,
-                     reviewer-simulation.md, reproduce/ (kit), publication-plan.md
+                     reviewer-simulation.md, reproduce/ (kit), publication-plan.md,
+                     plus the method notes: node-relay-participation,
+                     verification-population, fees-fund-three-of-ten-years,
+                     bridge-reserve-monitor, base-layer-not-compromised
 tools/research/      storage-ratio.js (canonical SCCR), reproduce.py (1-command),
-                     derive-model.js (spec verifier), runner.js
+                     derive-model.js (spec verifier), runner.js,
+                     bridge_reserves.py (bridge backing-ratio watchtower),
+                     base_layer_audit.py (off-chain-incident Bitcoin-leg audit),
+                     fee_allocation.py, inbound_census.py, node_crawler.py
+tools/netfetch.py    shared bounded fetch — its deadline covers DNS too, which
+                     urllib's timeout does not (a stalled resolver wedged a
+                     collector job for 2,943s past its 300s limit)
 tools/data-engineering/  capture → validate → spool → mirror pipeline
-tools/agents/        agent-19 (web snapshot), agent-25 (node census), …
+tools/agents/        agent-19 (web snapshot), agent-25 (node census),
+                     29-local-collectors.js (the local scheduler), …
+tools/rebuild_articles_itemlist.py  regenerate the articles Blog ItemList from the DOM
 data/*.json          public snapshot for the static site (incl. sccr_latest.json,
-                     sccr_history.json — serve as /sccr/latest, /sccr/history)
+                     sccr_history.json — serve as /sccr/latest, /sccr/history,
+                     bridge_reserves.json + bridge_alerts.json for the watchtower)
 ```
+
+**Alert path:** two alert sources merge into one outbound channel —
+`tools/alerts.json` (ops-health, single writer) and `data/bridge_alerts.json` (the
+bridge watchtower) are both read by `tools/webhook_sender.py`, which POSTs to the
+configured webhook. `tools/validate_data_json.py` is the one canonical gate every
+data-committing path calls (JSON parse + conflict markers).
 
 ## Quick start (everything else)
 
@@ -207,11 +252,17 @@ Deployment: GitHub Pages (live) + local launchd agents + GH Actions fallback
 | Agent | plist | Schedule | Purpose |
 |---|---|---|---|
 | Data engine | `com.bsahi.de-server.plist` | continuous | capture/validate/spool loop |
+| Collectors | `com.bsahi.collectors.plist` | 15 min | the local research scheduler — runs each due instrument, one per cycle |
 | Snapshot | `com.bsahi.snapshot.plist` | 30 min | write rich `data/*.json` + commit/push |
+| Block watch | `com.bsahi.blockwatch.plist` | continuous | first-party block-relay capture |
+| Node crawl | `com.bsahi.nodecrawl.plist` | periodic | first-party reachable-node census |
+| Dataset snapshot | `com.bsahi.dataset-snapshot.plist` | periodic | dated, hashed population snapshot |
+| RT64 tunnel | `com.bsahi.rt64.plist` | watch | Route64 WireGuard tunnel for inbound reachability |
+| Relay | `com.bsahi.relay.plist` | watch | IPv4 relay control plane (inert until configured) |
+| Tor | `com.bsahi.tor.plist` | continuous | onion service |
 | Site health | `com.bsahi.site-health.plist` | hourly | route/latency checks |
-| Ops health | `com.bsahi.ops-health.plist` | hourly | agent/capture health |
-| Engagement | `com.bsahi.engagement.plist` | continuous | community/content pipeline |
-| SCCR tracker | `com.bsahi.sccr-tracker.plist` | daily | automated SCCR time-series |
+| Ops health | `com.bsahi.ops-health.plist` | hourly | agent/capture health → alerts |
+| SCCR tracker | `com.bsahi.sccr-tracker.plist` | daily | automated SCCR time-series (disabled by design: the cloud tier owns it) |
 
 Install: `cp com.bsahi.*.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/<name>.plist`
 
@@ -221,10 +272,12 @@ Install: `cp com.bsahi.*.plist ~/Library/LaunchAgents/ && launchctl load ~/Libra
   history. Uses the workflow `GITHUB_TOKEN` (contents: write); main has no branch
   protection/rulesets, so no PAT is needed (SNAPSHOT_PAT dropped 2026-08-30).
 - `capture-data.yml`, `lighthouse.yml`, `research-monitor.yml`
+- `deploy-relay.yml` — **workflow_dispatch only**; adopts/provisions the IPv4
+  relay and checks external reachability. Does not touch Core or SCCR.
 
 ## Key data contract
 
-All surfaces read SCCR from `research/model-spec.json` (v2.0.1, canonical) and the
+All surfaces read SCCR from `research/model-spec.json` (v2.1.1, canonical) and the
 live value from `node tools/research/storage-ratio.js` or
 `python3 tools/research/reproduce.py --live`. **Never hardcode the ratio.**
 Historical figures (1.49% v1.0.0, ~17% v2.0.0 @N=60K, ~29% working-paper dated
