@@ -59,7 +59,14 @@ submission timeline.
 | License | **CC BY 4.0** (arXiv license field — matches paper notice) |
 | Abstract | `research/arxiv-abstract-draft.md` Draft A (~1160 chars) or B (~700) |
 | Source | `research/working-paper.tex` (LaTeX preferred over PDF — D6) |
-| Comments | model-spec v2.1.1 · SCCR 0.3219 (140 blocks, N=26,586) · 155-block frozen capture · pre-print tag `preprint-2026-09-18` · JS/Python/C reproduction kit: https://github.com/prateekposwal/block-space-economics/tree/main/research/reproduce |
+| Comments | model-spec v2.1.1 · SCCR 0.4307 (137 blocks, live 2026-09-23, N=26,586) · 155-block frozen capture · pre-print tag `preprint-2026-09-23` · JS/Python/C reproduction kit: https://github.com/prateekposwal/block-space-economics/tree/main/research/reproduce |
+
+> **Tag note (2026-09-23):** the pre-print tag moved forward to
+> `preprint-2026-09-23`. The earlier `preprint-2026-09-18` is **left in place** —
+> it is a published reference and 129 content files have changed since, so moving
+> it would silently rewrite a citation. Cite the newer tag for current state.
+> SCCR is a live, time-varying reading; the figure above is its value on
+> 2026-09-23, not a constant.
 
 ## 4. Pre-upload checks (from the repo's own publication-plan §8)
 
