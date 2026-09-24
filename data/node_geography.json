@@ -1,119 +1,119 @@
 {
   "schema": "bsahi.node-geography/1",
   "layer": "observed",
-  "generated_at": "2026-09-23T09:53:20.051764+00:00",
+  "generated_at": "2026-09-24T04:06:34.524014+00:00",
   "source": "btcnodes.io crawler aggregates: /api/v1/snapshots/latest/?field=top and ?field=coordinates (crawler ~2x/day)",
-  "snapshot_ts": 1790155697,
-  "latest_height": 968249,
+  "snapshot_ts": 1790221287,
+  "latest_height": 968345,
   "network_class": {
-    "reachable_nodes": 26406,
-    "validated_nodes": 25810,
-    "total_nodes": 25804,
-    "tor": 12526,
-    "i2p": 4435,
-    "overlay": 16961,
-    "clearnet_top_asns_sum": 3378,
-    "overlay_share_pct": 65.73,
-    "tor_share_pct": 48.54,
+    "reachable_nodes": 26258,
+    "validated_nodes": 25649,
+    "total_nodes": 25646,
+    "tor": 12372,
+    "i2p": 4460,
+    "overlay": 16832,
+    "clearnet_top_asns_sum": 3362,
+    "overlay_share_pct": 65.63,
+    "tor_share_pct": 48.24,
     "note": "Overlay = Tor + I2P: nodes that announce NO location. Clearnet count is only the sum of the top ASNs shown, a lower bound on clearnet nodes (the tail is not listed)."
   },
   "top_asns": [
     [
       "AS24940",
-      869
+      855
     ],
     [
       "AS63949",
-      835
+      760
+    ],
+    [
+      "AS396982",
+      408
     ],
     [
       "AS16276",
       368
     ],
     [
-      "AS396982",
-      350
-    ],
-    [
       "AS16509",
-      279
+      283
     ],
     [
       "AS7922",
-      270
+      274
     ],
     [
       "AS14061",
-      209
+      215
     ],
     [
       "AS7018",
-      198
+      199
     ]
   ],
   "top_user_agents": [
     [
       "/Satoshi:31.1.0/",
-      25.0,
-      968250
+      25.64,
+      968346
     ],
     [
       "/Satoshi:31.0.0/",
-      7.6,
-      968250
+      7.51,
+      968346
     ],
     [
       "/Satoshi:29.3.0/",
-      6.42,
-      968250
+      6.31,
+      968346
     ],
     [
       "/Satoshi:29.3.0/Knots:20260507/",
-      5.11,
-      968250
-    ],
-    [
-      "/Satoshi:27.0.0/",
-      4.81,
-      968249
+      5.02,
+      968346
     ],
     [
       "/Satoshi:29.2.0/",
       4.55,
-      968250
+      968346
+    ],
+    [
+      "/Satoshi:27.0.0/",
+      4.52,
+      968346
     ],
     [
       "/Satoshi:28.1.0/",
-      4.18,
-      968250
+      4.22,
+      968346
     ],
     [
       "/Satoshi:26.0.0/",
-      3.32,
-      968250
+      3.33,
+      968346
     ],
     [
       "/Satoshi:30.2.0/",
-      3.08,
-      968249
+      3.06,
+      968346
     ],
     [
       "/Satoshi:29.0.0/",
-      3.05,
-      968250
+      3.0,
+      968346
     ]
   ],
   "geography": {
-    "unique_coordinate_pairs": 3277,
-    "unique_pairs_share_pct": 12.7,
+    "unique_coordinate_pairs": 3263,
+    "unique_pairs_share_pct": 12.72,
     "region_counts": {
-      "North America": 1595,
-      "Europe": 1278,
-      "Asia": 211,
-      "Oceania": 90,
-      "South America": 70,
+      "North America": 1593,
+      "Europe": 1260,
+      "Asia": 205,
+      "Oceania": 100,
+      "South America": 73,
       "Africa": 21,
-      "Other/unknown": 12
+      "Other/unknown": 11
     },
     "region_method": "coarse lat/lon boxes over unique coordinate pairs; approximate",
     "note": "btcnodes returns UNIQUE [lat,lon] pairs, not per-node rows: nodes collocated in one city/datacenter count ONCE, so region_counts are distinct locations, not node counts. Only clearnet nodes carry coordinates; Tor/I2P are locationless by design."

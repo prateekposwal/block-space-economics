@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-09-23T20:58:47.781Z",
+  "generated_at": "2026-09-24T03:59:52.586Z",
   "host": "bitcoinsahi.com",
-  "status": "HEALTHY",
+  "status": "DEGRADED",
   "checks": [
     {
       "route": "/",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 2872,
+      "ttfbMs": 2240,
       "bytes": 37904,
       "ok": true
     },
@@ -15,7 +15,7 @@
       "route": "/live",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 1813,
+      "ttfbMs": 2007,
       "bytes": 75603,
       "ok": true
     },
@@ -23,7 +23,7 @@
       "route": "/capacity",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 1815,
+      "ttfbMs": 1701,
       "bytes": 39397,
       "ok": true
     },
@@ -31,15 +31,15 @@
       "route": "/learn",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 1910,
-      "bytes": 62480,
+      "ttfbMs": 1324,
+      "bytes": 62478,
       "ok": true
     },
     {
       "route": "/fork-tracker",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 1827,
+      "ttfbMs": 1640,
       "bytes": 38987,
       "ok": true
     },
@@ -47,7 +47,7 @@
       "route": "/feed.xml",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 1791,
+      "ttfbMs": 1209,
       "bytes": 509,
       "ok": true
     },
@@ -55,31 +55,31 @@
       "route": "/data/snapshot.json",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 1790,
-      "bytes": 7440,
+      "ttfbMs": 1615,
+      "bytes": 7016,
       "ok": true
     },
     {
       "route": "/data/ops-health.json",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 1806,
-      "bytes": 654,
+      "ttfbMs": 1142,
+      "bytes": 653,
       "ok": true
     },
     {
       "route": "/data/site-health.json",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 1787,
-      "bytes": 3122,
+      "ttfbMs": 1218,
+      "bytes": 3133,
       "ok": true
     },
     {
       "route": "/api/v1/",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 1778,
+      "ttfbMs": 1265,
       "bytes": 4141,
       "ok": true
     },
@@ -87,7 +87,7 @@
       "route": "/robots.txt",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 1785,
+      "ttfbMs": 1583,
       "bytes": 469,
       "ok": true
     },
@@ -95,7 +95,7 @@
       "route": "/sitemap.xml",
       "expected": 200,
       "status": 200,
-      "ttfbMs": 1784,
+      "ttfbMs": 1580,
       "bytes": 5918,
       "ok": true
     }
@@ -106,51 +106,66 @@
       "file": "data/inbound_census.json",
       "why": "inbound census (hourly collector)",
       "maxHours": 6,
-      "ageHours": 1.1,
-      "ok": true
+      "ageHours": 6.7,
+      "ok": false
     },
     {
       "file": "data/perblock_validation.json",
       "why": "per-block spot samples (30-min collector)",
       "maxHours": 4,
-      "ageHours": 0.3,
-      "ok": true
+      "ageHours": 6.7,
+      "ok": false
     },
     {
       "file": "data/addrman_churn.json",
       "why": "addrman churn (12-h collector)",
       "maxHours": 30,
-      "ageHours": 4.8,
+      "ageHours": 11.8,
       "ok": true
     },
     {
       "file": "data/seed_census.json",
       "why": "DNS-seed census (12-h collector)",
       "maxHours": 30,
-      "ageHours": 4.8,
+      "ageHours": 11.8,
       "ok": true
     },
     {
       "file": "data/node_census_series.json",
       "why": "reachable-node crawl / canonical N (daily)",
       "maxHours": 48,
-      "ageHours": 4.8,
+      "ageHours": 0.4,
       "ok": true
     },
     {
       "file": "data/mining_concentration.json",
       "why": "mining concentration (daily)",
       "maxHours": 48,
-      "ageHours": 4.8,
+      "ageHours": 11.8,
       "ok": true
     },
     {
       "file": "data/sccr.json",
       "why": "SCCR reading (daily / cloud tier)",
       "maxHours": 48,
-      "ageHours": 0.3,
+      "ageHours": 0.4,
       "ok": true
     }
   ],
-  "stale_datasets": []
+  "stale_datasets": [
+    {
+      "file": "data/inbound_census.json",
+      "why": "inbound census (hourly collector)",
+      "maxHours": 6,
+      "ageHours": 6.7,
+      "ok": false
+    },
+    {
+      "file": "data/perblock_validation.json",
+      "why": "per-block spot samples (30-min collector)",
+      "maxHours": 4,
+      "ageHours": 6.7,
+      "ok": false
+    }
+  ]
 }

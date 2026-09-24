@@ -1,6 +1,6 @@
 {
   "schema": "bsahi.datasets/1",
-  "generated_at": "2026-09-24T03:41:57.864031+00:00",
+  "generated_at": "2026-09-24T03:34:28.015527+00:00",
   "note": "Versioned index of every published dataset. layer: observed | reconstructed | modelled. grade: A direct measurement, B frozen primary with unit+date, C model/documented assumptions, D reconstruction by interpolation. Rebuilt by tools/research/datasets_manifest.py.",
   "count": 47,
   "datasets": [
@@ -24,9 +24,9 @@
       "layer": "observed",
       "grade": "C",
       "description": "Append-only history of the local addrman PUBLIC address sample (trend of node_census.json)",
-      "bytes": 1741,
-      "updated": "2026-09-23T03:02:18.126Z",
-      "rows": 4
+      "bytes": 2039,
+      "updated": "2026-09-24T02:58:11.201Z",
+      "rows": 5
     },
     {
       "name": "avg-block-size.json",
@@ -37,7 +37,7 @@
       "grade": "B",
       "description": "Average block size, 2009-present (frozen; unit MB)",
       "bytes": 63076,
-      "updated": "2026-09-24T03:40:52.988437+00:00",
+      "updated": "2026-09-15T18:00:31.982128+00:00",
       "rows": 1610
     },
     {
@@ -60,8 +60,8 @@
       "layer": "observed",
       "grade": "A",
       "description": "BIP-110 signaling state (GitHub Actions, mempool.space)",
-      "bytes": 3705,
-      "updated": "2026-09-24T03:40:57.842604+00:00",
+      "bytes": 3607,
+      "updated": "2026-09-23T21:17:56.900147+00:00",
       "rows": null
     },
     {
@@ -133,7 +133,7 @@
       "grade": "C",
       "description": "Three claims on fee revenue per block + the subsidy crossover + temporal price-path scenarios",
       "bytes": 14779,
-      "updated": "2026-09-24T03:41:57.824152+00:00",
+      "updated": "2026-09-24T03:34:27.870002+00:00",
       "rows": null
     },
     {
@@ -145,7 +145,7 @@
       "grade": "B",
       "description": "Network hashrate, 2009-present (frozen; unit TH/s)",
       "bytes": 64282,
-      "updated": "2026-09-24T03:40:52.989629+00:00",
+      "updated": "2026-09-15T18:00:32.155534+00:00",
       "rows": 1614
     },
     {
@@ -193,7 +193,7 @@
       "grade": "B",
       "description": "Market price USD (frozen primary)",
       "bytes": 45901,
-      "updated": "2026-09-24T03:40:52.989629+00:00",
+      "updated": "2026-09-15T18:00:31.583385+00:00",
       "rows": 1617
     },
     {
@@ -217,7 +217,7 @@
       "grade": "B",
       "description": "Miners' revenue USD/day (frozen primary)",
       "bytes": 61302,
-      "updated": "2026-09-24T03:40:52.989629+00:00",
+      "updated": "2026-09-15T18:10:56.495090+00:00",
       "rows": 1611
     },
     {
@@ -252,8 +252,8 @@
       "layer": "observed",
       "grade": "C",
       "description": "Address-manager sample: gossiped ADDRESSES (not nodes)",
-      "bytes": 1129,
-      "updated": "2026-09-24T03:40:53.043629+00:00",
+      "bytes": 1127,
+      "updated": "2026-09-24T02:58:11.200846+00:00",
       "rows": null
     },
     {
@@ -312,8 +312,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "First-party block first-seen per peer (clearnet vs onion vs inbound/outbound)",
-      "bytes": 911,
-      "updated": "2026-09-23T21:17:13.724578+00:00",
+      "bytes": 834,
+      "updated": "2026-09-24T03:30:08.685357+00:00",
       "rows": null
     },
     {
@@ -409,7 +409,7 @@
       "grade": "A",
       "description": "First-party block-relay propagation CDF (per-peer deltas, clearnet vs overlay, BIP152 HB)",
       "bytes": 1187,
-      "updated": "2026-09-23T21:17:13.726734+00:00",
+      "updated": "2026-09-24T03:30:08.709980+00:00",
       "rows": null
     },
     {
@@ -421,7 +421,7 @@
       "grade": "A",
       "description": "JS=Python=C reproduction verification of the SCCR",
       "bytes": 1354,
-      "updated": "2026-09-24T03:40:53.045629+00:00",
+      "updated": "2026-09-17T18:06:05.170955+00:00",
       "rows": null
     },
     {
@@ -432,8 +432,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Latest Storage Cost Coverage Ratio reading (dated)",
-      "bytes": 788,
-      "updated": "2026-09-24T03:41:57.007771+00:00",
+      "bytes": 790,
+      "updated": "2026-09-24T03:34:25.585983+00:00",
       "rows": null
     },
     {
@@ -456,8 +456,8 @@
       "layer": "observed",
       "grade": "B",
       "description": "Daily SCCR series",
-      "bytes": 730,
-      "updated": "2026-09-24T03:41:57.007771+00:00",
+      "bytes": 732,
+      "updated": "2026-09-24T03:34:25.585983+00:00",
       "rows": null
     },
     {
@@ -468,8 +468,8 @@
       "layer": "modelled",
       "grade": "C",
       "description": "SCCR sensitivity bands, bootstrap CI and stress test",
-      "bytes": 9347,
-      "updated": "2026-09-24T03:41:57.797807+00:00",
+      "bytes": 9360,
+      "updated": "2026-09-24T03:34:27.740461+00:00",
       "rows": null
     },
     {
@@ -517,7 +517,7 @@
       "grade": "A",
       "description": "Latest observed UTXO/state measurement",
       "bytes": 812,
-      "updated": "2026-09-24T03:40:53.046629+00:00",
+      "updated": "2026-09-23T16:11:13.734174+00:00",
       "rows": null
     },
     {
@@ -553,7 +553,7 @@
       "grade": "B",
       "description": "Verification Population Observatory: observable node population + what is unobservable",
       "bytes": 8771,
-      "updated": "2026-09-24T03:40:53.046629+00:00",
+      "updated": "2026-09-18T19:07:40.448394+00:00",
       "rows": null
     },
     {
