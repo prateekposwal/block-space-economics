@@ -1,11 +1,11 @@
 {
   "schema": "bsahi.fee-allocation/1",
   "layer": "modelled",
-  "generated_at": "2026-10-18T23:59:02.015798+00:00",
+  "generated_at": "2026-10-19T10:10:29.613560+00:00",
   "method": "tools/research/fee_allocation.py \u2014 three claims on fee revenue, per block, and the subsidy crossover. Subsidy arithmetic is exact; prices/energy are a scenario.",
   "current": {
     "year": 2026,
-    "price_usd": 70715.81,
+    "price_usd": 71109.09,
     "subsidy_btc": 3.125,
     "claims_usd_per_block": {
       "security_energy_cost": 198549.0,
@@ -13,52 +13,52 @@
       "network_node_opex_1yr_per_block": 467.57
     },
     "revenue_usd_per_block": {
-      "subsidy": 220987.0,
-      "fees_measured": 1440.0,
-      "fees_implied_by_sccr": 1024.0,
+      "subsidy": 222216.0,
+      "fees_measured": 1448.0,
+      "fees_implied_by_sccr": 1009.0,
       "production_value_total": 236830.0
     },
     "coverage_pct": {
       "fee_basis": "measured fee revenue per block (30-day mean, frozen fee_history)",
-      "security_by_subsidy_pct": 111.3,
+      "security_by_subsidy_pct": 111.9,
       "security_by_fees_pct": 0.7,
-      "storage_by_fees_pct": 30.8,
-      "network_node_opex_1yr_by_fees_pct": 308.0
+      "storage_by_fees_pct": 31.0,
+      "network_node_opex_1yr_by_fees_pct": 309.7
     },
-    "sccr_reading": 0.219,
-    "sccr_fee_window_blocks": 158,
-    "sccr_note": "The SCCR (0.219 over 158 blocks) is computed on its own live fee window, which implies ~$1024/block \u2014 NOT the 30-day mean (~$1440/block) used for the coverage percentages. On the SCCR's window storage coverage reads 21.9%; on the 30-day mean it reads 30.8%. The gap is the fee window, and it is real, not noise."
+    "sccr_reading": 0.2157,
+    "sccr_fee_window_blocks": 157,
+    "sccr_note": "The SCCR (0.2157 over 157 blocks) is computed on its own live fee window, which implies ~$1009/block \u2014 NOT the 30-day mean (~$1448/block) used for the coverage percentages. On the SCCR's window storage coverage reads 21.6%; on the 30-day mean it reads 31.0%. The gap is the fee window, and it is real, not noise."
   },
   "halving_schedule": [
     {
       "year": 2024,
       "subsidy_btc": 3.125,
-      "subsidy_usd_per_block_at_current_price": 220987.0
+      "subsidy_usd_per_block_at_current_price": 222216.0
     },
     {
       "year": 2028,
       "subsidy_btc": 1.5625,
-      "subsidy_usd_per_block_at_current_price": 110493.0
+      "subsidy_usd_per_block_at_current_price": 111108.0
     },
     {
       "year": 2032,
       "subsidy_btc": 0.78125,
-      "subsidy_usd_per_block_at_current_price": 55247.0
+      "subsidy_usd_per_block_at_current_price": 55554.0
     },
     {
       "year": 2036,
       "subsidy_btc": 0.390625,
-      "subsidy_usd_per_block_at_current_price": 27623.0
+      "subsidy_usd_per_block_at_current_price": 27777.0
     },
     {
       "year": 2040,
       "subsidy_btc": 0.1953125,
-      "subsidy_usd_per_block_at_current_price": 13812.0
+      "subsidy_usd_per_block_at_current_price": 13888.0
     },
     {
       "year": 2048,
       "subsidy_btc": 0.048828125,
-      "subsidy_usd_per_block_at_current_price": 3453.0
+      "subsidy_usd_per_block_at_current_price": 3472.0
     },
     {
       "year": 2076,
@@ -104,7 +104,7 @@
     "fee revenue": "B (frozen series: transaction-fees BTC/day x market price)",
     "multi-decade projection": "C (scenario)"
   },
-  "headline": "Fees must eventually fund both security and the storage/verification burden; today they fund neither fully. At ~$70,716/BTC the measured fee revenue is ~$1,440/block against a ~$198,549/block energy cost to produce a block and a ~$4,676/block modeled storage cost. On ONE fee basis (30-day mean) fees cover 0.7% of production and 30.8% of the modeled 10yr node-cost commitment (L_net = N*C*T). Note the two node-cost figures are the SAME cost at different horizons: one year of it reads 308.0% (x10 = the T-year figure), so the pair is one fact, not 'opex covered, permanence not'. Put plainly, fees fund roughly the first 3.1 years of the 10-year commitment; the remainder is carried by node operators. The subsidy (111.3% of energy cost) is still paying the security bill. Under a flat price the subsidy alone stops covering energy around 2028.",
+  "headline": "Fees must eventually fund both security and the storage/verification burden; today they fund neither fully. At ~$71,109/BTC the measured fee revenue is ~$1,448/block against a ~$198,549/block energy cost to produce a block and a ~$4,676/block modeled storage cost. On ONE fee basis (30-day mean) fees cover 0.7% of production and 31.0% of the modeled 10yr node-cost commitment (L_net = N*C*T). Note the two node-cost figures are the SAME cost at different horizons: one year of it reads 309.7% (x10 = the T-year figure), so the pair is one fact, not 'opex covered, permanence not'. Put plainly, fees fund roughly the first 3.1 years of the 10-year commitment; the remainder is carried by node operators. The subsidy (111.9% of energy cost) is still paying the security bill. Under a flat price the subsidy alone stops covering energy around 2028.",
   "temporal": {
     "layer": "modelled",
     "grade": "C \u2014 price paths are scenarios; the halving is arithmetic",
@@ -175,8 +175,8 @@
         {
           "year": 2024,
           "subsidy_btc": 3.125,
-          "price_usd": 70716.0,
-          "subsidy_usd_per_block": 220987.0,
+          "price_usd": 71109.0,
+          "subsidy_usd_per_block": 222216.0,
           "production_deficit_usd_per_block": 0.0,
           "storage_claim_usd_per_block": 4676.0,
           "total_fee_needed_usd_per_block": 4676.0,
@@ -185,91 +185,91 @@
         {
           "year": 2028,
           "subsidy_btc": 1.5625,
-          "price_usd": 70716.0,
-          "subsidy_usd_per_block": 110493.0,
-          "production_deficit_usd_per_block": 88056.0,
+          "price_usd": 71109.0,
+          "subsidy_usd_per_block": 111108.0,
+          "production_deficit_usd_per_block": 87441.0,
           "storage_claim_usd_per_block": 4676.0,
-          "total_fee_needed_usd_per_block": 92732.0,
+          "total_fee_needed_usd_per_block": 92117.0,
           "subsidy_covers_energy": false
         },
         {
           "year": 2032,
           "subsidy_btc": 0.78125,
-          "price_usd": 70716.0,
-          "subsidy_usd_per_block": 55247.0,
-          "production_deficit_usd_per_block": 143303.0,
+          "price_usd": 71109.0,
+          "subsidy_usd_per_block": 55554.0,
+          "production_deficit_usd_per_block": 142995.0,
           "storage_claim_usd_per_block": 4676.0,
-          "total_fee_needed_usd_per_block": 147978.0,
+          "total_fee_needed_usd_per_block": 147671.0,
           "subsidy_covers_energy": false
         },
         {
           "year": 2036,
           "subsidy_btc": 0.390625,
-          "price_usd": 70716.0,
-          "subsidy_usd_per_block": 27623.0,
-          "production_deficit_usd_per_block": 170926.0,
+          "price_usd": 71109.0,
+          "subsidy_usd_per_block": 27777.0,
+          "production_deficit_usd_per_block": 170772.0,
           "storage_claim_usd_per_block": 4676.0,
-          "total_fee_needed_usd_per_block": 175602.0,
+          "total_fee_needed_usd_per_block": 175448.0,
           "subsidy_covers_energy": false
         },
         {
           "year": 2040,
           "subsidy_btc": 0.1953125,
-          "price_usd": 70716.0,
-          "subsidy_usd_per_block": 13812.0,
-          "production_deficit_usd_per_block": 184738.0,
+          "price_usd": 71109.0,
+          "subsidy_usd_per_block": 13888.0,
+          "production_deficit_usd_per_block": 184661.0,
           "storage_claim_usd_per_block": 4676.0,
-          "total_fee_needed_usd_per_block": 189413.0,
+          "total_fee_needed_usd_per_block": 189337.0,
           "subsidy_covers_energy": false
         },
         {
           "year": 2044,
           "subsidy_btc": 0.09765625,
-          "price_usd": 70716.0,
-          "subsidy_usd_per_block": 6906.0,
-          "production_deficit_usd_per_block": 191644.0,
+          "price_usd": 71109.0,
+          "subsidy_usd_per_block": 6944.0,
+          "production_deficit_usd_per_block": 191605.0,
           "storage_claim_usd_per_block": 4676.0,
-          "total_fee_needed_usd_per_block": 196319.0,
+          "total_fee_needed_usd_per_block": 196281.0,
           "subsidy_covers_energy": false
         },
         {
           "year": 2048,
           "subsidy_btc": 0.048828125,
-          "price_usd": 70716.0,
-          "subsidy_usd_per_block": 3453.0,
-          "production_deficit_usd_per_block": 195096.0,
+          "price_usd": 71109.0,
+          "subsidy_usd_per_block": 3472.0,
+          "production_deficit_usd_per_block": 195077.0,
           "storage_claim_usd_per_block": 4676.0,
-          "total_fee_needed_usd_per_block": 199772.0,
+          "total_fee_needed_usd_per_block": 199753.0,
           "subsidy_covers_energy": false
         },
         {
           "year": 2052,
           "subsidy_btc": 0.0244140625,
-          "price_usd": 70716.0,
-          "subsidy_usd_per_block": 1726.0,
-          "production_deficit_usd_per_block": 196823.0,
+          "price_usd": 71109.0,
+          "subsidy_usd_per_block": 1736.0,
+          "production_deficit_usd_per_block": 196813.0,
           "storage_claim_usd_per_block": 4676.0,
-          "total_fee_needed_usd_per_block": 201499.0,
+          "total_fee_needed_usd_per_block": 201489.0,
           "subsidy_covers_energy": false
         },
         {
           "year": 2056,
           "subsidy_btc": 0.01220703125,
-          "price_usd": 70716.0,
-          "subsidy_usd_per_block": 863.0,
-          "production_deficit_usd_per_block": 197686.0,
+          "price_usd": 71109.0,
+          "subsidy_usd_per_block": 868.0,
+          "production_deficit_usd_per_block": 197681.0,
           "storage_claim_usd_per_block": 4676.0,
-          "total_fee_needed_usd_per_block": 202362.0,
+          "total_fee_needed_usd_per_block": 202357.0,
           "subsidy_covers_energy": false
         },
         {
           "year": 2060,
           "subsidy_btc": 0.006103515625,
-          "price_usd": 70716.0,
-          "subsidy_usd_per_block": 432.0,
-          "production_deficit_usd_per_block": 198118.0,
+          "price_usd": 71109.0,
+          "subsidy_usd_per_block": 434.0,
+          "production_deficit_usd_per_block": 198115.0,
           "storage_claim_usd_per_block": 4676.0,
-          "total_fee_needed_usd_per_block": 202793.0,
+          "total_fee_needed_usd_per_block": 202791.0,
           "subsidy_covers_energy": false
         }
       ],
@@ -277,8 +277,8 @@
         {
           "year": 2024,
           "subsidy_btc": 3.125,
-          "price_usd": 70716.0,
-          "subsidy_usd_per_block": 220987.0,
+          "price_usd": 71109.0,
+          "subsidy_usd_per_block": 222216.0,
           "production_deficit_usd_per_block": 0.0,
           "storage_claim_usd_per_block": 4676.0,
           "total_fee_needed_usd_per_block": 4676.0,
@@ -287,8 +287,8 @@
         {
           "year": 2028,
           "subsidy_btc": 1.5625,
-          "price_usd": 141432.0,
-          "subsidy_usd_per_block": 220987.0,
+          "price_usd": 142218.0,
+          "subsidy_usd_per_block": 222216.0,
           "production_deficit_usd_per_block": 0.0,
           "storage_claim_usd_per_block": 4676.0,
           "total_fee_needed_usd_per_block": 4676.0,
@@ -297,8 +297,8 @@
         {
           "year": 2032,
           "subsidy_btc": 0.78125,
-          "price_usd": 282863.0,
-          "subsidy_usd_per_block": 220987.0,
+          "price_usd": 284436.0,
+          "subsidy_usd_per_block": 222216.0,
           "production_deficit_usd_per_block": 0.0,
           "storage_claim_usd_per_block": 4676.0,
           "total_fee_needed_usd_per_block": 4676.0,
@@ -307,8 +307,8 @@
         {
           "year": 2036,
           "subsidy_btc": 0.390625,
-          "price_usd": 565726.0,
-          "subsidy_usd_per_block": 220987.0,
+          "price_usd": 568873.0,
+          "subsidy_usd_per_block": 222216.0,
           "production_deficit_usd_per_block": 0.0,
           "storage_claim_usd_per_block": 4676.0,
           "total_fee_needed_usd_per_block": 4676.0,
@@ -317,8 +317,8 @@
         {
           "year": 2040,
           "subsidy_btc": 0.1953125,
-          "price_usd": 1131453.0,
-          "subsidy_usd_per_block": 220987.0,
+          "price_usd": 1137745.0,
+          "subsidy_usd_per_block": 222216.0,
           "production_deficit_usd_per_block": 0.0,
           "storage_claim_usd_per_block": 4676.0,
           "total_fee_needed_usd_per_block": 4676.0,
@@ -327,8 +327,8 @@
         {
           "year": 2044,
           "subsidy_btc": 0.09765625,
-          "price_usd": 2262906.0,
-          "subsidy_usd_per_block": 220987.0,
+          "price_usd": 2275491.0,
+          "subsidy_usd_per_block": 222216.0,
           "production_deficit_usd_per_block": 0.0,
           "storage_claim_usd_per_block": 4676.0,
           "total_fee_needed_usd_per_block": 4676.0,
@@ -337,8 +337,8 @@
         {
           "year": 2048,
           "subsidy_btc": 0.048828125,
-          "price_usd": 4525812.0,
-          "subsidy_usd_per_block": 220987.0,
+          "price_usd": 4550982.0,
+          "subsidy_usd_per_block": 222216.0,
           "production_deficit_usd_per_block": 0.0,
           "storage_claim_usd_per_block": 4676.0,
           "total_fee_needed_usd_per_block": 4676.0,
@@ -347,8 +347,8 @@
         {
           "year": 2052,
           "subsidy_btc": 0.0244140625,
-          "price_usd": 9051623.0,
-          "subsidy_usd_per_block": 220987.0,
+          "price_usd": 9101963.0,
+          "subsidy_usd_per_block": 222216.0,
           "production_deficit_usd_per_block": 0.0,
           "storage_claim_usd_per_block": 4676.0,
           "total_fee_needed_usd_per_block": 4676.0,
@@ -357,8 +357,8 @@
         {
           "year": 2056,
           "subsidy_btc": 0.01220703125,
-          "price_usd": 18103247.0,
-          "subsidy_usd_per_block": 220987.0,
+          "price_usd": 18203926.0,
+          "subsidy_usd_per_block": 222216.0,
           "production_deficit_usd_per_block": 0.0,
           "storage_claim_usd_per_block": 4676.0,
           "total_fee_needed_usd_per_block": 4676.0,
@@ -367,8 +367,8 @@
         {
           "year": 2060,
           "subsidy_btc": 0.006103515625,
-          "price_usd": 36206493.0,
-          "subsidy_usd_per_block": 220987.0,
+          "price_usd": 36407853.0,
+          "subsidy_usd_per_block": 222216.0,
           "production_deficit_usd_per_block": 0.0,
           "storage_claim_usd_per_block": 4676.0,
           "total_fee_needed_usd_per_block": 4676.0,
