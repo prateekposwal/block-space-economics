@@ -2,24 +2,24 @@
   "schema": "bsahi.sccr/1",
   "source": "Bitcoin Core fee capture (captured-data/sccr-live) + mempool.space USD price; see notes",
   "date": "2026-10-30",
-  "generated_at": "2026-10-30T06:52:42.557188+00:00",
+  "generated_at": "2026-10-30T13:54:07.959012+00:00",
   "spec_version": "2.1.1",
-  "blocks": 128,
-  "avg_sccr": 0.386608,
+  "blocks": 136,
+  "avg_sccr": 0.399365,
   "min": 0.01857,
   "max": 1.588865,
-  "below_1x": 120,
-  "below_1x_pct": 93.75,
+  "below_1x": 128,
+  "below_1x_pct": 94.12,
   "l_net_usd": 4675.65024,
   "N": 26586,
   "T": 10,
   "C": 925,
   "heights": [
-    973656,
-    973784
+    973694,
+    973830
   ],
   "census_captured_at": "2026-09-16",
   "census_date": "2026-09-16",
   "census_stale": true,
-  "notes": "SCCR = fee_USD / L_net; N=26,586 measured reachable nodes (validating; a floor) as of 2026-09-16 (btcnodes reachable-node crawl; addresses != nodes); N measurement is stale \u2014 last measured 2026-09-16; N is a lower-bound constant (non-listening nodes are unobservable; a larger N lowers the SCCR); T=10yr assumption. Static JSON endpoint: /data/sccr_latest.json"
+  "notes": "SCCR = fee_USD / L_net; N=26,586 measured reachable nodes (validating; a floor) as of 2026-09-16 (btcnodes reachable-node crawl; addresses != nodes); N measurement is stale — last measured 2026-09-16; N is a lower-bound constant (non-listening nodes are unobservable; a larger N lowers the SCCR); T=10yr assumption. Static JSON endpoint: /data/sccr_latest.json"
 }
