@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.fee-allocation/1",
   "layer": "modelled",
-  "generated_at": "2026-11-04T21:27:26.839116+00:00",
+  "generated_at": "2026-11-05T09:07:45.565619+00:00",
   "method": "tools/research/fee_allocation.py \u2014 three claims on fee revenue, per block, and the subsidy crossover. Subsidy arithmetic is exact; prices/energy are a scenario.",
   "current": {
     "year": 2026,
@@ -14,20 +14,20 @@
     },
     "revenue_usd_per_block": {
       "subsidy": 231312.0,
-      "fees_measured": 1482.0,
-      "fees_implied_by_sccr": 1289.0,
+      "fees_measured": 1402.0,
+      "fees_implied_by_sccr": 1368.0,
       "production_value_total": 236830.0
     },
     "coverage_pct": {
       "fee_basis": "measured fee revenue per block (30-day mean, frozen fee_history)",
       "security_by_subsidy_pct": 116.5,
       "security_by_fees_pct": 0.7,
-      "storage_by_fees_pct": 31.7,
-      "network_node_opex_1yr_by_fees_pct": 317.0
+      "storage_by_fees_pct": 30.0,
+      "network_node_opex_1yr_by_fees_pct": 299.9
     },
-    "sccr_reading": 0.2756,
-    "sccr_fee_window_blocks": 144,
-    "sccr_note": "The SCCR (0.2756 over 144 blocks) is computed on its own live fee window, which implies ~$1289/block \u2014 NOT the 30-day mean (~$1482/block) used for the coverage percentages. On the SCCR's window storage coverage reads 27.6%; on the 30-day mean it reads 31.7%. The gap is the fee window, and it is real, not noise."
+    "sccr_reading": 0.2925,
+    "sccr_fee_window_blocks": 137,
+    "sccr_note": "The SCCR (0.2925 over 137 blocks) is computed on its own live fee window, which implies ~$1368/block \u2014 NOT the 30-day mean (~$1402/block) used for the coverage percentages. On the SCCR's window storage coverage reads 29.3%; on the 30-day mean it reads 30.0%. The gap is the fee window, and it is real, not noise."
   },
   "halving_schedule": [
     {
@@ -104,7 +104,7 @@
     "fee revenue": "B (frozen series: transaction-fees BTC/day x market price)",
     "multi-decade projection": "C (scenario)"
   },
-  "headline": "Fees must eventually fund both security and the storage/verification burden; today they fund neither fully. At ~$74,020/BTC the measured fee revenue is ~$1,482/block against a ~$198,549/block energy cost to produce a block and a ~$4,676/block modeled storage cost. On ONE fee basis (30-day mean) fees cover 0.7% of production and 31.7% of the modeled 10yr node-cost commitment (L_net = N*C*T). Note the two node-cost figures are the SAME cost at different horizons: one year of it reads 317.0% (x10 = the T-year figure), so the pair is one fact, not 'opex covered, permanence not'. Put plainly, fees fund roughly the first 3.2 years of the 10-year commitment; the remainder is carried by node operators. The subsidy (116.5% of energy cost) is still paying the security bill. Under a flat price the subsidy alone stops covering energy around 2028.",
+  "headline": "Fees must eventually fund both security and the storage/verification burden; today they fund neither fully. At ~$74,020/BTC the measured fee revenue is ~$1,402/block against a ~$198,549/block energy cost to produce a block and a ~$4,676/block modeled storage cost. On ONE fee basis (30-day mean) fees cover 0.7% of production and 30.0% of the modeled 10yr node-cost commitment (L_net = N*C*T). Note the two node-cost figures are the SAME cost at different horizons: one year of it reads 299.9% (x10 = the T-year figure), so the pair is one fact, not 'opex covered, permanence not'. Put plainly, fees fund roughly the first 3.0 years of the 10-year commitment; the remainder is carried by node operators. The subsidy (116.5% of energy cost) is still paying the security bill. Under a flat price the subsidy alone stops covering energy around 2028.",
   "temporal": {
     "layer": "modelled",
     "grade": "C \u2014 price paths are scenarios; the halving is arithmetic",
