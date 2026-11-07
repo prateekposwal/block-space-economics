@@ -1,7 +1,7 @@
 {
   "schema": "bsahi.fee-allocation/1",
   "layer": "modelled",
-  "generated_at": "2026-11-07T11:52:56.265100+00:00",
+  "generated_at": "2026-11-07T21:34:34.210773+00:00",
   "method": "tools/research/fee_allocation.py \u2014 three claims on fee revenue, per block, and the subsidy crossover. Subsidy arithmetic is exact; prices/energy are a scenario.",
   "current": {
     "year": 2026,
@@ -15,7 +15,7 @@
     "revenue_usd_per_block": {
       "subsidy": 231312.0,
       "fees_measured": 1402.0,
-      "fees_implied_by_sccr": 2032.0,
+      "fees_implied_by_sccr": 1576.0,
       "production_value_total": 236830.0
     },
     "coverage_pct": {
@@ -25,9 +25,9 @@
       "storage_by_fees_pct": 30.0,
       "network_node_opex_1yr_by_fees_pct": 299.9
     },
-    "sccr_reading": 0.4346,
-    "sccr_fee_window_blocks": 124,
-    "sccr_note": "The SCCR (0.4346 over 124 blocks) is computed on its own live fee window, which implies ~$2032/block \u2014 NOT the 30-day mean (~$1402/block) used for the coverage percentages. On the SCCR's window storage coverage reads 43.5%; on the 30-day mean it reads 30.0%. The gap is the fee window, and it is real, not noise."
+    "sccr_reading": 0.337,
+    "sccr_fee_window_blocks": 130,
+    "sccr_note": "The SCCR (0.337 over 130 blocks) is computed on its own live fee window, which implies ~$1576/block \u2014 NOT the 30-day mean (~$1402/block) used for the coverage percentages. On the SCCR's window storage coverage reads 33.7%; on the 30-day mean it reads 30.0%. The gap is the fee window, and it is real, not noise."
   },
   "halving_schedule": [
     {
