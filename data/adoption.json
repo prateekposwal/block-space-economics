@@ -1,92 +1,92 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-14T02:39:25.169Z",
+  "generated_at": "2026-11-14T09:53:03.214Z",
   "source": "GitHub Actions (public API: blockstream.info tip + mempool.space /api/v1/block/:hash, /api/block/:hash/txids, /api/tx/:txid)",
   "available": true,
   "date": "2026-11-14",
-  "note": "SegWit share = extras.segwitTotalTxs / tx_count (authoritative, mempool.space block summary). Legacy = 100 - SegWit. Taproot = share of uniformly-sampled spends with a v1_p2tr (P2TR) input (68554 sampled non-coinbase txs, 275 GH capture rounds, aggregated across runs; labeled sampled, not exhaustive; P2SH-wrapped segwit counts as legacy). Effective TPS = total tx / (N blocks x avg block interval) from real blocks — NOT an invented constant; theoretical max 7 TPS kept only as a reference. Weight utilization = avg block weight / 4M WU. Produced by GitHub Actions — survives the local Mac being off.",
+  "note": "SegWit share = extras.segwitTotalTxs / tx_count (authoritative, mempool.space block summary). Legacy = 100 - SegWit. Taproot = share of uniformly-sampled spends with a v1_p2tr (P2TR) input (68804 sampled non-coinbase txs, 276 GH capture rounds, aggregated across runs; labeled sampled, not exhaustive; P2SH-wrapped segwit counts as legacy). Effective TPS = total tx / (N blocks x avg block interval) from real blocks — NOT an invented constant; theoretical max 7 TPS kept only as a reference. Weight utilization = avg block weight / 4M WU. Produced by GitHub Actions — survives the local Mac being off.",
   "blocks_sampled": 10,
   "heights": [
-    975725,
-    975726,
-    975727,
-    975728,
-    975729,
-    975730,
-    975731,
-    975732,
-    975733,
-    975734
+    975771,
+    975772,
+    975773,
+    975774,
+    975775,
+    975776,
+    975777,
+    975778,
+    975779,
+    975780
   ],
-  "tx_count": 30849,
-  "segwit_pct": 94.5,
+  "tx_count": 50113,
+  "segwit_pct": 98.1,
   "taproot_pct": 7.8,
-  "taproot_sample_size": 68554,
-  "legacy_pct": 5.5,
-  "weight_utilization_pct": 99.85,
-  "avg_block_interval_s": 1083.67,
-  "effective_tps": 2.85,
+  "taproot_sample_size": 68804,
+  "legacy_pct": 1.9,
+  "weight_utilization_pct": 94.68,
+  "avg_block_interval_s": 385.33,
+  "effective_tps": 13.01,
   "theoretical_max_tps": 7,
   "per_block": [
     {
-      "h": 975725,
-      "tx": 3375,
-      "weight": 3995076,
-      "segwit_txs": 3172
+      "h": 975771,
+      "tx": 5120,
+      "weight": 3992710,
+      "segwit_txs": 5030
     },
     {
-      "h": 975726,
-      "tx": 3511,
-      "weight": 3994072,
-      "segwit_txs": 3359
+      "h": 975772,
+      "tx": 6937,
+      "weight": 3993593,
+      "segwit_txs": 6891
     },
     {
-      "h": 975727,
-      "tx": 3826,
-      "weight": 3993830,
-      "segwit_txs": 3596
+      "h": 975773,
+      "tx": 6705,
+      "weight": 3997806,
+      "segwit_txs": 6666
     },
     {
-      "h": 975728,
-      "tx": 2183,
-      "weight": 3993131,
-      "segwit_txs": 2075
+      "h": 975774,
+      "tx": 960,
+      "weight": 1924246,
+      "segwit_txs": 908
     },
     {
-      "h": 975729,
-      "tx": 2873,
-      "weight": 3993784,
-      "segwit_txs": 2720
+      "h": 975775,
+      "tx": 2889,
+      "weight": 3992940,
+      "segwit_txs": 2773
     },
     {
-      "h": 975730,
-      "tx": 3593,
-      "weight": 3994060,
-      "segwit_txs": 3397
+      "h": 975776,
+      "tx": 4129,
+      "weight": 3992841,
+      "segwit_txs": 4103
     },
     {
-      "h": 975731,
-      "tx": 3511,
-      "weight": 3994100,
-      "segwit_txs": 3348
+      "h": 975777,
+      "tx": 7015,
+      "weight": 3997506,
+      "segwit_txs": 6972
     },
     {
-      "h": 975732,
-      "tx": 2700,
-      "weight": 3993942,
-      "segwit_txs": 2513
+      "h": 975778,
+      "tx": 3491,
+      "weight": 3992775,
+      "segwit_txs": 3365
     },
     {
-      "h": 975733,
-      "tx": 3085,
-      "weight": 3993749,
-      "segwit_txs": 2956
+      "h": 975779,
+      "tx": 7325,
+      "weight": 3993547,
+      "segwit_txs": 7283
     },
     {
-      "h": 975734,
-      "tx": 2192,
-      "weight": 3993018,
-      "segwit_txs": 2020
+      "h": 975780,
+      "tx": 5542,
+      "weight": 3993651,
+      "segwit_txs": 5182
     }
   ],
   "_state": {
@@ -2838,6 +2838,16 @@
         "taproot": 34,
         "segwit": 184,
         "legacy": 32,
+        "unclassified": 0,
+        "captures": 1
+      },
+      "975780": {
+        "height": 975780,
+        "txs": 250,
+        "nonCoinbase": 250,
+        "taproot": 27,
+        "segwit": 215,
+        "legacy": 8,
         "unclassified": 0,
         "captures": 1
       }
