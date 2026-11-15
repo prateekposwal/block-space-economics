@@ -1,9 +1,9 @@
 {
   "schema": "bsahi.sccr-history/1",
-  "generated_at": "2026-11-14T16:25:49.275245+00:00",
+  "generated_at": "2026-11-15T00:50:44.152194+00:00",
   "source": "Bitcoin Core fee capture (captured-data/sccr-live); one dated snapshot per run-day",
   "endpoint": "/data/sccr_history.json",
-  "count": 53,
+  "count": 54,
   "sampling": "one dated snapshot per DAY a run occurred. The series is NOT contiguous: a missing date means no run that day, so gaps are real, not zero-fee days. Do not plot as a continuous time series without labelling the gaps.",
   "payload": [
     {
@@ -323,6 +323,12 @@
       "avg_sccr": 0.447618,
       "blocks": 122,
       "below_1x_pct": 90.98
+    },
+    {
+      "date": "2026-11-15",
+      "avg_sccr": 0.296077,
+      "blocks": 139,
+      "below_1x_pct": 98.56
     }
   ]
 }
