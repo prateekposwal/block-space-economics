@@ -1,17 +1,17 @@
 {
   "schema": "bsahi.sccr-sensitivity/1",
   "layer": "modelled",
-  "generated_at": "2026-11-18T18:43:06.675185+00:00",
+  "generated_at": "2026-11-19T01:00:13.900997+00:00",
   "method": "tools/research/sccr_sensitivity.py \u2014 analytic sensitivity of the SCCR to its assumptions",
   "formula": "SCCR = fee_USD / L_net ; L_net = N x T x C / R_blocks ; R_blocks = 365.25 x 24 x 6",
   "reading": {
-    "date": "2026-11-18",
-    "avg_sccr": 0.323031,
-    "blocks": 154,
+    "date": "2026-11-19",
+    "avg_sccr": 0.315778,
+    "blocks": 153,
     "N": 26586,
     "T": 10,
     "C": 925,
-    "implied_fee_usd_per_block": 1510.38
+    "implied_fee_usd_per_block": 1476.47
   },
   "assumption_grid": [
     {
@@ -19,195 +19,195 @@
       "T": 5,
       "C": 500,
       "l_net_usd": 475.3213,
-      "sccr": 3.1776
+      "sccr": 3.1063
     },
     {
       "N": 10000,
       "T": 5,
       "C": 925,
       "l_net_usd": 879.3444,
-      "sccr": 1.7176
+      "sccr": 1.6791
     },
     {
       "N": 10000,
       "T": 5,
       "C": 1500,
       "l_net_usd": 1425.964,
-      "sccr": 1.0592
+      "sccr": 1.0354
     },
     {
       "N": 10000,
       "T": 10,
       "C": 500,
       "l_net_usd": 950.6426,
-      "sccr": 1.5888
+      "sccr": 1.5531
     },
     {
       "N": 10000,
       "T": 10,
       "C": 925,
       "l_net_usd": 1758.6889,
-      "sccr": 0.8588
+      "sccr": 0.8395
     },
     {
       "N": 10000,
       "T": 10,
       "C": 1500,
       "l_net_usd": 2851.9279,
-      "sccr": 0.5296
+      "sccr": 0.5177
     },
     {
       "N": 10000,
       "T": 20,
       "C": 500,
       "l_net_usd": 1901.2853,
-      "sccr": 0.7944
+      "sccr": 0.7766
     },
     {
       "N": 10000,
       "T": 20,
       "C": 925,
       "l_net_usd": 3517.3777,
-      "sccr": 0.4294
+      "sccr": 0.4198
     },
     {
       "N": 10000,
       "T": 20,
       "C": 1500,
       "l_net_usd": 5703.8558,
-      "sccr": 0.2648
+      "sccr": 0.2589
     },
     {
       "N": 26586,
       "T": 5,
       "C": 500,
       "l_net_usd": 1263.6893,
-      "sccr": 1.1952
+      "sccr": 1.1684
     },
     {
       "N": 26586,
       "T": 5,
       "C": 925,
       "l_net_usd": 2337.8251,
-      "sccr": 0.6461
+      "sccr": 0.6316
     },
     {
       "N": 26586,
       "T": 5,
       "C": 1500,
       "l_net_usd": 3791.0678,
-      "sccr": 0.3984
+      "sccr": 0.3895
     },
     {
       "N": 26586,
       "T": 10,
       "C": 500,
       "l_net_usd": 2527.3785,
-      "sccr": 0.5976
+      "sccr": 0.5842
     },
     {
       "N": 26586,
       "T": 10,
       "C": 925,
       "l_net_usd": 4675.6502,
-      "sccr": 0.323
+      "sccr": 0.3158
     },
     {
       "N": 26586,
       "T": 10,
       "C": 1500,
       "l_net_usd": 7582.1355,
-      "sccr": 0.1992
+      "sccr": 0.1947
     },
     {
       "N": 26586,
       "T": 20,
       "C": 500,
       "l_net_usd": 5054.757,
-      "sccr": 0.2988
+      "sccr": 0.2921
     },
     {
       "N": 26586,
       "T": 20,
       "C": 925,
       "l_net_usd": 9351.3005,
-      "sccr": 0.1615
+      "sccr": 0.1579
     },
     {
       "N": 26586,
       "T": 20,
       "C": 1500,
       "l_net_usd": 15164.271,
-      "sccr": 0.0996
+      "sccr": 0.0974
     },
     {
       "N": 100000,
       "T": 5,
       "C": 500,
       "l_net_usd": 4753.2132,
-      "sccr": 0.3178
+      "sccr": 0.3106
     },
     {
       "N": 100000,
       "T": 5,
       "C": 925,
       "l_net_usd": 8793.4444,
-      "sccr": 0.1718
+      "sccr": 0.1679
     },
     {
       "N": 100000,
       "T": 5,
       "C": 1500,
       "l_net_usd": 14259.6395,
-      "sccr": 0.1059
+      "sccr": 0.1035
     },
     {
       "N": 100000,
       "T": 10,
       "C": 500,
       "l_net_usd": 9506.4263,
-      "sccr": 0.1589
+      "sccr": 0.1553
     },
     {
       "N": 100000,
       "T": 10,
       "C": 925,
       "l_net_usd": 17586.8887,
-      "sccr": 0.0859
+      "sccr": 0.084
     },
     {
       "N": 100000,
       "T": 10,
       "C": 1500,
       "l_net_usd": 28519.279,
-      "sccr": 0.053
+      "sccr": 0.0518
     },
     {
       "N": 100000,
       "T": 20,
       "C": 500,
       "l_net_usd": 19012.8527,
-      "sccr": 0.0794
+      "sccr": 0.0777
     },
     {
       "N": 100000,
       "T": 20,
       "C": 925,
       "l_net_usd": 35173.7775,
-      "sccr": 0.0429
+      "sccr": 0.042
     },
     {
       "N": 100000,
       "T": 20,
       "C": 1500,
       "l_net_usd": 57038.5581,
-      "sccr": 0.0265
+      "sccr": 0.0259
     }
   ],
   "band_summary": {
-    "min": 0.0265,
-    "median": 0.3178,
-    "max": 3.1776,
+    "min": 0.0259,
+    "median": 0.3106,
+    "max": 3.1063,
     "combinations": 27,
     "combinations_below_1x": 22,
     "share_below_1x_pct": 81.5
@@ -223,8 +223,8 @@
         "layer": "B",
         "label": "measured reachable validators (baseline / floor)",
         "l_net_usd_per_block": 4675.65,
-        "sccr": 0.323,
-        "fee_coverage_pct": 32.3,
+        "sccr": 0.3158,
+        "fee_coverage_pct": 31.6,
         "externality_multiple_vs_baseline": 1.0
       },
       {
@@ -232,8 +232,8 @@
         "layer": "C",
         "label": "previous addrman address sample (deprecated as a node count)",
         "l_net_usd_per_block": 5627.8,
-        "sccr": 0.2684,
-        "fee_coverage_pct": 26.8,
+        "sccr": 0.2624,
+        "fee_coverage_pct": 26.2,
         "externality_multiple_vs_baseline": 1.204
       },
       {
@@ -241,8 +241,8 @@
         "layer": "D",
         "label": "estimate \u2014 lower end of the 50K\u2013100K band",
         "l_net_usd_per_block": 8793.44,
-        "sccr": 0.1718,
-        "fee_coverage_pct": 17.2,
+        "sccr": 0.1679,
+        "fee_coverage_pct": 16.8,
         "externality_multiple_vs_baseline": 1.881
       },
       {
@@ -250,8 +250,8 @@
         "layer": "D",
         "label": "estimate \u2014 midpoint of the 50K\u2013100K band",
         "l_net_usd_per_block": 14069.51,
-        "sccr": 0.1074,
-        "fee_coverage_pct": 10.7,
+        "sccr": 0.1049,
+        "fee_coverage_pct": 10.5,
         "externality_multiple_vs_baseline": 3.009
       },
       {
@@ -259,8 +259,8 @@
         "layer": "D",
         "label": "estimate \u2014 upper end of the 50K\u2013100K band",
         "l_net_usd_per_block": 17586.89,
-        "sccr": 0.0859,
-        "fee_coverage_pct": 8.6,
+        "sccr": 0.084,
+        "fee_coverage_pct": 8.4,
         "externality_multiple_vs_baseline": 3.761
       },
       {
@@ -268,8 +268,8 @@
         "layer": "D",
         "label": "private:public \u2248 4.6:1 \u2014 below the literature ratio",
         "l_net_usd_per_block": 26380.33,
-        "sccr": 0.0573,
-        "fee_coverage_pct": 5.7,
+        "sccr": 0.056,
+        "fee_coverage_pct": 5.6,
         "externality_multiple_vs_baseline": 5.642
       },
       {
@@ -277,8 +277,8 @@
         "layer": "D",
         "label": "private:public \u2248 6.5:1",
         "l_net_usd_per_block": 35173.78,
-        "sccr": 0.0429,
-        "fee_coverage_pct": 4.3,
+        "sccr": 0.042,
+        "fee_coverage_pct": 4.2,
         "externality_multiple_vs_baseline": 7.523
       },
       {
@@ -286,7 +286,7 @@
         "layer": "D",
         "label": "private:public \u2248 9:1 \u2014 Erlay (CCS'19) literature ratio",
         "l_net_usd_per_block": 46756.5,
-        "sccr": 0.0323,
+        "sccr": 0.0316,
         "fee_coverage_pct": 3.2,
         "externality_multiple_vs_baseline": 10.0
       }
@@ -333,8 +333,8 @@
           10000,
           100000
         ],
-        "sccr_at_low": 0.8588,
-        "sccr_at_high": 0.0859,
+        "sccr_at_low": 0.8395,
+        "sccr_at_high": 0.084,
         "factor": 10.0
       },
       {
@@ -343,8 +343,8 @@
           5,
           20
         ],
-        "sccr_at_low": 0.6461,
-        "sccr_at_high": 0.1615,
+        "sccr_at_low": 0.6316,
+        "sccr_at_high": 0.1579,
         "factor": 4.0
       },
       {
@@ -353,8 +353,8 @@
           500,
           1500
         ],
-        "sccr_at_low": 0.5976,
-        "sccr_at_high": 0.1992,
+        "sccr_at_low": 0.5842,
+        "sccr_at_high": 0.1947,
         "factor": 3.0
       }
     ],
